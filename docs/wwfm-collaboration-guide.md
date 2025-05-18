@@ -1,6 +1,6 @@
 WWFM Collaboration Guide
 Document Type: Collaboration practices and documentation standards
-Related Documents: Project Guide | Technical Reference
+Related Documents: Project Guide | Technical Reference | Current Session
 Last Updated: May 18, 2025
 Status: Active
 
@@ -169,12 +169,16 @@ markdown
 1. [Immediate next task with specific details]
 2. [Follow-up task]
 
+## Implementation Plan for Next Session
+[Detailed step-by-step plan for the next session]
+
+## Environment/Configuration Info
+- [Key environment variables or configuration details]
+- [Access credentials or URLs needed]
+
 ## Relevant Documentation
 - [Link to relevant doc in GitHub]
 - [Another link]
-
-## Environment/Configuration Changes
-- [Any changes to environment variables, dependencies, etc.]
 4. Communication Guidelines
 4.1. Technical Explanations
 Start with the big picture before details
@@ -194,6 +198,11 @@ List prerequisites or dependencies
 Provide step-by-step instructions
 Include expected outcomes
 Address common issues or pitfalls
+4.4. Starting New Conversations
+Always upload the latest session transition document
+Reference previous decisions without assuming they're remembered
+Briefly recap current progress and immediate next steps
+Identify any questions that need clarification before proceeding
 5. Onboarding New Team Members
 5.1. Essential Documents
 Project Guide - For understanding the overall vision
@@ -215,3 +224,4 @@ Push changes to GitHub (triggers automatic deployment)
 Document Review Log
 Date	Reviewer	Changes Made	Next Review
 2025-05-18	jandy1990 & Claude	Initial creation of document	End of next session
+2025-05-18	jandy1990 & Claude	Added section on starting new conversations	Before database implementation
