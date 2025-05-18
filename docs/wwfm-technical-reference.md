@@ -1,6 +1,6 @@
 WWFM Technical Reference
 Document Type: Technical implementation details
-Related Documents: Project Guide | Collaboration Guide
+Related Documents: Project Guide | Collaboration Guide | Current Session
 Last Updated: May 18, 2025
 Status: Active
 
@@ -72,6 +72,10 @@ erDiagram
     GOAL ||--o{ SOLUTION : has
     SOLUTION ||--o{ RATING : receives
     SOLUTION ||--o{ COMMENT : has
+    SOLUTION_TYPE ||--o{ SOLUTION : categorizes
+    SOLUTION_TYPE ||--o{ ATTRIBUTE_DEFINITION : has
+    ATTRIBUTE_DEFINITION ||--o{ SOLUTION_ATTRIBUTE : defines
+    SOLUTION ||--o{ SOLUTION_ATTRIBUTE : has
     USER ||--o{ RATING : submits
     USER ||--o{ COMMENT : writes
     USER ||--o{ USER_SOLUTION : tracks
@@ -102,8 +106,17 @@ CREATE TABLE users (
     
     -- Privacy settings
     share_demographics BOOLEAN DEFAULT FALSE,
-    show_activity BOOLEAN DEFAULT TRUE
+    show_activity BOOLEAN DEFAULT TRUE,
+    
+    -- User verification and security
+    registration_ip TEXT,
+    registration_timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    captcha_score NUMERIC,
+    trust_score INTEGER DEFAULT 0
 );
+
+-- Create index for IP lookups
+CREATE INDEX idx_users_registration_ip ON users(registration_ip);
 Arenas Table
 sql
 CREATE TABLE arenas (
@@ -143,11 +156,37 @@ CREATE TABLE goals (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+Solution Types Table
+sql
+CREATE TABLE solution_types (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name TEXT NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+Attribute Definitions Table
+sql
+CREATE TABLE attribute_definitions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    solution_type_id UUID REFERENCES solution_types(id),
+    name TEXT NOT NULL,
+    description TEXT,
+    data_type TEXT NOT NULL, -- 'text', 'number', 'boolean', etc.
+    unit TEXT, -- e.g., 'mg', 'minutes', 'percent'
+    is_required BOOLEAN DEFAULT FALSE,
+    is_system_defined BOOLEAN DEFAULT TRUE,
+    created_by UUID REFERENCES users(id),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(solution_type_id, name)
+);
 Solutions Table
 sql
 CREATE TABLE solutions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     goal_id UUID REFERENCES goals ON DELETE CASCADE,
+    solution_type_id UUID REFERENCES solution_types(id), -- New reference
     title TEXT NOT NULL,
     description TEXT,
     created_by UUID REFERENCES users ON DELETE SET NULL,
@@ -157,8 +196,22 @@ CREATE TABLE solutions (
     cost_category TEXT, -- 'free', 'low', 'medium', 'high'
     time_investment TEXT, -- 'minutes', 'hours', 'days', 'weeks'
     references TEXT[],
+    completion_percentage INTEGER DEFAULT 0, -- New field for tracking data completeness
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+Solution Attributes Table
+sql
+CREATE TABLE solution_attributes (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    solution_id UUID REFERENCES solutions(id) ON DELETE CASCADE,
+    attribute_definition_id UUID REFERENCES attribute_definitions(id),
+    text_value TEXT,
+    numeric_value NUMERIC,
+    boolean_value BOOLEAN,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(solution_id, attribute_definition_id)
 );
 Ratings Table
 sql
@@ -170,6 +223,7 @@ CREATE TABLE ratings (
     duration_used TEXT,
     severity_before INTEGER CHECK (severity_before BETWEEN 1 AND 5),
     side_effects TEXT,
+    completion_percentage INTEGER DEFAULT 0, -- New field for tracking data completeness
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -261,28 +315,43 @@ sql
 CREATE OR REPLACE FUNCTION increment_user_contribution()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- Contribution points value can be adjusted based on action type
-    IF TG_TABLE_NAME = 'ratings' THEN
-        -- Increment ratings count and add 2 points
+    DECLARE
+        completeness_score INTEGER := 0;
+        base_points INTEGER;
+    BEGIN
+        -- Base points by contribution type
+        IF TG_TABLE_NAME = 'ratings' THEN
+            base_points := 2;
+        ELSIF TG_TABLE_NAME = 'solutions' THEN
+            base_points := 5;
+        ELSIF TG_TABLE_NAME = 'comments' THEN
+            base_points := 1;
+        END IF;
+
+        -- Calculate completeness score (0-100%)
+        IF TG_TABLE_NAME = 'solutions' THEN
+            -- Use the completion_percentage field
+            completeness_score := NEW.completion_percentage;
+        ELSIF TG_TABLE_NAME = 'ratings' THEN
+            -- Use the completion_percentage field
+            completeness_score := NEW.completion_percentage;
+        END IF;
+
+        -- Award bonus points based on completeness (up to double points for 100% complete)
         UPDATE users 
-        SET contribution_points = contribution_points + 2,
-            ratings_count = ratings_count + 1
-        WHERE id = NEW.user_id;
-    ELSIF TG_TABLE_NAME = 'solutions' THEN
-        -- Increment solutions count and add 5 points
-        UPDATE users 
-        SET contribution_points = contribution_points + 5,
-            solutions_count = solutions_count + 1
-        WHERE id = NEW.created_by;
-    ELSIF TG_TABLE_NAME = 'comments' THEN
-        -- Increment comments count and add 1 point
-        UPDATE users 
-        SET contribution_points = contribution_points + 1,
-            comments_count = comments_count + 1
-        WHERE id = NEW.user_id;
-    END IF;
-    
-    RETURN NEW;
+        SET contribution_points = contribution_points + base_points + (base_points * completeness_score / 100);
+
+        -- Update counter fields as before
+        IF TG_TABLE_NAME = 'ratings' THEN
+            UPDATE users SET ratings_count = ratings_count + 1 WHERE id = NEW.user_id;
+        ELSIF TG_TABLE_NAME = 'solutions' THEN
+            UPDATE users SET solutions_count = solutions_count + 1 WHERE id = NEW.created_by;
+        ELSIF TG_TABLE_NAME = 'comments' THEN
+            UPDATE users SET comments_count = comments_count + 1 WHERE id = NEW.user_id;
+        END IF;
+        
+        RETURN NEW;
+    END;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -324,6 +393,90 @@ BEGIN
     END IF;
 END;
 $$ LANGUAGE plpgsql;
+Function to Calculate Solution Completeness
+sql
+-- Function to calculate the completeness percentage of a solution
+CREATE OR REPLACE FUNCTION calculate_solution_completeness(solution_id UUID)
+RETURNS INTEGER AS $$
+DECLARE
+    total_attributes INTEGER;
+    filled_attributes INTEGER;
+    required_attributes INTEGER;
+    filled_required INTEGER;
+    completeness NUMERIC;
+BEGIN
+    -- Get total number of attributes defined for this solution type
+    SELECT COUNT(ad.id) INTO total_attributes
+    FROM solutions s
+    JOIN solution_types st ON s.solution_type_id = st.id
+    JOIN attribute_definitions ad ON st.id = ad.solution_type_id
+    WHERE s.id = solution_id;
+    
+    -- Get number of required attributes
+    SELECT COUNT(ad.id) INTO required_attributes
+    FROM solutions s
+    JOIN solution_types st ON s.solution_type_id = st.id
+    JOIN attribute_definitions ad ON st.id = ad.solution_type_id
+    WHERE s.id = solution_id AND ad.is_required = TRUE;
+    
+    -- Get number of filled attributes
+    SELECT COUNT(sa.id) INTO filled_attributes
+    FROM solution_attributes sa
+    WHERE sa.solution_id = solution_id
+    AND (
+        (sa.text_value IS NOT NULL AND sa.text_value != '') OR
+        sa.numeric_value IS NOT NULL OR
+        sa.boolean_value IS NOT NULL
+    );
+    
+    -- Get number of filled required attributes
+    SELECT COUNT(sa.id) INTO filled_required
+    FROM solution_attributes sa
+    JOIN attribute_definitions ad ON sa.attribute_definition_id = ad.id
+    WHERE sa.solution_id = solution_id
+    AND ad.is_required = TRUE
+    AND (
+        (sa.text_value IS NOT NULL AND sa.text_value != '') OR
+        sa.numeric_value IS NOT NULL OR
+        sa.boolean_value IS NOT NULL
+    );
+    
+    -- If not all required fields are filled, completion is based on required fields only
+    IF filled_required < required_attributes THEN
+        completeness := (filled_required::NUMERIC / required_attributes) * 100;
+    ELSE
+        -- If all required fields are filled, remaining completion is based on optional fields
+        IF total_attributes > required_attributes THEN
+            completeness := 50 + ((filled_attributes - filled_required)::NUMERIC / 
+                           (total_attributes - required_attributes)) * 50;
+        ELSE
+            completeness := 100; -- Only required fields exist and all are filled
+        END IF;
+    END IF;
+    
+    RETURN ROUND(completeness);
+END;
+$$ LANGUAGE plpgsql;
+Trigger to Update Solution Completeness
+sql
+-- Trigger function to update solution completeness when attributes change
+CREATE OR REPLACE FUNCTION update_solution_completeness()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Update the completion_percentage field on the solution
+    UPDATE solutions
+    SET completion_percentage = calculate_solution_completeness(NEW.solution_id)
+    WHERE id = NEW.solution_id;
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to update solution completeness when an attribute is added or changed
+CREATE TRIGGER after_solution_attribute_change
+AFTER INSERT OR UPDATE ON solution_attributes
+FOR EACH ROW
+EXECUTE FUNCTION update_solution_completeness();
 Row Level Security Policies
 sql
 -- Enable RLS on all tables
@@ -332,6 +485,9 @@ ALTER TABLE arenas ENABLE ROW LEVEL SECURITY;
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE goals ENABLE ROW LEVEL SECURITY;
 ALTER TABLE solutions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE solution_types ENABLE ROW LEVEL SECURITY;
+ALTER TABLE attribute_definitions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE solution_attributes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ratings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE comments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_solutions ENABLE ROW LEVEL SECURITY;
@@ -373,6 +529,24 @@ ON solutions FOR INSERT WITH CHECK (auth.uid() = created_by);
 CREATE POLICY "Users can update their own solutions" 
 ON solutions FOR UPDATE USING (auth.uid() = created_by);
 
+-- Solution types and attributes - visible to all
+CREATE POLICY "Anyone can view solution types" 
+ON solution_types FOR SELECT USING (true);
+
+CREATE POLICY "Anyone can view attribute definitions" 
+ON attribute_definitions FOR SELECT USING (true);
+
+CREATE POLICY "Anyone can view solution attributes" 
+ON solution_attributes FOR SELECT USING (true);
+
+CREATE POLICY "Users can update attributes for their solutions" 
+ON solution_attributes FOR INSERT WITH CHECK (
+    EXISTS (
+        SELECT 1 FROM solutions s 
+        WHERE s.id = solution_id AND s.created_by = auth.uid()
+    )
+);
+
 -- Ratings policies (private except to the user who created them)
 CREATE POLICY "Users can view their own ratings" 
 ON ratings FOR SELECT USING (auth.uid() = user_id);
@@ -410,11 +584,14 @@ ON content_flags FOR SELECT USING (auth.uid() = flagged_by);
 CREATE POLICY "Users can create flags" 
 ON content_flags FOR INSERT WITH CHECK (auth.uid() = flagged_by);
 Key Schema Design Decisions
-Post-moderation: Changed is_approved defaults to TRUE to make content visible by default
-Separate Comments Table: Split qualitative feedback from quantitative ratings for proper privacy control
-Progress Tracking: Added comprehensive user_solutions table while keeping UI implementation simple initially
-Privacy Model: RLS policies ensure ratings are private to users while comments are public
-Content Flagging: Added table to support post-moderation workflow with community reporting
+Solution Variants Handling: Implemented a flexible attribute system with solution types and contextual attributes
+Data Collection Approach: Combined contextual required fields with progressive optional fields and incentivized completion
+Post-moderation: Content is visible by default with flagging capabilities for community moderation
+Separate Comments & Ratings: Quantitative ratings are private while qualitative comments are public
+Progress Tracking: Comprehensive tracking of user's journey with solutions
+Reputation System: Points scale with contribution completeness to reward detailed information
+User Verification Strategy: Multi-layered approach with email verification, CAPTCHA, and registration rate limiting to prevent fake accounts and system gaming
+Future Equity Model Support: Contribution tracking designed to support future equity allocation based on platform contributions
 3. Pre-Launch Checklist
 This section tracks items that need to be addressed before moving from development to production.
 
@@ -425,6 +602,8 @@ Security Enhancements
  Implement rate limiting: Protect against brute force and DoS attacks
  Audit authentication flows: Ensure all auth processes follow security best practices
  Set up proper error logging: Ensure no sensitive information is exposed in logs
+ Implement reCAPTCHA: Add invisible reCAPTCHA v3 to authentication pages
+ Configure IP-based rate limiting: Implement registration limits per IP address
 Database Configuration
  Row-level security policies: Implement for all tables to control data access
  Database backup strategy: Configure automatic backups
@@ -474,27 +653,13 @@ Date	Decision	Alternatives	Reasoning
 2025-05-18	Separate ratings and comments	Combined feedback model	Clear separation between quantitative data (ratings: private, aggregated) and qualitative data (comments: public, attributed)
 2025-05-18	Moderate community features	Minimal social features, extensive social features	Focus on solution comments and goal following; defer advanced social features like direct messaging and user-to-user following until there's clear user demand
 2025-05-18	Simple reputation system	No reputation tracking, complex badges system	Track contribution points and counts for user activities; automatically calculate badge levels; encourages engagement without complex gamification
+2025-05-18	Attribute-based solution variants	Separate solutions, parent-child hierarchy, user-defined parameters	Flexible approach that handles varying attributes across solution types while keeping UI clean and providing powerful filtering capabilities
+2025-05-18	Contextual + progressive data collection	Minimal required fields, incentivized data provision	Balance between gathering high-quality data and minimizing user friction; varying fields by solution type with progressive follow-ups for additional details
+2025-05-18	Multi-layered user verification	Phone verification, government ID	Combination of email verification, CAPTCHA, and registration rate limiting provides strong protection against fake accounts and system gaming with minimal user friction
+2025-05-18	Contribution-based equity model	Traditional investment, token model	Aligns platform incentives by enabling greater community ownership through a sliding scale of allocation based on platform contributions
 5. Open Design Questions
-These questions need resolution before proceeding with implementation:
+All major design questions have been resolved. Implementation priorities will be tracked in session documents.
 
-5.1 Solution Variants Handling
-How should we handle variations of similar solutions?
-
-Options:
-
-A) Treat each variation as a separate solution (current approach)
-B) Create a parent-child relationship between solution types and specific implementations
-C) Use tagging and attributes to differentiate similar solutions
-D) Allow user-defined parameters for solutions (e.g., different meditation durations)
-5.2 Data Richness vs. User Friction
-What's the right balance between collecting comprehensive data and minimizing user friction?
-
-Options:
-
-A) Minimal required fields, many optional fields (closest to current approach)
-B) Progressive data collection (basic info first, request more details over time)
-C) Contextual data collection (ask different questions for different categories)
-D) Incentivized data provision (more rewards or features for providing more data)
 6. Third-Party Dependencies
 This section tracks external libraries and services we depend on.
 
@@ -505,6 +670,7 @@ TypeScript	Latest	Type safety	JavaScript	Improved developer experience, catch er
 Tailwind CSS	Latest	Styling	MUI, Styled Components, CSS Modules	Rapid development, consistent design, utility-first approach
 Prisma	Latest	Database ORM	Raw SQL, Drizzle	Type-safe database access, schema migrations, great DX
 Vercel	N/A	Hosting	Netlify, AWS	Seamless Next.js deployment, great DX, automatic previews
+reCAPTCHA v3	Latest	Bot protection	hCaptcha, custom verification	Invisible to most users, strong bot detection, easy integration
 7. Known Technical Debt
 This section tracks intentional compromises made for development speed, along with plans to address them.
 
@@ -516,3 +682,5 @@ Document Review Log
 Date	Reviewer	Changes Made	Next Review
 2025-05-18	jandy1990 & Claude	Initial creation of document	End of next session
 2025-05-18	jandy1990 & Claude	Combined configuration tracker and database schema	End of next session
+2025-05-18	jandy1990 & Claude	Updated schema with solution variants and data collection approach	End of next session
+2025-05-18	jandy1990 & Claude	Added multi-layered user verification strategy and equity model support	Before database implementation
