@@ -1,80 +1,249 @@
-WWFM Technical Reference
-Document Type: Technical implementation details
-Related Documents: Project Guide | Collaboration Guide | Latest Session
-Last Updated: May 23, 2025
-Status: Active - Authentication Implementation Complete
+# WWFM Technical Reference
+
+> **Document Type**: Technical implementation details  
+> **Related Documents**: [Project Guide](/docs/wwfm-project-guide.md) | [Collaboration Guide](/docs/wwfm-collaboration-guide.md) | [Latest Session](/docs/sessions/session-2025-05-24.md)  
+> **Last Updated**: May 24, 2025  
+> **Status**: Active - Goal Browsing Complete, Ratings Display Bug Pending
 
 This document contains the technical implementation details for the WWFM platform, including configuration information, database schema, authentication setup, and decision log.
 
-Table of Contents
-1. Technical Stack Configuration
-2. Database Schema
-3. Authentication Implementation
-4. File Structure
-5. Environment Setup
-6. Pre-Launch Checklist
-7. Decision Log
-8. Known Technical Debt
-1. Technical Stack Configuration
-GitHub Configuration
-Repository Name: wwfm-platform
-Repository Type: Private (for initial development)
-Username: jandy1990
-Repository URL: https://github.com/jandy1990/wwfm-platform
-License: None initially, with "All rights reserved" copyright notice
-Personal Access Token: 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 (expires June 17, 2025)
-Status: Active and configured for development workflow
-Supabase Configuration
-Project Settings
-Project Name: wwfm-platform
-Organization Type: Personal
-Region: US East (North Virginia)
-Project URL: https://wqxkhxdbxdtpuvuvgirx.supabase.co
-Anon Public Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxeGtoeGRieGR0cHV2dXZnaXJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgzMTUsImV4cCI6MjA2MzEwNDMxNX0.eBP6_TUB4Qa9KwPvEnUxrp7e7AGtOA3_Zs3CxaObPTo
-Status: Fully configured and integrated with authentication working
-Authentication Settings
-Site URL: http://localhost:3000 (development environment)
-Redirect URLs: http://localhost:3000/auth/callback
-Email Confirmations: Enabled (using default templates)
-User Signups: Enabled
-Email Provider: Enabled (using built-in Supabase email service for development)
-Manual Linking: Disabled
-Anonymous Sign-ins: Disabled
-Status: Email verification tested and working
-Next.js Configuration
-Framework: Next.js 15.3.2 with TypeScript
-App Router: Using Next.js App Router architecture
-Styling: Tailwind CSS with responsive design
-Development Server: Running on http://localhost:3000
-Status: Fully operational with hot reloading
-Deployment Configuration
-Hosting Platform: Vercel
-Production URL: wwfm-platform-6t2xbo4qg-jack-andrews-projects.vercel.app
-Build Command: next build
-Output Directory: .next
-Install Command: npm install
-Status: Deployment pipeline configured (may need environment variable updates for production)
-2. Database Schema
-Complete Implementation Status: ✅ DEPLOYED AND TESTED
-The complete database schema has been implemented in Supabase with all tables, relationships, functions, triggers, and Row Level Security policies working as designed. Refer to the original technical reference for full schema details.
+## Table of Contents
+- [1. Technical Stack Configuration](#1-technical-stack-configuration)
+- [2. Database Schema](#2-database-schema)
+- [3. Authentication Implementation](#3-authentication-implementation)
+- [4. File Structure](#4-file-structure)
+- [5. Environment Setup](#5-environment-setup)
+- [6. Pre-Launch Checklist](#6-pre-launch-checklist)
+- [7. Decision Log](#7-decision-log)
+- [8. Known Technical Debt](#8-known-technical-debt)
 
-Key Schema Components Verified Working:
-✅ Users table with contribution tracking
-✅ Arenas, Categories, Goals hierarchy
-✅ Solutions with type-specific attributes
-✅ Ratings and Comments systems
-✅ User progress tracking tables
-✅ Content moderation infrastructure
-✅ Database functions for completeness calculation
-✅ Triggers for contribution point updates
-✅ Row Level Security policies for data access control
-Seed Data Status:
-✅ Solution types (Medication, Meditation, Exercise)
-✅ Type-specific attributes with data types
-✅ Sample arenas, categories, and goals
-✅ Test user creation verified through authentication
-3. Authentication Implementation
-3.1 Authentication Architecture
+---
+
+## 1. Technical Stack Configuration
+
+### GitHub Configuration
+- **Repository Name**: wwfm-platform
+- **Repository Type**: Private (for initial development)
+- **Username**: jandy1990
+- **Repository URL**: https://github.com/jandy1990/wwfm-platform
+- **License**: None initially, with "All rights reserved" copyright notice
+- **Personal Access Token**: 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 (expires June 17, 2025)
+- **Status**: Active and configured for development workflow
+
+### Supabase Configuration
+
+#### Project Settings
+- **Project Name**: wwfm-platform
+- **Organization Type**: Personal
+- **Region**: US East (North Virginia)
+- **Project URL**: https://wqxkhxdbxdtpuvuvgirx.supabase.co
+- **Anon Public Key**: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxeGtoeGRieGR0cHV2dXZnaXJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgzMTUsImV4cCI6MjA2MzEwNDMxNX0.eBP6_TUB4Qa9KwPvEnUxrp7e7AGtOA3_Zs3CxaObPTo
+- **Status**: Fully configured and integrated with authentication working
+
+#### Authentication Settings
+- **Site URL**: http://localhost:3000 (development environment)
+- **Redirect URLs**: http://localhost:3000/auth/callback
+- **Email Confirmations**: Enabled (using default templates)
+- **User Signups**: Enabled
+- **Email Provider**: Enabled (using built-in Supabase email service for development)
+- **Manual Linking**: Disabled
+- **Anonymous Sign-ins**: Disabled
+- **Status**: Email verification tested and working
+
+### Next.js Configuration
+- **Framework**: Next.js 15.3.2 with TypeScript
+- **App Router**: Using Next.js App Router architecture
+- **Styling**: Tailwind CSS with responsive design
+- **Development Server**: Running on http://localhost:3000
+- **Status**: Fully operational with hot reloading
+
+### Deployment Configuration
+- **Hosting Platform**: Vercel
+- **Production URL**: wwfm-platform-6t2xbo4qg-jack-andrews-projects.vercel.app
+- **Build Command**: next build
+- **Output Directory**: .next
+- **Install Command**: npm install
+- **Status**: Deployment pipeline configured (may need environment variable updates for production)
+
+## 2. Database Schema
+
+### Critical Design Decisions
+
+#### User ID Architecture
+**IMPORTANT**: The `public.users.id` MUST equal `auth.users.id`. This is not a bug but a security requirement:
+- Row Level Security policies use `(auth.uid() = id)` for user profile updates
+- Changing this would break all RLS policies
+- This 1:1 relationship is intentional and must be maintained
+
+#### User Creation Trigger
+A trigger automatically creates a public.users profile when someone signs up:
+```sql
+CREATE OR REPLACE FUNCTION public.handle_new_user() 
+RETURNS trigger AS $$
+BEGIN
+  INSERT INTO public.users (id, email, username, contribution_points, ratings_count, solutions_count, comments_count)
+  VALUES (new.id, new.email, COALESCE(new.raw_user_meta_data->>'username', split_part(new.email, '@', 1)), 0, 0, 0, 0);
+  RETURN new;
+EXCEPTION
+  WHEN unique_violation THEN
+    RETURN new; -- User already exists, that's fine
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+```
+
+### Complete Implementation Status: ✅ DEPLOYED AND TESTED
+
+The complete database schema has been implemented in Supabase with all tables, relationships, functions, triggers, and Row Level Security policies working as designed.
+
+### Table Structures
+
+#### 1. Arenas Table
+Primary categories for organizing life improvement goals.
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| id | uuid | PRIMARY KEY | Unique identifier |
+| name | text | NOT NULL | Display name (e.g., "Health & Wellness") |
+| slug | text | UNIQUE | URL-friendly identifier (e.g., "health-wellness") |
+| description | text | | Detailed description of the arena |
+| icon | text | | Emoji or icon representation |
+| order_rank | integer | | Display order (1 = first) |
+| is_active | boolean | DEFAULT true | Whether arena is visible |
+| created_at | timestamptz | DEFAULT NOW() | Creation timestamp |
+| updated_at | timestamptz | DEFAULT NOW() | Last update timestamp |
+
+**Indexes**: 
+- `idx_arenas_slug` on slug column for performance
+
+#### 2. Categories Table
+Sub-categories within each arena.
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| id | uuid | PRIMARY KEY | Unique identifier |
+| arena_id | uuid | FOREIGN KEY | Reference to parent arena |
+| name | text | NOT NULL | Display name (e.g., "Weight Loss") |
+| slug | text | | URL-friendly identifier (e.g., "weight-loss") |
+| description | text | | Detailed description |
+| created_at | timestamptz | DEFAULT NOW() | Creation timestamp |
+| updated_at | timestamptz | DEFAULT NOW() | Last update timestamp |
+
+**Note**: Missing columns from original design: icon, order_rank, is_active
+
+**Indexes**: 
+- `idx_categories_slug` on slug column for performance
+
+#### 3. Goals Table
+Specific goals users want to achieve.
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| id | uuid | PRIMARY KEY | Unique identifier |
+| category_id | uuid | FOREIGN KEY | Reference to parent category |
+| title | text | NOT NULL | Goal title (e.g., "Lose 20 pounds") |
+| description | text | | Detailed description |
+| created_by | uuid | FOREIGN KEY | User who created the goal |
+| is_approved | boolean | DEFAULT false | Moderation status |
+| meta_tags | ARRAY | | Tags for search/filtering |
+| view_count | integer | DEFAULT 0 | Number of views |
+| created_at | timestamptz | DEFAULT NOW() | Creation timestamp |
+| updated_at | timestamptz | DEFAULT NOW() | Last update timestamp |
+
+**Note**: Missing columns from original design: difficulty_level, time_horizon
+
+#### 4. Users Table
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| id | uuid | PRIMARY KEY, FOREIGN KEY REFERENCES auth.users(id) | MUST match auth.users.id |
+| username | text | | Display name |
+| email | text | | Email address |
+| avatar_url | text | | Profile picture URL |
+| created_at | timestamptz | DEFAULT NOW() | Creation timestamp |
+| updated_at | timestamptz | DEFAULT NOW() | Last update timestamp |
+| contribution_points | integer | DEFAULT 0 | Points earned |
+| ratings_count | integer | DEFAULT 0 | Number of ratings given |
+| solutions_count | integer | DEFAULT 0 | Solutions submitted |
+| comments_count | integer | DEFAULT 0 | Comments posted |
+| age_range | text | | Optional demographic |
+| gender | text | | Optional demographic |
+| location | text | | Optional location |
+| share_demographics | boolean | DEFAULT false | Privacy setting |
+| show_activity | boolean | DEFAULT true | Privacy setting |
+| registration_ip | text | | For fraud detection |
+| registration_timestamp | timestamptz | | Signup time |
+| captcha_score | numeric | | Bot detection score |
+| trust_score | integer | DEFAULT 0 | Platform trust level |
+
+**Critical Constraint**: id MUST equal the user's auth.users.id for RLS policies to work
+
+#### 5. Solutions Table
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| id | uuid | PRIMARY KEY | Unique identifier |
+| goal_id | uuid | FOREIGN KEY | Reference to goals table |
+| solution_type_id | uuid | FOREIGN KEY | Reference to solution_types |
+| title | text | NOT NULL | Solution name |
+| description | text | | Detailed description |
+| created_by | uuid | FOREIGN KEY | User who created it |
+| is_approved | boolean | DEFAULT false | Moderation status |
+| source_type | text | | Type of solution source |
+| external_url | text | | Link to external resource |
+| cost_category | text | | free/cheap/moderate/expensive |
+| time_investment | text | | Time required |
+| reference_links | ARRAY | | Supporting links |
+| completion_percentage | integer | | How complete the solution is |
+| created_at | timestamptz | DEFAULT NOW() | Creation timestamp |
+| updated_at | timestamptz | DEFAULT NOW() | Last update timestamp |
+
+#### 6. Ratings Table
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| id | uuid | PRIMARY KEY | Unique identifier |
+| solution_id | uuid | FOREIGN KEY | Reference to solutions |
+| user_id | uuid | FOREIGN KEY REFERENCES users(id) | Who rated |
+| effectiveness_score | integer | NOT NULL, CHECK (1-5) | How well it worked |
+| duration_used | text | | How long they tried it |
+| severity_before | integer | | Baseline measurement |
+| side_effects | text | | Any negative effects |
+| completion_percentage | integer | | How much they completed |
+| created_at | timestamptz | DEFAULT NOW() | Creation timestamp |
+| updated_at | timestamptz | DEFAULT NOW() | Last update timestamp |
+
+**Unique Constraint**: (solution_id, user_id) - One rating per user per solution
+
+#### 7. Additional Tables Implemented
+- **solution_types**: Categories of solutions (Medication, Exercise, Meditation)
+- **solution_attributes**: Dynamic attributes for solutions
+- **attribute_definitions**: Defines attributes per solution type
+- **comments**: User comments on solutions
+- **goal_followers**: Users following specific goals
+- **saved_solutions**: User's saved solutions for later
+- **user_solutions**: Solutions users are actively trying
+- **content_flags**: Moderation flags for content
+
+### Row Level Security Policies
+
+#### Users Table RLS
+- **"Users can update their own profile"**: `(auth.uid() = id)`
+- **"Users can view all profiles"**: `true` (public profiles)
+
+### Database Functions and Triggers
+- **handle_new_user()**: Creates public user profile on auth signup
+- **increment_goal_views()**: Updates view count for goals
+- **update_contribution_points()**: Manages user reputation
+
+## 3. Authentication Implementation
+
+### 3.1 Authentication Architecture
+
+```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Client-Side   │    │   Server-Side   │    │    Supabase     │
 │  Auth Components│◄──►│   App Layout    │◄──►│   Auth Service  │
@@ -86,278 +255,293 @@ Seed Data Status:
 │  - SignInForm   │    │  - Global CSS   │    │  - Email Service│
 │  - AuthForm     │    │  - Font Config  │    │  - Session Mgmt │
 │  - AuthContext  │    │  - No Auth Logic│    │  - Security     │
+│  - ResetPassword│    │                 │    │  - RLS Policies │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
-3.2 Component Implementation Status
-✅ Base Components (Completed)
-typescript
-// components/auth/AuthForm.tsx - Reusable form wrapper
-interface AuthFormProps {
-  title: string;
-  children: ReactNode;
-  footer?: ReactNode;
-  onSubmit: (e: React.FormEvent) => void;
-}
-✅ Authentication Context (Completed)
-typescript
-// contexts/AuthContext.tsx - App-wide auth state management
-type AuthContextType = {
-  session: Session | null;
-  user: User | null;
-  loading: boolean;
-  signOut: () => Promise<void>;
-};
-✅ User Registration (Completed)
-typescript
-// components/auth/SignUpForm.tsx - Full user registration
-// Features: Email validation, password requirements, username collection
-// Integration: Supabase user creation with email verification
-// Status: Tested and working - users receive verification emails
-✅ User Authentication (Completed)
-typescript
-// components/auth/SignInForm.tsx - User login system
-// Features: Email/password validation, error handling, navigation
-// Integration: Supabase authentication with session management
-// Status: Form rendering correctly, authentication flow ready for testing
-3.3 Route Implementation Status
-✅ Authentication Pages (Completed)
-/auth/signup - User registration page with form validation
-/auth/signin - User login page with error handling
-Navigation: Seamless linking between signup and signin forms
-🔄 Authentication Flow (In Progress)
-/auth/callback - Email verification handler (NEXT PRIORITY)
-/auth/reset-password - Password reset functionality (PLANNED)
-/dashboard - Protected landing page after authentication (PLANNED)
-3.4 Authentication Features Implemented
-✅ User Experience Features
-Professional UI Design: Consistent styling with Tailwind CSS
-Form Validation: Client-side validation with proper error messages
-Loading States: Visual feedback during form submission
-Responsive Design: Mobile-friendly layout and interactions
-Accessibility: Proper form labels and focus management
-✅ Security Features
-Email Verification: Required for account activation
-Password Requirements: Minimum 8 characters enforced
-CSRF Protection: Built into Supabase authentication
-Session Management: Secure session handling via Supabase
-Environment Security: API keys properly secured in environment variables
-3.5 Integration Points
-✅ Supabase Integration
-typescript
-// lib/supabase.ts - Verified working configuration
+```
+
+### 3.2 Component Implementation Status
+
+#### ✅ Completed Components
+- **AuthForm.tsx**: Base reusable form wrapper
+- **AuthContext.tsx**: App-wide auth state management
+- **SignUpForm.tsx**: User registration with email verification
+- **SignInForm.tsx**: User login with error handling
+- **ResetPasswordForm.tsx**: Password reset request
+- **ProtectedRoute.tsx**: Route protection wrapper
+
+### 3.3 Authentication Flow
+
+#### ✅ Complete Authentication Journey
+1. **Registration** → Email verification → Dashboard
+2. **Login** → Session creation → Dashboard
+3. **Password Reset** → Email link → Update password → Dashboard
+4. **Protected Routes** → Check auth → Redirect if needed
+
+### 3.4 Integration Points
+
+#### ✅ Supabase Client Configuration
+```typescript
+// lib/supabase.ts
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
-✅ Environment Configuration
-bash
-# .env.local - Verified working setup
-NEXT_PUBLIC_SUPABASE_URL=https://wqxkhxdbxdtpuvuvgirx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxeGtoeGRieGR0cHV2dXZnaXJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgzMTUsImV4cCI6MjA2MzEwNDMxNX0.eBP6_TUB4Qa9KwPvEnUxrp7e7AGtOA3_Zs3CxaObPTo
-4. File Structure
-4.1 Current Project Structure (Verified)
+```
+
+## 4. File Structure
+
+### 4.1 Current Implementation Status
+
+```
 wwfm-platform/
 ├── app/
 │   ├── auth/
+│   │   ├── callback/
+│   │   │   └── route.ts              ✅ Email verification handler
+│   │   ├── reset-password/
+│   │   │   └── page.tsx              ✅ Password reset request
 │   │   ├── signin/
-│   │   │   └── page.tsx              ✅ SignIn page
-│   │   └── signup/
-│   │       └── page.tsx              ✅ SignUp page
+│   │   │   └── page.tsx              ✅ Login page
+│   │   ├── signup/
+│   │   │   └── page.tsx              ✅ Registration page
+│   │   └── update-password/
+│   │       └── page.tsx              ✅ New password form
+│   ├── browse/
+│   │   └── page.tsx                  ✅ Arena browsing
+│   ├── arena/
+│   │   └── [slug]/
+│   │       └── page.tsx              ✅ Dynamic arena pages
+│   ├── category/
+│   │   └── [slug]/
+│   │       └── page.tsx              ✅ Category listing
+│   ├── goal/
+│   │   └── [id]/
+│   │       └── page.tsx              ⚠️  Goal details (rating bug)
+│   ├── dashboard/
+│   │   └── page.tsx                  ✅ User dashboard
 │   ├── globals.css                   ✅ Global styles
-│   ├── layout.tsx                    ✅ Root layout (server component)
+│   ├── layout.tsx                    ✅ Root layout
 │   └── page.tsx                      ✅ Home page
 ├── components/
 │   └── auth/
 │       ├── AuthForm.tsx              ✅ Base form component
+│       ├── AuthContext.tsx           ✅ Auth state management
+│       ├── ProtectedRoute.tsx        ✅ Route protection
+│       ├── ResetPasswordForm.tsx     ✅ Password reset form
 │       ├── SignInForm.tsx            ✅ Login form
 │       └── SignUpForm.tsx            ✅ Registration form
 ├── contexts/
-│   └── AuthContext.tsx               ✅ Authentication context
+│   └── AuthContext.tsx               ✅ Duplicate (use components/auth)
 ├── lib/
-│   └── supabase.ts                   ✅ Supabase client config
+│   └── supabase.ts                   ✅ Supabase client
 ├── .env.local                        ✅ Environment variables
 ├── .gitignore                        ✅ Git ignore rules
-├── next.config.ts                    ✅ Next.js configuration
+├── next.config.ts                    ✅ Next.js config
 ├── package.json                      ✅ Dependencies
-├── tailwind.config.ts                ✅ Tailwind configuration
-└── tsconfig.json                     ✅ TypeScript configuration
-4.2 Next Files to Implement (Priority Order)
-app/
-├── auth/
-│   ├── callback/
-│   │   └── route.ts                  🔄 NEXT PRIORITY - Email verification handler
-│   └── reset-password/
-│       └── page.tsx                  ⬜ Password reset page
-├── dashboard/
-│   └── page.tsx                      ⬜ Protected landing page
-└── profile/
-    └── page.tsx                      ⬜ User profile management
+├── tailwind.config.ts                ✅ Tailwind config
+└── tsconfig.json                     ✅ TypeScript config
+```
 
-components/
-└── auth/
-    ├── ProtectedRoute.tsx            ⬜ Route protection wrapper
-    ├── ResetPassword.tsx             ⬜ Password reset form
-    └── ProfileForm.tsx               ⬜ User profile editing
-4.3 File Implementation Standards Established
-✅ TypeScript Standards
-All components use proper TypeScript interfaces
-Environment variables properly typed with assertions
-Error handling with typed error objects
-Form validation with type-safe state management
-✅ Component Patterns
-Client components marked with 'use client' directive
-Server components (layout) handle metadata and global configuration
-Reusable component architecture with props interfaces
-Consistent error handling and loading state patterns
-✅ Styling Standards
-Tailwind CSS utility classes used consistently
-Responsive design with mobile-first approach
-Focus states and accessibility considerations
-Color scheme and typography hierarchy established
-5. Environment Setup
-5.1 Development Environment (Verified Working)
-✅ Local Development Setup
-Node.js: Compatible version running
-Next.js: 15.3.2 development server operational
-TypeScript: Compilation successful with no blocking errors
-Tailwind CSS: Styling system working with hot reloading
-VS Code: Configured with proper folder structure and extensions
-✅ Project Structure Resolution
-Issue Resolved: Nested folder structure that was blocking development
-Solution: VS Code opened in correct inner wwfm-platform folder
-Impact: All import paths now resolve correctly, TypeScript compilation successful
-✅ Environment Variables
-Location: .env.local in project root
-Status: Supabase credentials loaded and working
-Security: Properly excluded from version control via .gitignore
-5.2 Development Workflow Established
-✅ Version Control
-Git: Repository properly initialized and connected to GitHub
-Commits: Ready for committing authentication implementation
-Branches: Working on main branch with clean commit history
-✅ Testing Procedures
-Authentication Flow: Manual testing of signup/signin forms successful
-Error Handling: Error states and validation working properly
-Browser Compatibility: Tested in both regular and incognito modes
-Responsive Design: Verified working across different screen sizes
-✅ Development Commands
-bash
+### 4.2 Next Implementation Priority
+
+```
+app/
+├── goal/
+│   └── [id]/
+│       ├── add-solution/
+│       │   └── page.tsx              ⬜ Share what worked form
+│       └── page.tsx                  🔧 FIX RATING DISPLAY
+├── solution/
+│   └── [id]/
+│       └── page.tsx                  ⬜ Solution details
+├── profile/
+│   ├── page.tsx                      ⬜ User profile
+│   └── edit/
+│       └── page.tsx                  ⬜ Edit profile
+└── search/
+    └── page.tsx                      ⬜ Search results
+```
+
+## 5. Environment Setup
+
+### 5.1 Development Environment
+
+#### ✅ Local Development Setup
+- **Node.js**: Compatible version running
+- **Next.js**: 15.3.2 development server operational
+- **TypeScript**: Compilation successful with no blocking errors
+- **Tailwind CSS**: Styling system working with hot reloading
+- **VS Code**: Configured with proper folder structure
+
+#### ✅ Project Structure
+- **Project Root**: `/Users/jackandrews/Desktop/wwfm-platform/wwfm-platform/`
+- **Important**: Nested folder structure - ensure VS Code opens inner folder
+
+#### ✅ Environment Variables (.env.local)
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://wqxkhxdbxdtpuvuvgirx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxeGtoeGRieGR0cHV2dXZnaXJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgzMTUsImV4cCI6MjA2MzEwNDMxNX0.eBP6_TUB4Qa9KwPvEnUxrp7e7AGtOA3_Zs3CxaObPTo
+```
+
+### 5.2 Development Commands
+```bash
 # Start development server
 npm run dev
 
 # Build for production
 npm run build
 
-# Clear Next.js cache (if needed)
-rm -rf .next && npm run dev
+# Run type checking
+npm run type-check
 
-# Install new dependencies
-npm install [package-name]
-5.3 Known Development Environment Issues
-⚠️ Browser Extension Interference
-Issue: Hydration errors in main browser (not incognito)
-Cause: Browser extensions modifying DOM before React hydration
-Impact: No impact on functionality, cosmetic development error only
-Workaround: Use incognito mode for testing, or ignore errors during development
-⚠️ Email Delivery in Development
-Issue: Development emails may be slow or go to spam
-Cause: Using Supabase built-in email service with rate limits
-Impact: Email verification may take 1-5 minutes to arrive
-Solution: Check spam folder, or implement custom SMTP for production
-6. Pre-Launch Checklist
-Authentication & Security (In Progress)
- User Registration: Email signup with verification working
- User Authentication: Email/password login functional
- Environment Security: API keys properly secured
- Form Validation: Client-side validation implemented
- Email Verification Callback: Handler for email verification links
- Password Reset Flow: Complete password reset functionality
- Protected Routes: Route protection for authenticated areas
- Session Management: Proper session handling and persistence
- Security Audit: Review authentication implementation for vulnerabilities
-Infrastructure & Performance
- Next.js Configuration: App Router setup working properly
- TypeScript Configuration: Compilation working without errors
- Tailwind CSS Setup: Styling system configured and working
- Supabase Integration: Database and auth services connected
- Vercel Deployment: Deployment pipeline configured
- Production Environment Variables: Update environment variables for production
- Performance Optimization: Implement code splitting and optimization
- Error Monitoring: Set up error tracking and monitoring
- Analytics Setup: Implement privacy-focused analytics
-User Experience
- Responsive Design: Mobile-friendly authentication forms
- Form UX: Loading states, error messages, validation feedback
- Navigation Flow: Seamless navigation between auth pages
- User Dashboard: Landing page after successful authentication
- Profile Management: User profile viewing and editing
- Onboarding Flow: New user welcome and setup process
- Accessibility Audit: Comprehensive accessibility testing
-Content & Data
- Database Schema: Complete schema implemented and tested
- Seed Data: Initial solution types and attributes created
- Content Seeding: Populate database with initial goals and solutions
- Content Moderation: Implement flagging and moderation tools
- Data Backup Strategy: Configure automated backups
- Privacy Policy: Create and implement privacy policy
- Terms of Service: Create and implement terms of service
-7. Decision Log
-Date	Decision	Alternatives	Reasoning	Status
-2025-05-23	Fix nested folder structure by using inner wwfm-platform folder	Restructure entire repository, create new repository	Essential for proper import path resolution and TypeScript compilation	✅ Implemented
-2025-05-23	Use client-side components for authentication forms with 'use client' directive	Server-side form handling, hybrid approach	Needed for React hooks (useState, useEffect) and interactive form behavior	✅ Implemented
-2025-05-23	Keep app/layout.tsx as server component without 'use client'	Make layout client-side component	Required for metadata export and SEO optimization	✅ Implemented
-2025-05-23	Create reusable AuthForm base component	Duplicate form structure across components	Ensures consistent styling and behavior across all auth forms	✅ Implemented
-2025-05-23	Store environment variables in .env.local file	Hard-code credentials, use different env file structure	Next.js standard approach for local environment variables	✅ Implemented
-2025-05-23	Use Supabase built-in email service for development	Set up custom SMTP immediately, use third-party email service	Simplifies initial development, can upgrade to custom SMTP for production	✅ Implemented
-2025-05-23	Implement AuthContext for app-wide authentication state	Pass authentication props down component tree, use global state library	React Context provides clean API for auth state without additional dependencies	✅ Implemented
-2025-05-23	Use incognito mode for testing to avoid browser extension conflicts	Debug and fix hydration errors, find root cause of extension conflicts	Pragmatic approach that doesn't block development progress	✅ Implemented
-2025-05-18	Private GitHub repository	Public repository	Protect IP during early development while maintaining option to go public later	✅ Implemented
-2025-05-18	Next.js with TypeScript	React SPA, Vue.js, Angular	Built-in API routes, SSR for SEO, great DX, TypeScript for type safety	✅ Implemented
-2025-05-18	Supabase for backend	Firebase, custom Express backend	PostgreSQL for relational data, built-in auth, realtime capabilities	✅ Implemented
-2025-05-18	Post-moderation content approach	Pre-moderation, community moderation	Start with immediate content visibility to encourage contribution	✅ Implemented
-8. Known Technical Debt
-Item	Description	Impact	Plan to Address	Priority	Status
-Authentication callback missing	No handler for email verification links and OAuth redirects	Users cannot complete email verification	Implement app/auth/callback/route.ts as next priority	High	🔄 Next Task
-Password reset not implemented	"Forgot password" link exists but no functionality	Users cannot reset forgotten passwords	Create password reset form and flow	High	⬜ Planned
-No protected routes	All pages accessible without authentication	No security for authenticated-only content	Implement ProtectedRoute component wrapper	High	⬜ Planned
-Missing user dashboard	No landing page after successful authentication	Users redirected to non-existent /dashboard page	Create basic dashboard page with user info	Medium	⬜ Planned
-Development email service limitations	Using Supabase built-in email with rate limits and spam issues	Email delivery may be unreliable	Set up custom SMTP for production	Medium	⬜ Future
-Browser extension hydration conflicts	Development-only hydration errors in main browser	Cosmetic errors during development	Not critical for production deployment	Low	🟦 Deferred
-No error monitoring	No systematic error tracking or user feedback collection	Difficult to debug production issues	Implement error tracking service	Medium	⬜ Future
-Missing user profile management	Users cannot view or edit their profile information	Limited user control over account	Create profile management UI	Medium	⬜ Planned
-Implementation Priority for Next Session
-🚨 Critical Priority (Blocking Authentication Flow)
-Authentication Callback Handler (app/auth/callback/route.ts)
-Handle email verification redirects from Supabase
-Process OAuth completion (if implemented later)
-Redirect users to dashboard after successful verification
-🔴 High Priority (Core Authentication Features)
-Password Reset Flow (components/auth/ResetPassword.tsx, app/auth/reset-password/page.tsx)
-Password reset form with email submission
-Integration with Supabase password reset functionality
-Update password form after reset link click
-Protected Routes (components/auth/ProtectedRoute.tsx)
-Higher-order component to protect authenticated pages
-Redirect unauthenticated users to signin
-Loading states during authentication check
-User Dashboard (app/dashboard/page.tsx)
-Basic landing page after successful authentication
-Display user information and authentication status
-Foundation for future platform features
-🟡 Medium Priority (User Experience)
-User Profile Management (app/profile/page.tsx, components/auth/ProfileForm.tsx)
-User profile viewing and editing interface
-Display contribution statistics and badges
-Avatar upload and profile customization
-Authentication State Integration (Update app/layout.tsx)
-Integrate AuthProvider into app layout
-Enable app-wide authentication state management
-Proper session persistence across page reloads
-Document Review Log
-Date	Reviewer	Changes Made	Next Review
-2025-05-18	jandy1990 & Claude	Initial creation of document	End of next session
-2025-05-18	jandy1990 & Claude	Combined configuration tracker and database schema	End of next session
-2025-05-18	jandy1990 & Claude	Added solution variants and data collection approach	Before database implementation
-2025-05-18	jandy1990 & Claude	Added multi-layered user verification strategy and equity model support	Before database implementation
-2025-05-23	jackandrews & Claude	Added complete authentication implementation details, file structure, environment setup, and updated technical debt tracking	Next session start
+# Clear Next.js cache
+rm -rf .next && npm run dev
+```
+
+### 5.3 Known Environment Issues
+
+#### ⚠️ Browser Extension Interference
+- **Issue**: Hydration errors in main browser
+- **Cause**: Extensions modifying DOM before React hydration
+- **Impact**: Cosmetic only, no functionality impact
+- **Workaround**: Use incognito mode for development
+
+#### ⚠️ Email Delivery
+- **Issue**: Development emails may be slow
+- **Cause**: Supabase built-in email service rate limits
+- **Impact**: 1-5 minute delivery delays
+- **Solution**: Check spam folder; implement custom SMTP for production
+
+## 6. Pre-Launch Checklist
+
+### Authentication & Security ✅ 90% Complete
+- [x] User Registration with email verification
+- [x] User Authentication (email/password)
+- [x] Password Reset Flow
+- [x] Protected Routes implementation
+- [x] Session Management
+- [x] Environment Security (API keys)
+- [x] Form Validation (client-side)
+- [x] RLS Policies configured
+- [ ] Rate limiting for auth endpoints
+- [ ] Server-side validation enhancement
+
+### Core Features 🔄 60% Complete
+- [x] Arena browsing interface
+- [x] Category navigation
+- [x] Goal discovery pages
+- [x] Solution display ("What Worked")
+- [ ] **Rating display (BUG - TOP PRIORITY)**
+- [ ] Solution submission forms
+- [ ] Rating submission interface
+- [ ] Search functionality
+- [ ] User profiles
+
+### Infrastructure & Performance ✅ 85% Complete
+- [x] Next.js App Router configuration
+- [x] TypeScript setup
+- [x] Tailwind CSS integration
+- [x] Supabase integration
+- [x] Vercel deployment pipeline
+- [x] Database schema complete
+- [ ] Production environment variables
+- [ ] Performance optimization
+- [ ] Error monitoring setup
+- [ ] Analytics implementation
+
+### User Experience 🔄 70% Complete
+- [x] Responsive design
+- [x] Form UX with loading states
+- [x] Navigation flow
+- [x] Error messages
+- [x] Basic accessibility
+- [ ] Loading skeletons
+- [ ] Empty states design
+- [ ] Success confirmations
+- [ ] Comprehensive accessibility audit
+
+### Content & Data ✅ 80% Complete
+- [x] Database schema implemented
+- [x] Seed data created
+- [x] Sample content loaded
+- [ ] Content moderation tools
+- [ ] Admin interface
+- [ ] Backup strategy
+- [ ] Privacy Policy
+- [ ] Terms of Service
+
+## 7. Decision Log
+
+| Date | Decision | Alternatives | Reasoning | Status |
+|------|----------|--------------|-----------|---------|
+| 2025-05-24 | Keep public.users.id = auth.users.id | Separate auth_id column | RLS policies require this for security | ✅ Implemented |
+| 2025-05-24 | Add exception handling to user creation trigger | Let trigger fail on duplicates | Prevents errors for existing users | ✅ Implemented |
+| 2025-05-24 | Use slugs for SEO-friendly URLs | Use UUIDs in URLs | Better UX and SEO | ✅ Implemented |
+| 2025-05-24 | "Solutions" → "What Worked" in UI only | Change database schema | Clean separation of concerns | ✅ Implemented |
+| 2025-05-23 | Fix nested folder structure | Restructure repository | Essential for import resolution | ✅ Implemented |
+| 2025-05-23 | Client components for auth forms | Server components | Needed for interactivity | ✅ Implemented |
+| 2025-05-23 | Reusable AuthForm base component | Duplicate form code | Consistency and maintainability | ✅ Implemented |
+| 2025-05-18 | Private GitHub repository | Public repository | Protect IP during development | ✅ Implemented |
+| 2025-05-18 | Next.js with TypeScript | React SPA, Vue.js | SSR, API routes, great DX | ✅ Implemented |
+| 2025-05-18 | Supabase for backend | Firebase, custom backend | PostgreSQL, built-in auth, RLS | ✅ Implemented |
+| 2025-05-18 | Post-moderation approach | Pre-moderation | Encourage contribution | ✅ Implemented |
+
+## 8. Known Technical Debt
+
+| Item | Description | Impact | Plan to Address | Priority | Status |
+|------|-------------|--------|----------------|----------|--------|
+| **Ratings display bug** | Ratings exist in DB but show "No ratings yet" on goal pages | Core value prop broken - can't see effectiveness | Debug query/data transformation in goal page component | 🔴 Critical | 🔄 Next Task |
+| No loading states | Pages show blank while fetching data | Poor perceived performance | Add skeleton screens and loading spinners | 🟡 Medium | ⬜ Planned |
+| No error boundaries | Errors crash entire page | Poor error handling UX | Implement React error boundaries | 🟡 Medium | ⬜ Planned |
+| Missing pagination | All content loads at once | Performance issues as content grows | Add pagination to browse/category pages | 🟡 Medium | ⬜ Future |
+| No caching strategy | Every page load fetches fresh data | Unnecessary API calls | Implement React Query or SWR | 🟡 Medium | ⬜ Future |
+| Duplicate AuthContext | Two AuthContext files exist | Confusion and potential bugs | Remove contexts/AuthContext.tsx | 🟢 Low | ⬜ Cleanup |
+| No admin interface | Content management via SQL | Difficult to manage content | Build admin dashboard | 🟡 Medium | ⬜ Future |
+| Limited form validation | Only client-side validation | Security risk | Add server-side validation | 🟡 Medium | ⬜ Future |
+| No rate limiting | APIs vulnerable to abuse | Security/cost risk | Implement rate limiting | 🟡 Medium | ⬜ Future |
+
+### Debugging Plan for Ratings Issue
+
+```typescript
+// Add to app/goal/[id]/page.tsx
+console.log('Goal data:', goal)
+console.log('Solutions:', goal.solutions)
+goal.solutions?.forEach(s => {
+  console.log(`${s.title} ratings:`, s.ratings)
+  console.log('Rating count:', s.ratings?.length)
+})
+```
+
+---
+
+## Implementation Priority for Next Session
+
+### 🚨 Priority 1: Fix Ratings Display Bug
+1. Add console logging to trace data flow
+2. Verify Supabase query response structure
+3. Check averageRating calculation
+4. Test alternative query approaches if needed
+
+### 🔴 Priority 2: Solution Submission
+1. Create "Share What Worked" form
+2. Add solution type selection
+3. Implement cost/time fields
+4. Add to database with moderation flag
+
+### 🟡 Priority 3: User Profiles
+1. Create profile display page
+2. Show user's contributions
+3. Display reputation points
+4. Add edit functionality
+
+---
+
+## Document Review Log
+
+| Date | Reviewer | Changes Made | Next Review |
+|------|----------|--------------|------------|
+| 2025-05-18 | jandy1990 & Claude | Initial creation | End of next session |
+| 2025-05-23 | jackandrews & Claude | Added authentication implementation details | Next session |
+| 2025-05-24 | jackandrews & Claude | Added database schema reality, user trigger improvements, slug implementation, ratings bug documentation | After bug fix |
