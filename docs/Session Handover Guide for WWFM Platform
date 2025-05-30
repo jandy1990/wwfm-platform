@@ -1,0 +1,349 @@
+Session Handover Guide for WWFM Platform
+Document Type: Internal collaboration guide for Claude sessions
+Purpose: Ensure seamless context preservation across sessions
+Last Updated: May 23, 2025
+Status: Active template for all session handovers
+
+Table of Contents
+1. Handover Principles
+2. Pre-Handover Checklist
+3. Session Transition Document Template
+4. Documentation Update Requirements
+5. Context Preservation Standards
+6. Technical Detail Guidelines
+1. Handover Principles
+1.1 Core Philosophy
+Assume zero context carryover between sessions. Every handover must provide complete context for seamless continuation by a new Claude instance with no memory of previous interactions.
+
+1.2 Critical Success Factors
+Preserve all working configurations - Environment variables, file paths, dependencies
+Document implementation decisions - Why specific approaches were chosen over alternatives
+Capture exact current state - What's working, what's broken, what's next
+Provide actionable next steps - Specific files to create, exact code to implement
+Record all technical debt - Known issues, workarounds, future improvements needed
+1.3 Handover Triggers
+Execute full handover process when:
+
+User explicitly requests handover ("let's handover", "update documentation")
+Session approaching length limits (>50 exchanges)
+Major milestone completed (authentication, database, core feature)
+Significant technical decision made that affects architecture
+User mentions they will be ending the session
+2. Pre-Handover Checklist
+2.1 Information Gathering Phase
+Before creating handover documents, collect:
+
+✅ Session Accomplishments
+
+ What specific features/components were implemented?
+ Which files were created or modified?
+ What technical challenges were overcome?
+ Which integrations were tested and verified working?
+✅ Technical Decisions Made
+
+ What architectural choices were made?
+ Which alternatives were considered and rejected?
+ What was the reasoning behind each decision?
+ Are there any decisions that might need revisiting?
+✅ Current System State
+
+ What is currently working and tested?
+ What is partially implemented?
+ What is broken or needs fixing?
+ What environment setup is required?
+✅ Immediate Next Steps
+
+ What should be the very next implementation priority?
+ Which files need to be created next?
+ What specific code needs to be written?
+ Are there any blocking dependencies?
+2.2 Context Assessment
+Evaluate completeness of context preservation:
+
+📋 Development Environment Context
+
+ Project folder structure documented
+ Environment variables and configuration files listed
+ Development server setup instructions provided
+ Known issues and workarounds documented
+📋 Technical Implementation Context
+
+ All completed components documented with file paths
+ Integration points between components explained
+ Database schema status clearly stated
+ Authentication flow documented step-by-step
+📋 User Experience Context
+
+ Current user flows working and tested
+ UI/UX decisions made and reasoning provided
+ Accessibility considerations documented
+ Responsive design implementation status
+3. Session Transition Document Template
+3.1 Required Sections for Every Handover
+markdown
+# WWFM Session Transition: YYYY-MM-DD
+
+## Accomplishments
+[List specific technical achievements with verification status]
+- ✅ [Feature] - [Implementation details] - [Testing status]
+- 🔄 [Partial feature] - [What's done] - [What remains]
+
+## Key Decisions
+[Document every significant decision with rationale]
+- **[Decision made]** - Rationale: [Why this choice over alternatives]
+- **[Technical choice]** - Impact: [How this affects future development]
+
+## Challenges & Solutions
+[Document problems encountered and how they were resolved]
+- **[Challenge]** - Solution: [Exact steps taken to resolve]
+- **[Ongoing issue]** - Workaround: [Temporary solution until permanent fix]
+
+## Current System Status
+[Exact state of all system components]
+### ✅ Working and Tested
+- [Component] - [File path] - [What was verified]
+
+### 🔄 Partially Implemented
+- [Component] - [What's done] - [What's missing]
+
+### ❌ Known Issues
+- [Issue] - [Impact] - [Planned resolution]
+
+## Next Tasks (Prioritized)
+[Specific, actionable next steps]
+1. **[Immediate priority]** - [Exact implementation required]
+2. **[Next task]** - [Files to create/modify]
+
+## Implementation Plan for Next Session
+[Step-by-step guide for continuing work]
+
+## Environment/Configuration Info
+[All details needed to resume development]
+- File paths, URLs, credentials status
+- Development server setup
+- Dependencies and versions
+
+## Code Snippets for Next Implementation
+[Any specific code that should be implemented next]
+3.2 Technical Detail Standards
+🔧 Configuration Details
+
+Provide exact file paths, not relative references
+Include working URLs and environment variables (non-sensitive)
+Specify exact versions of dependencies and frameworks
+Document any special setup requirements
+💻 Implementation Details
+
+Show file structure with current status (✅ complete, 🔄 partial, ⬜ not started)
+Provide exact code snippets for immediate next implementations
+Document integration points between components
+Explain data flow and component relationships
+🐛 Issues and Workarounds
+
+Clearly distinguish between blocking and non-blocking issues
+Provide exact steps to reproduce issues
+Document temporary workarounds with expiration conditions
+Note any environment-specific issues (browser extensions, etc.)
+4. Documentation Update Requirements
+4.1 Primary Documents to Update
+📋 Always Update These Documents:
+
+Session Transition Document (New)
+Complete record of current session
+Immediate context for next session
+Priority: CRITICAL
+Project Guide (Update)
+Progress status and roadmap updates
+Phase completion status
+Current focus areas
+Priority: HIGH
+Technical Reference (Update)
+Implementation details and configurations
+File structure updates
+Technical debt tracking
+Priority: HIGH
+4.2 Update Criteria by Document Type
+Project Guide Updates Required When:
+
+Major milestone completed (phase, authentication, core feature)
+Development focus shifts to new area
+Timeline or roadmap changes
+Architecture decisions affect overall direction
+Technical Reference Updates Required When:
+
+New components implemented
+Configuration changes made
+Dependencies added or updated
+Technical debt items resolved or added
+File structure changes
+Collaboration Guide Updates Required When:
+
+Development workflow changes
+New tools or processes adopted
+Collaboration patterns evolve
+Documentation standards change
+4.3 Update Quality Standards
+Completeness Check:
+
+ All new implementations documented with file paths
+ All configuration changes recorded
+ All technical decisions explained with reasoning
+ All known issues and workarounds documented
+Accuracy Verification:
+
+ File paths verified correct
+ Configuration details tested and working
+ Code snippets syntactically correct
+ Environment setup instructions complete
+Context Preservation:
+
+ Future Claude can understand current state without prior context
+ All necessary background information provided
+ Technical decisions traceable to original reasoning
+ Implementation dependencies clearly explained
+5. Context Preservation Standards
+5.1 Technical Context Requirements
+🔧 Environment Context
+
+markdown
+## Development Environment Status
+- **Project Structure**: [Exact folder paths and organization]
+- **Dependencies**: [Package versions and installation status]
+- **Configuration**: [Environment variables, config files, settings]
+- **Development Server**: [Port, URL, startup commands]
+- **Known Issues**: [Browser compatibility, environment-specific problems]
+💾 Implementation Context
+
+markdown
+## Implementation Status
+- **Completed Components**: [File paths, functionality, testing status]
+- **Integration Points**: [How components connect and communicate]
+- **Data Flow**: [How data moves through the system]
+- **Authentication Flow**: [Step-by-step user journey]
+- **Database Status**: [Schema implementation, seed data, testing]
+🎯 Decision Context
+
+markdown
+## Technical Decisions Made
+- **Architecture**: [Chosen patterns and why]
+- **Technology Stack**: [Selections and reasoning]
+- **Implementation Approach**: [Methodology and rationale]
+- **Trade-offs**: [What was sacrificed and why]
+- **Future Considerations**: [Decisions that affect future development]
+5.2 User Experience Context
+👤 User Journey Context
+
+Current working user flows with step-by-step details
+UI/UX decisions made and their impact
+Accessibility implementations and standards
+Responsive design approach and breakpoints
+Form validation patterns and error handling
+🎨 Design Context
+
+Visual design decisions and component patterns
+Color schemes, typography, and spacing standards
+Component hierarchy and reuse patterns
+Styling approach (Tailwind classes, custom CSS)
+Interactive elements and animation choices
+5.3 Business Logic Context
+📊 Feature Implementation Context
+
+Core platform features implemented and tested
+Business rule implementations and edge cases
+Data validation and processing logic
+User permission and access control patterns
+Content moderation and community features
+🔄 Workflow Context
+
+Development workflow and testing procedures
+Deployment pipeline and environment management
+Version control practices and branching strategy
+Code review standards and quality gates
+Performance monitoring and optimization approach
+6. Technical Detail Guidelines
+6.1 Appropriate Level of Detail
+🔍 High Detail Required For:
+
+Configuration files: Complete contents or exact changes made
+Environment setup: Step-by-step instructions with commands
+Integration points: Exact APIs, parameters, and expected responses
+Error handling: Specific error messages and resolution steps
+Authentication flow: Complete user journey with technical details
+📝 Medium Detail Required For:
+
+Component implementations: Key functionality and props/interfaces
+Database operations: Query patterns and data relationships
+UI implementations: Component structure and styling approach
+Business logic: Core algorithms and decision points
+Testing procedures: What was tested and how
+📋 Summary Detail Sufficient For:
+
+Project background: High-level goals and motivation
+General architecture: Overall system design patterns
+User experience goals: Target user needs and experiences
+Future roadmap: Long-term planning and vision
+Organizational context: Team structure and processes
+6.2 Code Documentation Standards
+✅ Always Include:
+
+typescript
+// File: components/auth/SignUpForm.tsx
+// Status: ✅ Complete and tested
+// Integration: Supabase Auth + Email verification
+// Testing: Form submission verified working
+// Next: Add reCAPTCHA integration
+🔧 Configuration Examples:
+
+bash
+# Environment setup verified working
+NEXT_PUBLIC_SUPABASE_URL=https://[project-id].supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=[verified-working-key]
+🐛 Issue Documentation:
+
+markdown
+### Known Issue: Browser Extension Hydration Conflicts
+- **Symptoms**: Hydration errors in main browser, not incognito
+- **Impact**: Cosmetic only, no functional impact
+- **Workaround**: Use incognito mode for development
+- **Resolution**: Not required for production deployment
+6.3 Implementation Priority Communication
+🚨 Critical Priority Items:
+
+Mark with clear visual indicators (🚨, ❗, CRITICAL)
+Explain why the item blocks other development
+Provide exact implementation steps
+Include estimated time to completion
+🔴 High Priority Items:
+
+Essential for core functionality
+Should be next focus area after critical items
+Include implementation approach and file locations
+Note any dependencies or prerequisites
+🟡 Medium Priority Items:
+
+Important for user experience or technical debt
+Can be scheduled after high priority items
+Include brief implementation notes
+Note any opportunities for parallel development
+🟢 Low Priority Items:
+
+Nice-to-have features or optimizations
+Can be deferred without impact
+Include basic implementation outline
+Note any dependencies on higher priority items
+Template Usage Instructions
+For Each Session Handover:
+Copy the Session Transition Document Template (Section 3.1)
+Fill in all required sections using the standards in this guide
+Update Primary Documents (Project Guide, Technical Reference) using Section 4 criteria
+Verify Context Preservation using Section 5 checklists
+Review Technical Detail Level using Section 6 guidelines
+Confirm Handover Completeness using Section 2 checklist
+Quality Assurance Check:
+Before completing handover, ask: "Could a new Claude instance with zero prior context successfully continue this project using only these documents?"
+
+If the answer is not a confident "yes," additional context documentation is required.
+
+Document Review Log
+Date	Reviewer	Changes Made	Next Review
+2025-05-23	jackandrews & Claude	Initial creation of handover guide based on successful authentication handover experience	After next successful handover to validate template
