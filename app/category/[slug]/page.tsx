@@ -1,97 +1,135 @@
-// app/goal/[id]/add-solution/page.tsx
+// app/arena/[slug]/page.tsx
 
-import { Metadata } from 'next'
-import { redirect, notFound } from 'next/navigation'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
-import SolutionForm from '@/components/auth/solutions/SolutionForm'
 
-export const metadata: Metadata = {
-  title: 'Share What Worked | WWFM',
-  description: 'Share your solution with the community'
+// Types
+type Goal = {
+  id: string
+  title: string
+  description: string | null
+  slug: string
+  solution_count: number
+  view_count: number
 }
 
-interface PageProps {
-  params: Promise<{ id: string }>
+type Arena = {
+  id: string
+  name: string
+  slug: string
+  description: string
+  icon: string
+  goals?: Goal[]
 }
 
-export default async function AddSolutionPage({ params }: PageProps) {
-  const resolvedParams = await params
+async function getArenaWithGoals(slug: string) {
+  const supabase = await createSupabaseServerClient()  // Add await
   
-  console.log('=== ADD-SOLUTION PAGE STARTING ===')
-  console.log('Goal ID:', resolvedParams.id)
+  console.log('Looking for arena with slug:', slug)
   
-  // Create Supabase client
-  const supabase = createSupabaseServerClient()
-  console.log('Add-solution: Supabase client created')
+  // First, get the arena
+  const { data: arena, error: arenaError } = await supabase
+    .from('arenas')
+    .select('*')
+    .eq('slug', slug)
+    .eq('is_active', true)
+    .single()
   
-  // Check authentication
-  const { data: { session }, error: authError } = await supabase.auth.getSession()
-  
-  console.log('Add-solution: Auth check result:', {
-    hasSession: !!session,
-    sessionUser: session?.user?.email,
-    userId: session?.user?.id,
-    authError: authError
-  })
-  
-  if (!session) {
-    console.log('Add-solution: No session found, redirecting to signin')
-    redirect(`/auth/signin?redirectTo=/goal/${resolvedParams.id}/add-solution`)
+  if (arenaError || !arena) {
+    console.log('Arena fetch error:', arenaError)
+    return null
   }
   
-  console.log('Add-solution: User authenticated, continuing...')
-
-  // Fetch the goal details
-  const { data: goal, error } = await supabase
+  console.log('Arena found:', arena.name)
+  
+  // Then, get goals for this arena
+  const { data: goals, error: goalsError } = await supabase
     .from('goals')
-    .select(`
-      *,
-      categories (
-        name,
-        slug,
-        arenas (
-          name,
-          slug
-        )
-      )
-    `)
-    .eq('id', resolvedParams.id)
-    .single()
+    .select('*')
+    .eq('arena_id', arena.id)
+    .eq('is_approved', true)
+  
+  console.log('Goals fetch result:', { 
+    count: goals?.length || 0, 
+    error: goalsError 
+  })
+  
+  return {
+    ...arena,
+    goals: goals || []
+  } as Arena
+}
 
-  if (error || !goal) {
-    console.log('Goal fetch error:', error)
+export default async function ArenaPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params
+  const arena = await getArenaWithGoals(resolvedParams.slug)
+
+  if (!arena) {
     notFound()
   }
 
-  console.log('Goal fetched successfully:', goal.title)
-
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
-        <div className="mb-6 text-sm text-gray-600">
-          <a href="/browse" className="hover:text-blue-600">Browse</a>
-          <span className="mx-2">→</span>
-          <a href={`/arena/${goal.categories.arenas.slug}`} className="hover:text-blue-600">
-            {goal.categories.arenas.name}
-          </a>
-          <span className="mx-2">→</span>
-          <a href={`/category/${goal.categories.slug}`} className="hover:text-blue-600">
-            {goal.categories.name}
-          </a>
-          <span className="mx-2">→</span>
-          <a href={`/goal/${resolvedParams.id}`} className="hover:text-blue-600">
-            {goal.title}
-          </a>
-          <span className="mx-2">→</span>
-          <span className="text-gray-900 font-medium">Share Solution</span>
+        <nav className="mb-8">
+          <ol className="flex items-center space-x-2 text-sm">
+            <li>
+              <Link href="/browse" className="text-gray-500 hover:text-gray-700">
+                Browse
+              </Link>
+            </li>
+            <li className="text-gray-500">/</li>
+            <li className="text-gray-900 font-medium">{arena.name}</li>
+          </ol>
+        </nav>
+
+        {/* Arena Header */}
+        <div className="mb-8">
+          <div className="flex items-center mb-4">
+            <span className="text-5xl mr-4">{arena.icon}</span>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">
+                {arena.name}
+              </h1>
+              <p className="text-gray-600 mt-1">
+                {arena.description}
+              </p>
+            </div>
+          </div>
         </div>
 
-        <SolutionForm 
-          goalId={resolvedParams.id}
-          goalTitle={goal.title}
-          userId={session.user.id}
-        />
+        {/* Goals Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {arena.goals?.map((goal) => (
+            <Link
+              key={goal.id}
+              href={`/goal/${goal.id}`}
+              className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6"
+            >
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                {goal.title}
+              </h3>
+              {goal.description && (
+                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                  {goal.description}
+                </p>
+              )}
+              <div className="flex items-center justify-between text-sm text-gray-500">
+                <span>{goal.solution_count || 0} solutions</span>
+                <span className="text-blue-600">View solutions →</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Empty State */}
+        {(!arena.goals || arena.goals.length === 0) && (
+          <div className="bg-white rounded-lg shadow p-12 text-center">
+            <p className="text-gray-500">No goals available in this arena yet.</p>
+          </div>
+        )}
       </div>
     </div>
   )

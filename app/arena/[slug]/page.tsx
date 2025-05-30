@@ -4,12 +4,14 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
 
-// Types
-type Category = {
+// Types - Updated to match your database structure
+type Goal = {
   id: string
-  name: string
+  title: string
+  description: string | null
   slug: string
-  description: string
+  solution_count: number
+  view_count: number
 }
 
 type Arena = {
@@ -18,23 +20,26 @@ type Arena = {
   slug: string
   description: string
   icon: string
-  categories?: Category[]
+  goals?: Goal[]
 }
 
-async function getArenaWithCategories(slug: string) {
+async function getArenaWithGoals(slug: string) {
   const supabase = createSupabaseServerClient()
   
   console.log('Looking for arena with slug:', slug)
   
+  // Updated query to fetch goals directly (no categories)
   const { data: arena, error } = await supabase
     .from('arenas')
     .select(`
       *,
-      categories (
+      goals (
         id,
-        name,
+        title,
+        description,
         slug,
-        description
+        solution_count,
+        view_count
       )
     `)
     .eq('slug', slug)
@@ -42,6 +47,7 @@ async function getArenaWithCategories(slug: string) {
     .single()
 
   console.log('Arena query result:', { arena, error })
+  console.log('Number of goals found:', arena?.goals?.length || 0)
 
   if (error || !arena) {
     return null
@@ -52,7 +58,7 @@ async function getArenaWithCategories(slug: string) {
 
 export default async function ArenaPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params
-  const arena = await getArenaWithCategories(resolvedParams.slug)
+  const arena = await getArenaWithGoals(resolvedParams.slug)
 
   if (!arena) {
     notFound()
@@ -89,31 +95,34 @@ export default async function ArenaPage({ params }: { params: Promise<{ slug: st
           </div>
         </div>
 
-        {/* Categories Grid */}
+        {/* Goals Grid - Updated to show goals directly */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {arena.categories?.map((category) => (
+          {arena.goals?.map((goal) => (
             <Link
-              key={category.id}
-              href={`/category/${category.slug}`}
+              key={goal.id}
+              href={`/goal/${goal.id}`}  // Direct link to goal page
               className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6"
             >
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {category.name}
+                {goal.title}
               </h3>
-              <p className="text-gray-600 text-sm mb-4">
-                {category.description}
-              </p>
-              <div className="text-sm text-gray-500">
-                View goals
+              {goal.description && (
+                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                  {goal.description}
+                </p>
+              )}
+              <div className="flex items-center justify-between text-sm text-gray-500">
+                <span>{goal.solution_count || 0} solutions</span>
+                <span className="text-blue-600">View solutions →</span>
               </div>
             </Link>
           ))}
         </div>
 
         {/* Empty State */}
-        {(!arena.categories || arena.categories.length === 0) && (
+        {(!arena.goals || arena.goals.length === 0) && (
           <div className="bg-white rounded-lg shadow p-12 text-center">
-            <p className="text-gray-500">No categories available yet.</p>
+            <p className="text-gray-500">No goals available in this arena yet.</p>
           </div>
         )}
       </div>

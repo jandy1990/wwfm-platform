@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
 
-// Types
+// Types - Updated to remove categories
 type Solution = {
   id: string
   title: string
@@ -20,16 +20,12 @@ type Goal = {
   id: string
   title: string
   description: string
-  categories: {
+  arena_id: string
+  arenas: {
     id: string
     name: string
     slug: string
-    arenas: {
-      id: string
-      name: string
-      slug: string
-      icon: string
-    }
+    icon: string
   }
   solutions?: Solution[]
 }
@@ -39,21 +35,16 @@ async function getGoalWithSolutions(id: string) {
   
   console.log('Fetching goal with ID:', id)
   
-  // Get goal with category and arena info
+  // Get goal with arena info directly (no categories)
   const { data: goal, error: goalError } = await supabase
     .from('goals')
     .select(`
       *,
-      categories!inner (
+      arenas!inner (
         id,
         name,
         slug,
-        arenas!inner (
-          id,
-          name,
-          slug,
-          icon
-        )
+        icon
       )
     `)
     .eq('id', id)
@@ -95,7 +86,7 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Breadcrumb */}
+        {/* Breadcrumb - Simplified without category */}
         <nav className="mb-8">
           <ol className="flex items-center space-x-2 text-sm flex-wrap">
             <li>
@@ -106,19 +97,10 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
             <li className="text-gray-500">/</li>
             <li>
               <Link 
-                href={`/arena/${goal.categories.arenas.slug}`} 
+                href={`/arena/${goal.arenas.slug}`} 
                 className="text-gray-500 hover:text-gray-700"
               >
-                {goal.categories.arenas.name}
-              </Link>
-            </li>
-            <li className="text-gray-500">/</li>
-            <li>
-              <Link 
-                href={`/category/${goal.categories.slug}`} 
-                className="text-gray-500 hover:text-gray-700"
-              >
-                {goal.categories.name}
+                {goal.arenas.name}
               </Link>
             </li>
             <li className="text-gray-500">/</li>
@@ -129,7 +111,7 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
         {/* Goal Header */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <div className="flex items-start">
-            <span className="text-4xl mr-4">{goal.categories.arenas.icon}</span>
+            <span className="text-4xl mr-4">{goal.arenas.icon}</span>
             <div className="flex-1">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
                 {goal.title}
