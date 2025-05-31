@@ -1,9 +1,9 @@
 # WWFM Project Guide
 
 > **Document Type**: High-level overview and project roadmap  
-> **Related Documents**: [Technical Reference](/docs/wwfm-technical-reference.md) | [Collaboration Guide](/docs/wwfm-collaboration-guide.md) | [Latest Session](/docs/sessions/session-2025-05-24b.md)  
-> **Last Updated**: May 24, 2025  
-> **Status**: Active - Core Browse & Discovery Complete with Ratings Working!
+> **Related Documents**: [Technical Reference](/docs/technical-reference.md) | [Collaboration Guide](/docs/collaboration-guide.md) | [Product Roadmap](/docs/product-roadmap.md)  
+> **Last Updated**: May 28, 2025 (Evening Update)  
+> **Status**: Active - Goal & Solution Taxonomies Complete, Ready for Build
 
 This document serves as the comprehensive guide to the What Worked For Me (WWFM) platform, covering the project vision, architecture, and current status.
 
@@ -13,26 +13,33 @@ This document serves as the comprehensive guide to the What Worked For Me (WWFM)
 - [3. Core Platform Principles](#3-core-platform-principles)
 - [4. Key User Flows](#4-key-user-flows)
 - [5. Project Progress](#5-project-progress)
-- [6. Development Roadmap](#6-development-roadmap)
+- [6. Platform Philosophy](#6-platform-philosophy)
+- [7. Success Metrics](#7-success-metrics)
 
 ---
 
 ## 1. Project Overview
 
 ### 1.1 Purpose
-WWFM is a platform that organizes information by what solutions *do* rather than what they *are*, helping users discover what has actually worked for others with similar goals. The platform collects and aggregates user experiences to rank solutions based on their effectiveness.
+WWFM is a platform that organizes information by what solutions *do* rather than what they *are*, helping users discover what has actually worked for others with similar goals. The platform collects and aggregates user experiences to rank solutions based on their effectiveness, while revealing deeper patterns that lead to lasting transformation.
 
 ### 1.2 Core Value Proposition
-- Organize information based on goals people want to achieve, not products or services
-- Provide effectiveness ratings based on real user experiences
-- Help users find what actually works for their specific goals
-- Create a community that values evidence over marketing
+- **Organize by outcomes**: Information sorted by goals people want to achieve, not products or services
+- **Effectiveness-based ranking**: Real user experiences, not marketing claims
+- **Root cause recognition**: Surface "keystone solutions" that address multiple problems
+- **Pattern intelligence**: Reveal virtuous cycles where positive changes reinforce each other
+- **Holistic impact**: Show how solutions affect multiple life areas
+- **Community wisdom**: Aggregate experiences to find high-percentage plays
+- **Ethical data practices**: Community-owned platform with no advertising
 
 ### 1.3 Key Differentiators
-- Goal-centric organization of information
-- Effectiveness-based ranking
-- Aggregate real-world experiences
-- Community-owned platform with ethical data practices
+- Goal-centric organization (what you want to achieve, not what to buy)
+- Effectiveness-based ranking from real experiences
+- Keystone solution identification (practices that solve multiple problems)
+- Life impact visualization (see effects across all life areas)
+- Virtuous cycle recognition (understand reinforcing patterns)
+- Natural language taxonomy (459 goals in words people actually use)
+- Wisdom cultivation alongside symptom relief
 - No advertising or selling of user data
 
 ## 2. System Architecture
@@ -46,6 +53,8 @@ WWFM is a platform that organizes information by what solutions *do* rather than
 │  Browse Arenas → View Categories → Discover Goals → See Ratings  │
 │                     ↓                    ↓              ↓        │
 │              Add Solutions         Rate Solutions    Save Goals  │
+│                     ↓                    ↓              ↓        │
+│            Keystone Badges    Impact Visualizations  Patterns    │
 └─────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
@@ -56,6 +65,7 @@ WWFM is a platform that organizes information by what solutions *do* rather than
 │  • API routes for backend logic                                  │
 │  • React components with TypeScript                              │
 │  • Tailwind CSS for responsive design                           │
+│  • Pattern recognition algorithms                                │
 └─────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
@@ -91,29 +101,40 @@ Based on lessons learned during development:
 
 ## 3. Core Platform Principles
 
-### Updated Based on Implementation Experience:
+### 3.1 Original Principles (Maintained)
 
-1. **Aggregated Wisdom**: The platform shows aggregated effectiveness ratings from all users, not individual ratings
-2. **Public Knowledge Base**: All approved content is publicly accessible to maximize value
-3. **Post-Moderation**: Content is visible by default with strong flagging/reporting features
+1. **Aggregated Wisdom**: Show collective effectiveness ratings, not individual opinions
+2. **Public Knowledge Base**: All approved content publicly accessible to maximize value
+3. **Post-Moderation**: Content visible by default with strong flagging/reporting
 4. **Progress Tracking**: Users can track their personal journey with solutions
-5. **Privacy Model**: 
-   - Ratings are submitted privately but shown in aggregate
-   - Comments are public with optional anonymity
-   - User profiles show contribution stats but not individual ratings
+5. **Privacy Model**: Ratings submitted privately but shown in aggregate
 6. **Data Integrity**: All ratings tied to authenticated users to prevent gaming
 7. **Community Focus**: Simple reputation system rewards quality contributions
 8. **Trust Through Transparency**: Show rating counts and distributions
+
+### 3.2 Philosophical Enhancements (Added May 28, 2025)
+
+9. **Root Cause Recognition**: Surface "keystone solutions" that address multiple problems
+10. **Holistic Integration**: Show how solutions impact multiple life areas
+11. **Pattern Intelligence**: Reveal sequences and dependencies between successful changes
+12. **Wisdom Over Symptoms**: Guide users from quick fixes to lasting transformation
+
+### 3.3 Solution Principles (Added May 28, 2025 Evening)
+
+13. **Mechanism Over Method**: Solutions work through underlying mechanisms (BDNF increase, stress reduction), not the specific method
+14. **Compound Power**: Multi-mechanism solutions (marked as compound) provide exponential benefits
+15. **Minimum Viable Dose**: Every solution has an accessible entry point - 5 minutes of meditation beats 0 minutes
+16. **Natural Progressions**: Solutions exist in clusters with natural progression paths (walking → hiking → trail running)
 
 ## 4. Key User Flows
 
 ### 4.1 Browse & Discovery Flow ✅ COMPLETE
 1. User lands on `/browse` seeing all arenas with icons
-2. Clicks arena (e.g., "Health & Wellness") → `/arena/health-wellness`
-3. Sees categories within arena → clicks "Weight Loss"
-4. Views goals in category → `/category/weight-loss`
-5. Clicks specific goal → `/goal/[id]`
-6. **Sees solutions with effectiveness ratings** (⭐ 4.5 with count)
+2. Clicks arena (e.g., "Feel better emotionally") → `/arena/feel-better-emotionally`
+3. Views goals in natural language → "Stop feeling overwhelmed all the time"
+4. Clicks specific goal → `/goal/[id]`
+5. Sees solutions with effectiveness ratings (⭐ 4.5 with count)
+6. Views keystone badges on high-impact solutions
 
 ### 4.2 User Registration & Onboarding ✅ COMPLETE
 1. User signs up with email at `/auth/signup`
@@ -121,194 +142,163 @@ Based on lessons learned during development:
 3. Account activation and redirect to dashboard
 4. Ready to contribute and track progress
 
-### 4.3 Solution Contribution (Next Priority)
+### 4.3 Solution Contribution 🔄 NEXT PRIORITY (Enhanced)
 1. Authenticated user on goal page
 2. Clicks "Share What Worked"
-3. Fills out solution details form
-4. Submits with `is_approved = false`
-5. Moderator review (future)
-6. Solution appears for all users
+3. Fills out solution details form including:
+   - Basic details (title, description, steps)
+   - Mechanism tags (how it works)
+   - Minimum dose (smallest viable start)
+   - Primary benefit category
+4. System auto-detects compound solutions
+5. Submits with `is_approved = false`
+6. Solution appears after moderation
 
-### 4.4 Rating Solutions (Upcoming)
+### 4.4 Rating Solutions 📋 UPCOMING
 1. User tries a solution
 2. Returns to platform to rate
 3. Provides effectiveness score (1-5)
-4. Adds duration and optional details
-5. Rating contributes to aggregate score
+4. Indicates secondary benefits (other goals helped)
+5. Rating contributes to aggregate score and keystone calculation
+
+### 4.5 Keystone Discovery 📋 PLANNED
+1. User with multiple problems visits platform
+2. Views "Keystone Solutions" page
+3. Sees solutions that address 5+ goals
+4. Understands root cause approach
+5. Implements holistic solution
+
+### 4.6 Pattern Recognition 📋 FUTURE
+1. User views solution page
+2. Sees "Often leads to →" connections
+3. Understands virtuous cycles
+4. Plans journey based on patterns
+5. Tracks progress through cycle
 
 ## 5. Project Progress
 
-### Development Journey Map
+### 5.1 Development Timeline
+- **Project Start**: May 18, 2025
+- **Major Milestones**:
+  - May 23: Authentication system complete
+  - May 24: Browse & discovery complete, ratings bug fixed
+  - May 25: Form design exploration
+  - May 28 AM: Goal taxonomy complete (459 goals), philosophy enhanced
+  - May 28 PM: Solution taxonomy mapped (~100 solutions), mechanism insights gained
+
+### 5.2 Current Status
 
 ```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│  Project    │     │  Technical  │     │  Database   │     │    Auth     │     │   Browse    │
-│  Foundation ├────▶│    Stack    ├────▶│   Schema    ├────▶│   System    ├────▶│ & Discovery │
-└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
-   COMPLETE            COMPLETE           COMPLETE            COMPLETE           COMPLETE ✅
-                                                                                      │
-                                                                           Fixed ratings bug!
-                                                                                      │
-                                                                                      ▼
-                                                                           ┌─────────────┐
-                                                                           │ Contribution│
-                                                                           │   Features  │
-                                                                           └─────────────┘
-                                                                             STARTING NEXT
-
-KEY ACHIEVEMENTS:
-✅ Full authentication flow working
-✅ Complete browse → arena → category → goal navigation
-✅ Solutions display with effectiveness ratings
-✅ RLS policies properly configured for public access
-✅ Development debugging tools created
+Phase 1: MVP Backbone (85% Complete)
+├── ✅ Technical Infrastructure (100%)
+├── ✅ Database Schema with RLS (100%)
+├── ✅ Authentication System (100%)
+├── ✅ Browse & Discovery (100%)
+├── ✅ Goal Taxonomy (100% - 459 goals)
+├── ✅ Solution Taxonomy (100% - ~100 mapped)
+├── 🔄 Contribution Features (0%)
+├── 📋 User Profiles (0%)
+└── 📋 Search (0%)
 ```
 
-### Project Progress Snapshot
+### 5.3 Key Achievements
+- Full authentication flow with email verification
+- Complete browse → arena → goal → solution navigation
+- Solutions display with aggregated effectiveness ratings
+- RLS policies properly configured and tested
+- Development debugging tools created
+- 459 goals organized across 9 emotion-first arenas
+- Philosophical framework for wisdom cultivation integrated
+- ~100 solutions mapped with mechanisms and relationships identified
 
-| Component Area | Progress | Latest Achievement |
-|----------------|----------|-------------------|
-| **Project Setup** | 100% Complete | - |
-| **Infrastructure** | 100% Complete | RLS testing utility added |
-| **Database Schema** | 100% Complete | RLS policies fixed for aggregation |
-| **Authentication** | 100% Complete | Full flow with email verification |
-| **Browse & Discovery** | 100% Complete | Ratings display working! |
-| **Contribution Features** | 0% Starting | Next priority |
-| **User Profiles** | 0% Planned | After contributions |
-| **Search** | 0% Planned | Phase 2 |
+### 5.4 Next Priorities
+1. Enhanced solution submission forms (with mechanism tracking)
+2. Solution detail pages
+3. Rating submission interface
+4. Keystone infrastructure setup
+5. Basic user profiles
 
-### Current State Summary
+## 6. Platform Philosophy
 
-🎉 **Major Milestone**: The core read-only experience is complete! Users can:
-- Browse all arenas and categories
-- Discover goals
-- See solutions with aggregated effectiveness ratings
-- Understand what has worked for others
+### 6.1 From Symptom Management to Wisdom Cultivation
 
-🚀 **Ready for Contributions**: With the foundation solid, we're ready to build:
-- Solution submission forms
-- Rating interfaces
-- User profiles
-- Community features
+WWFM has evolved from simply cataloging "what worked" to understanding WHY things work and how they connect. This philosophical enhancement doesn't replace our user-first approach—it deepens it.
 
-## 6. Development Roadmap
+### 6.2 The Aristotelian Insight
 
-### 6.1 Phase 1: MVP Backbone (8-12 weeks) - 75% COMPLETE
+A philosophical review revealed that most self-help platforms treat symptoms rather than causes. WWFM's opportunity is to be both:
+- **Immediate**: Address pressing problems where users are
+- **Transformative**: Reveal patterns that create lasting change
 
-**Browse & Discovery** ✅ COMPLETE
-- ✅ Arena browsing with icons and descriptions
-- ✅ Category navigation within arenas
-- ✅ Goal discovery with view counts
-- ✅ Solution display with effectiveness ratings
-- ✅ Aggregated ratings properly displayed
+### 6.3 The Solution Mapping Insight (May 28 Evening)
 
-**Contribution Features** 🔄 STARTING NEXT (Week 7-8)
-- ⬜ "Share What Worked" form implementation
-- ⬜ Solution submission with moderation queue
-- ⬜ Rating submission interface
-- ⬜ Basic validation and fraud prevention
+Our solution mapping exercise revealed critical patterns:
+- **Solutions cluster naturally**: Movement, mindfulness, biohacking, social, cognitive, recovery, nutrition, productivity, and purpose
+- **Hub solutions connect clusters**: Breathwork, yoga, and journaling bridge multiple domains
+- **Mechanisms matter more than methods**: Understanding HOW solutions work (BDNF increase, stress reduction) is more important than WHAT they are
+- **Organic emergence over exhaustive mapping**: The platform will build its superior map through aggregated human experience
 
-**User Experience** ⬜ UPCOMING (Week 8-9)
-- ⬜ User profile pages
-- ⬜ Contribution history
-- ⬜ Saved goals and solutions
-- ⬜ Personal progress tracking
+### 6.4 Balancing Accessibility with Depth
 
-### 6.2 Phase 2: Community Enhancement (8-10 weeks)
-- Search functionality across goals and solutions
-- Follow goals for updates
-- Reputation system with badges
-- Comment threads on solutions
-- Notification system
+We maintain our commitment to:
+- Starting where users are (specific, emotional problems)
+- Using natural, accessible language
+- Providing immediate value
+- Respecting user agency
 
-### 6.3 Phase 3: Creator Layer (10-12 weeks)
-- Comprehensive guide creation tools
-- Creator analytics dashboard
-- Solution bundles and programs
-- Commission structure for referrals
-- Expert verification system
+While adding:
+- Pattern recognition from collective data
+- Root cause awareness through keystone solutions
+- Integration opportunities across life areas
+- Optional deeper wisdom for those ready
+- Mechanism understanding for informed choices
 
-### 6.4 Phase 4: Intelligence Layer (12-14 weeks)
-- Personalized recommendations
-- Effectiveness prediction models
-- Trend analysis and insights
-- A/B testing framework
-- Advanced search with filters
+### 6.5 The 9 Arenas
 
-### 6.5 Phase 5: Platform Evolution (Timeline TBD)
-- Mobile applications
-- API for third-party integrations
-- International expansion
-- Community governance implementation
-- Equity distribution system
+Based on emotion-first user research:
+1. 🧠 Feel better emotionally
+2. ❤️ Build meaningful connections
+3. 🎯 Take control of my life
+4. 💼 Achieve career success
+5. 🏃 Improve physical health
+6. 🌱 Grow as a person
+7. 🌐 Navigate modern challenges
+8. 🏡 Create a home that works
+9. 🎨 Express myself creatively
 
----
+## 7. Success Metrics
 
-## Technical Lessons Learned
+### 7.1 Launch Metrics (Phase 1)
+- 1,000 registered users
+- 500 solution contributions
+- 2,000 ratings submitted
+- 80% rating completion rate
+- <2% spam/low-quality content
 
-### RLS Architecture Insights
-1. **Silent Failures**: RLS returns empty data rather than errors - add explicit warnings
-2. **Test Anonymous First**: Most users browse without authentication
-3. **Separate Complex Queries**: Easier to debug than nested joins
-4. **Document Security Model**: Make policies explicit and test regularly
+### 7.2 Growth Metrics (Phase 2)
+- 10,000 registered users
+- 25,000 ratings
+- 3+ goals tracked per active user
+- 40% monthly active rate
+- 100 keystone solutions identified
 
-### Development Best Practices
-1. **Debug Tools**: Create utilities like `testRLSPolicies()` early
-2. **Incremental Progress**: Get core features working before optimization
-3. **User-Centric Language**: "What Worked" resonates better than "Solutions"
-4. **Real Data Early**: Test with realistic data to catch issues
-
----
-
-## Next Session Priorities
-
-### 1. Solution Submission Form
-- Create protected route at `/goal/[id]/add-solution`
-- Build comprehensive form with all solution fields
-- Implement client and server validation
-- Test submission flow with moderation flag
-
-### 2. Solution Detail Pages
-- Individual solution pages with full details
-- Display all ratings (not just aggregate)
-- Add rating submission interface
-- Show related solutions
-
-### 3. User Profile Foundation
-- Basic profile page showing contributions
-- Privacy settings for activity visibility
-- Reputation points display
-- Edit profile functionality
-
----
-
-## Success Metrics (To Track Post-Launch)
-
-1. **Engagement Metrics**
-   - Goals viewed per session
-   - Solutions explored per goal
-   - Return visitor rate
-   - Time on platform
-
-2. **Contribution Metrics**
-   - Solutions submitted per day
-   - Ratings submitted per solution
-   - Average ratings per user
-   - Contributor retention
-
-3. **Quality Metrics**
-   - Average effectiveness scores by category
-   - Flagged content percentage
-   - Solution approval rate
-   - Rating distribution patterns
+### 7.3 Wisdom Metrics (New)
+- Keystone solutions discovered
+- Cross-goal impact scores
+- Virtuous cycle patterns identified
+- Root cause vs symptom solution ratio
+- User transformation stories
+- Mechanism tag usage rates
+- Compound solution effectiveness
 
 ---
 
 ## Document Review Log
 
-| Date | Reviewer | Changes Made | Next Review |
-|------|----------|--------------|------------|
-| 2025-05-18 | jandy1990 & Claude | Initial creation | End of next session |
-| 2025-05-23 | jackandrews & Claude | Updated with auth completion | Next session |
-| 2025-05-24a | jackandrews & Claude | Added browse/discovery progress | After ratings fix |
-| 2025-05-24b | jackandrews & Claude | Major update: Browse complete with working ratings, RLS lessons learned, updated architecture | Next session |
+| Date | Changes Made | Key Decisions |
+|------|--------------|---------------|
+| May 18, 2025 | Initial creation | Basic platform structure |
+| May 23, 2025 | Auth completion update | Email verification approach |
+| May 24, 2025 | Browse/discovery complete, ratings fixed | RLS public read pattern |
+| May 28, 2025 AM | Philosophy enhancement, goal taxonomy | Wisdom cultivation, keystone solutions, 9 arenas |
+| May 28, 2025 PM | Solution mapping insights | Mechanism tracking, compound solutions, organic growth |
