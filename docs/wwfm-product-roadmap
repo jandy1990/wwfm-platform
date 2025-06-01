@@ -1,0 +1,278 @@
+# WWFM Product Roadmap
+
+> **Document Type**: Strategic product evolution plan  
+> **Related Documents**: [Project Guide](/docs/wwfm-project-guide.md) | [Technical Reference](/docs/wwfm-technical-reference.md)  
+> **Last Updated**: May 29, 2025  
+> **Status**: Active roadmap through 2026
+
+## Executive Summary
+
+This roadmap outlines WWFM's evolution from a goal discovery platform to a wisdom-cultivation system that helps people find what actually works. We start with immediate user needs while building toward deeper transformation through collective intelligence and mechanism understanding.
+
+## Core Product Principles
+
+1. **Start where users are** - Immediate problems and specific goals
+2. **Reveal deeper patterns** - Surface wisdom from collective experience  
+3. **Enable transformation** - Move from symptom management to root causes
+4. **Respect user agency** - Guide without prescribing
+5. **Understand mechanisms** - Track HOW solutions work, not just what they are
+
+---
+
+## Phase 0: Foundation (Complete)
+*Timeline: October 2024 - January 2025*
+
+### ✅ Completed
+- Technical stack selection and setup
+- Database schema design with RLS
+- Authentication system with email verification
+- Goal taxonomy development (459 goals across 9 arenas)
+- Solution taxonomy mapping (~100 core solutions)
+- Browse & discovery interface
+- Basic rating display system
+
+### 📊 Success Metrics Achieved
+- Core infrastructure operational
+- Authentication flow tested
+- Browse experience validated
+- Taxonomies created with natural language
+
+---
+
+## Phase 1: MVP Launch
+*Timeline: February - April 2025*
+
+### 🎯 Core Features
+1. **Solution Contribution System** ✅ Built (May 29)
+   - "Share What Worked" two-section form
+   - Effectiveness ratings (1-5 stars) on everything
+   - Success/failure capture in one flow
+   - Pre-populated autocomplete for common solutions
+   - Progressive enrichment via notifications
+   - Minimum dose capture (via enrichments)
+   - Primary benefit categorization
+
+2. **Keystone Solutions** ⚡
+   - Badge system for compound/multi-mechanism solutions
+   - "Start Here" landing page featuring compound solutions
+   - Visual indicators on solution cards
+   - Cross-goal impact tracking
+   - Mechanism-based discovery
+
+3. **Life Impact Scores** 🌊
+   - Spider charts showing multi-arena impact
+   - "Whole Life Solutions" filtering
+   - Secondary benefits capture
+   - Integration visualization
+
+4. **User Profiles**
+   - Contribution history
+   - Privacy controls
+   - Reputation points
+   - Saved goals tracking
+
+### 📊 Launch Success Metrics
+- 1,000 registered users
+- 500 solution contributions
+- 2,000 ratings submitted
+- 80% rating completion rate
+- <2% spam/low-quality content
+- 50+ compound solutions identified
+
+### 🔧 Technical Deliverables
+- Solution submission pipeline with mechanism tracking ✅
+- Progressive enrichment system ✅
+- Success rate calculation (avg by effectiveness) ✅
+- Keystone algorithm v1 (based on mechanism count)
+- Impact visualization system
+- Basic anti-spam measures
+
+---
+
+## Phase 2: Intelligence Layer
+*Timeline: May - August 2025*
+
+### 🎯 Core Features
+1. **Virtuous Cycles** 🔄
+   - Success sequence visualization
+   - "Often leads to" connections
+   - Journey mapping interface
+   - Pattern recognition system
+
+2. **Foundation Goals** 🏛️
+   - Dependency mapping
+   - "Suggested order" for multiple goals
+   - Interactive goal trees
+   - Prerequisite indicators
+
+3. **Smart Search**
+   - Natural language processing
+   - Semantic goal matching
+   - Solution ranking by mechanism match
+   - Personalized results
+
+4. **Progress Tracking**
+   - Personal dashboards
+   - Success timelines
+   - Milestone celebrations
+   - Insight generation
+
+### 📊 Growth Metrics
+- 10,000 registered users
+- 5,000 solution contributions
+- 25,000 ratings
+- 3+ goals tracked per active user
+- 40% monthly active rate
+- Pattern library of 50+ virtuous cycles
+
+### 🔧 Technical Deliverables
+- ML pattern recognition system
+- Advanced search infrastructure
+- Progress tracking database
+- Analytics pipeline
+
+---
+
+## Phase 3: Community Features
+*Timeline: September - December 2025*
+
+### 🎯 Core Features
+1. **Accountability Partners**
+   - Matching algorithm based on goals & mechanisms
+   - Private messaging
+   - Shared goal tracking
+   - Success celebrations
+
+2. **Community Goals** 👥
+   - Family/group goal setting
+   - Collective progress tracking
+   - Privacy controls
+   - Group success stories
+
+3. **Expert Verification**
+   - Professional badges
+   - Verified solutions
+   - Expert AMAs
+   - Quality indicators
+
+4. **Content Curation**
+   - User-generated guides
+   - Solution bundles by mechanism
+   - Curated pathways
+   - Community voting
+
+### 📊 Community Metrics
+- 50,000 registered users
+- 20% using accountability features
+- 100 verified experts
+- 500 user-generated guides
+- 85% quality rating on content
+
+### 🔧 Technical Deliverables
+- Group management system
+- Messaging infrastructure
+- Expert verification pipeline
+- Content curation tools
+
+---
+
+## Phase 4: Wisdom Platform
+*Timeline: 2026*
+
+### 🎯 Advanced Features
+1. **North Star Goals** 💭
+   - Optional philosophical alignment
+   - Purpose-driven tracking
+   - Wisdom indicators
+   - Long-term vision tools
+
+2. **Predictive Insights**
+   - Success probability scoring
+   - Personalized recommendations by mechanism
+   - Timing optimization
+   - Context awareness
+
+3. **API & Integrations**
+   - Developer platform
+   - Health app integrations
+   - Wearable connections
+   - Third-party tools
+
+4. **Global Expansion**
+   - Multi-language support
+   - Cultural adaptations
+   - Regional goal variations
+   - Local community features
+
+### 📊 Platform Metrics
+- 500,000 registered users
+- 15 languages supported
+- 1M+ ratings in system
+- API partner ecosystem
+- Sustainable revenue model
+
+---
+
+## Feature Parking Lot
+*Good ideas for future consideration*
+
+- **Natural Limits Wisdom** - Guidance on "enough" and moderation
+- **AI Coach** - Personalized guidance system
+- **VR/AR Experiences** - Immersive goal visualization
+- **Blockchain Verification** - Decentralized success validation
+- **Corporate Wellness** - B2B platform version
+- **Solution Relationship Mapping** - Visual connections between solutions
+- **Mechanism-Based Matching** - Find solutions that work like ones you've tried
+- **Solution Progression Paths** - Guided journeys through solution clusters
+- **"Share What Didn't Work" Form** - Specialized flow for failure-only contributions (V1.5/V2)
+
+---
+
+## Technical Evolution
+
+### Phase 1 Infrastructure
+- PostgreSQL with optimized RLS
+- Next.js 15+ with App Router
+- Basic caching layer
+- Vercel deployment
+- Enhanced solution schema with mechanisms
+
+### Phase 2 Scaling
+- Redis caching layer
+- Search infrastructure (Elasticsearch)
+- ML pipeline (Python services)
+- CDN implementation
+- Pattern recognition algorithms
+
+### Phase 3 Architecture
+- Microservices migration
+- Real-time features (WebSockets)
+- Advanced analytics (Spark)
+- Multi-region deployment
+
+### Phase 4 Platform
+- API gateway
+- Developer sandbox
+- Data lake architecture
+- Global infrastructure
+
+---
+
+## Success Philosophy
+
+Each phase builds on learnings from the previous:
+- **Phase 1**: Prove core value proposition with mechanism understanding
+- **Phase 2**: Enhance with intelligence and pattern recognition
+- **Phase 3**: Build community network effects  
+- **Phase 4**: Become essential life platform
+
+The roadmap remains flexible - we'll adapt based on user feedback and emerging patterns in the data. The north star remains constant: **Help people find what actually works by combining collective wisdom with mechanism understanding.**
+
+---
+
+## Next Immediate Steps
+See Technical Reference for detailed implementation tasks for the next development session, including:
+- Fix TypeScript import issue
+- Test solution submission form end-to-end
+- Add "Share What Worked" CTA to goal pages
+- Display solutions on goal pages with ratings
