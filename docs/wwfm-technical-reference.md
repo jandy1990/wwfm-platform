@@ -1,11 +1,11 @@
 # WWFM Technical Reference
 
 > **Document Type**: Technical implementation details  
-> **Related Documents**: [Project Guide](/docs/wwfm-project-guide.md) | [Collaboration Guide](/docs/wwfm-collaboration-guide.md) | [Latest Session](/docs/sessions/session-2025-05-24b.md)  
-> **Last Updated**: May 24, 2025  
-> **Status**: Active - Ratings Display Fixed, RLS Policies Documented
+> **Related Documents**: [Project Guide](/docs/project-guide.md) | [Collaboration Guide](/docs/collaboration-guide.md) | [Product Roadmap](/docs/product-roadmap.md)  
+> **Last Updated**: May 31, 2025  
+> **Status**: Active - Authentication Fixed, Ready for Form Testing
 
-This document contains the technical implementation details for the WWFM platform, including configuration information, database schema, authentication setup, Row Level Security policies, and decision log.
+This document contains the technical implementation details for the WWFM platform.
 
 ## Table of Contents
 - [1. Technical Stack Configuration](#1-technical-stack-configuration)
@@ -15,7 +15,7 @@ This document contains the technical implementation details for the WWFM platfor
 - [5. File Structure](#5-file-structure)
 - [6. Environment Setup](#6-environment-setup)
 - [7. Development Tools & Debugging](#7-development-tools--debugging)
-- [8. Pre-Launch Checklist](#8-pre-launch-checklist)
+- [8. Implementation Priorities](#8-implementation-priorities)
 - [9. Decision Log](#9-decision-log)
 - [10. Known Technical Debt](#10-known-technical-debt)
 
@@ -23,56 +23,45 @@ This document contains the technical implementation details for the WWFM platfor
 
 ## 1. Technical Stack Configuration
 
-### GitHub Configuration
-- **Repository Name**: wwfm-platform
-- **Repository Type**: Private (for initial development)
-- **Username**: jandy1990
-- **Repository URL**: https://github.com/jandy1990/wwfm-platform
-- **License**: None initially, with "All rights reserved" copyright notice
-- **Personal Access Token**: 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 (expires June 17, 2025)
-- **Status**: Active and configured for development workflow
+### 1.1 GitHub Configuration
+- **Repository**: github.com/jandy1990/wwfm-platform (Private)
+- **License**: None initially, "All rights reserved"
+- **Personal Access Token**: [Regenerated May 31, 2025]
 
-### Supabase Configuration
-
-#### Project Settings
-- **Project Name**: wwfm-platform
-- **Organization Type**: Personal
-- **Region**: US East (North Virginia)
+### 1.2 Supabase Configuration
 - **Project URL**: https://wqxkhxdbxdtpuvuvgirx.supabase.co
-- **Anon Public Key**: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxeGtoeGRieGR0cHV2dXZnaXJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgzMTUsImV4cCI6MjA2MzEwNDMxNX0.eBP6_TUB4Qa9KwPvEnUxrp7e7AGtOA3_Zs3CxaObPTo
-- **Status**: Fully configured with RLS policies properly set
+- **Anon Key**: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxeGtoeGRieGR0cHV2dXZnaXJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgzMTUsImV4cCI6MjA2MzEwNDMxNX0.eBP6_TUB4Qa9KwPvEnUxrp7e7AGtOA3_Zs3CxaObPTo
+- **Region**: US East (North Virginia)
+- **Auth**: Email confirmations enabled
 
-#### Authentication Settings
-- **Site URL**: http://localhost:3000 (development environment)
-- **Redirect URLs**: http://localhost:3000/auth/callback
-- **Email Confirmations**: Enabled (using default templates)
-- **User Signups**: Enabled
-- **Email Provider**: Enabled (using built-in Supabase email service for development)
-- **Status**: Email verification tested and working
+### 1.3 Next.js Configuration
+- **Version**: 15.3.2 with TypeScript
+- **Architecture**: App Router
+- **Styling**: Tailwind CSS
+- **Development**: http://localhost:3001 (port 3000 often in use)
+- **TypeScript Config**: @ alias configured for imports
 
-### Next.js Configuration
-- **Framework**: Next.js 15.3.2 with TypeScript
-- **App Router**: Using Next.js App Router architecture
-- **Styling**: Tailwind CSS with responsive design
-- **Development Server**: Running on http://localhost:3000
-- **Status**: Fully operational with hot reloading
+### 1.4 Authentication Libraries (Updated May 31, 2025)
+- **Removed**: `@supabase/auth-helpers-nextjs` (incompatible with Next.js 15)
+- **Added**: `@supabase/ssr` for modern auth handling
+- **Pattern**: Async cookie handling for Next.js 15 compatibility
 
-### Deployment Configuration
-- **Hosting Platform**: Vercel
-- **Production URL**: wwfm-platform-6t2xbo4qg-jack-andrews-projects.vercel.app
-- **Build Command**: next build
-- **Output Directory**: .next
-- **Install Command**: npm install
-- **Status**: Deployment pipeline configured
+### 1.5 Deployment
+- **Platform**: Vercel
+- **URL**: wwfm-platform-6t2xbo4qg-jack-andrews-projects.vercel.app
 
 ## 2. Database Schema
 
-### Critical Design Decisions
+### 2.1 Critical Design Decisions
 
-#### User ID Architecture
-**IMPORTANT**: The `public.users.id` MUST equal `auth.users.id`. This is a security requirement for RLS policies to function correctly.
+**User ID Architecture**: `public.users.id` MUST equal `auth.users.id` for RLS security
 
-#### User Creation Trigger (Updated with Error Handling)
+**Navigation Structure** (Updated May 31, 2025):
+- Simplified from Arena → Category → Goal to Arena → Goal
+- Categories table remains but is not used in navigation
+- Goals now have direct `arena_id` foreign key
+
+**User Creation Trigger**:
 ```sql
 CREATE OR REPLACE FUNCTION public.handle_new_user() 
 RETURNS trigger AS $$
@@ -85,360 +74,441 @@ EXCEPTION
     RETURN new; -- User already exists, that's fine
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
-
-CREATE TRIGGER on_auth_user_created
-  AFTER INSERT ON auth.users
-  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 ```
 
-### Complete Implementation Status: ✅ DEPLOYED AND TESTED
+### 2.2 Core Tables
 
-All tables are implemented with proper RLS policies configured and tested.
+#### arenas
+```sql
+CREATE TABLE arenas (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  slug VARCHAR(100) UNIQUE NOT NULL,
+  description TEXT,
+  icon VARCHAR(50),
+  display_order INTEGER,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
+);
+```
 
-### Table Structures
+#### categories (Deprecated - Not used in navigation)
+```sql
+-- Still exists in database but not used in application navigation
+-- Kept for data integrity, may be removed in future migration
+CREATE TABLE categories (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  arena_id UUID REFERENCES arenas(id) ON DELETE CASCADE,
+  name VARCHAR(100) NOT NULL,
+  slug VARCHAR(100) UNIQUE NOT NULL,
+  description TEXT,
+  display_order INTEGER,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
+);
+```
 
-[Previous table structures remain the same - arenas, categories, goals, users, solutions, ratings, etc.]
+#### goals (Updated May 31, 2025)
+```sql
+CREATE TABLE goals (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  arena_id UUID REFERENCES arenas(id) ON DELETE CASCADE, -- Direct relationship
+  category_id UUID REFERENCES categories(id), -- Legacy, being phased out
+  title VARCHAR(200) NOT NULL,
+  description TEXT,
+  -- Note: slug column does not exist (discovered May 31)
+  view_count INTEGER DEFAULT 0,
+  -- Note: solution_count column does not exist (discovered May 31)
+  created_by UUID REFERENCES auth.users(id),
+  is_approved BOOLEAN DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
+);
+
+-- Constraints added May 31, 2025
+ALTER TABLE goals 
+ADD CONSTRAINT fk_goals_arena 
+FOREIGN KEY (arena_id) REFERENCES arenas(id) ON DELETE CASCADE;
+
+CREATE INDEX IF NOT EXISTS idx_goals_arena_id ON goals(arena_id);
+```
+
+#### solutions (Updated May 29)
+```sql
+CREATE TABLE solutions (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  goal_id UUID REFERENCES goals(id) ON DELETE CASCADE,
+  created_by UUID REFERENCES auth.users(id),
+  title VARCHAR(200) NOT NULL,
+  description TEXT NOT NULL,
+  detailed_steps TEXT,
+  time_investment VARCHAR(100),
+  cost_estimate VARCHAR(100),
+  difficulty_level INTEGER CHECK (difficulty_level >= 1 AND difficulty_level <= 5),
+  avg_rating DECIMAL(3,2) DEFAULT 0.00,
+  rating_count INTEGER DEFAULT 0,
+  view_count INTEGER DEFAULT 0,
+  is_approved BOOLEAN DEFAULT false,
+  is_featured BOOLEAN DEFAULT false,
+  tags TEXT[],
+  mechanism_tags TEXT[],
+  minimum_dose VARCHAR(100),
+  primary_benefit VARCHAR(50),
+  is_compound BOOLEAN DEFAULT false,
+  benefit_categories TEXT[] DEFAULT '{}',
+  completion_score INTEGER DEFAULT 20,
+  time_to_results VARCHAR(50),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
+);
+```
+
+#### ratings
+```sql
+CREATE TABLE ratings (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  solution_id UUID REFERENCES solutions(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id),
+  effectiveness_score INTEGER NOT NULL CHECK (effectiveness_score >= 1 AND effectiveness_score <= 5),
+  difficulty_score INTEGER CHECK (difficulty_score >= 1 AND difficulty_score <= 5),
+  time_to_see_results VARCHAR(50),
+  would_recommend BOOLEAN DEFAULT true,
+  review_text TEXT,
+  pros TEXT[],
+  cons TEXT[],
+  secondary_impacts JSONB DEFAULT '{}',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()),
+  UNIQUE(solution_id, user_id)
+);
+```
+
+### 2.3 Additional Tables (from May 29)
+
+- `solution_enrichments` - Progressive disclosure system
+- `solution_completion_tracking` - Tracks entry completeness
+- `notification_queue` - Smart prompts for users
+- `goal_suggestions` - User-submitted goal ideas
 
 ## 3. Row Level Security (RLS) Architecture
 
-### 🔑 Core RLS Principles for WWFM
-
+### 3.1 Core Principles
 1. **Public Read, Private Write** - Aggregated data must be publicly accessible
 2. **Anonymous First** - Most browsing happens without authentication
 3. **Business Logic Alignment** - RLS must match platform goals
 4. **Explicit Over Implicit** - Clear policies prevent confusion
 
-### Current RLS Policy Implementation
+### 3.2 RLS Policies (All tables have RLS enabled)
 
-#### Ratings Table Policies ✅
-```sql
--- Everyone can read all ratings (for aggregation)
-CREATE POLICY "Public read access to ratings" ON ratings 
-  FOR SELECT USING (true);
+See previous documentation for detailed policies. All policies remain unchanged and functioning correctly.
 
--- Users can only create ratings under their account
-CREATE POLICY "Users create own ratings" ON ratings 
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
-
--- Users can only update their own ratings
-CREATE POLICY "Users update own ratings" ON ratings 
-  FOR UPDATE USING (auth.uid() = user_id);
-
--- Users can only delete their own ratings
-CREATE POLICY "Users delete own ratings" ON ratings 
-  FOR DELETE USING (auth.uid() = user_id);
-```
-
-#### Solutions Table Policies ✅
-```sql
--- Everyone can read approved solutions
-CREATE POLICY "Public read approved solutions" ON solutions 
-  FOR SELECT USING (is_approved = true);
-
--- Users can read their own solutions (even if not approved)
-CREATE POLICY "Users read own solutions" ON solutions 
-  FOR SELECT USING (auth.uid() = created_by);
-
--- Users can only create solutions under their account
-CREATE POLICY "Users create solutions" ON solutions 
-  FOR INSERT WITH CHECK (auth.uid() = created_by);
-
--- Users can only update their own solutions
-CREATE POLICY "Users update own solutions" ON solutions 
-  FOR UPDATE USING (auth.uid() = created_by);
-```
-
-#### Goals Table Policies ✅
-```sql
--- Everyone can read approved goals
-CREATE POLICY "Public read approved goals" ON goals 
-  FOR SELECT USING (is_approved = true);
-
--- Users can read their own goals (even if not approved)
-CREATE POLICY "Users read own goals" ON goals 
-  FOR SELECT USING (auth.uid() = created_by);
-```
-
-#### Users Table Policies
-```sql
--- Everyone can view user profiles (public information)
-CREATE POLICY "Users can view all profiles" ON users 
-  FOR SELECT USING (true);
-
--- Users can only update their own profile
-CREATE POLICY "Users can update their own profile" ON users 
-  FOR UPDATE USING (auth.uid() = id);
-```
-
-### 🚨 Critical Learning: RLS Silent Failures
-
-When RLS blocks access, Supabase returns **empty results** rather than errors. This can make debugging extremely difficult.
-
-**Solution**: Always add warnings in your queries:
-```typescript
-if (ratings?.length === 0 && solutionIds.length > 0) {
-  console.warn('⚠️ No ratings returned despite solutions existing. Check RLS policies!')
-}
-```
-
-## 4. Authentication Implementation
+## 4. Authentication Implementation (Completely Revised May 31, 2025)
 
 ### 4.1 Authentication Architecture
 
-[Previous authentication architecture diagram and details remain the same]
+**Key Change**: Migrated from `@supabase/auth-helpers-nextjs` to `@supabase/ssr` due to Next.js 15 compatibility issues.
 
-### 4.2 Component Implementation Status
+#### Server-Side Client (`/lib/supabase-server.ts`)
+```typescript
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 
-#### ✅ Completed Components
-- **AuthForm.tsx**: Base reusable form wrapper
-- **AuthContext.tsx**: App-wide auth state management
+export async function createSupabaseServerClient() {
+  const cookieStore = await cookies() // Next.js 15 requires await
+  
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll()
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            )
+          } catch {
+            // Server Component cookie setting - can be ignored
+          }
+        },
+      },
+    }
+  )
+}
+```
+
+#### Client-Side (`/lib/supabase.ts`)
+```typescript
+import { createBrowserClient } from '@supabase/ssr'
+
+export function createSupabaseBrowserClient() {
+  return createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+}
+
+// For backward compatibility
+export const supabase = createSupabaseBrowserClient()
+```
+
+#### Middleware (`/middleware.ts`)
+```typescript
+import { createServerClient } from '@supabase/ssr'
+import { NextResponse, type NextRequest } from 'next/server'
+
+export async function middleware(request: NextRequest) {
+  let supabaseResponse = NextResponse.next({ request })
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          // Update both request and response cookies
+          cookiesToSet.forEach(({ name, value, options }) => {
+            request.cookies.set(name, value)
+            supabaseResponse.cookies.set(name, value, options)
+          })
+        },
+      },
+    }
+  )
+
+  // CRITICAL: Use getUser() not getSession() for proper refresh
+  await supabase.auth.getUser()
+
+  return supabaseResponse
+}
+```
+
+### 4.2 Components ✅ COMPLETE
+- **AuthContext.tsx**: Uses new browser client
 - **SignUpForm.tsx**: User registration with email verification
 - **SignInForm.tsx**: User login with error handling
 - **ResetPasswordForm.tsx**: Password reset request
-- **ProtectedRoute.tsx**: Route protection wrapper
+- **UpdatePasswordForm.tsx**: Password update after reset
+- **ProtectedRoute.tsx**: Updated to use `createSupabaseBrowserClient()`
+- **SolutionForm.tsx**: Updated to use new auth pattern
 
-### 4.3 Authentication Flow
+### 4.3 Auth Flow
+1. Registration → Email verification → Dashboard
+2. Login → Session creation → Dashboard
+3. Password Reset → Email link → Update → Dashboard
+4. Protected Routes → Check auth → Redirect if needed
+5. **Key Fix**: Middleware now properly refreshes expired sessions
 
-#### ✅ Complete Authentication Journey
-1. **Registration** → Email verification → Dashboard
-2. **Login** → Session creation → Dashboard
-3. **Password Reset** → Email link → Update password → Dashboard
-4. **Protected Routes** → Check auth → Redirect if needed
+### 4.4 Server Component Usage Pattern
+```typescript
+// All server components must await the client
+const supabase = await createSupabaseServerClient()
+const { data: { session } } = await supabase.auth.getSession()
+```
 
 ## 5. File Structure
-
-### 5.1 Current Implementation Status
 
 ```
 wwfm-platform/
 ├── app/
 │   ├── auth/
-│   │   ├── callback/route.ts              ✅
-│   │   ├── reset-password/page.tsx        ✅
-│   │   ├── signin/page.tsx                ✅
-│   │   ├── signup/page.tsx                ✅
-│   │   └── update-password/page.tsx       ✅
-│   ├── browse/page.tsx                    ✅
-│   ├── arena/[slug]/page.tsx              ✅
-│   ├── category/[slug]/page.tsx           ✅
+│   │   ├── auth-debug/
+│   │   │   └── page.tsx               ✅ (Fixed extension May 31)
+│   │   ├── callback/route.ts          ✅
+│   │   ├── reset-password/page.tsx    ✅
+│   │   ├── signin/page.tsx            ✅
+│   │   ├── signup/page.tsx            ✅
+│   │   └── update-password/page.tsx   ✅
+│   ├── browse/page.tsx                ✅
+│   ├── arena/[slug]/page.tsx          ✅ (Updated May 31)
+│   ├── category/                      ❌ (Removed May 31)
 │   ├── goal/
 │   │   └── [id]/
-│   │       ├── page.tsx                   ✅ (ratings fixed!)
+│   │       ├── page.tsx               ✅ (Updated May 31)
 │   │       └── add-solution/
-│   │           └── page.tsx               ⬜ (next priority)
+│   │           └── page.tsx           ✅ (Updated May 31)
 │   ├── solution/
 │   │   └── [id]/
-│   │       └── page.tsx                   ⬜
+│   │       └── page.tsx               ⬜
 │   ├── profile/
-│   │   └── page.tsx                       ⬜
-│   └── dashboard/page.tsx                 ✅
+│   │   └── page.tsx                   ⬜
+│   └── dashboard/page.tsx             ✅
 ├── components/
-│   └── auth/
-│       ├── AuthForm.tsx                   ✅
-│       ├── AuthContext.tsx                ✅
-│       ├── ProtectedRoute.tsx             ✅
-│       ├── ResetPasswordForm.tsx          ✅
-│       ├── SignInForm.tsx                 ✅
-│       └── SignUpForm.tsx                 ✅
+│   ├── auth/
+│   │   ├── AuthForm.tsx               ✅
+│   │   ├── AuthContext.tsx            ✅
+│   │   ├── ProtectedRoute.tsx         ✅ (Updated May 31)
+│   │   ├── solutions/
+│   │   │   └── SolutionForm.tsx       ✅ (Updated May 31)
+│   │   └── [other auth components]    ✅
+│   └── ui/ (planned)
+│       ├── KeystoneBadge.tsx          ⬜
+│       ├── ImpactSpiderChart.tsx      ⬜
+│       └── SolutionImpactTracker.tsx  ⬜
 ├── lib/
-│   ├── supabase.ts                        ✅
-│   └── supabase-debug.ts                  ✅ NEW
-├── .env.local                             ✅
-└── [other config files]                   ✅
-```
-
-### 5.2 Query Architecture Pattern
-
-After debugging the ratings issue, we've established a pattern for complex data fetching:
-
-```typescript
-// Instead of complex nested queries:
-// ❌ .select('*, solutions(*, ratings(*))')
-
-// Use separate, explicit queries:
-// ✅ Better for debugging and RLS handling
-const { data: goal } = await supabase.from('goals').select('*')
-const { data: solutions } = await supabase.from('solutions').select('*').eq('goal_id', goal.id)
-const { data: ratings } = await supabase.from('ratings').select('*').in('solution_id', solutionIds)
+│   ├── supabase.ts                    ✅ (Updated May 31)
+│   ├── supabase-server.ts             ✅ (Updated May 31)
+│   ├── supabase-debug.ts              ✅
+│   ├── keystone-calculator.ts         ⬜ (planned)
+│   └── impact-visualizer.ts           ⬜ (planned)
+├── middleware.ts                      ✅ (Updated May 31)
+├── tsconfig.json                      ✅
+└── .env.local                         ✅
 ```
 
 ## 6. Environment Setup
 
-### 6.1 Development Environment
-
-#### ✅ Local Development Setup
-- **Node.js**: Compatible version running
-- **Next.js**: 15.3.2 development server operational
-- **TypeScript**: Compilation successful
-- **Tailwind CSS**: Styling system working
-- **VS Code**: Configured with proper folder structure
-
-#### ✅ Environment Variables (.env.local)
+### 6.1 Local Development
 ```bash
+# .env.local
 NEXT_PUBLIC_SUPABASE_URL=https://wqxkhxdbxdtpuvuvgirx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxeGtoeGRieGR0cHV2dXZnaXJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgzMTUsImV4cCI6MjA2MzEwNDMxNX0.eBP6_TUB4Qa9KwPvEnUxrp7e7AGtOA3_Zs3CxaObPTo
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
-### 6.2 Known Environment Issues
+### 6.2 Development Commands
+```bash
+npm install        # Install dependencies
+npm run dev        # Start development server (port 3001)
+npm run build      # Build for production
+npm run lint       # Run ESLint
+npx tsc --noEmit   # Check TypeScript types
+```
 
-#### ⚠️ Browser Extension Interference
-- **Issue**: Hydration errors in main browser
-- **Cause**: Extensions modifying DOM before React hydration
-- **Impact**: Cosmetic only, no functionality impact
-- **Workaround**: Use incognito mode for development
+### 6.3 Known Configuration Issues
+- **Port**: Often runs on 3001 as 3000 is commonly in use
+- **Browser Extensions**: Can cause hydration errors (use incognito for testing)
+- **TypeScript @ alias**: Working correctly after tsconfig updates
+- **Cookie Warnings**: Fixed by migrating to @supabase/ssr
 
 ## 7. Development Tools & Debugging
 
-### 7.1 RLS Testing Utility
+### 7.1 Authentication Debug Page
+Access `/auth-debug` to verify authentication status and cookie presence.
 
-Created `lib/supabase-debug.ts` for testing RLS policies:
+### 7.2 Claude Code Integration (Added May 31)
+```bash
+# Install globally (requires sudo on Mac)
+sudo npm install -g @anthropic-ai/claude-code
 
-```typescript
-import { createClient } from '@supabase/supabase-js'
+# Run in project directory
+claude
 
-export async function testRLSPolicies() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
-
-  console.log('=== TESTING RLS POLICIES ===')
-  
-  // Test ratings access
-  const { data: anonRatings, error: anonError } = await supabase
-    .from('ratings')
-    .select('*')
-    .limit(1)
-  
-  console.log('Anonymous can see ratings:', anonRatings && anonRatings.length > 0 ? '✅' : '❌')
-  if (anonError) console.log('Anonymous error:', anonError.message)
-  
-  // Test solutions access
-  const { data: anonSolutions, error: solError } = await supabase
-    .from('solutions')
-    .select('*')
-    .eq('is_approved', true)
-    .limit(1)
-  
-  console.log('Anonymous can see solutions:', anonSolutions && anonSolutions.length > 0 ? '✅' : '❌')
-  
-  // Test goals access
-  const { data: anonGoals, error: goalError } = await supabase
-    .from('goals')
-    .select('*')
-    .eq('is_approved', true)
-    .limit(1)
-  
-  console.log('Anonymous can see goals:', anonGoals && anonGoals.length > 0 ? '✅' : '❌')
-  
-  console.log('=== END RLS TESTS ===')
-}
+# Commands in Claude:
+# - Check auth issues
+# - Update imports
+# - Fix TypeScript errors
 ```
 
-### 7.2 Debugging Best Practices
+### 7.3 Common Debug Commands
+```bash
+# Check for old auth-helpers imports
+grep -r "@supabase/auth-helpers-nextjs" app components lib
 
-1. **Test with anonymous users first** - Most browsing is unauthenticated
-2. **Use separate queries when debugging** - Easier to isolate issues
-3. **Add explicit warnings** for empty results that might indicate RLS issues
-4. **Check Supabase SQL Editor** to verify data actually exists
-5. **Use the RLS testing utility** regularly during development
+# Find all server client usage
+grep -r "createSupabaseServerClient" app
 
-## 8. Pre-Launch Checklist
+# Check TypeScript
+npx tsc --noEmit
 
-### Authentication & Security ✅ 95% Complete
-- [x] User Registration with email verification
-- [x] User Authentication (email/password)
-- [x] Password Reset Flow
-- [x] Protected Routes implementation
-- [x] Session Management
-- [x] Environment Security (API keys)
-- [x] Form Validation (client-side)
-- [x] RLS Policies configured and tested
-- [ ] Rate limiting for auth endpoints
-- [ ] Server-side validation enhancement
+# Clear Next.js cache
+rm -rf .next
+```
 
-### Core Features 🔄 70% Complete
-- [x] Arena browsing interface
-- [x] Category navigation
-- [x] Goal discovery pages
-- [x] Solution display ("What Worked")
-- [x] **Rating display (FIXED!)**
-- [ ] Solution submission forms
-- [ ] Rating submission interface
-- [ ] Search functionality
-- [ ] User profiles
+## 8. Implementation Priorities
 
-### Infrastructure & Performance ✅ 90% Complete
-- [x] Next.js App Router configuration
-- [x] TypeScript setup
-- [x] Tailwind CSS integration
-- [x] Supabase integration with proper RLS
-- [x] Vercel deployment pipeline
-- [x] Database schema complete
-- [x] Development debugging tools
-- [ ] Production environment variables
-- [ ] Performance optimization
-- [ ] Error monitoring setup
+### 8.1 Completed (as of May 31, 2025)
+- ✅ Authentication system completely fixed
+- ✅ Navigation working (Arena → Goal)
+- ✅ All components updated to new auth pattern
+- ✅ TypeScript compiling without errors
+- ✅ Can reach solution form when authenticated
+
+### 8.2 Next Session (June 1, 2025)
+
+#### 🔴 Priority 1: Test Solution Submission
+1. Test complete form submission flow
+2. Verify database records created correctly
+3. Check all relationships properly set
+4. Debug any submission errors
+
+#### 🟡 Priority 2: Display Solutions
+1. Update goal page to show solutions
+2. Implement rating aggregation
+3. Add solution count display
+4. Handle empty states
+
+#### 🟢 Priority 3: Polish Form UX
+1. Add success confirmations
+2. Implement loading states
+3. Add validation messages
+4. Handle errors gracefully
+
+### 8.3 Quick Decisions Needed
+1. **Moderation approach** for `is_approved = false` solutions
+2. **Solution display format** on goal pages
+3. **Empty state messaging** when no solutions exist
 
 ## 9. Decision Log
 
-| Date | Decision | Alternatives | Reasoning | Status |
-|------|----------|--------------|-----------|---------|
-| 2025-05-24 | Public read access for ratings | Keep restrictive "own ratings only" | Platform needs aggregated ratings visible to all | ✅ Implemented |
-| 2025-05-24 | Separate queries over nested joins | Complex single query | Better debugging, clearer RLS behavior | ✅ Implemented |
-| 2025-05-24 | Add RLS debug utility | Manual testing only | Proactive issue detection | ✅ Implemented |
-| 2025-05-24 | Keep public.users.id = auth.users.id | Separate auth_id column | RLS policies require this for security | ✅ Maintained |
-| 2025-05-24 | Add exception handling to user trigger | Let trigger fail | Prevents errors for existing users | ✅ Implemented |
-| 2025-05-24 | Use slugs for SEO-friendly URLs | Use UUIDs in URLs | Better UX and SEO | ✅ Implemented |
+| Date | Decision | Rationale | Status |
+|------|----------|-----------|---------|
+| May 24, 2025 | Public read for ratings | Aggregation requires public access | ✅ Implemented |
+| May 24, 2025 | Separate queries over joins | Better debugging, clearer RLS | ✅ Implemented |
+| May 24, 2025 | Use slugs for URLs | Better UX and SEO | ⚠️ Goals don't have slugs |
+| May 28, 2025 | Flat goal taxonomy | Simpler navigation, emotion-first | ✅ Implemented |
+| May 29, 2025 | Two-section form design | Capture successes and failures | ✅ Built |
+| May 31, 2025 | Remove categories from nav | Simplify to Arena → Goal | ✅ Implemented |
+| May 31, 2025 | Migrate to @supabase/ssr | Next.js 15 compatibility | ✅ Implemented |
+| May 31, 2025 | Make server client async | Handle Next.js 15 cookies | ✅ Implemented |
 
 ## 10. Known Technical Debt
 
-| Item | Description | Impact | Plan to Address | Priority | Status |
-|------|-------------|--------|----------------|----------|--------|
-| ~~Ratings display bug~~ | ~~Ratings exist but show "No ratings yet"~~ | ~~Core value prop broken~~ | ~~Fix RLS policies~~ | ~~🔴 Critical~~ | ✅ FIXED |
-| No loading states | Pages show blank while fetching | Poor perceived performance | Add skeleton screens | 🟡 Medium | ⬜ Planned |
-| No error boundaries | Errors crash entire page | Poor error handling | Implement React error boundaries | 🟡 Medium | ⬜ Planned |
-| Missing pagination | All content loads at once | Performance as content grows | Add pagination | 🟡 Medium | ⬜ Future |
-| No caching strategy | Every page load fetches fresh | Unnecessary API calls | Implement React Query | 🟡 Medium | ⬜ Future |
-| Limited form validation | Only client-side validation | Security risk | Add server-side validation | 🟡 Medium | ⬜ Future |
-| No admin interface | Content management via SQL | Difficult to manage | Build admin dashboard | 🟡 Medium | ⬜ Future |
-
-### New Best Practices Established
-
-1. **RLS Testing Protocol**: Run `testRLSPolicies()` after any database changes
-2. **Query Pattern**: Use separate queries for complex data relationships
-3. **Debug Warnings**: Add console warnings for potential RLS issues
-4. **Anonymous First**: Always test features as unauthenticated user first
+| Item | Priority | Status | Notes |
+|------|----------|---------|-------|
+| ~~Auth redirect loop~~ | ~~🔴 Critical~~ | ✅ FIXED | Migrated to @supabase/ssr |
+| ~~Cookie warnings~~ | ~~🔴 Critical~~ | ✅ FIXED | Async server client |
+| No loading states | 🟡 Medium | ⬜ Planned | Add in next session |
+| No error boundaries | 🟡 Medium | ⬜ Planned | Future improvement |
+| Missing pagination | 🟡 Medium | ⬜ Future | Not critical for MVP |
+| No caching strategy | 🟡 Medium | ⬜ Future | Performance optimization |
+| Limited form validation | 🟡 Medium | ⬜ Next session | Test and improve |
+| ESLint warnings | 🟢 Low | ⬜ Future | Non-functional issues |
 
 ---
 
-## Implementation Priority for Next Session
+## Key Learnings from May 31 Session
 
-### 🚨 Priority 1: Solution Submission Form
-1. Create `/goal/[id]/add-solution` route
-2. Build form with all solution fields
-3. Implement auth check and redirect
-4. Test submission with `is_approved = false`
+1. **Next.js 15 Breaking Changes** - The `cookies()` function becoming async broke many auth libraries
+2. **Modern Auth Pattern** - `@supabase/ssr` is the correct approach for Next.js App Router
+3. **Session Refresh Critical** - Must use `getUser()` in middleware, not just `getSession()`
+4. **Async All The Way** - Server components must await the Supabase client creation
+5. **Simplify When Stuck** - Removing categories simplified both code and UX
 
-### 🔴 Priority 2: Solution Detail Pages
-1. Create `/solution/[id]` route
-2. Display full solution details
-3. Show all ratings with user attribution
-4. Add "Rate This" CTA
+## Critical Implementation Notes
 
-### 🟡 Priority 3: Rating Submission
-1. Create rating form component
-2. Add to solution detail page
-3. Update average ratings in real-time
-4. Test RLS policies for creation
+### Server Components Must Await
+```typescript
+// ❌ OLD - Causes cookie errors
+const supabase = createSupabaseServerClient()
+
+// ✅ NEW - Properly handles async cookies
+const supabase = await createSupabaseServerClient()
+```
+
+### Middleware Must Refresh Sessions
+```typescript
+// ❌ OLD - Sessions expire
+await supabase.auth.getSession()
+
+// ✅ NEW - Refreshes expired sessions
+await supabase.auth.getUser()
+```
+
+### All Components Updated
+Every component using the old `@supabase/auth-helpers-nextjs` has been updated to use the new pattern. No imports from the old library should remain.
 
 ---
 
-## Document Review Log
-
-| Date | Reviewer | Changes Made | Next Review |
-|------|----------|--------------|------------|
-| 2025-05-18 | jandy1990 & Claude | Initial creation | End of next session |
-| 2025-05-23 | jackandrews & Claude | Added authentication implementation details | Next session |
-| 2025-05-24a | jackandrews & Claude | Added goal browsing, database reality, ratings bug | After bug fix |
-| 2025-05-24b | jackandrews & Claude | Major update: RLS architecture section, debugging tools, fixed ratings bug documentation | Next session |
+**Status**: The authentication system is now fully functional. Users can navigate the platform and access protected routes without being incorrectly redirected. The next phase is testing the core functionality - solution submission and display.

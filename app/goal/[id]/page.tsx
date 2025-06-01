@@ -31,7 +31,7 @@ type Goal = {
 }
 
 async function getGoalWithSolutions(id: string) {
-  const supabase = createSupabaseServerClient()
+  const supabase = await createSupabaseServerClient()
   
   console.log('Fetching goal with ID:', id)
   

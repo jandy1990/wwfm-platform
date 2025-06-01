@@ -4,14 +4,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
 
-// Types - Updated to match your database structure
+// Types - Updated to match actual database columns
 type Goal = {
   id: string
   title: string
   description: string | null
-  slug: string
-  solution_count: number
-  view_count: number
 }
 
 type Arena = {
@@ -24,36 +21,47 @@ type Arena = {
 }
 
 async function getArenaWithGoals(slug: string) {
-  const supabase = createSupabaseServerClient()
+  const supabase = await createSupabaseServerClient()
   
   console.log('Looking for arena with slug:', slug)
   
-  // Updated query to fetch goals directly (no categories)
-  const { data: arena, error } = await supabase
+  // First, get the arena
+  const { data: arena, error: arenaError } = await supabase
     .from('arenas')
-    .select(`
-      *,
-      goals (
-        id,
-        title,
-        description,
-        slug,
-        solution_count,
-        view_count
-      )
-    `)
+    .select('*')
     .eq('slug', slug)
     .eq('is_active', true)
     .single()
-
-  console.log('Arena query result:', { arena, error })
-  console.log('Number of goals found:', arena?.goals?.length || 0)
-
-  if (error || !arena) {
+  
+  if (arenaError || !arena) {
+    console.log('Arena fetch error:', arenaError)
     return null
   }
-
-  return arena as Arena
+  
+  console.log('Arena found:', arena.name, 'with ID:', arena.id)
+  
+  // Then, get goals for this arena - only select columns that exist
+  const { data: goals, error: goalsError } = await supabase
+    .from('goals')
+    .select(`
+      id,
+      title,
+      description,
+      arena_id,
+      is_approved
+    `)
+    .eq('arena_id', arena.id)
+    .eq('is_approved', true)
+  
+  console.log('Goals fetch result:', { 
+    count: goals?.length || 0, 
+    error: goalsError 
+  })
+  
+  return {
+    ...arena,
+    goals: goals || []
+  } as Arena
 }
 
 export default async function ArenaPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -95,12 +103,12 @@ export default async function ArenaPage({ params }: { params: Promise<{ slug: st
           </div>
         </div>
 
-        {/* Goals Grid - Updated to show goals directly */}
+        {/* Goals Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {arena.goals?.map((goal) => (
             <Link
               key={goal.id}
-              href={`/goal/${goal.id}`}  // Direct link to goal page
+              href={`/goal/${goal.id}`}
               className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6"
             >
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -111,9 +119,8 @@ export default async function ArenaPage({ params }: { params: Promise<{ slug: st
                   {goal.description}
                 </p>
               )}
-              <div className="flex items-center justify-between text-sm text-gray-500">
-                <span>{goal.solution_count || 0} solutions</span>
-                <span className="text-blue-600">View solutions →</span>
+              <div className="text-sm text-blue-600">
+                View solutions →
               </div>
             </Link>
           ))}

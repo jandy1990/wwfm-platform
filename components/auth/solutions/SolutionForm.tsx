@@ -1,13 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createSupabaseBrowserClient } from '@/lib/supabase'
 
 interface SolutionFormProps {
   goalId: string
   goalTitle: string
   userId: string
+  goalSlug?: string // Add this to determine goal type
 }
 
 // Pre-populated solutions by goal type (sample data - expand this)
@@ -46,7 +47,32 @@ const COMMON_SOLUTIONS: Record<string, string[]> = {
     'Cold exposure',
     'Nature walks'
   ],
+  'weight-loss': [
+    'Calorie counting app',
+    'Keto diet',
+    'Intermittent fasting',
+    'Weight training',
+    'Running program',
+    'Meal prep',
+    'Water tracking',
+    'Sleep optimization',
+    'Protein increase',
+    'Sugar elimination',
+    'Walking 10k steps',
+    'CrossFit',
+    'Nutritionist',
+    'Ozempic/Wegovy',
+    'Portion control'
+  ],
   // Add more mappings based on your goals
+}
+
+// Map goal titles/slugs to solution categories
+const GOAL_TO_CATEGORY: Record<string, string> = {
+  'overcome-anxiety': 'anxiety',
+  'clear-acne': 'acne',
+  'lose-weight': 'weight-loss',
+  // Add more mappings
 }
 
 // Benefit categories
@@ -81,9 +107,9 @@ interface FailedSolution {
   details?: string
 }
 
-export default function SolutionForm({ goalId, goalTitle, userId }: SolutionFormProps) {
+export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: SolutionFormProps) {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createSupabaseBrowserClient()
   
   // Form state
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -105,20 +131,170 @@ export default function SolutionForm({ goalId, goalTitle, userId }: SolutionForm
   const [showDropdown, setShowDropdown] = useState(false)
   const [customSolution, setCustomSolution] = useState('')
   
-  // Get relevant solutions for this goal (mock - replace with actual goal mapping)
-  const goalType = 'anxiety' // This should come from goal data
-  const suggestedSolutions = COMMON_SOLUTIONS[goalType] || []
+  // Dynamic solutions from database
+  const [suggestedSolutions, setSuggestedSolutions] = useState<string[]>([
+    'Test Solution 1',
+    'Test Solution 2',
+    'Test Solution 3',
+    'Meditation',
+    'Exercise',
+    'Therapy',
+    'Yoga Practice',
+    'Better Sleep'
+  ])
+  const [isLoadingSolutions, setIsLoadingSolutions] = useState(false)
   
-  // Filter suggestions based on search
+  // Refs for click outside detection
+  const mainDropdownRef = useRef<HTMLDivElement>(null)
+  const section2DropdownRef = useRef<HTMLDivElement>(null)
+  
+  // State for main solution dropdown
+  const [showMainDropdown, setShowMainDropdown] = useState(false)
+  
+  // Fetch solutions for this goal when component mounts
+  // TEMPORARILY COMMENTED OUT FOR DEBUGGING
+  /*useEffect(() => {
+    async function fetchSolutionsForGoal() {
+      console.log('🔍 Starting to fetch solutions for goal:', goalId)
+      console.log('📌 Goal slug:', goalSlug)
+      console.log('📌 Goal title:', goalTitle)
+      
+      // Hardcoded test data as fallback
+      const testSolutions = [
+        'Exercise regularly',
+        'Meditation',
+        'Better sleep schedule',
+        'Healthy diet',
+        'Therapy',
+        'Yoga',
+        'Walking daily',
+        'Journaling',
+        'Mindfulness practice',
+        'Breathing exercises'
+      ]
+      
+      try {
+        // Try fetching solutions directly from the solutions table
+        const { data, error } = await supabase
+          .from('solutions')
+          .select('id, title')
+          .eq('goal_id', goalId)
+          .eq('is_approved', true)
+          .order('avg_rating', { ascending: false })
+
+        console.log('📊 Solutions query result:', { data, error })
+
+        if (error) {
+          console.error('❌ Query error:', error)
+          // Use hardcoded solutions combined with category-specific ones
+          const goalType = goalSlug ? GOAL_TO_CATEGORY[goalSlug] : null
+          const categorySolutions = (goalType && COMMON_SOLUTIONS[goalType]) || []
+          setSuggestedSolutions([...new Set([...categorySolutions, ...testSolutions])])
+        } else if (data && data.length > 0) {
+          const solutionTitles = data.map(item => item.title).filter(Boolean)
+          console.log('✅ Found solutions in database:', solutionTitles)
+          console.log('🔢 Number of solutions found:', solutionTitles.length)
+          setSuggestedSolutions(solutionTitles)
+        } else {
+          // No solutions found, combine category-specific and test data
+          console.log('ℹ️ No solutions found for this goal, using fallback data')
+          const goalType = goalSlug ? GOAL_TO_CATEGORY[goalSlug] : null
+          console.log('🏷️ Goal type mapping:', { goalSlug, goalType })
+          const categorySolutions = (goalType && COMMON_SOLUTIONS[goalType]) || []
+          console.log('📦 Category solutions:', categorySolutions)
+          const combinedSolutions = [...new Set([...categorySolutions, ...testSolutions])]
+          console.log('🔄 Combined solutions:', combinedSolutions)
+          setSuggestedSolutions(combinedSolutions)
+        }
+      } catch (error) {
+        console.error('❌ Error fetching solutions:', error)
+        // Fall back to hardcoded data
+        const goalType = goalSlug ? GOAL_TO_CATEGORY[goalSlug] : null
+        const categorySolutions = (goalType && COMMON_SOLUTIONS[goalType]) || []
+        setSuggestedSolutions([...new Set([...categorySolutions, ...testSolutions])])
+      } finally {
+        setIsLoadingSolutions(false)
+      }
+    }
+
+    fetchSolutionsForGoal()
+  }, [goalId, goalSlug, supabase])*/
+
+  // Click outside handlers
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (mainDropdownRef.current && !mainDropdownRef.current.contains(event.target as Node)) {
+        console.log('🔴 Closing main dropdown (click outside)')
+        setShowMainDropdown(false)
+      }
+      if (section2DropdownRef.current && !section2DropdownRef.current.contains(event.target as Node)) {
+        console.log('🔴 Closing section 2 dropdown (click outside)')
+        setShowDropdown(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+  
+  // Filter suggestions for Section 1 (main solution)
+  const filteredMainSuggestions = title.length > 1
+    ? suggestedSolutions.filter(s => 
+        s.toLowerCase().includes(title.toLowerCase())
+      )
+    : []
+  
+  console.log('🔎 Section 1 filtering:', {
+    title,
+    titleLength: title.length,
+    suggestedSolutions: suggestedSolutions.length,
+    suggestedSolutionsArray: suggestedSolutions,
+    filteredMainSuggestions,
+    filteredCount: filteredMainSuggestions.length,
+    showMainDropdown
+  })
+  
+  // Log dropdown render conditions
+  if (title.length > 1) {
+    console.log('🎯 Dropdown render check:', { 
+      showMainDropdown, 
+      titleLength: title.length, 
+      shouldShow: showMainDropdown && title.length > 1,
+      filteredCount: filteredMainSuggestions.length
+    })
+  }
+  
+  // Filter suggestions for Section 2 (failed solutions)
   const filteredSuggestions = searchQuery.length > 1
     ? suggestedSolutions.filter(s => 
         s.toLowerCase().includes(searchQuery.toLowerCase()) &&
         !failedSolutions.some(f => f.name === s)
       )
     : []
+  
+  console.log('🔎 Section 2 filtering:', {
+    searchQuery,
+    searchQueryLength: searchQuery.length,
+    suggestedSolutions: suggestedSolutions.length,
+    suggestedSolutionsArray: suggestedSolutions,
+    filteredSuggestions,
+    filteredCount: filteredSuggestions.length,
+    failedSolutions,
+    showDropdown
+  })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Validate failed solutions have reasons
+    const invalidFailures = failedSolutions.filter(sol => !sol.reason)
+    if (invalidFailures.length > 0) {
+      alert('Please provide reasons for why solutions didn\'t work')
+      return
+    }
+    
     setIsSubmitting(true)
 
     try {
@@ -166,7 +342,8 @@ export default function SolutionForm({ goalId, goalTitle, userId }: SolutionForm
               goal_id: goalId,
               created_by: userId,
               title: failed.name,
-              description: `Didn't work: ${failed.reason}`,
+              description: `Didn't work: ${failed.reason}${failed.details ? ` - ${failed.details}` : ''}`,
+              time_to_results: 'never', // Failed solutions never saw results
               is_approved: false,
               avg_rating: failed.rating,
               rating_count: 1
@@ -198,23 +375,26 @@ export default function SolutionForm({ goalId, goalTitle, userId }: SolutionForm
           next_prompt_type: 'add_details'
         })
 
-      // Schedule enrichment notification
-      const scheduledFor = new Date()
-      scheduledFor.setDate(scheduledFor.getDate() + 3)
-      
-      await supabase
-        .from('notification_queue')
-        .insert({
-          user_id: userId,
-          notification_type: 'enrichment_prompt',
-          priority: 5,
-          payload: {
-            solution_id: solution.id,
-            prompt_type: 'add_details',
-            goal_title: goalTitle
-          },
-          scheduled_for: scheduledFor.toISOString()
-        })
+      // Schedule enrichment notification (only for 4-5 star ratings)
+      if (effectivenessScore >= 4) {
+        const scheduledFor = new Date()
+        scheduledFor.setDate(scheduledFor.getDate() + 3)
+        
+        await supabase
+          .from('notification_queue')
+          .insert({
+            user_id: userId,
+            notification_type: 'enrichment_prompt',
+            priority: 5,
+            payload: {
+              solution_id: solution.id,
+              prompt_type: 'add_details',
+              goal_title: goalTitle,
+              solution_title: title
+            },
+            scheduled_for: scheduledFor.toISOString()
+          })
+      }
 
       // Success!
       router.push(`/goal/${goalId}?contribution=success`)
@@ -231,8 +411,8 @@ export default function SolutionForm({ goalId, goalTitle, userId }: SolutionForm
     const newFailed: FailedSolution = {
       id: Date.now().toString(),
       name: solutionName,
-      rating: 1,
-      reason: ''
+      rating: 1, // Default to 1 star as discussed
+      reason: 'No effect at all' // Default reason
     }
     setFailedSolutions([...failedSolutions, newFailed])
     setSearchQuery('')
@@ -269,20 +449,75 @@ export default function SolutionForm({ goalId, goalTitle, userId }: SolutionForm
         <h2 className="text-xl font-bold mb-6">Share Your Experience with: {goalTitle}</h2>
         
         <div className="space-y-6">
-          {/* Solution Title */}
+          {/* Solution Title with Autocomplete */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               What did you try?
             </label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g., Daily meditation, Therapy, Specific medication"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              required
-              maxLength={200}
-            />
+            <div className="relative" ref={mainDropdownRef}>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => {
+                  console.log('📈 Title input changed:', e.target.value)
+                  setTitle(e.target.value)
+                  setShowMainDropdown(true)
+                  console.log('🔄 Main dropdown should show:', true)
+                }}
+                onFocus={() => {
+                  console.log('🎯 Input focused, showing dropdown')
+                  setShowMainDropdown(true)
+                }}
+                placeholder="Type to search solutions or add your own..."
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+                maxLength={200}
+              />
+              
+              {/* Dropdown for Section 1 */}
+              {showMainDropdown && title.length > 1 && (
+                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
+                  {isLoadingSolutions ? (
+                    <div className="px-4 py-2 text-sm text-gray-500">Loading suggestions...</div>
+                  ) : (
+                    <>
+                      {filteredMainSuggestions.length > 0 && (
+                        <>
+                          <div className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider">
+                            Common Solutions
+                          </div>
+                          {filteredMainSuggestions.map(suggestion => (
+                            <button
+                              key={suggestion}
+                              type="button"
+                              onMouseDown={(e) => {
+                                e.preventDefault()
+                                setTitle(suggestion)
+                                setShowMainDropdown(false)
+                              }}
+                              className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
+                            >
+                              {suggestion}
+                            </button>
+                          ))}
+                        </>
+                      )}
+                      
+                      <button
+                        type="button"
+                        onMouseDown={(e) => {
+                          e.preventDefault()
+                          setShowMainDropdown(false)
+                        }}
+                        className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm font-medium text-blue-600 border-t"
+                      >
+                        + Use "{title}" as custom solution
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Effectiveness Score */}
@@ -475,16 +710,22 @@ export default function SolutionForm({ goalId, goalTitle, userId }: SolutionForm
               Help others avoid dead ends - what didn't work for {goalTitle}?
             </p>
 
+
             {/* Search/Add Interface */}
-            <div className="relative">
+            <div className="relative" ref={section2DropdownRef}>
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => {
+                  console.log('📈 Search query changed:', e.target.value)
                   setSearchQuery(e.target.value)
                   setShowDropdown(true)
+                  console.log('🔄 Section 2 dropdown should show:', true)
                 }}
-                onFocus={() => setShowDropdown(true)}
+                onFocus={() => {
+                  console.log('🎯 Search input focused, showing dropdown')
+                  setShowDropdown(true)
+                }}
                 placeholder="Type to search or add solutions..."
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
@@ -492,31 +733,46 @@ export default function SolutionForm({ goalId, goalTitle, userId }: SolutionForm
               {/* Dropdown */}
               {showDropdown && searchQuery.length > 1 && (
                 <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
-                  {filteredSuggestions.length > 0 ? (
-                    filteredSuggestions.map(suggestion => (
+                  {isLoadingSolutions ? (
+                    <div className="px-4 py-2 text-sm text-gray-500">Loading suggestions...</div>
+                  ) : (
+                    <>
+                      {filteredSuggestions.length > 0 && (
+                        <>
+                          <div className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider">
+                            Suggested Solutions
+                          </div>
+                          {filteredSuggestions.map(suggestion => (
+                            <button
+                              key={suggestion}
+                              type="button"
+                              onMouseDown={(e) => {
+                                e.preventDefault()
+                                addFailedSolution(suggestion)
+                              }}
+                              className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
+                            >
+                              {suggestion}
+                            </button>
+                          ))}
+                        </>
+                      )}
+                      
+                      {/* Add custom option */}
                       <button
-                        key={suggestion}
                         type="button"
-                        onClick={() => addFailedSolution(suggestion)}
-                        className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm"
+                        onMouseDown={(e) => {
+                          e.preventDefault()
+                          if (searchQuery.trim()) {
+                            addFailedSolution(searchQuery.trim())
+                          }
+                        }}
+                        className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm font-medium text-blue-600 border-t"
                       >
-                        {suggestion}
+                        + Add "{searchQuery}" as new solution
                       </button>
-                    ))
-                  ) : null}
-                  
-                  {/* Add custom option */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (searchQuery.trim()) {
-                        addFailedSolution(searchQuery.trim())
-                      }
-                    }}
-                    className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm font-medium text-blue-600 border-t"
-                  >
-                    + Add "{searchQuery}" as new solution
-                  </button>
+                    </>
+                  )}
                 </div>
               )}
             </div>

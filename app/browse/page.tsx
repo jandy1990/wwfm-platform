@@ -17,7 +17,7 @@ type Arena = {
 }
 
 async function getArenas() {
-  const supabase = createSupabaseServerClient()
+  const supabase = await createSupabaseServerClient()
   
   // Fetch arenas with counts of categories and goals
   const { data: arenas, error } = await supabase

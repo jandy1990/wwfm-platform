@@ -24,7 +24,7 @@ type Arena = {
 }
 
 async function getArenaWithGoals(slug: string) {
-  const supabase = await createSupabaseServerClient()  // Add await
+  const supabase = await createSupabaseServerClient()
   
   console.log('Looking for arena with slug:', slug)
   
