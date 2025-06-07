@@ -1,274 +1,214 @@
-# WWFM Product Roadmap
+WWFM Product Roadmap
+Document Type: Strategic planning and feature roadmap
+Related Documents: Technical Reference | README
+Last Updated: June 2025
+Status: Phase 1 MVP Architecture Complete, Display Logic Next
 
-> **Document Type**: Strategic product evolution plan  
-> **Related Documents**: [Project Guide](/docs/wwfm-project-guide.md) | [Technical Reference](/docs/wwfm-technical-reference.md)  
-> **Last Updated**: May 28, 2025 (Evening Update)  
-> **Status**: Active roadmap through 2026
+Executive Summary
+WWFM is building a platform that organizes solutions by what they do (solve problems) rather than what they are (products/services). We aggregate real user experiences to show what actually works for specific life goals.
 
-## Executive Summary
+Current State: Major schema restructure complete, generic solutions with variants implemented, ready for display logic updates and AI content generation.
 
-This roadmap outlines WWFM's evolution from a goal discovery platform to a wisdom-cultivation system that helps people find what actually works. We start with immediate user needs while building toward deeper transformation through collective intelligence and mechanism understanding.
+Vision & Strategic Goals
+Platform Vision
+Create the world's most trusted source for "what actually worked" by aggregating real experiences from real people solving real problems.
 
-## Core Product Principles
+Strategic Objectives
+Democratize Wisdom - Make effective solutions freely accessible
+Surface Patterns - Identify "keystone solutions" that solve multiple problems
+Build Trust - Through transparency and aggregated ratings
+Respect Privacy - Individual ratings private, only aggregates shown
+Human + AI Collaboration - Demonstrate how AI foundations enable human wisdom
+Key Architecture Decision (June 2025)
+Generic Solutions with Implementations - One "Vitamin D" entry can have multiple implementations (1000 IU daily, 5000 IU weekly) rated separately for different goals. This prevents duplication and enables true aggregation.
 
-1. **Start where users are** - Immediate problems and specific goals
-2. **Reveal deeper patterns** - Surface wisdom from collective experience  
-3. **Enable transformation** - Move from symptom management to root causes
-4. **Respect user agency** - Guide without prescribing
-5. **Understand mechanisms** - Track HOW solutions work, not just what they are
+Product Development Phases
+Phase 1: Core MVP (Current - Target: April 2025)
+Status: 95% Complete (Display Logic Remaining)
 
----
+✅ Completed Features
+ Technical infrastructure (Next.js 15, Supabase, TypeScript)
+ Authentication system with email verification
+ Arena → Category → Goal navigation structure
+ Goal taxonomy (549 goals across 13 arenas in 75 categories)
+ Database schema with RLS
+ Public browse experience
+ Cold start strategy defined (AI Foundation approach)
+ NEW: Generic solution architecture implemented
+ NEW: Solution implementations table structure
+ NEW: Goal-implementation linking system
+ NEW: Updated solution contribution form
+ NEW: Solution type categorization (preliminary)
+🔄 In Progress
+ Update goal page display logic for new schema
+ Remove old schema remnants (goal_id from solutions)
+ Test solution submission end-to-end
+ Generate AI Foundation content (5-10 solutions per arena)
+📋 Remaining MVP Features
+ Display solutions with implementation variants
+ Show goal-specific effectiveness
+ Basic user profiles
+ Solution moderation workflow
+ Simple search functionality
+ Email notifications
+🚀 AI Foundation Strategy
+Revolutionary approach to cold start problem:
 
-## Phase 0: Foundation (Complete)
-*Timeline: October 2024 - January 2025*
+AI-generated solutions clearly marked as "AI-researched"
+Generic solutions with multiple implementation variants
+Transparent about source to build trust
+Gamifies human contribution ("beat the bot")
+Provides immediate value while encouraging participation
+Phase 2: Engagement & Growth (May - August 2025)
+Goal: Scale to 10,000 active users
 
-### ✅ Completed
-- Technical stack selection and setup
-- Database schema design with RLS
-- Authentication system with email verification
-- Goal taxonomy development (459 goals across 9 arenas)
-- Solution taxonomy mapping (~100 core solutions)
-- Browse & discovery interface
-- Basic rating display system
+Core Features
+Enhanced Discovery
+Advanced search with filters
+"Similar goals" recommendations
+Trending solutions dashboard
+Implementation comparison tools
+Category-based navigation
+Keystone Solutions (Enhanced by new architecture)
+Algorithm to identify multi-goal solutions
+Implementation effectiveness heatmaps
+"Most effective variant for X" insights
+Cross-goal pattern recognition
+Community Features
+User reputation system
+Follow other users
+Save goals and solutions
+Implementation verification system
+AI vs Human leaderboards
+Forums Integration
+Goal+Solution discussion threads
+Qualitative experience sharing
+Tips and variations
+Success stories
+Data Insights
+Personal effectiveness dashboard
+Implementation comparison for same solution
+Time-to-results by variant
+Cost/benefit by implementation
+Phase 3: Platform Maturity (September 2025+)
+Goal: Become the trusted source for life solutions
 
-### 📊 Success Metrics Achieved
-- Core infrastructure operational
-- Authentication flow tested
-- Browse experience validated
-- Taxonomies created with natural language
+Advanced Features
+AI-Powered Insights
+Personalized implementation recommendations
+Pattern detection across demographics
+Natural language goal matching
+Automated quality scoring
+Implementation optimization suggestions
+Professional Tools
+Therapist/coach dashboards
+Bulk solution analysis
+Client progress tracking
+Evidence-based reporting
+Implementation protocol builder
+API & Integrations
+Public API for researchers
+Health app integrations
+Browser extension
+Mobile applications
+Research data exports
+Monetization (Ethical Model)
+Professional subscriptions
+Anonymous aggregate data for research
+Sponsored clinical trials
+Implementation verification services
+No ads, no data selling
+Technical Architecture Benefits
+New Schema Advantages
+No Duplication - One "Exercise" solution, not 500
+True Aggregation - Real statistics on what works
+Variant Comparison - "30 min daily" vs "1 hour 3x/week"
+Contextual Effectiveness - Same solution, different results per goal
+Pattern Discovery - Easier to identify keystone solutions
+User Experience Improvements
+Cleaner Browse - No duplicate solutions
+Better Insights - "For anxiety, try the evening protocol"
+Informed Choices - See all variants before trying
+Contribution Clarity - Add your variant without duplication
+Success Metrics & KPIs
+Phase 1 Metrics (MVP) - UPDATED
+Metric	Target	Current	Measurement
+Registered Users	1,000	0	auth.users count
+Generic Solutions	100-200	0	solutions table count
+Implementation Variants	500+	0	solution_implementations count
+AI Foundation Solutions	65-130	0	5-10 per arena
+Goal Coverage	50%	0	Goals with 1+ solution
+Effectiveness Ratings	2,000	0	ratings table count
+Phase 2 Metrics (Growth)
+Metric	Target	Measurement
+Monthly Active Users	4,000	30-day unique logins
+Implementations per Solution	5+ avg	Average variants
+Keystone Solutions	100	Solutions for 5+ goals
+Forum Discussions	500+	Active threads
+Verification Rate	50%	Human-verified implementations
+Risk Mitigation
+Technical Risks (Updated)
+Risk	Impact	Mitigation	Status
+Solution Duplication	High	Generic architecture	✅ Solved
+Complex Queries	Medium	Optimized joins, caching	Planning
+Category Confusion	Medium	Clear UI, good examples	In progress
+Data Quality	High	Verification system, AI baseline	Planned
+Product Risks
+Risk	Impact	Mitigation
+User Confusion (new model)	Medium	Clear UI showing variants
+Implementation Spam	Medium	Moderation, similarity detection
+Category Evolution	Low	Flexible schema, can adapt
+Forum Quality	Medium	Moderation, reputation system
+Competitive Landscape
+Our Unique Position (Strengthened)
+With generic solutions + implementations architecture:
 
----
+No competitor aggregates effectiveness by variant
+Patent potential on goal-centric variant effectiveness
+Unique insights on implementation optimization
+Network effects stronger with shared solutions
+Resource Requirements
+Phase 1 (Current)
+Development: 1 person (Jack)
+Infrastructure: ~$50/month
+AI costs: ~$200 for initial content
+Timeline: 1 month remaining
+Phase 2
+Development: 2-3 people needed
+Community Manager: 1 person
+Infrastructure: ~$500/month
+Marketing: $2,000/month
+Timeline: 4 months
+Go-to-Market Strategy
+Phase 1 Launch (Updated Messaging)
+Unique Value: "See which version works best"
+Example: "Vitamin D helps 72% with depression - but the 5000 IU evening dose works best"
+Hook: "Don't just know what works - know exactly how"
+AI Angle: "AI suggests options, humans prove what works"
+Content Strategy
+Blog: "Why 2000 IU failed but 5000 IU changed my life"
+Social: Before/after implementation comparisons
+SEO: Target "best dosage for X" searches
+Decision Log (Updated)
+Date	Decision	Rationale	Result
+June 2025	Generic solutions architecture	Prevent duplication, enable aggregation	Major improvement
+June 2025	Implementations as variants	Capture nuanced differences	Better data model
+June 2025	Remove detailed_steps	Qualitative → forums	Cleaner structure
+June 2025	4 preliminary categories	Starting point	Expect revision
+June 2025	Goal-specific effectiveness	Context matters	True insights
+Open Questions (Updated)
+Implementation similarity - When are two variants too similar?
+Auto-generation - Should AI suggest implementation variants?
+Voting on variants - Community curation of best implementations?
+Mobile UX - How to show variants elegantly?
+Search complexity - Search solutions or implementations?
+Forum integration - Per solution or per implementation?
+Next Milestone Checklist
+ Update goal page queries for new schema
+ Test solution submission flow
+ Create 10 test solutions with variants
+ Generate AI content for one arena
+ Refine solution categories based on data
+ Launch internal testing
+Next Critical Step: Update display logic to show solutions with implementation variants on goal pages. This unlocks everything else.
 
-## Phase 1: MVP Launch
-*Timeline: February - April 2025*
-
-### 🎯 Core Features
-1. **Solution Contribution System**
-   - "Share What Worked" forms with mechanism tracking
-   - Solution detail pages showing how they work
-   - Rating submission interface
-   - Basic moderation queue
-   - Minimum dose capture
-   - Primary benefit categorization
-
-2. **Keystone Solutions** ⚡
-   - Badge system for compound/multi-mechanism solutions
-   - "Start Here" landing page featuring compound solutions
-   - Visual indicators on solution cards
-   - Cross-goal impact tracking
-   - Mechanism-based discovery
-
-3. **Life Impact Scores** 🌊
-   - Spider charts showing multi-arena impact
-   - "Whole Life Solutions" filtering
-   - Secondary benefits capture
-   - Integration visualization
-
-4. **User Profiles**
-   - Contribution history
-   - Privacy controls
-   - Reputation points
-   - Saved goals tracking
-
-### 📊 Launch Success Metrics
-- 1,000 registered users
-- 500 solution contributions
-- 2,000 ratings submitted
-- 80% rating completion rate
-- <2% spam/low-quality content
-- 50+ compound solutions identified
-
-### 🔧 Technical Deliverables
-- Solution submission pipeline with mechanism tracking
-- Keystone algorithm v1 (based on mechanism count)
-- Impact visualization system
-- Basic anti-spam measures
-
----
-
-## Phase 2: Intelligence Layer
-*Timeline: May - August 2025*
-
-### 🎯 Core Features
-1. **Virtuous Cycles** 🔄
-   - Success sequence visualization
-   - "Often leads to" connections
-   - Journey mapping interface
-   - Pattern recognition system
-
-2. **Foundation Goals** 🏛️
-   - Dependency mapping
-   - "Suggested order" for multiple goals
-   - Interactive goal trees
-   - Prerequisite indicators
-
-3. **Smart Search**
-   - Natural language processing
-   - Semantic goal matching
-   - Solution ranking by mechanism match
-   - Personalized results
-
-4. **Progress Tracking**
-   - Personal dashboards
-   - Success timelines
-   - Milestone celebrations
-   - Insight generation
-
-### 📊 Growth Metrics
-- 10,000 registered users
-- 5,000 solution contributions
-- 25,000 ratings
-- 3+ goals tracked per active user
-- 40% monthly active rate
-- Pattern library of 50+ virtuous cycles
-
-### 🔧 Technical Deliverables
-- ML pattern recognition system
-- Advanced search infrastructure
-- Progress tracking database
-- Analytics pipeline
-
----
-
-## Phase 3: Community Features
-*Timeline: September - December 2025*
-
-### 🎯 Core Features
-1. **Accountability Partners**
-   - Matching algorithm based on goals & mechanisms
-   - Private messaging
-   - Shared goal tracking
-   - Success celebrations
-
-2. **Community Goals** 👥
-   - Family/group goal setting
-   - Collective progress tracking
-   - Privacy controls
-   - Group success stories
-
-3. **Expert Verification**
-   - Professional badges
-   - Verified solutions
-   - Expert AMAs
-   - Quality indicators
-
-4. **Content Curation**
-   - User-generated guides
-   - Solution bundles by mechanism
-   - Curated pathways
-   - Community voting
-
-### 📊 Community Metrics
-- 50,000 registered users
-- 20% using accountability features
-- 100 verified experts
-- 500 user-generated guides
-- 85% quality rating on content
-
-### 🔧 Technical Deliverables
-- Group management system
-- Messaging infrastructure
-- Expert verification pipeline
-- Content curation tools
-
----
-
-## Phase 4: Wisdom Platform
-*Timeline: 2026*
-
-### 🎯 Advanced Features
-1. **North Star Goals** 💭
-   - Optional philosophical alignment
-   - Purpose-driven tracking
-   - Wisdom indicators
-   - Long-term vision tools
-
-2. **Predictive Insights**
-   - Success probability scoring
-   - Personalized recommendations by mechanism
-   - Timing optimization
-   - Context awareness
-
-3. **API & Integrations**
-   - Developer platform
-   - Health app integrations
-   - Wearable connections
-   - Third-party tools
-
-4. **Global Expansion**
-   - Multi-language support
-   - Cultural adaptations
-   - Regional goal variations
-   - Local community features
-
-### 📊 Platform Metrics
-- 500,000 registered users
-- 15 languages supported
-- 1M+ ratings in system
-- API partner ecosystem
-- Sustainable revenue model
-
----
-
-## Feature Parking Lot
-*Good ideas for future consideration*
-
-- **Natural Limits Wisdom** - Guidance on "enough" and moderation
-- **AI Coach** - Personalized guidance system
-- **VR/AR Experiences** - Immersive goal visualization
-- **Blockchain Verification** - Decentralized success validation
-- **Corporate Wellness** - B2B platform version
-- **Solution Relationship Mapping** - Visual connections between solutions
-- **Mechanism-Based Matching** - Find solutions that work like ones you've tried
-- **Solution Progression Paths** - Guided journeys through solution clusters
-
----
-
-## Technical Evolution
-
-### Phase 1 Infrastructure
-- PostgreSQL with optimized RLS
-- Next.js 15+ with App Router
-- Basic caching layer
-- Vercel deployment
-- Enhanced solution schema with mechanisms
-
-### Phase 2 Scaling
-- Redis caching layer
-- Search infrastructure (Elasticsearch)
-- ML pipeline (Python services)
-- CDN implementation
-- Pattern recognition algorithms
-
-### Phase 3 Architecture
-- Microservices migration
-- Real-time features (WebSockets)
-- Advanced analytics (Spark)
-- Multi-region deployment
-
-### Phase 4 Platform
-- API gateway
-- Developer sandbox
-- Data lake architecture
-- Global infrastructure
-
----
-
-## Success Philosophy
-
-Each phase builds on learnings from the previous:
-- **Phase 1**: Prove core value proposition with mechanism understanding
-- **Phase 2**: Enhance with intelligence and pattern recognition
-- **Phase 3**: Build community network effects  
-- **Phase 4**: Become essential life platform
-
-The roadmap remains flexible - we'll adapt based on user feedback and emerging patterns in the data. The north star remains constant: **Help people find what actually works by combining collective wisdom with mechanism understanding.**
-
----
-
-## Next Immediate Steps
-See Technical Reference for detailed implementation tasks for the next development session, including:
-- Enhanced solution submission forms
-- Mechanism tracking infrastructure
-- Compound solution detection
-- Minimum dose capture

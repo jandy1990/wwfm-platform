@@ -6,6 +6,8 @@ import { useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import AuthForm from './AuthForm'
 import Link from 'next/link'
+import { FormField } from '@/components/auth/FormField'
+import { Button } from '@/components/auth/Button'
 
 export default function ResetPasswordForm() {
   const [email, setEmail] = useState('')
@@ -65,10 +67,7 @@ export default function ResetPasswordForm() {
         </div>
       )}
 
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-          Email address
-        </label>
+      <FormField label="Email address" required>
         <input
           id="email"
           type="email"
@@ -78,15 +77,15 @@ export default function ResetPasswordForm() {
           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
           placeholder="Enter your email"
         />
-      </div>
+      </FormField>
 
-      <button
+      <Button
         type="submit"
         disabled={loading}
-        className="w-full mt-6 py-3 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full mt-6"
       >
         {loading ? 'Sending...' : 'Send Reset Link'}
-      </button>
+      </Button>
     </AuthForm>
   )
 }

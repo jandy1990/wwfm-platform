@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createSupabaseBrowserClient } from '@/lib/supabase'
+import { FormField } from '@/components/auth/FormField'
+import { Button } from '@/components/auth/Button'
 
 interface SolutionFormProps {
   goalId: string
