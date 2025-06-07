@@ -48,11 +48,12 @@ URL: wwfm-platform-6t2xbo4qg-jack-andrews-projects.vercel.app
 2.1 Critical Design Decisions
 User ID Architecture: public.users.id MUST equal auth.users.id for RLS security
 
-Navigation Structure (Updated May 31, 2025):
+Navigation Structure (Updated June 2025):
 
-Simplified from Arena → Category → Goal to Arena → Goal
-Categories table remains but is not used in navigation
-Goals now have direct arena_id foreign key
+Three-tier hierarchy: Arena → Category → Goal
+13 Arenas containing 75 Categories with 549 Goals total
+Categories provide logical grouping within arenas for better organization
+Goals have both arena_id (direct) and category_id foreign keys
 User Creation Trigger:
 
 sql
@@ -80,10 +81,10 @@ CREATE TABLE arenas (
   is_active BOOLEAN DEFAULT true,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
 );
-categories (Deprecated - Not used in navigation)
+categories (Active data layer - Updated June 2025)
 sql
--- Still exists in database but not used in application navigation
--- Kept for data integrity, may be removed in future migration
+-- Categories provide logical grouping within arenas
+-- 75 total categories across 13 arenas
 CREATE TABLE categories (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   arena_id UUID REFERENCES arenas(id) ON DELETE CASCADE,
@@ -94,12 +95,12 @@ CREATE TABLE categories (
   is_active BOOLEAN DEFAULT true,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
 );
-goals (Updated May 31, 2025)
+goals (Updated June 2025)
 sql
 CREATE TABLE goals (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   arena_id UUID REFERENCES arenas(id) ON DELETE CASCADE, -- Direct relationship
-  category_id UUID REFERENCES categories(id), -- Legacy, being phased out
+  category_id UUID REFERENCES categories(id), -- Category relationship
   title VARCHAR(200) NOT NULL,
   description TEXT,
   -- Note: slug column does not exist (discovered May 31)
@@ -176,6 +177,11 @@ Solution: solution_id (what they tried)
 Problem/Goal: accessed via solution.goal_id (what problem they were solving)
 This architecture supports future personalization without requiring immediate user profiling.
 
+2.5 Content Scale (Updated June 2025)
+13 Arenas: Major life domains (Beauty & Wellness, Feeling & Emotion, Relationships, etc.)
+75 Categories: Logical groupings within arenas (e.g., "Anxiety & Worry", "Dating & Romance")
+549 Goals: Specific outcomes users want to achieve
+Goal Distribution: Ranges from 31 goals (Community) to 65 goals (Physical Health) per arena
 3. Row Level Security (RLS) Architecture
 3.1 Core Principles
 Public Read, Private Write - Aggregated data must be publicly accessible
@@ -295,7 +301,7 @@ wwfm-platform/
 │   │   └── update-password/page.tsx   ✅
 │   ├── browse/page.tsx                ✅
 │   ├── arena/[slug]/page.tsx          ✅ (Updated May 31)
-│   ├── category/                      ❌ (Removed May 31)
+│   ├── category/[slug]/page.tsx       ⬜ (To implement with categories)
 │   ├── goal/
 │   │   └── [id]/
 │   │       ├── page.tsx               ✅ (Updated May 31)
@@ -384,6 +390,7 @@ rm -rf .next
 ✅ Can reach solution form when authenticated
 ✅ AI Foundation strategy defined
 ✅ Triangle architecture confirmed
+✅ Goal taxonomy complete (549 goals across 13 arenas in 75 categories)
 8.2 Next Session (June 2025)
 🔴 Priority 1: Generate AI Foundation Content
 Create 5-10 high-quality AI-researched solutions per arena
@@ -404,6 +411,7 @@ Handle empty states gracefully
 Visual design for AI content badges (🤖 icon?)
 Verification threshold for transitioning AI → Human
 Gamification elements for human contributions
+Category navigation implementation approach
 9. Decision Log
 Date	Decision	Why	Result
 May 18	Next.js 15	Latest features	Caused auth issues later
@@ -416,11 +424,13 @@ May 31	Make server client async	Handle Next.js 15 cookies	Fixed cookie warnings
 June 2025	AI Foundation strategy	Solve cold start transparently	Revolutionary approach
 June 2025	Defer personalization	Build trust first	Privacy preserved
 June 2025	Ratings table = Triangle	Already captures all relationships	Architecture confirmed
+June 2025	Restore categories	Better organization for 549 goals	Improved navigation structure
 10. Known Technical Debt
 Item	Priority	Status	Notes
 Auth redirect loop	🔴 Critical	✅ FIXED	Migrated to @supabase/ssr
 Cookie warnings	🔴 Critical	✅ FIXED	Async server client
 AI content generation	🔴 Critical	⬜ Next	Need foundation content
+Category pages	🟡 Medium	⬜ Next	Implement /category/[slug]
 No loading states	🟡 Medium	⬜ Planned	Add in next session
 No error boundaries	🟡 Medium	⬜ Planned	Future improvement
 Missing pagination	🟡 Medium	⬜ Future	Not critical for MVP
@@ -431,16 +441,17 @@ ESLint warnings	🟢 Low	⬜ Future	Non-functional issues
 11.1 Browse & Discovery Flow ✅ COMPLETE
 Implementation: /app/browse → /app/arena/[slug] → /app/goal/[id]
 
-User lands on /browse seeing all arenas with icons
+User lands on /browse seeing all 13 arenas with icons
 Clicks arena (e.g., "Feel better emotionally") → /arena/feel-better-emotionally
-Views goals in natural language → "Stop feeling overwhelmed all the time"
+Views goals organized by category within the arena
 Clicks specific goal → /goal/[id]
 Sees solutions with effectiveness ratings (⭐ 4.5 with count)
 Technical Notes:
 
 Uses createSupabaseServerClient() for all data fetching
 Public read access via RLS policies
-Goals fetched with arena_id foreign key (categories deprecated)
+Goals fetched with both arena_id and category_id foreign keys
+Category organization helps users navigate 549 total goals
 11.2 User Registration & Onboarding ✅ COMPLETE
 Implementation: /app/auth/signup → email verification → /dashboard
 
@@ -495,6 +506,7 @@ One rating per user per solution (unique constraint)
 Aggregation via database triggers or application logic
 Consider real-time updates via Supabase subscriptions
 11.6 Future Flows (Not Implemented)
+Category Navigation: Browse goals by category within arenas
 Keystone Discovery: Solutions addressing multiple goals
 Pattern Recognition: "Often leads to" connections
 Progress Tracking: Personal dashboards
@@ -505,7 +517,7 @@ Target Timeline: Launch by April 2025
 Metric	Target	Measurement Method
 Registered Users	1,000	Count of public.users
 Solution Contributions	500	Count where created_by NOT NULL
-AI Foundation Solutions	450	Count where source_type = 'ai_researched'
+AI Foundation Solutions	650-1,300	Count where source_type = 'ai_researched' (5-10 per arena × 13 arenas)
 Human Verified Solutions	200	Count where verification_count > 0
 Ratings Submitted	2,000	Count of ratings table
 Rating Completion	80%	Ratings with review_text / total
@@ -559,6 +571,18 @@ SELECT
   SUM(verification_count) as total_verifications
 FROM solutions
 GROUP BY source_type;
+
+-- Goal coverage query
+SELECT 
+  a.name as arena_name,
+  COUNT(DISTINCT g.id) as total_goals,
+  COUNT(DISTINCT s.goal_id) as goals_with_solutions,
+  ROUND((COUNT(DISTINCT s.goal_id)::numeric / COUNT(DISTINCT g.id)) * 100, 2) as coverage_percentage
+FROM arenas a
+LEFT JOIN goals g ON g.arena_id = a.id
+LEFT JOIN solutions s ON s.goal_id = g.id
+GROUP BY a.id, a.name
+ORDER BY a.display_order;
 13. Development Timeline & Milestones
 13.1 Project Timeline
 Project Start: May 18, 2025
@@ -570,13 +594,15 @@ May 18, 2025	Project initialized	Next.js 15, Supabase, TypeScript
 May 23, 2025	Authentication complete	Email verification required
 May 24, 2025	Browse/Discovery complete	Public read RLS pattern
 May 24, 2025	Ratings bug fixed	Separate queries over joins
-May 28, 2025	Goal taxonomy complete	459 goals, 9 arenas
+May 28, 2025	Goal taxonomy complete (v1)	459 goals, 9 arenas
 May 29, 2025	Solution form built	Two-section design
 May 31, 2025	Auth fixed for Next.js 15	Migrated to @supabase/ssr
 May 31, 2025	Navigation simplified	Removed categories layer
 June 2025	AI Foundation strategy defined	Transparent AI content approach
+June 2025	Goal taxonomy expanded	549 goals, 13 arenas, 75 categories
 13.3 Upcoming Milestones
- AI Foundation content generated
+ AI Foundation content generated (65-130 solutions per arena)
+ Category navigation pages implemented
  Solution submission tested
  Solutions display with badges
  Basic user profiles
@@ -639,17 +665,20 @@ Completed Today:
 ✅ Decided against complex user_context JSON
 ✅ Researched cold start strategies (Reddit's fake accounts vs Wikipedia's community transfer)
 ✅ Developed innovative "AI Foundation" approach
+✅ Expanded goal taxonomy to 549 goals across 13 arenas
 Key Insights:
 Pre-fill is working but no solutions exist yet to populate
 The ratings table already captures the complete triangle
 Transparency transforms "fake" content into collaborative foundation
 Human wisdom + AI research = revolutionary approach
+Categories provide essential organization for 549 goals
 🎯 Next Session Priorities:
 🔴 Priority 1: Create AI Foundation Content
 
-Generate 5-10 high-quality solutions per arena
+Generate 5-10 high-quality solutions per arena (65-130 total)
 Mark clearly as AI-researched
 Focus on common, well-documented solutions
+Consider category-based generation approach
 🟡 Priority 2: Test Solution Submission
 
 Submit both AI and human solutions
@@ -664,8 +693,9 @@ Create engaging UI for human vs AI content
 Visual design for AI vs human content markers
 Verification flow - how users confirm/improve AI content
 Transition strategy - when does human content replace AI foundation?
+Category navigation - how to implement category pages
 💡 Philosophical Evolution:
 We're not building a platform that replaces human wisdom with AI - we're demonstrating how AI can create the foundation that enables human wisdom to flourish. This is bigger than solving cold start - it's a new model for human-AI collaboration.
 
-Status: The authentication system is fully functional, the triangle architecture is confirmed, and the AI Foundation strategy provides a revolutionary approach to the cold start problem. Next phase is generating AI content and testing the complete solution submission flow.
+Status: The authentication system is fully functional, the triangle architecture is confirmed, goal taxonomy expanded to 549 goals across 13 arenas in 75 categories, and the AI Foundation strategy provides a revolutionary approach to the cold start problem. Next phase is generating AI content and testing the complete solution submission flow.
 
