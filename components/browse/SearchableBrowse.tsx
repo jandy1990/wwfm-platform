@@ -9,7 +9,6 @@ import EmptyState from '@/components/ui/EmptyState'
 type Goal = {
   id: string
   title: string
-  slug: string
   is_approved: boolean
 }
 
@@ -266,7 +265,7 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
               <Link
                 key={arena.id}
                 href={`/arena/${arena.slug}`}
-                className="block bg-white rounded-lg shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 min-h-[120px] flex flex-col focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="flex bg-white rounded-lg shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 min-h-[120px] flex-col focus:ring-2 focus:ring-blue-500 focus:outline-none"
               >
                 <div className="p-4 sm:p-6 flex-1">
                   <div className="flex items-center mb-3 sm:mb-4">

@@ -193,8 +193,8 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
               
               // Find the best rated implementation for display
               const bestImplementation = solution.implementations.reduce((best, impl) => {
-                const currentRating = impl.goal_links[0]?.effectiveness_rating || 0
-                const bestImplRating = best?.goal_links[0]?.effectiveness_rating || 0
+                const currentRating = impl.goal_links[0]?.avg_effectiveness || 0
+                const bestImplRating = best?.goal_links[0]?.avg_effectiveness || 0
                 return currentRating > bestImplRating ? impl : best
               }, solution.implementations[0])
 
@@ -214,7 +214,7 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
                       </div>
                       {bestImplementation && (
                         <p className="text-sm sm:text-sm text-gray-600 dark:text-gray-300">
-                          Best variant: {bestImplementation.variant_name}
+                          Best variant: {bestImplementation.name}
                         </p>
                       )}
                     </header>
@@ -252,14 +252,14 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
                         <div className="mt-3 sm:mt-4 space-y-3">
                           {solution.implementations.map((impl) => {
                             const goalLink = impl.goal_links[0]
-                            const rating = goalLink?.effectiveness_rating || 0
+                            const rating = goalLink?.avg_effectiveness || 0
                             
                             return (
                               <div key={impl.id} className="border-l-4 border-gray-200 dark:border-gray-600 pl-3 sm:pl-4 py-3 hover:border-blue-400 dark:hover:border-blue-500 transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:pl-4 sm:hover:pl-5">
                                 <div className="flex items-start justify-between flex-col sm:flex-row gap-2 sm:gap-0">
                                   <div className="flex-1">
                                     <h5 className="text-sm sm:text-base font-medium text-gray-900 dark:text-gray-100">
-                                      {impl.variant_name}
+                                      {impl.name}
                                     </h5>
                                     
                                     {rating > 0 && (
@@ -273,9 +273,9 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
                                       </div>
                                     )}
                                     
-                                    {impl.description && (
+                                    {impl.details && typeof impl.details === 'object' && 'description' in impl.details && (
                                       <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-2">
-                                        {impl.description}
+                                        {String(impl.details.description)}
                                       </p>
                                     )}
                                   </div>

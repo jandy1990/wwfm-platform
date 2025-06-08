@@ -87,8 +87,8 @@ SELECT * FROM goal_implementation_links WHERE goal_id = '[goal-id]';
 Expected fields:
 - [ ] `implementation_id`: Links to solution_implementations
 - [ ] `goal_id`: Test goal ID
-- [ ] `effectiveness_rating`: 8 (4 stars * 2 = 10-point scale)
-- [ ] `context_notes`: "Worked for: [Goal Title]"
+- [ ] `avg_effectiveness`: 8 (4 stars * 2 = 10-point scale)
+- [ ] `notes`: "Worked for: [Goal Title]"
 
 #### D. Ratings Table
 ```sql

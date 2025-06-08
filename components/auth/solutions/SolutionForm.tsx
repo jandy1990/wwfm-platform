@@ -187,7 +187,7 @@ export default function SolutionForm({ goalId, goalTitle, userId }: SolutionForm
               id,
               goal_implementation_links!inner (
                 goal_id,
-                effectiveness_rating
+                avg_effectiveness
               )
             )
           `)
@@ -333,7 +333,7 @@ export default function SolutionForm({ goalId, goalTitle, userId }: SolutionForm
         .from('solution_implementations')
         .insert({
           solution_id: solution.id,
-          variant_name: 'Standard',
+          name: 'Standard',
           description: description,
           implementation_details: {
             time_to_results: timeToResults,
@@ -352,8 +352,8 @@ export default function SolutionForm({ goalId, goalTitle, userId }: SolutionForm
         .insert({
           implementation_id: implementation.id,
           goal_id: goalId,
-          effectiveness_rating: effectivenessScore,
-          context_notes: `Worked for: ${goalTitle}`
+          avg_effectiveness: effectivenessScore,
+          notes: `Worked for: ${goalTitle}`
         })
 
       if (linkError) throw linkError
@@ -394,7 +394,7 @@ export default function SolutionForm({ goalId, goalTitle, userId }: SolutionForm
             .from('solution_implementations')
             .insert({
               solution_id: failedSolution.id,
-              variant_name: 'Standard',
+              name: 'Standard',
               description: `Didn't work: ${failed.reason}${failed.details ? ` - ${failed.details}` : ''}`,
               implementation_details: {
                 failure_reason: failed.reason,
@@ -412,8 +412,8 @@ export default function SolutionForm({ goalId, goalTitle, userId }: SolutionForm
             .insert({
               implementation_id: failedImpl.id,
               goal_id: goalId,
-              effectiveness_rating: failed.rating,
-              context_notes: `Failed: ${failed.reason}`
+              avg_effectiveness: failed.rating,
+              notes: `Failed: ${failed.reason}`
             })
 
           // Create rating

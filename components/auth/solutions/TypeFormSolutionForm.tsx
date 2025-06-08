@@ -654,7 +654,7 @@ export default function TypeFormSolutionForm({ goalId, goalTitle, userId }: Type
         .from('solution_implementations')
         .insert({
           solution_id: solution.id,
-          variant_name: 'Standard',
+          name: 'Standard',
           description: formData.implementationDetails,
           implementation_details: {
             time_to_results: formData.timeToResults,
@@ -673,8 +673,8 @@ export default function TypeFormSolutionForm({ goalId, goalTitle, userId }: Type
         .insert({
           implementation_id: implementation.id,
           goal_id: goalId,
-          effectiveness_rating: formData.effectivenessRating * 2, // Convert 5-point to 10-point scale
-          context_notes: `Worked for: ${goalTitle}`
+          avg_effectiveness: formData.effectivenessRating * 2, // Convert 5-point to 10-point scale
+          notes: `Worked for: ${goalTitle}`
         })
 
       if (linkError) throw linkError

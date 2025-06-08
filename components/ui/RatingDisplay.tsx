@@ -125,13 +125,13 @@ export function calculateAverageRating(effectivenessScores: number[]): { average
 }
 
 // Helper function to get the best rating from implementations
-export function getBestRating(implementations: Array<{ goal_links: Array<{ effectiveness_rating: number | null }> }>): number {
+export function getBestRating(implementations: Array<{ goal_links: Array<{ avg_effectiveness: number | null }> }>): number {
   let bestRating = 0
   
   implementations.forEach(impl => {
     impl.goal_links.forEach(link => {
-      if (link.effectiveness_rating && link.effectiveness_rating > bestRating) {
-        bestRating = link.effectiveness_rating
+      if (link.avg_effectiveness && link.avg_effectiveness > bestRating) {
+        bestRating = link.avg_effectiveness
       }
     })
   })
@@ -140,13 +140,13 @@ export function getBestRating(implementations: Array<{ goal_links: Array<{ effec
 }
 
 // Helper function to get average rating across all implementations
-export function getAverageRating(implementations: Array<{ goal_links: Array<{ effectiveness_rating: number | null }> }>): { average: number; count: number } {
+export function getAverageRating(implementations: Array<{ goal_links: Array<{ avg_effectiveness: number | null }> }>): { average: number; count: number } {
   const ratings: number[] = []
   
   implementations.forEach(impl => {
     impl.goal_links.forEach(link => {
-      if (link.effectiveness_rating) {
-        ratings.push(link.effectiveness_rating)
+      if (link.avg_effectiveness) {
+        ratings.push(link.avg_effectiveness)
       }
     })
   })
