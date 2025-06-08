@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
+import Breadcrumbs, { createBreadcrumbs } from '@/components/ui/Breadcrumbs'
+import EmptyState from '@/components/ui/EmptyState'
 
 // Types - Updated to match actual database columns
 type Goal = {
@@ -73,30 +75,24 @@ export default async function ArenaPage({ params }: { params: Promise<{ slug: st
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Breadcrumb */}
-        <nav className="mb-8">
-          <ol className="flex items-center space-x-2 text-sm">
-            <li>
-              <Link href="/browse" className="text-gray-500 hover:text-gray-700">
-                Browse
-              </Link>
-            </li>
-            <li className="text-gray-500">/</li>
-            <li className="text-gray-900 font-medium">{arena.name}</li>
-          </ol>
-        </nav>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        {/* Breadcrumb Navigation */}
+        <Breadcrumbs 
+          items={createBreadcrumbs('arena', {
+            arena: { name: arena.name, slug: arena.slug }
+          })}
+        />
 
         {/* Arena Header */}
-        <div className="mb-8">
-          <div className="flex items-center mb-4">
-            <span className="text-5xl mr-4">{arena.icon}</span>
+        <div className="mb-6 sm:mb-8">
+          <div className="flex items-center mb-4 flex-col sm:flex-row text-center sm:text-left">
+            <span className="text-4xl sm:text-5xl mb-2 sm:mb-0 sm:mr-4">{arena.icon}</span>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
                 {arena.name}
               </h1>
-              <p className="text-gray-600 mt-1">
+              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-1">
                 {arena.description}
               </p>
             </div>
@@ -104,22 +100,22 @@ export default async function ArenaPage({ params }: { params: Promise<{ slug: st
         </div>
 
         {/* Goals Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {arena.goals?.map((goal) => (
             <Link
               key={goal.id}
               href={`/goal/${goal.id}`}
-              className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-4 sm:p-6 min-h-[120px] flex flex-col focus:ring-2 focus:ring-blue-500 focus:outline-none border border-gray-200 dark:border-gray-700"
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 flex-1">
                 {goal.title}
               </h3>
               {goal.description && (
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2 flex-1">
                   {goal.description}
                 </p>
               )}
-              <div className="text-sm text-blue-600">
+              <div className="text-sm text-blue-600 dark:text-blue-400 mt-auto">
                 View solutions →
               </div>
             </Link>
@@ -128,9 +124,16 @@ export default async function ArenaPage({ params }: { params: Promise<{ slug: st
 
         {/* Empty State */}
         {(!arena.goals || arena.goals.length === 0) && (
-          <div className="bg-white rounded-lg shadow p-12 text-center">
-            <p className="text-gray-500">No goals available in this arena yet.</p>
-          </div>
+          <EmptyState
+            icon="🚧"
+            heading="Coming soon to this arena!"
+            subtext="We're working on adding goals and solutions for this life area. Check back soon for updates."
+            actionButton={{
+              text: "Browse Other Areas",
+              href: "/browse",
+              variant: "secondary"
+            }}
+          />
         )}
       </div>
     </div>

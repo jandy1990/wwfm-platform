@@ -1,68 +1,64 @@
-# WWFM Technical Reference
-
-> **Document Type**: Technical implementation details  
-> **Related Documents**: [Project Guide](/docs/project-guide.md) | [Collaboration Guide](/docs/collaboration-guide.md) | [Product Roadmap](/docs/product-roadmap.md)  
-> **Last Updated**: May 31, 2025  
-> **Status**: Active - Authentication Fixed, Ready for Form Testing
+WWFM Technical Reference
+Document Type: Technical implementation details
+Related Documents: Project Guide | Collaboration Guide | Product Roadmap
+Last Updated: June 8, 2025
+Status: Active - UI Enhancements Complete, Ready for Testing & Content
 
 This document contains the technical implementation details for the WWFM platform.
 
-## Table of Contents
-- [1. Technical Stack Configuration](#1-technical-stack-configuration)
-- [2. Database Schema](#2-database-schema)
-- [3. Row Level Security (RLS) Architecture](#3-row-level-security-rls-architecture)
-- [4. Authentication Implementation](#4-authentication-implementation)
-- [5. File Structure](#5-file-structure)
-- [6. Environment Setup](#6-environment-setup)
-- [7. Development Tools & Debugging](#7-development-tools--debugging)
-- [8. Implementation Priorities](#8-implementation-priorities)
-- [9. Decision Log](#9-decision-log)
-- [10. Known Technical Debt](#10-known-technical-debt)
+Table of Contents
+1. Technical Stack Configuration
+2. Database Schema
+3. Row Level Security (RLS) Architecture
+4. Authentication Implementation
+5. File Structure
+6. Environment Setup
+7. Development Tools & Debugging
+8. Implementation Priorities
+9. Decision Log
+10. Known Technical Debt
+11. Key User Flows
+12. Success Metrics
+13. Development Timeline & Milestones
+14. UI Component Library
+15. Session Transition Notes
+1. Technical Stack Configuration
+1.1 GitHub Configuration
+Repository: github.com/jandy1990/wwfm-platform (Private)
+License: None initially, "All rights reserved"
+Personal Access Token: [Regenerated May 31, 2025]
+1.2 Supabase Configuration
+Project URL: https://wqxkhxdbxdtpuvuvgirx.supabase.co
+Anon Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxeGtoeGRieGR0cHV2dXZnaXJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgzMTUsImV4cCI6MjA2MzEwNDMxNX0.eBP6_TUB4Qa9KwPvEnUxrp7e7AGtOA3_Zs3CxaObPTo
+Region: US East (North Virginia)
+Auth: Email confirmations enabled
+1.3 Next.js Configuration
+Version: 15.3.2 with TypeScript
+Architecture: App Router
+Styling: Tailwind CSS with custom animations
+Development: http://localhost:3002 (3001/3000 often in use)
+TypeScript Config: @ alias configured but sometimes problematic
+1.4 Authentication Libraries (Updated May 31, 2025)
+Current: @supabase/ssr for modern auth handling
+Pattern: Async cookie handling for Next.js 15 compatibility
+Note: Requires explicit installation of @supabase/ssr
+1.5 Deployment
+Platform: Vercel
+URL: wwfm-platform-6t2xbo4qg-jack-andrews-projects.vercel.app
+2. Database Schema (MAJOR UPDATE June 2025)
+2.1 Critical Design Decisions
+Solutions are now GENERIC: One "Vitamin D" entry serves all goals, not duplicates per goal
 
----
+Three-Layer Architecture:
 
-## 1. Technical Stack Configuration
+Solutions: Generic approaches (Vitamin D, Exercise, etc.)
+Solution Implementations: Variants (1000 IU daily, 5000 IU daily)
+Goal-Implementation Links: Effectiveness per goal+variant combo
+Source Type Support: Added constraints for AI-generated content tracking
 
-### 1.1 GitHub Configuration
-- **Repository**: github.com/jandy1990/wwfm-platform (Private)
-- **License**: None initially, "All rights reserved"
-- **Personal Access Token**: [Regenerated May 31, 2025]
+User Creation Trigger: (Unchanged)
 
-### 1.2 Supabase Configuration
-- **Project URL**: https://wqxkhxdbxdtpuvuvgirx.supabase.co
-- **Anon Key**: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxeGtoeGRieGR0cHV2dXZnaXJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgzMTUsImV4cCI6MjA2MzEwNDMxNX0.eBP6_TUB4Qa9KwPvEnUxrp7e7AGtOA3_Zs3CxaObPTo
-- **Region**: US East (North Virginia)
-- **Auth**: Email confirmations enabled
-
-### 1.3 Next.js Configuration
-- **Version**: 15.3.2 with TypeScript
-- **Architecture**: App Router
-- **Styling**: Tailwind CSS
-- **Development**: http://localhost:3001 (port 3000 often in use)
-- **TypeScript Config**: @ alias configured for imports
-
-### 1.4 Authentication Libraries (Updated May 31, 2025)
-- **Removed**: `@supabase/auth-helpers-nextjs` (incompatible with Next.js 15)
-- **Added**: `@supabase/ssr` for modern auth handling
-- **Pattern**: Async cookie handling for Next.js 15 compatibility
-
-### 1.5 Deployment
-- **Platform**: Vercel
-- **URL**: wwfm-platform-6t2xbo4qg-jack-andrews-projects.vercel.app
-
-## 2. Database Schema
-
-### 2.1 Critical Design Decisions
-
-**User ID Architecture**: `public.users.id` MUST equal `auth.users.id` for RLS security
-
-**Navigation Structure** (Updated May 31, 2025):
-- Simplified from Arena → Category → Goal to Arena → Goal
-- Categories table remains but is not used in navigation
-- Goals now have direct `arena_id` foreign key
-
-**User Creation Trigger**:
-```sql
+sql
 CREATE OR REPLACE FUNCTION public.handle_new_user() 
 RETURNS trigger AS $$
 BEGIN
@@ -71,444 +67,383 @@ BEGIN
   RETURN new;
 EXCEPTION
   WHEN unique_violation THEN
-    RETURN new; -- User already exists, that's fine
+    RETURN new;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
-```
-
-### 2.2 Core Tables
-
-#### arenas
-```sql
-CREATE TABLE arenas (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  slug VARCHAR(100) UNIQUE NOT NULL,
-  description TEXT,
-  icon VARCHAR(50),
-  display_order INTEGER,
-  is_active BOOLEAN DEFAULT true,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
-);
-```
-
-#### categories (Deprecated - Not used in navigation)
-```sql
--- Still exists in database but not used in application navigation
--- Kept for data integrity, may be removed in future migration
-CREATE TABLE categories (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  arena_id UUID REFERENCES arenas(id) ON DELETE CASCADE,
-  name VARCHAR(100) NOT NULL,
-  slug VARCHAR(100) UNIQUE NOT NULL,
-  description TEXT,
-  display_order INTEGER,
-  is_active BOOLEAN DEFAULT true,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
-);
-```
-
-#### goals (Updated May 31, 2025)
-```sql
-CREATE TABLE goals (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  arena_id UUID REFERENCES arenas(id) ON DELETE CASCADE, -- Direct relationship
-  category_id UUID REFERENCES categories(id), -- Legacy, being phased out
-  title VARCHAR(200) NOT NULL,
-  description TEXT,
-  -- Note: slug column does not exist (discovered May 31)
-  view_count INTEGER DEFAULT 0,
-  -- Note: solution_count column does not exist (discovered May 31)
-  created_by UUID REFERENCES auth.users(id),
-  is_approved BOOLEAN DEFAULT true,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
-);
-
--- Constraints added May 31, 2025
-ALTER TABLE goals 
-ADD CONSTRAINT fk_goals_arena 
-FOREIGN KEY (arena_id) REFERENCES arenas(id) ON DELETE CASCADE;
-
-CREATE INDEX IF NOT EXISTS idx_goals_arena_id ON goals(arena_id);
-```
-
-#### solutions (Updated May 29)
-```sql
+2.2 Core Tables
+solutions (UPDATED - no goal_id)
+sql
 CREATE TABLE solutions (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  goal_id UUID REFERENCES goals(id) ON DELETE CASCADE,
-  created_by UUID REFERENCES auth.users(id),
+  -- REMOVED: goal_id (solutions are now generic)
   title VARCHAR(200) NOT NULL,
-  description TEXT NOT NULL,
-  detailed_steps TEXT,
-  time_investment VARCHAR(100),
-  cost_estimate VARCHAR(100),
-  difficulty_level INTEGER CHECK (difficulty_level >= 1 AND difficulty_level <= 5),
-  avg_rating DECIMAL(3,2) DEFAULT 0.00,
-  rating_count INTEGER DEFAULT 0,
-  view_count INTEGER DEFAULT 0,
+  description TEXT, -- May be removed in future
+  solution_type VARCHAR(50), -- 'dosage-based', 'time-based', 'protocol-based', 'resource-based'
+  solution_fields JSONB DEFAULT '{}', -- Type-specific field definitions
+  source_type VARCHAR(50) DEFAULT 'community_contributed', -- NOW WITH CONSTRAINTS
+  created_by UUID REFERENCES auth.users(id),
+  tags TEXT[],
   is_approved BOOLEAN DEFAULT false,
   is_featured BOOLEAN DEFAULT false,
-  tags TEXT[],
-  mechanism_tags TEXT[],
-  minimum_dose VARCHAR(100),
-  primary_benefit VARCHAR(50),
-  is_compound BOOLEAN DEFAULT false,
-  benefit_categories TEXT[] DEFAULT '{}',
-  completion_score INTEGER DEFAULT 20,
-  time_to_results VARCHAR(50),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
 );
-```
 
-#### ratings
-```sql
-CREATE TABLE ratings (
+-- Source type constraints
+ALTER TABLE solutions 
+ADD CONSTRAINT solutions_source_type_check 
+CHECK (source_type IN (
+  'community_contributed',
+  'ai_generated',
+  'ai_enhanced',
+  'expert_verified'
+));
+solution_implementations (NEW)
+sql
+CREATE TABLE solution_implementations (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   solution_id UUID REFERENCES solutions(id) ON DELETE CASCADE,
+  name VARCHAR(200) NOT NULL, -- e.g., "Low dose daily", "High dose for deficiency"
+  details JSONB DEFAULT '{}', -- Structured fields based on solution_type
+  created_by UUID REFERENCES auth.users(id),
+  source_type VARCHAR(50) DEFAULT 'community_contributed',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
+);
+
+-- Source type constraints
+ALTER TABLE solution_implementations
+ADD CONSTRAINT solution_implementations_source_type_check
+CHECK (source_type IN (
+  'community_contributed',
+  'ai_generated',
+  'ai_enhanced',
+  'expert_verified'
+));
+goal_implementation_links (NEW)
+sql
+CREATE TABLE goal_implementation_links (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  goal_id UUID REFERENCES goals(id) ON DELETE CASCADE,
+  implementation_id UUID REFERENCES solution_implementations(id) ON DELETE CASCADE,
+  avg_effectiveness DECIMAL(3,2) DEFAULT 0.00,
+  rating_count INTEGER DEFAULT 0,
+  typical_application TEXT,
+  contraindications TEXT,
+  notes TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()),
+  UNIQUE(goal_id, implementation_id)
+);
+solution_type_fields (NEW)
+sql
+CREATE TABLE solution_type_fields (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  solution_type VARCHAR(50) UNIQUE NOT NULL,
+  required_fields JSONB NOT NULL DEFAULT '{}',
+  optional_fields JSONB DEFAULT '{}',
+  field_order TEXT[] DEFAULT '{}',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
+);
+ratings (UPDATED)
+sql
+CREATE TABLE ratings (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  -- REMOVED: solution_id
+  implementation_id UUID REFERENCES solution_implementations(id), -- NEW
   user_id UUID REFERENCES auth.users(id),
   effectiveness_score INTEGER NOT NULL CHECK (effectiveness_score >= 1 AND effectiveness_score <= 5),
-  difficulty_score INTEGER CHECK (difficulty_score >= 1 AND difficulty_score <= 5),
+  -- REMOVED: detailed_steps (moved to forums)
   time_to_see_results VARCHAR(50),
   would_recommend BOOLEAN DEFAULT true,
   review_text TEXT,
-  pros TEXT[],
-  cons TEXT[],
-  secondary_impacts JSONB DEFAULT '{}',
+  -- REMOVED: pros, cons arrays (moved to forums)
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()),
-  UNIQUE(solution_id, user_id)
+  UNIQUE(implementation_id, user_id)
 );
-```
+2.3 Solution Categories (PRELIMINARY)
+Current working categories (expect major changes after AI content generation):
 
-### 2.3 Additional Tables (from May 29)
+dosage-based: Supplements, medications, topicals
+time-based: Exercise, meditation, therapy sessions
+protocol-based: Techniques, methods, routines
+resource-based: Products, tools, courses
+2.4 Triangle Architecture Enhanced
+The enhanced triangle now captures:
 
-- `solution_enrichments` - Progressive disclosure system
-- `solution_completion_tracking` - Tracks entry completeness
-- `notification_queue` - Smart prompts for users
-- `goal_suggestions` - User-submitted goal ideas
+Person: user_id (who tried it)
+Implementation: implementation_id (specific variant)
+Solution: via implementation.solution_id (generic approach)
+Goal: via goal_implementation_links (what problem)
+Effectiveness: Contextual per goal+implementation
+2.5 Content Scale (Unchanged)
+13 Arenas: Major life domains
+75 Categories: Logical groupings within arenas
+549 Goals: Specific outcomes users want to achieve
+3. Row Level Security (RLS) Architecture
+3.1 Core Principles (Unchanged)
+Public Read, Private Write
+Anonymous First
+Business Logic Alignment
+Explicit Over Implicit
+3.2 New Table RLS Policies
+solution_implementations
+sql
+-- Public read
+CREATE POLICY "Anyone can view implementations" ON solution_implementations
+  FOR SELECT USING (true);
 
-## 3. Row Level Security (RLS) Architecture
+-- Authenticated create
+CREATE POLICY "Authenticated users can create implementations" ON solution_implementations
+  FOR INSERT WITH CHECK (auth.uid() = created_by);
 
-### 3.1 Core Principles
-1. **Public Read, Private Write** - Aggregated data must be publicly accessible
-2. **Anonymous First** - Most browsing happens without authentication
-3. **Business Logic Alignment** - RLS must match platform goals
-4. **Explicit Over Implicit** - Clear policies prevent confusion
-
-### 3.2 RLS Policies (All tables have RLS enabled)
-
-See previous documentation for detailed policies. All policies remain unchanged and functioning correctly.
-
-## 4. Authentication Implementation (Completely Revised May 31, 2025)
-
-### 4.1 Authentication Architecture
-
-**Key Change**: Migrated from `@supabase/auth-helpers-nextjs` to `@supabase/ssr` due to Next.js 15 compatibility issues.
-
-#### Server-Side Client (`/lib/supabase-server.ts`)
-```typescript
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
-
-export async function createSupabaseServerClient() {
-  const cookieStore = await cookies() // Next.js 15 requires await
-  
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll()
-        },
-        setAll(cookiesToSet) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
-          } catch {
-            // Server Component cookie setting - can be ignored
-          }
-        },
-      },
-    }
-  )
-}
-```
-
-#### Client-Side (`/lib/supabase.ts`)
-```typescript
-import { createBrowserClient } from '@supabase/ssr'
-
-export function createSupabaseBrowserClient() {
-  return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
-}
-
-// For backward compatibility
-export const supabase = createSupabaseBrowserClient()
-```
-
-#### Middleware (`/middleware.ts`)
-```typescript
-import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
-
-export async function middleware(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request })
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          // Update both request and response cookies
-          cookiesToSet.forEach(({ name, value, options }) => {
-            request.cookies.set(name, value)
-            supabaseResponse.cookies.set(name, value, options)
-          })
-        },
-      },
-    }
-  )
-
-  // CRITICAL: Use getUser() not getSession() for proper refresh
-  await supabase.auth.getUser()
-
-  return supabaseResponse
-}
-```
-
-### 4.2 Components ✅ COMPLETE
-- **AuthContext.tsx**: Uses new browser client
-- **SignUpForm.tsx**: User registration with email verification
-- **SignInForm.tsx**: User login with error handling
-- **ResetPasswordForm.tsx**: Password reset request
-- **UpdatePasswordForm.tsx**: Password update after reset
-- **ProtectedRoute.tsx**: Updated to use `createSupabaseBrowserClient()`
-- **SolutionForm.tsx**: Updated to use new auth pattern
-
-### 4.3 Auth Flow
-1. Registration → Email verification → Dashboard
-2. Login → Session creation → Dashboard
-3. Password Reset → Email link → Update → Dashboard
-4. Protected Routes → Check auth → Redirect if needed
-5. **Key Fix**: Middleware now properly refreshes expired sessions
-
-### 4.4 Server Component Usage Pattern
-```typescript
-// All server components must await the client
-const supabase = await createSupabaseServerClient()
-const { data: { session } } = await supabase.auth.getSession()
-```
-
-## 5. File Structure
-
-```
+-- Own update
+CREATE POLICY "Users can update own implementations" ON solution_implementations
+  FOR UPDATE USING (auth.uid() = created_by);
+goal_implementation_links
+sql
+-- Public read only (aggregation happens server-side)
+CREATE POLICY "Anyone can view goal-implementation links" ON goal_implementation_links
+  FOR SELECT USING (true);
+4. Authentication Implementation
+4.1 Current Implementation
+Uses @supabase/ssr for Next.js 15 compatibility
+Async cookie handling pattern
+Email verification enabled
+Protected routes via middleware
+Auth context provides user state across app
+4.2 Auth Flow
+User signs up → Email verification sent
+User clicks link → Redirected to /auth/callback
+Callback verifies token → Sets session
+Protected routes check session → Redirect if needed
+5. File Structure (Updated June 8, 2025)
 wwfm-platform/
 ├── app/
 │   ├── auth/
-│   │   ├── auth-debug/
-│   │   │   └── page.tsx               ✅ (Fixed extension May 31)
-│   │   ├── callback/route.ts          ✅
-│   │   ├── reset-password/page.tsx    ✅
-│   │   ├── signin/page.tsx            ✅
-│   │   ├── signup/page.tsx            ✅
-│   │   └── update-password/page.tsx   ✅
-│   ├── browse/page.tsx                ✅
-│   ├── arena/[slug]/page.tsx          ✅ (Updated May 31)
-│   ├── category/                      ❌ (Removed May 31)
+│   │   ├── auth-debug/page.tsx               ✅
+│   │   ├── callback/route.ts                 ✅
+│   │   ├── reset-password/page.tsx           ✅
+│   │   ├── signin/page.tsx                   ✅
+│   │   ├── signup/page.tsx                   ✅
+│   │   └── update-password/page.tsx          ✅
+│   ├── browse/page.tsx                       ✅ (with search)
+│   ├── arena/[slug]/page.tsx                 ✅
+│   ├── category/[slug]/page.tsx              ⬜ (Next priority)
 │   ├── goal/
 │   │   └── [id]/
-│   │       ├── page.tsx               ✅ (Updated May 31)
+│   │       ├── page.tsx                      ✅ (Updated for new schema)
 │   │       └── add-solution/
-│   │           └── page.tsx           ✅ (Updated May 31)
+│   │           └── page.tsx                  ✅
 │   ├── solution/
 │   │   └── [id]/
-│   │       └── page.tsx               ⬜
+│   │       └── page.tsx                      ⬜
 │   ├── profile/
-│   │   └── page.tsx                   ⬜
-│   └── dashboard/page.tsx             ✅
+│   │   └── page.tsx                          ⬜
+│   └── dashboard/page.tsx                    ✅
 ├── components/
 │   ├── auth/
-│   │   ├── AuthForm.tsx               ✅
-│   │   ├── AuthContext.tsx            ✅
-│   │   ├── ProtectedRoute.tsx         ✅ (Updated May 31)
-│   │   ├── solutions/
-│   │   │   └── SolutionForm.tsx       ✅ (Updated May 31)
-│   │   └── [other auth components]    ✅
-│   └── ui/ (planned)
-│       ├── KeystoneBadge.tsx          ⬜
-│       ├── ImpactSpiderChart.tsx      ⬜
-│       └── SolutionImpactTracker.tsx  ⬜
+│   │   ├── AuthForm.tsx                      ✅
+│   │   ├── AuthContext.tsx                   ✅
+│   │   ├── ProtectedRoute.tsx                ✅
+│   │   ├── FormField.tsx                     ✅
+│   │   ├── Button.tsx                        ✅
+│   │   └── ResetPasswordForm.tsx             ✅
+│   ├── solutions/
+│   │   └── SolutionForm.tsx                  ✅ (Updated for new schema)
+│   ├── ui/
+│   │   ├── Breadcrumbs.tsx                   ✅ (NEW)
+│   │   ├── RatingDisplay.tsx                 ✅ (NEW)
+│   │   ├── SkeletonLoader.tsx                ✅ (NEW)
+│   │   ├── SearchBar.tsx                     ✅ (NEW)
+│   │   ├── KeystoneBadge.tsx                 ⬜
+│   │   ├── ImpactSpiderChart.tsx             ⬜
+│   │   └── SolutionImpactTracker.tsx         ⬜
+│   └── layout/
+│       └── Header.tsx                         ✅ (with logo)
 ├── lib/
-│   ├── supabase.ts                    ✅ (Updated May 31)
-│   ├── supabase-server.ts             ✅ (Updated May 31)
-│   ├── supabase-debug.ts              ✅
-│   ├── keystone-calculator.ts         ⬜ (planned)
-│   └── impact-visualizer.ts           ⬜ (planned)
-├── middleware.ts                      ✅ (Updated May 31)
-├── tsconfig.json                      ✅
-└── .env.local                         ✅
-```
-
-## 6. Environment Setup
-
-### 6.1 Local Development
-```bash
+│   ├── supabase.ts                           ✅
+│   ├── supabase-server.ts                    ✅
+│   ├── supabase-debug.ts                     ✅
+│   ├── goal-solutions.ts                     ✅ (NEW)
+│   ├── keystone-calculator.ts                ⬜
+│   └── impact-visualizer.ts                  ⬜
+├── types/
+│   └── solution.ts                           ✅ (NEW)
+├── middleware.ts                             ✅
+├── tsconfig.json                             ✅
+└── .env.local                                ✅
+6. Environment Setup
+6.1 Local Development
+bash
 # .env.local
 NEXT_PUBLIC_SUPABASE_URL=https://wqxkhxdbxdtpuvuvgirx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-```
-
-### 6.2 Development Commands
-```bash
+6.2 Development Commands
+bash
 npm install        # Install dependencies
-npm run dev        # Start development server (port 3001)
+npm run dev        # Start development server (port 3002)
 npm run build      # Build for production
 npm run lint       # Run ESLint
 npx tsc --noEmit   # Check TypeScript types
-```
-
-### 6.3 Known Configuration Issues
-- **Port**: Often runs on 3001 as 3000 is commonly in use
-- **Browser Extensions**: Can cause hydration errors (use incognito for testing)
-- **TypeScript @ alias**: Working correctly after tsconfig updates
-- **Cookie Warnings**: Fixed by migrating to @supabase/ssr
-
-## 7. Development Tools & Debugging
-
-### 7.1 Authentication Debug Page
-Access `/auth-debug` to verify authentication status and cookie presence.
-
-### 7.2 Claude Code Integration (Added May 31)
-```bash
+6.3 Known Configuration Issues
+Port: Often runs on 3002 as 3000/3001 commonly in use
+TypeScript @ alias: Sometimes requires relative imports
+Platform dependencies: May need npm install --force on M1/M2 Macs
+Required packages: Must explicitly install @supabase/ssr
+7. Development Tools & Debugging
+7.1 Common Issues & Fixes
+Duplicate project directories: Check for nested wwfm-platform folders
+Import errors: Use relative imports if @ alias fails
+Missing dependencies: Run npm install @supabase/ssr
+Platform issues: Use npm install --force for ARM64 dependencies
+7.2 Claude Code Integration
+bash
 # Install globally (requires sudo on Mac)
 sudo npm install -g @anthropic-ai/claude-code
 
 # Run in project directory
 claude
+7.3 New Mac Setup (June 8, 2025)
+Fixed npm permissions by changing prefix to ~/.npm-global
+Added PATH export to .zshrc
+Claude Code now runs without sudo
+8. Implementation Priorities
+8.1 Completed (as of June 8, 2025)
+✅ Authentication system completely fixed
+✅ Major schema restructure implemented
+✅ New tables created (implementations, links)
+✅ SolutionForm updated for new architecture
+✅ Import issues resolved
+✅ Dev server running
+✅ Goal page updated for new schema
+✅ Search functionality implemented
+✅ Breadcrumb navigation added
+✅ Loading skeletons throughout app
+✅ Enhanced UI with animations
+✅ AI source type support in database
+✅ Logo with shimmer effect
+8.2 Next Immediate Steps
+Test complete solution flow - End-to-end verification
+Generate AI content - Initial population
+Implement category pages - Complete navigation
+TypeForm-style solution form - Better UX
+Solution discovery features - Filtering and sorting
+8.3 Future Priorities
+Keystone algorithm implementation
+Forums for qualitative discussion
+User profiles and reputation
+Mobile app development
+API for researchers
+9. Decision Log
+Date	Decision	Why	Result
+May 18	Next.js 15	Latest features	Caused auth issues later
+May 18	Supabase	Speed of development	Excellent choice
+May 31	@supabase/ssr	Next.js 15 compatibility	Fixed auth completely
+June 2025	AI Foundation strategy	Solve cold start transparently	Revolutionary approach
+June 2025	Major schema restructure	Prevent solution duplication	Generic solutions with variants
+June 2025	Remove detailed_steps	Qualitative data → forums	Cleaner data model
+June 2025	4 solution categories	Starting point	Expect major revision
+June 8	Source type constraints	Track AI content	Ready for AI generation
+June 8	UI enhancement sprint	Improve UX before content	Much better experience
+10. Known Technical Debt
+Item	Priority	Status	Notes
+Category pages	🔴 Critical	⬜ Next	Implement /category/[slug]
+Test solution flow	🔴 Critical	⬜ Next	End-to-end verification
+TypeScript cleanup	🟡 Medium	🔄 Ongoing	Remove @ts-ignore, fix any types
+Error boundaries	🟡 Medium	⬜ Planned	Better error handling
+Solution pages	🟡 Medium	⬜ Future	Individual solution details
+Profile pages	🟡 Medium	⬜ Future	User profiles
+Mobile app	🟢 Low	⬜ Future	React Native version
+Performance audit	🟢 Low	⬜ Future	Bundle optimization
+11. Key User Flows
+11.1 Solution Contribution Flow (UPDATED)
+User navigates to goal page
+Clicks "Share What Worked"
+Enters solution name (autocomplete from existing)
+Selects solution category (determines fields)
+Fills category-specific fields
+Rates effectiveness (1-5 stars)
+System creates:
+Solution (if new)
+Implementation (variant)
+Goal-Implementation Link
+Rating record
+Failed solutions added quickly (name + low rating)
+11.2 Solution Discovery Flow (UPDATED June 8)
+User browses to goal
+Sees solutions ordered by effectiveness FOR THAT GOAL
+Each solution card shows:
+Overall effectiveness for this goal
+Number of people who tried it
+Most effective implementation variant
+Source indicator (AI/Human)
+Click to expand all variants
+Each variant shows effectiveness and typical application
+11.3 Search Flow (NEW)
+User types in search bar on browse page
+Results filter in real-time
+Matching text highlighted
+Results grouped by arena
+Click any goal to navigate directly
+12. Success Metrics
+12.1 MVP Metrics (Updated)
+Metric	Target	Current	Measurement
+Registered Users	1,000	0	auth.users count
+Generic Solutions	100-200	0	solutions table count
+Implementation Variants	500+	0	solution_implementations count
+AI Foundation Solutions	65-130	0	5-10 per arena
+Goal Coverage	50%	0	Goals with 1+ solution
+Effectiveness Ratings	2,000	0	ratings table count
+13. Development Timeline & Milestones
+13.1 Completed Milestones (Updated June 8)
+Date	Milestone	Key Decisions
+May 18, 2025	Project initialized	Next.js 15, Supabase, TypeScript
+May 31, 2025	Auth fixed for Next.js 15	Migrated to @supabase/ssr
+June 2025	AI Foundation strategy defined	Transparent AI content approach
+June 2025	Major schema restructure	Generic solutions with implementations
+June 2025	Form components created	FormField, Button components
+June 2025	SolutionForm updated	Works with new schema
+June 8, 2025	Goal page updated	Displays solutions with new schema
+June 8, 2025	UI enhancements complete	Search, breadcrumbs, loading states
+June 8, 2025	AI support added	Source type constraints in DB
+13.2 Upcoming Milestones
+ Test complete solution submission flow
+ Generate first AI content batch
+ Implement category pages
+ Launch MVP with foundation content
+ Begin user acquisition
+14. UI Component Library (NEW)
+14.1 Completed Components
+SearchBar: Client-side search with highlighting
+Breadcrumbs: Hierarchical navigation
+RatingDisplay: 5-star visual ratings
+SkeletonLoader: Loading states with animation
+Logo: WWFM 🏔️ with shimmer effect
+14.2 Design System
+Colors: Using Tailwind defaults + custom animations
+Typography: Clear hierarchy with responsive sizing
+Animations: Subtle transitions on interactions
+Dark Mode: Classes prepared, toggle not implemented
+14.3 Accessibility
+Focus rings on all interactive elements
+Proper ARIA labels
+Keyboard navigation support
+Screen reader optimized
+15. Session Transition Notes
+Today's Major Accomplishments (June 8, 2025)
+Fixed goal page display - Now queries through new schema correctly
+Major UI enhancements - Search, breadcrumbs, loading states all working
+Database ready for AI - Source type constraints added
+Beautiful solution cards - With expandable variants and ratings
+Logo implemented - WWFM 🏔️ with shimmer animation
+Key UI Improvements
+Search across 549 goals with real-time filtering
+Breadcrumb navigation showing full hierarchy
+Loading skeletons instead of "Loading..." text
+Enhanced rating displays with 5-star visuals
+AI/Human badges ready (awaiting content)
+Next Session Priority
+Test the complete solution submission flow end-to-end. This is critical before generating any AI content. After verification, begin AI content generation for one arena.
 
-# Commands in Claude:
-# - Check auth issues
-# - Update imports
-# - Fix TypeScript errors
-```
+Status: UI significantly enhanced, schema fully implemented, ready for content generation phase.
 
-### 7.3 Common Debug Commands
-```bash
-# Check for old auth-helpers imports
-grep -r "@supabase/auth-helpers-nextjs" app components lib
-
-# Find all server client usage
-grep -r "createSupabaseServerClient" app
-
-# Check TypeScript
-npx tsc --noEmit
-
-# Clear Next.js cache
-rm -rf .next
-```
-
-## 8. Implementation Priorities
-
-### 8.1 Completed (as of May 31, 2025)
-- ✅ Authentication system completely fixed
-- ✅ Navigation working (Arena → Goal)
-- ✅ All components updated to new auth pattern
-- ✅ TypeScript compiling without errors
-- ✅ Can reach solution form when authenticated
-
-### 8.2 Next Session (June 1, 2025)
-
-#### 🔴 Priority 1: Test Solution Submission
-1. Test complete form submission flow
-2. Verify database records created correctly
-3. Check all relationships properly set
-4. Debug any submission errors
-
-#### 🟡 Priority 2: Display Solutions
-1. Update goal page to show solutions
-2. Implement rating aggregation
-3. Add solution count display
-4. Handle empty states
-
-#### 🟢 Priority 3: Polish Form UX
-1. Add success confirmations
-2. Implement loading states
-3. Add validation messages
-4. Handle errors gracefully
-
-### 8.3 Quick Decisions Needed
-1. **Moderation approach** for `is_approved = false` solutions
-2. **Solution display format** on goal pages
-3. **Empty state messaging** when no solutions exist
-
-## 9. Decision Log
-
-| Date | Decision | Rationale | Status |
-|------|----------|-----------|---------|
-| May 24, 2025 | Public read for ratings | Aggregation requires public access | ✅ Implemented |
-| May 24, 2025 | Separate queries over joins | Better debugging, clearer RLS | ✅ Implemented |
-| May 24, 2025 | Use slugs for URLs | Better UX and SEO | ⚠️ Goals don't have slugs |
-| May 28, 2025 | Flat goal taxonomy | Simpler navigation, emotion-first | ✅ Implemented |
-| May 29, 2025 | Two-section form design | Capture successes and failures | ✅ Built |
-| May 31, 2025 | Remove categories from nav | Simplify to Arena → Goal | ✅ Implemented |
-| May 31, 2025 | Migrate to @supabase/ssr | Next.js 15 compatibility | ✅ Implemented |
-| May 31, 2025 | Make server client async | Handle Next.js 15 cookies | ✅ Implemented |
-
-## 10. Known Technical Debt
-
-| Item | Priority | Status | Notes |
-|------|----------|---------|-------|
-| ~~Auth redirect loop~~ | ~~🔴 Critical~~ | ✅ FIXED | Migrated to @supabase/ssr |
-| ~~Cookie warnings~~ | ~~🔴 Critical~~ | ✅ FIXED | Async server client |
-| No loading states | 🟡 Medium | ⬜ Planned | Add in next session |
-| No error boundaries | 🟡 Medium | ⬜ Planned | Future improvement |
-| Missing pagination | 🟡 Medium | ⬜ Future | Not critical for MVP |
-| No caching strategy | 🟡 Medium | ⬜ Future | Performance optimization |
-| Limited form validation | 🟡 Medium | ⬜ Next session | Test and improve |
-| ESLint warnings | 🟢 Low | ⬜ Future | Non-functional issues |
-
----
-
-## Key Learnings from May 31 Session
-
-1. **Next.js 15 Breaking Changes** - The `cookies()` function becoming async broke many auth libraries
-2. **Modern Auth Pattern** - `@supabase/ssr` is the correct approach for Next.js App Router
-3. **Session Refresh Critical** - Must use `getUser()` in middleware, not just `getSession()`
-4. **Async All The Way** - Server components must await the Supabase client creation
-5. **Simplify When Stuck** - Removing categories simplified both code and UX
-
-## Critical Implementation Notes
-
-### Server Components Must Await
-```typescript
-// ❌ OLD - Causes cookie errors
-const supabase = createSupabaseServerClient()
-
-// ✅ NEW - Properly handles async cookies
-const supabase = await createSupabaseServerClient()
-```
-
-### Middleware Must Refresh Sessions
-```typescript
-// ❌ OLD - Sessions expire
-await supabase.auth.getSession()
-
-// ✅ NEW - Refreshes expired sessions
-await supabase.auth.getUser()
-```
-
-### All Components Updated
-Every component using the old `@supabase/auth-helpers-nextjs` has been updated to use the new pattern. No imports from the old library should remain.
-
----
-
-**Status**: The authentication system is now fully functional. Users can navigate the platform and access protected routes without being incorrectly redirected. The next phase is testing the core functionality - solution submission and display.

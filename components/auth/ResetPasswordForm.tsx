@@ -33,7 +33,7 @@ export default function ResetPasswordForm() {
         })
         setEmail('') // Clear the form
       }
-    } catch (error) {
+    } catch {
       setMessage({ 
         type: 'error', 
         text: 'An unexpected error occurred. Please try again.' 
@@ -50,7 +50,7 @@ export default function ResetPasswordForm() {
       footer={
         <div className="text-center text-sm">
           Remember your password?{' '}
-          <Link href="/auth/signin" className="font-medium text-indigo-600 hover:text-indigo-500">
+          <Link href="/auth/signin" className="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">
             Sign in
           </Link>
         </div>
@@ -60,8 +60,8 @@ export default function ResetPasswordForm() {
       {message && (
         <div className={`mb-4 p-3 rounded text-sm ${
           message.type === 'success' 
-            ? 'bg-green-50 text-green-800 border border-green-200' 
-            : 'bg-red-50 text-red-800 border border-red-200'
+            ? 'bg-green-50 dark:bg-green-900 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-700' 
+            : 'bg-red-50 dark:bg-red-900 text-red-800 dark:text-red-300 border border-red-200 dark:border-red-700'
         }`}>
           {message.text}
         </div>
@@ -74,7 +74,7 @@ export default function ResetPasswordForm() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
           placeholder="Enter your email"
         />
       </FormField>

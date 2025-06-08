@@ -19,15 +19,18 @@ export async function GET(request: NextRequest) {
 
   // Check if we have the required parameters
   if (token_hash && type) {
-    // Verify the token with Supabase
-    const { error } = await supabase.auth.verifyOtp({
-      token_hash,
-      type: type as any,
-    })
+    // Only handle email-based auth types
+    if (['signup', 'recovery', 'email_change'].includes(type)) {
+      // Verify the token with Supabase
+      const { error } = await supabase.auth.verifyOtp({
+        token_hash,
+        type: type as 'signup' | 'recovery' | 'email_change',
+      })
 
-    if (!error) {
-      // Success! Redirect to dashboard or specified page
-      return NextResponse.redirect(new URL(next, requestUrl.origin))
+      if (!error) {
+        // Success! Redirect to dashboard or specified page
+        return NextResponse.redirect(new URL(next, requestUrl.origin))
+      }
     }
   }
 

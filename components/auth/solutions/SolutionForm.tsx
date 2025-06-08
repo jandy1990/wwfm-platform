@@ -3,8 +3,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createSupabaseBrowserClient } from '@/lib/supabase'
-import { FormField } from '@/components/auth/FormField'
-import { Button } from '@/components/auth/Button'
+// import { FormField } from '@/components/auth/FormField'  // Currently unused
+// import { Button } from '@/components/auth/Button'  // Currently unused
+// import RatingDisplay from '@/components/ui/RatingDisplay'  // Currently unused
 
 interface SolutionFormProps {
   goalId: string
@@ -14,68 +15,68 @@ interface SolutionFormProps {
 }
 
 // Pre-populated solutions by goal type (sample data - expand this)
-const COMMON_SOLUTIONS: Record<string, string[]> = {
-  'acne': [
-    'Salicylic acid wash',
-    'Benzoyl peroxide cream',
-    'Retinol/Tretinoin',
-    'Accutane (isotretinoin)',
-    'Birth control pills',
-    'Zinc supplements',
-    'Dairy-free diet',
-    'Chemical peels',
-    'Niacinamide serum',
-    'Antibiotics (doxycycline)',
-    'Clay masks',
-    'Oil cleansing',
-    'Spironolactone',
-    'LED light therapy',
-    'Hydrocolloid patches'
-  ],
-  'anxiety': [
-    'Meditation (app)',
-    'CBT therapy',
-    'SSRIs (medication)',
-    'Exercise routine',
-    'Breathing exercises',
-    'Journaling',
-    'Yoga practice',
-    'Limiting caffeine',
-    'Sleep hygiene',
-    'Mindfulness practice',
-    'Support groups',
-    'Beta blockers',
-    'Magnesium supplements',
-    'Cold exposure',
-    'Nature walks'
-  ],
-  'weight-loss': [
-    'Calorie counting app',
-    'Keto diet',
-    'Intermittent fasting',
-    'Weight training',
-    'Running program',
-    'Meal prep',
-    'Water tracking',
-    'Sleep optimization',
-    'Protein increase',
-    'Sugar elimination',
-    'Walking 10k steps',
-    'CrossFit',
-    'Nutritionist',
-    'Ozempic/Wegovy',
-    'Portion control'
-  ],
+// const COMMON_SOLUTIONS: Record<string, string[]> = {
+//   'acne': [
+//     'Salicylic acid wash',
+//     'Benzoyl peroxide cream',
+//     'Retinol/Tretinoin',
+//     'Accutane (isotretinoin)',
+//     'Birth control pills',
+//     'Zinc supplements',
+//     'Dairy-free diet',
+//     'Chemical peels',
+//     'Niacinamide serum',
+//     'Antibiotics (doxycycline)',
+//     'Clay masks',
+//     'Oil cleansing',
+//     'Spironolactone',
+//     'LED light therapy',
+//     'Hydrocolloid patches'
+//   ],
+//   'anxiety': [
+//     'Meditation (app)',
+//     'CBT therapy',
+//     'SSRIs (medication)',
+//     'Exercise routine',
+//     'Breathing exercises',
+//     'Journaling',
+//     'Yoga practice',
+//     'Limiting caffeine',
+//     'Sleep hygiene',
+//     'Mindfulness practice',
+//     'Support groups',
+//     'Beta blockers',
+//     'Magnesium supplements',
+//     'Cold exposure',
+//     'Nature walks'
+//   ],
+//   'weight-loss': [
+//     'Calorie counting app',
+//     'Keto diet',
+//     'Intermittent fasting',
+//     'Weight training',
+//     'Running program',
+//     'Meal prep',
+//     'Water tracking',
+//     'Sleep optimization',
+//     'Protein increase',
+//     'Sugar elimination',
+//     'Walking 10k steps',
+//     'CrossFit',
+//     'Nutritionist',
+//     'Ozempic/Wegovy',
+//     'Portion control'
+//   ],
   // Add more mappings based on your goals
-}
+// }
 
 // Map goal titles/slugs to solution categories
-const GOAL_TO_CATEGORY: Record<string, string> = {
-  'overcome-anxiety': 'anxiety',
-  'clear-acne': 'acne',
-  'lose-weight': 'weight-loss',
+// const GOAL_TO_CATEGORY: Record<string, string> = {
+//   'overcome-anxiety': 'anxiety',
+//   'clear-acne': 'acne',
+//   'lose-weight': 'weight-loss',
   // Add more mappings
-}
+// }
 
 // Benefit categories
 const BENEFIT_CATEGORIES = [
@@ -109,7 +110,7 @@ interface FailedSolution {
   details?: string
 }
 
-export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: SolutionFormProps) {
+export default function SolutionForm({ goalId, goalTitle, userId }: SolutionFormProps) {
   const router = useRouter()
   const supabase = createSupabaseBrowserClient()
   
@@ -131,10 +132,10 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [showDropdown, setShowDropdown] = useState(false)
-  const [customSolution, setCustomSolution] = useState('')
+  // const [customSolution, setCustomSolution] = useState('')  // Currently unused
   
   // Dynamic solutions from database
-  const [suggestedSolutions, setSuggestedSolutions] = useState<string[]>([
+  const [suggestedSolutions] = useState<string[]>([  // Removed setSuggestedSolutions as unused
     'Test Solution 1',
     'Test Solution 2',
     'Test Solution 3',
@@ -144,7 +145,7 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
     'Yoga Practice',
     'Better Sleep'
   ])
-  const [isLoadingSolutions, setIsLoadingSolutions] = useState(false)
+  const [isLoadingSolutions] = useState(false)  // Removed setIsLoadingSolutions as unused
   
   // Refs for click outside detection
   const mainDropdownRef = useRef<HTMLDivElement>(null)
@@ -176,13 +177,22 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
       ]
       
       try {
-        // Try fetching solutions directly from the solutions table
+        // Fetch solutions linked to this goal through the new schema
         const { data, error } = await supabase
           .from('solutions')
-          .select('id, title')
-          .eq('goal_id', goalId)
+          .select(`
+            id,
+            title,
+            solution_implementations!inner (
+              id,
+              goal_implementation_links!inner (
+                goal_id,
+                effectiveness_rating
+              )
+            )
+          `)
+          .eq('solution_implementations.goal_implementation_links.goal_id', goalId)
           .eq('is_approved', true)
-          .order('avg_rating', { ascending: false })
 
         console.log('📊 Solutions query result:', { data, error })
 
@@ -293,34 +303,60 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
     // Validate failed solutions have reasons
     const invalidFailures = failedSolutions.filter(sol => !sol.reason)
     if (invalidFailures.length > 0) {
-      alert('Please provide reasons for why solutions didn\'t work')
+      alert('Please provide reasons for why solutions didn&apos;t work')
       return
     }
     
     setIsSubmitting(true)
 
     try {
-      // Create the main solution (what worked)
+      // Create the main solution (what worked) - without goal_id
       const { data: solution, error: solutionError } = await supabase
         .from('solutions')
         .insert({
-          goal_id: goalId,
           created_by: userId,
           title,
           description,
-          time_to_results: timeToResults,
+          solution_type: 'user_submitted', // Default type for user submissions
+          source_type: 'community_contributed', // Mark as human-contributed
           time_investment: timeInvestment,
           cost_estimate: costEstimate || null,
-          difficulty_level: effectivenessScore >= 3 ? difficultyLevel : null,
-          benefit_categories: effectivenessScore >= 3 ? selectedBenefits : [],
-          is_approved: false,
-          avg_rating: effectivenessScore,
-          rating_count: 1
+          is_approved: false
         })
         .select()
         .single()
 
       if (solutionError) throw solutionError
+
+      // Create implementation variant
+      const { data: implementation, error: implError } = await supabase
+        .from('solution_implementations')
+        .insert({
+          solution_id: solution.id,
+          variant_name: 'Standard',
+          description: description,
+          implementation_details: {
+            time_to_results: timeToResults,
+            difficulty_level: effectivenessScore >= 3 ? difficultyLevel : null,
+            benefit_categories: effectivenessScore >= 3 ? selectedBenefits : []
+          }
+        })
+        .select()
+        .single()
+
+      if (implError) throw implError
+
+      // Link implementation to goal with effectiveness rating
+      const { error: linkError } = await supabase
+        .from('goal_implementation_links')
+        .insert({
+          implementation_id: implementation.id,
+          goal_id: goalId,
+          effectiveness_rating: effectivenessScore,
+          context_notes: `Worked for: ${goalTitle}`
+        })
+
+      if (linkError) throw linkError
 
       // Create rating for the main solution
       const { error: ratingError } = await supabase
@@ -337,23 +373,48 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
       // Create failed solutions if any
       if (failedSolutions.length > 0) {
         for (const failed of failedSolutions) {
-          // Create solution
+          // Create solution for failed attempt
           const { data: failedSolution, error: failedSolError } = await supabase
             .from('solutions')
             .insert({
-              goal_id: goalId,
               created_by: userId,
               title: failed.name,
-              description: `Didn't work: ${failed.reason}${failed.details ? ` - ${failed.details}` : ''}`,
-              time_to_results: 'never', // Failed solutions never saw results
-              is_approved: false,
-              avg_rating: failed.rating,
-              rating_count: 1
+              description: `Failed attempt`,
+              solution_type: 'user_submitted',
+              source_type: 'community_contributed', // Mark as human-contributed
+              is_approved: false
             })
             .select()
             .single()
 
           if (failedSolError) continue // Skip on error
+
+          // Create implementation
+          const { data: failedImpl, error: failedImplError } = await supabase
+            .from('solution_implementations')
+            .insert({
+              solution_id: failedSolution.id,
+              variant_name: 'Standard',
+              description: `Didn't work: ${failed.reason}${failed.details ? ` - ${failed.details}` : ''}`,
+              implementation_details: {
+                failure_reason: failed.reason,
+                time_to_results: 'never'
+              }
+            })
+            .select()
+            .single()
+
+          if (failedImplError) continue
+
+          // Link to goal with low effectiveness
+          await supabase
+            .from('goal_implementation_links')
+            .insert({
+              implementation_id: failedImpl.id,
+              goal_id: goalId,
+              effectiveness_rating: failed.rating,
+              context_notes: `Failed: ${failed.reason}`
+            })
 
           // Create rating
           await supabase
@@ -419,7 +480,7 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
     setFailedSolutions([...failedSolutions, newFailed])
     setSearchQuery('')
     setShowDropdown(false)
-    setCustomSolution('')
+    // setCustomSolution('')  // Function commented out as unused
   }
 
   const updateFailedSolution = (id: string, updates: Partial<FailedSolution>) => {
@@ -447,17 +508,18 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       {/* Section 1: What Worked */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-xl font-bold mb-6">Share Your Experience with: {goalTitle}</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <h2 className="text-xl font-bold mb-6 text-gray-900 dark:text-gray-100">Share Your Experience with: {goalTitle}</h2>
         
         <div className="space-y-6">
           {/* Solution Title with Autocomplete */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="solution-title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               What did you try?
             </label>
             <div className="relative" ref={mainDropdownRef}>
               <input
+                id="solution-title"
                 type="text"
                 value={title}
                 onChange={(e) => {
@@ -471,10 +533,14 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
                   setShowMainDropdown(true)
                 }}
                 placeholder="Type to search solutions or add your own..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                aria-describedby="solution-help"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
                 required
                 maxLength={200}
               />
+              <div id="solution-help" className="sr-only">
+                Search for existing solutions or type your own. You can select from suggestions or add a custom solution.
+              </div>
               
               {/* Dropdown for Section 1 */}
               {showMainDropdown && title.length > 1 && (
@@ -513,7 +579,7 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
                         }}
                         className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm font-medium text-blue-600 border-t"
                       >
-                        + Use "{title}" as custom solution
+                        + Use &quot;{title}&quot; as custom solution
                       </button>
                     </>
                   )}
@@ -523,11 +589,11 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
           </div>
 
           {/* Effectiveness Score */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+          <fieldset>
+            <legend className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
               How well did it work for you?
-            </label>
-            <div className="space-y-2">
+            </legend>
+            <div className="space-y-2" role="radiogroup" aria-required="true">
               {[
                 { value: 5, label: 'Worked great', stars: '⭐⭐⭐⭐⭐' },
                 { value: 4, label: 'Worked well', stars: '⭐⭐⭐⭐' },
@@ -535,29 +601,30 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
                 { value: 2, label: 'Barely worked', stars: '⭐⭐' },
                 { value: 1, label: "Didn't work", stars: '⭐' }
               ].map(option => (
-                <label key={option.value} className="flex items-center space-x-3 cursor-pointer">
+                <label key={option.value} className="flex items-center space-x-3 cursor-pointer py-2 px-3 -mx-3 rounded-lg hover:bg-gray-50 min-h-[44px] transition-all duration-200 hover:scale-105">
                   <input
                     type="radio"
                     name="effectiveness"
                     value={option.value}
                     checked={effectivenessScore === option.value}
                     onChange={(e) => setEffectivenessScore(Number(e.target.value))}
-                    className="w-4 h-4 text-blue-600"
+                    className="w-5 h-5 text-blue-600 focus:ring-2 focus:ring-blue-500"
                     required
                   />
-                  <span className="text-lg">{option.stars}</span>
-                  <span>{option.label}</span>
+                  <span className="text-lg sm:text-base">{option.stars}</span>
+                  <span className="text-sm sm:text-base">{option.label}</span>
                 </label>
               ))}
             </div>
-          </div>
+          </fieldset>
 
           {/* Description - Dynamic prompt based on effectiveness */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="experience-description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Tell us about your experience
             </label>
             <textarea
+              id="experience-description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder={
@@ -566,20 +633,21 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
                   : "What made this work for you? Any tips for others?"
               }
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
               required
             />
           </div>
 
           {/* Time to Results */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="time-to-results" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               How long before you saw results?
             </label>
             <select
+              id="time-to-results"
               value={timeToResults}
               onChange={(e) => setTimeToResults(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent text-base min-h-[44px]"
               required
             >
               <option value="">Select timeframe</option>
@@ -596,13 +664,14 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
 
           {/* Time Investment */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="time-investment" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Time commitment
             </label>
             <select
+              id="time-investment"
               value={timeInvestment}
               onChange={(e) => setTimeInvestment(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent text-base min-h-[44px]"
               required
             >
               <option value="">Select time commitment</option>
@@ -627,15 +696,16 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
                     key={benefit.id}
                     type="button"
                     onClick={() => toggleBenefit(benefit.id)}
+                    aria-pressed={selectedBenefits.includes(benefit.id)}
                     className={`
-                      flex items-center gap-2 p-3 rounded-lg border-2 transition-all
+                      flex items-center gap-2 p-3 rounded-lg border-2 transition-all min-h-[44px] focus:ring-2 focus:ring-blue-500 focus:outline-none
                       ${selectedBenefits.includes(benefit.id)
-                        ? 'border-blue-500 bg-blue-50 text-blue-700'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
+                        : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 text-gray-900 dark:text-gray-100'
                       }
                     `}
                   >
-                    <span className="text-lg">{benefit.icon}</span>
+                    <span className="text-lg" aria-hidden="true">{benefit.icon}</span>
                     <span className="text-sm font-medium">{benefit.label}</span>
                   </button>
                 ))}
@@ -649,13 +719,14 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
             
             {/* Cost Estimate */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="cost-estimate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Approximate cost
               </label>
               <select
+                id="cost-estimate"
                 value={costEstimate}
                 onChange={(e) => setCostEstimate(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent text-base min-h-[44px]"
               >
                 <option value="">Select cost range</option>
                 <option value="free">Free</option>
@@ -669,20 +740,22 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
             {/* Difficulty Level - Only for successes */}
             {!isFailure && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="difficulty-level" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Difficulty level
                 </label>
                 <div className="flex items-center gap-4">
-                  <span className="text-sm text-gray-500">Easy</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">Easy</span>
                   <input
+                    id="difficulty-level"
                     type="range"
                     min="1"
                     max="5"
                     value={difficultyLevel}
                     onChange={(e) => setDifficultyLevel(Number(e.target.value))}
+                    aria-label={`Difficulty level: ${difficultyLevel} out of 5`}
                     className="flex-1"
                   />
-                  <span className="text-sm text-gray-500">Hard</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">Hard</span>
                   <span className="ml-2 font-medium bg-gray-100 px-2 py-1 rounded">
                     {difficultyLevel}/5
                   </span>
@@ -694,9 +767,9 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
       </div>
 
       {/* Section 2: What Didn't Work */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-medium">What else did you try that didn't work?</h3>
+          <h3 className="text-lg font-medium">What else did you try that didn&apos;t work?</h3>
           <button
             type="button"
             onClick={() => setShowSection2(!showSection2)}
@@ -709,7 +782,7 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
         {showSection2 && (
           <div className="space-y-4">
             <p className="text-sm text-gray-600">
-              Help others avoid dead ends - what didn't work for {goalTitle}?
+              Help others avoid dead ends - what didn&apos;t work for {goalTitle}?
             </p>
 
 
@@ -771,7 +844,7 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
                         }}
                         className="w-full px-4 py-2 text-left hover:bg-gray-50 text-sm font-medium text-blue-600 border-t"
                       >
-                        + Add "{searchQuery}" as new solution
+                        + Add &quot;{searchQuery}&quot; as new solution
                       </button>
                     </>
                   )}
@@ -788,25 +861,29 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
                       <h4 className="font-medium">{sol.name}</h4>
                       
                       {/* Mini rating */}
-                      <div className="flex items-center gap-2 mt-2">
-                        <span className="text-sm text-gray-600">Rating:</span>
-                        <div className="flex gap-1">
-                          {[1, 2, 3].map(star => (
-                            <button
-                              key={star}
-                              type="button"
-                              onClick={() => updateFailedSolution(sol.id, { rating: star })}
-                              className={`text-lg ${sol.rating >= star ? 'text-yellow-500' : 'text-gray-300'}`}
-                            >
-                              ⭐
-                            </button>
-                          ))}
+                      <div className="mt-2">
+                        <span className="text-sm text-gray-600 dark:text-gray-300 block mb-1">Rating:</span>
+                        <div className="flex items-center gap-2">
+                          <div className="flex gap-1" role="radiogroup" aria-label="Effectiveness rating for failed solution">
+                            {[1, 2, 3].map(star => (
+                              <button
+                                key={star}
+                                type="button"
+                                onClick={() => updateFailedSolution(sol.id, { rating: star })}
+                                aria-label={`Rate ${star} out of 3 stars`}
+                                aria-pressed={sol.rating === star}
+                                className={`text-lg p-1 min-h-[44px] min-w-[44px] flex items-center justify-center rounded focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors ${sol.rating >= star ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600 hover:text-gray-400 dark:hover:text-gray-500'}`}
+                              >
+                                <span aria-hidden="true">★</span>
+                              </button>
+                            ))}
+                          </div>
+                          <span className="text-xs text-gray-500 dark:text-gray-400">
+                            {sol.rating === 1 && "(didn't work)"}
+                            {sol.rating === 2 && "(slight improvement)"}
+                            {sol.rating === 3 && "(decent but not enough)"}
+                          </span>
                         </div>
-                        <span className="text-xs text-gray-500">
-                          {sol.rating === 1 && "(didn't work)"}
-                          {sol.rating === 2 && "(slight improvement)"}
-                          {sol.rating === 3 && "(decent but not enough)"}
-                        </span>
                       </div>
 
                       {/* Reason */}
@@ -817,7 +894,7 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
                           className="w-full text-sm px-3 py-1 border border-gray-200 rounded"
                           required
                         >
-                          <option value="">Why didn't it work?</option>
+                          <option value="">Why didn&apos;t it work?</option>
                           {FAILURE_REASONS.map(reason => (
                             <option key={reason} value={reason}>{reason}</option>
                           ))}
@@ -828,9 +905,10 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
                     <button
                       type="button"
                       onClick={() => removeFailedSolution(sol.id)}
-                      className="ml-2 text-red-500 hover:text-red-700"
+                      aria-label={`Remove ${sol.name} from failed solutions`}
+                      className="ml-2 text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded focus:ring-2 focus:ring-red-500 focus:outline-none"
                     >
-                      ✕
+                      <span aria-hidden="true">✕</span>
                     </button>
                   </div>
                 </div>
@@ -839,7 +917,7 @@ export default function SolutionForm({ goalId, goalTitle, userId, goalSlug }: So
 
             {failedSolutions.length === 0 && (
               <p className="text-sm text-gray-500 text-center py-4">
-                No failed solutions added yet. Search above to add what didn't work.
+                No failed solutions added yet. Search above to add what didn&apos;t work.
               </p>
             )}
           </div>

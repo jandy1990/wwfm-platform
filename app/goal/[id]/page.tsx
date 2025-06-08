@@ -3,18 +3,9 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
-
-// Types - Updated to remove categories
-type Solution = {
-  id: string
-  title: string
-  description: string
-  cost_estimate?: string
-  time_investment?: string
-  difficulty_level?: number
-  avg_rating?: number
-  rating_count?: number
-}
+import { getGoalSolutionsByEffectiveness, type SolutionWithImplementations } from '@/lib/goal-solutions'
+import Breadcrumbs, { createBreadcrumbs } from '@/components/ui/Breadcrumbs'
+import GoalPageClient from '@/components/goal/GoalPageClient'
 
 type Goal = {
   id: string
@@ -27,187 +18,130 @@ type Goal = {
     slug: string
     icon: string
   }
-  solutions?: Solution[]
+  categories?: {
+    id: string
+    name: string
+    slug: string
+  } | null
 }
 
-async function getGoalWithSolutions(id: string) {
+async function getGoal(id: string): Promise<Goal | null> {
   const supabase = await createSupabaseServerClient()
   
-  console.log('Fetching goal with ID:', id)
-  
-  // Get goal with arena info directly (no categories)
-  const { data: goal, error: goalError } = await supabase
+  const { data, error } = await supabase
     .from('goals')
     .select(`
-      *,
+      id,
+      title,
+      description,
+      arena_id,
       arenas!inner (
         id,
         name,
         slug,
         icon
+      ),
+      categories (
+        id,
+        name,
+        slug
       )
     `)
     .eq('id', id)
     .eq('is_approved', true)
     .single()
 
-  console.log('Goal query result:', { goal, error: goalError })
-
-  if (goalError || !goal) {
-    console.error('Goal fetch error:', goalError)
+  if (error) {
+    console.error('Error fetching goal:', error)
     return null
   }
 
-  // Get solutions for this goal
-  const { data: solutions, error: solutionsError } = await supabase
-    .from('solutions')
-    .select('*')
-    .eq('goal_id', id)
-    .eq('is_approved', true)
-
-  if (solutionsError) {
-    console.error('Solutions fetch error:', solutionsError)
+  // Transform the data to match our Goal type since arenas comes as an array but we expect an object
+  const transformedData = {
+    ...data,
+    arenas: Array.isArray(data.arenas) ? data.arenas[0] : data.arenas,
+    categories: Array.isArray(data.categories) ? data.categories[0] : data.categories
   }
-
-  return {
-    ...goal,
-    solutions: solutions || []
-  } as Goal
+  
+  return transformedData as Goal
 }
 
 export default async function GoalPage({ params }: { params: Promise<{ id: string }> }) {
-  const resolvedParams = await params
-  const goal = await getGoalWithSolutions(resolvedParams.id)
+  let goal: Goal | null = null
+  let solutions: SolutionWithImplementations[] = []
+  let error: string | null = null
 
-  if (!goal) {
-    notFound()
+  try {
+    const resolvedParams = await params
+    goal = await getGoal(resolvedParams.id)
+
+    if (!goal) {
+      notFound()
+    }
+
+    // Get solutions using the new helper function
+    try {
+      solutions = await getGoalSolutionsByEffectiveness(resolvedParams.id)
+    } catch (solutionError) {
+      console.error('Error fetching solutions:', solutionError)
+      error = 'Unable to load solutions at this time'
+    }
+  } catch (pageError) {
+    console.error('Error loading goal page:', pageError)
+    error = 'Unable to load this goal'
+  }
+
+  if (error && !goal) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Something went wrong</h1>
+          <p className="text-gray-600">{error}</p>
+          <Link href="/browse" className="mt-4 inline-block text-blue-600 hover:text-blue-700">
+            Back to Browse
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Breadcrumb - Simplified without category */}
-        <nav className="mb-8">
-          <ol className="flex items-center space-x-2 text-sm flex-wrap">
-            <li>
-              <Link href="/browse" className="text-gray-500 hover:text-gray-700">
-                Browse
-              </Link>
-            </li>
-            <li className="text-gray-500">/</li>
-            <li>
-              <Link 
-                href={`/arena/${goal.arenas.slug}`} 
-                className="text-gray-500 hover:text-gray-700"
-              >
-                {goal.arenas.name}
-              </Link>
-            </li>
-            <li className="text-gray-500">/</li>
-            <li className="text-gray-900 font-medium">{goal.title}</li>
-          </ol>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        {/* Breadcrumb Navigation */}
+        <nav aria-label="Breadcrumb">
+          <Breadcrumbs 
+            items={createBreadcrumbs('goal', {
+              arena: { name: goal.arenas.name, slug: goal.arenas.slug },
+              category: goal.categories ? { name: goal.categories.name, slug: goal.categories.slug } : undefined,
+              goal: { title: goal.title }
+            })}
+          />
         </nav>
 
         {/* Goal Header */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="flex items-start">
-            <span className="text-4xl mr-4">{goal.arenas.icon}</span>
+        <header className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-6 mb-6 sm:mb-8">
+          <div className="flex items-start flex-col sm:flex-row">
+            <div className="flex items-center mb-3 sm:mb-0 sm:mr-4">
+              <span className="text-3xl sm:text-4xl mr-3 sm:mr-0" aria-hidden="true">{goal.arenas.icon}</span>
+            </div>
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                 {goal.title}
               </h1>
-              <p className="text-gray-600 text-lg">
+              <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg">
                 {goal.description || `Achieve your goal: ${goal.title}`}
               </p>
             </div>
           </div>
-        </div>
+        </header>
 
-        {/* What Worked Section */}
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-900">
-              What Worked for This Goal
-            </h2>
-            <span className="text-sm text-gray-500">
-              {goal.solutions?.length || 0} approaches shared
-            </span>
-          </div>
-
-          {/* Solutions Grid */}
-          {goal.solutions && goal.solutions.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {goal.solutions.map((solution) => (
-                <div key={solution.id} className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {solution.title}
-                  </h3>
-                  
-                  <p className="text-gray-600 mb-4">
-                    {solution.description}
-                  </p>
-
-                  <div className="space-y-2 text-sm">
-                    {solution.time_investment && (
-                      <div className="flex justify-between">
-                        <span className="text-gray-500">Time:</span>
-                        <span>{solution.time_investment}</span>
-                      </div>
-                    )}
-                    {solution.cost_estimate && (
-                      <div className="flex justify-between">
-                        <span className="text-gray-500">Cost:</span>
-                        <span>{solution.cost_estimate}</span>
-                      </div>
-                    )}
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-500">Effectiveness:</span>
-                      <div className="flex items-center">
-                        {solution.avg_rating ? (
-                          <>
-                            <span className="font-semibold text-green-600">
-                              ⭐ {solution.avg_rating.toFixed(1)}
-                            </span>
-                            <span className="text-gray-400 ml-1">
-                              ({solution.rating_count} ratings)
-                            </span>
-                          </>
-                        ) : (
-                          <span className="text-gray-400">No ratings yet</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="bg-white rounded-lg shadow p-12 text-center">
-              <p className="text-gray-500 mb-4">
-                No one has shared what worked for this goal yet.
-              </p>
-              <p className="text-sm text-gray-400">
-                Be the first to help others!
-              </p>
-            </div>
-          )}
-
-          {/* Add What Worked CTA */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
-            <h3 className="text-lg font-medium text-blue-900 mb-2">
-              Tried something for this goal?
-            </h3>
-            <p className="text-blue-700 mb-4">
-              Share what worked (or didn't work) for you and help others on their journey.
-            </p>
-            <Link 
-              href={`/goal/${goal.id}/add-solution`}
-              className="inline-block px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium"
-            >
-              Share What Worked
-            </Link>
-          </div>
-        </div>
+        {/* Goal Page Client Content */}
+        <GoalPageClient 
+          goal={goal}
+          initialSolutions={solutions}
+          error={error}
+        />
       </div>
     </div>
   )

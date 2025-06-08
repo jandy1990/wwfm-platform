@@ -1,8 +1,10 @@
-// app/arena/[slug]/page.tsx
+// app/category/[slug]/page.tsx
 
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
+import Breadcrumbs, { createBreadcrumbs } from '@/components/ui/Breadcrumbs'
+import EmptyState from '@/components/ui/EmptyState'
 
 // Types
 type Goal = {
@@ -14,121 +16,138 @@ type Goal = {
   view_count: number
 }
 
-type Arena = {
+type Category = {
   id: string
   name: string
   slug: string
-  description: string
-  icon: string
+  description: string | null
+  arena_id: string
+  arenas: {
+    id: string
+    name: string
+    slug: string
+    icon: string
+  }
   goals?: Goal[]
 }
 
-async function getArenaWithGoals(slug: string) {
+async function getCategoryWithGoals(slug: string) {
   const supabase = await createSupabaseServerClient()
   
-  console.log('Looking for arena with slug:', slug)
+  console.log('Looking for category with slug:', slug)
   
-  // First, get the arena
-  const { data: arena, error: arenaError } = await supabase
-    .from('arenas')
-    .select('*')
+  // Get category with arena info and goals
+  const { data: category, error: categoryError } = await supabase
+    .from('categories')
+    .select(`
+      *,
+      arenas!inner (
+        id,
+        name,
+        slug,
+        icon
+      ),
+      goals (
+        id,
+        title,
+        description,
+        slug,
+        solution_count,
+        view_count
+      )
+    `)
     .eq('slug', slug)
     .eq('is_active', true)
+    .eq('goals.is_approved', true)
     .single()
   
-  if (arenaError || !arena) {
-    console.log('Arena fetch error:', arenaError)
+  if (categoryError || !category) {
+    console.log('Category fetch error:', categoryError)
     return null
   }
   
-  console.log('Arena found:', arena.name)
+  console.log('Category found:', category.name)
   
-  // Then, get goals for this arena
-  const { data: goals, error: goalsError } = await supabase
-    .from('goals')
-    .select('*')
-    .eq('arena_id', arena.id)
-    .eq('is_approved', true)
-  
-  console.log('Goals fetch result:', { 
-    count: goals?.length || 0, 
-    error: goalsError 
-  })
-  
-  return {
-    ...arena,
-    goals: goals || []
-  } as Arena
+  return category as Category
 }
 
-export default async function ArenaPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params
-  const arena = await getArenaWithGoals(resolvedParams.slug)
+  const category = await getCategoryWithGoals(resolvedParams.slug)
 
-  if (!arena) {
+  if (!category) {
     notFound()
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Breadcrumb */}
-        <nav className="mb-8">
-          <ol className="flex items-center space-x-2 text-sm">
-            <li>
-              <Link href="/browse" className="text-gray-500 hover:text-gray-700">
-                Browse
-              </Link>
-            </li>
-            <li className="text-gray-500">/</li>
-            <li className="text-gray-900 font-medium">{arena.name}</li>
-          </ol>
-        </nav>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        {/* Breadcrumb Navigation */}
+        <Breadcrumbs 
+          items={createBreadcrumbs('category', {
+            arena: { name: category.arenas.name, slug: category.arenas.slug },
+            category: { name: category.name, slug: category.slug }
+          })}
+        />
 
-        {/* Arena Header */}
-        <div className="mb-8">
-          <div className="flex items-center mb-4">
-            <span className="text-5xl mr-4">{arena.icon}</span>
+        {/* Category Header */}
+        <div className="mb-6 sm:mb-8">
+          <div className="flex items-center mb-4 flex-col sm:flex-row text-center sm:text-left">
+            <span className="text-4xl sm:text-5xl mb-2 sm:mb-0 sm:mr-4">{category.arenas.icon}</span>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                {arena.name}
+              <div className="flex items-center justify-center sm:justify-start space-x-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1">
+                <span>{category.arenas.name}</span>
+                <span>•</span>
+                <span>Category</span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
+                {category.name}
               </h1>
-              <p className="text-gray-600 mt-1">
-                {arena.description}
-              </p>
+              {category.description && (
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-1">
+                  {category.description}
+                </p>
+              )}
             </div>
           </div>
         </div>
 
         {/* Goals Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {arena.goals?.map((goal) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {category.goals?.map((goal) => (
             <Link
               key={goal.id}
               href={`/goal/${goal.id}`}
-              className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-4 sm:p-6 min-h-[120px] flex flex-col focus:ring-2 focus:ring-blue-500 focus:outline-none border border-gray-200 dark:border-gray-700"
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 flex-1">
                 {goal.title}
               </h3>
               {goal.description && (
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2 flex-1">
                   {goal.description}
                 </p>
               )}
-              <div className="flex items-center justify-between text-sm text-gray-500">
+              <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-auto">
                 <span>{goal.solution_count || 0} solutions</span>
-                <span className="text-blue-600">View solutions →</span>
+                <span className="text-blue-600 dark:text-blue-400">View solutions →</span>
               </div>
             </Link>
           ))}
         </div>
 
         {/* Empty State */}
-        {(!arena.goals || arena.goals.length === 0) && (
-          <div className="bg-white rounded-lg shadow p-12 text-center">
-            <p className="text-gray-500">No goals available in this arena yet.</p>
-          </div>
+        {(!category.goals || category.goals.length === 0) && (
+          <EmptyState
+            icon="🚧"
+            heading="Coming soon to this category!"
+            subtext="We're working on adding goals for this category. Check back soon for updates."
+            actionButton={{
+              text: "Browse Other Categories",
+              href: `/arena/${category.arenas.slug}`,
+              variant: "secondary"
+            }}
+          />
         )}
       </div>
     </div>

@@ -1,105 +1,88 @@
 // app/browse/page.tsx
 
-import Link from 'next/link'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
+import SearchableBrowse from '@/components/browse/SearchableBrowse'
 
-// Arena type definition
+// Type definitions
+type Goal = {
+  id: string
+  title: string
+  slug: string
+  is_approved: boolean
+}
+
+type Category = {
+  id: string
+  name: string
+  slug: string
+  goals?: Goal[]
+}
+
+/* Unused Arena type
 type Arena = {
   id: string
   name: string
   slug: string
   description: string
   icon: string
+  categories?: Category[]
   _count?: {
     categories: number
     goals: number
   }
 }
+*/
 
-async function getArenas() {
+async function getArenasWithGoals() {
   const supabase = await createSupabaseServerClient()
   
-  // Fetch arenas with counts of categories and goals
+  // Fetch arenas with categories and all goal details for search
   const { data: arenas, error } = await supabase
     .from('arenas')
     .select(`
       *,
       categories (
         id,
+        name,
+        slug,
         goals (
-          id
+          id,
+          title,
+          slug,
+          is_approved
         )
       )
     `)
     .eq('is_active', true)
+    .eq('categories.goals.is_approved', true)
     .order('order_rank')
 
   if (error) {
     console.error('Error fetching arenas:', error)
-    return []
+    return { arenas: [], totalGoals: 0 }
   }
 
-  // Transform data to include counts
-  return arenas.map(arena => ({
-    ...arena,
-    _count: {
-      categories: arena.categories?.length || 0,
-      goals: arena.categories?.reduce((acc: number, cat: any) => 
-        acc + (cat.goals?.length || 0), 0) || 0
+  // Calculate total goals and transform data
+  let totalGoals = 0
+  const transformedArenas = arenas.map(arena => {
+    const arenaGoalCount = arena.categories?.reduce((acc: number, cat: Category) => 
+      acc + (cat.goals?.length || 0), 0) || 0
+    totalGoals += arenaGoalCount
+    
+    return {
+      ...arena,
+      _count: {
+        categories: arena.categories?.length || 0,
+        goals: arenaGoalCount
+      }
     }
-  }))
+  })
+
+  return { arenas: transformedArenas, totalGoals }
 }
 
 export default async function BrowsePage() {
-  const arenas = await getArenas()
+  const { arenas, totalGoals } = await getArenasWithGoals()
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Browse Goals by Life Area
-          </h1>
-          <p className="mt-2 text-gray-600">
-            Discover what has worked for others in achieving their goals
-          </p>
-        </div>
-
-        {/* Arena Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {arenas.map((arena) => (
-            <Link
-              key={arena.id}
-              href={`/arena/${arena.slug}`}
-              className="block bg-white rounded-lg shadow hover:shadow-lg transition-shadow"
-            >
-              <div className="p-6">
-                <div className="flex items-center mb-4">
-                  <span className="text-4xl mr-3">{arena.icon}</span>
-                  <h2 className="text-xl font-semibold text-gray-900">
-                    {arena.name}
-                  </h2>
-                </div>
-                <p className="text-gray-600 mb-4">
-                  {arena.description}
-                </p>
-                <div className="flex justify-between text-sm text-gray-500">
-                  <span>{arena._count?.categories || 0} categories</span>
-                  <span>{arena._count?.goals || 0} goals</span>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {/* Empty State */}
-        {arenas.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500">No areas available yet.</p>
-          </div>
-        )}
-      </div>
-    </div>
-  )
+  return <SearchableBrowse arenas={arenas} totalGoals={totalGoals} />
 }

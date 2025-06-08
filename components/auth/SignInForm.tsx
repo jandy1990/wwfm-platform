@@ -5,10 +5,12 @@ import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import AuthForm from './AuthForm';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function SignInForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -20,18 +22,18 @@ export default function SignInForm() {
     setError(null);
     
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
       
       if (error) throw error;
       
-      // Redirect to the dashboard or home page after successful login
-      router.push('/dashboard');
+      // Redirect to the specified page or dashboard after successful login
+      router.push(redirectTo || '/dashboard');
       
-    } catch (error: any) {
-      setError(error.message || 'Failed to sign in');
+    } catch (error: unknown) {
+      setError((error as Error)?.message || 'Failed to sign in');
     } finally {
       setLoading(false);
     }
@@ -44,13 +46,13 @@ export default function SignInForm() {
       footer={
         <div className="space-y-2">
           <p>
-            Don't have an account?{' '}
-            <Link href="/auth/signup" className="text-blue-600 hover:underline">
+            Don&apos;t have an account?{' '}
+            <Link href="/auth/signup" className="text-blue-600 dark:text-blue-400 hover:underline">
               Sign Up
             </Link>
           </p>
           <p>
-            <Link href="/auth/reset-password" className="text-blue-600 hover:underline">
+            <Link href="/auth/reset-password" className="text-blue-600 dark:text-blue-400 hover:underline">
               Forgot your password?
             </Link>
           </p>
@@ -58,13 +60,13 @@ export default function SignInForm() {
       }
     >
       {error && (
-        <div className="p-3 rounded bg-red-100 text-red-700">
+        <div className="p-3 rounded bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300">
           {error}
         </div>
       )}
       
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Email
         </label>
         <input
@@ -72,13 +74,13 @@ export default function SignInForm() {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
           required
         />
       </div>
       
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Password
         </label>
         <input
@@ -86,7 +88,7 @@ export default function SignInForm() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
           required
         />
       </div>
@@ -94,7 +96,7 @@ export default function SignInForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium rounded-md transition-colors"
+        className="w-full py-2 px-4 bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 disabled:bg-blue-400 dark:disabled:bg-blue-800 text-white font-medium rounded-md transition-colors"
       >
         {loading ? 'Signing In...' : 'Sign In'}
       </button>
