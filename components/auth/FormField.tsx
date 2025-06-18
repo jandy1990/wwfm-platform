@@ -1,17 +1,44 @@
+import React from 'react';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+
 interface FormFieldProps {
   label: string;
+  type?: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
   required?: boolean;
-  children: React.ReactNode;
+  placeholder?: string;
 }
 
-export function FormField({ label, required, children }: FormFieldProps) {
+export default function FormField({
+  label,
+  type = 'text',
+  name,
+  value,
+  onChange,
+  error,
+  required = false,
+  placeholder
+}: FormFieldProps) {
   return (
-    <div className="space-y-1">
-      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-        {label}
-        {required && <span className="text-red-500 dark:text-red-400 ml-1">*</span>}
-      </label>
-      {children}
+    <div className="space-y-2">
+      <Label htmlFor={name}>
+        {label} {required && <span className="text-red-500">*</span>}
+      </Label>
+      <Input
+        id={name}
+        name={name}
+        type={type}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className={error ? 'border-red-500' : ''}
+        required={required}
+      />
+      {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   );
 }
