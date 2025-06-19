@@ -125,10 +125,16 @@ export function calculateAverageRating(effectivenessScores: number[]): { average
 }
 
 // Helper function to get the best rating from implementations
-export function getBestRating(implementations: Array<{ goal_links: Array<{ avg_effectiveness: number | null }> }>): number {
+export function getBestRating(implementations: Array<{ effectiveness?: number | null; goal_links: Array<{ avg_effectiveness: number | null }> }>): number {
   let bestRating = 0
   
   implementations.forEach(impl => {
+    // Check implementation-level effectiveness first
+    if (impl.effectiveness && impl.effectiveness > bestRating) {
+      bestRating = impl.effectiveness
+    }
+    
+    // Then check goal_links for goal-specific effectiveness
     impl.goal_links.forEach(link => {
       if (link.avg_effectiveness && link.avg_effectiveness > bestRating) {
         bestRating = link.avg_effectiveness
@@ -140,15 +146,21 @@ export function getBestRating(implementations: Array<{ goal_links: Array<{ avg_e
 }
 
 // Helper function to get average rating across all implementations
-export function getAverageRating(implementations: Array<{ goal_links: Array<{ avg_effectiveness: number | null }> }>): { average: number; count: number } {
+export function getAverageRating(implementations: Array<{ effectiveness?: number | null; goal_links: Array<{ avg_effectiveness: number | null }> }>): { average: number; count: number } {
   const ratings: number[] = []
   
   implementations.forEach(impl => {
-    impl.goal_links.forEach(link => {
-      if (link.avg_effectiveness) {
-        ratings.push(link.avg_effectiveness)
-      }
-    })
+    // Use implementation-level effectiveness if available
+    if (impl.effectiveness) {
+      ratings.push(impl.effectiveness)
+    } else {
+      // Otherwise use goal_links
+      impl.goal_links.forEach(link => {
+        if (link.avg_effectiveness) {
+          ratings.push(link.avg_effectiveness)
+        }
+      })
+    }
   })
   
   return calculateAverageRating(ratings)

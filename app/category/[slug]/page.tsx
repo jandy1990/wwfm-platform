@@ -1,5 +1,9 @@
 // app/category/[slug]/page.tsx
 
+// Make the page dynamic to prevent caching issues with browser navigation
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
@@ -14,6 +18,7 @@ type Goal = {
   slug: string
   solution_count: number
   view_count: number
+  is_approved?: boolean
 }
 
 type Category = {
@@ -53,12 +58,12 @@ async function getCategoryWithGoals(slug: string) {
         description,
         slug,
         solution_count,
-        view_count
+        view_count,
+        is_approved
       )
     `)
     .eq('slug', slug)
     .eq('is_active', true)
-    .eq('goals.is_approved', true)
     .single()
   
   if (categoryError || !category) {
@@ -68,14 +73,32 @@ async function getCategoryWithGoals(slug: string) {
   
   console.log('Category found:', category.name)
   
-  return category as Category
+  // Filter to only include approved goals
+  const filteredCategory = {
+    ...category,
+    goals: category.goals?.filter((goal: any) => goal.is_approved) || []
+  }
+  
+  return filteredCategory as Category
 }
+
+// Add cache control
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params
+  
+  // Add error handling for params
+  if (!resolvedParams?.slug) {
+    console.error('No slug provided to category page')
+    notFound()
+  }
+  
   const category = await getCategoryWithGoals(resolvedParams.slug)
 
   if (!category) {
+    console.error(`Category not found for slug: ${resolvedParams.slug}`)
     notFound()
   }
 

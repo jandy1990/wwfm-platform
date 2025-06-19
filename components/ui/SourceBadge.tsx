@@ -41,6 +41,14 @@ export default function SourceBadge({ sourceType, size = 'sm', className = '' }:
           borderColor: 'border-amber-200 dark:border-amber-700',
           icon: '✓'
         }
+      case 'ai_foundation':
+        return {
+          text: 'AI Base',
+          bgColor: 'bg-indigo-100 dark:bg-indigo-900/30',
+          textColor: 'text-indigo-800 dark:text-indigo-300',
+          borderColor: 'border-indigo-200 dark:border-indigo-700',
+          icon: '🧠'
+        }
       default:
         return {
           text: 'Unknown',
@@ -82,6 +90,8 @@ export function getSourceDescription(sourceType: SourceType): string {
       return 'AI-enhanced community solution'
     case 'expert_verified':
       return 'Expert-verified solution'
+    case 'ai_foundation':
+      return 'AI foundation solution'
     default:
       return 'Unknown source type'
   }

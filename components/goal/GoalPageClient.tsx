@@ -41,8 +41,8 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
     const counts: Record<string, number> = { all: initialSolutions.length }
     
     initialSolutions.forEach(solution => {
-      if (solution.solution_type) {
-        counts[solution.solution_type] = (counts[solution.solution_type] || 0) + 1
+      if (solution.solution_category) {
+        counts[solution.solution_category] = (counts[solution.solution_category] || 0) + 1
       }
     })
     
@@ -54,7 +54,7 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
     // First filter by type
     let filtered = initialSolutions
     if (filterType !== 'all') {
-      filtered = initialSolutions.filter(solution => solution.solution_type === filterType)
+      filtered = initialSolutions.filter(solution => solution.solution_category === filterType)
     }
 
     // Then sort the filtered results
@@ -193,8 +193,8 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
               
               // Find the best rated implementation for display
               const bestImplementation = solution.implementations.reduce((best, impl) => {
-                const currentRating = impl.goal_links[0]?.avg_effectiveness || 0
-                const bestImplRating = best?.goal_links[0]?.avg_effectiveness || 0
+                const currentRating = impl.effectiveness || impl.goal_links[0]?.avg_effectiveness || 0
+                const bestImplRating = best?.effectiveness || best?.goal_links[0]?.avg_effectiveness || 0
                 return currentRating > bestImplRating ? impl : best
               }, solution.implementations[0])
 
@@ -252,7 +252,7 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
                         <div className="mt-3 sm:mt-4 space-y-3">
                           {solution.implementations.map((impl) => {
                             const goalLink = impl.goal_links[0]
-                            const rating = goalLink?.avg_effectiveness || 0
+                            const rating = impl.effectiveness || goalLink?.avg_effectiveness || 0
                             
                             return (
                               <div key={impl.id} className="border-l-4 border-gray-200 dark:border-gray-600 pl-3 sm:pl-4 py-3 hover:border-blue-400 dark:hover:border-blue-500 transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:pl-4 sm:hover:pl-5">
@@ -273,9 +273,9 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
                                       </div>
                                     )}
                                     
-                                    {impl.details && typeof impl.details === 'object' && 'description' in impl.details && (
+                                    {impl.category_fields && typeof impl.category_fields === 'object' && 'other_important_information' in impl.category_fields && (
                                       <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-2">
-                                        {String(impl.details.description)}
+                                        {String(impl.category_fields.other_important_information)}
                                       </p>
                                     )}
                                   </div>

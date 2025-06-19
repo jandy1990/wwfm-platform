@@ -1,19 +1,22 @@
 import { createSupabaseServerClient } from '@/lib/supabase-server'
 
-export type SourceType = 'community_contributed' | 'ai_generated' | 'ai_enhanced' | 'expert_verified';
+export type SourceType = 'community_contributed' | 'ai_generated' | 'ai_enhanced' | 'expert_verified' | 'ai_foundation';
 
 export interface SolutionWithImplementations {
   id: string
   title: string
   description: string | null
-  solution_type: string
+  solution_category: string | null
   source_type: SourceType
   created_at: string
   updated_at: string
   implementations: {
     id: string
     name: string
-    details: Record<string, unknown> | null
+    category_fields: Record<string, unknown> | null
+    effectiveness: number | null
+    time_to_results: string | null
+    cost_range: string | null
     created_at: string
     updated_at: string
     goal_links: {
@@ -38,17 +41,20 @@ export async function getGoalSolutions(goalId: string): Promise<SolutionWithImpl
     .from('goal_implementation_links')
     .select(`
       goal_id,
-      solution_implementation_id,
+      implementation_id,
       avg_effectiveness,
       rating_count,
       typical_application,
       contraindications,
       notes,
       created_at,
-      solution_implementations!inner (
+      solution_implementations!goal_implementation_links_implementation_id_fkey (
         id,
         name,
-        details,
+        category_fields,
+        effectiveness,
+        time_to_results,
+        cost_range,
         created_at,
         updated_at,
         solution_id,
@@ -56,7 +62,7 @@ export async function getGoalSolutions(goalId: string): Promise<SolutionWithImpl
           id,
           title,
           description,
-          solution_type,
+          solution_category,
           source_type,
           created_at,
           updated_at,
@@ -87,7 +93,7 @@ export async function getGoalSolutions(goalId: string): Promise<SolutionWithImpl
         id: solution.id,
         title: solution.title,
         description: solution.description,
-        solution_type: solution.solution_type,
+        solution_category: solution.solution_category,
         source_type: solution.source_type as SourceType,
         created_at: solution.created_at,
         updated_at: solution.updated_at,
@@ -103,7 +109,10 @@ export async function getGoalSolutions(goalId: string): Promise<SolutionWithImpl
       solutionEntry.implementations.push({
         id: impl.id,
         name: impl.name,
-        details: impl.details,
+        category_fields: impl.category_fields,
+        effectiveness: impl.effectiveness,
+        time_to_results: impl.time_to_results,
+        cost_range: impl.cost_range,
         created_at: impl.created_at,
         updated_at: impl.updated_at,
         goal_links: [{
