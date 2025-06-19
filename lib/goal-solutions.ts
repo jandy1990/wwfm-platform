@@ -31,58 +31,99 @@ export interface SolutionWithImplementations {
 export async function getGoalSolutions(goalId: string): Promise<SolutionWithImplementations[]> {
   const supabase = await createSupabaseServerClient()
 
-  // Fetch solutions linked to this goal through the three-table structure
-  const { data, error } = await supabase
-    .from('solutions')
+  console.log(`[DEBUG] Fetching solutions for goal: ${goalId}`)
+
+  // First approach: Get all links for this goal, then fetch related data
+  const { data: goalLinks, error: linksError } = await supabase
+    .from('goal_implementation_links')
     .select(`
-      id,
-      title,
-      description,
-      solution_type,
-      source_type,
+      goal_id,
+      solution_implementation_id,
+      avg_effectiveness,
+      rating_count,
+      typical_application,
+      contraindications,
+      notes,
       created_at,
-      updated_at,
-      solution_implementations (
+      solution_implementations!inner (
         id,
         name,
         details,
         created_at,
         updated_at,
-        goal_implementation_links!inner (
-          goal_id,
-          avg_effectiveness,
-          rating_count,
-          typical_application,
-          contraindications,
-          notes,
-          created_at
+        solution_id,
+        solutions!inner (
+          id,
+          title,
+          description,
+          solution_type,
+          source_type,
+          created_at,
+          updated_at,
+          is_approved
         )
       )
     `)
-    .eq('solution_implementations.goal_implementation_links.goal_id', goalId)
-    .eq('is_approved', true)
+    .eq('goal_id', goalId)
+    .eq('solution_implementations.solutions.is_approved', true)
 
-  if (error) {
-    console.error('Error fetching goal solutions:', error)
+  if (linksError) {
+    console.error('[DEBUG] Error fetching goal links:', linksError)
+    console.error('[DEBUG] Error details:', JSON.stringify(linksError, null, 2))
     return []
   }
 
-  // Filter implementations to only include those linked to this specific goal
-  const solutionsWithFilteredImplementations = data?.map(solution => ({
-    ...solution,
-    implementations: solution.solution_implementations.filter(impl => 
-      impl.goal_implementation_links.some(link => link.goal_id === goalId)
-    ).map(impl => ({
-      id: impl.id,
-      name: impl.name,
-      details: impl.details,
-      created_at: impl.created_at,
-      updated_at: impl.updated_at,
-      goal_links: impl.goal_implementation_links.filter(link => link.goal_id === goalId)
-    }))
-  })) || []
+  console.log(`[DEBUG] Goal links fetched:`, goalLinks?.length || 0, 'links')
 
-  return solutionsWithFilteredImplementations as SolutionWithImplementations[]
+  // Transform the data to group by solution
+  const solutionMap = new Map<string, SolutionWithImplementations>()
+  
+  goalLinks?.forEach(link => {
+    const impl = link.solution_implementations
+    const solution = impl.solutions
+    
+    if (!solutionMap.has(solution.id)) {
+      solutionMap.set(solution.id, {
+        id: solution.id,
+        title: solution.title,
+        description: solution.description,
+        solution_type: solution.solution_type,
+        source_type: solution.source_type as SourceType,
+        created_at: solution.created_at,
+        updated_at: solution.updated_at,
+        implementations: []
+      })
+    }
+    
+    const solutionEntry = solutionMap.get(solution.id)!
+    
+    // Check if this implementation already exists
+    const existingImpl = solutionEntry.implementations.find(i => i.id === impl.id)
+    if (!existingImpl) {
+      solutionEntry.implementations.push({
+        id: impl.id,
+        name: impl.name,
+        details: impl.details,
+        created_at: impl.created_at,
+        updated_at: impl.updated_at,
+        goal_links: [{
+          goal_id: link.goal_id,
+          avg_effectiveness: link.avg_effectiveness,
+          rating_count: link.rating_count,
+          typical_application: link.typical_application,
+          contraindications: link.contraindications,
+          notes: link.notes,
+          created_at: link.created_at
+        }]
+      })
+    }
+  })
+  
+  const data = Array.from(solutionMap.values())
+  console.log(`[DEBUG] Transformed solutions:`, data.length)
+  console.log(`[DEBUG] First solution sample:`, data[0])
+  
+  return data
 }
 
 export async function getGoalSolutionsByEffectiveness(goalId: string): Promise<SolutionWithImplementations[]> {
