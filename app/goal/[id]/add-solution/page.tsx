@@ -3,7 +3,7 @@
 import { Metadata } from 'next'
 import { redirect, notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
-import TypeFormSolutionForm from '@/components/auth/solutions/TypeFormSolutionForm'
+import { SolutionFormWithAutoCategory } from '@/components/solutions/SolutionFormWithAutoCategory'
 
 export const metadata: Metadata = {
   title: 'Share What Worked | WWFM',
@@ -48,7 +48,7 @@ export default async function AddSolutionPage({ params }: PageProps) {
   }
 
   return (
-    <TypeFormSolutionForm 
+    <SolutionFormWithAutoCategory 
       goalId={resolvedParams.id}
       goalTitle={goal.title}
       userId={session.user.id}
