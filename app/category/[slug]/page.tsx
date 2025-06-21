@@ -82,10 +82,6 @@ async function getCategoryWithGoals(slug: string) {
   return filteredCategory as Category
 }
 
-// Add cache control
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
-
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params
   

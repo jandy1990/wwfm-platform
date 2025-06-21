@@ -3,7 +3,7 @@
 import { Metadata } from 'next'
 import { redirect, notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
-import { SolutionFormWithAutoCategory } from '@/components/solutions/SolutionFormWithAutoCategory'
+import SolutionFormWithAutoCategory from '@/components/solutions/SolutionFormWithAutoCategory'
 
 export const metadata: Metadata = {
   title: 'Share What Worked | WWFM',
@@ -50,9 +50,9 @@ export default async function AddSolutionPage({ params }: PageProps) {
   return (
     <SolutionFormWithAutoCategory 
       goalId={resolvedParams.id}
-      goalTitle={goal.title}
+      goalTitle={goal.title}  // Add this line to pass the goal title
       userId={session.user.id}
-      goalSlug={goal.slug || goal.title.toLowerCase().replace(/\s+/g, '-')}
+      onCancel={() => redirect(`/goal/${resolvedParams.id}`)}
     />
   )
 }

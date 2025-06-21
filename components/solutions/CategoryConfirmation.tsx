@@ -1,5 +1,4 @@
 // components/solutions/CategoryConfirmation.tsx
-
 'use client';
 
 import { CategoryMatch } from '@/lib/services/auto-categorization';
@@ -147,31 +146,31 @@ export function CategoryConfirmation({
     const info = categoryInfo[match.category];
     
     return (
-      <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+      <div className="max-w-2xl mx-auto p-6 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700">
         <h3 className="text-lg font-semibold mb-4">
           Is this a {getCategoryDisplayName(match.category)}?
         </h3>
         
-        <div className="space-y-3 mb-6">
+        <div className="space-y-3 mb-6 text-gray-600 dark:text-gray-400">
           <div className="flex items-start">
             <span className="text-lg mr-2">✨</span>
             <div>
-              <p className="font-medium">{getCategoryDisplayName(match.category)} includes:</p>
-              <p className="text-gray-600">{info.description}</p>
+              <p className="font-medium text-gray-900 dark:text-gray-100">{getCategoryDisplayName(match.category)} includes:</p>
+              <p className="text-sm">{info.description}</p>
             </div>
           </div>
           
           <div className="flex items-start">
             <span className="text-lg mr-2">📝</span>
             <div>
-              <p className="text-gray-600">We'll ask about: {info.formFields}</p>
+              <p className="text-sm">We'll ask about: {info.formFields}</p>
             </div>
           </div>
           
           <div className="flex items-start">
             <span className="text-lg mr-2">⏱️</span>
             <div>
-              <p className="text-gray-600">Takes {info.timeEstimate} to share</p>
+              <p className="text-sm">Takes {info.timeEstimate} to share</p>
             </div>
           </div>
         </div>
@@ -179,13 +178,19 @@ export function CategoryConfirmation({
         <div className="flex gap-3">
           <button
             onClick={() => onConfirm(match.category)}
-            className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex-1 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 
+                     text-blue-700 dark:text-blue-300 rounded-lg 
+                     hover:bg-blue-200 dark:hover:bg-blue-900/50 
+                     transition-all duration-200 font-medium"
           >
             Yes, continue
           </button>
           <button
             onClick={onChooseDifferent}
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 
+                     text-gray-700 dark:text-gray-300 rounded-lg 
+                     hover:bg-gray-50 dark:hover:bg-gray-800 
+                     transition-colors font-medium"
           >
             No, let me choose
           </button>
@@ -197,7 +202,7 @@ export function CategoryConfirmation({
   // Multiple matches - show options
   if (matches.length > 1) {
     return (
-      <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+      <div className="max-w-2xl mx-auto p-6 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700">
         <h3 className="text-lg font-semibold mb-4">
           Which type is this?
         </h3>
@@ -209,10 +214,12 @@ export function CategoryConfirmation({
               <button
                 key={match.category}
                 onClick={() => onConfirm(match.category)}
-                className="w-full text-left p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors"
+                className="w-full text-left p-4 border border-gray-200 dark:border-gray-600 
+                         rounded-lg hover:border-gray-300 dark:hover:border-gray-500 
+                         hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
               >
                 <div className="font-medium">{getCategoryDisplayName(match.category)}</div>
-                <div className="text-sm text-gray-600 mt-1">✨ {info.description}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">✨ {info.description}</div>
               </button>
             );
           })}
@@ -220,9 +227,12 @@ export function CategoryConfirmation({
         
         <button
           onClick={onChooseDifferent}
-          className="w-full px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 
+                   text-gray-700 dark:text-gray-300 rounded-lg 
+                   hover:bg-gray-50 dark:hover:bg-gray-800 
+                   transition-colors font-medium"
         >
-          Choose different category
+          Show all categories
         </button>
       </div>
     );

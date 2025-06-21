@@ -84,8 +84,19 @@ export async function getGoalSolutions(goalId: string): Promise<SolutionWithImpl
   // Transform the data to group by solution
   const solutionMap = new Map<string, SolutionWithImplementations>()
   
-  goalLinks?.forEach(link => {
-    const impl = link.solution_implementations
+  goalLinks?.forEach((link: any) => {
+    const impl = link.solution_implementations as any
+    // Handle the case where solution_implementations might be an array
+    if (Array.isArray(impl)) {
+      console.error('[DEBUG] Unexpected array for solution_implementations:', impl)
+      return
+    }
+    
+    if (!impl || !impl.solutions) {
+      console.error('[DEBUG] Missing implementation or solution data:', impl)
+      return
+    }
+    
     const solution = impl.solutions
     
     if (!solutionMap.has(solution.id)) {

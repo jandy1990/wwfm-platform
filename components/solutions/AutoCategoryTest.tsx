@@ -12,7 +12,7 @@ export function AutoCategoryTest() {
   const [input, setInput] = useState('');
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showCategoryPicker, setShowCategoryPicker] = useState(false);
-  const { matches, isLoading, error, detectFromInput } = useAutoCategorization();
+  const { detectionResult, isLoading, error, detectFromInput } = useAutoCategorization();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -76,24 +76,23 @@ export function AutoCategoryTest() {
       )}
 
       {/* Show confirmation if user clicked to confirm or if high confidence match */}
-      {showConfirmation && matches.length > 0 ? (
+      {showConfirmation && detectionResult?.categories && detectionResult.categories.length > 0 ? (
         <div className="mt-4">
           <CategoryConfirmation
-            matches={matches}
+            matches={detectionResult.categories}
             onConfirm={handleConfirm}
             onChooseDifferent={handleChooseDifferent}
           />
         </div>
       ) : (
         <>
-          {matches.length > 0 && (
+          {detectionResult?.categories && detectionResult.categories.length > 0 && (
             <div className="mt-4 space-y-2">
               <h3 className="font-semibold">Detected Categories:</h3>
-              {matches.map((match, index) => (
+              {detectionResult.categories.map((match, index) => (
                 <div 
                   key={index}
                   className={`p-3 rounded-lg border cursor-pointer hover:shadow-md transition-shadow ${
-                    match.confidence === 'exact' ? 'border-green-500 bg-green-50' :
                     match.confidence === 'high' ? 'border-blue-500 bg-blue-50' :
                     match.confidence === 'medium' ? 'border-yellow-500 bg-yellow-50' :
                     'border-gray-300 bg-gray-50'
@@ -104,7 +103,7 @@ export function AutoCategoryTest() {
                     {getCategoryDisplayName(match.category)}
                   </div>
                   <div className="text-sm text-gray-600">
-                    Confidence: {match.confidence} | Source: {match.source}
+                    Confidence: {match.confidence}
                   </div>
                   <div className="text-xs text-blue-600 mt-1">
                     Click to select this category
@@ -114,7 +113,7 @@ export function AutoCategoryTest() {
             </div>
           )}
 
-          {input.length >= 3 && matches.length === 0 && !isLoading && (
+          {input.length >= 3 && (!detectionResult?.categories || detectionResult.categories.length === 0) && !isLoading && (
             <div className="mt-4">
               <p className="text-gray-500 mb-3">
                 No category detected for "{input}"

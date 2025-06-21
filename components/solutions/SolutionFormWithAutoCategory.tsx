@@ -1,234 +1,350 @@
 // components/solutions/SolutionFormWithAutoCategory.tsx
-
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 import { useAutoCategorization } from '@/lib/hooks/useAutoCategorization';
-import { getCategoryDisplayName } from '@/lib/services/auto-categorization';
-import { CategoryConfirmation } from './CategoryConfirmation';
-import { CategoryPicker } from './CategoryPicker';
-import { DosageForm } from './forms/DosageForm';
-import type { CategoryMatch } from '@/lib/services/auto-categorization';
-// We'll import the other 8 form templates here once built
-// import { SessionForm } from './forms/SessionForm';
-// import { PracticeForm } from './forms/PracticeForm';
-// etc...
+import { SolutionMatch } from '@/lib/services/auto-categorization';
+import { CategoryConfirmation } from '@/components/solutions/CategoryConfirmation';
+import { CategoryPicker } from '@/components/solutions/CategoryPicker';
+import SolutionSearchResults from '@/components/solutions/SolutionSearchResults';
+import { DosageForm } from '@/components/solutions/forms/DosageForm';
 
-interface SolutionFormProps {
+interface SolutionFormWithAutoCategoryProps {
   goalId: string;
-  goalTitle: string;
+  goalTitle?: string; // Add this prop
   userId: string;
-  goalSlug: string;
+  onCancel: () => void;
 }
 
-export function SolutionFormWithAutoCategory({ 
-  goalId, 
-  goalTitle, 
-  userId, 
-  goalSlug 
-}: SolutionFormProps) {
+export default function SolutionFormWithAutoCategory({
+  goalId,
+  goalTitle,
+  userId,
+  onCancel
+}: SolutionFormWithAutoCategoryProps) {
   const router = useRouter();
   const [solutionName, setSolutionName] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [selectedSolution, setSelectedSolution] = useState<SolutionMatch | null>(null);
   const [showCategoryPicker, setShowCategoryPicker] = useState(false);
-  const [selectedMatch, setSelectedMatch] = useState<CategoryMatch | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [fetchedGoalTitle, setFetchedGoalTitle] = useState<string>('');
   
-  const { matches, isLoading, detectFromInput } = useAutoCategorization();
+  const { detectionResult, isLoading, error, detectFromInput, clearResults } = useAutoCategorization();
 
-  // Step 1: User types solution name
-  const handleSolutionNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSolutionName(value);
-    detectFromInput(value);
-    setSelectedCategory(null); // Reset category when typing
-    setShowConfirmation(false); // Reset confirmation
-    setSelectedMatch(null); // Reset selected match
+  // Fetch goal title if not provided
+  useEffect(() => {
+    const fetchGoalTitle = async () => {
+      if (!goalTitle && goalId) {
+        const { data, error } = await supabase
+          .from('goals')
+          .select('title')
+          .eq('id', goalId)
+          .single();
+        
+        if (data && !error) {
+          setFetchedGoalTitle(data.title);
+        }
+      }
+    };
+    
+    fetchGoalTitle();
+  }, [goalId, goalTitle]);
+
+  // Use provided goalTitle or fetched one
+  const actualGoalTitle = goalTitle || fetchedGoalTitle;
+
+  // Trigger detection when user types
+  useEffect(() => {
+    if (solutionName.length >= 2) {
+      detectFromInput(solutionName);
+    } else {
+      clearResults();
+    }
+  }, [solutionName, detectFromInput, clearResults]);
+
+  const handleSelectExistingSolution = (solution: SolutionMatch) => {
+    setSelectedSolution(solution);
+    setSolutionName(solution.title);
+    setSelectedCategory(solution.category);
+    setShowForm(true);
   };
 
-  // Step 2: User confirms detected category
   const handleCategoryConfirm = (category: string) => {
     setSelectedCategory(category);
-    setShowConfirmation(false);
-    setSelectedMatch(null);
+    setShowForm(true);
   };
 
-  // Step 3: User wants different category
-  const handleChooseDifferent = () => {
-    setShowConfirmation(false);
+  const handleManualCategorySelect = () => {
     setShowCategoryPicker(true);
-    setSelectedMatch(null);
   };
 
-  // Handle manual category selection
-  const handleManualCategorySelect = (category: string) => {
+  const handleCategoryPick = (category: string) => {
     setSelectedCategory(category);
     setShowCategoryPicker(false);
+    setShowForm(true);
   };
 
-  // Render the appropriate form based on selected category
-  const renderForm = () => {
-    if (!selectedCategory) return null;
+  const handleBack = () => {
+    if (showForm) {
+      setShowForm(false);
+      setSelectedCategory(null);
+      setSelectedSolution(null);
+    } else if (showCategoryPicker) {
+      setShowCategoryPicker(false);
+    } else {
+      onCancel();
+    }
+  };
 
-    // Common props for all forms
+  // Render the appropriate form based on category
+  const renderForm = () => {
+    if (!selectedCategory || !showForm) return null;
+
     const formProps = {
       goalId,
+      goalTitle: actualGoalTitle, // Pass the actual goal title
       userId,
-      solutionName,
+      solutionName: selectedSolution ? selectedSolution.title : solutionName,
       category: selectedCategory,
-      onBack: () => setSelectedCategory(null)
+      existingSolutionId: selectedSolution?.id,
+      onBack: handleBack
     };
 
     // Map categories to their form templates
-    const dosageCategories = ['supplements_vitamins', 'medications', 'natural_remedies', 'beauty_skincare'];
-    
-    if (dosageCategories.includes(selectedCategory)) {
-      return <DosageForm {...formProps} />;
-    }
+    const categoryFormMap: Record<string, JSX.Element> = {
+      // Dosage Form (4 categories)
+      'supplements_vitamins': <DosageForm {...formProps} />,
+      'medications': <DosageForm {...formProps} />,
+      'natural_remedies': <DosageForm {...formProps} />,
+      'beauty_skincare': <DosageForm {...formProps} />,
+      
+      // Session Form (7 categories) - TODO: Uncomment when SessionForm is built
+      // 'therapists_counselors': <SessionForm {...formProps} />,
+      // 'doctors_specialists': <SessionForm {...formProps} />,
+      // 'coaches_mentors': <SessionForm {...formProps} />,
+      // 'alternative_practitioners': <SessionForm {...formProps} />,
+      // 'professional_services': <SessionForm {...formProps} />,
+      // 'medical_procedures': <SessionForm {...formProps} />,
+      // 'crisis_resources': <SessionForm {...formProps} />,
+      
+      // Practice Form (3 categories)
+      // 'exercise_movement': <PracticeForm {...formProps} />,
+      // 'meditation_mindfulness': <PracticeForm {...formProps} />,
+      // 'habits_routines': <PracticeForm {...formProps} />,
+      
+      // Other forms...
+    };
 
-    // Add other form types as we build them
-    const sessionCategories = ['therapists_counselors', 'doctors_specialists', 'coaches_mentors', 
-                              'alternative_practitioners', 'professional_services', 'medical_procedures', 
-                              'crisis_resources'];
-    
-    if (sessionCategories.includes(selectedCategory)) {
-      return <div>Session Form Component (TODO)</div>;
-    }
-
-    return <div>Form not implemented yet for {getCategoryDisplayName(selectedCategory)}</div>;
+    return categoryFormMap[selectedCategory] || (
+      <div className="p-6 text-center">
+        <p className="text-gray-600 dark:text-gray-400">
+          Form for {selectedCategory} is coming soon!
+        </p>
+        <button
+          onClick={handleBack}
+          className="mt-4 text-blue-600 hover:text-blue-700 dark:text-blue-400 
+                   dark:hover:text-blue-300 font-medium"
+        >
+          Go back
+        </button>
+      </div>
+    );
   };
 
+  // Show category picker
+  if (showCategoryPicker) {
+    return (
+      <CategoryPicker
+        onSelectCategory={handleCategoryPick}
+        onBack={handleBack}
+      />
+    );
+  }
+
+  // Show the selected form
+  if (showForm) {
+    return renderForm();
+  }
+
+  // Main search interface (rest of the component remains the same)
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Share What Worked</h1>
-        <p className="text-gray-600">
-          for "{goalTitle}"
-        </p>
-      </div>
+    <div className="space-y-6">
+      {/* Show goal context at the top if available */}
+      {actualGoalTitle && (
+        <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Sharing what worked for: <strong className="text-gray-900 dark:text-white">{actualGoalTitle}</strong>
+          </p>
+        </div>
+      )}
 
-      {/* Step 1: Solution Name Input */}
-      {!selectedCategory && (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <label className="block mb-4">
-            <span className="text-lg font-medium mb-2 block">
-              What worked for you?
-            </span>
-            <input
-              type="text"
-              value={solutionName}
-              onChange={handleSolutionNameChange}
-              placeholder="e.g., Headspace, Vitamin D, my therapist..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
-              autoFocus
-            />
-          </label>
-
-          {/* Loading state */}
-          {isLoading && solutionName.length >= 3 && (
-            <div className="mt-4 text-gray-500">
-              Looking for category match...
-            </div>
-          )}
-
-          {/* Auto-detected matches */}
-          {matches.length > 0 && !showConfirmation && !showCategoryPicker && (
-            <div className="mt-6">
-              <p className="text-sm text-gray-600 mb-3">
-                Click to select a category:
-              </p>
-              <div className="space-y-2">
-                {matches.map((match, index) => (
+      <div className="relative">
+        <label htmlFor="solution-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          What helped you?
+        </label>
+        <input
+          id="solution-name"
+          type="text"
+          value={solutionName}
+          onChange={(e) => setSolutionName(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                   focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                   dark:bg-gray-800 dark:text-white"
+          placeholder="e.g., Headspace, Vitamin D, Running, Therapy..."
+          autoFocus
+        />
+        
+        {/* Rest of the autocomplete dropdown code remains the same... */}
+        {solutionName.length >= 2 && !isLoading && detectionResult && (
+          <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 
+                        dark:border-gray-700 rounded-lg shadow-lg max-h-96 overflow-y-auto">
+            
+            {/* Existing solutions */}
+            {detectionResult.solutions.length > 0 && (
+              <div className="p-2">
+                <div className="text-xs font-medium text-gray-500 dark:text-gray-400 px-2 py-1">
+                  Existing solutions
+                </div>
+                {detectionResult.solutions.map((solution) => (
                   <button
-                    key={index}
-                    onClick={() => {
-                      setSelectedMatch(match);
-                      setShowConfirmation(true);
-                    }}
-                    className={`w-full text-left p-3 rounded-lg border transition-all hover:shadow-md ${
-                      match.confidence === 'high' ? 'border-blue-500 bg-blue-50' :
-                      match.confidence === 'medium' ? 'border-yellow-500 bg-yellow-50' :
-                      'border-gray-300 bg-gray-50'
-                    }`}
+                    key={solution.id}
+                    onClick={() => handleSelectExistingSolution(solution)}
+                    className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 
+                             rounded-md transition-colors flex items-center justify-between group"
                   >
-                    <div className="font-medium">
-                      {getCategoryDisplayName(match.category)}
+                    <div>
+                      <div className="font-medium">{solution.title}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
+                        {solution.categoryDisplayName}
+                      </div>
                     </div>
-                    <div className="text-sm text-gray-600">
-                      Confidence: {match.confidence}
-                    </div>
+                    <span className="text-sm text-blue-600 dark:text-blue-400 opacity-0 
+                                   group-hover:opacity-100 transition-opacity">
+                      Share →
+                    </span>
                   </button>
                 ))}
               </div>
-              
-              <button
-                onClick={() => setShowCategoryPicker(true)}
-                className="mt-3 text-blue-600 hover:text-blue-700 text-sm"
-              >
-                Choose different category →
-              </button>
-            </div>
-          )}
-
-          {/* No matches - show manual picker button */}
-          {solutionName.length >= 3 && matches.length === 0 && !isLoading && (
-            <div className="mt-6">
-              <p className="text-gray-500 mb-3">
-                No category detected for "{solutionName}"
-              </p>
-              <button
-                onClick={() => setShowCategoryPicker(true)}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Choose category manually
-              </button>
-            </div>
-          )}
-
-          {/* Category confirmation */}
-          {showConfirmation && selectedMatch && (
-            <div className="mt-6">
-              <CategoryConfirmation
-                matches={[selectedMatch]}
-                onConfirm={handleCategoryConfirm}
-                onChooseDifferent={handleChooseDifferent}
-              />
-            </div>
-          )}
-
-          {/* Manual category picker */}
-          {showCategoryPicker && (
-            <div className="mt-6">
-              <CategoryPicker
-                onSelectCategory={handleManualCategorySelect}
-                onBack={() => setShowCategoryPicker(false)}
-              />
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Step 2: Show the appropriate form */}
-      {selectedCategory && (
-        <div>
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-semibold">{solutionName}</h2>
-              <p className="text-gray-600">Category: {getCategoryDisplayName(selectedCategory)}</p>
-            </div>
-            <button
-              onClick={() => setSelectedCategory(null)}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              ← Change
-            </button>
+            )}
+            
+            {/* "Try being more specific" suggestions */}
+            {detectionResult.solutions.length === 0 && 
+             ['therapy', 'medication', 'supplement', 'exercise', 'vitamin', 'app', 'treatment', 'counseling', 'workout'].some(term => 
+               solutionName.toLowerCase().includes(term)
+             ) && (
+              <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-start gap-2">
+                  <span className="text-lg">💡</span>
+                  <div>
+                    <p className="font-medium text-gray-700 dark:text-gray-300">
+                      Try being more specific
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                      {solutionName.toLowerCase().includes('therapy') && (
+                        <>"{solutionName}" → "CBT therapy" or "EMDR" or "talk therapy"</>
+                      )}
+                      {solutionName.toLowerCase().includes('medication') && (
+                        <>"{solutionName}" → specific drug name like "Lexapro" or "Tylenol"</>
+                      )}
+                      {solutionName.toLowerCase().includes('supplement') && (
+                        <>"{solutionName}" → "Vitamin D" or "Omega-3" or "Magnesium"</>
+                      )}
+                      {solutionName.toLowerCase().includes('exercise') && (
+                        <>"{solutionName}" → "Running" or "Yoga" or "CrossFit"</>
+                      )}
+                      {solutionName.toLowerCase().includes('vitamin') && (
+                        <>"{solutionName}" → "Vitamin D" or "B12" or "Vitamin C"</>
+                      )}
+                      {solutionName.toLowerCase().includes('app') && (
+                        <>"{solutionName}" → "Headspace" or "MyFitnessPal" or "Calm"</>
+                      )}
+                      {solutionName.toLowerCase().includes('treatment') && (
+                        <>"{solutionName}" → specific treatment like "Acupuncture" or "Physical therapy"</>
+                      )}
+                      {solutionName.toLowerCase().includes('counseling') && (
+                        <>"{solutionName}" → "Marriage counseling" or "Career counseling"</>
+                      )}
+                      {solutionName.toLowerCase().includes('workout') && (
+                        <>"{solutionName}" → "HIIT workout" or "Strength training" or "Pilates"</>
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {/* Category suggestions or continue option */}
+            {detectionResult.categories.length > 0 && (
+              <div className="p-2 border-t border-gray-100 dark:border-gray-700">
+                <button
+                  onClick={() => {
+                    if (detectionResult.categories[0].confidence === 'high') {
+                      handleCategoryConfirm(detectionResult.categories[0].category);
+                    } else {
+                      handleManualCategorySelect();
+                    }
+                  }}
+                  className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 
+                           rounded-md transition-colors"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-700 dark:text-gray-300">
+                      Continue with "{solutionName}"
+                    </span>
+                    <span className="text-gray-400">→</span>
+                  </div>
+                </button>
+              </div>
+            )}
+            
+            {/* No matches at all */}
+            {detectionResult.solutions.length === 0 && detectionResult.categories.length === 0 && (
+              <div className="p-4">
+                <button
+                  onClick={handleManualCategorySelect}
+                  className="w-full text-left hover:bg-gray-100 dark:hover:bg-gray-700 
+                           px-3 py-2 rounded-md transition-colors"
+                >
+                  <div className="flex items-center justify-between">
+                    <span>Add "{solutionName}" as new solution</span>
+                    <span className="text-gray-400">→</span>
+                  </div>
+                </button>
+              </div>
+            )}
           </div>
-          
-          {renderForm()}
+        )}
+      </div>
+
+      {/* Loading indicator */}
+      {isLoading && solutionName.length >= 2 && (
+        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+          <div className="animate-spin rounded-full h-4 w-4 border-b-2 
+                        border-blue-600 dark:border-blue-400"></div>
+          <span>Searching...</span>
         </div>
       )}
+
+      {/* Error display */}
+      {error && (
+        <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 
+                      dark:border-red-800 rounded-lg">
+          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+        </div>
+      )}
+
+      <div className="flex justify-between pt-4">
+        <button
+          onClick={onCancel}
+          className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
+                   dark:hover:text-gray-200 font-medium transition-colors"
+        >
+          Cancel
+        </button>
+      </div>
     </div>
   );
 }

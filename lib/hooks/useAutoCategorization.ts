@@ -1,59 +1,87 @@
 // lib/hooks/useAutoCategorization.ts
-
-import { useState, useCallback } from 'react';
-import { detectCategory, CategoryMatch } from '@/lib/services/auto-categorization';
-import { debounce } from '@/lib/utils';
+import { useState, useCallback, useRef } from 'react';
+import { detectFromInput, DetectionResult } from '@/lib/services/auto-categorization';
 
 interface UseAutoCategorization {
-  matches: CategoryMatch[];
+  detectionResult: DetectionResult | null;
   isLoading: boolean;
   error: string | null;
   detectFromInput: (input: string) => void;
-  clearMatches: () => void;
+  clearResults: () => void;
 }
 
 export function useAutoCategorization(): UseAutoCategorization {
-  const [matches, setMatches] = useState<CategoryMatch[]>([]);
+  const [detectionResult, setDetectionResult] = useState<DetectionResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Use ref to track the latest request
+  const latestRequestRef = useRef<number>(0);
 
-  // Create a debounced version of the detection function
-  const debouncedDetect = useCallback(
-    debounce(async (input: string) => {
-      setIsLoading(true);
+  const handleDetection = useCallback(async (input: string) => {
+    // Clear results if input is empty
+    if (!input || input.trim().length === 0) {
+      setDetectionResult(null);
       setError(null);
-
-      try {
-        const results = await detectCategory(input);
-        setMatches(results);
-      } catch (err) {
-        setError('Failed to detect category');
-        console.error('Auto-categorization error:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    }, 300), // 300ms delay
-    []
-  );
-
-  const detectFromInput = useCallback((input: string) => {
-    if (input.length < 3) {
-      setMatches([]);
       return;
     }
-    debouncedDetect(input);
-  }, [debouncedDetect]);
 
-  const clearMatches = useCallback(() => {
-    setMatches([]);
+    // Increment request counter
+    const requestId = ++latestRequestRef.current;
+    
+    setIsLoading(true);
     setError(null);
+    
+    try {
+      const result = await detectFromInput(input);
+      
+      // Only update if this is still the latest request
+      if (requestId === latestRequestRef.current) {
+        setDetectionResult(result);
+      }
+    } catch (err) {
+      if (requestId === latestRequestRef.current) {
+        setError(err instanceof Error ? err.message : 'Failed to detect category');
+        setDetectionResult(null);
+      }
+    } finally {
+      if (requestId === latestRequestRef.current) {
+        setIsLoading(false);
+      }
+    }
   }, []);
 
+  const clearResults = useCallback(() => {
+    setDetectionResult(null);
+    setError(null);
+    setIsLoading(false);
+  }, []);
+
+  // Debounced version
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  const detectFromInputDebounced = useCallback((input: string) => {
+    // Clear existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    
+    // Set loading immediately for responsive feel
+    if (input && input.trim().length > 0) {
+      setIsLoading(true);
+    }
+    
+    // Debounce the actual detection
+    timeoutRef.current = setTimeout(() => {
+      handleDetection(input);
+    }, 300);
+  }, [handleDetection]);
+
   return {
-    matches,
+    detectionResult,
     isLoading,
     error,
-    detectFromInput,
-    clearMatches
+    detectFromInput: detectFromInputDebounced,
+    clearResults
   };
 }
