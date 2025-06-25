@@ -17,7 +17,7 @@ interface DosageFormProps {
 }
 
 interface FailedSolution {
-  id?: string;
+  id?: string; // Optional - only if it's an existing solution
   name: string;
   rating: number;
 }
@@ -61,7 +61,7 @@ const ProgressCelebration = ({ step }: { step: number }) => {
   return (
     <div className="text-center mb-4 opacity-0 animate-[fadeIn_0.5s_ease-in_forwards]">
       <p className="text-green-600 dark:text-green-400 font-medium text-lg">
-        {celebrations[step - 2]}
+        {celebrations[step - 1]}
       </p>
     </div>
   );
@@ -73,14 +73,12 @@ export function DosageForm({
   userId,
   solutionName,
   category,
-  existingSolutionId,
   onBack
 }: DosageFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
-  const [highestStepReached, setHighestStepReached] = useState(1);
   
   // Step 1 fields - Dosage, Effectiveness, TTR
   const [doseAmount, setDoseAmount] = useState('');
@@ -115,48 +113,8 @@ export function DosageForm({
   const [otherInfo, setOtherInfo] = useState('');
 
   // Progress indicator
-  const totalSteps = 3;
+  const totalSteps = 3; // Reduced from 5
   const progress = (currentStep / totalSteps) * 100;
-
-  // Handle browser back button
-  useEffect(() => {
-    const handlePopState = (e: PopStateEvent) => {
-      e.preventDefault();
-      
-      // If we're on step 2 or 3, go back a step
-      if (currentStep > 1) {
-        setCurrentStep(currentStep - 1);
-        // Push state again to maintain navigation
-        window.history.pushState({ step: currentStep - 1 }, '');
-      } else {
-        // On step 1, exit the form
-        onBack();
-      }
-    };
-
-    // Push initial state
-    window.history.pushState({ step: currentStep }, '');
-    
-    window.addEventListener('popstate', handlePopState);
-    
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [currentStep, onBack]);
-
-  // Update history when step changes
-  useEffect(() => {
-    window.history.pushState({ step: currentStep }, '');
-  }, [currentStep]);
-
-  // Track highest step reached (separate from history management)
-  useEffect(() => {
-    console.log('Current step:', currentStep, 'Highest reached:', highestStepReached);
-    if (currentStep > highestStepReached) {
-      setHighestStepReached(currentStep);
-      console.log('Updated highest step to:', currentStep);
-    }
-  }, [currentStep, highestStepReached]);
 
   // Search for solutions as user types
   useEffect(() => {
@@ -347,7 +305,6 @@ export function DosageForm({
       const dailyDose = calculateDailyDose();
       
       // TODO: Main solution submission logic here
-      console.log('TODO: Add main submission logic');
       
       // Submit failed solution ratings for existing solutions
       for (const failed of failedSolutions) {
@@ -394,8 +351,9 @@ export function DosageForm({
   };
 
   const renderStep = () => {
+    console.log('Rendering step:', currentStep);
     switch (currentStep) {
-      case 1: // Dosage, Effectiveness, TTR
+      case 1: // Dosage, Effectiveness, TTR, Cost
         return (
           <div className="space-y-8 animate-slide-in">
             {/* Quick context card */}
@@ -928,7 +886,7 @@ export function DosageForm({
             )}
           </div>
         );
-
+        
       default:
         return <div>Invalid step</div>;
     }
@@ -1100,13 +1058,7 @@ export function DosageForm({
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
           <button
-            onClick={() => {
-              if (currentStep > 1) {
-                setCurrentStep(currentStep - 1);
-              } else {
-                onBack();
-              }
-            }}
+            onClick={onBack}
             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -1143,129 +1095,35 @@ export function DosageForm({
           <div />
         )}
         
-        <div className="flex gap-2">
-          {/* Forward button - only show if we've been to a higher step */}
-          {currentStep < highestStepReached && currentStep < totalSteps && (
-            <button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                       dark:hover:text-gray-200 font-medium transition-colors"
-            >
-              Forward
-            </button>
-          )}
-          
-          {currentStep < totalSteps ? (
-            <button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              disabled={!canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
-                canProceedToNextStep()
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {currentStep === 3 ? 'Skip' : 'Continue'}
-            </button>
-          ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={isSubmitting || !canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
-                !isSubmitting
-                  ? 'bg-green-600 hover:bg-green-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {isSubmitting ? 'Submitting...' : 'Submit'}
-            </button>
-          )}
-        </div>
+        {currentStep < totalSteps ? (
+          <button
+            onClick={() => {
+              console.log('Moving from step', currentStep, 'to', currentStep + 1);
+              setCurrentStep(currentStep + 1);
+            }}
+            disabled={!canProceedToNextStep()}
+            className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+              canProceedToNextStep()
+                ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            {currentStep === 3 ? 'Skip' : 'Continue'}
+          </button>
+        ) : (
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitting || !canProceedToNextStep()}
+            className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+              !isSubmitting
+                ? 'bg-green-600 hover:bg-green-700 text-white'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            {isSubmitting ? 'Submitting...' : 'Submit'}
+          </button>
+        )}
       </div>
     </div>
   );
 }
-
-// CSS animations to add to your global CSS file:
-const animationStyles = `
-@keyframes slide-in {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes fadeIn {
-  from { 
-    opacity: 0; 
-  }
-  to { 
-    opacity: 1; 
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes bounce-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes bounce-right {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(4px); }
-}
-
-@keyframes scale-in {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.animate-slide-in { animation: slide-in 0.3s ease-out; }
-.animate-scale-in { animation: scale-in 0.3s ease-out; }
-.animate-bounce-in { animation: bounce-in 0.4s ease-out; }
-.animate-fade-in { animation: fade-in 0.3s ease-out; }
-.animate-bounce-right { animation: bounce-right 1s ease-in-out infinite; }
-`;

@@ -1,7 +1,7 @@
 // components/solutions/SolutionFormWithAutoCategory.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { useAutoCategorization } from '@/lib/hooks/useAutoCategorization';
@@ -13,9 +13,17 @@ import { DosageForm } from '@/components/solutions/forms/DosageForm';
 
 interface SolutionFormWithAutoCategoryProps {
   goalId: string;
-  goalTitle?: string; // Add this prop
+  goalTitle?: string;
   userId: string;
-  onCancel: () => void;
+  onCancel?: () => void;
+}
+
+// Form state interface to persist data
+interface FormState {
+  step: 'search' | 'category-picker' | 'form';
+  solutionName: string;
+  selectedCategory: string | null;
+  selectedSolution: SolutionMatch | null;
 }
 
 export default function SolutionFormWithAutoCategory({
@@ -25,11 +33,12 @@ export default function SolutionFormWithAutoCategory({
   onCancel
 }: SolutionFormWithAutoCategoryProps) {
   const router = useRouter();
-  const [solutionName, setSolutionName] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedSolution, setSelectedSolution] = useState<SolutionMatch | null>(null);
-  const [showCategoryPicker, setShowCategoryPicker] = useState(false);
-  const [showForm, setShowForm] = useState(false);
+  const [formState, setFormState] = useState<FormState>({
+    step: 'search',
+    solutionName: '',
+    selectedCategory: null,
+    selectedSolution: null
+  });
   const [fetchedGoalTitle, setFetchedGoalTitle] = useState<string>('');
   
   const { detectionResult, isLoading, error, detectFromInput, clearResults } = useAutoCategorization();
@@ -58,63 +67,100 @@ export default function SolutionFormWithAutoCategory({
 
   // Trigger detection when user types
   useEffect(() => {
-    if (solutionName.length >= 2) {
-      detectFromInput(solutionName);
+    if (formState.solutionName.length >= 2) {
+      detectFromInput(formState.solutionName);
     } else {
       clearResults();
     }
-  }, [solutionName, detectFromInput, clearResults]);
+  }, [formState.solutionName, detectFromInput, clearResults]);
 
-  const handleSelectExistingSolution = (solution: SolutionMatch) => {
-    setSelectedSolution(solution);
-    setSolutionName(solution.title);
-    setSelectedCategory(solution.category);
-    setShowForm(true);
-  };
+  const handleSelectExistingSolution = useCallback((solution: SolutionMatch) => {
+    setFormState({
+      ...formState,
+      selectedSolution: solution,
+      solutionName: solution.title,
+      selectedCategory: solution.category,
+      step: 'form'
+    });
+  }, [formState]);
 
-  const handleCategoryConfirm = (category: string) => {
-    setSelectedCategory(category);
-    setShowForm(true);
-  };
+  const handleSelectKeywordSuggestion = useCallback((keyword: string, category: string) => {
+    setFormState({
+      ...formState,
+      solutionName: keyword,
+      selectedCategory: category
+    });
+    // Trigger new detection with the complete keyword
+    detectFromInput(keyword);
+  }, [formState, detectFromInput]);
 
-  const handleManualCategorySelect = () => {
-    setShowCategoryPicker(true);
-  };
+  const handleCategoryConfirm = useCallback((category: string) => {
+    setFormState({
+      ...formState,
+      selectedCategory: category,
+      step: 'form'
+    });
+  }, [formState]);
 
-  const handleCategoryPick = (category: string) => {
-    setSelectedCategory(category);
-    setShowCategoryPicker(false);
-    setShowForm(true);
-  };
+  const handleManualCategorySelect = useCallback(() => {
+    setFormState({
+      ...formState,
+      step: 'category-picker'
+    });
+  }, [formState]);
 
-  const handleBack = () => {
-    if (showForm) {
-      setShowForm(false);
-      setSelectedCategory(null);
-      setSelectedSolution(null);
-    } else if (showCategoryPicker) {
-      setShowCategoryPicker(false);
-    } else {
-      onCancel();
+  const handleCategoryPick = useCallback((category: string) => {
+    setFormState({
+      ...formState,
+      selectedCategory: category,
+      step: 'form'
+    });
+  }, [formState]);
+
+  const handleBack = useCallback(() => {
+    switch (formState.step) {
+      case 'form':
+        // Go back to search, preserving the solution name
+        setFormState({
+          ...formState,
+          step: 'search',
+          selectedCategory: null,
+          selectedSolution: null
+        });
+        break;
+      case 'category-picker':
+        // Go back to search
+        setFormState({
+          ...formState,
+          step: 'search'
+        });
+        break;
+      case 'search':
+        if (onCancel) {
+          onCancel();
+        } else {
+          router.push(`/goal/${goalId}`);
+        }
+        break;
     }
-  };
+  }, [formState, onCancel]);
 
   // Render the appropriate form based on category
   const renderForm = () => {
-    if (!selectedCategory || !showForm) return null;
+    if (!formState.selectedCategory || formState.step !== 'form') return null;
 
     const formProps = {
       goalId,
-      goalTitle: actualGoalTitle, // Pass the actual goal title
+      goalTitle: actualGoalTitle,
       userId,
-      solutionName: selectedSolution ? selectedSolution.title : solutionName,
-      category: selectedCategory,
-      existingSolutionId: selectedSolution?.id,
+      solutionName: formState.selectedSolution ? formState.selectedSolution.title : formState.solutionName,
+      category: formState.selectedCategory,
+      existingSolutionId: formState.selectedSolution?.id,
       onBack: handleBack
     };
 
     // Map categories to their form templates
-    const categoryFormMap: Record<string, JSX.Element> = {
+    const categoryFormMap: Record<string, React.ReactElement> = {
       // Dosage Form (4 categories)
       'supplements_vitamins': <DosageForm {...formProps} />,
       'medications': <DosageForm {...formProps} />,
@@ -138,10 +184,10 @@ export default function SolutionFormWithAutoCategory({
       // Other forms...
     };
 
-    return categoryFormMap[selectedCategory] || (
+    return categoryFormMap[formState.selectedCategory] || (
       <div className="p-6 text-center">
         <p className="text-gray-600 dark:text-gray-400">
-          Form for {selectedCategory} is coming soon!
+          Form for {formState.selectedCategory} is coming soon!
         </p>
         <button
           onClick={handleBack}
@@ -154,22 +200,26 @@ export default function SolutionFormWithAutoCategory({
     );
   };
 
-  // Show category picker
-  if (showCategoryPicker) {
-    return (
-      <CategoryPicker
-        onSelectCategory={handleCategoryPick}
-        onBack={handleBack}
-      />
-    );
+  // Render based on current step
+  switch (formState.step) {
+    case 'category-picker':
+      return (
+        <CategoryPicker
+          onSelectCategory={handleCategoryPick}
+          onBack={handleBack}
+        />
+      );
+    
+    case 'form':
+      return renderForm();
+    
+    case 'search':
+    default:
+      // Continue to main search interface below
+      break;
   }
 
-  // Show the selected form
-  if (showForm) {
-    return renderForm();
-  }
-
-  // Main search interface (rest of the component remains the same)
+  // Main search interface
   return (
     <div className="space-y-6">
       {/* Show goal context at the top if available */}
@@ -185,28 +235,40 @@ export default function SolutionFormWithAutoCategory({
         <label htmlFor="solution-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           What helped you?
         </label>
-        <input
-          id="solution-name"
-          type="text"
-          value={solutionName}
-          onChange={(e) => setSolutionName(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                   focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                   dark:bg-gray-800 dark:text-white"
-          placeholder="e.g., Headspace, Vitamin D, Running, Therapy..."
-          autoFocus
-        />
+        <div className="relative">
+          <input
+            id="solution-name"
+            type="text"
+            value={formState.solutionName}
+            onChange={(e) => setFormState({ ...formState, solutionName: e.target.value })}
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                     focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                     dark:bg-gray-800 dark:text-white"
+            placeholder="e.g., Headspace, Vitamin D, Running, Therapy..."
+            autoFocus
+          />
+          
+          {/* Category badge when detected */}
+          {detectionResult && detectionResult.categories.length > 0 && (
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 
+                             px-2 py-1 rounded-md font-medium">
+                {detectionResult.categories[0].displayName || detectionResult.categories[0].category}
+              </span>
+            </div>
+          )}
+        </div>
         
-        {/* Rest of the autocomplete dropdown code remains the same... */}
-        {solutionName.length >= 2 && !isLoading && detectionResult && (
+        {/* Autocomplete dropdown */}
+        {formState.solutionName.length >= 2 && !isLoading && detectionResult && (
           <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 
                         dark:border-gray-700 rounded-lg shadow-lg max-h-96 overflow-y-auto">
             
-            {/* Existing solutions */}
+            {/* Existing solutions - with ratings and social proof */}
             {detectionResult.solutions.length > 0 && (
               <div className="p-2">
-                <div className="text-xs font-medium text-gray-500 dark:text-gray-400 px-2 py-1">
-                  Existing solutions
+                <div className="text-xs font-medium text-gray-500 dark:text-gray-400 px-2 py-1 flex items-center gap-1">
+                  <span>📊</span> Existing solutions
                 </div>
                 {detectionResult.solutions.map((solution) => (
                   <button
@@ -230,10 +292,38 @@ export default function SolutionFormWithAutoCategory({
               </div>
             )}
             
+            {/* Keyword suggestions for autocomplete */}
+            {detectionResult.keywordMatches && detectionResult.keywordMatches.length > 0 && (
+              <div className="p-2">
+                <div className="text-xs font-medium text-gray-500 dark:text-gray-400 px-2 py-1 flex items-center gap-1">
+                  <span>💡</span> Suggestions
+                </div>
+                {detectionResult.keywordMatches.map((match, index) => (
+                  <button
+                    key={`${match.keyword}-${index}`}
+                    onClick={() => handleSelectKeywordSuggestion(match.keyword, match.category)}
+                    className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 
+                             rounded-md transition-colors flex items-center justify-between group"
+                  >
+                    <div>
+                      <span className="font-medium">{match.keyword}</span>
+                      {match.matchScore < 0.8 && (
+                        <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">(similar)</span>
+                      )}
+                    </div>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                      {match.categoryDisplayName}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+            
             {/* "Try being more specific" suggestions */}
             {detectionResult.solutions.length === 0 && 
+             detectionResult.keywordMatches.length === 0 &&
              ['therapy', 'medication', 'supplement', 'exercise', 'vitamin', 'app', 'treatment', 'counseling', 'workout'].some(term => 
-               solutionName.toLowerCase().includes(term)
+               formState.solutionName.toLowerCase().includes(term)
              ) && (
               <div className="p-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-start gap-2">
@@ -243,32 +333,32 @@ export default function SolutionFormWithAutoCategory({
                       Try being more specific
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      {solutionName.toLowerCase().includes('therapy') && (
-                        <>"{solutionName}" → "CBT therapy" or "EMDR" or "talk therapy"</>
+                      {formState.solutionName.toLowerCase().includes('therapy') && (
+                        <>"{formState.solutionName}" → "CBT therapy" or "EMDR" or "talk therapy"</>
                       )}
-                      {solutionName.toLowerCase().includes('medication') && (
-                        <>"{solutionName}" → specific drug name like "Lexapro" or "Tylenol"</>
+                      {formState.solutionName.toLowerCase().includes('medication') && (
+                        <>"{formState.solutionName}" → specific drug name like "Lexapro" or "Tylenol"</>
                       )}
-                      {solutionName.toLowerCase().includes('supplement') && (
-                        <>"{solutionName}" → "Vitamin D" or "Omega-3" or "Magnesium"</>
+                      {formState.solutionName.toLowerCase().includes('supplement') && (
+                        <>"{formState.solutionName}" → "Vitamin D" or "Omega-3" or "Magnesium"</>
                       )}
-                      {solutionName.toLowerCase().includes('exercise') && (
-                        <>"{solutionName}" → "Running" or "Yoga" or "CrossFit"</>
+                      {formState.solutionName.toLowerCase().includes('exercise') && (
+                        <>"{formState.solutionName}" → "Running" or "Yoga" or "CrossFit"</>
                       )}
-                      {solutionName.toLowerCase().includes('vitamin') && (
-                        <>"{solutionName}" → "Vitamin D" or "B12" or "Vitamin C"</>
+                      {formState.solutionName.toLowerCase().includes('vitamin') && (
+                        <>"{formState.solutionName}" → "Vitamin D" or "B12" or "Vitamin C"</>
                       )}
-                      {solutionName.toLowerCase().includes('app') && (
-                        <>"{solutionName}" → "Headspace" or "MyFitnessPal" or "Calm"</>
+                      {formState.solutionName.toLowerCase().includes('app') && (
+                        <>"{formState.solutionName}" → "Headspace" or "MyFitnessPal" or "Calm"</>
                       )}
-                      {solutionName.toLowerCase().includes('treatment') && (
-                        <>"{solutionName}" → specific treatment like "Acupuncture" or "Physical therapy"</>
+                      {formState.solutionName.toLowerCase().includes('treatment') && (
+                        <>"{formState.solutionName}" → specific treatment like "Acupuncture" or "Physical therapy"</>
                       )}
-                      {solutionName.toLowerCase().includes('counseling') && (
-                        <>"{solutionName}" → "Marriage counseling" or "Career counseling"</>
+                      {formState.solutionName.toLowerCase().includes('counseling') && (
+                        <>"{formState.solutionName}" → "Marriage counseling" or "Career counseling"</>
                       )}
-                      {solutionName.toLowerCase().includes('workout') && (
-                        <>"{solutionName}" → "HIIT workout" or "Strength training" or "Pilates"</>
+                      {formState.solutionName.toLowerCase().includes('workout') && (
+                        <>"{formState.solutionName}" → "HIIT workout" or "Strength training" or "Pilates"</>
                       )}
                     </p>
                   </div>
@@ -291,9 +381,16 @@ export default function SolutionFormWithAutoCategory({
                            rounded-md transition-colors"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-700 dark:text-gray-300">
-                      Continue with "{solutionName}"
-                    </span>
+                    <div>
+                      <span className="text-gray-700 dark:text-gray-300">
+                        Continue with "{formState.solutionName}"
+                      </span>
+                      {detectionResult.categories[0].confidence === 'high' && (
+                        <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                          as new solution
+                        </span>
+                      )}
+                    </div>
                     <span className="text-gray-400">→</span>
                   </div>
                 </button>
@@ -301,7 +398,9 @@ export default function SolutionFormWithAutoCategory({
             )}
             
             {/* No matches at all */}
-            {detectionResult.solutions.length === 0 && detectionResult.categories.length === 0 && (
+            {detectionResult.solutions.length === 0 && 
+             detectionResult.categories.length === 0 && 
+             detectionResult.keywordMatches.length === 0 && (
               <div className="p-4">
                 <button
                   onClick={handleManualCategorySelect}
@@ -309,7 +408,7 @@ export default function SolutionFormWithAutoCategory({
                            px-3 py-2 rounded-md transition-colors"
                 >
                   <div className="flex items-center justify-between">
-                    <span>Add "{solutionName}" as new solution</span>
+                    <span>Add "{formState.solutionName}" as new solution</span>
                     <span className="text-gray-400">→</span>
                   </div>
                 </button>
@@ -320,7 +419,7 @@ export default function SolutionFormWithAutoCategory({
       </div>
 
       {/* Loading indicator */}
-      {isLoading && solutionName.length >= 2 && (
+      {isLoading && formState.solutionName.length >= 2 && (
         <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
           <div className="animate-spin rounded-full h-4 w-4 border-b-2 
                         border-blue-600 dark:border-blue-400"></div>
@@ -338,7 +437,13 @@ export default function SolutionFormWithAutoCategory({
 
       <div className="flex justify-between pt-4">
         <button
-          onClick={onCancel}
+          onClick={() => {
+            if (onCancel) {
+              onCancel();
+            } else {
+              router.push(`/goal/${goalId}`);
+            }
+          }}
           className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
                    dark:hover:text-gray-200 font-medium transition-colors"
         >

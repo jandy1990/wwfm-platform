@@ -14,12 +14,21 @@ export interface SolutionMatch {
   category: string;
   categoryDisplayName: string;
   matchType: 'exact' | 'partial';
+  matchScore?: number; // Added for fuzzy search
+}
+
+export interface KeywordMatch {
+  keyword: string;
+  category: string;
+  categoryDisplayName: string;
+  matchScore: number;
 }
 
 export interface DetectionResult {
   solutions: SolutionMatch[];
   categories: CategoryMatch[];
   searchTerm: string;
+  keywordMatches: KeywordMatch[]; // Added for fuzzy search
 }
 
 // Category display names and descriptions mapping
@@ -119,18 +128,16 @@ const categoryInfo: Record<string, { displayName: string; description: string }>
 };
 
 /**
- * Search for existing solutions in the database
+ * Search for existing solutions in the database with fuzzy matching
  */
 async function searchExistingSolutions(searchTerm: string): Promise<SolutionMatch[]> {
   const normalizedSearch = searchTerm.toLowerCase().trim();
   
-  // Search for exact and partial matches
+  // Use fuzzy search function instead of regular search
   const { data: solutions, error } = await supabase
-    .from('solutions')
-    .select('id, title, solution_category')
-    .or(`title.ilike.%${normalizedSearch}%,title.ilike.${normalizedSearch}%`)
-    .eq('is_approved', true)
-    .limit(10);
+    .rpc('search_solutions_fuzzy', {
+      search_term: normalizedSearch
+    });
 
   if (error) {
     console.error('Error searching solutions:', error);
@@ -246,7 +253,7 @@ async function searchExistingSolutions(searchTerm: string): Promise<SolutionMatc
       return true;
     })
     .map(solution => {
-      const matchType: 'exact' | 'partial' = solution.title.toLowerCase() === normalizedSearch ? 'exact' : 'partial';
+      const matchType: 'exact' | 'partial' = solution.match_score >= 1.0 ? 'exact' : 'partial';
       const categoryInfo = getCategoryInfo(solution.solution_category);
       
       return {
@@ -254,11 +261,16 @@ async function searchExistingSolutions(searchTerm: string): Promise<SolutionMatc
         title: solution.title,
         category: solution.solution_category,
         categoryDisplayName: categoryInfo.displayName,
-        matchType
+        matchType,
+        matchScore: solution.match_score // Include fuzzy match score
       };
     })
     .sort((a, b) => {
-      // Sort exact matches first
+      // Sort by match score first (highest first)
+      if (a.matchScore && b.matchScore && a.matchScore !== b.matchScore) {
+        return b.matchScore - a.matchScore;
+      }
+      // Then exact matches first
       if (a.matchType === 'exact' && b.matchType !== 'exact') return -1;
       if (a.matchType !== 'exact' && b.matchType === 'exact') return 1;
       // Then by title length (shorter = more relevant)
@@ -267,23 +279,34 @@ async function searchExistingSolutions(searchTerm: string): Promise<SolutionMatc
 }
 
 /**
- * Detect categories from user input using keywords
+ * Detect categories from user input using keywords with fuzzy matching
  */
 async function detectCategoriesFromKeywords(userInput: string): Promise<CategoryMatch[]> {
   const normalizedInput = userInput.toLowerCase().trim();
   const matches: Map<string, 'high' | 'medium' | 'low'> = new Map();
 
-  // 1. Check exact keyword match
-  const { data: exactMatches } = await supabase
-    .rpc('check_keyword_match', { search_term: normalizedInput });
+  // Use fuzzy category detection
+  const { data: categoryMatch } = await supabase
+    .rpc('check_keyword_match_fuzzy', { search_term: normalizedInput });
 
-  if (exactMatches && exactMatches.length > 0) {
-    exactMatches.forEach((match: { category: string }) => {
-      matches.set(match.category, 'high');
-    });
+  if (categoryMatch && categoryMatch.length > 0) {
+    const confidence = categoryMatch[0].match_type === 'exact' ? 'high' : 'medium';
+    matches.set(categoryMatch[0].category, confidence);
   }
 
-  // 2. Check pattern matching if no exact matches
+  // If no fuzzy matches, fall back to exact keyword match
+  if (matches.size === 0) {
+    const { data: exactMatches } = await supabase
+      .rpc('check_keyword_match', { search_term: normalizedInput });
+
+    if (exactMatches && exactMatches.length > 0) {
+      exactMatches.forEach((match: { category: string }) => {
+        matches.set(match.category, 'high');
+      });
+    }
+  }
+
+  // If still no matches, check pattern matching
   if (matches.size === 0) {
     const { data: patternMatches } = await supabase
       .rpc('match_category_patterns', { input_text: normalizedInput });
@@ -297,7 +320,7 @@ async function detectCategoriesFromKeywords(userInput: string): Promise<Category
     }
   }
 
-  // 3. Check partial matches if still no matches
+  // Check partial matches if still no matches
   if (matches.size === 0 && normalizedInput.length >= 3) {
     const { data: partialMatches } = await supabase
       .rpc('match_category_partial', { input_text: normalizedInput });
@@ -519,22 +542,49 @@ async function searchKeywordsAsSolutions(searchTerm: string): Promise<Array<{
 }
 
 /**
+ * Search for keyword autocomplete suggestions with fuzzy matching
+ */
+async function searchKeywordSuggestions(searchTerm: string): Promise<KeywordMatch[]> {
+  const { data, error } = await supabase
+    .rpc('search_keywords_for_autocomplete', {
+      search_term: searchTerm
+    });
+
+  if (error) {
+    console.error('Error searching keyword suggestions:', error);
+    return [];
+  }
+
+  return (data || [])
+    .filter(match => match.match_score > 0.5) // Only show decent matches
+    .map((match: any) => ({
+      keyword: match.keyword,
+      category: match.category,
+      categoryDisplayName: getCategoryInfo(match.category).displayName,
+      matchScore: match.match_score
+    }));
+}
+
+/**
  * Main detection function - searches solutions first, then categories
  */
 export async function detectFromInput(userInput: string): Promise<DetectionResult> {
   if (!userInput || userInput.trim().length === 0) {
-    return { solutions: [], categories: [], searchTerm: userInput };
+    return { solutions: [], categories: [], searchTerm: userInput, keywordMatches: [] };
   }
 
   try {
-    // Step 1: Search for existing solutions in database
+    // Step 1: Search for existing solutions in database with fuzzy matching
     const existingSolutions = await searchExistingSolutions(userInput);
     
     // Step 2: Search keywords that look like solution names
     const keywordSolutions = await searchKeywordsAsSolutions(userInput);
     
-    // Step 3: Detect categories from keywords
+    // Step 3: Detect categories from keywords with fuzzy matching
     const categories = await detectCategoriesFromKeywords(userInput);
+    
+    // Step 4: Search for keyword autocomplete suggestions
+    const keywordMatches = await searchKeywordSuggestions(userInput);
     
     // Combine existing solutions with keyword-based solutions (avoiding duplicates)
     const allSolutions = [...existingSolutions];
@@ -559,11 +609,12 @@ export async function detectFromInput(userInput: string): Promise<DetectionResul
     return {
       solutions: allSolutions,
       categories,
-      searchTerm: userInput
+      searchTerm: userInput,
+      keywordMatches // Include keyword suggestions for autocomplete
     };
   } catch (error) {
     console.error('Error in detectFromInput:', error);
-    return { solutions: [], categories: [], searchTerm: userInput };
+    return { solutions: [], categories: [], searchTerm: userInput, keywordMatches: [] };
   }
 }
 

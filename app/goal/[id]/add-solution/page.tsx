@@ -21,8 +21,8 @@ export default async function AddSolutionPage({ params }: PageProps) {
   const supabase = await createSupabaseServerClient()
   
   // Check authentication
-  const { data: { session } } = await supabase.auth.getSession()
-  if (!session) {
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
     redirect(`/auth/signin?redirectTo=/goal/${resolvedParams.id}/add-solution`)
   }
 
@@ -51,8 +51,7 @@ export default async function AddSolutionPage({ params }: PageProps) {
     <SolutionFormWithAutoCategory 
       goalId={resolvedParams.id}
       goalTitle={goal.title}  // Add this line to pass the goal title
-      userId={session.user.id}
-      onCancel={() => redirect(`/goal/${resolvedParams.id}`)}
+      userId={user.id}
     />
   )
 }
