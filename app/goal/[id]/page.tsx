@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
-import { getGoalSolutionsByEffectiveness, type SolutionWithImplementations } from '@/lib/goal-solutions'
+import { getGoalSolutions, type GoalSolutionWithVariants } from '@/lib/goal-solutions'
 import Breadcrumbs, { createBreadcrumbs } from '@/components/ui/Breadcrumbs'
 import GoalPageClient from '@/components/goal/GoalPageClient'
 
@@ -68,7 +68,7 @@ async function getGoal(id: string): Promise<Goal | null> {
 
 export default async function GoalPage({ params }: { params: Promise<{ id: string }> }) {
   let goal: Goal | null = null
-  let solutions: SolutionWithImplementations[] = []
+  let solutions: GoalSolutionWithVariants[] = []
   let error: string | null = null
 
   try {
@@ -81,7 +81,7 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
 
     // Get solutions using the new helper function
     try {
-      solutions = await getGoalSolutionsByEffectiveness(resolvedParams.id)
+      solutions = await getGoalSolutions(resolvedParams.id)
     } catch (solutionError) {
       console.error('Error fetching solutions:', solutionError)
       error = 'Unable to load solutions at this time'

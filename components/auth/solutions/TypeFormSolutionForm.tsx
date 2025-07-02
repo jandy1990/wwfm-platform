@@ -633,6 +633,10 @@ export default function TypeFormSolutionForm({ goalId, goalTitle, userId }: Type
     setIsSubmitting(true)
 
     try {
+      // Determine if this is a measured solution based on category
+      const measuredCategories = ['medications', 'supplements_vitamins', 'beauty_skincare'];
+      const isMeasured = measuredCategories.includes(formData.solutionType);
+
       // Create the main solution
       const { data: solution, error: solutionError } = await supabase
         .from('solutions')
@@ -640,7 +644,9 @@ export default function TypeFormSolutionForm({ goalId, goalTitle, userId }: Type
           created_by: userId,
           title: formData.solutionName,
           description: formData.implementationDetails,
-          solution_type: formData.solutionType || 'user_submitted',
+          solution_category: formData.solutionType || 'user_submitted',
+          solution_model: isMeasured ? 'measured' : 'standard',
+          parent_concept: null, // Can be set later if needed
           source_type: 'community_contributed',
           is_approved: false
         })
@@ -649,47 +655,58 @@ export default function TypeFormSolutionForm({ goalId, goalTitle, userId }: Type
 
       if (solutionError) throw solutionError
 
-      // Create implementation variant
-      const { data: implementation, error: implError } = await supabase
-        .from('solution_implementations')
+      let variantId = null;
+
+      // Only create variant for measured solutions
+      if (isMeasured) {
+        const { data: variant, error: variantError } = await supabase
+          .from('solution_variants')
+          .insert({
+            solution_id: solution.id,
+            name: 'Standard', // Default variant name
+            category_fields: {
+              time_to_results: formData.timeToResults,
+              would_recommend: formData.wouldRecommend,
+              tips: formData.tips || null
+            }
+          })
+          .select()
+          .single()
+
+        if (variantError) throw variantError
+        variantId = variant.id;
+      }
+
+      // Create user rating
+      const { error: ratingError } = await supabase
+        .from('ratings')
         .insert({
+          user_id: userId,
           solution_id: solution.id,
-          name: 'Standard',
-          description: formData.implementationDetails,
-          implementation_details: {
-            time_to_results: formData.timeToResults,
-            would_recommend: formData.wouldRecommend,
-            tips: formData.tips || null
-          }
+          implementation_id: variantId, // null for standard solutions, keep as implementation_id
+          goal_id: goalId,
+          effectiveness_rating: formData.effectivenessRating,
+          time_to_results: formData.timeToResults,
+          would_recommend: formData.wouldRecommend,
+          tips: formData.tips || null
         })
-        .select()
-        .single()
 
-      if (implError) throw implError
+      if (ratingError) throw ratingError
 
-      // Link implementation to goal
+      // Create goal-solution implementation link
+      // Store 1-5 rating directly
       const { error: linkError } = await supabase
         .from('goal_implementation_links')
         .insert({
-          implementation_id: implementation.id,
+          solution_id: solution.id,
+          implementation_id: variantId,
           goal_id: goalId,
-          avg_effectiveness: formData.effectivenessRating * 2, // Convert 5-point to 10-point scale
+          avg_effectiveness: formData.effectivenessRating,
+          rating_count: 1,
           notes: `Worked for: ${goalTitle}`
         })
 
       if (linkError) throw linkError
-
-      // Create rating
-      const { error: ratingError } = await supabase
-        .from('ratings')
-        .insert({
-          solution_id: solution.id,
-          user_id: userId,
-          effectiveness_score: formData.effectivenessRating * 2, // Convert 5-point to 10-point scale
-          time_to_see_results: formData.timeToResults
-        })
-
-      if (ratingError) throw ratingError
 
       // Clear localStorage
       localStorage.removeItem(`solution-form-${goalId}`)

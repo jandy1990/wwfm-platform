@@ -16,8 +16,8 @@ export default function TestSolutionSearchPage() {
   useEffect(() => {
     async function loadSolutions() {
       const { data } = await supabase
-        .from('solutions')
-        .select('id, title, solution_category, is_approved')
+        .from('solutions_v2')
+        .select('id, title, solution_category, solution_model, parent_concept, is_approved')
         .limit(20)
         .order('created_at', { ascending: false });
       

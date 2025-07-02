@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { SolutionWithImplementations } from '@/lib/goal-solutions'
+import { GoalSolutionWithVariants } from '@/lib/goal-solutions'
 import RatingDisplay, { getBestRating, getAverageRating } from '@/components/ui/RatingDisplay'
 import EmptyState from '@/components/ui/EmptyState'
 import GoalActionBar from './GoalActionBar'
@@ -28,7 +28,7 @@ type Goal = {
 
 interface GoalPageClientProps {
   goal: Goal
-  initialSolutions: SolutionWithImplementations[]
+  initialSolutions: GoalSolutionWithVariants[]
   error?: string
 }
 
@@ -63,15 +63,15 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
     switch (sortBy) {
       case 'effectiveness':
         return solutionsCopy.sort((a, b) => {
-          const aRating = getBestRating(a.implementations)
-          const bRating = getBestRating(b.implementations)
+          const aRating = getBestRating(a.variants)
+          const bRating = getBestRating(b.variants)
           return bRating - aRating // Highest first
         })
       
       case 'reviews':
         return solutionsCopy.sort((a, b) => {
-          const aReviews = getAverageRating(a.implementations).count
-          const bReviews = getAverageRating(b.implementations).count
+          const aReviews = getAverageRating(a.variants).count
+          const bReviews = getAverageRating(b.variants).count
           return bReviews - aReviews // Most reviews first
         })
       
@@ -188,15 +188,15 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
           >
             {filteredAndSortedSolutions.map((solution) => {
               // Calculate ratings using helper functions
-              const bestRating = getBestRating(solution.implementations)
-              const { count: totalReviews } = getAverageRating(solution.implementations)
+              const bestRating = getBestRating(solution.variants)
+              const { count: totalReviews } = getAverageRating(solution.variants)
               
-              // Find the best rated implementation for display
-              const bestImplementation = solution.implementations.reduce((best, impl) => {
-                const currentRating = impl.effectiveness || impl.goal_links[0]?.avg_effectiveness || 0
-                const bestImplRating = best?.effectiveness || best?.goal_links[0]?.avg_effectiveness || 0
-                return currentRating > bestImplRating ? impl : best
-              }, solution.implementations[0])
+              // Find the best rated variant for display (only for measured solutions)
+              const bestVariant = solution.solution_model === 'measured' ? solution.variants.reduce((best, variant) => {
+                const currentRating = variant.effectiveness || variant.goal_links[0]?.avg_effectiveness || 0
+                const bestVariantRating = best?.effectiveness || best?.goal_links[0]?.avg_effectiveness || 0
+                return currentRating > bestVariantRating ? variant : best
+              }, solution.variants[0]) : null
 
               return (
                 <article key={solution.id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
@@ -212,9 +212,14 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
                           <span className="sr-only">{getSourceDescription(solution.source_type)}</span>
                         </div>
                       </div>
-                      {bestImplementation && (
+                      {solution.parent_concept && (
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Part of: {solution.parent_concept}
+                        </p>
+                      )}
+                      {bestVariant && solution.solution_model === 'measured' && (
                         <p className="text-sm sm:text-sm text-gray-600 dark:text-gray-300">
-                          Best variant: {bestImplementation.name}
+                          Best variant: {bestVariant.variant_name}
                         </p>
                       )}
                     </header>
@@ -224,7 +229,6 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
                       <div className="mb-4">
                         <RatingDisplay
                           rating={bestRating}
-                          maxRating={10}
                           reviewCount={totalReviews}
                           size="md"
                         />
@@ -237,12 +241,12 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
                       </p>
                     )}
 
-                    {/* Expandable Variants Section */}
-                    {solution.implementations.length > 0 && (
+                    {/* Expandable Variants Section - only show for measured solutions with multiple variants */}
+                    {solution.solution_model === 'measured' && solution.variants.length > 1 && (
                       <details className="group">
                         <summary className="cursor-pointer text-sm sm:text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 list-none py-2 -mx-2 px-2 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20 min-h-[44px] flex items-center transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                           <span className="inline-flex items-center">
-                            See all {solution.implementations.length} variant{solution.implementations.length !== 1 ? 's' : ''}
+                            See all {solution.variants.length} variant{solution.variants.length !== 1 ? 's' : ''}
                             <svg className="ml-1 w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                             </svg>
@@ -250,34 +254,28 @@ export default function GoalPageClient({ goal, initialSolutions, error }: GoalPa
                         </summary>
                         
                         <div className="mt-3 sm:mt-4 space-y-3">
-                          {solution.implementations.map((impl) => {
-                            const goalLink = impl.goal_links[0]
-                            const rating = impl.effectiveness || goalLink?.avg_effectiveness || 0
+                          {solution.variants.map((variant) => {
+                            const goalLink = variant.goal_links[0]
+                            const rating = variant.effectiveness || goalLink?.avg_effectiveness || 0
                             
                             return (
-                              <div key={impl.id} className="border-l-4 border-gray-200 dark:border-gray-600 pl-3 sm:pl-4 py-3 hover:border-blue-400 dark:hover:border-blue-500 transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:pl-4 sm:hover:pl-5">
+                              <div key={variant.id} className="border-l-4 border-gray-200 dark:border-gray-600 pl-3 sm:pl-4 py-3 hover:border-blue-400 dark:hover:border-blue-500 transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:pl-4 sm:hover:pl-5">
                                 <div className="flex items-start justify-between flex-col sm:flex-row gap-2 sm:gap-0">
                                   <div className="flex-1">
                                     <h5 className="text-sm sm:text-base font-medium text-gray-900 dark:text-gray-100">
-                                      {impl.name}
+                                      {variant.variant_name}
                                     </h5>
                                     
                                     {rating > 0 && (
                                       <div className="mt-1">
                                         <RatingDisplay
                                           rating={rating}
-                                          maxRating={10}
                                           showReviewCount={false}
                                           size="sm"
                                         />
                                       </div>
                                     )}
                                     
-                                    {impl.category_fields && typeof impl.category_fields === 'object' && 'other_important_information' in impl.category_fields && (
-                                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-2">
-                                        {String(impl.category_fields.other_important_information)}
-                                      </p>
-                                    )}
                                   </div>
                                 </div>
                               </div>

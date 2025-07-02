@@ -113,6 +113,10 @@ export function DosageForm({
   const [brand, setBrand] = useState('');
   const [form, setForm] = useState('');
   const [otherInfo, setOtherInfo] = useState('');
+  
+  // Submission state
+  const [submittedVariantId, setSubmittedVariantId] = useState<string | null>(null);
+  const [submittedVariant, setSubmittedVariant] = useState<any>(null);
 
   // Progress indicator
   const totalSteps = 3;
@@ -346,8 +350,89 @@ export function DosageForm({
       const implementationName = buildDosageString();
       const dailyDose = calculateDailyDose();
       
-      // TODO: Main solution submission logic here
-      console.log('TODO: Add main submission logic');
+      // Main solution submission logic
+      let solutionId = existingSolutionId;
+      let variantId = null;
+      
+      // Create or get solution
+      if (!solutionId) {
+        // Create new solution
+        const { data: solution, error: solutionError } = await supabase
+          .from('solutions')
+          .insert({
+            created_by: userId,
+            title: solutionName,
+            description: null,
+            solution_category: category,
+            solution_model: 'measured', // Dosage form is for measured solutions
+            parent_concept: null,
+            source_type: 'community_contributed',
+            is_approved: false
+          })
+          .select()
+          .single();
+
+        if (solutionError) throw solutionError;
+        solutionId = solution.id;
+      }
+
+      // Create variant for measured solution
+      const { data: variant, error: variantError } = await supabase
+        .from('solution_variants')
+        .insert({
+          solution_id: solutionId,
+          name: implementationName,
+          category_fields: {
+            dosage: buildDosageString(),
+            daily_dose: dailyDose,
+            side_effects: sideEffects,
+            cost_range: costRange === 'dont_remember' ? null : costRange,
+            failed_alternatives: textOnlyFailed,
+            other_important_information: `Brand: ${brand || 'Not specified'}, Form: ${form || 'Not specified'}, Other: ${otherInfo || 'None'}`
+          },
+          effectiveness: effectiveness,
+          time_to_results: timeToResults,
+          cost_range: costRange === 'dont_remember' ? null : costRange
+        })
+        .select()
+        .single();
+
+      if (variantError) throw variantError;
+      variantId = variant.id;
+      setSubmittedVariantId(variant.id);
+      setSubmittedVariant(variant);
+
+      // Create user rating
+      const { error: ratingError } = await supabase
+        .from('ratings')
+        .insert({
+          user_id: userId,
+          solution_id: solutionId,
+          implementation_id: variantId, // Note: keeping implementation_id as column name
+          goal_id: goalId,
+          effectiveness_rating: effectiveness,
+          time_to_results: timeToResults,
+          would_recommend: effectiveness >= 4, // 4+ stars = would recommend
+          tips: null // Could add tips in future versions
+        });
+
+      if (ratingError) throw ratingError;
+
+      // Create goal-solution implementation link
+      // Store 1-5 rating directly
+      const { error: linkError } = await supabase
+        .from('goal_implementation_links')
+        .insert({
+          implementation_id: variantId,
+          goal_id: goalId,
+          avg_effectiveness: effectiveness || null,
+          rating_count: 1,
+          typical_application: null,
+          contraindications: null,
+          notes: `Worked for: ${goalTitle}`
+        });
+
+      if (linkError) throw linkError;
       
       // Submit failed solution ratings for existing solutions
       for (const failed of failedSolutions) {
@@ -389,8 +474,24 @@ export function DosageForm({
   };
 
   const updateAdditionalInfo = async () => {
-    // TODO: Update the solution with brand, form, and other info
-    console.log('Updating additional info:', { brand, form, otherInfo });
+    // Update the variant with brand, form, and other info
+    if (submittedVariantId) {
+      const { error } = await supabase
+        .from('solution_variants')
+        .update({
+          category_fields: {
+            ...submittedVariant?.category_fields,
+            brand: brand || 'Not specified',
+            form: form || 'Not specified', 
+            other_info: otherInfo || 'None'
+          }
+        })
+        .eq('id', submittedVariantId);
+        
+      if (error) {
+        console.error('Error updating additional info:', error);
+      }
+    }
   };
 
   const renderStep = () => {

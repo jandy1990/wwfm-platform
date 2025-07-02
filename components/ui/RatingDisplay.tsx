@@ -1,6 +1,7 @@
+import { Star } from 'lucide-react'
+
 interface RatingDisplayProps {
-  rating: number // Rating out of 10 (effectiveness score) or out of 5 (traditional rating)
-  maxRating?: 5 | 10 // Maximum possible rating
+  rating: number // Rating out of 5 (effectiveness score)
   reviewCount?: number
   showReviewCount?: boolean
   goalSpecificRating?: number // For showing goal-specific effectiveness
@@ -11,7 +12,6 @@ interface RatingDisplayProps {
 
 export default function RatingDisplay({
   rating,
-  maxRating = 10,
   reviewCount,
   showReviewCount = true,
   goalSpecificRating,
@@ -19,25 +19,25 @@ export default function RatingDisplay({
   size = 'md',
   className = ''
 }: RatingDisplayProps) {
-  // Convert rating to 5-star scale if needed
-  const normalizedRating = maxRating === 10 ? rating / 2 : rating
-  const normalizedGoalRating = goalSpecificRating ? (maxRating === 10 ? goalSpecificRating / 2 : goalSpecificRating) : undefined
-  const normalizedAverage = averageRating ? (maxRating === 10 ? averageRating / 2 : averageRating) : undefined
+  // All ratings are now on a 1-5 scale
+  const normalizedRating = rating
+  const normalizedGoalRating = goalSpecificRating
+  const normalizedAverage = averageRating
 
   // Size configurations
   const sizeConfig = {
     sm: {
-      star: 'text-base sm:text-sm',
+      star: 'w-4 h-4',
       text: 'text-sm sm:text-xs',
       mobile: 'text-base sm:text-sm' // Larger on mobile
     },
     md: {
-      star: 'text-lg sm:text-base',
+      star: 'w-5 h-5',
       text: 'text-base sm:text-sm',
       mobile: 'text-lg sm:text-base' // Larger on mobile
     },
     lg: {
-      star: 'text-xl sm:text-lg',
+      star: 'w-6 h-6',
       text: 'text-lg sm:text-base',
       mobile: 'text-xl sm:text-lg' // Larger on mobile
     }
@@ -45,19 +45,46 @@ export default function RatingDisplay({
 
   const config = sizeConfig[size]
 
-  // Render stars based on rating
+  // Render stars based on rating with partial fill support
   const renderStars = (ratingValue: number, className: string = '') => {
+    const filledStars = Math.floor(ratingValue)
+    const partialFill = (ratingValue % 1) * 100
+    const hasPartialStar = partialFill > 0
+    const emptyStars = hasPartialStar ? 4 - filledStars : 5 - filledStars
+    
+    // Generate unique ID for this rating instance
+    const gradientId = `star-gradient-${Math.random().toString(36).substring(2, 11)}`
+    
     return (
-      <div className={`flex items-center ${config.star} ${className}`} role="img" aria-label={`${ratingValue.toFixed(1)} out of 5 stars`}>
+      <div className={`flex items-center ${className}`} role="img" aria-label={`${ratingValue.toFixed(1)} out of 5 stars`}>
         <span className="sr-only">Effectiveness rating: </span>
-        {[1, 2, 3, 4, 5].map((star) => (
-          <span
-            key={star}
-            className={`${star <= Math.round(ratingValue) ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600'} mr-0.5`}
-            aria-hidden="true"
-          >
-            ★
-          </span>
+        
+        {/* Fully filled stars */}
+        {[...Array(filledStars)].map((_, i) => (
+          <Star key={`filled-${i}`} className={`${config.star} fill-yellow-400 text-yellow-400 mr-0.5`} />
+        ))}
+        
+        {/* Partial star with gradient */}
+        {hasPartialStar && (
+          <svg className={`${config.star} mr-0.5`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset={`${partialFill}%`} stopColor="#facc15" />
+                <stop offset={`${partialFill}%`} stopColor="#e5e7eb" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+              fill={`url(#${gradientId})`}
+              stroke={`url(#${gradientId})`}
+              strokeWidth="1"
+            />
+          </svg>
+        )}
+        
+        {/* Empty stars */}
+        {[...Array(emptyStars)].map((_, i) => (
+          <Star key={`empty-${i}`} className={`${config.star} text-gray-300 dark:text-gray-600 mr-0.5`} />
         ))}
       </div>
     )
@@ -73,7 +100,7 @@ export default function RatingDisplay({
         <div className="flex items-center space-x-2">
           {renderStars(normalizedGoalRating)}
           <span className={`font-medium ${config.text} text-gray-900`}>
-            {(goalSpecificRating / 2).toFixed(1)}
+            {goalSpecificRating.toFixed(1)}
           </span>
           <span className={`${config.text} text-gray-600`}>
             for this goal
@@ -90,7 +117,7 @@ export default function RatingDisplay({
           )}
         </div>
         <div className={`text-xs sm:${config.text} text-gray-500 dark:text-gray-400`}>
-          (avg: {(averageRating / 2).toFixed(1)})
+          (avg: {averageRating.toFixed(1)})
         </div>
       </div>
     )

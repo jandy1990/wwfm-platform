@@ -15,8 +15,6 @@ type Goal = {
   id: string
   title: string
   description: string | null
-  slug: string
-  solution_count: number
   view_count: number
   is_approved?: boolean
 }
@@ -56,8 +54,6 @@ async function getCategoryWithGoals(slug: string) {
         id,
         title,
         description,
-        slug,
-        solution_count,
         view_count,
         is_approved
       )
@@ -148,7 +144,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                 </p>
               )}
               <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-auto">
-                <span>{goal.solution_count || 0} solutions</span>
+                <span>{goal.view_count || 0} views</span>
                 <span className="text-blue-600 dark:text-blue-400">View solutions →</span>
               </div>
             </Link>
