@@ -6,6 +6,8 @@ import { createSupabaseServerClient } from '@/lib/supabase-server'
 import { getGoalSolutions, type GoalSolutionWithVariants } from '@/lib/goal-solutions'
 import Breadcrumbs, { createBreadcrumbs } from '@/components/ui/Breadcrumbs'
 import GoalPageClient from '@/components/goal/GoalPageClient'
+import { getRelatedGoals } from '@/lib/services/related-goals'
+
 
 type Goal = {
   id: string
@@ -69,6 +71,7 @@ async function getGoal(id: string): Promise<Goal | null> {
 export default async function GoalPage({ params }: { params: Promise<{ id: string }> }) {
   let goal: Goal | null = null
   let solutions: GoalSolutionWithVariants[] = []
+  let relatedGoals: any[] = []
   let error: string | null = null
 
   try {
@@ -85,6 +88,15 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
     } catch (solutionError) {
       console.error('Error fetching solutions:', solutionError)
       error = 'Unable to load solutions at this time'
+    }
+
+    // Get related goals
+    try {
+      relatedGoals = await getRelatedGoals(resolvedParams.id)
+      console.log('Server: Related goals fetched:', relatedGoals.length, relatedGoals)
+    } catch (relatedError) {
+      console.error('Error fetching related goals:', relatedError)
+      // Don't set error here as related goals are not critical
     }
   } catch (pageError) {
     console.error('Error loading goal page:', pageError)
@@ -141,6 +153,7 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
           goal={goal}
           initialSolutions={solutions}
           error={error}
+          relatedGoals={relatedGoals}
         />
       </div>
     </div>

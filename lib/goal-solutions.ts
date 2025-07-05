@@ -5,9 +5,11 @@ export type SourceType = 'community_contributed' | 'ai_generated' | 'ai_enhanced
 
 // Updated type for the new schema
 export interface GoalSolutionWithVariants extends SolutionV2 {
+  solution_fields?: Record<string, any> | null
   variants: {
     id: string
     variant_name: string
+    category_fields?: Record<string, any> | null
     effectiveness: number | null
     time_to_results: string | null
     cost_range: string | null
@@ -31,111 +33,68 @@ export async function getGoalSolutions(goalId: string): Promise<GoalSolutionWith
   console.log(`[DEBUG] Fetching solutions for goal: ${goalId}`)
 
   // Get all goal implementation links with their variants and solutions
-  const { data: goalLinks, error: linksError } = await supabase
+  const { data: goalLinks, error } = await supabase
     .from('goal_implementation_links')
     .select(`
-      goal_id,
-      implementation_id,
+      id,
       avg_effectiveness,
       rating_count,
-      typical_application,
-      contraindications,
-      notes,
-      created_at,
+      solution_fields,
       solution_variants!implementation_id (
         id,
         variant_name,
-        solution_id,
-        created_at,
-        solutions!solution_id (
+        amount,
+        unit,
+        form,
+        is_default,
+        solutions (
           id,
           title,
           description,
           solution_category,
-          source_type,
           solution_model,
           parent_concept,
-          created_at,
-          updated_at,
+          source_type,
           is_approved
         )
       )
     `)
     .eq('goal_id', goalId)
-    .not('implementation_id', 'is', null)
+    .eq('solution_variants.solutions.is_approved', true)
 
-  if (linksError) {
-    console.error('[DEBUG] Error fetching goal links:', linksError)
+  if (error) {
+    console.error('[DEBUG] Error fetching goal links:', error)
   }
 
   console.log(`[DEBUG] Goal links fetched:`, goalLinks?.length || 0)
 
-  // Transform the data to match our interface
-  const solutionMap = new Map<string, GoalSolutionWithVariants>()
-  
-  // Process all goal links
-  goalLinks?.forEach((link: any) => {
-    const variant = link.solution_variants as any
-    if (!variant || !variant.solutions) {
-      console.error('[DEBUG] Missing variant or solution data:', link)
-      return
-    }
-    
-    const solution = variant.solutions
-    const solutionId = solution.id
-    
-    // Skip unapproved solutions
-    if (!solution.is_approved) {
-      return
-    }
-    
-    if (!solutionMap.has(solutionId)) {
-      solutionMap.set(solutionId, {
-        ...solution,
-        variants: []
-      })
-    }
-    
-    const existingSolution = solutionMap.get(solutionId)!
-    
-    // Check if this variant already exists
-    const existingVariantIndex = existingSolution.variants.findIndex(v => v.id === variant.id)
-    
-    if (existingVariantIndex === -1) {
-      // New variant
-      existingSolution.variants.push({
-        id: variant.id,
-        variant_name: variant.variant_name,
-        effectiveness: null,
-        time_to_results: null,
-        cost_range: null,
-        created_at: variant.created_at,
-        updated_at: variant.created_at,
-        goal_links: [{
-          goal_id: link.goal_id,
-          avg_effectiveness: link.avg_effectiveness,
-          rating_count: link.rating_count,
-          typical_application: link.typical_application,
-          contraindications: link.contraindications,
-          notes: link.notes,
-          created_at: link.created_at
-        }]
-      })
-    } else {
-      // Existing variant - add this goal link
-      existingSolution.variants[existingVariantIndex].goal_links.push({
-        goal_id: link.goal_id,
-        avg_effectiveness: link.avg_effectiveness,
-        rating_count: link.rating_count,
-        typical_application: link.typical_application,
-        contraindications: link.contraindications,
-        notes: link.notes,
-        created_at: link.created_at
-      })
-    }
-  })
+  // Transform the data to group by solution
+  const solutionsMap = new Map();
 
-  const solutions = Array.from(solutionMap.values())
+  goalLinks?.forEach(link => {
+    const variant = link.solution_variants;
+    const solution = variant.solutions;
+    
+    if (!solutionsMap.has(solution.id)) {
+      solutionsMap.set(solution.id, {
+        ...solution,
+        solution_fields: link.solution_fields, // This is where the fields come from!
+        variants: []
+      });
+    }
+    
+    solutionsMap.get(solution.id).variants.push({
+      ...variant,
+      effectiveness: link.avg_effectiveness,
+      rating_count: link.rating_count,
+      goal_links: [{
+        avg_effectiveness: link.avg_effectiveness,
+        rating_count: link.rating_count
+      }]
+    });
+  });
+
+  const solutions = Array.from(solutionsMap.values())
   console.log(`[DEBUG] Total unique solutions: ${solutions.length}`)
   
   return solutions
