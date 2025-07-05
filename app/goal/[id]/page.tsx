@@ -8,7 +8,6 @@ import Breadcrumbs, { createBreadcrumbs } from '@/components/ui/Breadcrumbs'
 import GoalPageClient from '@/components/goal/GoalPageClient'
 import { getRelatedGoals } from '@/lib/services/related-goals'
 
-
 type Goal = {
   id: string
   title: string
@@ -71,7 +70,7 @@ async function getGoal(id: string): Promise<Goal | null> {
 export default async function GoalPage({ params }: { params: Promise<{ id: string }> }) {
   let goal: Goal | null = null
   let solutions: GoalSolutionWithVariants[] = []
-  let relatedGoals: any[] = []
+  let relatedGoals: Awaited<ReturnType<typeof getRelatedGoals>> = []
   let error: string | null = null
 
   try {
@@ -93,10 +92,9 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
     // Get related goals
     try {
       relatedGoals = await getRelatedGoals(resolvedParams.id)
-      console.log('Server: Related goals fetched:', relatedGoals.length, relatedGoals)
     } catch (relatedError) {
       console.error('Error fetching related goals:', relatedError)
-      // Don't set error here as related goals are not critical
+      // Don't set error for this - related goals are enhancement, not critical
     }
   } catch (pageError) {
     console.error('Error loading goal page:', pageError)
