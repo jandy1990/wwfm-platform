@@ -119,7 +119,7 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Breadcrumb Navigation */}
-        <nav aria-label="Breadcrumb">
+        <nav aria-label="Breadcrumb" className="mb-4">
           <Breadcrumbs 
             items={createBreadcrumbs('goal', {
               arena: { name: goal.arenas.name, slug: goal.arenas.slug },
@@ -129,24 +129,7 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
           />
         </nav>
 
-        {/* Goal Header */}
-        <header className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-6 mb-6 sm:mb-8">
-          <div className="flex items-start flex-col sm:flex-row">
-            <div className="flex items-center mb-3 sm:mb-0 sm:mr-4">
-              <span className="text-3xl sm:text-4xl mr-3 sm:mr-0" aria-hidden="true">{goal.arenas.icon}</span>
-            </div>
-            <div className="flex-1">
-              <h1 className="text-xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                {goal.title}
-              </h1>
-              <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg">
-                {goal.description || `Achieve your goal: ${goal.title}`}
-              </p>
-            </div>
-          </div>
-        </header>
-
-        {/* Goal Page Client Content */}
+        {/* Goal Page Client Content - This now handles ALL the display */}
         <GoalPageClient 
           goal={goal}
           initialSolutions={solutions}

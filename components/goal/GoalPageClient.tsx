@@ -5,9 +5,7 @@ import Link from 'next/link'
 import { GoalSolutionWithVariants } from '@/lib/goal-solutions'
 import RatingDisplay, { getBestRating, getAverageRating } from '@/components/ui/RatingDisplay'
 import EmptyState from '@/components/ui/EmptyState'
-import GoalActionBar from './GoalActionBar'
 import SourceBadge from '@/components/ui/SourceBadge'
-import { RelatedGoalsNavigation, RelatedGoalsNavigationMobile } from '@/components/goal/RelatedGoalsNavigation'
 import { RelatedGoal } from '@/lib/services/related-goals'
 import { trackGoalRelationshipClick } from '@/lib/services/related-goals'
 
@@ -36,6 +34,9 @@ interface GoalPageClientProps {
   relatedGoals?: RelatedGoal[]
 }
 
+// Categories that have variants
+const VARIANT_CATEGORIES = ['medications', 'supplements_vitamins', 'natural_remedies', 'beauty_skincare']
+
 // Category configuration with icons, colors, and key fields
 const CATEGORY_CONFIG: Record<string, {
   icon: string
@@ -48,7 +49,7 @@ const CATEGORY_CONFIG: Record<string, {
   medications: {
     icon: '💊',
     color: 'text-red-700',
-    borderColor: 'border-red-400',
+    borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
     keyFields: ['cost', 'side_effects', 'time_to_results'],
     fieldLabels: {
@@ -60,7 +61,7 @@ const CATEGORY_CONFIG: Record<string, {
   supplements_vitamins: {
     icon: '💊',
     color: 'text-blue-700',
-    borderColor: 'border-blue-400',
+    borderColor: 'border-blue-200',
     bgColor: 'bg-blue-50',
     keyFields: ['cost', 'side_effects', 'time_to_results'],
     fieldLabels: {
@@ -72,7 +73,7 @@ const CATEGORY_CONFIG: Record<string, {
   natural_remedies: {
     icon: '🌿',
     color: 'text-green-700',
-    borderColor: 'border-green-400',
+    borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
     keyFields: ['cost', 'side_effects', 'time_to_results'],
     fieldLabels: {
@@ -84,7 +85,7 @@ const CATEGORY_CONFIG: Record<string, {
   beauty_skincare: {
     icon: '✨',
     color: 'text-pink-700',
-    borderColor: 'border-pink-400',
+    borderColor: 'border-pink-200',
     bgColor: 'bg-pink-50',
     keyFields: ['cost', 'side_effects', 'product_type'],
     fieldLabels: {
@@ -96,7 +97,7 @@ const CATEGORY_CONFIG: Record<string, {
   therapists_counselors: {
     icon: '💆',
     color: 'text-purple-700',
-    borderColor: 'border-purple-400',
+    borderColor: 'border-purple-200',
     bgColor: 'bg-purple-50',
     keyFields: ['cost', 'session_frequency', 'format'],
     fieldLabels: {
@@ -108,7 +109,7 @@ const CATEGORY_CONFIG: Record<string, {
   doctors_specialists: {
     icon: '👨‍⚕️',
     color: 'text-indigo-700',
-    borderColor: 'border-indigo-400',
+    borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
     keyFields: ['cost', 'wait_time', 'insurance_coverage'],
     fieldLabels: {
@@ -120,7 +121,7 @@ const CATEGORY_CONFIG: Record<string, {
   coaches_mentors: {
     icon: '🎯',
     color: 'text-yellow-700',
-    borderColor: 'border-yellow-400',
+    borderColor: 'border-yellow-200',
     bgColor: 'bg-yellow-50',
     keyFields: ['cost', 'format', 'session_frequency'],
     fieldLabels: {
@@ -132,7 +133,7 @@ const CATEGORY_CONFIG: Record<string, {
   alternative_practitioners: {
     icon: '🌸',
     color: 'text-teal-700',
-    borderColor: 'border-teal-400',
+    borderColor: 'border-teal-200',
     bgColor: 'bg-teal-50',
     keyFields: ['cost', 'side_effects', 'session_frequency'],
     fieldLabels: {
@@ -144,7 +145,7 @@ const CATEGORY_CONFIG: Record<string, {
   exercise_movement: {
     icon: '🏃',
     color: 'text-green-700',
-    borderColor: 'border-green-400',
+    borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
     keyFields: ['startup_cost', 'challenges', 'time_commitment'],
     fieldLabels: {
@@ -157,7 +158,7 @@ const CATEGORY_CONFIG: Record<string, {
   meditation_mindfulness: {
     icon: '🧘',
     color: 'text-indigo-700',
-    borderColor: 'border-indigo-400',
+    borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
     keyFields: ['practice_length', 'challenges', 'guidance_type'],
     fieldLabels: {
@@ -169,7 +170,7 @@ const CATEGORY_CONFIG: Record<string, {
   habits_routines: {
     icon: '📅',
     color: 'text-orange-700',
-    borderColor: 'border-orange-400',
+    borderColor: 'border-orange-200',
     bgColor: 'bg-orange-50',
     keyFields: ['time_commitment', 'challenges', 'frequency'],
     fieldLabels: {
@@ -181,7 +182,7 @@ const CATEGORY_CONFIG: Record<string, {
   apps_software: {
     icon: '📱',
     color: 'text-blue-700',
-    borderColor: 'border-blue-400',
+    borderColor: 'border-blue-200',
     bgColor: 'bg-blue-50',
     keyFields: ['cost', 'usage_frequency', 'most_valuable_feature'],
     fieldLabels: {
@@ -193,7 +194,7 @@ const CATEGORY_CONFIG: Record<string, {
   products_devices: {
     icon: '🛍️',
     color: 'text-gray-700',
-    borderColor: 'border-gray-400',
+    borderColor: 'border-gray-200',
     bgColor: 'bg-gray-50',
     keyFields: ['cost', 'ease_of_use', 'best_for'],
     fieldLabels: {
@@ -205,7 +206,7 @@ const CATEGORY_CONFIG: Record<string, {
   books_courses: {
     icon: '📚',
     color: 'text-amber-700',
-    borderColor: 'border-amber-400',
+    borderColor: 'border-amber-200',
     bgColor: 'bg-amber-50',
     keyFields: ['cost', 'format', 'learning_difficulty'],
     fieldLabels: {
@@ -217,7 +218,7 @@ const CATEGORY_CONFIG: Record<string, {
   support_groups: {
     icon: '👥',
     color: 'text-red-700',
-    borderColor: 'border-red-400',
+    borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
     keyFields: ['cost', 'format', 'meeting_frequency'],
     fieldLabels: {
@@ -229,7 +230,7 @@ const CATEGORY_CONFIG: Record<string, {
   diet_nutrition: {
     icon: '🥗',
     color: 'text-green-700',
-    borderColor: 'border-green-400',
+    borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
     keyFields: ['cost_impact', 'challenges', 'social_impact'],
     fieldLabels: {
@@ -241,7 +242,7 @@ const CATEGORY_CONFIG: Record<string, {
   sleep: {
     icon: '😴',
     color: 'text-indigo-700',
-    borderColor: 'border-indigo-400',
+    borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
     keyFields: ['cost', 'adjustment_period', 'challenges'],
     fieldLabels: {
@@ -256,7 +257,7 @@ const CATEGORY_CONFIG: Record<string, {
 const DEFAULT_CATEGORY_CONFIG = {
   icon: '🔧',
   color: 'text-gray-700',
-  borderColor: 'border-gray-400',
+  borderColor: 'border-gray-200',
   bgColor: 'bg-gray-50',
   keyFields: ['cost', 'time_to_results'],
   fieldLabels: {
@@ -305,22 +306,108 @@ const getFieldDisplayValue = (solution: GoalSolutionWithVariants, fieldName: str
   return Array.isArray(value) ? value.join(' • ') : (value?.toString() || '')
 }
 
-export default function GoalPageClient({ goal, initialSolutions, error, relatedGoals = [] }: GoalPageClientProps) {
-  console.log('Client: Related goals received:', relatedGoals?.length, relatedGoals)
+// Multi-select dropdown component
+const CategoryDropdown = ({ 
+  categories, 
+  selectedCategories, 
+  onCategoryToggle,
+  counts 
+}: {
+  categories: string[]
+  selectedCategories: Set<string>
+  onCategoryToggle: (category: string) => void
+  counts: Record<string, number>
+}) => {
+  const [isOpen, setIsOpen] = useState(false)
   
+  const formatCategoryName = (category: string) => {
+    const config = CATEGORY_CONFIG[category] || DEFAULT_CATEGORY_CONFIG
+    return config.icon + ' ' + category.split('_').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ')
+  }
+  
+  const selectedCount = selectedCategories.size
+  const totalCount = categories.reduce((sum, cat) => sum + (counts[cat] || 0), 0)
+  
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+      >
+        <span className="text-sm font-medium">
+          {selectedCount === 0 ? 'All Categories' : `${selectedCount} Categories`}
+        </span>
+        <svg className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      
+      {isOpen && (
+        <>
+          <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />
+          <div className="absolute top-full mt-1 w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-20">
+            <div className="p-2">
+              <label className="flex items-center gap-2 px-2 py-1.5 hover:bg-gray-50 dark:hover:bg-gray-700 rounded cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={selectedCount === 0}
+                  onChange={() => {
+                    categories.forEach(cat => {
+                      if (selectedCategories.has(cat)) {
+                        onCategoryToggle(cat)
+                      }
+                    })
+                  }}
+                  className="rounded border-gray-300"
+                />
+                <span className="text-sm">All Categories ({totalCount})</span>
+              </label>
+              <div className="border-t border-gray-200 dark:border-gray-700 my-1" />
+              {categories.map(category => (
+                <label key={category} className="flex items-center gap-2 px-2 py-1.5 hover:bg-gray-50 dark:hover:bg-gray-700 rounded cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={selectedCategories.has(category)}
+                    onChange={() => onCategoryToggle(category)}
+                    className="rounded border-gray-300"
+                  />
+                  <span className="text-sm">{formatCategoryName(category)} ({counts[category] || 0})</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+export default function GoalPageClient({ goal, initialSolutions, error, relatedGoals = [] }: GoalPageClientProps) {
   const [sortBy, setSortBy] = useState('effectiveness')
-  const [filterType, setFilterType] = useState('all')
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set())
   const [viewMode, setViewMode] = useState<'simple' | 'detailed'>('simple')
+  const [showAllRelated, setShowAllRelated] = useState(false)
+  const [expandedVariants, setExpandedVariants] = useState<Set<string>>(new Set())
+
+  // Calculate stats
+  const totalRatings = useMemo(() => {
+    return initialSolutions.reduce((sum, solution) => {
+      return sum + solution.variants.reduce((varSum, variant) => {
+        return varSum + (variant.goal_links[0]?.rating_count || 0)
+      }, 0)
+    }, 0)
+  }, [initialSolutions])
 
   // Track goal navigation
   const handleRelatedGoalClick = async (fromGoalId: string, toGoalId: string, position: number) => {
-    // This will just log for now, but could send to analytics
     await trackGoalRelationshipClick(null, fromGoalId, toGoalId, position)
   }
 
-  // Calculate filter counts and available types
-  const filterCounts = useMemo(() => {
-    const counts: Record<string, number> = { all: initialSolutions.length }
+  // Calculate filter counts and available categories
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
     
     initialSolutions.forEach(solution => {
       if (solution.solution_category) {
@@ -331,15 +418,21 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
     return counts
   }, [initialSolutions])
 
-  // Filter and sort solutions based on selected criteria
+  const availableCategories = useMemo(() => {
+    return Object.keys(categoryCounts).sort()
+  }, [categoryCounts])
+
+  // Filter and sort solutions
   const filteredAndSortedSolutions = useMemo(() => {
-    // First filter by type
+    // First filter by category
     let filtered = initialSolutions
-    if (filterType !== 'all') {
-      filtered = initialSolutions.filter(solution => solution.solution_category === filterType)
+    if (selectedCategories.size > 0) {
+      filtered = initialSolutions.filter(solution => 
+        solution.solution_category && selectedCategories.has(solution.solution_category)
+      )
     }
 
-    // Then sort the filtered results
+    // Then sort
     const solutionsCopy = [...filtered]
     
     switch (sortBy) {
@@ -347,170 +440,190 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
         return solutionsCopy.sort((a, b) => {
           const aRating = getBestRating(a.variants)
           const bRating = getBestRating(b.variants)
-          return bRating - aRating // Highest first
+          return bRating - aRating
         })
       
-      case 'reviews':
-        return solutionsCopy.sort((a, b) => {
-          const aReviews = getAverageRating(a.variants).count
-          const bReviews = getAverageRating(b.variants).count
-          return bReviews - aReviews // Most reviews first
-        })
+      case 'quickest':
+        // This would need time_to_results data
+        return solutionsCopy
+        
+      case 'cost':
+        // This would need cost parsing logic
+        return solutionsCopy
       
       case 'newest':
-        return solutionsCopy.sort((a, b) => {
-          // Assuming solutions have a created_at field, fall back to id comparison
-          return b.id.localeCompare(a.id) // Newer IDs first (assuming UUIDs or sequential)
-        })
+        return solutionsCopy.sort((a, b) => b.id.localeCompare(a.id))
       
       default:
         return solutionsCopy
     }
-  }, [initialSolutions, sortBy, filterType])
+  }, [initialSolutions, sortBy, selectedCategories])
 
-  // Get available filter types (excluding 'all')
-  const availableTypes = useMemo(() => {
-    const types = Object.keys(filterCounts).filter(type => type !== 'all' && filterCounts[type] > 0)
-    return types.sort()
-  }, [filterCounts])
-
-  // Format filter type names for display
-  const formatFilterName = (type: string) => {
-    if (type === 'all') return 'All'
-    return type.split('_').map(word => 
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ')
+  const toggleCategory = (category: string) => {
+    const newCategories = new Set(selectedCategories)
+    if (newCategories.has(category)) {
+      newCategories.delete(category)
+    } else {
+      newCategories.add(category)
+    }
+    setSelectedCategories(newCategories)
   }
 
-  console.log('About to render RelatedGoalsNavigation with:', relatedGoals)
-  
+  const toggleVariants = (solutionId: string) => {
+    const newExpanded = new Set(expandedVariants)
+    if (newExpanded.has(solutionId)) {
+      newExpanded.delete(solutionId)
+    } else {
+      newExpanded.add(solutionId)
+    }
+    setExpandedVariants(newExpanded)
+  }
+
   return (
     <>
-      {/* Related Goals Navigation - Desktop */}
-      <div className="hidden md:block -mx-4 sm:-mx-6 lg:-mx-8 mb-6">
-        <RelatedGoalsNavigation
-          currentGoal={{
-            id: goal.id,
-            title: goal.title
-          }}
-          relatedGoals={relatedGoals}
-          onGoalClick={handleRelatedGoalClick}
-        />
-      </div>
-
-      {/* Related Goals Navigation - Mobile */}
-      <div className="md:hidden -mx-4 mb-6">
-        <RelatedGoalsNavigationMobile
-          currentGoal={{
-            id: goal.id,
-            title: goal.title
-          }}
-          relatedGoals={relatedGoals}
-          onGoalClick={handleRelatedGoalClick}
-        />
-      </div>
-
-      {/* Sticky Action Bar with View Toggle */}
-      <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 shadow-sm">
-        <GoalActionBar 
-          goalId={goal.id}
-          solutionCount={filteredAndSortedSolutions.length}
-          onSortChange={setSortBy}
-          currentSort={sortBy}
-        />
-        
-        {/* View Mode Toggle */}
-        <div className="px-4 sm:px-6 lg:px-8 py-2 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-500 dark:text-gray-400">View:</span>
-            <div className="flex rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-              <button
-                onClick={() => setViewMode('simple')}
-                className={`px-3 py-1.5 text-sm font-medium transition-colors ${
-                  viewMode === 'simple'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-                }`}
-              >
-                Simple
-              </button>
-              <button
-                onClick={() => setViewMode('detailed')}
-                className={`px-3 py-1.5 text-sm font-medium transition-colors ${
-                  viewMode === 'detailed'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-                }`}
-              >
-                Detailed
-              </button>
+      {/* Goal Header with Gradient */}
+      <div className="bg-gradient-to-b from-purple-50 to-white dark:from-purple-950/20 dark:to-gray-900 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-6 mb-0">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div className="flex-1">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2 flex items-center gap-2">
+                <span className="text-2xl sm:text-3xl lg:text-4xl">{goal.arenas.icon}</span>
+                <span>{goal.title}</span>
+              </h1>
+              {goal.description && (
+                <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
+                  {goal.description}
+                </p>
+              )}
             </div>
+            <div className="flex gap-6 mt-4 sm:mt-0">
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">
+                  {initialSolutions.length}
+                </div>
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Solutions</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">
+                  {totalRatings}
+                </div>
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Ratings</div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Tabs */}
+          <div className="flex gap-6 mt-4 border-b border-gray-200 dark:border-gray-700">
+            <button className="pb-3 text-sm font-medium text-purple-600 dark:text-purple-400 border-b-2 border-purple-600 dark:border-purple-400">
+              What Worked
+            </button>
+            <button className="pb-3 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+              Community Discussion
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Filter Chips - Only show if there are multiple types */}
-      {availableTypes.length > 0 && (
-        <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 py-3">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div 
-              className="flex items-center space-x-2 overflow-x-auto pb-1"
-              role="tablist"
-              aria-label="Filter solutions by type"
-            >
-              <span className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap mr-2">
-                Filter:
+      {/* Related Goals Navigation */}
+      {relatedGoals && relatedGoals.length > 0 && (
+        <div className="bg-gray-50 dark:bg-gray-800/50 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 border-b border-gray-200 dark:border-gray-700">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-start gap-3">
+              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                People also worked on:
               </span>
-              
-              {/* All filter chip */}
-              <button
-                onClick={() => setFilterType('all')}
-                role="tab"
-                aria-selected={filterType === 'all'}
-                aria-controls="solutions-grid"
-                className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap min-h-[36px] ${
-                  filterType === 'all'
-                    ? 'bg-blue-600 dark:bg-blue-700 text-white'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-              >
-                All ({filterCounts.all})
-              </button>
-
-              {/* Type filter chips */}
-              {availableTypes.map(type => (
-                <button
-                  key={type}
-                  onClick={() => setFilterType(type)}
-                  role="tab"
-                  aria-selected={filterType === type}
-                  aria-controls="solutions-grid"
-                  className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap min-h-[36px] ${
-                    filterType === type
-                      ? 'bg-blue-600 dark:bg-blue-700 text-white'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                  }`}
-                >
-                  {formatFilterName(type)} ({filterCounts[type]})
-                </button>
-              ))}
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+                {relatedGoals.slice(0, showAllRelated ? undefined : 5).map((relatedGoal, index) => (
+                  <Link
+                    key={relatedGoal.id}
+                    href={`/goal/${relatedGoal.id}`}
+                    onClick={() => handleRelatedGoalClick(goal.id, relatedGoal.id, index)}
+                    className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                  >
+                    {relatedGoal.title}
+                  </Link>
+                ))}
+                {relatedGoals.length > 5 && (
+                  <button
+                    onClick={() => setShowAllRelated(!showAllRelated)}
+                    className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                  >
+                    {showAllRelated ? 'Show less' : `+ ${relatedGoals.length - 5} more`}
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* What Worked Section */}
-      <main className="space-y-6 mt-6">
-        <div className="flex items-center justify-between flex-col sm:flex-row gap-2 sm:gap-0">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
-            What Worked for This Goal
-          </h2>
-          <span className="text-sm sm:text-sm text-gray-500 dark:text-gray-400">
-            {filteredAndSortedSolutions.length} approaches shared
-          </span>
+      {/* Sticky Controls Bar */}
+      <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            {/* Left controls */}
+            <div className="flex items-center gap-3 sm:gap-4 flex-1">
+              <span className="text-sm font-medium text-gray-600 dark:text-gray-400 hidden sm:inline">
+                {filteredAndSortedSolutions.length} solutions
+              </span>
+              
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="text-sm border border-gray-200 dark:border-gray-700 rounded-md px-3 py-1.5 bg-white dark:bg-gray-800 flex-1 sm:flex-none sm:w-auto"
+              >
+                <option value="effectiveness">Most Effective</option>
+                <option value="quickest">Quickest Results</option>
+                <option value="cost">Lowest Cost</option>
+                <option value="newest">Most Recent</option>
+              </select>
+              
+              {availableCategories.length > 0 && (
+                <CategoryDropdown
+                  categories={availableCategories}
+                  selectedCategories={selectedCategories}
+                  onCategoryToggle={toggleCategory}
+                  counts={categoryCounts}
+                />
+              )}
+            </div>
+            
+            {/* View toggle */}
+            <div className="flex justify-end">
+              <div className="flex border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden">
+                <button
+                  onClick={() => setViewMode('simple')}
+                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+                    viewMode === 'simple'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  Simple
+                </button>
+                <button
+                  onClick={() => setViewMode('detailed')}
+                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+                    viewMode === 'detailed'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  Detailed
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        {/* Error state for solutions */}
+      {/* Solutions Section */}
+      <main className="mt-6 space-y-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
+          What Worked for This Goal
+        </h2>
+
+        {/* Error state */}
         {error && (
           <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
             <p className="text-yellow-800 dark:text-yellow-300">{error}</p>
@@ -519,197 +632,245 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
 
         {/* Solutions Grid */}
         {filteredAndSortedSolutions.length > 0 ? (
-          <section 
-            id="solutions-grid"
-            className="space-y-4" 
-            aria-label="Effective solutions"
-            aria-live="polite"
-          >
+          <div className="space-y-3">
             {filteredAndSortedSolutions.map((solution) => {
-              // Get category config
               const categoryConfig = solution.solution_category 
                 ? (CATEGORY_CONFIG[solution.solution_category] || DEFAULT_CATEGORY_CONFIG)
                 : DEFAULT_CATEGORY_CONFIG
 
-              // Calculate ratings using helper functions
               const bestRating = getBestRating(solution.variants)
               const { count: totalReviews } = getAverageRating(solution.variants)
               
-              // Find the best rated variant for display
               const bestVariant = solution.variants.reduce((best, variant) => {
                 const currentRating = variant.effectiveness || variant.goal_links[0]?.avg_effectiveness || 0
                 const bestVariantRating = best?.effectiveness || best?.goal_links[0]?.avg_effectiveness || 0
                 return currentRating > bestVariantRating ? variant : best
               }, solution.variants[0])
 
+              const hasVariants = VARIANT_CATEGORIES.includes(solution.solution_category || '') && solution.variants.length > 1
+              const isExpanded = expandedVariants.has(solution.id)
+
               return (
                 <article 
                   key={solution.id} 
-                  className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border-l-4 ${categoryConfig.borderColor}`}
+                  className="bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-px transition-all duration-200 border border-gray-200 dark:border-gray-700 p-4 sm:p-5"
                 >
-                  <div className="p-4 sm:p-6">
-                    {/* Solution Header */}
-                    <header className="mb-3">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="flex items-start gap-3 flex-1">
-                          <span className="text-2xl flex-shrink-0" aria-hidden="true">
-                            {categoryConfig.icon}
-                          </span>
-                          <div className="flex-1">
-                            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100">
-                              {solution.title}
-                            </h3>
-                            {bestVariant && solution.variants.length > 1 && (
-                              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                Most effective: {bestVariant.variant_name}
-                                {bestVariant.effectiveness && (
-                                  <span className="text-amber-600 ml-1">
-                                    ({bestVariant.effectiveness.toFixed(1)} ★)
-                                  </span>
-                                )}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2 flex-shrink-0">
-                          <SourceBadge sourceType={solution.source_type} />
-                          {/* Star Rating */}
-                          {bestRating > 0 && (
-                            <RatingDisplay
-                              rating={bestRating}
-                              reviewCount={totalReviews}
-                              size="sm"
-                            />
+                  {/* Solution Header */}
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start gap-3">
+                        <span className="text-xl sm:text-2xl flex-shrink-0" aria-hidden="true">
+                          {categoryConfig.icon}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 break-words">
+                            {solution.title}
+                          </h3>
+                          {hasVariants && bestVariant && (
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                              Most effective: {bestVariant.variant_name}
+                              {bestVariant.effectiveness && (
+                                <span className="text-orange-600 dark:text-orange-400 ml-1">
+                                  ({bestVariant.effectiveness.toFixed(1)} ★)
+                                </span>
+                              )}
+                            </p>
+                          )}
+                          {VARIANT_CATEGORIES.includes(solution.solution_category || '') && solution.variants.length === 1 && (
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                              Available as: {solution.variants[0].variant_name}
+                            </p>
                           )}
                         </div>
                       </div>
-                    </header>
+                    </div>
+                    <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 flex-shrink-0">
+                      <SourceBadge sourceType={solution.source_type} />
+                      {bestRating > 0 && (
+                        <div className="whitespace-nowrap">
+                          <RatingDisplay
+                            rating={bestRating}
+                            reviewCount={totalReviews}
+                            size="sm"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
 
-                    {/* Key Information Section */}
-                    <div className="space-y-3">
-                      {/* Simple View: Show only key fields */}
-                      {viewMode === 'simple' && (
-                        <div className="flex flex-wrap gap-4 text-sm">
-                          {categoryConfig.keyFields.map(fieldName => {
-                            const value = getFieldDisplayValue(solution, fieldName)
-                            if (!value) return null
+                  {/* Key Fields - Desktop: Grid with more spacing */}
+                  {(() => {
+                    const fieldsToShow = categoryConfig.keyFields.filter(fieldName => {
+                      const value = getFieldDisplayValue(solution, fieldName, bestVariant)
+                      return value !== null && value !== undefined && value !== ''
+                    })
+                    
+                    if (fieldsToShow.length === 0) return null
+                    
+                    return (
+                      <div className="hidden sm:grid sm:grid-cols-3 gap-6 mb-3">
+                        {fieldsToShow.map(fieldName => {
+                          const value = getFieldDisplayValue(solution, fieldName, bestVariant)
+                          
+                          return (
+                            <div key={fieldName} className="space-y-1">
+                              <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                {categoryConfig.fieldLabels[fieldName] || fieldName}
+                              </span>
+                              <span className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+                                {value}
+                              </span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )
+                  })()}
+                  
+                  {/* Mobile: Stacked Layout */}
+                  {(() => {
+                    const fieldsToShow = categoryConfig.keyFields.filter(fieldName => {
+                      const value = getFieldDisplayValue(solution, fieldName, bestVariant)
+                      return value !== null && value !== undefined && value !== ''
+                    })
+                    
+                    if (fieldsToShow.length === 0) return null
+                    
+                    return (
+                      <div className="sm:hidden space-y-3">
+                        {fieldsToShow.map((fieldName, index) => {
+                          const value = getFieldDisplayValue(solution, fieldName, bestVariant)
+                          
+                          return (
+                            <div key={fieldName} className={`flex items-center justify-between py-2 ${
+                              index < fieldsToShow.length - 1 ? 'border-b border-gray-100 dark:border-gray-700' : ''
+                            }`}>
+                              <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                {categoryConfig.fieldLabels[fieldName] || fieldName}
+                              </span>
+                              <span className="text-sm font-medium text-gray-900 dark:text-gray-100 text-right max-w-[60%]">
+                                {value}
+                              </span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )
+                  })()}
+
+                  {/* Detailed View Additional Fields */}
+                  {viewMode === 'detailed' && (
+                    <>
+                      {solution.description && (
+                        <p className="text-sm text-gray-600 dark:text-gray-300 mt-4">
+                          {solution.description}
+                        </p>
+                      )}
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 text-sm">
+                        {(() => {
+                          const solutionFields = solution.solution_fields as Record<string, unknown> || {}
+                          const bestVariantFields = bestVariant?.category_fields as Record<string, unknown> || {}
+                          const allFields = { ...solutionFields, ...bestVariantFields }
+                          
+                          // Filter out key fields already shown
+                          const additionalFields = Object.entries(allFields).filter(([key]) => 
+                            !categoryConfig.keyFields.includes(key)
+                          )
+                          
+                          return additionalFields.map(([key, value]) => {
+                            if (!value || (Array.isArray(value) && value.length === 0)) return null
+                            
+                            const label = key.split('_').map(word => 
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                            ).join(' ')
                             
                             return (
-                              <div key={fieldName} className="flex flex-col">
-                                <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                  {categoryConfig.fieldLabels[fieldName] || fieldName}
+                              <div key={key} className="space-y-1">
+                                <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                  {label}
                                 </span>
-                                <span className="font-medium text-gray-900 dark:text-gray-100">
-                                  {value}
+                                <span className="block font-medium text-gray-900 dark:text-gray-100">
+                                  {formatArrayField(value)}
                                 </span>
+                              </div>
+                            )
+                          })
+                        })()}
+                      </div>
+                    </>
+                  )}
+                  
+                  {/* Always show description for solutions with key fields */}
+                  {viewMode === 'simple' && solution.description && (
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-4">
+                      {solution.description}
+                    </p>
+                  )}
+
+                  {/* Expandable Variants */}
+                  {hasVariants && (
+                    <>
+                      <button
+                        onClick={() => toggleVariants(solution.id)}
+                        className="mt-4 text-sm font-medium text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 inline-flex items-center gap-1"
+                      >
+                        View all {solution.variants.length} options
+                        <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                      
+                      {isExpanded && (
+                        <div className="mt-3 space-y-2">
+                          {solution.variants.map((variant) => {
+                            const goalLink = variant.goal_links[0]
+                            const rating = variant.effectiveness || goalLink?.avg_effectiveness || 0
+                            
+                            return (
+                              <div key={variant.id} className="flex items-center justify-between py-2 px-3 rounded-md bg-gray-50 dark:bg-gray-700/50">
+                                <div className="flex-1">
+                                  <span className="font-medium text-gray-900 dark:text-gray-100">
+                                    {variant.variant_name}
+                                  </span>
+                                  {viewMode === 'detailed' && variant.category_fields && (
+                                    <div className="mt-1 grid grid-cols-2 gap-2 text-xs">
+                                      {categoryConfig.keyFields.map(fieldName => {
+                                        const value = getFieldDisplayValue(solution, fieldName, variant)
+                                        if (!value) return null
+                                        
+                                        return (
+                                          <div key={fieldName}>
+                                            <span className="text-gray-500 dark:text-gray-400">
+                                              {categoryConfig.fieldLabels[fieldName] || fieldName}:
+                                            </span>
+                                            <span className="ml-1 text-gray-700 dark:text-gray-300">
+                                              {value}
+                                            </span>
+                                          </div>
+                                        )
+                                      })}
+                                    </div>
+                                  )}
+                                </div>
+                                {rating > 0 && (
+                                  <RatingDisplay
+                                    rating={rating}
+                                    showReviewCount={false}
+                                    size="sm"
+                                  />
+                                )}
                               </div>
                             )
                           })}
                         </div>
                       )}
-
-                      {/* Detailed View: Show all available fields */}
-                      {viewMode === 'detailed' && (
-                        <>
-                          {solution.description && (
-                            <p className="text-sm text-gray-600 dark:text-gray-300">
-                              {solution.description}
-                            </p>
-                          )}
-                          
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                            {(() => {
-                              // Get fields from solution_fields and best variant
-                              const solutionFields = solution.solution_fields as Record<string, unknown> || {}
-                              const bestVariantFields = bestVariant?.category_fields as Record<string, unknown> || {}
-                              const allFields = { ...solutionFields, ...bestVariantFields }
-                              
-                              return Object.entries(allFields).map(([key, value]) => {
-                                if (!value || (Array.isArray(value) && value.length === 0)) return null
-                                
-                                // Format the field name
-                                const label = key.split('_').map(word => 
-                                  word.charAt(0).toUpperCase() + word.slice(1)
-                                ).join(' ')
-                                
-                                return (
-                                  <div key={key} className="flex flex-col">
-                                    <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                      {label}
-                                    </span>
-                                    <span className="font-medium text-gray-900 dark:text-gray-100">
-                                      {formatArrayField(value)}
-                                    </span>
-                                  </div>
-                                )
-                              })
-                            })()}
-                          </div>
-                        </>
-                      )}
-
-                      {/* Expandable Variants Section - show in both views if multiple variants */}
-                      {solution.variants.length > 1 && (
-                        <details className="group mt-3">
-                          <summary className="cursor-pointer text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 list-none py-2 -mx-2 px-2 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20">
-                            <span className="inline-flex items-center">
-                              View all {solution.variants.length} options
-                              <svg className="ml-1 w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                              </svg>
-                            </span>
-                          </summary>
-                          
-                          <div className="mt-3 space-y-2">
-                            {solution.variants.map((variant) => {
-                              const goalLink = variant.goal_links[0]
-                              const rating = variant.effectiveness || goalLink?.avg_effectiveness || 0
-                              
-                              return (
-                                <div key={variant.id} className="flex items-center justify-between py-2 px-3 rounded-md bg-gray-50 dark:bg-gray-700/50">
-                                  <div className="flex-1">
-                                    <span className="font-medium text-gray-900 dark:text-gray-100">
-                                      {variant.variant_name}
-                                    </span>
-                                    {variant.category_fields && viewMode === 'detailed' && (
-                                      <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
-                                        {categoryConfig.keyFields.map(fieldName => {
-                                          const value = getFieldDisplayValue(solution, fieldName, variant)
-                                          if (!value) return null
-                                          
-                                          return (
-                                            <div key={fieldName}>
-                                              <span className="text-gray-500 dark:text-gray-400">
-                                                {categoryConfig.fieldLabels[fieldName] || fieldName}:
-                                              </span>
-                                              <span className="ml-1 text-gray-700 dark:text-gray-300">
-                                                {value}
-                                              </span>
-                                            </div>
-                                          )
-                                        })}
-                                      </div>
-                                    )}
-                                  </div>
-                                  {rating > 0 && (
-                                    <RatingDisplay
-                                      rating={rating}
-                                      showReviewCount={false}
-                                      size="sm"
-                                    />
-                                  )}
-                                </div>
-                              )
-                            })}
-                          </div>
-                        </details>
-                      )}
-                    </div>
-                  </div>
+                    </>
+                  )}
                 </article>
               )
             })}
-          </section>
+          </div>
         ) : (
           <EmptyState
             icon="💡"
@@ -723,7 +884,7 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
         )}
 
         {/* Add What Worked CTA */}
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 sm:p-6 text-center">
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 sm:p-6 text-center mt-8">
           <h3 className="text-base sm:text-lg font-medium text-blue-900 dark:text-blue-100 mb-2">
             Tried something for this goal?
           </h3>
@@ -738,6 +899,16 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
           </Link>
         </div>
       </main>
+
+      {/* Floating Share Button */}
+      <Link
+        href={`/goal/${goal.id}/add-solution`}
+        className="fixed bottom-6 right-6 bg-purple-600 hover:bg-purple-700 text-white px-5 py-3 rounded-full shadow-lg font-medium flex items-center gap-2 transition-all hover:scale-105"
+      >
+        <span>+</span>
+        <span className="hidden sm:inline">Share What Worked</span>
+        <span className="sm:hidden">Share</span>
+      </Link>
     </>
   )
 }
