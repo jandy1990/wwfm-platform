@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
+import InteractiveRating from '@/components/solutions/InteractiveRating'
 import { GoalSolutionWithVariants } from '@/lib/goal-solutions'
 import RatingDisplay, { getBestRating, getAverageRating } from '@/components/ui/RatingDisplay'
 import EmptyState from '@/components/ui/EmptyState'
@@ -390,15 +391,16 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
   const [viewMode, setViewMode] = useState<'simple' | 'detailed'>('simple')
   const [showAllRelated, setShowAllRelated] = useState(false)
   const [expandedVariants, setExpandedVariants] = useState<Set<string>>(new Set())
+  const [solutions, setSolutions] = useState(initialSolutions)
 
   // Calculate stats
   const totalRatings = useMemo(() => {
-    return initialSolutions.reduce((sum, solution) => {
+    return solutions.reduce((sum, solution) => {
       return sum + solution.variants.reduce((varSum, variant) => {
         return varSum + (variant.goal_links[0]?.rating_count || 0)
       }, 0)
     }, 0)
-  }, [initialSolutions])
+  }, [solutions])
 
   // Track goal navigation
   const handleRelatedGoalClick = async (fromGoalId: string, toGoalId: string, position: number) => {
@@ -409,14 +411,14 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {}
     
-    initialSolutions.forEach(solution => {
+    solutions.forEach(solution => {
       if (solution.solution_category) {
         counts[solution.solution_category] = (counts[solution.solution_category] || 0) + 1
       }
     })
     
     return counts
-  }, [initialSolutions])
+  }, [solutions])
 
   const availableCategories = useMemo(() => {
     return Object.keys(categoryCounts).sort()
@@ -425,9 +427,9 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
   // Filter and sort solutions
   const filteredAndSortedSolutions = useMemo(() => {
     // First filter by category
-    let filtered = initialSolutions
+    let filtered = solutions
     if (selectedCategories.size > 0) {
-      filtered = initialSolutions.filter(solution => 
+      filtered = solutions.filter(solution => 
         solution.solution_category && selectedCategories.has(solution.solution_category)
       )
     }
@@ -457,7 +459,7 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
       default:
         return solutionsCopy
     }
-  }, [initialSolutions, sortBy, selectedCategories])
+  }, [solutions, sortBy, selectedCategories])
 
   const toggleCategory = (category: string) => {
     const newCategories = new Set(selectedCategories)
@@ -499,7 +501,7 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
             <div className="flex gap-6 mt-4 sm:mt-0">
               <div className="text-center">
                 <div className="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">
-                  {initialSolutions.length}
+                  {solutions.length}
                 </div>
                 <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Solutions</div>
               </div>
@@ -688,11 +690,57 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                       <SourceBadge sourceType={solution.source_type} />
                       {bestRating > 0 && (
                         <div className="whitespace-nowrap">
-                          <RatingDisplay
-                            rating={bestRating}
-                            reviewCount={totalReviews}
-                            size="sm"
-                          />
+                          {/* Check if this is a variant category */}
+                          {solution.solution_category && VARIANT_CATEGORIES.includes(solution.solution_category) ? (
+                            // For variant solutions, show non-interactive rating (rollup only)
+                            <RatingDisplay 
+                              rating={bestRating} 
+                              reviewCount={totalReviews} 
+                            />
+                          ) : (
+                            // For non-variant solutions, show interactive rating
+                            <InteractiveRating
+                              solution={{
+                                id: solution.id,
+                                title: solution.title,
+                                solution_category: solution.solution_category
+                              }}
+                              variant={{
+                                id: bestVariant.id,
+                                variant_name: bestVariant.variant_name
+                              }} // ✅ FIXED: Added variant prop here!
+                              goalId={goal.id}
+                              initialRating={bestRating}
+                              ratingCount={totalReviews}
+                              onRatingUpdate={(newRating, newCount) => {
+                                // Update local state optimistically
+                                setSolutions(prev => prev.map(s => 
+                                  s.id === solution.id 
+                                    ? { 
+                                        ...s, 
+                                        variants: s.variants.map(v => 
+                                          v.id === bestVariant.id 
+                                            ? {
+                                                ...v,
+                                                effectiveness: newRating,
+                                                goal_links: v.goal_links.map((link, idx) => 
+                                                  idx === 0 
+                                                    ? {
+                                                        ...link,
+                                                        avg_effectiveness: newRating,
+                                                        rating_count: newCount
+                                                      }
+                                                    : link
+                                                )
+                                              }
+                                            : v
+                                        )
+                                      }
+                                    : s
+                                ))
+                              }}
+                            />
+                          )}
                         </div>
                       )}
                     </div>
@@ -826,6 +874,7 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                           {solution.variants.map((variant) => {
                             const goalLink = variant.goal_links[0]
                             const rating = variant.effectiveness || goalLink?.avg_effectiveness || 0
+                            const ratingCount = goalLink?.rating_count || 0
                             
                             return (
                               <div key={variant.id} className="flex items-center justify-between py-2 px-3 rounded-md bg-gray-50 dark:bg-gray-700/50">
@@ -854,10 +903,46 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                                   )}
                                 </div>
                                 {rating > 0 && (
-                                  <RatingDisplay
-                                    rating={rating}
-                                    showReviewCount={false}
-                                    size="sm"
+                                  <InteractiveRating
+                                    solution={{
+                                      id: solution.id,
+                                      title: solution.title,
+                                      solution_category: solution.solution_category
+                                    }}
+                                    variant={{
+                                      id: variant.id,
+                                      variant_name: variant.variant_name
+                                    }}
+                                    goalId={goal.id}
+                                    initialRating={rating}
+                                    ratingCount={ratingCount}
+                                    onRatingUpdate={(newRating, newCount) => {
+                                      // Update variant rating in local state
+                                      setSolutions(prev => prev.map(s => 
+                                        s.id === solution.id 
+                                          ? {
+                                              ...s,
+                                              variants: s.variants.map(v => 
+                                                v.id === variant.id 
+                                                  ? { 
+                                                      ...v, 
+                                                      effectiveness: newRating,
+                                                      goal_links: v.goal_links.map((link, idx) => 
+                                                        idx === 0 
+                                                          ? {
+                                                              ...link,
+                                                              avg_effectiveness: newRating,
+                                                              rating_count: newCount
+                                                            }
+                                                          : link
+                                                      )
+                                                    }
+                                                  : v
+                                              )
+                                            }
+                                          : s
+                                      ))
+                                    }}
                                   />
                                 )}
                               </div>
