@@ -357,3 +357,456 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Solution Card Hover Effects */
+.solution-card {
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  position: relative;
+}
+
+.solution-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+  border-color: #a78bfa;
+}
+
+.solution-card.detailed {
+  background: #faf5ff;
+  border-color: #7c3aed;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.1);
+}
+
+.dark .solution-card.detailed {
+  background: rgba(139, 92, 246, 0.05);
+  border-color: #8b5cf6;
+}
+
+/* Visual indicator for toggle state */
+.solution-card::after {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: rgba(124, 58, 237, 0.1);
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.solution-card:hover::after {
+  opacity: 1;
+}
+
+/* Mobile card spacing */
+@media (max-width: 639px) {
+  .solution-card > * + * {
+    margin-top: 0.75rem; /* 12px spacing between elements */
+  }
+}
+
+/* Rating Container Transform */
+.rating-container {
+  position: relative;
+  background: #f3f4f6;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.dark .rating-container {
+  background: rgba(75, 85, 99, 0.3);
+}
+
+.rating-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.hover-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  opacity: 0;
+  background: #f3f4f6;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.dark .hover-stars {
+  background: rgba(75, 85, 99, 0.3);
+}
+
+.rating-container:hover .rating-content {
+  opacity: 0;
+}
+
+.rating-container:hover .hover-stars {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Swipe hint for mobile */
+.swipe-hint {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.solution-card:hover .swipe-hint {
+  opacity: 1;
+}
+
+/* Hide swipe hint on desktop */
+@media (min-width: 640px) {
+  .swipe-hint {
+    display: none;
+  }
+}
+
+/* View Options Button */
+.view-options-button {
+  color: #7c3aed;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.2s;
+}
+
+.view-options-button:hover {
+  color: #6b21a8;
+}
+
+/* Side effects section hover */
+.side-effects-section {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.dark .side-effects-section {
+  border-top-color: #374151;
+}
+
+/* Additional fields section spacing */
+.additional-fields-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem 3rem;
+  margin-top: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .additional-fields-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.additional-field-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Ensure proper spacing for multi-line fields */
+.additional-field-item > div:last-child {
+  line-height: 1.5;
+}
+
+/* Handle nested divs from formatArrayField */
+.additional-field-item .space-y-1 > div {
+  line-height: 1.4;
+}
+
+/* Prevent text overlap in grid columns */
+.additional-fields-grid .additional-field-item {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+/* Ensure challenges and similar fields don't overflow */
+.additional-field-item div.text-sm {
+  max-width: 100%;
+  word-break: break-word;
+}
+
+/* Extra spacing for fields with complex content */
+.additional-field-item:has(.space-y-1) {
+  min-width: 280px;
+}
+
+/* Ensure percentage values don't overlap */
+.additional-field-item div:has(> div:contains("%")) {
+  line-height: 1.6;
+}
+
+/* Key fields grid containment */
+.key-fields-grid {
+  isolation: isolate;
+}
+
+.key-fields-grid .field-container {
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.key-fields-grid .field-value-container {
+  word-break: break-word;
+  display: block;
+  max-width: 100%;
+}
+
+/* Ensure array fields with percentages don't overflow */
+.field-value-container .space-y-1 {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.field-value-container .space-y-1 > div {
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* Special handling for challenges with percentages */
+.field-container:has(.space-y-1) {
+  min-width: 200px;
+}
+
+@media (min-width: 1024px) {
+  .key-fields-grid {
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .key-fields-grid {
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+  }
+}
+
+/* Ensure distribution fields wrap properly and don't overlap */
+.distribution-field .distribution-values {
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.distribution-values.stacked > span {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.distribution-values.stacked > span:last-child {
+  margin-bottom: 0;
+}
+
+/* Add yours hint that appears on hover */
+.side-effects-section .text-gray-400 {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.side-effects-section:hover .text-gray-400 {
+  opacity: 1;
+}
+
+.add-effect-inline {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.625rem;
+  border: 1px dashed #d1d5db;
+  border-radius: 0.75rem;
+  color: #6b7280;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  background: transparent;
+}
+
+.side-effects-section:hover .add-effect-inline {
+  opacity: 1;
+}
+
+.add-effect-inline:hover {
+  border-color: #9ca3af;
+  background: #f9fafb;
+  color: #374151;
+}
+
+.dark .add-effect-inline:hover {
+  background: rgba(249, 250, 251, 0.1);
+  color: #e5e7eb;
+}
+
+/* Distribution field styling */
+.distribution-field {
+  margin-bottom: 1.5rem;
+}
+
+.distribution-field:last-child {
+  margin-bottom: 0;
+}
+
+.distribution-label {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 0.375rem;
+}
+
+.field-count {
+  font-weight: normal;
+  color: #9ca3af;
+}
+
+.distribution-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.distribution-value {
+  color: #1f2937;
+  white-space: nowrap;
+}
+
+.dark .distribution-value {
+  color: #f3f4f6;
+}
+
+.distribution-percent {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.distribution-others {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.distribution-values.stacked {
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Side effect chips */
+.side-effect-chip {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.dark .side-effect-chip {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+/* Bottom sheet for mobile */
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 1rem 1rem 0 0;
+  padding: 1.5rem;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 50;
+}
+
+.dark .bottom-sheet {
+  background: #1f2937;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.bottom-sheet.active {
+  transform: translateY(0);
+}
+
+.sheet-handle {
+  width: 2.5rem;
+  height: 0.25rem;
+  background: #d1d5db;
+  border-radius: 0.125rem;
+  margin: -0.75rem auto 1rem;
+}
+
+/* Variant info styling */
+.variant-info {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+.variant-effectiveness {
+  color: #f97316;
+  font-weight: 500;
+}
+
+.dark .variant-effectiveness {
+  color: #fb923c;
+}

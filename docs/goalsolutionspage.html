@@ -1,0 +1,2217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WWFM Goal Page - Complete Implementation Master Guide</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f9fafb;
+  color: #1f2937;
+  line-height: 1.5;
+}
+
+.guide-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.guide-header {
+  text-align: center;
+  margin-bottom: 48px;
+  padding: 40px;
+  background: linear-gradient(135deg, #faf5ff 0%, #e0e7ff 100%);
+  border-radius: 16px;
+}
+
+.guide-title {
+  font-size: 48px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+}
+
+.guide-subtitle {
+  font-size: 20px;
+  color: #6b7280;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.section {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.subsection {
+  margin: 32px 0;
+}
+
+.subsection-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 16px;
+}
+
+.implementation-note {
+  background: #fef3c7;
+  border-left: 4px solid #f59e0b;
+  padding: 16px 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+
+.implementation-note strong {
+  color: #92400e;
+}
+
+.code-block {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 14px;
+  margin: 16px 0;
+}
+
+.mockup-container {
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+}
+
+.mockup-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+
+/* Component Styles for Mockups */
+.desktop-mockup {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-mockup {
+  max-width: 375px;
+  margin: 0 auto;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Page Components */
+.first-time-banner {
+  background: #fef3c7;
+  border-bottom: 1px solid #fbbf24;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #92400e;
+  position: relative;
+}
+
+.dismiss-button {
+  margin-left: auto;
+  cursor: pointer;
+  opacity: 0.7;
+  font-size: 18px;
+  transition: opacity 0.2s;
+}
+
+.dismiss-button:hover {
+  opacity: 1;
+}
+
+.goal-header {
+  background: linear-gradient(to bottom, #faf5ff, #ffffff);
+  padding: 24px 32px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.breadcrumb {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+.breadcrumb a {
+  color: #6b7280;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: #7c3aed;
+  text-decoration: underline;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.goal-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.goal-subtitle {
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.stats-section {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 28px;
+  font-weight: 700;
+  color: #7c3aed;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.tab-nav {
+  display: flex;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.tab {
+  padding: 8px 0;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  font-size: 15px;
+}
+
+.tab:hover {
+  color: #4b5563;
+}
+
+.tab.active {
+  color: #7c3aed;
+  border-bottom-color: #7c3aed;
+}
+
+.related-menu {
+  background: #fafafa;
+  padding: 12px 32px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.related-menu-label {
+  font-weight: 600;
+  margin-right: 16px;
+}
+
+.related-link {
+  color: #4b5563;
+  text-decoration: none;
+  margin-right: 20px;
+  transition: color 0.2s;
+}
+
+.related-link:hover {
+  color: #7c3aed;
+  text-decoration: underline;
+}
+
+.sticky-controls {
+  position: sticky;
+  top: 0;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 12px 32px;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.controls-left {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.solution-count {
+  font-size: 15px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.sort-select,
+.category-dropdown {
+  padding: 8px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sort-select:hover,
+.category-dropdown:hover {
+  border-color: #7c3aed;
+  background: #faf5ff;
+}
+
+.view-toggle {
+  display: flex;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.view-toggle button {
+  padding: 6px 12px;
+  border: none;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.view-toggle button:hover {
+  background: #f3f4f6;
+}
+
+.view-toggle button.active {
+  background: #7c3aed;
+  color: white;
+}
+
+/* Solution Cards */
+.solutions-container {
+  padding: 24px 32px;
+}
+
+.solution-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.solution-card:hover {
+  border-color: #7c3aed;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.1);
+  transform: translateY(-1px);
+}
+
+.solution-card.detailed {
+  padding: 24px;
+  background: #fafbfc;
+  border-color: #7c3aed;
+}
+
+.solution-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.solution-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.solution-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.solution-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.solution-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Rating Container with Transform */
+.rating-container {
+  background: #f3f4f6;
+  padding: 8px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.rating-score {
+  font-weight: 700;
+  font-size: 20px;
+  transition: opacity 0.2s;
+}
+
+.rating-stars {
+  color: #fbbf24;
+  font-size: 18px;
+  transition: opacity 0.2s;
+}
+
+.rating-count {
+  font-size: 13px;
+  color: #6b7280;
+  border-left: 1px solid #d1d5db;
+  padding-left: 8px;
+  transition: opacity 0.2s;
+}
+
+/* Hover Transform */
+.hover-rate {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  opacity: 0;
+  background: #f3f4f6;
+  border-radius: 8px;
+  padding: 8px 16px;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.hover-rate .star {
+  font-size: 22px;
+  color: #d1d5db;
+  cursor: pointer;
+  transition: color 0.1s;
+}
+
+.hover-rate .star:hover,
+.hover-rate .star.filled {
+  color: #fbbf24;
+}
+
+.rating-container:hover .rating-score,
+.rating-container:hover .rating-stars,
+.rating-container:hover .rating-count {
+  opacity: 0;
+}
+
+.rating-container:hover .hover-rate {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Variant Display */
+.variant-info {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.variant-effectiveness {
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+/* Fields Display */
+.key-fields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.field-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.field-count {
+  font-weight: normal;
+  color: #9ca3af;
+}
+
+.field-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+/* Distribution Fields (Detailed View) */
+.distribution-field {
+  margin-bottom: 16px;
+}
+
+.distribution-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.distribution-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.distribution-value {
+  color: #1f2937;
+  white-space: nowrap;
+}
+
+.distribution-percent {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.distribution-others {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.distribution-values.stacked {
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Side Effects Section */
+.side-effects-section {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+  margin-top: 16px;
+}
+
+.section-label-with-hint {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.section-hint {
+  font-weight: normal;
+  color: #9ca3af;
+  text-transform: none;
+}
+
+.side-effect-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.side-effect-chip {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.add-effect-inline {
+  opacity: 0;
+  transition: opacity 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+  color: #6b7280;
+  font-size: 13px;
+  cursor: pointer;
+  background: transparent;
+}
+
+.side-effects-section:hover .add-effect-inline {
+  opacity: 1;
+}
+
+.add-effect-inline:hover {
+  border-color: #9ca3af;
+  background: #f9fafb;
+  color: #374151;
+}
+
+/* View Options Button */
+.view-options-button {
+  color: #7c3aed;
+  font-size: 14px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+}
+
+.view-options-button:hover {
+  color: #6b21a8;
+}
+
+/* AI Badge */
+.ai-badge {
+  background: #e0e7ff;
+  color: #3730a3;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Card Footer */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+/* FAB */
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #7c3aed;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.fab:hover {
+  background: #6b21a8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+}
+
+/* Mobile Specific */
+.mobile-mockup .goal-header {
+  padding: 20px 16px 16px;
+}
+
+.mobile-mockup .goal-title {
+  font-size: 22px;
+}
+
+.mobile-mockup .stat-number {
+  font-size: 18px;
+}
+
+.mobile-mockup .related-menu {
+  padding: 10px 16px;
+  font-size: 13px;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-mockup .sticky-controls {
+  padding: 10px 16px;
+}
+
+.mobile-mockup .solutions-container {
+  padding: 16px;
+}
+
+.mobile-mockup .solution-card {
+  padding: 16px;
+}
+
+.mobile-mockup .key-fields {
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.mobile-mockup .field-item {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+/* Mobile Swipe Hint */
+.swipe-hint {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.solution-card:hover .swipe-hint {
+  opacity: 1;
+}
+
+/* Bottom Sheet */
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 16px 16px 0 0;
+  padding: 24px;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+  max-width: 375px;
+  margin: 0 auto;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.bottom-sheet.active {
+  transform: translateY(0);
+}
+
+.sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: #d1d5db;
+  border-radius: 2px;
+  margin: -12px auto 16px;
+}
+
+/* Feature Grid */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.feature-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.feature-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.feature-description {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Interaction States */
+.interaction-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.state-example {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  background: #f9fafb;
+}
+
+.state-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Checklist */
+.checklist {
+  background: #f0f9ff;
+  border: 2px solid #3b82f6;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+}
+
+.checklist h3 {
+  color: #1e40af;
+  margin-bottom: 16px;
+}
+
+.checklist ul {
+  list-style: none;
+  margin-left: 0;
+}
+
+.checklist li {
+  padding: 8px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #1e40af;
+}
+
+.checklist li::before {
+  content: "✓";
+  color: #10b981;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.checklist .sub-item {
+  margin-left: 24px;
+  font-size: 14px;
+  color: #3730a3;
+}
+</style>
+</head>
+<body>
+
+<div class="guide-container">
+  <!-- Guide Header -->
+  <div class="guide-header">
+    <h1 class="guide-title">WWFM Goal Page</h1>
+    <p class="guide-subtitle">Complete Implementation Master Guide</p>
+    <p style="margin-top: 16px; color: #6b7280;">
+      This document contains every detail needed to implement the goal page, including all interactions, 
+      edge cases, and the complete UGC distribution system we've designed.
+    </p>
+    <div class="subsection">
+      <h3 class="subsection-title">Mobile Variant Display</h3>
+      <div class="code-block">
+// Variant modal/bottom sheet for mobile
+const VariantSheet = ({ solution, isOpen, onClose }) => {
+  return (
+    &lt;div className={`bottom-sheet ${isOpen ? 'active' : ''}`}&gt;
+      &lt;div className="sheet-handle" /&gt;
+      &lt;h3 className="sheet-title"&gt;{solution.title} Options&lt;/h3&gt;
+      
+      &lt;div className="variant-list"&gt;
+        {solution.variants.map((variant, index) => (
+          &lt;div key={index} className="variant-item"&gt;
+            &lt;div className="variant-header"&gt;
+              &lt;span className="variant-name"&gt;{variant.name}&lt;/span&gt;
+              &lt;span className="variant-rating"&gt;
+                {variant.effectiveness} ★
+              &lt;/span&gt;
+            &lt;/div&gt;
+            {variant.additionalInfo && (
+              &lt;p className="variant-note"&gt;{variant.additionalInfo}&lt;/p&gt;
+            )}
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+
+// Example variant data structure
+const variants = [
+  { name: "200mg capsule", effectiveness: 4.5, additionalInfo: "Most popular" },
+  { name: "100mg capsule", effectiveness: 4.2, additionalInfo: "Good for sensitive" },
+  { name: "400mg powder", effectiveness: 4.0, additionalInfo: "Cost effective" }
+];
+      </div>
+      <p style="margin-top: 12px; color: #6b7280;">
+        The "View all X options" button opens a bottom sheet showing all variants with their individual effectiveness ratings, 
+        allowing users to see which specific version (dosage, form, etc.) works best for their goal.
+      </p>
+    </div>
+  </div>
+
+  <!-- Section 1: Overview & Core Concepts -->
+  <div class="section">
+    <h2 class="section-title">1. Overview & Core Concepts</h2>
+    
+    <div class="subsection">
+      <h3 class="subsection-title">Page Purpose</h3>
+      <p>The goal page is the heart of WWFM - where users discover solutions that actually worked for specific life challenges. It must balance information density with visual clarity, making it easy to scan solutions while providing transparency about user-generated data.</p>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Key Design Principles</h3>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4 class="feature-title">🎯 Solutions First</h4>
+          <p class="feature-description">Solutions are visible within 2 seconds of page load. No hero images, no fluff - straight to what worked.</p>
+        </div>
+        <div class="feature-card">
+          <h4 class="feature-title">📊 Transparent UGC</h4>
+          <p class="feature-description">Users can see that data comes from real people through report counts and distribution breakdowns.</p>
+        </div>
+        <div class="feature-card">
+          <h4 class="feature-title">🔄 Progressive Disclosure</h4>
+          <p class="feature-description">Simple view for scanning, detailed view for research. User controls the information density.</p>
+        </div>
+        <div class="feature-card">
+          <h4 class="feature-title">💫 Frictionless Contribution</h4>
+          <p class="feature-description">Rating and adding data happens in-context through hover/swipe interactions.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Mobile Variant Display</h3>
+      <div class="code-block">
+// Variant modal/bottom sheet for mobile
+const VariantSheet = ({ solution, isOpen, onClose }) => {
+  return (
+    &lt;div className={`bottom-sheet ${isOpen ? 'active' : ''}`}&gt;
+      &lt;div className="sheet-handle" /&gt;
+      &lt;h3 className="sheet-title"&gt;{solution.title} Options&lt;/h3&gt;
+      
+      &lt;div className="variant-list"&gt;
+        {solution.variants.map((variant, index) => (
+          &lt;div key={index} className="variant-item"&gt;
+            &lt;div className="variant-header"&gt;
+              &lt;span className="variant-name"&gt;{variant.name}&lt;/span&gt;
+              &lt;span className="variant-rating"&gt;
+                {variant.effectiveness} ★
+              &lt;/span&gt;
+            &lt;/div&gt;
+            {variant.additionalInfo && (
+              &lt;p className="variant-note"&gt;{variant.additionalInfo}&lt;/p&gt;
+            )}
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+
+// Example variant data structure
+const variants = [
+  { name: "200mg capsule", effectiveness: 4.5, additionalInfo: "Most popular" },
+  { name: "100mg capsule", effectiveness: 4.2, additionalInfo: "Good for sensitive" },
+  { name: "400mg powder", effectiveness: 4.0, additionalInfo: "Cost effective" }
+];
+      </div>
+      <p style="margin-top: 12px; color: #6b7280;">
+        The "View all X options" button opens a bottom sheet showing all variants with their individual effectiveness ratings, 
+        allowing users to see which specific version (dosage, form, etc.) works best for their goal.
+      </p>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Core Interactions</h3>
+      <ul style="line-height: 1.8; color: #4b5563;">
+        <li><strong>Global View Toggle:</strong> Simple/Detailed switch affects all cards</li>
+        <li><strong>Per-Card Toggle:</strong> Click any card to toggle its individual view</li>
+        <li><strong>Hover-to-Rate:</strong> Desktop users hover over rating container to reveal stars</li>
+        <li><strong>Swipe-to-Rate:</strong> Mobile users swipe left on cards to access rating</li>
+        <li><strong>Distribution Details:</strong> Mobile users tap 📊 icon for full breakdowns</li>
+        <li><strong>Inline Contribution:</strong> Add side effects and other data without leaving the page</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 2: Complete Page Structure -->
+  <div class="section">
+    <h2 class="section-title">2. Complete Page Structure</h2>
+    
+    <div class="mockup-container">
+      <div class="mockup-label">Desktop - Full Page Structure</div>
+      <div class="desktop-mockup">
+        <!-- First-time Banner -->
+        <div class="first-time-banner">
+          <span style="font-size: 18px;">💡</span>
+          <span>You can rate solutions and tap cards for detailed breakdowns!</span>
+          <span class="dismiss-button">×</span>
+        </div>
+        
+        <!-- Goal Header -->
+        <div class="goal-header">
+          <div class="breadcrumb">
+            <a href="#">Browse</a> > <a href="#">Feeling & Emotion</a> > Anxiety & Worry
+          </div>
+          <div class="header-content">
+            <div style="flex: 1;">
+              <h1 class="goal-title">😰 Calm my anxiety</h1>
+              <div class="goal-subtitle">Join 2,847 people who've overcome this challenge</div>
+            </div>
+            <div class="stats-section">
+              <div class="stat-item">
+                <div class="stat-number">55</div>
+                <div class="stat-label">Solutions</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">832</div>
+                <div class="stat-label">Ratings</div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-nav">
+            <div class="tab active">What Worked</div>
+            <div class="tab">Community Discussion</div>
+          </div>
+        </div>
+        
+        <!-- Related Goals Menu -->
+        <div class="related-menu">
+          <span class="related-menu-label">People also worked on:</span>
+          <a href="#" class="related-link">Stop overthinking</a>
+          <a href="#" class="related-link">Handle panic attacks</a>
+          <a href="#" class="related-link">Manage social anxiety</a>
+          <a href="#" class="related-link">Reduce work stress</a>
+          <a href="#" class="related-link">Sleep better</a>
+          <a href="#" class="related-link">+ 3 more</a>
+        </div>
+        
+        <!-- Sticky Controls -->
+        <div class="sticky-controls">
+          <div class="controls-left">
+            <span class="solution-count">55 solutions</span>
+            <select class="sort-select">
+              <option>Most Effective</option>
+              <option>Quickest Results</option>
+              <option>Lowest Cost</option>
+              <option>Most Recent</option>
+            </select>
+            <button class="category-dropdown">
+              <span>All Categories</span>
+              <span>▼</span>
+            </button>
+          </div>
+          <div class="view-toggle">
+            <button class="active">Simple</button>
+            <button>Detailed</button>
+          </div>
+        </div>
+        
+        <!-- Solutions Container -->
+        <div class="solutions-container">
+          <!-- We'll show specific solution cards in the next sections -->
+          <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #9ca3af;">
+            [Solution cards go here - see detailed examples below]
+          </div>
+        </div>
+        
+        <!-- FAB -->
+        <button class="fab">
+          <span>+</span>
+          <span>Share What Worked</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="implementation-note">
+      <strong>Implementation Note:</strong> The sticky controls bar should have z-index: 10 to stay above solution cards during scroll. The FAB needs z-index: 100 to stay above everything including modals.
+    </div>
+  </div>
+
+  <!-- Section 3: Solution Card States -->
+  <div class="section">
+    <h2 class="section-title">3. Solution Card States & Interactions</h2>
+    
+    <div class="subsection">
+      <h3 class="subsection-title">Simple View (Default)</h3>
+      <div class="mockup-container">
+        <div class="mockup-label">Solution Card - Simple View</div>
+        <div style="max-width: 800px;">
+          <div class="solution-card">
+            <div class="solution-header">
+              <span class="solution-icon">💊</span>
+              <div class="solution-content">
+                <div class="solution-title-row">
+                  <h3 class="solution-title">L-Theanine</h3>
+                  <div class="rating-container">
+                    <span class="rating-score">4.2</span>
+                    <span class="rating-stars">★★★★☆</span>
+                    <span class="rating-count">156 reviews</span>
+                    <div class="hover-rate">
+                      <span class="star">☆</span>
+                      <span class="star">☆</span>
+                      <span class="star">☆</span>
+                      <span class="star">☆</span>
+                      <span class="star">☆</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="variant-info">
+              Most effective: 200mg capsule <span class="variant-effectiveness">(4.5 ★)</span>
+            </div>
+            
+            <p style="font-size: 14px; color: #6b7280; line-height: 1.5; margin-bottom: 16px;">
+              An amino acid found in tea that promotes relaxation without drowsiness
+            </p>
+            
+            <div class="key-fields">
+              <div class="field-item">
+                <span class="field-label">COST</span>
+                <span class="field-value">$10-25/month</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">SIDE EFFECTS</span>
+                <span class="field-value">None • Mild headache</span>
+              </div>
+              <div class="field-item">
+                <span class="field-label">TIME TO RESULTS</span>
+                <span class="field-value">30-60 minutes</span>
+              </div>
+            </div>
+            
+            <div class="card-footer">
+              <button class="view-options-button">
+                View all 3 options
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </button>
+              <span class="ai-badge">AI Base</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Detailed View (Expanded)</h3>
+      <div class="mockup-container">
+        <div class="mockup-label">Solution Card - Detailed View with UGC Distributions</div>
+        <div style="max-width: 800px;">
+          <div class="solution-card detailed">
+            <div class="solution-header">
+              <span class="solution-icon">💊</span>
+              <div class="solution-content">
+                <div class="solution-title-row">
+                  <h3 class="solution-title">L-Theanine</h3>
+                  <div class="rating-container">
+                    <span class="rating-score">4.2</span>
+                    <span class="rating-stars">★★★★☆</span>
+                    <span class="rating-count">156 reviews</span>
+                    <div class="hover-rate">
+                      <span class="star">☆</span>
+                      <span class="star">☆</span>
+                      <span class="star">☆</span>
+                      <span class="star">☆</span>
+                      <span class="star">☆</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="variant-info">
+              Most effective: 200mg capsule <span class="variant-effectiveness">(4.5 ★)</span>
+            </div>
+            
+            <p style="font-size: 14px; color: #6b7280; line-height: 1.5; margin-bottom: 16px;">
+              An amino acid found in tea that promotes relaxation without drowsiness. Works by increasing alpha brain waves and boosting GABA, dopamine, and serotonin levels. Often combined with caffeine for focused calm.
+            </p>
+            
+            <!-- Distribution Fields -->
+            <div class="distribution-field">
+              <div class="distribution-label">
+                COST
+                <span class="field-count">(142)</span>
+              </div>
+              <div class="distribution-values">
+                <span class="distribution-value">$10-25/month <span class="distribution-percent">(67%)</span></span>
+                <span class="distribution-value">• Under $10/month <span class="distribution-percent">(28%)</span></span>
+                <span class="distribution-value">• $25-50/month <span class="distribution-percent">(5%)</span></span>
+              </div>
+            </div>
+            
+            <div class="distribution-field">
+              <div class="distribution-label">
+                SIDE EFFECTS
+                <span class="field-count">(156)</span>
+              </div>
+              <div class="distribution-values stacked">
+                <span class="distribution-value">None reported <span class="distribution-percent">(72%)</span></span>
+                <span class="distribution-value">Mild headache <span class="distribution-percent">(18%)</span></span>
+                <span class="distribution-value">Vivid dreams <span class="distribution-percent">(7%)</span></span>
+                <span class="distribution-others">others <span class="distribution-percent">(3%)</span></span>
+              </div>
+            </div>
+            
+            <div class="distribution-field">
+              <div class="distribution-label">
+                TIME TO RESULTS
+                <span class="field-count">(138)</span>
+              </div>
+              <div class="distribution-values">
+                <span class="distribution-value">30-60 minutes <span class="distribution-percent">(54%)</span></span>
+                <span class="distribution-value">• Within 30 min <span class="distribution-percent">(31%)</span></span>
+                <span class="distribution-value">• 1-2 hours <span class="distribution-percent">(15%)</span></span>
+              </div>
+            </div>
+            
+            <div class="distribution-field">
+              <div class="distribution-label">
+                DOSAGE
+                <span class="field-count">(89)</span>
+              </div>
+              <div class="distribution-values">
+                <span class="distribution-value">200mg <span class="distribution-percent">(62%)</span></span>
+                <span class="distribution-value">• 100mg <span class="distribution-percent">(24%)</span></span>
+                <span class="distribution-value">• 400mg <span class="distribution-percent">(14%)</span></span>
+              </div>
+            </div>
+            
+            <div class="distribution-field">
+              <div class="distribution-label">
+                FREQUENCY
+                <span class="field-count">(134)</span>
+              </div>
+              <div class="distribution-values">
+                <span class="distribution-value">As needed <span class="distribution-percent">(58%)</span></span>
+                <span class="distribution-value">• Once daily <span class="distribution-percent">(31%)</span></span>
+                <span class="distribution-value">• Twice daily <span class="distribution-percent">(11%)</span></span>
+              </div>
+            </div>
+            
+            <div class="side-effects-section">
+              <div class="section-label-with-hint">
+                SIDE EFFECTS <span class="section-hint">(add yours)</span>
+              </div>
+              <div class="side-effect-chips">
+                <span class="side-effect-chip">None reported</span>
+                <span class="side-effect-chip">Mild headache</span>
+                <span class="side-effect-chip">Vivid dreams</span>
+                <button class="add-effect-inline">
+                  <span>+</span>
+                  <span>Add side effect</span>
+                </button>
+              </div>
+            </div>
+            
+            <div class="card-footer">
+              <button class="view-options-button">
+                View all 3 options
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </button>
+              <span class="ai-badge">AI Base</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="implementation-note">
+      <strong>Key Interaction:</strong> Clicking anywhere on the card (except rating area, buttons, or links) toggles between simple and detailed view for that specific card. The global toggle overrides all individual card states.
+    </div>
+  </div>
+
+  <!-- Section 4: Mobile Implementation -->
+  <div class="section">
+    <h2 class="section-title">4. Mobile Implementation</h2>
+    
+    <div class="interaction-grid">
+      <!-- Mobile Simple View -->
+      <div>
+        <div class="mockup-container">
+          <div class="mockup-label">Mobile - Simple View</div>
+          <div class="mobile-mockup">
+            <div class="first-time-banner">
+              <span>💡</span>
+              <span style="font-size: 13px;">Swipe left to rate!</span>
+              <span class="dismiss-button" style="font-size: 16px;">×</span>
+            </div>
+            
+            <div class="goal-header">
+              <h1 class="goal-title">😰 Calm my anxiety</h1>
+              <div style="display: flex; gap: 24px; margin-top: 8px;">
+                <div class="stat-item">
+                  <span class="stat-number">55</span>
+                  <span class="stat-label" style="font-size: 11px;">solutions</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number">832</span>
+                  <span class="stat-label" style="font-size: 11px;">ratings</span>
+                </div>
+              </div>
+              <div class="tab-nav" style="margin-top: 12px;">
+                <div class="tab active" style="font-size: 14px;">Solutions</div>
+                <div class="tab" style="font-size: 14px;">Discuss</div>
+              </div>
+            </div>
+            
+            <div class="related-menu">
+              <span class="related-menu-label">Also try:</span>
+              <a href="#" class="related-link">Overthinking</a>
+              <a href="#" class="related-link">Panic</a>
+              <a href="#" class="related-link">Social</a>
+              <a href="#" class="related-link">+3</a>
+            </div>
+            
+            <div class="sticky-controls">
+              <div style="display: flex; gap: 8px; width: 100%; align-items: center;">
+                <select class="sort-select" style="flex: 1; font-size: 13px;">
+                  <option>Most Effective</option>
+                  <option>Quickest</option>
+                  <option>Cheapest</option>
+                </select>
+                <button style="width: 40px; height: 36px; border: 1px solid #e5e7eb; border-radius: 6px; background: white; font-size: 18px; display: flex; align-items: center; justify-content: center;">
+                  ≡
+                </button>
+                <button style="width: 40px; height: 36px; border: 1px solid #e5e7eb; border-radius: 6px; background: white; font-size: 18px; display: flex; align-items: center; justify-content: center;">
+                  👁
+                </button>
+              </div>
+            </div>
+            
+            <div class="solutions-container">
+              <div class="solution-card">
+                <div class="swipe-hint">← Swipe</div>
+                <div style="display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px;">
+                  <span class="solution-icon" style="font-size: 20px;">💊</span>
+                  <div style="flex: 1;">
+                    <h3 class="solution-title" style="font-size: 18px; margin-bottom: 8px;">L-Theanine</h3>
+                  </div>
+                </div>
+                
+                <div class="rating-container" style="margin-bottom: 12px; padding: 6px 12px; display: inline-flex; margin-left: 0;">
+                  <span class="rating-score" style="font-size: 18px;">4.2</span>
+                  <span class="rating-stars" style="font-size: 16px; margin: 0 8px;">★★★★☆</span>
+                  <span class="rating-count" style="font-size: 12px; color: #6b7280;">156</span>
+                </div>
+                
+                <p style="font-size: 13px; color: #6b7280; line-height: 1.5; margin-bottom: 12px;">
+                  Amino acid that promotes relaxation without drowsiness.
+                </p>
+                
+                <div class="variant-info" style="font-size: 13px; margin-bottom: 16px;">
+                  Best: 200mg <span class="variant-effectiveness">(4.5★)</span>
+                </div>
+                
+                <div class="key-fields">
+                  <div class="field-item">
+                    <span class="field-label">COST</span>
+                    <span class="field-value" style="font-size: 13px;">$10-25/mo</span>
+                  </div>
+                  <div class="field-item">
+                    <span class="field-label">SIDE EFFECTS</span>
+                    <span class="field-value" style="font-size: 13px;">None • Mild</span>
+                  </div>
+                  <div class="field-item">
+                    <span class="field-label">TIME</span>
+                    <span class="field-value" style="font-size: 13px;">30-60 min</span>
+                  </div>
+                </div>
+                
+                <div style="margin-top: 12px;">
+                  <button class="view-options-button" style="font-size: 13px; padding: 4px 0;">
+                    View all 3 options ↓
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Mobile Detailed View -->
+      <div>
+        <div class="mockup-container">
+          <div class="mockup-label">Mobile - Detailed View</div>
+          <div class="mobile-mockup">
+            <div class="sticky-controls">
+              <div style="display: flex; gap: 8px; width: 100%; align-items: center;">
+                <select class="sort-select" style="flex: 1; font-size: 13px;">
+                  <option>Most Effective</option>
+                </select>
+                <button style="width: 40px; height: 36px; border: 1px solid #e5e7eb; border-radius: 6px; background: white; font-size: 18px; display: flex; align-items: center; justify-content: center;">
+                  ≡
+                </button>
+                <button style="width: 40px; height: 36px; border: 1px solid #e5e7eb; border-radius: 6px; background: #7c3aed; color: white; font-size: 18px; display: flex; align-items: center; justify-content: center;">
+                  👁‍🗨️
+                </button>
+              </div>
+            </div>
+            
+            <div class="solutions-container">
+              <div class="solution-card detailed" style="background: #fafbfc;">
+                <div style="display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px;">
+                  <span class="solution-icon" style="font-size: 20px;">💊</span>
+                  <div style="flex: 1;">
+                    <h3 class="solution-title" style="font-size: 18px; margin-bottom: 8px;">L-Theanine</h3>
+                  </div>
+                </div>
+                
+                <div class="rating-container" style="margin-bottom: 12px; padding: 6px 12px; display: inline-flex; margin-left: 0;">
+                  <span class="rating-score" style="font-size: 18px;">4.2</span>
+                  <span class="rating-stars" style="font-size: 16px; margin: 0 8px;">★★★★☆</span>
+                  <span class="rating-count" style="font-size: 12px; color: #6b7280;">156</span>
+                </div>
+                
+                <div class="variant-info" style="font-size: 13px; color: #6b7280; margin-bottom: 12px;">
+                  Best: 200mg <span class="variant-effectiveness">(4.5★)</span>
+                </div>
+                
+                <p style="font-size: 13px; color: #6b7280; line-height: 1.5; margin-bottom: 16px;">
+                  Amino acid that promotes relaxation without drowsiness.
+                </p>
+                
+                <div class="key-fields">
+                  <div class="field-item">
+                    <span class="field-label">
+                      COST <span class="field-count">(142)</span>
+                    </span>
+                    <span class="field-value" style="font-size: 13px; display: flex; align-items: center; gap: 4px;">
+                      $10-25/mo
+                      <span style="font-size: 16px; color: #d1d5db;">📊</span>
+                    </span>
+                  </div>
+                  <div class="field-item">
+                    <span class="field-label">
+                      SIDE EFFECTS <span class="field-count">(156)</span>
+                    </span>
+                    <span class="field-value" style="font-size: 13px; display: flex; align-items: center; gap: 4px;">
+                      None • 2 more
+                      <span style="font-size: 16px; color: #d1d5db;">📊</span>
+                    </span>
+                  </div>
+                  <div class="field-item">
+                    <span class="field-label">
+                      TIME <span class="field-count">(138)</span>
+                    </span>
+                    <span class="field-value" style="font-size: 13px; display: flex; align-items: center; gap: 4px;">
+                      30-60 min
+                      <span style="font-size: 16px; color: #d1d5db;">📊</span>
+                    </span>
+                  </div>
+                  <div class="field-item">
+                    <span class="field-label">
+                      DOSAGE <span class="field-count">(89)</span>
+                    </span>
+                    <span class="field-value" style="font-size: 13px; display: flex; align-items: center; gap: 4px;">
+                      200mg
+                      <span style="font-size: 16px; color: #d1d5db;">📊</span>
+                    </span>
+                  </div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+                  <button class="view-options-button" style="font-size: 13px; padding: 4px 0;">
+                    View all 3 options ↓
+                  </button>
+                  <span style="font-size: 12px; color: #9ca3af;">
+                    Tap 📊 for breakdown
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="implementation-note">
+      <strong>Mobile Interactions:</strong>
+      <ul style="margin-top: 8px;">
+        <li>Swipe left on card: Reveals rating stars (NO hover states on mobile)</li>
+        <li>Tap card body: Toggles simple/detailed view</li>
+        <li>Tap 📊 icon: Opens bottom sheet with distribution chart</li>
+        <li>Tap "View all X options": Opens modal/sheet with all variants and their effectiveness</li>
+        <li>Icon controls: [≡] for filters, [👁/👁‍🗨️] for view toggle</li>
+        <li>Related goals: Horizontal scroll with momentum scrolling</li>
+        <li>Rating alignment: Left-aligned with icon, not indented</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 5: Component Specifications -->
+  <div class="section">
+    <h2 class="section-title">5. Component Specifications</h2>
+    
+    <div class="subsection">
+      <h3 class="subsection-title">First-Time User Banner</h3>
+      <div class="code-block">
+// Check localStorage on mount
+useEffect(() => {
+  const hasSeenBanner = localStorage.getItem('hasSeenContributionHint');
+  if (!hasSeenBanner) {
+    setShowBanner(true);
+  }
+}, []);
+
+// Dismiss handler
+const dismissBanner = () => {
+  localStorage.setItem('hasSeenContributionHint', 'true');
+  setShowBanner(false);
+};
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Mobile Variant Display</h3>
+      <div class="code-block">
+// Variant modal/bottom sheet for mobile
+const VariantSheet = ({ solution, isOpen, onClose }) => {
+  return (
+    &lt;div className={`bottom-sheet ${isOpen ? 'active' : ''}`}&gt;
+      &lt;div className="sheet-handle" /&gt;
+      &lt;h3 className="sheet-title"&gt;{solution.title} Options&lt;/h3&gt;
+      
+      &lt;div className="variant-list"&gt;
+        {solution.variants.map((variant, index) => (
+          &lt;div key={index} className="variant-item"&gt;
+            &lt;div className="variant-header"&gt;
+              &lt;span className="variant-name"&gt;{variant.name}&lt;/span&gt;
+              &lt;span className="variant-rating"&gt;
+                {variant.effectiveness} ★
+              &lt;/span&gt;
+            &lt;/div&gt;
+            {variant.additionalInfo && (
+              &lt;p className="variant-note"&gt;{variant.additionalInfo}&lt;/p&gt;
+            )}
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+
+// Example variant data structure
+const variants = [
+  { name: "200mg capsule", effectiveness: 4.5, additionalInfo: "Most popular" },
+  { name: "100mg capsule", effectiveness: 4.2, additionalInfo: "Good for sensitive" },
+  { name: "400mg powder", effectiveness: 4.0, additionalInfo: "Cost effective" }
+];
+      </div>
+      <p style="margin-top: 12px; color: #6b7280;">
+        The "View all X options" button opens a bottom sheet showing all variants with their individual effectiveness ratings, 
+        allowing users to see which specific version (dosage, form, etc.) works best for their goal.
+      </p>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Rating Container Transform</h3>
+      <div class="code-block">
+// CSS for hover transform
+.rating-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.rating-container:hover .rating-content {
+  opacity: 0;
+}
+
+.rating-container:hover .hover-stars {
+  opacity: 1;
+  pointer-events: all;
+}
+
+// React component
+const RatingContainer = ({ rating, count, onRate }) => {
+  const [hoveredStar, setHoveredStar] = useState(0);
+  
+  return (
+    &lt;div className="rating-container"&gt;
+      &lt;div className="rating-content"&gt;
+        &lt;span className="rating-score"&gt;{rating}&lt;/span&gt;
+        &lt;span className="rating-stars"&gt;★★★★☆&lt;/span&gt;
+        &lt;span className="rating-count"&gt;{count} reviews&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div className="hover-stars"&gt;
+        {[1,2,3,4,5].map(star => (
+          &lt;Star 
+            key={star}
+            filled={star <= hoveredStar}
+            onMouseEnter={() => setHoveredStar(star)}
+            onClick={() => onRate(star)}
+          /&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Distribution Display Logic</h3>
+      <div class="code-block">
+// Format distribution data for display
+const formatDistribution = (field, responses) => {
+  // Sort by count descending
+  const sorted = responses.sort((a, b) => b.count - a.count);
+  
+  // Take top 3 + calculate "others"
+  const top3 = sorted.slice(0, 3);
+  const others = sorted.slice(3);
+  const othersPercent = others.reduce((sum, r) => sum + r.percentage, 0);
+  
+  // Format for display
+  return {
+    values: top3.map(r => ({
+      label: r.value,
+      percentage: r.percentage
+    })),
+    others: othersPercent > 0 ? othersPercent : null,
+    totalReports: responses.reduce((sum, r) => sum + r.count, 0)
+  };
+};
+
+// Display component
+const DistributionField = ({ label, distribution }) => {
+  const isStacked = distribution.values.length > 3 || 
+                   distribution.values.some(v => v.label.length > 20);
+  
+  return (
+    &lt;div className="distribution-field"&gt;
+      &lt;div className="distribution-label"&gt;
+        {label}
+        &lt;span className="field-count"&gt;({distribution.totalReports})&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div className={`distribution-values ${isStacked ? 'stacked' : ''}`}&gt;
+        {distribution.values.map((value, index) => (
+          &lt;span key={index} className="distribution-value"&gt;
+            {index > 0 && !isStacked && '• '}
+            {value.label} 
+            &lt;span className="distribution-percent"&gt;({value.percentage}%)&lt;/span&gt;
+          &lt;/span&gt;
+        ))}
+        {distribution.others && (
+          &lt;span className="distribution-others"&gt;
+            {!isStacked && '• '}others 
+            &lt;span className="distribution-percent"&gt;({distribution.others}%)&lt;/span&gt;
+          &lt;/span&gt;
+        )}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Mobile Bottom Sheet</h3>
+      <div class="code-block">
+// Bottom sheet component
+const DistributionSheet = ({ field, data, isOpen, onClose }) => {
+  return (
+    &lt;div className={`bottom-sheet ${isOpen ? 'active' : ''}`}&gt;
+      &lt;div className="sheet-handle" /&gt;
+      &lt;h3 className="sheet-title"&gt;{field}&lt;/h3&gt;
+      &lt;p className="sheet-subtitle"&gt;({data.totalReports} reports)&lt;/p&gt;
+      
+      &lt;div className="distribution-bars"&gt;
+        {data.values.map((item, index) => (
+          &lt;div key={index} className="bar-item"&gt;
+            &lt;div className="bar-label"&gt;
+              &lt;span&gt;{item.label}&lt;/span&gt;
+              &lt;span&gt;{item.percentage}%&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div className="bar-container"&gt;
+              &lt;div 
+                className="bar-fill" 
+                style={{ width: `${item.percentage}%` }}
+              /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: Edge Cases & Special Handling -->
+  <div class="section">
+    <h2 class="section-title">6. Edge Cases & Special Handling</h2>
+    
+    <div class="subsection">
+      <h3 class="subsection-title">Low Sample Size (n ≤ 3)</h3>
+      <div class="state-example">
+        <div class="state-label">Display Pattern</div>
+        <div class="distribution-field">
+          <div class="distribution-label">
+            FREQUENCY
+            <span class="field-count">(3)</span>
+          </div>
+          <div class="distribution-values">
+            <span class="distribution-value">Once daily <span class="distribution-percent">(67%)</span></span>
+            <span class="distribution-value">• Twice daily <span class="distribution-percent">(33%)</span></span>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top: 12px; color: #6b7280;">Show all values when n ≤ 3, don't use "others" grouping</p>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">AI-Seeded Data (n = 1)</h3>
+      <div class="state-example">
+        <div class="state-label">Display Pattern</div>
+        <div class="distribution-field">
+          <div class="distribution-label">
+            TIME TO RESULTS
+            <span class="field-count">(1)</span>
+          </div>
+          <div style="font-size: 14px; color: #1f2937;">3-4 weeks</div>
+        </div>
+      </div>
+      <p style="margin-top: 12px; color: #6b7280;">No percentages shown, just the single value</p>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Multi-Select Fields (Side Effects)</h3>
+      <div class="state-example">
+        <div class="state-label">Special Handling</div>
+        <p style="color: #6b7280; margin-bottom: 12px;">Each option shows percentage of people who experienced it:</p>
+        <div class="distribution-values stacked">
+          <span class="distribution-value">Nausea <span class="distribution-percent">(61%)</span></span>
+          <span class="distribution-value">Insomnia <span class="distribution-percent">(48%)</span></span>
+          <span class="distribution-value">None reported <span class="distribution-percent">(22%)</span></span>
+        </div>
+      </div>
+      <p style="margin-top: 12px; color: #6b7280;">Percentages don't sum to 100% for multi-select fields</p>
+    </div>
+  </div>
+
+  <!-- Section 7: Implementation Checklist -->
+  <div class="section">
+    <h2 class="section-title">7. Complete Implementation Checklist</h2>
+    
+    <div class="checklist">
+      <h3>Core Page Structure</h3>
+      <ul>
+        <li>First-time user banner with localStorage persistence</li>
+        <li>Gradient goal header with stats</li>
+        <li>Amazon-style related goals menu (horizontal scroll on mobile)</li>
+        <li>Sticky controls bar with sort, filter, and view toggle</li>
+        <li>FAB for "Share What Worked"</li>
+      </ul>
+
+      <h3>Solution Card Features</h3>
+      <ul>
+        <li>Click card to toggle individual view (except interactive elements)</li>
+        <li>Global toggle overrides individual card states</li>
+        <li>Hover-to-rate transform on desktop</li>
+        <li>Swipe-to-rate on mobile</li>
+        <li>Simple view: 3 key fields only</li>
+        <li>Detailed view: All fields with distributions</li>
+      </ul>
+
+      <h3>UGC Distribution Display</h3>
+      <ul>
+        <li>Show top 3-4 values + "others" if more exist</li>
+        <li>Report count next to each field label: (n)</li>
+        <li>Inline format for 3 or fewer values</li>
+        <li>Stacked format for 4+ values or long text</li>
+        <li>Mobile: Tap 📊 icon for bottom sheet</li>
+        <li>Special handling for n=1 and low sample sizes</li>
+      </ul>
+
+      <h3>Interactive Elements</h3>
+      <ul>
+        <li>Rating stars appear on hover/swipe</li>
+        <li>Side effects "(add yours)" hint on hover</li>
+        <li>"View all X options" for solutions with variants</li>
+        <li>Category dropdown with multi-select checkboxes</li>
+        <li>Mobile bottom sheet for distribution details</li>
+      </ul>
+
+      <h3>Visual Polish</h3>
+      <ul>
+        <li>Subtle hover states (transform, shadows)</li>
+        <li>Smooth transitions (0.2s for most interactions)</li>
+        <li>Consistent color scheme (purple #7c3aed accent)</li>
+        <li>Proper z-index hierarchy</li>
+        <li>Responsive typography scaling</li>
+      </ul>
+
+      <h3>Mobile-Specific Features</h3>
+      <ul>
+        <li>Icon-based controls: [Most Effective ▼] [≡] [👁]</li>
+        <li>View icon changes: 👁 (simple) → 👁‍🗨️ (detailed)</li>
+        <li>Rating left-aligned with icon on its own line</li>
+        <li>Proper spacing: 12px margins between major elements</li>
+        <li>Variant info shown in both simple and detailed views</li>
+        <li>"View all X options" button for multiple variants</li>
+        <li>Swipe left to rate (no hover states)</li>
+        <li>Tap card to toggle view</li>
+        <li>Tap 📊 for distribution bottom sheet</li>
+        <li>Horizontal scroll for related goals</li>
+      </ul>
+
+      <h3>Edge Cases Handled</h3>
+      <ul>
+        <li>AI-seeded data (n=1) display</li>
+        <li>Low sample sizes (n≤3)</li>
+        <li>Multi-select field percentages</li>
+        <li>Long text wrapping in distributions</li>
+        <li>Mobile gesture conflicts resolved</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 8: Technical Implementation Notes -->
+  <div class="section">
+    <h2 class="section-title">8. Technical Implementation Notes</h2>
+    
+    <div class="subsection">
+      <h3 class="subsection-title">State Management</h3>
+      <div class="code-block">
+// Page-level state
+const [globalView, setGlobalView] = useState('simple'); // 'simple' | 'detailed'
+const [individualCardViews, setIndividualCardViews] = useState({}); // {cardId: view}
+const [selectedCategory, setSelectedCategory] = useState('all');
+const [sortBy, setSortBy] = useState('effectiveness');
+
+// Determine card view
+const getCardView = (cardId) => {
+  // Global toggle overrides individual states
+  if (globalView === 'detailed') return 'detailed';
+  return individualCardViews[cardId] || 'simple';
+};
+
+// Toggle individual card
+const toggleCardView = (cardId) => {
+  setIndividualCardViews(prev => ({
+    ...prev,
+    [cardId]: prev[cardId] === 'simple' ? 'detailed' : 'simple'
+  }));
+};
+
+// Global toggle handler
+const handleGlobalToggle = (view) => {
+  setGlobalView(view);
+  setIndividualCardViews({}); // Clear individual states
+};
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Data Structure for Distributions</h3>
+      <div class="code-block">
+// Solution data structure with distributions
+interface SolutionData {
+  id: string;
+  title: string;
+  category: string;
+  effectiveness: {
+    average: number;
+    count: number;
+  };
+  fields: {
+    [fieldName: string]: {
+      mode: string; // Most common value
+      distribution: Array<{
+        value: string;
+        count: number;
+        percentage: number;
+      }>;
+      totalReports: number;
+    };
+  };
+  variants?: Array<{
+    id: string;
+    name: string;
+    effectiveness: number;
+  }>;
+}
+
+// Example data
+const solution: SolutionData = {
+  id: 'l-theanine-001',
+  title: 'L-Theanine',
+  category: 'natural_remedies',
+  effectiveness: {
+    average: 4.2,
+    count: 156
+  },
+  fields: {
+    cost: {
+      mode: '$10-25/month',
+      distribution: [
+        { value: '$10-25/month', count: 95, percentage: 67 },
+        { value: 'Under $10/month', count: 40, percentage: 28 },
+        { value: '$25-50/month', count: 7, percentage: 5 }
+      ],
+      totalReports: 142
+    },
+    timeToResults: {
+      mode: '30-60 minutes',
+      distribution: [
+        { value: '30-60 minutes', count: 75, percentage: 54 },
+        { value: 'Within 30 min', count: 43, percentage: 31 },
+        { value: '1-2 hours', count: 20, percentage: 15 }
+      ],
+      totalReports: 138
+    }
+  }
+};
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Mobile Icon Controls</h3>
+      <div class="code-block">
+// Mobile controls component
+const MobileControls = ({ view, onViewToggle, onFilterOpen }) => {
+  return (
+    &lt;div className="mobile-controls"&gt;
+      &lt;select className="sort-select"&gt;
+        &lt;option&gt;Most Effective&lt;/option&gt;
+        &lt;option&gt;Quickest&lt;/option&gt;
+        &lt;option&gt;Cheapest&lt;/option&gt;
+      &lt;/select&gt;
+      
+      &lt;button 
+        className="icon-button"
+        onClick={onFilterOpen}
+        aria-label="Open filters"
+      &gt;
+        ≡
+      &lt;/button&gt;
+      
+      &lt;button 
+        className="icon-button active"
+        onClick={onViewToggle}
+        aria-label={`Switch to ${view === 'simple' ? 'detailed' : 'simple'} view`}
+      &gt;
+        {view === 'simple' ? '👁' : '👁‍🗨️'}
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+};
+
+// CSS
+.mobile-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.icon-button {
+  width: 40px;
+  height: 36px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.icon-button.active {
+  background: #7c3aed;
+  color: white;
+  border-color: #7c3aed;
+}
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Mobile Swipe Implementation</h3>
+      <div class="code-block">
+// Using react-swipeable or similar
+import { useSwipeable } from 'react-swipeable';
+
+const SolutionCard = ({ solution }) => {
+  const [showRating, setShowRating] = useState(false);
+  
+  const handlers = useSwipeable({
+    onSwipedLeft: () => setShowRating(true),
+    onSwipedRight: () => setShowRating(false),
+    trackMouse: false // Mobile only
+  });
+  
+  return (
+    &lt;div {...handlers} className="solution-card"&gt;
+      {showRating && (
+        &lt;div className="swipe-rating-overlay"&gt;
+          {/* Rating stars */}
+        &lt;/div&gt;
+      )}
+      {/* Card content */}
+    &lt;/div&gt;
+  );
+};
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Mobile Variant Display</h3>
+      <div class="code-block">
+// Variant modal/bottom sheet for mobile
+const VariantSheet = ({ solution, isOpen, onClose }) => {
+  return (
+    &lt;div className={`bottom-sheet ${isOpen ? 'active' : ''}`}&gt;
+      &lt;div className="sheet-handle" /&gt;
+      &lt;h3 className="sheet-title"&gt;{solution.title} Options&lt;/h3&gt;
+      
+      &lt;div className="variant-list"&gt;
+        {solution.variants.map((variant, index) => (
+          &lt;div key={index} className="variant-item"&gt;
+            &lt;div className="variant-header"&gt;
+              &lt;span className="variant-name"&gt;{variant.name}&lt;/span&gt;
+              &lt;span className="variant-rating"&gt;
+                {variant.effectiveness} ★
+              &lt;/span&gt;
+            &lt;/div&gt;
+            {variant.additionalInfo && (
+              &lt;p className="variant-note"&gt;{variant.additionalInfo}&lt;/p&gt;
+            )}
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+
+// Example variant data structure
+const variants = [
+  { name: "200mg capsule", effectiveness: 4.5, additionalInfo: "Most popular" },
+  { name: "100mg capsule", effectiveness: 4.2, additionalInfo: "Good for sensitive" },
+  { name: "400mg powder", effectiveness: 4.0, additionalInfo: "Cost effective" }
+];
+      </div>
+      <p style="margin-top: 12px; color: #6b7280;">
+        The "View all X options" button opens a bottom sheet showing all variants with their individual effectiveness ratings, 
+        allowing users to see which specific version (dosage, form, etc.) works best for their goal.
+      </p>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Mobile Card Spacing</h3>
+      <div class="code-block">
+// Mobile card structure with proper spacing
+const MobileSolutionCard = ({ solution, view }) => {
+  return (
+    &lt;div className="solution-card"&gt;
+      {/* Title row */}
+      &lt;div className="mobile-title-row"&gt; {/* margin-bottom: 12px */}
+        &lt;span className="icon"&gt;{solution.icon}&lt;/span&gt;
+        &lt;h3 className="title"&gt;{solution.title}&lt;/h3&gt;
+      &lt;/div&gt;
+      
+      {/* Rating on its own line */}
+      &lt;div className="mobile-rating"&gt; {/* margin-bottom: 12px */}
+        &lt;span className="score"&gt;{solution.rating}&lt;/span&gt;
+        &lt;span className="stars"&gt;★★★★☆&lt;/span&gt;
+        &lt;span className="count"&gt;{solution.reviewCount}&lt;/span&gt;
+      &lt;/div&gt;
+      
+      {view === 'simple' && (
+        &lt;&gt;
+          {/* Description only in simple view */}
+          &lt;p className="description"&gt; {/* margin-bottom: 12px */}
+            {solution.shortDescription}
+          &lt;/p&gt;
+        &lt;/&gt;
+      )}
+      
+      {/* Variant info - shown in both views */}
+      {solution.hasVariants && (
+        &lt;&gt;
+          &lt;div className="variant-info"&gt; {/* margin-bottom: 16px */}
+            Best: {solution.bestVariant} ({solution.variantRating}★)
+          &lt;/div&gt;
+        &lt;/&gt;
+      )}
+      
+      {/* Key fields */}
+      &lt;div className="key-fields"&gt;
+        {/* Individual field items with border-bottom */}
+      &lt;/div&gt;
+      
+      {/* In detailed view - action hints on same line */}
+      {view === 'detailed' && (
+        &lt;div className="mobile-actions-row"&gt;
+          {solution.variantCount > 1 && (
+            &lt;button className="view-options-button"&gt;
+              View all {solution.variantCount} options ↓
+            &lt;/button&gt;
+          )}
+          &lt;span className="tap-hint"&gt;
+            Tap 📊 for breakdown
+          &lt;/span&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+};
+
+// CSS for mobile spacing
+.mobile-title-row { margin-bottom: 12px; }
+.mobile-rating { margin-bottom: 12px; }
+.description { margin-bottom: 12px; }
+.variant-info { margin-bottom: 16px; }
+.mobile-actions-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  margin-top: 12px;
+}
+.tap-hint { 
+  font-size: 12px; 
+  color: #9ca3af; 
+}
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Performance Considerations</h3>
+      <ul style="line-height: 1.8; color: #4b5563;">
+        <li><strong>Virtualization:</strong> Use react-window for lists > 50 solutions</li>
+        <li><strong>Lazy Loading:</strong> Load detailed view data only when expanded</li>
+        <li><strong>Memoization:</strong> Memoize distribution calculations</li>
+        <li><strong>Debouncing:</strong> Debounce search and filter operations</li>
+        <li><strong>Image Optimization:</strong> Use next/image for solution icons if images</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Final Summary -->
+  <div class="section" style="background: linear-gradient(135deg, #faf5ff 0%, #e0e7ff 100%);">
+    <h2 class="section-title">🎯 Implementation Summary</h2>
+    
+    <p style="font-size: 18px; color: #4b5563; margin-bottom: 24px;">
+      This master guide contains everything needed to implement the WWFM goal page. The design balances 
+      information density with visual clarity, making solutions discoverable while maintaining transparency 
+      about user-generated content.
+    </p>
+    
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4 class="feature-title">Core Innovation</h4>
+        <p class="feature-description">
+          UGC distributions visible in detailed view, reinforcing that this is aggregated wisdom from real people, 
+          not prescriptive advice.
+        </p>
+      </div>
+      <div class="feature-card">
+        <h4 class="feature-title">Key Interaction</h4>
+        <p class="feature-description">
+          Transform-in-place rating and contribution pattern that removes friction from adding data.
+        </p>
+      </div>
+      <div class="feature-card">
+        <h4 class="feature-title">Mobile Excellence</h4>
+        <p class="feature-description">
+          Simplified display with gestures (swipe to rate) and progressive disclosure (tap for distributions).
+        </p>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 32px;">
+      <p style="font-size: 20px; font-weight: 600; color: #7c3aed;">
+        Ready to implement! 🚀
+      </p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

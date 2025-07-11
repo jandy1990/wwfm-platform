@@ -1,14 +1,19 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import InteractiveRating from '@/components/solutions/InteractiveRating'
+import SwipeableRating from '@/components/solutions/SwipeableRating'
+import VariantSheet from '@/components/solutions/VariantSheet'
 import { GoalSolutionWithVariants } from '@/lib/goal-solutions'
 import RatingDisplay, { getBestRating, getAverageRating } from '@/components/ui/RatingDisplay'
 import EmptyState from '@/components/ui/EmptyState'
 import SourceBadge from '@/components/ui/SourceBadge'
 import { RelatedGoal } from '@/lib/services/related-goals'
 import { trackGoalRelationshipClick } from '@/lib/services/related-goals'
+import { DistributionField as NewDistributionField, DistributionData } from '@/components/distributions/DistributionField'
+import { DistributionSheet as NewDistributionSheet } from '@/components/distributions/DistributionSheet'
+import { getGoalFieldDistribution, getFieldValueFromSolution } from '@/lib/real-distributions'
 
 type Goal = {
   id: string
@@ -268,9 +273,45 @@ const DEFAULT_CATEGORY_CONFIG = {
 }
 
 // Helper to format array fields nicely
-const formatArrayField = (value: unknown): string => {
+const formatArrayField = (value: unknown, fieldName?: string): string | JSX.Element => {
   if (Array.isArray(value)) {
-    return value.join(' • ')
+    // For challenges field with percentages, format each item on new line
+    if (fieldName === 'challenges' && value.some(item => typeof item === 'string' && item.includes('('))) {
+      return (
+        <div className="space-y-1">
+          {value.map((item, index) => (
+            <div key={index} className="text-sm break-words">
+              {item}
+            </div>
+          ))}
+        </div>
+      ) as any
+    }
+    // For fields with percentages, return with proper wrapping
+    if (value.some(item => typeof item === 'string' && item.includes('%'))) {
+      return (
+        <div className="text-sm">
+          <div className="flex flex-wrap gap-x-1">
+            {value.map((item, index) => (
+              <span key={index} className="whitespace-nowrap">
+                {index > 0 && <span className="mx-1">•</span>}
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      ) as any
+    }
+    // For longer content, return line-separated
+    return (
+      <div className="space-y-1">
+        {value.map((item, index) => (
+          <div key={index} className="text-sm break-words">
+            {index > 0 && '• '}{item}
+          </div>
+        ))}
+      </div>
+    ) as any
   }
   return value?.toString() || ''
 }
@@ -392,6 +433,73 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
   const [showAllRelated, setShowAllRelated] = useState(false)
   const [expandedVariants, setExpandedVariants] = useState<Set<string>>(new Set())
   const [solutions, setSolutions] = useState(initialSolutions)
+  const [hasRatedAny, setHasRatedAny] = useState(false) // Simple flag to disable sorting
+  const [showBanner, setShowBanner] = useState(false) // First-time user banner
+  const [distributionSheet, setDistributionSheet] = useState<{
+    isOpen: boolean;
+    fieldName: string;
+    distribution: DistributionData | null;
+  }>({ isOpen: false, fieldName: '', distribution: null })
+  const [fieldDistributions, setFieldDistributions] = useState<Map<string, DistributionData>>(new Map())
+  const [individualCardViews, setIndividualCardViews] = useState<Map<string, 'simple' | 'detailed'>>(new Map())
+  const [isMobile, setIsMobile] = useState(false)
+  const [variantSheet, setVariantSheet] = useState<{
+    isOpen: boolean;
+    solution: GoalSolutionWithVariants | null;
+  }>({ isOpen: false, solution: null })
+  
+  // Check if user has seen the contribution hint banner
+  useEffect(() => {
+    const hasSeenBanner = localStorage.getItem('hasSeenContributionHint')
+    if (!hasSeenBanner) {
+      setShowBanner(true)
+    }
+  }, [])
+  
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+  
+  // Load field distributions when solutions or viewMode changes
+  useEffect(() => {
+    if (viewMode === 'detailed' && solutions.length > 0) {
+      const loadDistributions = async () => {
+        const newDistributions = new Map<string, DistributionData>()
+        
+        // Get all unique fields across all solutions
+        const allFields = new Set<string>()
+        solutions.forEach(solution => {
+          const categoryConfig = solution.solution_category 
+            ? (CATEGORY_CONFIG[solution.solution_category] || DEFAULT_CATEGORY_CONFIG)
+            : DEFAULT_CATEGORY_CONFIG
+          categoryConfig.keyFields.forEach(field => allFields.add(field))
+        })
+        
+        // Load distributions for each field
+        for (const fieldName of allFields) {
+          try {
+            const distribution = await getGoalFieldDistribution(goal.id, solutions, fieldName)
+            if (distribution) {
+              newDistributions.set(fieldName, distribution)
+            }
+          } catch (error) {
+            console.warn(`Failed to load distribution for field ${fieldName}:`, error)
+          }
+        }
+        
+        setFieldDistributions(newDistributions)
+      }
+      
+      loadDistributions()
+    }
+  }, [goal.id, solutions, viewMode])
 
   // Calculate stats
   const totalRatings = useMemo(() => {
@@ -424,6 +532,31 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
     return Object.keys(categoryCounts).sort()
   }, [categoryCounts])
 
+  // Helper to get distribution for a specific solution and field
+  const getDistributionForSolutionField = (solution: GoalSolutionWithVariants, fieldName: string): DistributionData | null => {
+    // First check if we have a cross-solution distribution for this field
+    const crossSolutionDistribution = fieldDistributions.get(fieldName)
+    if (crossSolutionDistribution) {
+      return crossSolutionDistribution
+    }
+    
+    // Fallback: create simple single-value distribution
+    const currentValue = getFieldValueFromSolution(solution, fieldName)
+    if (!currentValue) return null
+    
+    const ratingCount = solution.variants.reduce((sum, variant) => {
+      return sum + (variant.goal_links[0]?.rating_count || 1)
+    }, 0)
+    
+    return {
+      mode: currentValue,
+      values: [
+        { value: currentValue, count: ratingCount, percentage: 100 }
+      ],
+      totalReports: ratingCount
+    }
+  }
+
   // Filter and sort solutions
   const filteredAndSortedSolutions = useMemo(() => {
     // First filter by category
@@ -432,6 +565,11 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
       filtered = solutions.filter(solution => 
         solution.solution_category && selectedCategories.has(solution.solution_category)
       )
+    }
+
+    // If anyone has rated anything, don't sort at all
+    if (hasRatedAny) {
+      return filtered;
     }
 
     // Then sort
@@ -459,7 +597,7 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
       default:
         return solutionsCopy
     }
-  }, [solutions, sortBy, selectedCategories])
+  }, [solutions, sortBy, selectedCategories, hasRatedAny])
 
   const toggleCategory = (category: string) => {
     const newCategories = new Set(selectedCategories)
@@ -481,8 +619,70 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
     setExpandedVariants(newExpanded)
   }
 
+  const dismissBanner = () => {
+    localStorage.setItem('hasSeenContributionHint', 'true')
+    setShowBanner(false)
+  }
+
+  // Determine the view for a specific card
+  const getCardView = (solutionId: string): 'simple' | 'detailed' => {
+    // Global toggle overrides individual states
+    if (viewMode === 'detailed') return 'detailed'
+    return individualCardViews.get(solutionId) || 'simple'
+  }
+
+  // Toggle individual card view
+  const toggleCardView = (solutionId: string, event: React.MouseEvent) => {
+    // Don't toggle if clicking on interactive elements
+    const target = event.target as HTMLElement
+    if (
+      target.closest('.rating-container') ||
+      target.closest('.swipeable-rating') ||
+      target.closest('button') ||
+      target.closest('a') ||
+      target.closest('select') ||
+      target.closest('input') ||
+      target.closest('.side-effect-chip') ||
+      target.closest('.add-effect-inline') ||
+      target.closest('.view-options-button')
+    ) {
+      return
+    }
+
+    event.stopPropagation()
+    const newViews = new Map(individualCardViews)
+    const currentView = getCardView(solutionId)
+    newViews.set(solutionId, currentView === 'simple' ? 'detailed' : 'simple')
+    setIndividualCardViews(newViews)
+  }
+
+  // When global view mode changes, reset individual card views
+  useEffect(() => {
+    setIndividualCardViews(new Map())
+  }, [viewMode])
+
   return (
     <>
+      {/* First-time user banner */}
+      {showBanner && (
+        <div className="bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-800 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-sm text-amber-800 dark:text-amber-200">
+              <span className="text-lg">💡</span>
+              <span className="hidden sm:inline">You can rate solutions and tap cards for detailed breakdowns!</span>
+              <span className="sm:hidden">Swipe left to rate!</span>
+            </div>
+            <button
+              onClick={dismissBanner}
+              className="text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 text-xl leading-none"
+              aria-label="Dismiss banner"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Goal Header with Gradient */}
       <div className="bg-gradient-to-b from-purple-50 to-white dark:from-purple-950/20 dark:to-gray-900 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-6 mb-0">
         <div className="max-w-7xl mx-auto">
@@ -530,17 +730,17 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
       {relatedGoals && relatedGoals.length > 0 && (
         <div className="bg-gray-50 dark:bg-gray-800/50 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 border-b border-gray-200 dark:border-gray-700">
           <div className="max-w-7xl mx-auto">
-            <div className="flex items-start gap-3">
-              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap">
+            <div className="flex items-start gap-3 sm:block">
+              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap flex-shrink-0">
                 People also worked on:
               </span>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+              <div className="flex gap-x-4 sm:gap-y-1 text-sm overflow-x-auto sm:overflow-x-visible sm:flex-wrap no-scrollbar flex-1">
                 {relatedGoals.slice(0, showAllRelated ? undefined : 5).map((relatedGoal, index) => (
                   <Link
                     key={relatedGoal.id}
                     href={`/goal/${relatedGoal.id}`}
                     onClick={() => handleRelatedGoalClick(goal.id, relatedGoal.id, index)}
-                    className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                    className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors whitespace-nowrap"
                   >
                     {relatedGoal.title}
                   </Link>
@@ -567,6 +767,11 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
             <div className="flex items-center gap-3 sm:gap-4 flex-1">
               <span className="text-sm font-medium text-gray-600 dark:text-gray-400 hidden sm:inline">
                 {filteredAndSortedSolutions.length} solutions
+                {hasRatedAny && (
+                  <span className="ml-2 text-xs text-green-600 dark:text-green-400 font-medium">
+                    • Order locked
+                  </span>
+                )}
               </span>
               
               <select
@@ -590,8 +795,8 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
               )}
             </div>
             
-            {/* View toggle */}
-            <div className="flex justify-end">
+            {/* View toggle - Desktop */}
+            <div className="hidden sm:flex justify-end">
               <div className="flex border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden">
                 <button
                   onClick={() => setViewMode('simple')}
@@ -614,6 +819,28 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                   Detailed
                 </button>
               </div>
+            </div>
+            
+            {/* Mobile icon controls */}
+            <div className="flex sm:hidden gap-2">
+              <button
+                onClick={() => {/* TODO: Open filter dropdown */}}
+                className="w-10 h-10 flex items-center justify-center border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                aria-label="Open filters"
+              >
+                <span className="text-lg">≡</span>
+              </button>
+              <button
+                onClick={() => setViewMode(viewMode === 'simple' ? 'detailed' : 'simple')}
+                className={`w-10 h-10 flex items-center justify-center border rounded-md transition-colors ${
+                  viewMode === 'detailed'
+                    ? 'bg-purple-600 text-white border-purple-600'
+                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700'
+                }`}
+                aria-label={`Switch to ${viewMode === 'simple' ? 'detailed' : 'simple'} view`}
+              >
+                <span className="text-lg">{viewMode === 'simple' ? '👁' : '👁‍🗨️'}</span>
+              </button>
             </div>
           </div>
         </div>
@@ -651,12 +878,20 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
 
               const hasVariants = VARIANT_CATEGORIES.includes(solution.solution_category || '') && solution.variants.length > 1
               const isExpanded = expandedVariants.has(solution.id)
+              const cardView = getCardView(solution.id)
 
               return (
                 <article 
                   key={solution.id} 
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-px transition-all duration-200 border border-gray-200 dark:border-gray-700 p-4 sm:p-5"
+                  className={`solution-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-5 ${cardView === 'detailed' ? 'detailed' : ''} relative cursor-pointer`}
+                  onClick={(e) => toggleCardView(solution.id, e)}
+                  title="Click to toggle detailed view"
                 >
+                  {/* Mobile Swipe Hint */}
+                  <div className="swipe-hint">
+                    <span>← Swipe</span>
+                  </div>
+                  
                   {/* Solution Header */}
                   <div className="flex items-start justify-between gap-3 mb-4">
                     <div className="flex-1 min-w-0">
@@ -699,7 +934,7 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                             />
                           ) : (
                             // For non-variant solutions, show interactive rating
-                            <InteractiveRating
+                            <SwipeableRating
                               solution={{
                                 id: solution.id,
                                 title: solution.title,
@@ -708,11 +943,15 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                               variant={{
                                 id: bestVariant.id,
                                 variant_name: bestVariant.variant_name
-                              }} // ✅ FIXED: Added variant prop here!
+                              }}
                               goalId={goal.id}
                               initialRating={bestRating}
                               ratingCount={totalReviews}
+                              isMobile={isMobile}
                               onRatingUpdate={(newRating, newCount) => {
+                                // Set the flag that disables sorting
+                                setHasRatedAny(true);
+                                
                                 // Update local state optimistically
                                 setSolutions(prev => prev.map(s => 
                                   s.id === solution.id 
@@ -746,6 +985,13 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                     </div>
                   </div>
 
+                  {/* Description - Show right after header */}
+                  {solution.description && (
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-3 mb-4">
+                      {solution.description}
+                    </p>
+                  )}
+
                   {/* Key Fields - Desktop: Grid with more spacing */}
                   {(() => {
                     const fieldsToShow = categoryConfig.keyFields.filter(fieldName => {
@@ -756,18 +1002,32 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                     if (fieldsToShow.length === 0) return null
                     
                     return (
-                      <div className="hidden sm:grid sm:grid-cols-3 gap-6 mb-3">
+                      <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4 mb-4 key-fields-grid">
                         {fieldsToShow.map(fieldName => {
-                          const value = getFieldDisplayValue(solution, fieldName, bestVariant)
+                          const distribution = getDistributionForSolutionField(solution, fieldName)
                           
+                          if (distribution && cardView === 'detailed') {
+                            return (
+                              <div key={fieldName} className="field-container min-w-0">
+                                <NewDistributionField
+                                  label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                  distribution={distribution}
+                                  viewMode={cardView}
+                                />
+                              </div>
+                            )
+                          }
+                          
+                          // Fallback to simple display
+                          const value = getFieldDisplayValue(solution, fieldName, bestVariant)
                           return (
-                            <div key={fieldName} className="space-y-1">
+                            <div key={fieldName} className="field-container min-w-0 space-y-1">
                               <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 {categoryConfig.fieldLabels[fieldName] || fieldName}
                               </span>
-                              <span className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+                              <div className="field-value-container text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
                                 {value}
-                              </span>
+                              </div>
                             </div>
                           )
                         })}
@@ -785,18 +1045,41 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                     if (fieldsToShow.length === 0) return null
                     
                     return (
-                      <div className="sm:hidden space-y-3">
+                      <div className="sm:hidden space-y-3 mb-4">
                         {fieldsToShow.map((fieldName, index) => {
-                          const value = getFieldDisplayValue(solution, fieldName, bestVariant)
+                          const distribution = getDistributionForSolutionField(solution, fieldName)
                           
+                          if (distribution && cardView === 'detailed') {
+                            return (
+                              <div key={fieldName} className={`py-3 ${
+                                index < fieldsToShow.length - 1 ? 'border-b border-gray-100 dark:border-gray-700' : ''
+                              }`}>
+                                <NewDistributionField
+                                  label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                  distribution={distribution}
+                                  viewMode={cardView}
+                                  onTapBreakdown={() => {
+                                    setDistributionSheet({
+                                      isOpen: true,
+                                      fieldName: categoryConfig.fieldLabels[fieldName] || fieldName,
+                                      distribution
+                                    })
+                                  }}
+                                />
+                              </div>
+                            )
+                          }
+                          
+                          // Simple view or fallback
+                          const value = getFieldDisplayValue(solution, fieldName, bestVariant)
                           return (
-                            <div key={fieldName} className={`flex items-center justify-between py-2 ${
+                            <div key={fieldName} className={`flex items-center justify-between py-3 ${
                               index < fieldsToShow.length - 1 ? 'border-b border-gray-100 dark:border-gray-700' : ''
                             }`}>
                               <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 {categoryConfig.fieldLabels[fieldName] || fieldName}
                               </span>
-                              <span className="text-sm font-medium text-gray-900 dark:text-gray-100 text-right max-w-[60%]">
+                              <span className="text-sm font-medium text-gray-900 dark:text-gray-100 text-right max-w-[60%] leading-relaxed">
                                 {value}
                               </span>
                             </div>
@@ -807,61 +1090,94 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                   })()}
 
                   {/* Detailed View Additional Fields */}
-                  {viewMode === 'detailed' && (
-                    <>
-                      {solution.description && (
-                        <p className="text-sm text-gray-600 dark:text-gray-300 mt-4">
-                          {solution.description}
-                        </p>
-                      )}
-                      
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 text-sm">
-                        {(() => {
-                          const solutionFields = solution.solution_fields as Record<string, unknown> || {}
-                          const bestVariantFields = bestVariant?.category_fields as Record<string, unknown> || {}
-                          const allFields = { ...solutionFields, ...bestVariantFields }
-                          
-                          // Filter out key fields already shown
-                          const additionalFields = Object.entries(allFields).filter(([key]) => 
-                            !categoryConfig.keyFields.includes(key)
-                          )
-                          
-                          return additionalFields.map(([key, value]) => {
-                            if (!value || (Array.isArray(value) && value.length === 0)) return null
-                            
-                            const label = key.split('_').map(word => 
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                            ).join(' ')
-                            
-                            return (
-                              <div key={key} className="space-y-1">
-                                <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                  {label}
-                                </span>
-                                <span className="block font-medium text-gray-900 dark:text-gray-100">
-                                  {formatArrayField(value)}
-                                </span>
-                              </div>
+                  {cardView === 'detailed' && (() => {
+                    const solutionFields = solution.solution_fields as Record<string, unknown> || {}
+                    const bestVariantFields = bestVariant?.category_fields as Record<string, unknown> || {}
+                    const allFields = { ...solutionFields, ...bestVariantFields }
+                    
+                    return (
+                      <>
+                        <div className="additional-fields-grid text-sm">
+                          {(() => {
+                            // Filter out key fields already shown
+                            const additionalFields = Object.entries(allFields).filter(([key]) => 
+                              !categoryConfig.keyFields.includes(key)
                             )
-                          })
-                        })()}
-                      </div>
+                            
+                            return additionalFields.map(([key, value]) => {
+                              if (!value || (Array.isArray(value) && value.length === 0)) return null
+                              
+                              const label = key.split('_').map(word => 
+                                word.charAt(0).toUpperCase() + word.slice(1)
+                              ).join(' ')
+                              
+                              // Add extra spacing for fields that typically have longer content
+                              const needsExtraSpacing = ['challenges', 'social_impact', 'social_impacts'].includes(key.toLowerCase())
+                              
+                              return (
+                                <div key={key} className={`additional-field-item ${needsExtraSpacing ? 'mb-4' : ''}`}>
+                                  <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    {label}
+                                  </span>
+                                  <div className="font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
+                                    {formatArrayField(value, key)}
+                                  </div>
+                                </div>
+                              )
+                            })
+                          })()}
+                        </div>
+                        
+                        {/* Side Effects Section with Hover */}
+                        {(() => {
+                          const sideEffects = allFields.side_effects || solutionFields.side_effects || bestVariantFields.side_effects
+                        if (!sideEffects || (Array.isArray(sideEffects) && sideEffects.length === 0)) return null
+                        
+                        const effectsArray = Array.isArray(sideEffects) ? sideEffects : [sideEffects]
+                        
+                        return (
+                          <div className="side-effects-section mt-4">
+                            <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                              Side Effects <span className="font-normal text-gray-400 dark:text-gray-500 normal-case tracking-normal">(add yours)</span>
+                            </div>
+                            <div className="flex flex-wrap gap-1.5 items-center">
+                              {effectsArray.map((effect, index) => (
+                                <span key={index} className="side-effect-chip">
+                                  {effect}
+                                </span>
+                              ))}
+                              <button className="add-effect-inline">
+                                <span>+</span>
+                                <span>Add side effect</span>
+                              </button>
+                            </div>
+                          </div>
+                        )
+                      })()}
                     </>
-                  )}
-                  
-                  {/* Always show description for solutions with key fields */}
-                  {viewMode === 'simple' && solution.description && (
-                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-4">
-                      {solution.description}
-                    </p>
+                  )
+                })()}
+
+                  {/* Mobile hint for detailed view */}
+                  {cardView === 'detailed' && isMobile && categoryConfig.keyFields.some(field => getFieldDisplayValue(solution, field, bestVariant)) && (
+                    <div className="text-xs text-gray-500 dark:text-gray-400 text-center mt-3 sm:hidden">
+                      Tap 📊 for breakdown
+                    </div>
                   )}
 
                   {/* Expandable Variants */}
                   {hasVariants && (
                     <>
                       <button
-                        onClick={() => toggleVariants(solution.id)}
-                        className="mt-4 text-sm font-medium text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 inline-flex items-center gap-1"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (isMobile) {
+                            setVariantSheet({ isOpen: true, solution });
+                          } else {
+                            toggleVariants(solution.id);
+                          }
+                        }}
+                        className="view-options-button mt-3"
                       >
                         View all {solution.variants.length} options
                         <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -882,7 +1198,7 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                                   <span className="font-medium text-gray-900 dark:text-gray-100">
                                     {variant.variant_name}
                                   </span>
-                                  {viewMode === 'detailed' && variant.category_fields && (
+                                  {cardView === 'detailed' && variant.category_fields && (
                                     <div className="mt-1 grid grid-cols-2 gap-2 text-xs">
                                       {categoryConfig.keyFields.map(fieldName => {
                                         const value = getFieldDisplayValue(solution, fieldName, variant)
@@ -903,7 +1219,7 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                                   )}
                                 </div>
                                 {rating > 0 && (
-                                  <InteractiveRating
+                                  <SwipeableRating
                                     solution={{
                                       id: solution.id,
                                       title: solution.title,
@@ -916,7 +1232,11 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                                     goalId={goal.id}
                                     initialRating={rating}
                                     ratingCount={ratingCount}
+                                    isMobile={isMobile}
                                     onRatingUpdate={(newRating, newCount) => {
+                                      // Set the flag that disables sorting
+                                      setHasRatedAny(true);
+                                      
                                       // Update variant rating in local state
                                       setSolutions(prev => prev.map(s => 
                                         s.id === solution.id 
@@ -994,6 +1314,25 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
         <span className="hidden sm:inline">Share What Worked</span>
         <span className="sm:hidden">Share</span>
       </Link>
+
+      {/* Distribution Sheet for Mobile */}
+      {distributionSheet.isOpen && distributionSheet.distribution && (
+        <NewDistributionSheet
+          isOpen={distributionSheet.isOpen}
+          onClose={() => setDistributionSheet({ isOpen: false, fieldName: '', distribution: null })}
+          fieldName={distributionSheet.fieldName}
+          distribution={distributionSheet.distribution}
+        />
+      )}
+      
+      {/* Variant Sheet for Mobile */}
+      {variantSheet.isOpen && variantSheet.solution && (
+        <VariantSheet
+          solution={variantSheet.solution}
+          isOpen={variantSheet.isOpen}
+          onClose={() => setVariantSheet({ isOpen: false, solution: null })}
+        />
+      )}
     </>
   )
 }
