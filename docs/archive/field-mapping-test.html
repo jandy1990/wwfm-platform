@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f5f5f5;
+    padding: 20px;
+    margin: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .page-header {
+    background: white;
+    padding: 32px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  
+  .goal-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+  }
+  
+  .solution-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .solution-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  
+  .solution-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .category-tag {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  
+  .key-info {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  
+  .info-item {
+    min-width: 180px;
+  }
+  
+  .info-label {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  
+  .info-value {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .field-mapping {
+    background: #f3f4f6;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 12px;
+    font-size: 12px;
+    font-family: monospace;
+  }
+  
+  .mapping-row {
+    margin: 4px 0;
+  }
+  
+  .side-effects {
+    background: #fef3c7;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-top: 12px;
+  }
+  
+  .side-effects-label {
+    font-size: 11px;
+    color: #92400e;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+  
+  /* Category colors */
+  .tag-medication { background: #fee2e2; color: #991b1b; }
+  .tag-supplement { background: #dbeafe; color: #1e40af; }
+  .tag-natural { background: #fef3c7; color: #92400e; }
+  .tag-beauty { background: #fce7f3; color: #9f1239; }
+  .tag-therapy { background: #ddd6fe; color: #6b21a8; }
+  .tag-doctor { background: #e0e7ff; color: #3730a3; }
+  .tag-coach { background: #fef3c7; color: #92400e; }
+  .tag-alternative { background: #d1fae5; color: #065f46; }
+  .tag-service { background: #f3e8ff; color: #6b21a8; }
+  .tag-procedure { background: #fee2e2; color: #991b1b; }
+  .tag-crisis { background: #fce7f3; color: #9f1239; }
+  .tag-exercise { background: #d1fae5; color: #065f46; }
+  .tag-meditation { background: #e0e7ff; color: #3730a3; }
+  .tag-habit { background: #fef3c7; color: #92400e; }
+  .tag-hobby { background: #f3e8ff; color: #6b21a8; }
+  .tag-app { background: #dbeafe; color: #1e40af; }
+  .tag-product { background: #e5e7eb; color: #374151; }
+  .tag-book { background: #fef3c7; color: #92400e; }
+  .tag-community { background: #d1fae5; color: #065f46; }
+  .tag-support { background: #fee2e2; color: #991b1b; }
+  .tag-diet { background: #dcfce7; color: #166534; }
+  .tag-sleep { background: #e0e7ff; color: #3730a3; }
+  .tag-financial { background: #ecfccb; color: #365314; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1 class="goal-title">Reduce anxiety</h1>
+  <div style="color: #666; margin-top: 8px;">Testing all 23 solution categories with field mapping</div>
+</div>
+
+<!-- 1. SUPPLEMENTS & VITAMINS -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Magnesium Glycinate
+        <span class="category-tag tag-supplement">Supplements</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Best variant: 400mg capsules</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">$10-25/month</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Side Effects</div>
+      <div class="info-value">Drowsiness • Loose stools</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">1-2 weeks</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: dosage_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (monthly dropdown)</div>
+    <div class="mapping-row">side_effects → solution_fields.side_effects_common (multi-select)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+    <div class="mapping-row">Variant: solution_variants.variant_name + amount + unit</div>
+  </div>
+</div>
+
+<!-- 2. MEDICATIONS -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Sertraline
+        <span class="category-tag tag-medication">Medication</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Most effective: 50mg daily</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Side Effects</div>
+      <div class="info-value">Nausea • Insomnia • Sexual</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">$10-25/month</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">3-4 weeks</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: dosage_form</div>
+    <div class="mapping-row">side_effects → solution_fields.side_effects_common (multi-select)</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (monthly dropdown)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+    <div class="mapping-row">Variant: solution_variants.variant_name + amount + unit</div>
+  </div>
+</div>
+
+<!-- 3. NATURAL REMEDIES -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        L-Theanine
+        <span class="category-tag tag-natural">Natural</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Best results: 200mg capsules</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">$10-25/month</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Side Effects</div>
+      <div class="info-value">Mild headache • Vivid dreams</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">Immediately</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: dosage_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (monthly dropdown)</div>
+    <div class="mapping-row">side_effects → solution_fields.side_effects_common (multi-select)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+    <div class="mapping-row">Variant: solution_variants.variant_name + amount + unit</div>
+  </div>
+</div>
+
+<!-- 4. BEAUTY & SKINCARE (weird for anxiety but testing) -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Lavender Face Mist
+        <span class="category-tag tag-beauty">Beauty</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Calming aromatherapy spray</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">$10-25/month</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Side Effects</div>
+      <div class="info-value">None • Allergic reaction (rare)</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">Immediately</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: dosage_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (monthly dropdown)</div>
+    <div class="mapping-row">side_effects → solution_fields.side_effects_common (multi-select)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+    <div class="mapping-row">Product Type: solution_fields.product_type (dropdown)</div>
+  </div>
+</div>
+
+<!-- 5. THERAPISTS & COUNSELORS -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        CBT Therapy
+        <span class="category-tag tag-therapy">Therapy</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Cognitive Behavioral Therapy</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">$100-150/session</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">3-4 weeks</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Typical Treatment</div>
+      <div class="info-value">8-12 sessions</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: session_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (per session dropdown)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+    <div class="mapping-row">typical_treatment_length → solution_fields.treatment_length_mode (dropdown)</div>
+    <div class="mapping-row">NO side_effects field for therapy</div>
+  </div>
+</div>
+
+<!-- 6. DOCTORS & SPECIALISTS -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Psychiatrist
+        <span class="category-tag tag-doctor">Doctor</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Medication management specialist</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">$150-250/session</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Wait Time</div>
+      <div class="info-value">2-4 weeks</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">3-4 weeks</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: session_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (per session dropdown)</div>
+    <div class="mapping-row">wait_time → solution_fields.wait_time_mode (dropdown)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+    <div class="mapping-row">NO side_effects field for doctors</div>
+  </div>
+</div>
+
+<!-- 7. COACHES & MENTORS -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Life Coach
+        <span class="category-tag tag-coach">Coach</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Anxiety management coaching</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">$75-125/session</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">1-2 weeks</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Format</div>
+      <div class="info-value">Virtual/Online</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: session_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (per session dropdown)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+    <div class="mapping-row">format → solution_fields.format_mode (dropdown)</div>
+    <div class="mapping-row">NO side_effects field for coaches</div>
+  </div>
+</div>
+
+<!-- 8. ALTERNATIVE PRACTITIONERS -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Acupuncture
+        <span class="category-tag tag-alternative">Alternative</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Traditional Chinese medicine</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">$75-150/session</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">1-2 weeks</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Side Effects</div>
+      <div class="info-value">Bruising • Temporary soreness</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: session_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (per session dropdown)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+    <div class="mapping-row">side_effects → solution_fields.side_effects_common (multi-select)</div>
+    <div class="mapping-row">HAS side_effects unlike other session forms</div>
+  </div>
+</div>
+
+<!-- 9. PROFESSIONAL SERVICES -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Massage Therapy
+        <span class="category-tag tag-service">Service</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Deep tissue for stress relief</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">$75-125/session</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Frequency Needed</div>
+      <div class="info-value">Weekly</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time Commitment</div>
+      <div class="info-value">60 minutes</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: session_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (per session dropdown)</div>
+    <div class="mapping-row">session_frequency → solution_fields.frequency_mode (dropdown)</div>
+    <div class="mapping-row">session_length → solution_fields.session_length_mode (dropdown)</div>
+    <div class="mapping-row">NO side_effects, NO treatment length</div>
+  </div>
+</div>
+
+<!-- 10. MEDICAL PROCEDURES -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        TMS Therapy
+        <span class="category-tag tag-procedure">Procedure</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Transcranial Magnetic Stimulation</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Total Cost</div>
+      <div class="info-value">$5,000-10,000</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Recovery Time</div>
+      <div class="info-value">None needed</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Risks</div>
+      <div class="info-value">Headache • Scalp discomfort</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: session_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (total cost dropdown)</div>
+    <div class="mapping-row">wait_time → solution_fields.recovery_time (text - custom for procedures)</div>
+    <div class="mapping-row">side_effects → solution_fields.risks_common (multi-select)</div>
+    <div class="mapping-row">Uses "risks" instead of "side effects"</div>
+  </div>
+</div>
+
+<!-- 11. CRISIS RESOURCES -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Crisis Text Line
+        <span class="category-tag tag-crisis">Crisis</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Text HOME to 741741</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">Free</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Availability</div>
+      <div class="info-value">24/7</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Wait Time</div>
+      <div class="info-value">Immediate response</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: session_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (dropdown - includes Free)</div>
+    <div class="mapping-row">availability → solution_fields.availability (multi-select)</div>
+    <div class="mapping-row">wait_time → solution_fields.response_time (custom for crisis)</div>
+    <div class="mapping-row">NO side_effects, NO treatment length</div>
+  </div>
+</div>
+
+<!-- 12. EXERCISE & MOVEMENT -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Running
+        <span class="category-tag tag-exercise">Exercise</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Cardio for anxiety relief</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">$100-250 startup<br>Free ongoing</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Challenges</div>
+      <div class="info-value">Weather • Knee issues</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">1-2 weeks</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: practice_form</div>
+    <div class="mapping-row">cost → solution_fields.startup_cost + ongoing_cost (dual dropdowns)</div>
+    <div class="mapping-row">challenges → solution_fields.challenges_common (multi-select)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+  </div>
+</div>
+
+<!-- 13. MEDITATION & MINDFULNESS -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Breath Work
+        <span class="category-tag tag-meditation">Meditation</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">4-7-8 breathing technique</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">Free</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">Immediately</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Challenges</div>
+      <div class="info-value">Difficulty concentrating</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: practice_form</div>
+    <div class="mapping-row">cost → solution_fields.startup_cost + ongoing_cost (both Free)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+    <div class="mapping-row">challenges → solution_fields.challenges_common (multi-select)</div>
+  </div>
+</div>
+
+<!-- 14. HABITS & ROUTINES -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Morning Routine
+        <span class="category-tag tag-habit">Habit</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Structured start to reduce anxiety</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Time Investment</div>
+      <div class="info-value">30-60 minutes</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Difficulty</div>
+      <div class="info-value">Moderate</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Common Obstacles</div>
+      <div class="info-value">Inconsistent schedule</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: practice_form</div>
+    <div class="mapping-row">time_commitment → solution_fields.time_investment (dropdown)</div>
+    <div class="mapping-row">difficulty_level → solution_fields.difficulty (dropdown)</div>
+    <div class="mapping-row">challenges → solution_fields.obstacles_common (multi-select)</div>
+    <div class="mapping-row">Cost typically Free (not shown if free)</div>
+  </div>
+</div>
+
+<!-- 15. HOBBIES & ACTIVITIES -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Gardening
+        <span class="category-tag tag-hobby">Hobby</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Therapeutic plant care</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Startup Cost</div>
+      <div class="info-value">$50-200</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Enjoyment</div>
+      <div class="info-value">Immediately</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Learning Curve</div>
+      <div class="info-value">Easy</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: hobby_form</div>
+    <div class="mapping-row">cost → solution_fields.startup_cost (dropdown)</div>
+    <div class="mapping-row">time_to_enjoyment → solution_fields.enjoyment_timeline (dropdown)</div>
+    <div class="mapping-row">learning_difficulty → solution_fields.learning_curve (dropdown)</div>
+    <div class="mapping-row">Also has ongoing_cost field (not shown if minimal)</div>
+  </div>
+</div>
+
+<!-- 16. APPS & SOFTWARE -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Headspace
+        <span class="category-tag tag-app">App</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Guided meditation app</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">$12.99/month</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">Within days</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Usage Frequency</div>
+      <div class="info-value">Daily</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: app_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (subscription dropdown)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+    <div class="mapping-row">usage_frequency → solution_fields.usage_pattern (dropdown)</div>
+    <div class="mapping-row">Has toggle for one-time vs subscription</div>
+  </div>
+</div>
+
+<!-- 17. PRODUCTS & DEVICES -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Weighted Blanket
+        <span class="category-tag tag-product">Product</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">15-20 lb anxiety relief blanket</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">$50-100</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Ease of Use</div>
+      <div class="info-value">Very easy</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">Immediately</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: purchase_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (one-time dropdown)</div>
+    <div class="mapping-row">ease_of_use → solution_fields.ease_of_use (dropdown)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+    <div class="mapping-row">Has toggle for one-time vs ongoing costs</div>
+  </div>
+</div>
+
+<!-- 18. BOOKS & COURSES -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        The Anxiety Toolkit
+        <span class="category-tag tag-book">Book</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">CBT-based self-help book</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">$10-20</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Complete</div>
+      <div class="info-value">1-2 weeks</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Difficulty Level</div>
+      <div class="info-value">Easy</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: purchase_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (one-time dropdown)</div>
+    <div class="mapping-row">completion_time → solution_fields.time_to_complete (estimate)</div>
+    <div class="mapping-row">learning_difficulty → solution_fields.difficulty_level (dropdown)</div>
+    <div class="mapping-row">Uses learning_difficulty not difficulty_level in form</div>
+  </div>
+</div>
+
+<!-- 19. GROUPS & COMMUNITIES -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Anxiety Meetup Group
+        <span class="category-tag tag-community">Community</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Local peer support community</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">Free</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">First session</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Accessibility</div>
+      <div class="info-value">Very welcoming</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: community_form</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (dropdown includes Free)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+    <div class="mapping-row">accessibility_level → solution_fields.beginner_friendly (dropdown)</div>
+    <div class="mapping-row">Label is "Beginner friendly?" in form</div>
+  </div>
+</div>
+
+<!-- 20. SUPPORT GROUPS -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        SMART Recovery
+        <span class="category-tag tag-support">Support</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">4-Point Program for anxiety</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Format</div>
+      <div class="info-value">Hybrid (both)</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Meeting Schedule</div>
+      <div class="info-value">Weekly</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Approach</div>
+      <div class="info-value">Peer-led</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: community_form</div>
+    <div class="mapping-row">format → solution_fields.format_mode (dropdown)</div>
+    <div class="mapping-row">meeting_frequency → solution_fields.schedule (dropdown)</div>
+    <div class="mapping-row">leadership_style → solution_fields.approach (dropdown)</div>
+    <div class="mapping-row">Leadership style only for support groups</div>
+  </div>
+</div>
+
+<!-- 21. DIET & NUTRITION -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Anti-Inflammatory Diet
+        <span class="category-tag tag-diet">Diet</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Reduce anxiety through nutrition</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Cost Impact</div>
+      <div class="info-value">Somewhat more expensive</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Challenges</div>
+      <div class="info-value">Meal planning • Social situations</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Time to Results</div>
+      <div class="info-value">3-4 weeks</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: lifestyle_form</div>
+    <div class="mapping-row">cost_impact → solution_fields.cost_impact (relative dropdown)</div>
+    <div class="mapping-row">challenges → solution_fields.adherence_challenges (multi-select)</div>
+    <div class="mapping-row">time_to_results → solution_fields.time_to_results_mode (dropdown)</div>
+    <div class="mapping-row">Label is "Adherence challenges" in form</div>
+  </div>
+</div>
+
+<!-- 22. SLEEP -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Sleep Hygiene Routine
+        <span class="category-tag tag-sleep">Sleep</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Consistent bedtime practices</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Time Commitment</div>
+      <div class="info-value">8-9 hours/night</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Cost</div>
+      <div class="info-value">Free</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Adjustment Period</div>
+      <div class="info-value">1-2 weeks</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: lifestyle_form</div>
+    <div class="mapping-row">time_commitment → solution_fields.schedule_impact (custom)</div>
+    <div class="mapping-row">cost → solution_fields.cost_mode (dropdown includes Free)</div>
+    <div class="mapping-row">adjustment_period → solution_fields.adjustment_time (dropdown)</div>
+    <div class="mapping-row">Sleep uses different cost structure than diet</div>
+  </div>
+</div>
+
+<!-- 23. FINANCIAL PRODUCTS (really stretching here) -->
+<div class="solution-card">
+  <div class="solution-header">
+    <div>
+      <h3 class="solution-title">
+        Emergency Fund
+        <span class="category-tag tag-financial">Financial</span>
+      </h3>
+      <div style="font-size: 13px; color: #666; margin-top: 4px;">Financial buffer reduces anxiety</div>
+    </div>
+  </div>
+  
+  <div class="key-info">
+    <div class="info-item">
+      <div class="info-label">Requirements</div>
+      <div class="info-value">$1000 minimum</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Interest Rate</div>
+      <div class="info-value">4.5% APY</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Accessibility</div>
+      <div class="info-value">Instant access</div>
+    </div>
+  </div>
+  
+  <div class="field-mapping">
+    <div class="mapping-row">Form: financial_form</div>
+    <div class="mapping-row">minimum_requirements → solution_fields.requirements (multi-select)</div>
+    <div class="mapping-row">interest_rate → solution_fields.rate_apr (text → range)</div>
+    <div class="mapping-row">access_time → solution_fields.liquidity (dropdown)</div>
+    <div class="mapping-row">Financial benefit field also exists (not shown)</div>
+  </div>
+</div>
+
+</body>
+</html>

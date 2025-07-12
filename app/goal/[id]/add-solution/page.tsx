@@ -2,8 +2,8 @@
 
 import { Metadata } from 'next'
 import { redirect, notFound } from 'next/navigation'
-import { createSupabaseServerClient } from '@/lib/supabase-server'
-import SolutionFormWithAutoCategory from '@/components/solutions/SolutionFormWithAutoCategory'
+import { createServerSupabaseClient } from '@/lib/database/server'
+import SolutionFormWithAutoCategory from '@/components/organisms/solutions/SolutionFormWithAutoCategory'
 
 export const metadata: Metadata = {
   title: 'Share What Worked | WWFM',
@@ -18,7 +18,7 @@ export default async function AddSolutionPage({ params }: PageProps) {
   const resolvedParams = await params
   
   // Create Supabase client
-  const supabase = await createSupabaseServerClient()
+  const supabase = await createServerSupabaseClient()
   
   // Check authentication
   const { data: { user } } = await supabase.auth.getUser()

@@ -2,7 +2,7 @@
 
 'use client'
 
-import ResetPasswordForm from '@/components/auth/ResetPasswordForm'
+import ResetPasswordForm from '@/components/organisms/auth/ResetPasswordForm'
 
 export default function ResetPasswordPage() {
   return (

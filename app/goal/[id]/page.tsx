@@ -2,11 +2,11 @@
 
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { createSupabaseServerClient } from '@/lib/supabase-server'
-import { getGoalSolutions, type GoalSolutionWithVariants } from '@/lib/goal-solutions'
-import Breadcrumbs, { createBreadcrumbs } from '@/components/ui/Breadcrumbs'
-import GoalPageClient from '@/components/goal/GoalPageClient'
-import { getRelatedGoals } from '@/lib/services/related-goals'
+import { createServerSupabaseClient } from '@/lib/database/server'
+import { getGoalSolutions, type GoalSolutionWithVariants } from '@/lib/solutions/goal-solutions'
+import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrumbs'
+import GoalPageClient from '@/components/templates/GoalPageClient'
+import { getRelatedGoals } from '@/lib/solutions/related-goals'
 
 type Goal = {
   id: string
@@ -27,7 +27,7 @@ type Goal = {
 }
 
 async function getGoal(id: string): Promise<Goal | null> {
-  const supabase = await createSupabaseServerClient()
+  const supabase = await createServerSupabaseClient()
   
   const { data, error } = await supabase
     .from('goals')

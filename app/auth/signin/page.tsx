@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import SignInForm from '@/components/auth/SignInForm'
+import SignInForm from '@/components/organisms/auth/SignInForm'
 
 function SignInContent() {
   const searchParams = useSearchParams()

@@ -6,7 +6,7 @@ export const revalidate = 0
 
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { createSupabaseServerClient } from '@/lib/supabase-server'
+import { createServerSupabaseClient } from '@/lib/database/server'
 import Breadcrumbs, { createBreadcrumbs } from '@/components/ui/Breadcrumbs'
 import EmptyState from '@/components/ui/EmptyState'
 
@@ -35,7 +35,7 @@ type Category = {
 }
 
 async function getCategoryWithGoals(slug: string) {
-  const supabase = await createSupabaseServerClient()
+  const supabase = await createServerSupabaseClient()
   
   console.log('Looking for category with slug:', slug)
   

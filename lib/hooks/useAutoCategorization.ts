@@ -1,6 +1,6 @@
 // lib/hooks/useAutoCategorization.ts
 import { useState, useCallback, useRef } from 'react';
-import { detectFromInput, DetectionResult } from '@/lib/services/auto-categorization';
+import { detectFromInput, DetectionResult } from '@/lib/solutions/categorization';
 
 interface UseAutoCategorization {
   detectionResult: DetectionResult | null;

@@ -1,96 +1,184 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WWFM Platform - What Works For Me
 
-## Getting Started
+> Crowdsourcing what actually works for life's challenges
 
-First, run the development server:
+WWFM aggregates real experiences from real people to show which solutions are most effective for specific life goals. From managing anxiety to getting promoted, users can discover what worked for others facing similar challenges.
+
+## 🎯 Why WWFM?
+
+- **652 Life Goals**: Covering everything from mental health to career growth
+- **Real Effectiveness Data**: Aggregated ratings from actual users
+- **No Fluff**: Just solutions ranked by what actually worked
+- **Smart Categorization**: 10,000+ keywords automatically organize contributions
+- **Progressive Disclosure**: Simple overviews or detailed breakdowns - you choose
+
+## 📊 Current Status
+
+- **Platform**: ✅ Operational and accepting contributions
+- **Goal Coverage**: 240/652 goals have solutions (37%) → targeting 80% for launch
+- **Solutions**: 529 entries across 23 categories
+- **Forms**: 1/9 form templates implemented
+- **Next Priority**: Complete remaining forms and expand content
+
+## 🚀 Quick Start
+
+Get the platform running locally in under 5 minutes:
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/yourusername/wwfm-platform.git
+cd wwfm-platform
+
+# 2. Install dependencies
+npm install
+
+# 3. Set up environment variables
+cp .env.example .env.local
+# Add your Supabase credentials to .env.local
+
+# 4. Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 5. Open http://localhost:3002 in your browser
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+You should now see the WWFM homepage! Try:
+- Browsing goals by arena
+- Searching for "anxiety" or "sleep"
+- Viewing solution effectiveness ratings
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🏗️ Architecture
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+WWFM uses a modern JAMstack architecture:
 
-## Learn More
+```
+Next.js 15 (React) → Vercel Edge → Supabase (PostgreSQL)
+```
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend**: Server-first React with TypeScript
+- **Database**: PostgreSQL with Row Level Security
+- **Search**: Fuzzy matching with pg_trgm
+- **Auth**: Supabase Auth with email verification
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+For detailed architecture information, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 Documentation
 
-## Deploy on Vercel
+### Core Documentation
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - System design, patterns, and key decisions
+- **[Database Schema](/docs/database/schema.md)** - Complete database structure and relationships
+- **[Form Templates](/docs/forms/README.md)** - All 9 form specifications and field mappings
+- **[Goals Taxonomy](/data/taxonomy.md)** - Complete hierarchy of 652 goals
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Development Guides
+- **[DEBUGGING.md](./DEBUGGING.md)** - Common issues and solutions
+- **[WORKFLOW.md](./WORKFLOW.md)** - Development best practices
+- **[CLAUDE.md](./CLAUDE.md)** - AI assistant collaboration guide
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-=======
-What Worked For Me (WWFM)
-A platform that organizes solutions by effectiveness, helping people discover what actually works for their goals based on community experiences.
-Vision
-WWFM helps people achieve their goals by organizing information around effectiveness rather than marketing. We collect real user experiences to rank solutions based on what actually works, not what's advertised most heavily.
-Project Status
-This project is currently in early development. We are building the foundation and core features.
-Tech Stack
+## 🛠️ Development
 
-Frontend: Next.js, React, TypeScript, Tailwind CSS
-Backend: Node.js, Express (via Next.js API routes)
-Database: PostgreSQL (via Supabase)
-Hosting: Vercel
-Authentication: Supabase Auth
+### Project Structure
+```
+wwfm-platform/
+├── app/                    # Next.js App Router pages
+├── components/             # React components
+│   ├── solutions/         # Solution forms and displays
+│   │   └── forms/        # 9 form templates
+│   └── ui/               # Reusable UI components
+├── lib/                   # Utilities and services
+│   ├── supabase/         # Database clients
+│   └── services/         # Business logic
+├── types/                 # TypeScript definitions
+├── data/                  # Reference data
+│   └── taxonomy.md       # Goals hierarchy
+└── docs/                  # Documentation
+    ├── database/         # Schema documentation
+    └── forms/            # Form specifications
+```
 
-Getting Started
-Prerequisites
-Before you begin, make sure you have these programs installed on your computer:
+### Key Concepts
 
-Node.js (version 16 or newer) - This runs JavaScript on your computer
-npm or yarn - These help install and manage code packages
-A Supabase account - This provides our database and user login system
+1. **Solutions vs Variants**: Solutions are generic ("Vitamin D"), variants are specific ("1000 IU softgel")
+2. **Goal-Specific Effectiveness**: Same solution can work differently for different goals
+3. **Form System**: 23 categories map to 9 form templates
+4. **Auto-Categorization**: Keywords determine which form to show
 
-Step-by-Step Installation
+### Available Scripts
 
-Copy this project to your computer
-Open your terminal or command prompt and type these commands:
-git clone https://github.com/jandy1990/wwfm-platform.git
-cd wwfm-platform
-This downloads all the project files and moves you into the project folder.
-Install all necessary code packages
-In the same terminal window, type:
-npm install
-Or if you use yarn:
-yarn
-This installs all the required code libraries the project needs to run.
-Set up your private settings
-cp .env.example .env.local
-This creates a new file called .env.local by copying the example file.
-Next, open the new .env.local file in any text editor and replace the placeholder values with your own Supabase account information.
-Start the development server
-In your terminal, type:
-npm run dev
-Or with yarn:
-yarn dev
-This starts the project on your computer.
-View the website
-Open your web browser and go to:
-http://localhost:3000
-You should now see the WWFM website running on your own computer!
+```bash
+npm run dev          # Start development server (port 3002)
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run type-check   # TypeScript checking
+npm run format       # Prettier formatting
+```
 
-Project Structure
-This section will be updated as we develop the project structure.
-Contributing
-As this project is in early development, please reach out before making contributions. We're still establishing the core architecture and development practices.
-License
-Copyright (c) 2025 jandy1990
-All rights reserved.
->>>>>>> bc0da8349a12ec76ad558745218f72e2a3663ec9
+### Making Contributions
+
+1. **Adding a Solution**: 
+   - User types solution name
+   - System auto-categorizes or shows picker
+   - Appropriate form loads (1 of 9 types)
+   - Data saved to `solutions`, `solution_variants`, and `goal_implementation_links`
+
+2. **Rating a Solution**:
+   - Hover (desktop) or swipe (mobile) to reveal stars
+   - Rating updates aggregate effectiveness
+   - Private individual ratings, public aggregates
+
+## 🐛 Known Issues
+
+1. **Rating Bug**: Fixed! Was missing variant prop in InteractiveRating component
+2. **Forms**: 8/9 forms still need implementation
+3. **Content**: Need ~1,500 more solutions for launch readiness
+
+See [DEBUGGING.md](./DEBUGGING.md) for detailed troubleshooting.
+
+## 🚧 Roadmap
+
+### Immediate (This Week)
+- [ ] Implement remaining 8 form templates
+- [ ] Fix TypeScript strict mode errors
+- [ ] Add loading skeletons
+
+### Short Term (This Month)
+- [ ] Generate 1,500+ AI seed solutions
+- [ ] Admin moderation queue
+- [ ] Email notifications
+- [ ] Performance optimization
+
+### Medium Term
+- [ ] User profiles and contribution history
+- [ ] Advanced filtering and search
+- [ ] Mobile app consideration
+- [ ] Analytics dashboard
+
+## 🤝 Contributing
+
+We welcome contributions! Please:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Follow existing code patterns (see [ARCHITECTURE.md](./ARCHITECTURE.md))
+4. Test with both anonymous and authenticated users
+5. Submit a Pull Request
+
+### Coding Standards
+- TypeScript with no `any` types
+- Server Components by default
+- Comprehensive error handling
+- Mobile-first responsive design
+- Accessible UI (WCAG 2.1 AA target)
+
+## 📄 License
+
+Private repository - all rights reserved.
+
+## 🙏 Acknowledgments
+
+WWFM exists to help people find what actually works for life's challenges. Every contribution makes the platform more valuable for someone seeking solutions.
+
+---
+
+**Need help?** Check the [documentation](#-documentation) or open an issue.

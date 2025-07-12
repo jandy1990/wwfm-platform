@@ -1,4 +1,4 @@
-import { PageLoadingSkeleton } from '@/components/ui/SkeletonLoader'
+import { PageLoadingSkeleton } from '@/components/atoms/SkeletonLoader'
 
 export default function Loading() {
   return (

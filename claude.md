@@ -1,192 +1,130 @@
-# claude.md - WWFM AI Collaboration Guide
+CLAUDE.md - WWFM Project Overview for AI Assistants
+🎯 What is WWFM?
+WWFM (What Works For Me) is a platform that crowdsources solutions to life challenges. Users share what actually worked for them - from reducing anxiety to getting promoted - creating a searchable database of real-world solutions with effectiveness ratings.
 
-## Project Overview
+Core Innovation: We organize by problems (goals) not products. Instead of "here's what Vitamin D does," we show "here's what worked for people trying to sleep better" (which might include Vitamin D among 50+ other solutions).
 
-**WWFM (What Works For Me)** is a platform where people share solutions that actually worked for their life challenges. Users browse goals, see aggregated effectiveness ratings, and contribute their own experiences.
+🏗️ Technical Stack
+Frontend: Next.js 15.3.2 (App Router), TypeScript, Tailwind CSS
+Backend: Supabase (PostgreSQL with RLS, Auth, Real-time)
+Hosting: Vercel
+Search: PostgreSQL with pg_trgm for fuzzy matching
+📊 Data Architecture
+Core Entities
+Goals (652 total) - Life challenges like "Reduce anxiety" or "Sleep better"
+Solutions (529 total) - Generic approaches like "Meditation" or "Vitamin D"
+Solution Variants (190 total) - Specific versions like "200mg capsule"
+Ratings - User effectiveness scores (1-5 stars) with optional details
+Key Relationships
+Arena (13) → Category (75) → Goals (652)
+                                ↓
+                    goal_implementation_links
+                                ↓
+                        solution_variants → solutions
+Important Rules
+Every solution MUST have at least one variant
+Only 4 categories use real variants: medications, supplements_vitamins, natural_remedies, beauty_skincare
+All other categories use a single "Standard" variant
+Effectiveness is stored in goal_implementation_links, NOT on variants
+📁 Project Structure
+wwfm-platform/
+├── app/                    # Next.js App Router pages
+├── components/            
+│   ├── ui/                # Reusable UI components
+│   ├── solutions/         # Solution-specific components
+│   │   └── forms/         # 9 form types (23 categories)
+│   └── layout/            # Layout components
+├── lib/
+│   ├── supabase/          # Database client setup
+│   ├── services/          # Business logic
+│   └── utils/             # Helper functions
+└── types/                 # TypeScript definitions
+🎨 Key User Flows
+1. Browse & Discover
+Users browse Arenas → Categories → Goals
+Each goal shows solutions sorted by effectiveness
+Solutions display aggregated user data (ratings, side effects, costs)
+2. Contribute Solutions
+Users click "Share What Worked" on any goal
+Auto-categorization suggests the right form (1 of 9 types)
+Forms capture effectiveness, details, and what didn't work
+Submissions require authentication
+3. Rate Solutions
+Quick rating: Hover (desktop) or swipe (mobile) to rate 1-5 stars
+Detailed rating: Full form with duration, side effects, completion %
+🔧 Development Guidelines
+Form System
+9 form templates map to 23 solution categories
+Each form has required fields (effectiveness, time to results, cost)
+Optional fields vary by category (dosage, frequency, side effects)
+All forms support "What else did you try?" for failed solutions
+Component Patterns
+Server Components by default, Client Components only for interactivity
+Use TypeScript strictly - no any types
+Implement loading states for all async operations
+Handle errors gracefully with user-friendly messages
+Database Access
+Always use Supabase client (server or client version as appropriate)
+Respect Row Level Security (RLS) policies
+Use proper TypeScript types matching database schema
+Implement optimistic updates for better UX
+🚀 Current State & Priorities
+What's Working
+Core browse experience
+Goal/solution display
+Basic search with fuzzy matching
+User authentication
+One form type (DosageForm)
+What Needs Work
+8 remaining form templates
+Solution detail pages
+Admin moderation tools
+Email notifications
+Performance optimization
+More comprehensive error handling
+Platform Metrics
+652 goals across 13 life arenas
+35% of goals have solutions
+Target: 80% coverage with 2,000+ solutions
+Average effectiveness: 4.2/5 (AI seeded)
+💡 Key Concepts to Understand
+Solution vs Implementation
+Solution: Generic approach (e.g., "Therapy")
+Implementation: Specific application to a goal
+Variant: Specific version of a solution (e.g., "CBT Therapy")
+Effectiveness Tracking
+Stored per goal-solution combination
+Same solution can have different effectiveness for different goals
+Aggregated from user ratings
+AI seed data provides initial ratings
+Progressive Disclosure
+Simple view: Essential info only
+Detailed view: Full distributions and user data
+Mobile: Gesture-based interactions
+Desktop: Hover states for quick actions
+🛠️ Common Tasks
+Adding a New Feature
+Check if similar functionality exists
+Follow established patterns in codebase
+Add proper TypeScript types
+Include loading and error states
+Test with both authenticated and anonymous users
+Debugging Issues
+Check browser console for errors
+Verify Supabase RLS policies
+Ensure proper authentication state
+Check TypeScript types match database
+Look for similar working examples in codebase
+Working with Forms
+Identify which of 9 form types applies
+Check solution category mapping
+Ensure variant handling is correct
+Test auto-categorization
+Verify data saves to correct tables
+📝 Documentation
+README.md: Basic setup and overview
+ARCHITECTURE.md: Technical design decisions
+DEBUGGING.md: Common issues and solutions
+WORKFLOW.md: Development process with AI tools
+Remember: WWFM helps real people find solutions to life challenges. Every feature should make it easier to discover what works or share what worked for you.
 
-**Current Status**: Platform operational with 35% goal coverage (227/652 goals have solutions). Target: 80% coverage with 2,000+ solutions.
-
-## Quick Context
-
-```bash
-# Development
-URL: http://localhost:3004
-Stack: Next.js 15.3.2, TypeScript, Supabase, Tailwind CSS
-Database: PostgreSQL (Supabase hosted)
-
-# Key Metrics
-- 529 solutions (474 original + 55 new)
-- 190 variants (113 original + 77 new)  
-- 652 total goals across 13 arenas
-- 23 solution categories
-- 9 form templates
-```
-
-## Critical Architecture Decisions
-
-### 1. Two-Layer Solution System
-- **Solutions**: Generic approaches (e.g., "Vitamin D", "CBT Therapy")
-- **Variants**: Specific versions (e.g., "1000 IU softgel", "Standard")
-- Only 4 categories have real variants: medications, supplements_vitamins, natural_remedies, beauty_skincare
-- Other 19 categories use a single "Standard" variant
-
-### 2. Data Flow
-```
-User rates solution → Creates rating record → Updates goal_implementation_links → Reflects in UI
-```
-
-### 3. Key Relationships
-- Every solution MUST have at least one variant
-- Ratings link to variant IDs, not solution IDs
-- Effectiveness is stored in goal_implementation_links, not on variants
-
-## File Structure
-
-```
-/app
-  /goal/[id]/
-    page.tsx                    # Server component
-    GoalPageClient.tsx         # Client component (main logic)
-  /browse/                     # Browse all goals
-  /arena/[slug]/              # Arena pages
-  
-/components
-  /solutions/
-    InteractiveRating.tsx      # Hover-to-rate component
-    SolutionCard.tsx          # Card display
-    forms/                    # 9 form templates
-      DosageForm.tsx          # Complete
-      SessionForm.tsx         # TODO
-      PracticeForm.tsx        # TODO
-      
-/lib
-  /services/
-    goal-solutions.ts         # Fetches solutions for goals
-    ratings.ts               # Rating submission logic
-  supabase.ts                # Client creation
-  supabase-server.ts         # Server client
-```
-
-## Common Commands
-
-```bash
-# Development
-npm run dev                  # Start on port 3004
-
-# Database
-npx supabase db push         # Push migrations
-npx supabase db reset        # Reset database
-
-# Type Generation
-npm run generate-types       # Generate TypeScript types from Supabase
-
-# Testing Queries in Supabase SQL Editor
--- Check goal solutions
-SELECT s.title, sv.variant_name, gil.avg_effectiveness
-FROM goal_implementation_links gil
-JOIN solution_variants sv ON sv.id = gil.implementation_id
-JOIN solutions s ON s.id = sv.solution_id
-WHERE gil.goal_id = '[GOAL_ID]'
-ORDER BY gil.avg_effectiveness DESC;
-
--- Verify all solutions have variants
-SELECT COUNT(*) FROM solutions s
-LEFT JOIN solution_variants sv ON sv.solution_id = s.id
-WHERE sv.id IS NULL;
-```
-
-## Current Issues & Patterns
-
-### Known Bugs
-1. **Rating submission fails** - Missing variant prop in InteractiveRating
-2. **Auth in client components** - Cookie parsing errors
-3. **Duplicate ratings** - Need upsert instead of insert
-
-### Code Patterns
-```typescript
-// Fetching solutions with variants
-const { data } = await supabase
-  .from('goal_implementation_links')
-  .select(`
-    *,
-    solution_variants!implementation_id (
-      *,
-      solutions (*)
-    )
-  `)
-  .eq('goal_id', goalId);
-
-// Always check for variants
-const variant = solution.solution_variants?.[0] || solution.variants?.[0];
-if (!variant) {
-  console.error('No variant found for solution:', solution.id);
-}
-```
-
-### Common Pitfalls
-- Don't use solution.id for ratings - use variant.id
-- Remember effectiveness comes from goal_implementation_links
-- Check for both solution_variants and variants arrays (data inconsistency)
-
-## Database Schema Quick Reference
-
-### Core Tables
-- **solutions**: Generic approaches (id, title, solution_category)
-- **solution_variants**: Specific versions (id, solution_id, variant_name)
-- **goal_implementation_links**: Connects goals to variants (goal_id, implementation_id, avg_effectiveness)
-- **ratings**: User ratings (solution_id, implementation_id, goal_id, effectiveness_score)
-
-### Foreign Key Chain
-```
-ratings.implementation_id → solution_variants.id
-solution_variants.solution_id → solutions.id
-goal_implementation_links.implementation_id → solution_variants.id
-```
-
-## AI Assistant Guidelines
-
-When analyzing this codebase:
-
-1. **Always verify variant existence** before any rating operations
-2. **Check both naming conventions**: solution_variants vs variants (inconsistent in codebase)
-3. **Use fuzzy search** for solution lookups (pg_trgm enabled)
-4. **Respect the form system**: 9 templates map to 23 categories
-5. **Test queries in Supabase** before implementing
-
-## Testing Checklist
-
-- [ ] Can users browse goals?
-- [ ] Do solutions display with correct effectiveness?
-- [ ] Can users rate solutions (1-5 stars)?
-- [ ] Do ratings update the average?
-- [ ] Are variants showing for medications/supplements?
-- [ ] Is the "Simple/Detailed" view toggle working?
-
-## Environment Variables
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=https://wqxkhxdbxdtpuvuvgirx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-```
-
-## Deployment
-
-- Platform: Vercel
-- Database: Supabase (US East)
-- Domain: [TBD]
-
-## Next Major Milestones
-
-1. Fix rating submission bug
-2. Complete remaining 8 form templates  
-3. Generate 1,500+ more solutions
-4. Implement distribution displays
-5. Launch with 80% goal coverage
-
-## Questions for AI to Ask
-
-Before making changes, verify:
-- Which variant should this rating connect to?
-- Is this a variant category or standard category?
-- Where is effectiveness stored for this goal-solution pair?
-- Am I using the correct foreign key relationships?

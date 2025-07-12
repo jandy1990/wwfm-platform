@@ -4,7 +4,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/database/client'
 import { User } from '@supabase/supabase-js'
 // import ProtectedRoute from '@/components/auth/ProtectedRoute' // Temporarily disabled
 // import Link from 'next/link' // Unused for now

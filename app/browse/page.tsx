@@ -1,7 +1,7 @@
 // app/browse/page.tsx
 
-import { createSupabaseServerClient } from '@/lib/supabase-server'
-import SearchableBrowse from '@/components/browse/SearchableBrowse'
+import { createServerSupabaseClient } from '@/lib/database/server'
+import SearchableBrowse from '@/components/templates/SearchableBrowse'
 
 // Type definitions
 type Goal = {
@@ -33,7 +33,7 @@ type Arena = {
 */
 
 async function getArenasWithGoals() {
-  const supabase = await createSupabaseServerClient()
+  const supabase = await createServerSupabaseClient()
   
   // First, let's check if we can connect to Supabase
   console.log('Fetching arenas from Supabase...')
@@ -115,7 +115,7 @@ export default async function BrowsePage() {
   
   // If no data, let's do a simple query to check connection
   if (arenas.length === 0) {
-    const supabase = await createSupabaseServerClient()
+    const supabase = await createServerSupabaseClient()
     
     // Check if arenas table exists and has data
     const { data: allArenas, error: arenaError } = await supabase
