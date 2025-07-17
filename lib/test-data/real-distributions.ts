@@ -1,5 +1,5 @@
-import { GoalSolutionWithVariants } from '@/lib/goal-solutions';
-import { DistributionData } from '@/components/distributions/DistributionField';
+import { GoalSolutionWithVariants } from '@/lib/solutions/goal-solutions';
+import { DistributionData } from '@/components/molecules/DistributionField';
 
 // Helper to extract real distribution data from actual user ratings
 export const getRealDistributionForField = async (

@@ -1,8 +1,8 @@
 // components/solutions/CategoryConfirmation.tsx
 'use client';
 
-import { CategoryMatch } from '@/lib/services/auto-categorization';
-import { getCategoryDisplayName } from '@/lib/services/auto-categorization';
+import { CategoryMatch } from '@/lib/solutions/categorization';
+import { getCategoryDisplayName } from '@/lib/solutions/categorization';
 
 interface CategoryInfo {
   description: string;

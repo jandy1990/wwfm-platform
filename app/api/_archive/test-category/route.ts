@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { detectCategory } from '@/lib/services/auto-categorization';
+import { detectCategory } from '@/lib/solutions/categorization';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

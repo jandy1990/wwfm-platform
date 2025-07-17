@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
 import { getGoalSolutions, type GoalSolutionWithVariants } from '@/lib/solutions/goal-solutions'
 import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrumbs'
-import GoalPageClient from '@/components/templates/GoalPageClient'
+import GoalPageClient from '@/components/goal/GoalPageClient'
 import { getRelatedGoals } from '@/lib/solutions/related-goals'
 
 type Goal = {

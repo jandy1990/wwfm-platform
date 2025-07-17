@@ -199,7 +199,7 @@ const results = await supabase.rpc('search_solutions_fuzzy', {
 
 ```typescript
 // Server-side auth check
-import { createServerClient } from '@/lib/supabase-server';
+import { createServerClient } from '@/lib/supabase/server';
 
 export default async function ProtectedPage() {
   const supabase = createServerClient();

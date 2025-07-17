@@ -2,18 +2,17 @@
 
 import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
-import InteractiveRating from '@/components/organisms/solutions/InteractiveRating'
 import SwipeableRating from '@/components/organisms/solutions/SwipeableRating'
 import VariantSheet from '@/components/organisms/solutions/VariantSheet'
-import { GoalSolutionWithVariants } from '@/lib/goal-solutions'
+import { GoalSolutionWithVariants } from '@/lib/solutions/goal-solutions'
 import RatingDisplay, { getBestRating, getAverageRating } from '@/components/molecules/RatingDisplay'
 import EmptyState from '@/components/molecules/EmptyState'
 import SourceBadge from '@/components/atoms/SourceBadge'
-import { RelatedGoal } from '@/lib/services/related-goals'
-import { trackGoalRelationshipClick } from '@/lib/services/related-goals'
+import { RelatedGoal } from '@/lib/solutions/related-goals'
+import { trackGoalRelationshipClick } from '@/lib/solutions/related-goals'
 import { DistributionField as NewDistributionField, DistributionData } from '@/components/molecules/DistributionField'
 import { DistributionSheet as NewDistributionSheet } from '@/components/organisms/distributions/DistributionSheet'
-import { getGoalFieldDistribution, getFieldValueFromSolution } from '@/lib/real-distributions'
+import { getGoalFieldDistribution, getFieldValueFromSolution } from '@/lib/test-data/real-distributions'
 
 type Goal = {
   id: string
@@ -57,10 +56,9 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['cost', 'side_effects', 'time_to_results'],
+    keyFields: ['cost', 'time_to_results'],
     fieldLabels: {
       cost: 'Cost',
-      side_effects: 'Side Effects',
       time_to_results: 'Time to Results'
     }
   },
@@ -69,10 +67,9 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-blue-700',
     borderColor: 'border-blue-200',
     bgColor: 'bg-blue-50',
-    keyFields: ['cost', 'side_effects', 'time_to_results'],
+    keyFields: ['cost', 'time_to_results'],
     fieldLabels: {
       cost: 'Cost',
-      side_effects: 'Side Effects',
       time_to_results: 'Time to Results'
     }
   },
@@ -81,10 +78,9 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['cost', 'side_effects', 'time_to_results'],
+    keyFields: ['cost', 'time_to_results'],
     fieldLabels: {
       cost: 'Cost',
-      side_effects: 'Side Effects',
       time_to_results: 'Time to Results'
     }
   },
@@ -93,10 +89,9 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-pink-700',
     borderColor: 'border-pink-200',
     bgColor: 'bg-pink-50',
-    keyFields: ['cost', 'side_effects', 'product_type'],
+    keyFields: ['cost', 'product_type'],
     fieldLabels: {
       cost: 'Cost',
-      side_effects: 'Side Effects',
       product_type: 'Type'
     }
   },
@@ -141,10 +136,9 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-teal-700',
     borderColor: 'border-teal-200',
     bgColor: 'bg-teal-50',
-    keyFields: ['cost', 'side_effects', 'session_frequency'],
+    keyFields: ['cost', 'session_frequency'],
     fieldLabels: {
       cost: 'Cost',
-      side_effects: 'Side Effects',
       session_frequency: 'Frequency'
     }
   },
@@ -153,11 +147,10 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['startup_cost', 'challenges', 'time_commitment'],
+    keyFields: ['startup_cost', 'time_commitment'],
     fieldLabels: {
       startup_cost: 'Startup Cost',
       ongoing_cost: 'Ongoing Cost',
-      challenges: 'Challenges',
       time_commitment: 'Time Needed'
     }
   },
@@ -166,10 +159,9 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['practice_length', 'challenges', 'guidance_type'],
+    keyFields: ['practice_length', 'guidance_type'],
     fieldLabels: {
       practice_length: 'Session Length',
-      challenges: 'Challenges',
       guidance_type: 'Guidance'
     }
   },
@@ -178,10 +170,9 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-orange-700',
     borderColor: 'border-orange-200',
     bgColor: 'bg-orange-50',
-    keyFields: ['time_commitment', 'challenges', 'frequency'],
+    keyFields: ['time_commitment', 'frequency'],
     fieldLabels: {
       time_commitment: 'Time Needed',
-      challenges: 'Challenges',
       frequency: 'Frequency'
     }
   },
@@ -238,10 +229,9 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['cost_impact', 'challenges', 'social_impact'],
+    keyFields: ['cost_impact', 'social_impact'],
     fieldLabels: {
       cost_impact: 'Cost Impact',
-      challenges: 'Challenges',
       social_impact: 'Social Impact'
     }
   },
@@ -250,11 +240,10 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['cost', 'adjustment_period', 'challenges'],
+    keyFields: ['cost', 'adjustment_period'],
     fieldLabels: {
       cost: 'Cost',
-      adjustment_period: 'Adjustment',
-      challenges: 'Challenges'
+      adjustment_period: 'Adjustment'
     }
   }
 }
@@ -273,7 +262,7 @@ const DEFAULT_CATEGORY_CONFIG = {
 }
 
 // Helper to format array fields nicely
-const formatArrayField = (value: unknown, fieldName?: string): string | JSX.Element => {
+const formatArrayField = (value: unknown, fieldName?: string): string | React.ReactElement => {
   if (Array.isArray(value)) {
     // For challenges field with percentages, format each item on new line
     if (fieldName === 'challenges' && value.some(item => typeof item === 'string' && item.includes('('))) {
@@ -285,7 +274,7 @@ const formatArrayField = (value: unknown, fieldName?: string): string | JSX.Elem
             </div>
           ))}
         </div>
-      ) as any
+      ) as React.ReactElement
     }
     // For fields with percentages, return with proper wrapping
     if (value.some(item => typeof item === 'string' && item.includes('%'))) {
@@ -300,7 +289,7 @@ const formatArrayField = (value: unknown, fieldName?: string): string | JSX.Elem
             ))}
           </div>
         </div>
-      ) as any
+      ) as React.ReactElement
     }
     // For longer content, return line-separated
     return (
@@ -311,7 +300,7 @@ const formatArrayField = (value: unknown, fieldName?: string): string | JSX.Elem
           </div>
         ))}
       </div>
-    ) as any
+    ) as React.ReactElement
   }
   return value?.toString() || ''
 }
@@ -345,7 +334,10 @@ const getFieldDisplayValue = (solution: GoalSolutionWithVariants, fieldName: str
   const value = allFields[fieldName]
   if (value === null || value === undefined || value === '') return null
   
-  return Array.isArray(value) ? value.join(' • ') : (value?.toString() || '')
+  // Skip arrays - they'll be handled in pill sections
+  if (Array.isArray(value)) return null
+  
+  return value?.toString() || ''
 }
 
 // Multi-select dropdown component
@@ -1079,7 +1071,7 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                               <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 {categoryConfig.fieldLabels[fieldName] || fieldName}
                               </span>
-                              <span className="text-sm font-medium text-gray-900 dark:text-gray-100 text-right max-w-[60%] leading-relaxed">
+                              <span className="text-sm font-medium text-gray-900 dark:text-gray-100 text-right leading-relaxed">
                                 {value}
                               </span>
                             </div>
@@ -1099,9 +1091,10 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                       <>
                         <div className="additional-fields-grid text-sm">
                           {(() => {
-                            // Filter out key fields already shown
+                            // Filter out key fields already shown and array fields that will be shown as pills
+                            const arrayFieldsForPills = ['side_effects', 'challenges', 'issues']
                             const additionalFields = Object.entries(allFields).filter(([key]) => 
-                              !categoryConfig.keyFields.includes(key)
+                              !categoryConfig.keyFields.includes(key) && !arrayFieldsForPills.includes(key.toLowerCase())
                             )
                             
                             return additionalFields.map(([key, value]) => {
@@ -1128,32 +1121,70 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                           })()}
                         </div>
                         
-                        {/* Side Effects Section with Hover */}
+                        {/* Array Fields as Pills (side_effects, challenges, issues) */}
                         {(() => {
-                          const sideEffects = allFields.side_effects || solutionFields.side_effects || bestVariantFields.side_effects
-                        if (!sideEffects || (Array.isArray(sideEffects) && sideEffects.length === 0)) return null
-                        
-                        const effectsArray = Array.isArray(sideEffects) ? sideEffects : [sideEffects]
-                        
-                        return (
-                          <div className="side-effects-section mt-4">
-                            <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                              Side Effects <span className="font-normal text-gray-400 dark:text-gray-500 normal-case tracking-normal">(add yours)</span>
-                            </div>
-                            <div className="flex flex-wrap gap-1.5 items-center">
-                              {effectsArray.map((effect, index) => (
-                                <span key={index} className="side-effect-chip">
-                                  {effect}
-                                </span>
-                              ))}
-                              <button className="add-effect-inline">
-                                <span>+</span>
-                                <span>Add side effect</span>
-                              </button>
-                            </div>
-                          </div>
-                        )
-                      })()}
+                          const arrayFields = [
+                            { fieldName: 'side_effects', label: 'Side Effects' },
+                            { fieldName: 'challenges', label: 'Challenges' },
+                            { fieldName: 'issues', label: 'Issues' }
+                          ]
+                          
+                          // Helper to parse items with percentages
+                          const parseItemWithPercentage = (item: string) => {
+                            const match = item.match(/^(.+?)\s*\((\d+)%\)$/)
+                            if (match) {
+                              return { text: match[1].trim(), percentage: match[2] }
+                            }
+                            return { text: item, percentage: null }
+                          }
+                          
+                          return arrayFields.map(({ fieldName, label }) => {
+                            // Check for both lowercase and uppercase field names
+                            const fieldValue = allFields[fieldName] || solutionFields[fieldName] || bestVariantFields[fieldName] ||
+                                              allFields[fieldName.toUpperCase()] || solutionFields[fieldName.toUpperCase()] || bestVariantFields[fieldName.toUpperCase()]
+                            if (!fieldValue || (Array.isArray(fieldValue) && fieldValue.length === 0)) return null
+                            
+                            const itemsArray = Array.isArray(fieldValue) ? fieldValue : [fieldValue]
+                            const displayLimit = cardView === 'detailed' ? 8 : 3
+                            const displayItems = itemsArray.slice(0, displayLimit)
+                            const remainingCount = itemsArray.length - displayLimit
+                            
+                            return (
+                              <div key={fieldName} className="side-effects-section">
+                                <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                                  {label}
+                                </div>
+                                <div className="flex flex-wrap gap-1.5 items-center">
+                                  {displayItems.map((item, index) => {
+                                    const { text, percentage } = parseItemWithPercentage(item.toString())
+                                    return (
+                                      <span key={index} className="side-effect-chip">
+                                        {text}
+                                        {percentage && <span className="ml-1 opacity-70">{percentage}%</span>}
+                                      </span>
+                                    )
+                                  })}
+                                  {remainingCount > 0 && (
+                                    <span className="show-more-pill">
+                                      +{remainingCount} more
+                                    </span>
+                                  )}
+                                  <button 
+                                    className="add-effect-inline"
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      // TODO: Implement add functionality
+                                      console.log(`Add ${fieldName} functionality to be implemented`)
+                                    }}
+                                  >
+                                    <span>+</span>
+                                    <span>Add yours</span>
+                                  </button>
+                                </div>
+                              </div>
+                            )
+                          })
+                        })()}
                     </>
                   )
                 })()}

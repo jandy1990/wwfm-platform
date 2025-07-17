@@ -1,4 +1,4 @@
-import { SourceType } from '@/lib/goal-solutions'
+import { SourceType } from '@/lib/solutions/goal-solutions'
 
 interface SourceBadgeProps {
   sourceType: SourceType

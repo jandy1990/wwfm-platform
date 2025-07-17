@@ -6,7 +6,7 @@
 - OLD: `import { supabase } from '@/lib/supabase'`
 - NEW: `import { supabase } from '@/lib/database/client'`
 
-- OLD: `import { createSupabaseServerClient } from '@/lib/supabase-server'`
+- OLD: `import { createSupabaseServerClient } from '@/lib/supabase/server'`
 - NEW: `import { createServerSupabaseClient } from '@/lib/database/server'`
 
 ### Solutions

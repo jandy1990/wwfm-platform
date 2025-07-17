@@ -4,8 +4,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
-import AuthForm from '@/components/auth/AuthForm'
+import { supabase } from '@/lib/supabase/client'
+import AuthForm from '@/components/organisms/auth/AuthForm'
 
 export default function UpdatePasswordPage() {
   const [password, setPassword] = useState('')

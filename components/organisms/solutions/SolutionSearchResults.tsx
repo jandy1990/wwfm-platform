@@ -1,7 +1,7 @@
 // components/solutions/SolutionSearchResults.tsx
 'use client';
 
-import { SolutionMatch } from '@/lib/services/auto-categorization';
+import { SolutionMatch } from '@/lib/solutions/categorization';
 import { CheckCircle2, ArrowRight, Plus } from 'lucide-react';
 
 interface SolutionSearchResultsProps {

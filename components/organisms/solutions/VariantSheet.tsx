@@ -1,5 +1,5 @@
 import React from 'react';
-import { GoalSolutionWithVariants } from '@/lib/goal-solutions';
+import { GoalSolutionWithVariants } from '@/lib/solutions/goal-solutions';
 
 interface VariantSheetProps {
   solution: GoalSolutionWithVariants;

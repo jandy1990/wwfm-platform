@@ -1,9 +1,9 @@
-import { createSupabaseServerClient } from '@/lib/supabase-server'
+import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 
 export async function POST() {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = await createServerSupabaseClient()
     
     // First, check current state
     const { data: beforeStats, error: beforeError } = await supabase
@@ -96,7 +96,7 @@ export async function POST() {
 // GET endpoint to check current state without making changes
 export async function GET() {
   try {
-    const supabase = await createSupabaseServerClient()
+    const supabase = await createServerSupabaseClient()
     
     const { data: stats, error } = await supabase
       .from('goal_implementation_links')

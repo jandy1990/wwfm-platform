@@ -42,7 +42,14 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+tsconfig.tsbuildinfo
 next-env.d.ts
+
+# MCP configuration (contains secrets)
+.mcp.json
+
+# Supabase connection guide (contains sensitive keys)
+/docs/technical/supabase-connection-guide.md
 
 # duplicate directories
 wwfm-platform-OLD/

@@ -8,7 +8,7 @@ import { supabase } from '@/lib/database/client'
 import { User } from '@supabase/supabase-js'
 // import ProtectedRoute from '@/components/auth/ProtectedRoute' // Temporarily disabled
 // import Link from 'next/link' // Unused for now
-import EmptyState from '@/components/ui/EmptyState'
+import EmptyState from '@/components/molecules/EmptyState'
 
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null)

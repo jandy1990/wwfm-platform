@@ -7,8 +7,8 @@ export const revalidate = 0
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
-import Breadcrumbs, { createBreadcrumbs } from '@/components/ui/Breadcrumbs'
-import EmptyState from '@/components/ui/EmptyState'
+import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrumbs'
+import EmptyState from '@/components/molecules/EmptyState'
 
 // Types
 type Goal = {

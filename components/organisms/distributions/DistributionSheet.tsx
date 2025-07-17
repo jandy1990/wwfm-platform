@@ -1,5 +1,5 @@
 import React from 'react';
-import { DistributionData } from './DistributionField';
+import { DistributionData } from '@/components/molecules/DistributionField';
 
 interface DistributionSheetProps {
   isOpen: boolean;

@@ -12,8 +12,8 @@ Search: PostgreSQL with pg_trgm for fuzzy matching
 📊 Data Architecture
 Core Entities
 Goals (652 total) - Life challenges like "Reduce anxiety" or "Sleep better"
-Solutions (529 total) - Generic approaches like "Meditation" or "Vitamin D"
-Solution Variants (190 total) - Specific versions like "200mg capsule"
+Solutions (309 total) - Generic approaches like "Meditation" or "Vitamin D"
+Solution Variants (376 total) - Specific versions like "200mg capsule"
 Ratings - User effectiveness scores (1-5 stars) with optional details
 Key Relationships
 Arena (13) → Category (75) → Goals (652)
@@ -84,7 +84,8 @@ Performance optimization
 More comprehensive error handling
 Platform Metrics
 652 goals across 13 life arenas
-35% of goals have solutions
+309 solutions (47% of goals have solutions)
+376 solution variants
 Target: 80% coverage with 2,000+ solutions
 Average effectiveness: 4.2/5 (AI seeded)
 💡 Key Concepts to Understand
@@ -126,5 +127,19 @@ README.md: Basic setup and overview
 ARCHITECTURE.md: Technical design decisions
 DEBUGGING.md: Common issues and solutions
 WORKFLOW.md: Development process with AI tools
+
+🔌 Supabase Connection for AI Assistants
+Project Details:
+- Project Name: wwfm
+- Project ID: wqxkhxdbxdtpuvuvgirx
+- URL: https://wqxkhxdbxdtpuvuvgirx.supabase.co
+- Anon Key: (public, safe for client-side) - See `/docs/technical/supabase-connection-guide.md`
+- Service Role Key: ⚠️ NEVER commit this - See `/docs/technical/supabase-connection-guide.md`
+
+For full connection details including keys and example queries, refer to:
+`/docs/technical/supabase-connection-guide.md` (gitignored for security)
+
+Note: The connection guide contains sensitive credentials and is excluded from version control.
+
 Remember: WWFM helps real people find solutions to life challenges. Every feature should make it easier to discover what works or share what worked for you.
 

@@ -88,21 +88,47 @@ export const DistributionField: React.FC<DistributionFieldProps> = ({
       
       <div className={`distribution-values ${isStacked ? 'stacked' : ''}`}>
         {formatted.values.map((value, index) => (
-          <span key={index} className="distribution-value">
-            {index > 0 && !isStacked && <span className="text-gray-400 dark:text-gray-500">• </span>}
-            {value.value}
-            {formatted.showPercentages && (
-              <span className="distribution-percent ml-1">
-                ({value.percentage}%)
+          <div key={index} className="distribution-value-item">
+            <div className="distribution-value-header">
+              {index > 0 && !isStacked && <span className="text-gray-400 dark:text-gray-500">• </span>}
+              <span className="distribution-value">
+                {value.value}
               </span>
+              {formatted.showPercentages && (
+                <span className="distribution-percent ml-1">
+                  ({value.percentage}%)
+                </span>
+              )}
+            </div>
+            {/* Progress bar for detailed view */}
+            {formatted.showPercentages && (
+              <div className="distribution-progress-bar">
+                <div 
+                  className="distribution-progress-fill"
+                  style={{ width: `${value.percentage}%` }}
+                  data-percentage={value.percentage}
+                />
+              </div>
             )}
-          </span>
+          </div>
         ))}
         {formatted.showOthers && (
-          <span className="distribution-others">
-            {!isStacked && <span className="text-gray-400 dark:text-gray-500">• </span>}
-            others <span className="distribution-percent ml-1">({formatted.othersPercent}%)</span>
-          </span>
+          <div className="distribution-value-item">
+            <div className="distribution-value-header">
+              <span className="distribution-others">
+                {!isStacked && <span className="text-gray-400 dark:text-gray-500">• </span>}
+                others <span className="distribution-percent ml-1">({formatted.othersPercent}%)</span>
+              </span>
+            </div>
+            {/* Progress bar for others */}
+            <div className="distribution-progress-bar">
+              <div 
+                className="distribution-progress-fill others"
+                style={{ width: `${formatted.othersPercent}%` }}
+                data-percentage={formatted.othersPercent}
+              />
+            </div>
+          </div>
         )}
       </div>
     </div>

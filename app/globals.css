@@ -371,51 +371,273 @@
 
 /* Solution Card Hover Effects */
 .solution-card {
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out, background-color 0.3s ease;
   cursor: pointer;
   position: relative;
+  /* Enhanced default shadow */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  background-color: white;
+}
+
+/* Enhanced cursor feedback */
+.solution-card:hover {
+  cursor: pointer;
+}
+
+.solution-card:active {
+  cursor: pointer;
+  transform: translateY(-1px) scale(0.995);
+}
+
+.dark .solution-card {
+  background-color: rgb(31 41 55);
+}
+
+/* Typography enhancements */
+.solution-card h3 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+/* Mobile typography adjustments */
+@media (max-width: 639px) {
+  .solution-card h3 {
+    font-size: 1.125rem; /* Slightly smaller on mobile */
+    line-height: 1.4; /* More line height for better readability */
+    word-break: break-word;
+    hyphens: auto;
+  }
+}
+
+.solution-card .text-sm {
+  line-height: 1.5;
+}
+
+.solution-card .text-xs {
+  letter-spacing: 0.05em;
+}
+
+.dark .solution-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  border-color: #374151;
 }
 
 .solution-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
-  border-color: #a78bfa;
-}
-
-.solution-card.detailed {
-  background: #faf5ff;
-  border-color: #7c3aed;
-  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.1);
-}
-
-.dark .solution-card.detailed {
-  background: rgba(139, 92, 246, 0.05);
+  box-shadow: 0 8px 16px rgba(124, 58, 237, 0.12);
   border-color: #8b5cf6;
 }
 
-/* Visual indicator for toggle state */
+.dark .solution-card:hover {
+  box-shadow: 0 8px 16px rgba(139, 92, 246, 0.2);
+  border-color: #a78bfa;
+}
+
+/* Ensure detailed cards keep gray border even on hover */
+.solution-card.detailed:hover {
+  border-color: #d1d5db !important;
+}
+
+.dark .solution-card.detailed:hover {
+  border-color: #4b5563 !important;
+}
+
+.solution-card.detailed {
+  background: #f9fafb;
+  border-color: #d1d5db !important; /* Ensure gray border, not purple */
+  border-width: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.dark .solution-card.detailed {
+  background: rgba(55, 65, 81, 0.3);
+  border-color: #4b5563 !important; /* Ensure gray border in dark mode */
+  border-width: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Spacing improvements for solution cards */
+.solution-card > *:not(:first-child) {
+  margin-top: 1rem;
+}
+
+.solution-card .solution-header {
+  margin-bottom: 0.75rem;
+}
+
+/* Section separators for cleaner card organization */
+.card-section {
+  position: relative;
+}
+
+.card-section:not(:last-child) {
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dark .card-section:not(:last-child) {
+  border-bottom-color: #374151;
+}
+
+/* Mobile stats bar for cleaner mobile layout */
+.mobile-stats-bar {
+  display: flex;
+  background: #fafbfc;
+  border-top: 1px solid #f3f4f6;
+  margin: -1rem -1rem 0;
+  padding: 0.75rem 1rem;
+}
+
+.dark .mobile-stats-bar {
+  background: rgba(55, 65, 81, 0.3);
+  border-top-color: #374151;
+}
+
+.mobile-stat {
+  flex: 1;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+.mobile-stat:not(:last-child) {
+  border-right: 1px solid #e5e7eb;
+}
+
+.dark .mobile-stat:not(:last-child) {
+  border-right-color: #4b5563;
+}
+
+.mobile-stat-value {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.2;
+}
+
+.dark .mobile-stat-value {
+  color: #f3f4f6;
+}
+
+.mobile-stat-label {
+  font-size: 0.6875rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.125rem;
+}
+
+/* Visual indicator for toggle state - more prominent */
 .solution-card::after {
-  content: "";
+  content: "⤢";
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  background: rgba(124, 58, 237, 0.1);
-  border-radius: 0.25rem;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+  opacity: 0.7;
+  transition: all 0.2s ease-in-out;
+  font-size: 1rem;
+  color: #7c3aed;
+  font-weight: 600;
+  z-index: 10;
 }
 
 .solution-card:hover::after {
   opacity: 1;
+  background: rgba(124, 58, 237, 0.2);
+  border-color: rgba(124, 58, 237, 0.3);
+  transform: scale(1.05);
 }
 
-/* Mobile card spacing */
+/* Show different icon for detailed view */
+.solution-card.detailed::after {
+  content: "⤡";
+  background: rgba(107, 114, 128, 0.15);
+  border-color: rgba(107, 114, 128, 0.2);
+  color: #6b7280;
+}
+
+.solution-card.detailed:hover::after {
+  background: rgba(107, 114, 128, 0.2);
+  border-color: rgba(107, 114, 128, 0.3);
+}
+
+.dark .solution-card.detailed::after {
+  background: rgba(156, 163, 175, 0.15);
+  border-color: rgba(156, 163, 175, 0.2);
+  color: #9ca3af;
+}
+
+.dark .solution-card.detailed:hover::after {
+  background: rgba(156, 163, 175, 0.2);
+  border-color: rgba(156, 163, 175, 0.3);
+}
+
+/* Card interaction hint */
+.solution-card {
+  position: relative;
+}
+
+.solution-card::before {
+  content: "Tap for details";
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  font-size: 0.6875rem;
+  color: rgba(124, 58, 237, 0.6);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+  z-index: 5;
+  white-space: nowrap;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+.dark .solution-card::before {
+  background: rgba(31, 41, 55, 0.9);
+  color: rgba(139, 92, 246, 0.7);
+  border-color: rgba(139, 92, 246, 0.2);
+}
+
+/* Show hint initially for first few seconds, then on hover */
+.solution-card:not(.detailed):not(:hover)::before {
+  animation: hint-pulse 4s ease-in-out;
+}
+
+.solution-card:hover::before {
+  opacity: 1;
+}
+
+.solution-card.detailed::before {
+  content: "Tap for simple view";
+}
+
+@keyframes hint-pulse {
+  0%, 20% { opacity: 0; }
+  30%, 70% { opacity: 1; }
+  80%, 100% { opacity: 0; }
+}
+
+/* Hide hint on mobile to avoid clutter */
 @media (max-width: 639px) {
+  .solution-card::before {
+    display: none;
+  }
+  
   .solution-card > * + * {
     margin-top: 0.75rem; /* 12px spacing between elements */
   }
@@ -536,16 +758,25 @@
 /* Additional fields section spacing */
 .additional-fields-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2.5rem 3rem;
+  grid-template-columns: 1fr; /* Default: single column for mobile */
+  gap: 1.5rem;
   margin-top: 1.5rem;
   align-items: start;
 }
 
-@media (max-width: 768px) {
+/* Tablet - fixed 2 columns */
+@media (min-width: 768px) and (max-width: 1023px) {
   .additional-fields-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 2.5rem;
+  }
+}
+
+/* Desktop - fixed 3 columns */
+@media (min-width: 1024px) {
+  .additional-fields-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem 3rem;
   }
 }
 
@@ -725,6 +956,29 @@
   font-size: 0.875rem;
 }
 
+.distribution-values.stacked {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Distribution value items with progress bars */
+.distribution-value-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 120px;
+}
+
+.distribution-values.stacked .distribution-value-item {
+  min-width: 100%;
+}
+
+.distribution-value-header {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
 .distribution-value {
   color: #1f2937;
   white-space: nowrap;
@@ -744,9 +998,115 @@
   font-style: italic;
 }
 
-.distribution-values.stacked {
-  flex-direction: column;
-  gap: 0.25rem;
+/* Progress bar styling */
+.distribution-progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: #f3f4f6;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 0.125rem;
+}
+
+.dark .distribution-progress-bar {
+  background-color: #374151;
+}
+
+.distribution-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+/* Color variations based on percentage with accessibility patterns */
+.distribution-progress-fill[data-percentage="100"] {
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.1) 2px,
+    rgba(255, 255, 255, 0.1) 4px
+  );
+}
+
+.distribution-progress-fill[data-percentage^="9"],
+.distribution-progress-fill[data-percentage="90"],
+.distribution-progress-fill[data-percentage="91"],
+.distribution-progress-fill[data-percentage="92"],
+.distribution-progress-fill[data-percentage="93"],
+.distribution-progress-fill[data-percentage="94"],
+.distribution-progress-fill[data-percentage="95"],
+.distribution-progress-fill[data-percentage="96"],
+.distribution-progress-fill[data-percentage="97"],
+.distribution-progress-fill[data-percentage="98"],
+.distribution-progress-fill[data-percentage="99"] {
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.15) 3px,
+    rgba(255, 255, 255, 0.15) 6px
+  );
+}
+
+.distribution-progress-fill[data-percentage^="7"],
+.distribution-progress-fill[data-percentage^="8"] {
+  background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.2) 2px,
+    rgba(255, 255, 255, 0.2) 4px
+  );
+}
+
+.distribution-progress-fill[data-percentage^="5"],
+.distribution-progress-fill[data-percentage^="6"] {
+  background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.2) 2px,
+    rgba(255, 255, 255, 0.2) 4px
+  );
+}
+
+.distribution-progress-fill[data-percentage^="1"],
+.distribution-progress-fill[data-percentage^="2"],
+.distribution-progress-fill[data-percentage^="3"],
+.distribution-progress-fill[data-percentage^="4"] {
+  background: linear-gradient(90deg, #6b7280 0%, #4b5563 100%);
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(255, 255, 255, 0.1) 1px,
+    rgba(255, 255, 255, 0.1) 2px
+  );
+}
+
+/* Others category styling */
+.distribution-progress-fill.others {
+  background: linear-gradient(90deg, #9ca3af 0%, #6b7280 100%);
+  opacity: 0.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .distribution-values:not(.stacked) {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .distribution-value-item {
+    min-width: 100%;
+  }
 }
 
 /* Side effect chips */
@@ -761,6 +1121,21 @@
 .dark .side-effect-chip {
   background: rgba(251, 191, 36, 0.2);
   color: #fbbf24;
+}
+
+/* Show more pill indicator */
+.show-more-pill {
+  background: #e5e7eb;
+  color: #6b7280;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.dark .show-more-pill {
+  background: rgba(107, 114, 128, 0.3);
+  color: #9ca3af;
 }
 
 /* Bottom sheet for mobile */
@@ -809,4 +1184,67 @@
 
 .dark .variant-effectiveness {
   color: #fb923c;
+}
+
+/* Smooth transitions for all interactive elements */
+button,
+.solution-card,
+.rating-container,
+.hover-stars,
+.view-toggle button {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animation for new content appearing in detailed view */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.solution-card.detailed .additional-fields-grid,
+.solution-card.detailed .side-effects-section {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Smooth expand/collapse for variant sections */
+.solution-card .view-options-button svg {
+  transition: transform 0.2s ease;
+}
+
+/* Enhanced focus states */
+button:focus-visible,
+.solution-card:focus-visible {
+  outline: 2px solid #7c3aed;
+  outline-offset: 2px;
+}
+
+/* Prevent focus styles when clicking (not keyboard navigation) */
+.solution-card:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Mobile touch states */
+@media (max-width: 639px) {
+  .solution-card:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  button:active {
+    transform: scale(0.95);
+  }
+  
+  .rating-container:active {
+    background: #e5e7eb;
+  }
+  
+  .dark .rating-container:active {
+    background: rgba(75, 85, 99, 0.5);
+  }
 }
