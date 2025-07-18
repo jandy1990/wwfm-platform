@@ -12,7 +12,6 @@ import { RelatedGoal } from '@/lib/solutions/related-goals'
 import { trackGoalRelationshipClick } from '@/lib/solutions/related-goals'
 import { DistributionField as NewDistributionField, DistributionData } from '@/components/molecules/DistributionField'
 import { DistributionSheet as NewDistributionSheet } from '@/components/organisms/distributions/DistributionSheet'
-import { getGoalFieldDistribution, getFieldValueFromSolution } from '@/lib/test-data/real-distributions'
 
 type Goal = {
   id: string
@@ -35,6 +34,16 @@ type Goal = {
 interface GoalPageClientProps {
   goal: Goal
   initialSolutions: GoalSolutionWithVariants[]
+  distributions: Array<{
+    id: string
+    solution_id: string
+    goal_id: string
+    field_name: string
+    distributions: Array<{
+      name: string
+      percentage: number
+    }>
+  }>
   error?: string | null
   relatedGoals?: RelatedGoal[]
 }
@@ -50,59 +59,73 @@ const CATEGORY_CONFIG: Record<string, {
   bgColor: string
   keyFields: string[]
   fieldLabels: Record<string, string>
+  arrayField?: string // For pills display (side_effects, challenges, etc.)
 }> = {
   medications: {
     icon: '💊',
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['cost', 'time_to_results'],
+    keyFields: ['cost', 'time_to_results', 'frequency', 'dosage_info'],
     fieldLabels: {
       cost: 'Cost',
-      time_to_results: 'Time to Results'
-    }
+      time_to_results: 'Time to Results',
+      frequency: 'Frequency',
+      dosage_info: 'Dosage'
+    },
+    arrayField: 'side_effects'
   },
   supplements_vitamins: {
     icon: '💊',
     color: 'text-blue-700',
     borderColor: 'border-blue-200',
     bgColor: 'bg-blue-50',
-    keyFields: ['cost', 'time_to_results'],
+    keyFields: ['cost', 'time_to_results', 'frequency', 'dosage_info'],
     fieldLabels: {
       cost: 'Cost',
-      time_to_results: 'Time to Results'
-    }
+      time_to_results: 'Time to Results',
+      frequency: 'Frequency',
+      dosage_info: 'Dosage'
+    },
+    arrayField: 'side_effects'
   },
   natural_remedies: {
     icon: '🌿',
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['cost', 'time_to_results'],
+    keyFields: ['cost', 'time_to_results', 'frequency', 'dosage_info'],
     fieldLabels: {
       cost: 'Cost',
-      time_to_results: 'Time to Results'
-    }
+      time_to_results: 'Time to Results',
+      frequency: 'Frequency',
+      dosage_info: 'Dosage'
+    },
+    arrayField: 'side_effects'
   },
   beauty_skincare: {
     icon: '✨',
     color: 'text-pink-700',
     borderColor: 'border-pink-200',
     bgColor: 'bg-pink-50',
-    keyFields: ['cost', 'product_type'],
+    keyFields: ['cost', 'time_to_results', 'frequency', 'product_type'],
     fieldLabels: {
       cost: 'Cost',
+      time_to_results: 'Time to Results',
+      frequency: 'Frequency',
       product_type: 'Type'
-    }
+    },
+    arrayField: 'side_effects'
   },
   therapists_counselors: {
     icon: '💆',
     color: 'text-purple-700',
     borderColor: 'border-purple-200',
     bgColor: 'bg-purple-50',
-    keyFields: ['cost', 'session_frequency', 'format'],
+    keyFields: ['cost', 'time_to_results', 'session_frequency', 'format'],
     fieldLabels: {
       cost: 'Cost',
+      time_to_results: 'Time to Results',
       session_frequency: 'Frequency',
       format: 'Format'
     }
@@ -112,9 +135,10 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['cost', 'wait_time', 'insurance_coverage'],
+    keyFields: ['cost', 'time_to_results', 'wait_time', 'insurance_coverage'],
     fieldLabels: {
       cost: 'Cost',
+      time_to_results: 'Time to Results',
       wait_time: 'Wait Time',
       insurance_coverage: 'Insurance'
     }
@@ -124,9 +148,10 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-yellow-700',
     borderColor: 'border-yellow-200',
     bgColor: 'bg-yellow-50',
-    keyFields: ['cost', 'format', 'session_frequency'],
+    keyFields: ['cost', 'time_to_results', 'format', 'session_frequency'],
     fieldLabels: {
       cost: 'Cost',
+      time_to_results: 'Time to Results',
       format: 'Format',
       session_frequency: 'Frequency'
     }
@@ -136,10 +161,53 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-teal-700',
     borderColor: 'border-teal-200',
     bgColor: 'bg-teal-50',
-    keyFields: ['cost', 'session_frequency'],
+    keyFields: ['cost', 'time_to_results', 'session_frequency', 'format'],
     fieldLabels: {
       cost: 'Cost',
-      session_frequency: 'Frequency'
+      time_to_results: 'Time to Results',
+      session_frequency: 'Frequency',
+      format: 'Format'
+    },
+    arrayField: 'side_effects' // labeled as "Risks"
+  },
+  professional_services: {
+    icon: '✂️',
+    color: 'text-gray-700',
+    borderColor: 'border-gray-200',
+    bgColor: 'bg-gray-50',
+    keyFields: ['cost', 'time_to_results', 'session_frequency', 'format'],
+    fieldLabels: {
+      cost: 'Cost',
+      time_to_results: 'Time to Results',
+      session_frequency: 'Frequency',
+      format: 'Format'
+    }
+  },
+  medical_procedures: {
+    icon: '🏥',
+    color: 'text-red-700',
+    borderColor: 'border-red-200',
+    bgColor: 'bg-red-50',
+    keyFields: ['cost', 'time_to_results', 'wait_time', 'format'],
+    fieldLabels: {
+      cost: 'Cost',
+      time_to_results: 'Time to Results',
+      wait_time: 'Wait Time',
+      format: 'Format'
+    },
+    arrayField: 'side_effects' // labeled as "Side Effects/Risks"
+  },
+  crisis_resources: {
+    icon: '🆘',
+    color: 'text-red-700',
+    borderColor: 'border-red-200',
+    bgColor: 'bg-red-50',
+    keyFields: ['cost', 'time_to_results', 'format', 'availability'],
+    fieldLabels: {
+      cost: 'Cost',
+      time_to_results: 'Time to Results',
+      format: 'Format',
+      availability: 'Availability'
     }
   },
   exercise_movement: {
@@ -147,43 +215,66 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['startup_cost', 'time_commitment'],
+    keyFields: ['cost', 'time_to_results', 'frequency', 'location_setting'],
     fieldLabels: {
-      startup_cost: 'Startup Cost',
-      ongoing_cost: 'Ongoing Cost',
-      time_commitment: 'Time Needed'
-    }
+      cost: 'Cost',
+      time_to_results: 'Time to Results',
+      frequency: 'Frequency',
+      location_setting: 'Location'
+    },
+    arrayField: 'challenges'
   },
   meditation_mindfulness: {
     icon: '🧘',
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['practice_length', 'guidance_type'],
+    keyFields: ['cost', 'time_to_results', 'practice_length', 'guidance_type'],
     fieldLabels: {
+      cost: 'Cost',
+      time_to_results: 'Time to Results',
       practice_length: 'Session Length',
       guidance_type: 'Guidance'
-    }
+    },
+    arrayField: 'challenges'
   },
   habits_routines: {
     icon: '📅',
     color: 'text-orange-700',
     borderColor: 'border-orange-200',
     bgColor: 'bg-orange-50',
-    keyFields: ['time_commitment', 'frequency'],
+    keyFields: ['startup_cost', 'ongoing_cost', 'time_to_results', 'time_commitment'],
     fieldLabels: {
-      time_commitment: 'Time Needed',
-      frequency: 'Frequency'
-    }
+      startup_cost: 'Startup Cost',
+      ongoing_cost: 'Ongoing Cost',
+      time_to_results: 'Time to Results',
+      time_commitment: 'Time Commitment'
+    },
+    arrayField: 'challenges'
+  },
+  hobbies_activities: {
+    icon: '🎨',
+    color: 'text-purple-700',
+    borderColor: 'border-purple-200',
+    bgColor: 'bg-purple-50',
+    keyFields: ['cost', 'time_to_enjoyment', 'time_commitment', 'social_setting'],
+    fieldLabels: {
+      cost: 'Cost',
+      time_to_enjoyment: 'Time to Enjoyment',
+      time_commitment: 'Time/Week',
+      social_setting: 'Social Setting'
+    },
+    arrayField: 'barriers'
   },
   apps_software: {
     icon: '📱',
     color: 'text-blue-700',
     borderColor: 'border-blue-200',
     bgColor: 'bg-blue-50',
-    keyFields: ['cost', 'usage_frequency', 'most_valuable_feature'],
+    keyFields: ['cost', 'time_to_results', 'usage_frequency', 'most_valuable_feature'],
     fieldLabels: {
       cost: 'Cost',
+      time_to_results: 'Time to Results',
       usage_frequency: 'Usage',
       most_valuable_feature: 'Best Feature'
     }
@@ -193,58 +284,98 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-gray-700',
     borderColor: 'border-gray-200',
     bgColor: 'bg-gray-50',
-    keyFields: ['cost', 'ease_of_use', 'best_for'],
+    keyFields: ['cost', 'time_to_results', 'ease_of_use', 'format_type'],
     fieldLabels: {
       cost: 'Cost',
+      time_to_results: 'Time to Results',
       ease_of_use: 'Ease of Use',
-      best_for: 'Best For'
-    }
+      format_type: 'Product Type'
+    },
+    arrayField: 'issues'
   },
   books_courses: {
     icon: '📚',
     color: 'text-amber-700',
     borderColor: 'border-amber-200',
     bgColor: 'bg-amber-50',
-    keyFields: ['cost', 'format', 'learning_difficulty'],
+    keyFields: ['cost', 'time_to_results', 'format', 'learning_difficulty'],
     fieldLabels: {
       cost: 'Cost',
+      time_to_results: 'Time to Results',
       format: 'Format',
-      learning_difficulty: 'Difficulty'
-    }
+      learning_difficulty: 'Learning Difficulty'
+    },
+    arrayField: 'challenges'
+  },
+  groups_communities: {
+    icon: '🌍',
+    color: 'text-green-700',
+    borderColor: 'border-green-200',
+    bgColor: 'bg-green-50',
+    keyFields: ['cost', 'time_to_results', 'meeting_frequency', 'format'],
+    fieldLabels: {
+      cost: 'Cost',
+      time_to_results: 'Time to Results',
+      meeting_frequency: 'Frequency',
+      format: 'Format'
+    },
+    arrayField: 'challenges_experienced'
   },
   support_groups: {
     icon: '👥',
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['cost', 'format', 'meeting_frequency'],
+    keyFields: ['cost', 'time_to_results', 'format', 'meeting_frequency'],
     fieldLabels: {
       cost: 'Cost',
+      time_to_results: 'Time to Results',
       format: 'Format',
       meeting_frequency: 'Frequency'
-    }
+    },
+    arrayField: 'challenges_experienced'
   },
   diet_nutrition: {
     icon: '🥗',
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['cost_impact', 'social_impact'],
+    keyFields: ['cost_impact', 'time_to_results', 'preparation_adjustment_time', 'long_term_sustainability'],
     fieldLabels: {
       cost_impact: 'Cost Impact',
-      social_impact: 'Social Impact'
-    }
+      time_to_results: 'Time to Results',
+      preparation_adjustment_time: 'Daily Prep Time',
+      long_term_sustainability: 'Sustainability'
+    },
+    arrayField: 'challenges_experienced'
   },
   sleep: {
     icon: '😴',
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['cost', 'adjustment_period'],
+    keyFields: ['cost', 'time_to_results', 'adjustment_period', 'previous_sleep_hours'],
     fieldLabels: {
       cost: 'Cost',
-      adjustment_period: 'Adjustment'
+      time_to_results: 'Time to Results',
+      adjustment_period: 'Adjustment',
+      previous_sleep_hours: 'Previous Sleep'
+    },
+    arrayField: 'challenges_experienced'
+  },
+  financial_products: {
+    icon: '💰',
+    color: 'text-green-700',
+    borderColor: 'border-green-200',
+    bgColor: 'bg-green-50',
+    keyFields: ['cost_type', 'financial_benefit', 'time_to_results', 'ease_of_use'],
+    fieldLabels: {
+      cost_type: 'Cost Type',
+      financial_benefit: 'Financial Benefit',
+      time_to_results: 'Time to Results',
+      ease_of_use: 'Ease of Use'
     }
+    // No specific array field for issues - has minimum_requirements and key_features instead
   }
 }
 
@@ -254,90 +385,147 @@ const DEFAULT_CATEGORY_CONFIG = {
   color: 'text-gray-700',
   borderColor: 'border-gray-200',
   bgColor: 'bg-gray-50',
-  keyFields: ['cost', 'time_to_results'],
+  keyFields: ['cost', 'time_to_results', 'format', 'frequency'],
   fieldLabels: {
     cost: 'Cost',
-    time_to_results: 'Time to Results'
+    time_to_results: 'Time to Results',
+    format: 'Format',
+    frequency: 'Frequency'
+  },
+  arrayField: undefined as string | undefined
+}
+
+// Helper to format prevalence data for simple view
+const formatPrevalenceForSimpleView = (distribution: DistributionData | null, value: string): React.ReactElement => {
+  if (!distribution || distribution.values.length <= 1) {
+    // No distribution data, just show the single value
+    return <span>{value}</span> as React.ReactElement
   }
+  
+  // Show vertical stack with "Most common:" label
+  const topValues = distribution.values.slice(0, 2) // Show top 2
+  const remainingCount = distribution.values.length - 2
+  
+  return (
+    <div className="space-y-1">
+      <div className="text-xs text-gray-500 dark:text-gray-400">Most common:</div>
+      {topValues.map((item, index) => (
+        <div key={index} className="text-sm">
+          {item.value} <span className="text-gray-500 dark:text-gray-400">({item.percentage}%)</span>
+        </div>
+      ))}
+      {remainingCount > 0 && (
+        <div className="text-xs text-gray-500 dark:text-gray-400">+ {remainingCount} more</div>
+      )}
+    </div>
+  ) as React.ReactElement
 }
 
 // Helper to format array fields nicely
-const formatArrayField = (value: unknown, fieldName?: string): string | React.ReactElement => {
-  if (Array.isArray(value)) {
-    // For challenges field with percentages, format each item on new line
-    if (fieldName === 'challenges' && value.some(item => typeof item === 'string' && item.includes('('))) {
-      return (
-        <div className="space-y-1">
-          {value.map((item, index) => (
-            <div key={index} className="text-sm break-words">
-              {item}
-            </div>
-          ))}
-        </div>
-      ) as React.ReactElement
+// Commented out - not currently used
+// const formatArrayField = (value: unknown, fieldName?: string): string | React.ReactElement => {
+//   if (Array.isArray(value)) {
+//     // For challenges field with percentages, format each item on new line
+//     if (fieldName === 'challenges' && value.some(item => typeof item === 'string' && item.includes('('))) {
+//       return (
+//         <div className="space-y-1">
+//           {value.map((item, index) => (
+//             <div key={index} className="text-sm break-words">
+//               {item}
+//             </div>
+//           ))}
+//         </div>
+//       ) as React.ReactElement
+//     }
+//     // For fields with percentages, return with proper wrapping
+//     if (value.some(item => typeof item === 'string' && item.includes('%'))) {
+//       return (
+//         <div className="text-sm">
+//           <div className="flex flex-wrap gap-x-1">
+//             {value.map((item, index) => (
+//               <span key={index} className="whitespace-nowrap">
+//                 {index > 0 && <span className="mx-1">•</span>}
+//                 {item}
+//               </span>
+//             ))}
+//           </div>
+//         </div>
+//       ) as React.ReactElement
+//     }
+//     // For longer content, return line-separated
+//     return (
+//       <div className="space-y-1">
+//         {value.map((item, index) => (
+//           <div key={index} className="text-sm break-words">
+//             {index > 0 && '• '}{item}
+//           </div>
+//         ))}
+//       </div>
+//     ) as React.ReactElement
+//   }
+//   return value?.toString() || ''
+// }
+
+// Helper to get regular field values
+const getFieldDisplayValue = (solution: GoalSolutionWithVariants, fieldName: string, variant?: typeof solution.variants[0]): string | null => {
+  // Check variant first (for dosage categories)
+  if (variant && variant.category_fields) {
+    const variantFields = variant.category_fields as Record<string, unknown>
+    if (variantFields[fieldName]) {
+      return variantFields[fieldName].toString()
     }
-    // For fields with percentages, return with proper wrapping
-    if (value.some(item => typeof item === 'string' && item.includes('%'))) {
-      return (
-        <div className="text-sm">
-          <div className="flex flex-wrap gap-x-1">
-            {value.map((item, index) => (
-              <span key={index} className="whitespace-nowrap">
-                {index > 0 && <span className="mx-1">•</span>}
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
-      ) as React.ReactElement
-    }
-    // For longer content, return line-separated
-    return (
-      <div className="space-y-1">
-        {value.map((item, index) => (
-          <div key={index} className="text-sm break-words">
-            {index > 0 && '• '}{item}
-          </div>
-        ))}
-      </div>
-    ) as React.ReactElement
   }
-  return value?.toString() || ''
+  
+  // Then check solution_fields
+  const solutionFields = solution.solution_fields as Record<string, unknown> || {}
+  if (solutionFields[fieldName]) {
+    const value = solutionFields[fieldName]
+    if (Array.isArray(value)) return null // Arrays handled elsewhere
+    return value.toString()
+  }
+  
+  return null
 }
 
-// Helper to get display value for a field
-const getFieldDisplayValue = (solution: GoalSolutionWithVariants, fieldName: string, variant?: typeof solution.variants[0]): string | null => {
-  // First check solution_fields (from goal_implementation_links)
+// Helper for composite fields
+const getCompositeFieldValue = (solution: GoalSolutionWithVariants, fieldName: string, variant?: typeof solution.variants[0]): string | null => {
   const solutionFields = solution.solution_fields as Record<string, unknown> || {}
-  
-  // Also check variant category_fields if a specific variant is provided
   const variantFields = variant?.category_fields as Record<string, unknown> || {}
   
-  // Merge fields, with variant fields taking precedence
-  const allFields = { ...solutionFields, ...variantFields }
-  
-  // For cost fields, check both with and without _cost suffix
-  if (fieldName === 'cost' && !allFields.cost) {
-    // Check for startup_cost, ongoing_cost, etc.
-    if (allFields.startup_cost || allFields.ongoing_cost) {
-      const parts = []
-      if (allFields.startup_cost && allFields.startup_cost !== 'Free/No startup cost') {
-        parts.push(`${allFields.startup_cost} startup`)
+  switch(fieldName) {
+    case 'dosage_info':
+      const amount = variantFields?.amount || solutionFields?.dosage_amount || solutionFields?.amount
+      const unit = variantFields?.unit || solutionFields?.unit
+      const frequency = solutionFields?.frequency
+      if (amount && unit) {
+        return frequency ? `${amount}${unit} ${frequency}` : `${amount}${unit}`
       }
-      if (allFields.ongoing_cost && allFields.ongoing_cost !== 'Free/No ongoing cost') {
-        parts.push(`${allFields.ongoing_cost} ongoing`)
+      return null
+      
+    case 'cost':
+      // Handle dual cost fields (startup + ongoing)
+      if (solutionFields.startup_cost || solutionFields.ongoing_cost) {
+        const parts = []
+        if (solutionFields.startup_cost && solutionFields.startup_cost !== 'Free/No startup cost') {
+          parts.push(solutionFields.startup_cost.toString())
+        }
+        if (solutionFields.ongoing_cost && solutionFields.ongoing_cost !== 'Free/No ongoing cost') {
+          parts.push(`${solutionFields.ongoing_cost}/mo`)
+        }
+        return parts.length > 0 ? parts.join(' + ') : 'Free'
       }
-      return parts.length > 0 ? parts.join(', ') : 'Free'
-    }
+      // Single cost field
+      return solutionFields.cost ? solutionFields.cost.toString() : null
+      
+    case 'startup_cost':
+      return solutionFields.startup_cost ? solutionFields.startup_cost.toString() : null
+      
+    case 'ongoing_cost':
+      return solutionFields.ongoing_cost ? solutionFields.ongoing_cost.toString() : null
+      
+    default:
+      return null
   }
-  
-  const value = allFields[fieldName]
-  if (value === null || value === undefined || value === '') return null
-  
-  // Skip arrays - they'll be handled in pill sections
-  if (Array.isArray(value)) return null
-  
-  return value?.toString() || ''
 }
 
 // Multi-select dropdown component
@@ -418,7 +606,7 @@ const CategoryDropdown = ({
   )
 }
 
-export default function GoalPageClient({ goal, initialSolutions, error, relatedGoals = [] }: GoalPageClientProps) {
+export default function GoalPageClient({ goal, initialSolutions, distributions, error, relatedGoals = [] }: GoalPageClientProps) {
   const [sortBy, setSortBy] = useState('effectiveness')
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set())
   const [viewMode, setViewMode] = useState<'simple' | 'detailed'>('simple')
@@ -432,13 +620,43 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
     fieldName: string;
     distribution: DistributionData | null;
   }>({ isOpen: false, fieldName: '', distribution: null })
-  const [fieldDistributions, setFieldDistributions] = useState<Map<string, DistributionData>>(new Map())
   const [individualCardViews, setIndividualCardViews] = useState<Map<string, 'simple' | 'detailed'>>(new Map())
   const [isMobile, setIsMobile] = useState(false)
   const [variantSheet, setVariantSheet] = useState<{
     isOpen: boolean;
     solution: GoalSolutionWithVariants | null;
   }>({ isOpen: false, solution: null })
+  
+  // Process distributions into a map for easy lookup
+  const distributionMap = useMemo(() => {
+    const map = new Map<string, DistributionData>();
+    
+    distributions.forEach(dist => {
+      if (dist.distributions && Array.isArray(dist.distributions)) {
+        const key = `${dist.solution_id}-${dist.field_name}`;
+        
+        // Convert to DistributionData format
+        const values = dist.distributions.map(item => ({
+          value: item.name,
+          count: Math.round(item.percentage), // Using percentage as count for now
+          percentage: item.percentage
+        }));
+        
+        // Find the mode (highest percentage)
+        const mode = values.reduce((prev, current) => 
+          current.percentage > prev.percentage ? current : prev
+        ).value;
+        
+        map.set(key, {
+          mode,
+          values,
+          totalReports: 100 // Default for now
+        });
+      }
+    });
+    
+    return map;
+  }, [distributions]);
   
   // Check if user has seen the contribution hint banner
   useEffect(() => {
@@ -451,7 +669,7 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
   // Mobile detection
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640)
+      setIsMobile(window.innerWidth < 1024)
     }
     
     checkMobile()
@@ -459,39 +677,6 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
   
-  // Load field distributions when solutions or viewMode changes
-  useEffect(() => {
-    if (viewMode === 'detailed' && solutions.length > 0) {
-      const loadDistributions = async () => {
-        const newDistributions = new Map<string, DistributionData>()
-        
-        // Get all unique fields across all solutions
-        const allFields = new Set<string>()
-        solutions.forEach(solution => {
-          const categoryConfig = solution.solution_category 
-            ? (CATEGORY_CONFIG[solution.solution_category] || DEFAULT_CATEGORY_CONFIG)
-            : DEFAULT_CATEGORY_CONFIG
-          categoryConfig.keyFields.forEach(field => allFields.add(field))
-        })
-        
-        // Load distributions for each field
-        for (const fieldName of allFields) {
-          try {
-            const distribution = await getGoalFieldDistribution(goal.id, solutions, fieldName)
-            if (distribution) {
-              newDistributions.set(fieldName, distribution)
-            }
-          } catch (error) {
-            console.warn(`Failed to load distribution for field ${fieldName}:`, error)
-          }
-        }
-        
-        setFieldDistributions(newDistributions)
-      }
-      
-      loadDistributions()
-    }
-  }, [goal.id, solutions, viewMode])
 
   // Calculate stats
   const totalRatings = useMemo(() => {
@@ -524,29 +709,12 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
     return Object.keys(categoryCounts).sort()
   }, [categoryCounts])
 
+
   // Helper to get distribution for a specific solution and field
   const getDistributionForSolutionField = (solution: GoalSolutionWithVariants, fieldName: string): DistributionData | null => {
-    // First check if we have a cross-solution distribution for this field
-    const crossSolutionDistribution = fieldDistributions.get(fieldName)
-    if (crossSolutionDistribution) {
-      return crossSolutionDistribution
-    }
-    
-    // Fallback: create simple single-value distribution
-    const currentValue = getFieldValueFromSolution(solution, fieldName)
-    if (!currentValue) return null
-    
-    const ratingCount = solution.variants.reduce((sum, variant) => {
-      return sum + (variant.goal_links[0]?.rating_count || 1)
-    }, 0)
-    
-    return {
-      mode: currentValue,
-      values: [
-        { value: currentValue, count: ratingCount, percentage: 100 }
-      ],
-      totalReports: ratingCount
-    }
+    // Use the pre-processed distribution map
+    const key = `${solution.id}-${fieldName}`;
+    return distributionMap.get(key) || null;
   }
 
   // Filter and sort solutions
@@ -984,210 +1152,204 @@ export default function GoalPageClient({ goal, initialSolutions, error, relatedG
                     </p>
                   )}
 
-                  {/* Key Fields - Desktop: Grid with more spacing */}
+                  {/* Key Fields - Desktop: Grid with exactly 4 fields */}
                   {(() => {
-                    const fieldsToShow = categoryConfig.keyFields.filter(fieldName => {
-                      const value = getFieldDisplayValue(solution, fieldName, bestVariant)
-                      return value !== null && value !== undefined && value !== ''
-                    })
-                    
-                    if (fieldsToShow.length === 0) return null
-                    
-                    return (
-                      <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4 mb-4 key-fields-grid">
-                        {fieldsToShow.map(fieldName => {
-                          const distribution = getDistributionForSolutionField(solution, fieldName)
-                          
-                          if (distribution && cardView === 'detailed') {
+                    const renderKeyFields = () => {
+                      const fieldsToShow = categoryConfig.keyFields // Always exactly 4 required fields
+                      
+                      return (
+                        <div className="hidden sm:grid sm:grid-cols-4 gap-4 mb-4 key-fields-grid">
+                          {fieldsToShow.map(fieldName => {
+                            // Try composite fields first
+                            let value = getCompositeFieldValue(solution, fieldName, bestVariant)
+                            
+                            // Fall back to regular field
+                            if (!value) {
+                              value = getFieldDisplayValue(solution, fieldName, bestVariant)
+                            }
+                            
+                            if (!value) return null
+                            
+                            const distribution = getDistributionForSolutionField(solution, fieldName)
+                            
+                            if (distribution && cardView === 'detailed') {
+                              return (
+                                <div key={fieldName} className="field-container min-w-0">
+                                  <NewDistributionField
+                                    label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                    distribution={distribution}
+                                    viewMode={cardView}
+                                  />
+                                </div>
+                              )
+                            }
+                            
+                            // Simple display
                             return (
-                              <div key={fieldName} className="field-container min-w-0">
-                                <NewDistributionField
-                                  label={categoryConfig.fieldLabels[fieldName] || fieldName}
-                                  distribution={distribution}
-                                  viewMode={cardView}
-                                />
+                              <div key={fieldName} className="field-container min-w-0 space-y-1">
+                                <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                  {categoryConfig.fieldLabels[fieldName] || fieldName}
+                                </span>
+                                <div className="field-value-container text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
+                                  {distribution ? formatPrevalenceForSimpleView(distribution, value) : value}
+                                </div>
                               </div>
                             )
-                          }
-                          
-                          // Fallback to simple display
-                          const value = getFieldDisplayValue(solution, fieldName, bestVariant)
-                          return (
-                            <div key={fieldName} className="field-container min-w-0 space-y-1">
-                              <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                {categoryConfig.fieldLabels[fieldName] || fieldName}
-                              </span>
-                              <div className="field-value-container text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
-                                {value}
-                              </div>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    )
+                          })}
+                        </div>
+                      )
+                    }
+                    
+                    return renderKeyFields()
                   })()}
                   
-                  {/* Mobile: Stacked Layout */}
+                  {/* Mobile: 2-column grid */}
                   {(() => {
-                    const fieldsToShow = categoryConfig.keyFields.filter(fieldName => {
-                      const value = getFieldDisplayValue(solution, fieldName, bestVariant)
-                      return value !== null && value !== undefined && value !== ''
-                    })
-                    
-                    if (fieldsToShow.length === 0) return null
-                    
-                    return (
-                      <div className="sm:hidden space-y-3 mb-4">
-                        {fieldsToShow.map((fieldName, index) => {
-                          const distribution = getDistributionForSolutionField(solution, fieldName)
-                          
-                          if (distribution && cardView === 'detailed') {
+                    const renderMobileFields = () => {
+                      const fieldsToShow = categoryConfig.keyFields // Always exactly 4 required fields
+                      
+                      return (
+                        <div className="sm:hidden grid grid-cols-2 gap-3 mb-4">
+                          {fieldsToShow.map(fieldName => {
+                            // Try composite fields first
+                            let value = getCompositeFieldValue(solution, fieldName, bestVariant)
+                            
+                            // Fall back to regular field
+                            if (!value) {
+                              value = getFieldDisplayValue(solution, fieldName, bestVariant)
+                            }
+                            
+                            if (!value) return null
+                            
+                            const distribution = getDistributionForSolutionField(solution, fieldName)
+                            
+                            if (distribution && cardView === 'detailed') {
+                              return (
+                                <div key={fieldName} className="field-container">
+                                  <NewDistributionField
+                                    label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                    distribution={distribution}
+                                    viewMode={cardView}
+                                    onTapBreakdown={() => {
+                                      setDistributionSheet({
+                                        isOpen: true,
+                                        fieldName: categoryConfig.fieldLabels[fieldName] || fieldName,
+                                        distribution
+                                      })
+                                    }}
+                                  />
+                                </div>
+                              )
+                            }
+                            
+                            // Simple view
                             return (
-                              <div key={fieldName} className={`py-3 ${
-                                index < fieldsToShow.length - 1 ? 'border-b border-gray-100 dark:border-gray-700' : ''
-                              }`}>
-                                <NewDistributionField
-                                  label={categoryConfig.fieldLabels[fieldName] || fieldName}
-                                  distribution={distribution}
-                                  viewMode={cardView}
-                                  onTapBreakdown={() => {
-                                    setDistributionSheet({
-                                      isOpen: true,
-                                      fieldName: categoryConfig.fieldLabels[fieldName] || fieldName,
-                                      distribution
-                                    })
-                                  }}
-                                />
+                              <div key={fieldName} className="field-container space-y-1">
+                                <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                  {categoryConfig.fieldLabels[fieldName] || fieldName}
+                                </span>
+                                <div className="text-sm font-medium text-gray-900 dark:text-gray-100 break-words">
+                                  {distribution ? formatPrevalenceForSimpleView(distribution, value) : value}
+                                </div>
                               </div>
                             )
-                          }
-                          
-                          // Simple view or fallback
-                          const value = getFieldDisplayValue(solution, fieldName, bestVariant)
-                          return (
-                            <div key={fieldName} className={`flex items-center justify-between py-3 ${
-                              index < fieldsToShow.length - 1 ? 'border-b border-gray-100 dark:border-gray-700' : ''
-                            }`}>
-                              <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                {categoryConfig.fieldLabels[fieldName] || fieldName}
-                              </span>
-                              <span className="text-sm font-medium text-gray-900 dark:text-gray-100 text-right leading-relaxed">
-                                {value}
-                              </span>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    )
+                          })}
+                        </div>
+                      )
+                    }
+                    
+                    return renderMobileFields()
                   })()}
 
-                  {/* Detailed View Additional Fields */}
-                  {cardView === 'detailed' && (() => {
+                  {/* Array Field Pills - Show in both simple and detailed views */}
+                  {(() => {
+                    // Only show if category has an arrayField defined
+                    if (!categoryConfig.arrayField) return null
+                    
                     const solutionFields = solution.solution_fields as Record<string, unknown> || {}
                     const bestVariantFields = bestVariant?.category_fields as Record<string, unknown> || {}
                     const allFields = { ...solutionFields, ...bestVariantFields }
                     
+                    // Get the array field value
+                    const fieldName = categoryConfig.arrayField as string
+                    const fieldValue = allFields[fieldName] || solutionFields[fieldName] || bestVariantFields[fieldName] ||
+                                      allFields[fieldName.toUpperCase()] || solutionFields[fieldName.toUpperCase()] || bestVariantFields[fieldName.toUpperCase()]
+                    
+                    if (!fieldValue || (Array.isArray(fieldValue) && fieldValue.length === 0)) return null
+                    
+                    // Helper to parse items with percentages
+                    const parseItemWithPercentage = (item: string) => {
+                      const match = item.match(/^(.+?)\s*\((\d+)%\)$/)
+                      if (match) {
+                        return { text: match[1].trim(), percentage: match[2] }
+                      }
+                      return { text: item, percentage: null }
+                    }
+                    
+                    // Determine label based on field name and category
+                    const getFieldLabel = () => {
+                      if (fieldName === 'side_effects') {
+                        if (categoryConfig.arrayField === 'side_effects' && 
+                            ['alternative_practitioners', 'medical_procedures'].includes(solution.solution_category || '')) {
+                          return solution.solution_category === 'alternative_practitioners' ? 'Risks' : 'Side Effects/Risks'
+                        }
+                        return 'Side Effects'
+                      }
+                      if (fieldName === 'challenges' || fieldName === 'challenges_experienced') {
+                        return 'Challenges'
+                      }
+                      if (fieldName === 'issues') {
+                        return 'Issues'
+                      }
+                      if (fieldName === 'barriers') {
+                        return 'Challenges'
+                      }
+                      // Default: capitalize first letter
+                      return fieldName.split('_').map(word => 
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                      ).join(' ')
+                    }
+                    
+                    const itemsArray = Array.isArray(fieldValue) ? fieldValue : [fieldValue]
+                    const displayLimit = cardView === 'detailed' ? 8 : (isMobile ? 2 : 3)
+                    const displayItems = itemsArray.slice(0, displayLimit)
+                    const remainingCount = itemsArray.length - displayLimit
+                    
                     return (
-                      <>
-                        <div className="additional-fields-grid text-sm">
-                          {(() => {
-                            // Filter out key fields already shown and array fields that will be shown as pills
-                            const arrayFieldsForPills = ['side_effects', 'challenges', 'issues']
-                            const additionalFields = Object.entries(allFields).filter(([key]) => 
-                              !categoryConfig.keyFields.includes(key) && !arrayFieldsForPills.includes(key.toLowerCase())
-                            )
-                            
-                            return additionalFields.map(([key, value]) => {
-                              if (!value || (Array.isArray(value) && value.length === 0)) return null
-                              
-                              const label = key.split('_').map(word => 
-                                word.charAt(0).toUpperCase() + word.slice(1)
-                              ).join(' ')
-                              
-                              // Add extra spacing for fields that typically have longer content
-                              const needsExtraSpacing = ['challenges', 'social_impact', 'social_impacts'].includes(key.toLowerCase())
-                              
-                              return (
-                                <div key={key} className={`additional-field-item ${needsExtraSpacing ? 'mb-4' : ''}`}>
-                                  <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    {label}
-                                  </span>
-                                  <div className="font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
-                                    {formatArrayField(value, key)}
-                                  </div>
-                                </div>
-                              )
-                            })
-                          })()}
+                      <div className="side-effects-section">
+                        <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                          {getFieldLabel()} (top {displayLimit} of {itemsArray.length}):
                         </div>
-                        
-                        {/* Array Fields as Pills (side_effects, challenges, issues) */}
-                        {(() => {
-                          const arrayFields = [
-                            { fieldName: 'side_effects', label: 'Side Effects' },
-                            { fieldName: 'challenges', label: 'Challenges' },
-                            { fieldName: 'issues', label: 'Issues' }
-                          ]
-                          
-                          // Helper to parse items with percentages
-                          const parseItemWithPercentage = (item: string) => {
-                            const match = item.match(/^(.+?)\s*\((\d+)%\)$/)
-                            if (match) {
-                              return { text: match[1].trim(), percentage: match[2] }
-                            }
-                            return { text: item, percentage: null }
-                          }
-                          
-                          return arrayFields.map(({ fieldName, label }) => {
-                            // Check for both lowercase and uppercase field names
-                            const fieldValue = allFields[fieldName] || solutionFields[fieldName] || bestVariantFields[fieldName] ||
-                                              allFields[fieldName.toUpperCase()] || solutionFields[fieldName.toUpperCase()] || bestVariantFields[fieldName.toUpperCase()]
-                            if (!fieldValue || (Array.isArray(fieldValue) && fieldValue.length === 0)) return null
-                            
-                            const itemsArray = Array.isArray(fieldValue) ? fieldValue : [fieldValue]
-                            const displayLimit = cardView === 'detailed' ? 8 : 3
-                            const displayItems = itemsArray.slice(0, displayLimit)
-                            const remainingCount = itemsArray.length - displayLimit
-                            
+                        <div className="flex flex-wrap gap-1.5 items-center">
+                          {displayItems.map((item, index) => {
+                            const { text, percentage } = parseItemWithPercentage(item.toString())
                             return (
-                              <div key={fieldName} className="side-effects-section">
-                                <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                                  {label}
-                                </div>
-                                <div className="flex flex-wrap gap-1.5 items-center">
-                                  {displayItems.map((item, index) => {
-                                    const { text, percentage } = parseItemWithPercentage(item.toString())
-                                    return (
-                                      <span key={index} className="side-effect-chip">
-                                        {text}
-                                        {percentage && <span className="ml-1 opacity-70">{percentage}%</span>}
-                                      </span>
-                                    )
-                                  })}
-                                  {remainingCount > 0 && (
-                                    <span className="show-more-pill">
-                                      +{remainingCount} more
-                                    </span>
-                                  )}
-                                  <button 
-                                    className="add-effect-inline"
-                                    onClick={(e) => {
-                                      e.stopPropagation()
-                                      // TODO: Implement add functionality
-                                      console.log(`Add ${fieldName} functionality to be implemented`)
-                                    }}
-                                  >
-                                    <span>+</span>
-                                    <span>Add yours</span>
-                                  </button>
-                                </div>
-                              </div>
+                              <span key={index} className="side-effect-chip">
+                                {text}
+                                {percentage && <span className="ml-1 opacity-70">({percentage}%)</span>}
+                              </span>
                             )
-                          })
-                        })()}
-                    </>
-                  )
-                })()}
+                          })}
+                          {remainingCount > 0 && (
+                            <span className="show-more-pill">
+                              +{remainingCount} more
+                            </span>
+                          )}
+                          <button 
+                            className="add-effect-inline"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              // TODO: Implement add functionality
+                              console.log(`Add ${fieldName} functionality to be implemented`)
+                            }}
+                          >
+                            <span>+</span>
+                            <span>Add yours</span>
+                          </button>
+                        </div>
+                      </div>
+                    )
+                  })()}
 
                   {/* Mobile hint for detailed view */}
                   {cardView === 'detailed' && isMobile && categoryConfig.keyFields.some(field => getFieldDisplayValue(solution, field, bestVariant)) && (

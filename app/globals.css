@@ -857,17 +857,9 @@
   min-width: 200px;
 }
 
-@media (min-width: 1024px) {
-  .key-fields-grid {
-    grid-template-columns: repeat(3, minmax(200px, 1fr));
-  }
-}
+/* Removed - grid columns now controlled by Tailwind classes */
 
-@media (min-width: 640px) and (max-width: 1023px) {
-  .key-fields-grid {
-    grid-template-columns: repeat(2, minmax(250px, 1fr));
-  }
-}
+/* Removed - grid columns now controlled by Tailwind classes */
 
 /* Ensure distribution fields wrap properly and don't overlap */
 .distribution-field .distribution-values {
