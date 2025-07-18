@@ -1,17 +1,6 @@
 import { GoalSolutionWithVariants } from '@/lib/solutions/goal-solutions';
-import { DistributionData } from '@/components/molecules/DistributionField';
 
-// Helper to extract real distribution data from actual user ratings
-export const getRealDistributionForField = async (
-  goalId: string, 
-  fieldName: string
-): Promise<DistributionData | null> => {
-  // TODO: This would query the database for actual user ratings
-  // For now, return null to fall back to single value display
-  return null;
-};
-
-// Helper to get field value from solution_fields JSONB
+// Helper to get field value from solution_fields JSONB with field name mapping
 export const getFieldValueFromSolution = (
   solution: GoalSolutionWithVariants, 
   fieldName: string
@@ -25,6 +14,29 @@ export const getFieldValueFromSolution = (
   
   // Merge fields, with variant fields taking precedence
   const allFields = { ...solutionFields, ...variantFields };
+  
+  // Field name mapping for mismatches between UI and database
+  const fieldNameMapping: Record<string, string[]> = {
+    'prep_time': ['prep_time', 'daily_prep_time', 'preparation_adjustment_time'],
+    'sustainability': ['sustainability', 'long_term_sustainability'],
+    'cost_impact': ['cost_impact'],
+    'time_to_results': ['time_to_results'],
+    'challenges': ['challenges', 'challenges_experienced'],
+    'adjustment_period': ['adjustment_period'],
+    'previous_sleep_hours': ['previous_sleep_hours'],
+    'most_valuable_feature': ['most_valuable_feature', 'valuable_feature'],
+    'usage_frequency': ['usage_frequency', 'usage']
+  };
+  
+  // Try mapped field names first
+  const possibleFieldNames = fieldNameMapping[fieldName] || [fieldName];
+  
+  for (const possibleName of possibleFieldNames) {
+    const value = allFields[possibleName];
+    if (value !== null && value !== undefined && value !== '') {
+      return Array.isArray(value) ? value.join(' • ') : (value?.toString() || '');
+    }
+  }
   
   // Special handling for cost fields
   if (fieldName === 'cost' && !allFields.cost) {
@@ -41,86 +53,5 @@ export const getFieldValueFromSolution = (
     }
   }
   
-  const value = allFields[fieldName];
-  if (value === null || value === undefined || value === '') return null;
-  
-  return Array.isArray(value) ? value.join(' • ') : (value?.toString() || '');
-};
-
-// Create distribution data when we have multiple solutions for the same goal+field
-export const createDistributionFromSolutions = (
-  solutions: GoalSolutionWithVariants[],
-  fieldName: string
-): DistributionData | null => {
-  // Collect all values for this field across solutions
-  const fieldValues: Array<{ value: string; solution: GoalSolutionWithVariants }> = [];
-  
-  solutions.forEach(solution => {
-    const value = getFieldValueFromSolution(solution, fieldName);
-    if (value) {
-      fieldValues.push({ value, solution });
-    }
-  });
-  
-  if (fieldValues.length < 2) {
-    // Not enough data for a distribution
-    return null;
-  }
-  
-  // Count occurrences of each value
-  const valueCounts = new Map<string, { count: number; totalRatings: number }>();
-  
-  fieldValues.forEach(({ value, solution }) => {
-    const totalRatings = solution.variants.reduce((sum, variant) => {
-      return sum + (variant.goal_links[0]?.rating_count || 1); // Default to 1 for AI data
-    }, 0);
-    
-    if (valueCounts.has(value)) {
-      const existing = valueCounts.get(value)!;
-      valueCounts.set(value, {
-        count: existing.count + 1,
-        totalRatings: existing.totalRatings + totalRatings
-      });
-    } else {
-      valueCounts.set(value, { count: 1, totalRatings });
-    }
-  });
-  
-  // Calculate total reports and percentages
-  const totalReports = Array.from(valueCounts.values()).reduce((sum, { totalRatings }) => sum + totalRatings, 0);
-  
-  // Convert to distribution format
-  const values = Array.from(valueCounts.entries()).map(([value, { totalRatings }]) => ({
-    value,
-    count: totalRatings,
-    percentage: Math.round((totalRatings / totalReports) * 100)
-  }));
-  
-  // Sort by count descending
-  values.sort((a, b) => b.count - a.count);
-  
-  // Find the mode (most common value)
-  const mode = values[0]?.value || '';
-  
-  return {
-    mode,
-    values,
-    totalReports
-  };
-};
-
-// Main function to get distribution for a field in the context of a specific goal
-export const getGoalFieldDistribution = async (
-  goalId: string,
-  allGoalSolutions: GoalSolutionWithVariants[],
-  fieldName: string
-): Promise<DistributionData | null> => {
-  // First try to get real distribution from database
-  const realDistribution = await getRealDistributionForField(goalId, fieldName);
-  if (realDistribution) {
-    return realDistribution;
-  }
-  
-  // Fall back to creating distribution from current solutions
-  return createDistributionFromSolutions(allGoalSolutions, fieldName);
+  return null;
 };

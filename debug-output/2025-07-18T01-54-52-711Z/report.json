@@ -1,0 +1,92 @@
+{
+  "url": "http://localhost:3002/goals/56e2801e-0d78-4abd-a795-869e5b780ae7",
+  "timestamp": "2025-07-18T01:54:52.849Z",
+  "loadTime": "1770ms",
+  "pageData": {
+    "title": "404: This page could not be found",
+    "url": "http://localhost:3002/goals/56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "pathname": "/goals/56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "meta": {
+      "viewport": "width=device-width"
+    },
+    "structure": {
+      "hasNavigation": false,
+      "hasHeader": false,
+      "hasFooter": false,
+      "hasMain": false
+    },
+    "forms": [],
+    "links": [],
+    "images": [],
+    "buttons": [],
+    "headings": [
+      {
+        "level": 1,
+        "text": "404"
+      },
+      {
+        "level": 2,
+        "text": "This page could not be found."
+      }
+    ],
+    "lists": {
+      "ordered": 0,
+      "unordered": 0,
+      "definition": 0
+    },
+    "tables": [],
+    "accessibility": {
+      "imagesWithoutAlt": 0,
+      "buttonsWithoutText": 0,
+      "inputsWithoutLabels": 0
+    },
+    "performance": {
+      "domNodes": 28,
+      "images": 0,
+      "scripts": 9,
+      "stylesheets": 2
+    }
+  },
+  "consoleLogs": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "time": "2025-07-18T01:54:50.040Z"
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+      "time": "2025-07-18T01:54:50.177Z"
+    },
+    {
+      "type": "log",
+      "text": "[HMR] connected",
+      "time": "2025-07-18T01:54:50.195Z"
+    }
+  ],
+  "networkRequests": [
+    {
+      "url": "http://localhost:3002/goals/56e2801e-0d78-4abd-a795-869e5b780ae7",
+      "method": "GET",
+      "type": "document",
+      "time": "2025-07-18T01:54:48.931Z",
+      "status": 404,
+      "statusText": "Not Found"
+    }
+  ],
+  "errors": [],
+  "failedRequests": [
+    {
+      "url": "http://localhost:3002/goals/56e2801e-0d78-4abd-a795-869e5b780ae7",
+      "method": "GET",
+      "type": "document",
+      "time": "2025-07-18T01:54:48.931Z",
+      "status": 404,
+      "statusText": "Not Found"
+    }
+  ],
+  "viewport": {
+    "width": 375,
+    "height": 667
+  }
+}

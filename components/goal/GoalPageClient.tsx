@@ -34,16 +34,6 @@ type Goal = {
 interface GoalPageClientProps {
   goal: Goal
   initialSolutions: GoalSolutionWithVariants[]
-  distributions: Array<{
-    id: string
-    solution_id: string
-    goal_id: string
-    field_name: string
-    distributions: Array<{
-      name: string
-      percentage: number
-    }>
-  }>
   error?: string | null
   relatedGoals?: RelatedGoal[]
 }
@@ -354,12 +344,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['cost', 'time_to_results', 'adjustment_period', 'previous_sleep_hours'],
+    keyFields: ['cost', 'time_to_results', 'adjustment_period', 'long_term_sustainability'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
       adjustment_period: 'Adjustment',
-      previous_sleep_hours: 'Previous Sleep'
+      long_term_sustainability: 'Sustainability'
     },
     arrayField: 'challenges_experienced'
   },
@@ -391,8 +381,7 @@ const DEFAULT_CATEGORY_CONFIG = {
     time_to_results: 'Time to Results',
     format: 'Format',
     frequency: 'Frequency'
-  },
-  arrayField: undefined as string | undefined
+  }
 }
 
 // Helper to format prevalence data for simple view
@@ -422,49 +411,48 @@ const formatPrevalenceForSimpleView = (distribution: DistributionData | null, va
 }
 
 // Helper to format array fields nicely
-// Commented out - not currently used
-// const formatArrayField = (value: unknown, fieldName?: string): string | React.ReactElement => {
-//   if (Array.isArray(value)) {
-//     // For challenges field with percentages, format each item on new line
-//     if (fieldName === 'challenges' && value.some(item => typeof item === 'string' && item.includes('('))) {
-//       return (
-//         <div className="space-y-1">
-//           {value.map((item, index) => (
-//             <div key={index} className="text-sm break-words">
-//               {item}
-//             </div>
-//           ))}
-//         </div>
-//       ) as React.ReactElement
-//     }
-//     // For fields with percentages, return with proper wrapping
-//     if (value.some(item => typeof item === 'string' && item.includes('%'))) {
-//       return (
-//         <div className="text-sm">
-//           <div className="flex flex-wrap gap-x-1">
-//             {value.map((item, index) => (
-//               <span key={index} className="whitespace-nowrap">
-//                 {index > 0 && <span className="mx-1">•</span>}
-//                 {item}
-//               </span>
-//             ))}
-//           </div>
-//         </div>
-//       ) as React.ReactElement
-//     }
-//     // For longer content, return line-separated
-//     return (
-//       <div className="space-y-1">
-//         {value.map((item, index) => (
-//           <div key={index} className="text-sm break-words">
-//             {index > 0 && '• '}{item}
-//           </div>
-//         ))}
-//       </div>
-//     ) as React.ReactElement
-//   }
-//   return value?.toString() || ''
-// }
+const formatArrayField = (value: unknown, fieldName?: string): string | React.ReactElement => {
+  if (Array.isArray(value)) {
+    // For challenges field with percentages, format each item on new line
+    if (fieldName === 'challenges' && value.some(item => typeof item === 'string' && item.includes('('))) {
+      return (
+        <div className="space-y-1">
+          {value.map((item, index) => (
+            <div key={index} className="text-sm break-words">
+              {item}
+            </div>
+          ))}
+        </div>
+      ) as React.ReactElement
+    }
+    // For fields with percentages, return with proper wrapping
+    if (value.some(item => typeof item === 'string' && item.includes('%'))) {
+      return (
+        <div className="text-sm">
+          <div className="flex flex-wrap gap-x-1">
+            {value.map((item, index) => (
+              <span key={index} className="whitespace-nowrap">
+                {index > 0 && <span className="mx-1">•</span>}
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      ) as React.ReactElement
+    }
+    // For longer content, return line-separated
+    return (
+      <div className="space-y-1">
+        {value.map((item, index) => (
+          <div key={index} className="text-sm break-words">
+            {index > 0 && '• '}{item}
+          </div>
+        ))}
+      </div>
+    ) as React.ReactElement
+  }
+  return value?.toString() || ''
+}
 
 // Helper to get regular field values
 const getFieldDisplayValue = (solution: GoalSolutionWithVariants, fieldName: string, variant?: typeof solution.variants[0]): string | null => {
@@ -606,7 +594,7 @@ const CategoryDropdown = ({
   )
 }
 
-export default function GoalPageClient({ goal, initialSolutions, distributions, error, relatedGoals = [] }: GoalPageClientProps) {
+export default function GoalPageClient({ goal, initialSolutions, error, relatedGoals = [] }: GoalPageClientProps) {
   const [sortBy, setSortBy] = useState('effectiveness')
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set())
   const [viewMode, setViewMode] = useState<'simple' | 'detailed'>('simple')
@@ -620,43 +608,13 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
     fieldName: string;
     distribution: DistributionData | null;
   }>({ isOpen: false, fieldName: '', distribution: null })
+  const [fieldDistributions, setFieldDistributions] = useState<Map<string, DistributionData>>(new Map())
   const [individualCardViews, setIndividualCardViews] = useState<Map<string, 'simple' | 'detailed'>>(new Map())
   const [isMobile, setIsMobile] = useState(false)
   const [variantSheet, setVariantSheet] = useState<{
     isOpen: boolean;
     solution: GoalSolutionWithVariants | null;
   }>({ isOpen: false, solution: null })
-  
-  // Process distributions into a map for easy lookup
-  const distributionMap = useMemo(() => {
-    const map = new Map<string, DistributionData>();
-    
-    distributions.forEach(dist => {
-      if (dist.distributions && Array.isArray(dist.distributions)) {
-        const key = `${dist.solution_id}-${dist.field_name}`;
-        
-        // Convert to DistributionData format
-        const values = dist.distributions.map(item => ({
-          value: item.name,
-          count: Math.round(item.percentage), // Using percentage as count for now
-          percentage: item.percentage
-        }));
-        
-        // Find the mode (highest percentage)
-        const mode = values.reduce((prev, current) => 
-          current.percentage > prev.percentage ? current : prev
-        ).value;
-        
-        map.set(key, {
-          mode,
-          values,
-          totalReports: 100 // Default for now
-        });
-      }
-    });
-    
-    return map;
-  }, [distributions]);
   
   // Check if user has seen the contribution hint banner
   useEffect(() => {
@@ -677,6 +635,39 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
   
+  // Load field distributions when solutions or viewMode changes
+  useEffect(() => {
+    if (viewMode === 'detailed' && solutions.length > 0) {
+      const loadDistributions = async () => {
+        const newDistributions = new Map<string, DistributionData>()
+        
+        // Get all unique fields across all solutions
+        const allFields = new Set<string>()
+        solutions.forEach(solution => {
+          const categoryConfig = solution.solution_category 
+            ? (CATEGORY_CONFIG[solution.solution_category] || DEFAULT_CATEGORY_CONFIG)
+            : DEFAULT_CATEGORY_CONFIG
+          categoryConfig.keyFields.forEach(field => allFields.add(field))
+        })
+        
+        // Load distributions for each field
+        for (const fieldName of allFields) {
+          try {
+            const distribution = await getGoalFieldDistribution(goal.id, solutions, fieldName)
+            if (distribution) {
+              newDistributions.set(fieldName, distribution)
+            }
+          } catch (error) {
+            console.warn(`Failed to load distribution for field ${fieldName}:`, error)
+          }
+        }
+        
+        setFieldDistributions(newDistributions)
+      }
+      
+      loadDistributions()
+    }
+  }, [goal.id, solutions, viewMode])
 
   // Calculate stats
   const totalRatings = useMemo(() => {
@@ -709,12 +700,173 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
     return Object.keys(categoryCounts).sort()
   }, [categoryCounts])
 
+  // Mock prevalence data for demonstration
+  const getMockPrevalenceData = (fieldName: string): DistributionData | null => {
+    const mockData: Record<string, DistributionData> = {
+      cost: {
+        mode: "$10-25/month",
+        values: [
+          { value: "$10-25/month", count: 45, percentage: 45 },
+          { value: "$25-50/month", count: 30, percentage: 30 },
+          { value: "Free", count: 15, percentage: 15 },
+          { value: "$50-100/month", count: 7, percentage: 7 },
+          { value: "Over $100/month", count: 3, percentage: 3 }
+        ],
+        totalReports: 100
+      },
+      time_to_results: {
+        mode: "3-4 weeks",
+        values: [
+          { value: "3-4 weeks", count: 65, percentage: 65 },
+          { value: "1-2 months", count: 20, percentage: 20 },
+          { value: "1-2 weeks", count: 10, percentage: 10 },
+          { value: "Immediately", count: 5, percentage: 5 }
+        ],
+        totalReports: 100
+      },
+      frequency: {
+        mode: "Once daily",
+        values: [
+          { value: "Once daily", count: 55, percentage: 55 },
+          { value: "Twice daily", count: 25, percentage: 25 },
+          { value: "As needed", count: 15, percentage: 15 },
+          { value: "Weekly", count: 5, percentage: 5 }
+        ],
+        totalReports: 100
+      },
+      dosage_info: {
+        mode: "50mg daily",
+        values: [
+          { value: "50mg daily", count: 40, percentage: 40 },
+          { value: "100mg daily", count: 30, percentage: 30 },
+          { value: "25mg daily", count: 20, percentage: 20 },
+          { value: "150mg daily", count: 10, percentage: 10 }
+        ],
+        totalReports: 100
+      },
+      session_frequency: {
+        mode: "Weekly",
+        values: [
+          { value: "Weekly", count: 45, percentage: 45 },
+          { value: "Biweekly", count: 30, percentage: 30 },
+          { value: "Monthly", count: 20, percentage: 20 },
+          { value: "As needed", count: 5, percentage: 5 }
+        ],
+        totalReports: 100
+      },
+      format: {
+        mode: "In-person",
+        values: [
+          { value: "In-person", count: 50, percentage: 50 },
+          { value: "Virtual/Online", count: 35, percentage: 35 },
+          { value: "Hybrid", count: 15, percentage: 15 }
+        ],
+        totalReports: 100
+      },
+      startup_cost: {
+        mode: "$50-100",
+        values: [
+          { value: "$50-100", count: 35, percentage: 35 },
+          { value: "Under $50", count: 30, percentage: 30 },
+          { value: "Free", count: 20, percentage: 20 },
+          { value: "$100-250", count: 15, percentage: 15 }
+        ],
+        totalReports: 100
+      },
+      ongoing_cost: {
+        mode: "$10-25/month",
+        values: [
+          { value: "$10-25/month", count: 40, percentage: 40 },
+          { value: "Free", count: 30, percentage: 30 },
+          { value: "$25-50/month", count: 20, percentage: 20 },
+          { value: "Under $10/month", count: 10, percentage: 10 }
+        ],
+        totalReports: 100
+      },
+      wait_time: {
+        mode: "1-2 weeks",
+        values: [
+          { value: "1-2 weeks", count: 35, percentage: 35 },
+          { value: "2-4 weeks", count: 30, percentage: 30 },
+          { value: "Within a week", count: 20, percentage: 20 },
+          { value: "1-2 months", count: 15, percentage: 15 }
+        ],
+        totalReports: 100
+      },
+      insurance_coverage: {
+        mode: "Partially covered",
+        values: [
+          { value: "Partially covered", count: 45, percentage: 45 },
+          { value: "Not covered", count: 30, percentage: 30 },
+          { value: "Fully covered", count: 20, percentage: 20 },
+          { value: "HSA/FSA eligible", count: 5, percentage: 5 }
+        ],
+        totalReports: 100
+      },
+      location_setting: {
+        mode: "Gym",
+        values: [
+          { value: "Gym", count: 40, percentage: 40 },
+          { value: "Home", count: 35, percentage: 35 },
+          { value: "Outdoors", count: 20, percentage: 20 },
+          { value: "Studio/Class", count: 5, percentage: 5 }
+        ],
+        totalReports: 100
+      },
+      practice_length: {
+        mode: "10-20 minutes",
+        values: [
+          { value: "10-20 minutes", count: 45, percentage: 45 },
+          { value: "5-10 minutes", count: 30, percentage: 30 },
+          { value: "20-30 minutes", count: 20, percentage: 20 },
+          { value: "30+ minutes", count: 5, percentage: 5 }
+        ],
+        totalReports: 100
+      },
+      guidance_type: {
+        mode: "App guided",
+        values: [
+          { value: "App guided", count: 50, percentage: 50 },
+          { value: "Self-guided", count: 30, percentage: 30 },
+          { value: "Video/Audio", count: 15, percentage: 15 },
+          { value: "In-person class", count: 5, percentage: 5 }
+        ],
+        totalReports: 100
+      }
+    }
+    
+    return mockData[fieldName] || null
+  }
 
   // Helper to get distribution for a specific solution and field
   const getDistributionForSolutionField = (solution: GoalSolutionWithVariants, fieldName: string): DistributionData | null => {
-    // Use the pre-processed distribution map
-    const key = `${solution.id}-${fieldName}`;
-    return distributionMap.get(key) || null;
+    // First check if we have a cross-solution distribution for this field
+    const crossSolutionDistribution = fieldDistributions.get(fieldName)
+    if (crossSolutionDistribution) {
+      return crossSolutionDistribution
+    }
+    
+    // Use mock data for demonstration
+    const mockData = getMockPrevalenceData(fieldName)
+    if (mockData) {
+      return mockData
+    }
+    
+    // Fallback: create simple single-value distribution
+    const currentValue = getFieldValueFromSolution(solution, fieldName)
+    if (!currentValue) return null
+    
+    const ratingCount = solution.variants.reduce((sum, variant) => {
+      return sum + (variant.goal_links[0]?.rating_count || 1)
+    }, 0)
+    
+    return {
+      mode: currentValue,
+      values: [
+        { value: currentValue, count: ratingCount, percentage: 100 }
+      ],
+      totalReports: ratingCount
+    }
   }
 
   // Filter and sort solutions
@@ -1271,7 +1423,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                     const allFields = { ...solutionFields, ...bestVariantFields }
                     
                     // Get the array field value
-                    const fieldName = categoryConfig.arrayField as string
+                    const fieldName = categoryConfig.arrayField
                     const fieldValue = allFields[fieldName] || solutionFields[fieldName] || bestVariantFields[fieldName] ||
                                       allFields[fieldName.toUpperCase()] || solutionFields[fieldName.toUpperCase()] || bestVariantFields[fieldName.toUpperCase()]
                     
