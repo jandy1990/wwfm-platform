@@ -18,12 +18,18 @@ export function SessionForm({ category }: SessionFormProps) {
   const [costType, setCostType] = useState<'per_session' | 'monthly' | 'total'>('per_session');
   const [selectedSideEffects, setSelectedSideEffects] = useState<string[]>(['None']);
   const [sideEffectOptions, setSideEffectOptions] = useState<string[]>([]);
+  const [selectedBarriers, setSelectedBarriers] = useState<string[]>(['None']);
+  const [barrierOptions, setBarrierOptions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [barriersLoading, setBarriersLoading] = useState(true);
   
   const supabase = createClientComponentClient();
   
   // Only show side effects for medical procedures and alternative practitioners
   const showSideEffects = ['medical_procedures', 'alternative_practitioners'].includes(category);
+  
+  // Show barriers for therapists, coaches, and doctors
+  const showBarriers = ['therapists_counselors', 'coaches_mentors', 'doctors_specialists'].includes(category);
   
   useEffect(() => {
     if (showSideEffects) {
@@ -46,6 +52,27 @@ export function SessionForm({ category }: SessionFormProps) {
     }
   }, [category, showSideEffects, supabase]);
   
+  useEffect(() => {
+    if (showBarriers) {
+      setBarriersLoading(true);
+      const fetchBarriers = async () => {
+        const { data, error } = await supabase
+          .from('challenge_options')
+          .select('label')
+          .eq('category', category)
+          .eq('is_active', true)
+          .order('display_order');
+        
+        if (!error && data) {
+          setBarrierOptions(data.map(item => item.label));
+        }
+        setBarriersLoading(false);
+      };
+      
+      fetchBarriers();
+    }
+  }, [category, showBarriers, supabase]);
+  
   const handleSideEffectToggle = (effect: string) => {
     if (effect === 'None') {
       setSelectedSideEffects(['None']);
@@ -57,6 +84,21 @@ export function SessionForm({ category }: SessionFormProps) {
           return newEffects.length === 0 ? ['None'] : newEffects;
         }
         return [...filtered, effect];
+      });
+    }
+  };
+  
+  const handleBarrierToggle = (barrier: string) => {
+    if (barrier === 'None') {
+      setSelectedBarriers(['None']);
+    } else {
+      setSelectedBarriers(prev => {
+        const filtered = prev.filter(b => b !== 'None');
+        if (prev.includes(barrier)) {
+          const newBarriers = filtered.filter(b => b !== barrier);
+          return newBarriers.length === 0 ? ['None'] : newBarriers;
+        }
+        return [...filtered, barrier];
       });
     }
   };
@@ -145,6 +187,41 @@ export function SessionForm({ category }: SessionFormProps) {
             type="hidden" 
             name="side_effects" 
             value={JSON.stringify(selectedSideEffects)} 
+          />
+        </div>
+      )}
+
+      {/* Barriers (for therapists, coaches, doctors) */}
+      {showBarriers && (
+        <div className="space-y-2">
+          <Label className="text-base font-medium">
+            Barriers encountered? <span className="text-red-500">*</span>
+          </Label>
+          {barriersLoading ? (
+            <div className="space-y-2">
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto p-3 border rounded-md">
+              {barrierOptions.map((barrier) => (
+                <div key={barrier} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={barrier}
+                    checked={selectedBarriers.includes(barrier)}
+                    onCheckedChange={() => handleBarrierToggle(barrier)}
+                  />
+                  <Label htmlFor={barrier} className="text-sm font-normal cursor-pointer">
+                    {barrier}
+                  </Label>
+                </div>
+              ))}
+            </div>
+          )}
+          <input 
+            type="hidden" 
+            name="barriers" 
+            value={JSON.stringify(selectedBarriers)} 
           />
         </div>
       )}

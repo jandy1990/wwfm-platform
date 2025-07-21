@@ -4,13 +4,13 @@ import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import SwipeableRating from '@/components/organisms/solutions/SwipeableRating'
 import VariantSheet from '@/components/organisms/solutions/VariantSheet'
+import { NewDistributionField, DistributionData } from '@/components/molecules/NewDistributionField'
 import { GoalSolutionWithVariants } from '@/lib/solutions/goal-solutions'
 import RatingDisplay, { getBestRating, getAverageRating } from '@/components/molecules/RatingDisplay'
 import EmptyState from '@/components/molecules/EmptyState'
 import SourceBadge from '@/components/atoms/SourceBadge'
 import { RelatedGoal } from '@/lib/solutions/related-goals'
 import { trackGoalRelationshipClick } from '@/lib/solutions/related-goals'
-import { DistributionField as NewDistributionField, DistributionData } from '@/components/molecules/DistributionField'
 import { DistributionSheet as NewDistributionSheet } from '@/components/organisms/distributions/DistributionSheet'
 
 type Goal = {
@@ -59,19 +59,20 @@ const CATEGORY_CONFIG: Record<string, {
   bgColor: string
   keyFields: string[]
   fieldLabels: Record<string, string>
-  arrayField?: string // For pills display (side_effects, challenges, etc.)
+  arrayField?: string | null // For pills display (side_effects, challenges, etc.)
 }> = {
+  // DOSAGE FORMS (4 categories)
   medications: {
     icon: '💊',
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['cost', 'time_to_results', 'frequency', 'dosage_info'],
+    keyFields: ['cost', 'time_to_results', 'frequency', 'length_of_use'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
       frequency: 'Frequency',
-      dosage_info: 'Dosage'
+      length_of_use: 'Length of Use'
     },
     arrayField: 'side_effects'
   },
@@ -80,12 +81,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-blue-700',
     borderColor: 'border-blue-200',
     bgColor: 'bg-blue-50',
-    keyFields: ['cost', 'time_to_results', 'frequency', 'dosage_info'],
+    keyFields: ['cost', 'time_to_results', 'frequency', 'length_of_use'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
       frequency: 'Frequency',
-      dosage_info: 'Dosage'
+      length_of_use: 'Length of Use'
     },
     arrayField: 'side_effects'
   },
@@ -94,12 +95,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['cost', 'time_to_results', 'frequency', 'dosage_info'],
+    keyFields: ['cost', 'time_to_results', 'frequency', 'length_of_use'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
       frequency: 'Frequency',
-      dosage_info: 'Dosage'
+      length_of_use: 'Length of Use'
     },
     arrayField: 'side_effects'
   },
@@ -117,6 +118,52 @@ const CATEGORY_CONFIG: Record<string, {
     },
     arrayField: 'side_effects'
   },
+
+  // PRACTICE FORMS (3 categories)
+  meditation_mindfulness: {
+    icon: '🧘',
+    color: 'text-indigo-700',
+    borderColor: 'border-indigo-200',
+    bgColor: 'bg-indigo-50',
+    keyFields: ['startup_cost', 'ongoing_cost', 'time_to_results', 'practice_length'],
+    fieldLabels: {
+      startup_cost: 'Initial Cost',
+      ongoing_cost: 'Ongoing Cost',
+      time_to_results: 'Time to Results',
+      practice_length: 'Practice Length'
+    },
+    arrayField: 'challenges'
+  },
+  exercise_movement: {
+    icon: '🏃',
+    color: 'text-green-700',
+    borderColor: 'border-green-200',
+    bgColor: 'bg-green-50',
+    keyFields: ['startup_cost', 'ongoing_cost', 'time_to_results', 'frequency'],
+    fieldLabels: {
+      startup_cost: 'Initial Cost',
+      ongoing_cost: 'Ongoing Cost',
+      time_to_results: 'Time to Results',
+      frequency: 'Frequency'
+    },
+    arrayField: 'challenges'
+  },
+  habits_routines: {
+    icon: '📅',
+    color: 'text-orange-700',
+    borderColor: 'border-orange-200',
+    bgColor: 'bg-orange-50',
+    keyFields: ['startup_cost', 'ongoing_cost', 'time_to_results', 'time_commitment'],
+    fieldLabels: {
+      startup_cost: 'Initial Cost',
+      ongoing_cost: 'Ongoing Cost',
+      time_to_results: 'Time to Results',
+      time_commitment: 'Time Commitment'
+    },
+    arrayField: 'challenges'
+  },
+
+  // SESSION FORMS (7 categories)
   therapists_counselors: {
     icon: '💆',
     color: 'text-purple-700',
@@ -126,9 +173,10 @@ const CATEGORY_CONFIG: Record<string, {
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      session_frequency: 'Frequency',
+      session_frequency: 'Session Frequency',
       format: 'Format'
-    }
+    },
+    arrayField: 'barriers'
   },
   doctors_specialists: {
     icon: '👨‍⚕️',
@@ -140,21 +188,23 @@ const CATEGORY_CONFIG: Record<string, {
       cost: 'Cost',
       time_to_results: 'Time to Results',
       wait_time: 'Wait Time',
-      insurance_coverage: 'Insurance'
-    }
+      insurance_coverage: 'Insurance Coverage'
+    },
+    arrayField: 'barriers'
   },
   coaches_mentors: {
     icon: '🎯',
     color: 'text-yellow-700',
     borderColor: 'border-yellow-200',
     bgColor: 'bg-yellow-50',
-    keyFields: ['cost', 'time_to_results', 'format', 'session_frequency'],
+    keyFields: ['cost', 'time_to_results', 'session_frequency', 'format'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      format: 'Format',
-      session_frequency: 'Frequency'
-    }
+      session_frequency: 'Session Frequency',
+      format: 'Format'
+    },
+    arrayField: 'barriers'
   },
   alternative_practitioners: {
     icon: '🌸',
@@ -165,10 +215,10 @@ const CATEGORY_CONFIG: Record<string, {
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      session_frequency: 'Frequency',
+      session_frequency: 'Session Frequency',
       format: 'Format'
     },
-    arrayField: 'side_effects' // labeled as "Risks"
+    arrayField: 'side_effects'
   },
   professional_services: {
     icon: '✂️',
@@ -179,117 +229,82 @@ const CATEGORY_CONFIG: Record<string, {
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      session_frequency: 'Frequency',
+      session_frequency: 'Session Frequency',
       format: 'Format'
-    }
+    },
+    arrayField: null
   },
   medical_procedures: {
     icon: '🏥',
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['cost', 'time_to_results', 'wait_time', 'format'],
+    keyFields: ['cost', 'time_to_results', 'treatment_frequency', 'wait_time'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      wait_time: 'Wait Time',
-      format: 'Format'
+      treatment_frequency: 'Frequency',
+      wait_time: 'Wait Time'
     },
-    arrayField: 'side_effects' // labeled as "Side Effects/Risks"
+    arrayField: 'side_effects'
   },
   crisis_resources: {
     icon: '🆘',
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['cost', 'time_to_results', 'format', 'availability'],
+    keyFields: ['cost', 'time_to_results', 'availability', 'format'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      format: 'Format',
-      availability: 'Availability'
-    }
+      availability: 'Availability',
+      format: 'Format'
+    },
+    arrayField: null
   },
-  exercise_movement: {
-    icon: '🏃',
+
+  // LIFESTYLE FORMS (2 categories)
+  diet_nutrition: {
+    icon: '🥗',
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['cost', 'time_to_results', 'frequency', 'location_setting'],
+    keyFields: ['cost_impact', 'time_to_results', 'daily_prep_time', 'long_term_sustainability'],
     fieldLabels: {
-      cost: 'Cost',
+      cost_impact: 'Cost Impact',
       time_to_results: 'Time to Results',
-      frequency: 'Frequency',
-      location_setting: 'Location'
+      daily_prep_time: 'Prep Time',
+      long_term_sustainability: 'Sustainability'
     },
     arrayField: 'challenges'
   },
-  meditation_mindfulness: {
-    icon: '🧘',
+  sleep: {
+    icon: '😴',
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['cost', 'time_to_results', 'practice_length', 'guidance_type'],
+    keyFields: ['cost_impact', 'time_to_results', 'adjustment_period', 'long_term_sustainability'],
     fieldLabels: {
-      cost: 'Cost',
+      cost_impact: 'Cost Impact',
       time_to_results: 'Time to Results',
-      practice_length: 'Session Length',
-      guidance_type: 'Guidance'
+      adjustment_period: 'Adjustment',
+      long_term_sustainability: 'Sustainability'
     },
     arrayField: 'challenges'
   },
-  habits_routines: {
-    icon: '📅',
-    color: 'text-orange-700',
-    borderColor: 'border-orange-200',
-    bgColor: 'bg-orange-50',
-    keyFields: ['startup_cost', 'ongoing_cost', 'time_to_results', 'time_commitment'],
-    fieldLabels: {
-      startup_cost: 'Startup Cost',
-      ongoing_cost: 'Ongoing Cost',
-      time_to_results: 'Time to Results',
-      time_commitment: 'Time Commitment'
-    },
-    arrayField: 'challenges'
-  },
-  hobbies_activities: {
-    icon: '🎨',
-    color: 'text-purple-700',
-    borderColor: 'border-purple-200',
-    bgColor: 'bg-purple-50',
-    keyFields: ['cost', 'time_to_enjoyment', 'time_commitment', 'social_setting'],
-    fieldLabels: {
-      cost: 'Cost',
-      time_to_enjoyment: 'Time to Enjoyment',
-      time_commitment: 'Time/Week',
-      social_setting: 'Social Setting'
-    },
-    arrayField: 'barriers'
-  },
-  apps_software: {
-    icon: '📱',
-    color: 'text-blue-700',
-    borderColor: 'border-blue-200',
-    bgColor: 'bg-blue-50',
-    keyFields: ['cost', 'time_to_results', 'usage_frequency', 'most_valuable_feature'],
-    fieldLabels: {
-      cost: 'Cost',
-      time_to_results: 'Time to Results',
-      usage_frequency: 'Usage',
-      most_valuable_feature: 'Best Feature'
-    }
-  },
+
+  // PURCHASE FORMS (2 categories)
   products_devices: {
     icon: '🛍️',
     color: 'text-gray-700',
     borderColor: 'border-gray-200',
     bgColor: 'bg-gray-50',
-    keyFields: ['cost', 'time_to_results', 'ease_of_use', 'format_type'],
+    keyFields: ['cost', 'time_to_results', 'ease_of_use', 'product_type'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
       ease_of_use: 'Ease of Use',
-      format_type: 'Product Type'
+      product_type: 'Product Type'
     },
     arrayField: 'issues'
   },
@@ -303,79 +318,87 @@ const CATEGORY_CONFIG: Record<string, {
       cost: 'Cost',
       time_to_results: 'Time to Results',
       format: 'Format',
-      learning_difficulty: 'Learning Difficulty'
+      learning_difficulty: 'Difficulty'
     },
     arrayField: 'challenges'
   },
+
+  // APP FORM (1 category)
+  apps_software: {
+    icon: '📱',
+    color: 'text-blue-700',
+    borderColor: 'border-blue-200',
+    bgColor: 'bg-blue-50',
+    keyFields: ['cost', 'time_to_results', 'usage_frequency', 'subscription_type'],
+    fieldLabels: {
+      cost: 'Cost',
+      time_to_results: 'Time to Results',
+      usage_frequency: 'Usage Frequency',
+      subscription_type: 'Subscription Type'
+    },
+    arrayField: 'challenges'
+  },
+
+  // COMMUNITY FORMS (2 categories)
   groups_communities: {
     icon: '🌍',
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['cost', 'time_to_results', 'meeting_frequency', 'format'],
+    keyFields: ['cost', 'time_to_results', 'meeting_frequency', 'group_size'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      meeting_frequency: 'Frequency',
-      format: 'Format'
+      meeting_frequency: 'Meetings',
+      group_size: 'Group Size'
     },
-    arrayField: 'challenges_experienced'
+    arrayField: 'challenges'
   },
   support_groups: {
     icon: '👥',
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['cost', 'time_to_results', 'format', 'meeting_frequency'],
+    keyFields: ['cost', 'time_to_results', 'meeting_frequency', 'format'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      format: 'Format',
-      meeting_frequency: 'Frequency'
+      meeting_frequency: 'Meetings',
+      format: 'Format'
     },
-    arrayField: 'challenges_experienced'
+    arrayField: 'challenges'
   },
-  diet_nutrition: {
-    icon: '🥗',
-    color: 'text-green-700',
-    borderColor: 'border-green-200',
-    bgColor: 'bg-green-50',
-    keyFields: ['cost_impact', 'time_to_results', 'preparation_adjustment_time', 'long_term_sustainability'],
+
+  // HOBBY FORM (1 category)
+  hobbies_activities: {
+    icon: '🎨',
+    color: 'text-purple-700',
+    borderColor: 'border-purple-200',
+    bgColor: 'bg-purple-50',
+    keyFields: ['time_commitment', 'startup_cost', 'ongoing_cost', 'time_to_results'],
     fieldLabels: {
-      cost_impact: 'Cost Impact',
-      time_to_results: 'Time to Results',
-      preparation_adjustment_time: 'Daily Prep Time',
-      long_term_sustainability: 'Sustainability'
+      time_commitment: 'Time Commitment',
+      startup_cost: 'Initial Cost',
+      ongoing_cost: 'Ongoing Cost',
+      time_to_results: 'Time to Results'
     },
-    arrayField: 'challenges_experienced'
+    arrayField: 'barriers'
   },
-  sleep: {
-    icon: '😴',
-    color: 'text-indigo-700',
-    borderColor: 'border-indigo-200',
-    bgColor: 'bg-indigo-50',
-    keyFields: ['cost', 'time_to_results', 'adjustment_period', 'previous_sleep_hours'],
-    fieldLabels: {
-      cost: 'Cost',
-      time_to_results: 'Time to Results',
-      adjustment_period: 'Adjustment',
-      previous_sleep_hours: 'Previous Sleep'
-    },
-    arrayField: 'challenges_experienced'
-  },
+
+  // FINANCIAL FORM (1 category)
   financial_products: {
     icon: '💰',
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['cost_type', 'financial_benefit', 'time_to_results', 'ease_of_use'],
+    keyFields: ['cost_type', 'financial_benefit', 'time_to_results', 'access_time'],
     fieldLabels: {
       cost_type: 'Cost Type',
       financial_benefit: 'Financial Benefit',
       time_to_results: 'Time to Results',
-      ease_of_use: 'Ease of Use'
-    }
-    // No specific array field for issues - has minimum_requirements and key_features instead
+      access_time: 'Access Time'
+    },
+    arrayField: 'key_features'
   }
 }
 
@@ -396,30 +419,31 @@ const DEFAULT_CATEGORY_CONFIG = {
 }
 
 // Helper to format prevalence data for simple view
-const formatPrevalenceForSimpleView = (distribution: DistributionData | null, value: string): React.ReactElement => {
-  if (!distribution || distribution.values.length <= 1) {
-    // No distribution data, just show the single value
-    return <span>{value}</span> as React.ReactElement
-  }
-  
-  // Show vertical stack with "Most common:" label
-  const topValues = distribution.values.slice(0, 2) // Show top 2
-  const remainingCount = distribution.values.length - 2
-  
-  return (
-    <div className="space-y-1">
-      <div className="text-xs text-gray-500 dark:text-gray-400">Most common:</div>
-      {topValues.map((item, index) => (
-        <div key={index} className="text-sm">
-          {item.value} <span className="text-gray-500 dark:text-gray-400">({item.percentage}%)</span>
-        </div>
-      ))}
-      {remainingCount > 0 && (
-        <div className="text-xs text-gray-500 dark:text-gray-400">+ {remainingCount} more</div>
-      )}
-    </div>
-  ) as React.ReactElement
-}
+// Commented out - replaced by NewDistributionField component
+// const formatPrevalenceForSimpleView = (distribution: DistributionData | null, value: string): React.ReactElement => {
+//   if (!distribution || distribution.values.length <= 1) {
+//     // No distribution data, just show the single value
+//     return <span>{value}</span> as React.ReactElement
+//   }
+//   
+//   // Show vertical stack with "Most common:" label
+//   const topValues = distribution.values.slice(0, 2) // Show top 2
+//   const remainingCount = distribution.values.length - 2
+//   
+//   return (
+//     <div className="space-y-1">
+//       <div className="text-xs text-gray-500 dark:text-gray-400">Most common:</div>
+//       {topValues.map((item, index) => (
+//         <div key={index} className="text-sm">
+//           {item.value} <span className="text-gray-500 dark:text-gray-400">({item.percentage}%)</span>
+//         </div>
+//       ))}
+//       {remainingCount > 0 && (
+//         <div className="text-xs text-gray-500 dark:text-gray-400">+ {remainingCount} more</div>
+//       )}
+//     </div>
+//   ) as React.ReactElement
+// }
 
 // Helper to format array fields nicely
 // Commented out - not currently used
@@ -710,12 +734,69 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
   }, [categoryCounts])
 
 
+  // Field name mappings for distribution lookups
+  const FIELD_MAPPINGS: Record<string, string[]> = {
+    // Composite cost fields that might be stored separately
+    'cost': ['cost', 'startup_cost', 'ongoing_cost'],
+    'startup_cost': ['startup_cost', 'cost'],
+    'ongoing_cost': ['ongoing_cost', 'cost'],
+    // Other potential mappings
+    'frequency': ['frequency', 'session_frequency', 'meeting_frequency', 'treatment_frequency'],
+    'session_frequency': ['session_frequency', 'frequency'],
+    'meeting_frequency': ['meeting_frequency', 'frequency'],
+    'treatment_frequency': ['treatment_frequency', 'frequency'],
+  }
+
   // Helper to get distribution for a specific solution and field
   const getDistributionForSolutionField = (solution: GoalSolutionWithVariants, fieldName: string): DistributionData | null => {
-    // Use the pre-processed distribution map
-    const key = `${solution.id}-${fieldName}`;
-    return distributionMap.get(key) || null;
+    // First try direct lookup
+    const directKey = `${solution.id}-${fieldName}`;
+    const directResult = distributionMap.get(directKey);
+    if (directResult) return directResult;
+    
+    // If no direct match, try field mappings
+    const mappedFields = FIELD_MAPPINGS[fieldName] || [];
+    for (const mappedField of mappedFields) {
+      const mappedKey = `${solution.id}-${mappedField}`;
+      const mappedResult = distributionMap.get(mappedKey);
+      if (mappedResult) {
+        // Debug logging
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`Distribution found via mapping: ${fieldName} -> ${mappedField}`);
+        }
+        return mappedResult;
+      }
+    }
+    
+    // Debug logging for missing distributions
+    if (process.env.NODE_ENV === 'development' && solution.solution_category) {
+      const categoryConfig = CATEGORY_CONFIG[solution.solution_category];
+      if (categoryConfig && categoryConfig.keyFields.includes(fieldName)) {
+        console.warn(`No distribution found for ${solution.title} (${solution.id}) - field: ${fieldName}`);
+      }
+    }
+    
+    return null;
   }
+
+  // Helper to get prevalence map for array field items
+  const getArrayFieldDistribution = (solution: GoalSolutionWithVariants, fieldName: string): Map<string, number> => {
+    const distributionKey = `${solution.id}-${fieldName}`;
+    const distribution = distributionMap.get(distributionKey);
+    
+    console.log(`Looking for distribution: ${distributionKey}`, distribution);
+    
+    const itemPrevalenceMap = new Map<string, number>();
+    
+    if (distribution && distribution.values) {
+      distribution.values.forEach(item => {
+        // Store with lowercase key for case-insensitive matching
+        itemPrevalenceMap.set(item.value.toLowerCase(), item.percentage);
+      });
+    }
+    
+    return itemPrevalenceMap;
+  };
 
   // Filter and sort solutions
   const filteredAndSortedSolutions = useMemo(() => {
@@ -1179,19 +1260,33 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                     label={categoryConfig.fieldLabels[fieldName] || fieldName}
                                     distribution={distribution}
                                     viewMode={cardView}
+                                    isMobile={isMobile}
                                   />
                                 </div>
                               )
                             }
                             
                             // Simple display
+                            if (distribution) {
+                              return (
+                                <div key={fieldName} className="field-container min-w-0">
+                                  <NewDistributionField
+                                    label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                    distribution={distribution}
+                                    viewMode="simple"
+                                    isMobile={isMobile}
+                                  />
+                                </div>
+                              )
+                            }
+                            
                             return (
                               <div key={fieldName} className="field-container min-w-0 space-y-1">
                                 <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                   {categoryConfig.fieldLabels[fieldName] || fieldName}
                                 </span>
                                 <div className="field-value-container text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
-                                  {distribution ? formatPrevalenceForSimpleView(distribution, value) : value}
+                                  {value}
                                 </div>
                               </div>
                             )
@@ -1230,6 +1325,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                     label={categoryConfig.fieldLabels[fieldName] || fieldName}
                                     distribution={distribution}
                                     viewMode={cardView}
+                                    isMobile={isMobile}
                                     onTapBreakdown={() => {
                                       setDistributionSheet({
                                         isOpen: true,
@@ -1243,13 +1339,26 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                             }
                             
                             // Simple view
+                            if (distribution) {
+                              return (
+                                <div key={fieldName} className="field-container">
+                                  <NewDistributionField
+                                    label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                    distribution={distribution}
+                                    viewMode="simple"
+                                    isMobile={isMobile}
+                                  />
+                                </div>
+                              )
+                            }
+                            
                             return (
                               <div key={fieldName} className="field-container space-y-1">
                                 <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                   {categoryConfig.fieldLabels[fieldName] || fieldName}
                                 </span>
                                 <div className="text-sm font-medium text-gray-900 dark:text-gray-100 break-words">
-                                  {distribution ? formatPrevalenceForSimpleView(distribution, value) : value}
+                                  {value}
                                 </div>
                               </div>
                             )
@@ -1277,14 +1386,6 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                     
                     if (!fieldValue || (Array.isArray(fieldValue) && fieldValue.length === 0)) return null
                     
-                    // Helper to parse items with percentages
-                    const parseItemWithPercentage = (item: string) => {
-                      const match = item.match(/^(.+?)\s*\((\d+)%\)$/)
-                      if (match) {
-                        return { text: match[1].trim(), percentage: match[2] }
-                      }
-                      return { text: item, percentage: null }
-                    }
                     
                     // Determine label based on field name and category
                     const getFieldLabel = () => {
@@ -1302,7 +1403,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                         return 'Issues'
                       }
                       if (fieldName === 'barriers') {
-                        return 'Challenges'
+                        return 'Barriers'
                       }
                       // Default: capitalize first letter
                       return fieldName.split('_').map(word => 
@@ -1311,9 +1412,13 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                     }
                     
                     const itemsArray = Array.isArray(fieldValue) ? fieldValue : [fieldValue]
-                    const displayLimit = cardView === 'detailed' ? 8 : (isMobile ? 2 : 3)
+                    const maxDisplayLimit = cardView === 'detailed' ? 8 : (isMobile ? 2 : 3)
+                    const displayLimit = Math.min(maxDisplayLimit, itemsArray.length)
                     const displayItems = itemsArray.slice(0, displayLimit)
                     const remainingCount = itemsArray.length - displayLimit
+                    
+                    // Get prevalence data for this array field
+                    const prevalenceMap = getArrayFieldDistribution(solution, fieldName)
                     
                     return (
                       <div className="side-effects-section">
@@ -1322,10 +1427,11 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                         </div>
                         <div className="flex flex-wrap gap-1.5 items-center">
                           {displayItems.map((item, index) => {
-                            const { text, percentage } = parseItemWithPercentage(item.toString())
+                            const itemText = item.toString()
+                            const percentage = prevalenceMap.get(itemText.toLowerCase()) || null
                             return (
                               <span key={index} className="side-effect-chip">
-                                {text}
+                                {itemText}
                                 {percentage && <span className="ml-1 opacity-70">({percentage}%)</span>}
                               </span>
                             )

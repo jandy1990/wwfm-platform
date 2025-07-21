@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Label } from '@/components/atoms/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
+import { Checkbox } from '@/components/atoms/checkbox';
 import { SolutionCategory } from '@/lib/forms/templates';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Skeleton } from '@/components/atoms/skeleton';
 
 interface AppFormProps {
   category: Extract<SolutionCategory, 'apps_software'>;
@@ -10,6 +13,45 @@ interface AppFormProps {
 
 export function AppForm({ category }: AppFormProps) {
   const [costType, setCostType] = useState<'one_time' | 'subscription'>('subscription');
+  const [selectedChallenges, setSelectedChallenges] = useState<string[]>(['None']);
+  const [challengeOptions, setChallengeOptions] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  const supabase = createClientComponentClient();
+  
+  useEffect(() => {
+    setLoading(true);
+    const fetchOptions = async () => {
+      const { data, error } = await supabase
+        .from('challenge_options')
+        .select('label')
+        .eq('category', 'apps_software')
+        .eq('is_active', true)
+        .order('display_order');
+      
+      if (!error && data) {
+        setChallengeOptions(data.map(item => item.label));
+      }
+      setLoading(false);
+    };
+    
+    fetchOptions();
+  }, [category, supabase]);
+  
+  const handleChallengeToggle = (challenge: string) => {
+    if (challenge === 'None') {
+      setSelectedChallenges(['None']);
+    } else {
+      setSelectedChallenges(prev => {
+        const filtered = prev.filter(c => c !== 'None');
+        if (prev.includes(challenge)) {
+          const newChallenges = filtered.filter(c => c !== challenge);
+          return newChallenges.length === 0 ? ['None'] : newChallenges;
+        }
+        return [...filtered, challenge];
+      });
+    }
+  };
 
   return (
     <>
@@ -115,6 +157,39 @@ export function AppForm({ category }: AppFormProps) {
             </SelectContent>
           </Select>
         </div>
+      </div>
+
+      {/* Challenges field */}
+      <div className="space-y-2">
+        <Label className="text-base font-medium">
+          Challenges experienced? <span className="text-red-500">*</span>
+        </Label>
+        {loading ? (
+          <div className="space-y-2">
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto p-3 border rounded-md">
+            {challengeOptions.map((challenge) => (
+              <div key={challenge} className="flex items-center space-x-2">
+                <Checkbox
+                  id={challenge}
+                  checked={selectedChallenges.includes(challenge)}
+                  onCheckedChange={() => handleChallengeToggle(challenge)}
+                />
+                <Label htmlFor={challenge} className="text-sm font-normal cursor-pointer">
+                  {challenge}
+                </Label>
+              </div>
+            ))}
+          </div>
+        )}
+        <input 
+          type="hidden" 
+          name="challenges" 
+          value={JSON.stringify(selectedChallenges)} 
+        />
       </div>
     </>
   );
