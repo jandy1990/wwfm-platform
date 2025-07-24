@@ -588,7 +588,7 @@
 }
 
 .solution-card::before {
-  content: "Tap for details";
+  content: "Click for details";
   position: absolute;
   bottom: 0.75rem;
   right: 0.75rem;

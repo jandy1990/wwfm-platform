@@ -16,7 +16,6 @@ interface NewDistributionFieldProps {
   label: string;
   distribution: DistributionData;
   viewMode: 'simple' | 'detailed';
-  onTapBreakdown?: () => void; // For mobile
   isMobile?: boolean;
 }
 
@@ -24,7 +23,6 @@ export const NewDistributionField: React.FC<NewDistributionFieldProps> = ({
   label,
   distribution,
   viewMode,
-  onTapBreakdown,
   isMobile = false
 }) => {
   // Edge case: Empty arrays
@@ -124,15 +122,6 @@ export const NewDistributionField: React.FC<NewDistributionFieldProps> = ({
         <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
           {label}
         </span>
-        {onTapBreakdown && isMobile && (
-          <button 
-            onClick={onTapBreakdown}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-            aria-label="View breakdown"
-          >
-            📊
-          </button>
-        )}
       </div>
       
       <div className="space-y-2">

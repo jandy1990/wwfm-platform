@@ -5,13 +5,13 @@ import Link from 'next/link'
 import SwipeableRating from '@/components/organisms/solutions/SwipeableRating'
 import VariantSheet from '@/components/organisms/solutions/VariantSheet'
 import { NewDistributionField, DistributionData } from '@/components/molecules/NewDistributionField'
+import { SimplifiedMetricField } from '@/components/molecules/SimplifiedMetricField'
 import { GoalSolutionWithVariants } from '@/lib/solutions/goal-solutions'
 import RatingDisplay, { getBestRating, getAverageRating } from '@/components/molecules/RatingDisplay'
 import EmptyState from '@/components/molecules/EmptyState'
 import SourceBadge from '@/components/atoms/SourceBadge'
 import { RelatedGoal } from '@/lib/solutions/related-goals'
 import { trackGoalRelationshipClick } from '@/lib/solutions/related-goals'
-import { DistributionSheet as NewDistributionSheet } from '@/components/organisms/distributions/DistributionSheet'
 
 type Goal = {
   id: string
@@ -67,7 +67,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['cost', 'time_to_results', 'frequency', 'length_of_use'],
+    keyFields: ['time_to_results', 'frequency', 'length_of_use', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -81,7 +81,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-blue-700',
     borderColor: 'border-blue-200',
     bgColor: 'bg-blue-50',
-    keyFields: ['cost', 'time_to_results', 'frequency', 'length_of_use'],
+    keyFields: ['time_to_results', 'frequency', 'length_of_use', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -95,7 +95,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['cost', 'time_to_results', 'frequency', 'length_of_use'],
+    keyFields: ['time_to_results', 'frequency', 'length_of_use', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -109,7 +109,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-pink-700',
     borderColor: 'border-pink-200',
     bgColor: 'bg-pink-50',
-    keyFields: ['cost', 'time_to_results', 'frequency', 'product_type'],
+    keyFields: ['time_to_results', 'frequency', 'product_type', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -125,7 +125,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['startup_cost', 'ongoing_cost', 'time_to_results', 'practice_length'],
+    keyFields: ['time_to_results', 'practice_length', 'startup_cost', 'ongoing_cost'],
     fieldLabels: {
       startup_cost: 'Initial Cost',
       ongoing_cost: 'Ongoing Cost',
@@ -139,7 +139,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['startup_cost', 'ongoing_cost', 'time_to_results', 'frequency'],
+    keyFields: ['time_to_results', 'frequency', 'startup_cost', 'ongoing_cost'],
     fieldLabels: {
       startup_cost: 'Initial Cost',
       ongoing_cost: 'Ongoing Cost',
@@ -153,7 +153,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-orange-700',
     borderColor: 'border-orange-200',
     bgColor: 'bg-orange-50',
-    keyFields: ['startup_cost', 'ongoing_cost', 'time_to_results', 'time_commitment'],
+    keyFields: ['time_to_results', 'time_commitment', 'startup_cost', 'ongoing_cost'],
     fieldLabels: {
       startup_cost: 'Initial Cost',
       ongoing_cost: 'Ongoing Cost',
@@ -169,7 +169,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-purple-700',
     borderColor: 'border-purple-200',
     bgColor: 'bg-purple-50',
-    keyFields: ['cost', 'time_to_results', 'session_frequency', 'format'],
+    keyFields: ['time_to_results', 'session_frequency', 'format', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -183,7 +183,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['cost', 'time_to_results', 'wait_time', 'insurance_coverage'],
+    keyFields: ['time_to_results', 'wait_time', 'insurance_coverage', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -197,7 +197,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-yellow-700',
     borderColor: 'border-yellow-200',
     bgColor: 'bg-yellow-50',
-    keyFields: ['cost', 'time_to_results', 'session_frequency', 'format'],
+    keyFields: ['time_to_results', 'session_frequency', 'format', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -211,7 +211,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-teal-700',
     borderColor: 'border-teal-200',
     bgColor: 'bg-teal-50',
-    keyFields: ['cost', 'time_to_results', 'session_frequency', 'format'],
+    keyFields: ['time_to_results', 'session_frequency', 'format', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -225,7 +225,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-gray-700',
     borderColor: 'border-gray-200',
     bgColor: 'bg-gray-50',
-    keyFields: ['cost', 'time_to_results', 'session_frequency', 'format'],
+    keyFields: ['time_to_results', 'session_frequency', 'format', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -239,7 +239,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['cost', 'time_to_results', 'treatment_frequency', 'wait_time'],
+    keyFields: ['time_to_results', 'treatment_frequency', 'wait_time', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -253,7 +253,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['cost', 'time_to_results', 'availability', 'format'],
+    keyFields: ['time_to_results', 'availability', 'format', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -269,7 +269,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['cost_impact', 'time_to_results', 'daily_prep_time', 'long_term_sustainability'],
+    keyFields: ['time_to_results', 'daily_prep_time', 'long_term_sustainability', 'cost_impact'],
     fieldLabels: {
       cost_impact: 'Cost Impact',
       time_to_results: 'Time to Results',
@@ -283,7 +283,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['cost_impact', 'time_to_results', 'adjustment_period', 'long_term_sustainability'],
+    keyFields: ['time_to_results', 'adjustment_period', 'long_term_sustainability', 'cost_impact'],
     fieldLabels: {
       cost_impact: 'Cost Impact',
       time_to_results: 'Time to Results',
@@ -299,7 +299,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-gray-700',
     borderColor: 'border-gray-200',
     bgColor: 'bg-gray-50',
-    keyFields: ['cost', 'time_to_results', 'ease_of_use', 'product_type'],
+    keyFields: ['time_to_results', 'ease_of_use', 'product_type', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -313,7 +313,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-amber-700',
     borderColor: 'border-amber-200',
     bgColor: 'bg-amber-50',
-    keyFields: ['cost', 'time_to_results', 'format', 'learning_difficulty'],
+    keyFields: ['time_to_results', 'format', 'learning_difficulty', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -329,7 +329,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-blue-700',
     borderColor: 'border-blue-200',
     bgColor: 'bg-blue-50',
-    keyFields: ['cost', 'time_to_results', 'usage_frequency', 'subscription_type'],
+    keyFields: ['time_to_results', 'usage_frequency', 'subscription_type', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -345,7 +345,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['cost', 'time_to_results', 'meeting_frequency', 'group_size'],
+    keyFields: ['time_to_results', 'meeting_frequency', 'group_size', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -359,7 +359,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['cost', 'time_to_results', 'meeting_frequency', 'format'],
+    keyFields: ['time_to_results', 'meeting_frequency', 'format', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
@@ -375,7 +375,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-purple-700',
     borderColor: 'border-purple-200',
     bgColor: 'bg-purple-50',
-    keyFields: ['time_commitment', 'startup_cost', 'ongoing_cost', 'time_to_results'],
+    keyFields: ['time_to_results', 'time_commitment', 'startup_cost', 'ongoing_cost'],
     fieldLabels: {
       time_commitment: 'Time Commitment',
       startup_cost: 'Initial Cost',
@@ -391,7 +391,7 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['cost_type', 'financial_benefit', 'time_to_results', 'access_time'],
+    keyFields: ['time_to_results', 'cost_type', 'financial_benefit', 'access_time'],
     fieldLabels: {
       cost_type: 'Cost Type',
       financial_benefit: 'Financial Benefit',
@@ -408,7 +408,7 @@ const DEFAULT_CATEGORY_CONFIG = {
   color: 'text-gray-700',
   borderColor: 'border-gray-200',
   bgColor: 'bg-gray-50',
-  keyFields: ['cost', 'time_to_results', 'format', 'frequency'],
+  keyFields: ['time_to_results', 'format', 'frequency', 'cost'],
   fieldLabels: {
     cost: 'Cost',
     time_to_results: 'Time to Results',
@@ -639,11 +639,6 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
   const [solutions, setSolutions] = useState(initialSolutions)
   const [hasRatedAny, setHasRatedAny] = useState(false) // Simple flag to disable sorting
   const [showBanner, setShowBanner] = useState(false) // First-time user banner
-  const [distributionSheet, setDistributionSheet] = useState<{
-    isOpen: boolean;
-    fieldName: string;
-    distribution: DistributionData | null;
-  }>({ isOpen: false, fieldName: '', distribution: null })
   const [individualCardViews, setIndividualCardViews] = useState<Map<string, 'simple' | 'detailed'>>(new Map())
   const [isMobile, setIsMobile] = useState(false)
   const [variantSheet, setVariantSheet] = useState<{
@@ -910,7 +905,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-sm text-amber-800 dark:text-amber-200">
               <span className="text-lg">💡</span>
-              <span className="hidden sm:inline">You can rate solutions and tap cards for detailed breakdowns!</span>
+              <span className="hidden sm:inline">You can rate solutions and click cards to toggle between simple and detailed views!</span>
               <span className="sm:hidden">Swipe left to rate!</span>
             </div>
             <button
@@ -1233,6 +1228,13 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                     </p>
                   )}
 
+                  {/* Context label for simple view */}
+                  {cardView === 'simple' && (
+                    <p className="hidden sm:block text-sm text-gray-600 dark:text-gray-400 italic mb-3">
+                      Most users report:
+                    </p>
+                  )}
+
                   {/* Key Fields - Desktop: Grid with exactly 4 fields */}
                   {(() => {
                     const renderKeyFields = () => {
@@ -1253,6 +1255,21 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                             
                             const distribution = getDistributionForSolutionField(solution, fieldName)
                             
+                            // Simple view with distribution data
+                            if (distribution && cardView === 'simple') {
+                              const topValue = distribution.values[0]
+                              return (
+                                <div key={fieldName} className="field-container min-w-0">
+                                  <SimplifiedMetricField
+                                    label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                    value={topValue.value}
+                                    consensusStrength={topValue.percentage}
+                                  />
+                                </div>
+                              )
+                            }
+                            
+                            // Detailed view - keep existing behavior
                             if (distribution && cardView === 'detailed') {
                               return (
                                 <div key={fieldName} className="field-container min-w-0">
@@ -1266,7 +1283,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                               )
                             }
                             
-                            // Simple display
+                            // Fallback for no distribution data - keep existing
                             if (distribution) {
                               return (
                                 <div key={fieldName} className="field-container min-w-0">
@@ -1298,6 +1315,13 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                     return renderKeyFields()
                   })()}
                   
+                  {/* Context label for simple view - mobile */}
+                  {cardView === 'simple' && (
+                    <p className="sm:hidden text-sm text-gray-600 dark:text-gray-400 italic mb-3">
+                      Most users report:
+                    </p>
+                  )}
+                  
                   {/* Mobile: 2-column grid */}
                   {(() => {
                     const renderMobileFields = () => {
@@ -1318,6 +1342,21 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                             
                             const distribution = getDistributionForSolutionField(solution, fieldName)
                             
+                            // Simple view with distribution data
+                            if (distribution && cardView === 'simple') {
+                              const topValue = distribution.values[0]
+                              return (
+                                <div key={fieldName} className="field-container">
+                                  <SimplifiedMetricField
+                                    label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                    value={topValue.value}
+                                    consensusStrength={topValue.percentage}
+                                  />
+                                </div>
+                              )
+                            }
+                            
+                            // Detailed view - keep existing behavior
                             if (distribution && cardView === 'detailed') {
                               return (
                                 <div key={fieldName} className="field-container">
@@ -1326,19 +1365,12 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                     distribution={distribution}
                                     viewMode={cardView}
                                     isMobile={isMobile}
-                                    onTapBreakdown={() => {
-                                      setDistributionSheet({
-                                        isOpen: true,
-                                        fieldName: categoryConfig.fieldLabels[fieldName] || fieldName,
-                                        distribution
-                                      })
-                                    }}
                                   />
                                 </div>
                               )
                             }
                             
-                            // Simple view
+                            // Fallback for no distribution data - keep existing
                             if (distribution) {
                               return (
                                 <div key={fieldName} className="field-container">
@@ -1457,12 +1489,6 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                     )
                   })()}
 
-                  {/* Mobile hint for detailed view */}
-                  {cardView === 'detailed' && isMobile && categoryConfig.keyFields.some(field => getFieldDisplayValue(solution, field, bestVariant)) && (
-                    <div className="text-xs text-gray-500 dark:text-gray-400 text-center mt-3 sm:hidden">
-                      Tap 📊 for breakdown
-                    </div>
-                  )}
 
                   {/* Expandable Variants */}
                   {hasVariants && (
@@ -1614,15 +1640,6 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
         <span className="sm:hidden">Share</span>
       </Link>
 
-      {/* Distribution Sheet for Mobile */}
-      {distributionSheet.isOpen && distributionSheet.distribution && (
-        <NewDistributionSheet
-          isOpen={distributionSheet.isOpen}
-          onClose={() => setDistributionSheet({ isOpen: false, fieldName: '', distribution: null })}
-          fieldName={distributionSheet.fieldName}
-          distribution={distributionSheet.distribution}
-        />
-      )}
       
       {/* Variant Sheet for Mobile */}
       {variantSheet.isOpen && variantSheet.solution && (

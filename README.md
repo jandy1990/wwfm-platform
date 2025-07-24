@@ -47,6 +47,22 @@ You should now see the WWFM homepage! Try:
 - Searching for "anxiety" or "sleep"
 - Viewing solution effectiveness ratings
 
+### 🧪 Running Tests
+
+```bash
+# Set up test environment
+cp .env.test.local.example .env.test.local
+# Add your service role key to .env.test.local
+
+# Run form tests
+npm run test:forms
+
+# Run with UI for debugging
+npm run test:forms:ui
+```
+
+See [Testing Documentation](docs/testing/README.md) for complete testing guide.
+
 ## 🏗️ Architecture
 
 WWFM uses a modern JAMstack architecture:

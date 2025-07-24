@@ -16,14 +16,12 @@ interface DistributionFieldProps {
   label: string;
   distribution: DistributionData;
   viewMode: 'simple' | 'detailed';
-  onTapBreakdown?: () => void; // For mobile
 }
 
 export const DistributionField: React.FC<DistributionFieldProps> = ({
   label,
   distribution,
-  viewMode,
-  onTapBreakdown
+  viewMode
 }) => {
   // Simple view: just show the mode value
   if (viewMode === 'simple') {
@@ -74,16 +72,6 @@ export const DistributionField: React.FC<DistributionFieldProps> = ({
       <div className="distribution-label">
         <span>{label}</span>
         <span className="field-count">({distribution.totalReports})</span>
-        {/* Mobile tap for breakdown */}
-        {onTapBreakdown && (
-          <button 
-            onClick={onTapBreakdown}
-            className="ml-auto text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 sm:hidden transition-colors"
-            aria-label="View breakdown"
-          >
-            📊
-          </button>
-        )}
       </div>
       
       <div className={`distribution-values ${isStacked ? 'stacked' : ''}`}>

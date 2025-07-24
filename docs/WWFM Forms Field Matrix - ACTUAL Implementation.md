@@ -37,6 +37,7 @@ This document reflects what is ACTUALLY stored in the database and what the fron
 - `ongoing_cost` - "$25-50/month"
 - `time_to_results` - "1-2 weeks"
 - `frequency` - "3-4x per week"
+- `duration` - "30-45 minutes"
 - **Array**: `challenges` - ["Weather dependent", etc.]
 
 #### habits_routines
@@ -70,6 +71,8 @@ This document reflects what is ACTUALLY stored in the database and what the fron
 - **Array**: `barriers` - ["Finding qualified coaches", "No insurance coverage", etc.]
 
 #### Other Session Forms (NOT YET GENERATED)
+- doctors_specialists
+- coaches_mentors
 - alternative_practitioners
 - professional_services
 - medical_procedures

@@ -9,7 +9,13 @@
     "lint": "next lint",
     "debug": "node tools/debug-page.js",
     "debug:goal": "node tools/debug-page.js http://localhost:3001/goal/",
-    "debug:mobile": "node tools/debug-page.js --mobile"
+    "debug:mobile": "node tools/debug-page.js --mobile",
+    "test:forms": "playwright test tests/e2e/forms",
+    "test:forms:ui": "playwright test tests/e2e/forms --ui",
+    "test:forms:debug": "playwright test tests/e2e/forms --debug",
+    "test:forms:headed": "playwright test tests/e2e/forms --headed",
+    "test:forms:report": "playwright show-report",
+    "test:forms:ci": "playwright test tests/e2e/forms --reporter=html,github"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.2",
@@ -34,6 +40,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.54.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
