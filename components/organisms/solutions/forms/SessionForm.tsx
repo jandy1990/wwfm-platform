@@ -1,21 +1,83 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/database/client';
+import { ChevronLeft, Check } from 'lucide-react';
+import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { Label } from '@/components/atoms/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
-import { Checkbox } from '@/components/atoms/checkbox';
-import { SolutionCategory, COST_RANGES } from '@/lib/forms/templates';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { COST_RANGES } from '@/lib/forms/templates';
+// import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Skeleton } from '@/components/atoms/skeleton';
 
 interface SessionFormProps {
-  category: Extract<SolutionCategory, 
-    'therapists_counselors' | 'doctors_specialists' | 'coaches_mentors' | 
-    'alternative_practitioners' | 'professional_services' | 'medical_procedures' | 'crisis_resources'
-  >;
+  goalId: string;
+  goalTitle?: string;
+  userId: string;
+  solutionName: string;
+  category: string;
+  existingSolutionId?: string;
+  onBack: () => void;
 }
 
-export function SessionForm({ category }: SessionFormProps) {
+interface FailedSolution {
+  id?: string;
+  name: string;
+  rating: number;
+}
+
+// Progress celebration messages
+const ProgressCelebration = ({ step }: { step: number }) => {
+  if (step === 1) return null;
+  
+  const celebrations = [
+    "Great start! 🎯",
+    "Almost there! 💪",
+    "Final step! 🏁"
+  ];
+  
+  return (
+    <div className="text-center mb-4 opacity-0 animate-[fadeIn_0.5s_ease-in_forwards]">
+      <p className="text-green-600 dark:text-green-400 font-medium text-lg">
+        {celebrations[step - 2]}
+      </p>
+    </div>
+  );
+};
+
+export function SessionForm({
+  goalId,
+  goalTitle = "your goal",
+  userId,
+  solutionName,
+  category,
+  existingSolutionId,
+  onBack
+}: SessionFormProps) {
+  // existingSolutionId will be used when updating existing solutions
+  console.log('SessionForm initialized with solution:', existingSolutionId || 'new');
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [showSuccessScreen, setShowSuccessScreen] = useState(false);
+  const [highestStepReached, setHighestStepReached] = useState(1);
+  
+  // Step 1 fields - Universal + Category-specific
+  const [effectiveness, setEffectiveness] = useState<number | null>(null);
+  const [timeToResults, setTimeToResults] = useState('');
   const [costType, setCostType] = useState<'per_session' | 'monthly' | 'total'>('per_session');
+  const [costRange, setCostRange] = useState('');
+  const [sessionFrequency, setSessionFrequency] = useState('');
+  const [format, setFormat] = useState('');
+  const [sessionLength, setSessionLength] = useState('');
+  const [waitTime, setWaitTime] = useState('');
+  const [insuranceCoverage, setInsuranceCoverage] = useState('');
+  const [specialty, setSpecialty] = useState('');
+  const [responseTime, setResponseTime] = useState('');
+  
+  // Step 2 fields - Arrays (side effects or barriers)
   const [selectedSideEffects, setSelectedSideEffects] = useState<string[]>(['None']);
   const [sideEffectOptions, setSideEffectOptions] = useState<string[]>([]);
   const [selectedBarriers, setSelectedBarriers] = useState<string[]>(['None']);
@@ -23,13 +85,61 @@ export function SessionForm({ category }: SessionFormProps) {
   const [loading, setLoading] = useState(false);
   const [barriersLoading, setBarriersLoading] = useState(true);
   
-  const supabase = createClientComponentClient();
+  // Step 3 - Failed solutions
+  const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
+  
+  // Optional fields (Success screen)
+  const [practitionerName, setPractitionerName] = useState('');
+  const [specificApproach, setSpecificApproach] = useState('');
+  const [completedTreatment, setCompletedTreatment] = useState('');
+  const [typicalLength, setTypicalLength] = useState('');
+  const [availability, setAvailability] = useState<string[]>([]);
+  const [additionalInfo, setAdditionalInfo] = useState('');
+  
+  // const supabaseClient = createClientComponentClient();
   
   // Only show side effects for medical procedures and alternative practitioners
   const showSideEffects = ['medical_procedures', 'alternative_practitioners'].includes(category);
   
-  // Show barriers for therapists, coaches, and doctors
-  const showBarriers = ['therapists_counselors', 'coaches_mentors', 'doctors_specialists'].includes(category);
+  // Show barriers for therapists, coaches, doctors, professional services, and crisis resources
+  const showBarriers = ['therapists_counselors', 'coaches_mentors', 'doctors_specialists', 'professional_services', 'crisis_resources'].includes(category);
+  
+  // Progress indicator
+  const totalSteps = 3;
+  const progress = (currentStep / totalSteps) * 100;
+  
+  // Handle browser back button
+  useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      e.preventDefault();
+      
+      if (currentStep > 1) {
+        setCurrentStep(currentStep - 1);
+        window.history.pushState({ step: currentStep - 1 }, '');
+      } else {
+        onBack();
+      }
+    };
+
+    window.history.pushState({ step: currentStep }, '');
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [currentStep, onBack]);
+  
+  // Update history when step changes
+  useEffect(() => {
+    window.history.pushState({ step: currentStep }, '');
+  }, [currentStep]);
+  
+  // Track highest step reached
+  useEffect(() => {
+    if (currentStep > highestStepReached) {
+      setHighestStepReached(currentStep);
+    }
+  }, [currentStep, highestStepReached]);
   
   useEffect(() => {
     if (showSideEffects) {
@@ -50,11 +160,40 @@ export function SessionForm({ category }: SessionFormProps) {
       
       fetchOptions();
     }
-  }, [category, showSideEffects, supabase]);
+  }, [category, showSideEffects]);
   
   useEffect(() => {
     if (showBarriers) {
       setBarriersLoading(true);
+      
+      // Fallback barrier options for categories that might not be in DB yet
+      const fallbackBarriers: Record<string, string[]> = {
+        professional_services: [
+          'Finding qualified professionals',
+          'High cost',
+          'Limited availability',
+          'Not covered by insurance',
+          'Unclear about what I need',
+          'Too many options to choose from',
+          'Scheduling conflicts',
+          'Location/distance issues',
+          'Concerns about confidentiality',
+          'None'
+        ],
+        crisis_resources: [
+          'Long wait times',
+          'Difficulty getting through',
+          'Not the right type of help',
+          'Felt judged or dismissed',
+          'Language barriers',
+          'Technical issues with platform',
+          'Limited hours of operation',
+          'Needed different level of care',
+          'Privacy concerns',
+          'None'
+        ]
+      };
+      
       const fetchBarriers = async () => {
         const { data, error } = await supabase
           .from('challenge_options')
@@ -63,15 +202,18 @@ export function SessionForm({ category }: SessionFormProps) {
           .eq('is_active', true)
           .order('display_order');
         
-        if (!error && data) {
+        if (!error && data && data.length > 0) {
           setBarrierOptions(data.map(item => item.label));
+        } else if (fallbackBarriers[category]) {
+          // Use fallback if no data in DB
+          setBarrierOptions(fallbackBarriers[category]);
         }
         setBarriersLoading(false);
       };
       
       fetchBarriers();
     }
-  }, [category, showBarriers, supabase]);
+  }, [category, showBarriers]);
   
   const handleSideEffectToggle = (effect: string) => {
     if (effect === 'None') {
@@ -113,9 +255,109 @@ export function SessionForm({ category }: SessionFormProps) {
     }
     return COST_RANGES[costType as keyof typeof COST_RANGES] || COST_RANGES.per_session;
   };
+  
+  const renderStepOne = () => {
+    return (
+      <div className="space-y-8 animate-slide-in">
+        {/* Quick context card */}
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
+                      border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+          <p className="text-sm text-blue-800 dark:text-blue-200">
+            Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
+          </p>
+        </div>
 
-  return (
-    <>
+        {/* Effectiveness Section */}
+        <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
+              <span className="text-lg">⭐</span>
+            </div>
+            <h2 className="text-xl font-semibold">How well it worked</h2>
+          </div>
+          
+          {/* 5-star rating */}
+          <div className="space-y-4">
+            <div className="grid grid-cols-5 gap-2">
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <button
+                  key={rating}
+                  onClick={() => setEffectiveness(rating)}
+                  className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
+                    effectiveness === rating
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-105 shadow-lg'
+                      : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  {effectiveness === rating && (
+                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center animate-bounce-in">
+                      <Check className="w-4 h-4 text-white" />
+                    </div>
+                  )}
+                  <div className="text-center">
+                    <div className="text-2xl mb-1">
+                      {rating === 1 && '😞'}
+                      {rating === 2 && '😕'}
+                      {rating === 3 && '😐'}
+                      {rating === 4 && '😊'}
+                      {rating === 5 && '🤩'}
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 hidden sm:block">
+                      {rating === 1 && 'Not at all'}
+                      {rating === 2 && 'Slightly'}
+                      {rating === 3 && 'Moderate'}
+                      {rating === 4 && 'Very'}
+                      {rating === 5 && 'Extremely'}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+            <div className="flex justify-between sm:hidden">
+              <span className="text-xs text-gray-500">Not at all</span>
+              <span className="text-xs text-gray-500">Extremely</span>
+            </div>
+          </div>
+
+          {/* Time to results */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">⏱️</span>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                When did you notice results?
+              </label>
+            </div>
+            <select
+              value={timeToResults}
+              onChange={(e) => setTimeToResults(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                       focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                       dark:bg-gray-800 dark:text-white transition-all"
+            >
+              <option value="">Select timeframe</option>
+              <option value="Immediately">Immediately</option>
+              <option value="Within days">Within days</option>
+              <option value="1-2 weeks">1-2 weeks</option>
+              <option value="3-4 weeks">3-4 weeks</option>
+              <option value="1-2 months">1-2 months</option>
+              <option value="3-6 months">3-6 months</option>
+              <option value="6+ months">6+ months</option>
+              <option value="Still evaluating">Still evaluating</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Visual separator */}
+        <div className="flex items-center gap-4 my-8">
+          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+          <span className="text-xs text-gray-500 dark:text-gray-400">then</span>
+          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+        </div>
+
+        {/* Category-specific fields */}
+        <div className="space-y-6">
+          <h2 className="text-xl font-semibold">Session details</h2>
+
       {/* Cost field */}
       <div className="space-y-2">
         <Label className="text-base font-medium">
@@ -123,7 +365,7 @@ export function SessionForm({ category }: SessionFormProps) {
         </Label>
         
         {category !== 'crisis_resources' && (
-          <RadioGroup value={costType} onValueChange={(value) => setCostType(value as any)}>
+          <RadioGroup value={costType} onValueChange={(value) => setCostType(value as 'per_session' | 'monthly' | 'total')}>
             <div className="flex gap-4">
               <div className="flex items-center">
                 <RadioGroupItem value="per_session" id="per_session" />
@@ -143,7 +385,7 @@ export function SessionForm({ category }: SessionFormProps) {
           </RadioGroup>
         )}
         
-        <Select name="cost_range" required>
+        <Select value={costRange} onValueChange={setCostRange} required>
           <SelectTrigger>
             <SelectValue placeholder="Select cost range" />
           </SelectTrigger>
@@ -153,87 +395,18 @@ export function SessionForm({ category }: SessionFormProps) {
             ))}
           </SelectContent>
         </Select>
-        <input type="hidden" name="cost_type" value={costType} />
       </div>
 
-      {/* Side Effects (only for medical procedures and alternative practitioners) */}
-      {showSideEffects && (
-        <div className="space-y-2">
-          <Label className="text-base font-medium">
-            {category === 'medical_procedures' ? 'Side Effects/Risks' : 'Side Effects'} <span className="text-red-500">*</span>
-          </Label>
-          {loading ? (
-            <div className="space-y-2">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto p-3 border rounded-md">
-              {sideEffectOptions.map((effect) => (
-                <div key={effect} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={effect}
-                    checked={selectedSideEffects.includes(effect)}
-                    onCheckedChange={() => handleSideEffectToggle(effect)}
-                  />
-                  <Label htmlFor={effect} className="text-sm font-normal cursor-pointer">
-                    {effect}
-                  </Label>
-                </div>
-              ))}
-            </div>
-          )}
-          <input 
-            type="hidden" 
-            name="side_effects" 
-            value={JSON.stringify(selectedSideEffects)} 
-          />
-        </div>
-      )}
 
-      {/* Barriers (for therapists, coaches, doctors) */}
-      {showBarriers && (
-        <div className="space-y-2">
-          <Label className="text-base font-medium">
-            Barriers encountered? <span className="text-red-500">*</span>
-          </Label>
-          {barriersLoading ? (
-            <div className="space-y-2">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto p-3 border rounded-md">
-              {barrierOptions.map((barrier) => (
-                <div key={barrier} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={barrier}
-                    checked={selectedBarriers.includes(barrier)}
-                    onCheckedChange={() => handleBarrierToggle(barrier)}
-                  />
-                  <Label htmlFor={barrier} className="text-sm font-normal cursor-pointer">
-                    {barrier}
-                  </Label>
-                </div>
-              ))}
-            </div>
-          )}
-          <input 
-            type="hidden" 
-            name="barriers" 
-            value={JSON.stringify(selectedBarriers)} 
-          />
-        </div>
-      )}
-
-      {/* Optional fields */}
+      {/* Required fields based on category */}
       <div className="space-y-4">
+        {/* Optional fields that remain in Step 1 */}
         {category !== 'crisis_resources' && (
           <div>
             <Label htmlFor="session_frequency">
               {category === 'medical_procedures' ? 'Treatment frequency' : 'Session frequency'}
             </Label>
-            <Select name="session_frequency">
+            <Select value={sessionFrequency} onValueChange={setSessionFrequency}>
               <SelectTrigger>
                 <SelectValue placeholder="How often?" />
               </SelectTrigger>
@@ -253,7 +426,7 @@ export function SessionForm({ category }: SessionFormProps) {
 
         <div>
           <Label htmlFor="format">Format</Label>
-          <Select name="format">
+          <Select value={format} onValueChange={setFormat}>
             <SelectTrigger>
               <SelectValue placeholder="Select format" />
             </SelectTrigger>
@@ -283,10 +456,34 @@ export function SessionForm({ category }: SessionFormProps) {
           </Select>
         </div>
 
-        {!['crisis_resources', 'medical_procedures'].includes(category) && (
+        {/* Session length for therapists_counselors REQUIRED */}
+        {category === 'therapists_counselors' && (
+          <div>
+            <Label htmlFor="session_length">
+              Session length <span className="text-red-500">*</span>
+            </Label>
+            <Select value={sessionLength} onValueChange={setSessionLength} required>
+              <SelectTrigger>
+                <SelectValue placeholder="How long?" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="15 minutes">15 minutes</SelectItem>
+                <SelectItem value="30 minutes">30 minutes</SelectItem>
+                <SelectItem value="45 minutes">45 minutes</SelectItem>
+                <SelectItem value="60 minutes">60 minutes</SelectItem>
+                <SelectItem value="90 minutes">90 minutes</SelectItem>
+                <SelectItem value="2+ hours">2+ hours</SelectItem>
+                <SelectItem value="Varies">Varies</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* Session length for other categories OPTIONAL */}
+        {!['crisis_resources', 'medical_procedures', 'therapists_counselors'].includes(category) && (
           <div>
             <Label htmlFor="session_length">Session length</Label>
-            <Select name="session_length">
+            <Select value={sessionLength} onValueChange={setSessionLength}>
               <SelectTrigger>
                 <SelectValue placeholder="How long?" />
               </SelectTrigger>
@@ -306,7 +503,7 @@ export function SessionForm({ category }: SessionFormProps) {
         {['therapists_counselors', 'doctors_specialists', 'medical_procedures'].includes(category) && (
           <div>
             <Label htmlFor="insurance_coverage">Insurance coverage</Label>
-            <Select name="insurance_coverage">
+            <Select value={insuranceCoverage} onValueChange={setInsuranceCoverage}>
               <SelectTrigger>
                 <SelectValue placeholder="Coverage status" />
               </SelectTrigger>
@@ -314,17 +511,18 @@ export function SessionForm({ category }: SessionFormProps) {
                 <SelectItem value="Fully covered">Fully covered</SelectItem>
                 <SelectItem value="Partially covered">Partially covered</SelectItem>
                 <SelectItem value="Not covered">Not covered</SelectItem>
-                <SelectItem value="Don't have insurance">Don't have insurance</SelectItem>
+                <SelectItem value="Don't have insurance">Don&apos;t have insurance</SelectItem>
                 <SelectItem value="HSA/FSA eligible">HSA/FSA eligible</SelectItem>
               </SelectContent>
             </Select>
           </div>
         )}
 
-        {['doctors_specialists', 'medical_procedures'].includes(category) && (
+        {/* Wait time for doctors OPTIONAL, medical_procedures REQUIRED */}
+        {category === 'doctors_specialists' && (
           <div>
             <Label htmlFor="wait_time">Wait time</Label>
-            <Select name="wait_time">
+            <Select value={waitTime} onValueChange={setWaitTime}>
               <SelectTrigger>
                 <SelectValue placeholder="Time to get appointment" />
               </SelectTrigger>
@@ -340,62 +538,561 @@ export function SessionForm({ category }: SessionFormProps) {
           </div>
         )}
 
-        {['therapists_counselors', 'coaches_mentors', 'medical_procedures'].includes(category) && (
+        {category === 'medical_procedures' && (
           <div>
-            <Label htmlFor="completed_full_treatment">Completed full treatment?</Label>
-            <RadioGroup name="completed_full_treatment">
-              <div className="flex gap-4">
-                <div className="flex items-center">
-                  <RadioGroupItem value="Yes" id="completed_yes" />
-                  <Label htmlFor="completed_yes" className="ml-2">Yes</Label>
-                </div>
-                <div className="flex items-center">
-                  <RadioGroupItem value="No" id="completed_no" />
-                  <Label htmlFor="completed_no" className="ml-2">No</Label>
-                </div>
-                <div className="flex items-center">
-                  <RadioGroupItem value="Still ongoing" id="completed_ongoing" />
-                  <Label htmlFor="completed_ongoing" className="ml-2">Still ongoing</Label>
-                </div>
-              </div>
-            </RadioGroup>
-          </div>
-        )}
-
-        {!['professional_services', 'crisis_resources'].includes(category) && (
-          <div>
-            <Label htmlFor="typical_treatment_length">Typical treatment length</Label>
-            <Select name="typical_treatment_length">
+            <Label htmlFor="wait_time">
+              Wait time <span className="text-red-500">*</span>
+            </Label>
+            <Select value={waitTime} onValueChange={setWaitTime} required>
               <SelectTrigger>
-                <SelectValue placeholder="How long overall?" />
+                <SelectValue placeholder="Time to get appointment" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Single session only">Single session only</SelectItem>
-                <SelectItem value="4-6 sessions">4-6 sessions</SelectItem>
-                <SelectItem value="8-12 sessions">8-12 sessions</SelectItem>
-                <SelectItem value="3-6 months">3-6 months</SelectItem>
-                <SelectItem value="6-12 months">6-12 months</SelectItem>
-                <SelectItem value="Ongoing/Indefinite">Ongoing/Indefinite</SelectItem>
-                <SelectItem value="Varies significantly">Varies significantly</SelectItem>
+                <SelectItem value="Same day">Same day</SelectItem>
+                <SelectItem value="Within a week">Within a week</SelectItem>
+                <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
+                <SelectItem value="2-4 weeks">2-4 weeks</SelectItem>
+                <SelectItem value="1-2 months">1-2 months</SelectItem>
+                <SelectItem value="2+ months">2+ months</SelectItem>
               </SelectContent>
             </Select>
           </div>
         )}
 
-        {category === 'crisis_resources' && (
+
+        {/* Specialty for professional_services REQUIRED */}
+        {category === 'professional_services' && (
           <div>
-            <Label htmlFor="availability">Availability</Label>
-            <div className="space-y-2">
-              {['24/7', 'Business hours', 'Evenings', 'Weekends', 'Immediate response', 'Callback within 24hrs'].map(option => (
-                <div key={option} className="flex items-center space-x-2">
-                  <Checkbox id={option} name="availability" value={option} />
-                  <Label htmlFor={option} className="text-sm font-normal">{option}</Label>
-                </div>
-              ))}
+            <Label htmlFor="specialty">
+              Type of service <span className="text-red-500">*</span>
+            </Label>
+            <Select value={specialty} onValueChange={setSpecialty} required>
+              <SelectTrigger>
+                <SelectValue placeholder="Select service type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Career counseling">Career counseling</SelectItem>
+                <SelectItem value="Financial planning">Financial planning</SelectItem>
+                <SelectItem value="Legal consultation">Legal consultation</SelectItem>
+                <SelectItem value="Business coaching">Business coaching</SelectItem>
+                <SelectItem value="Life organizing">Life organizing</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* Response time for crisis_resources REQUIRED */}
+        {category === 'crisis_resources' && (
+          <>
+            <div>
+              <Label htmlFor="response_time">
+                Response time <span className="text-red-500">*</span>
+              </Label>
+              <Select value={responseTime} onValueChange={setResponseTime} required>
+                <SelectTrigger>
+                  <SelectValue placeholder="How quickly did they respond?" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Immediate">Immediate</SelectItem>
+                  <SelectItem value="Within 5 minutes">Within 5 minutes</SelectItem>
+                  <SelectItem value="Within 30 minutes">Within 30 minutes</SelectItem>
+                  <SelectItem value="Within 1 hour">Within 1 hour</SelectItem>
+                  <SelectItem value="Within 24 hours">Within 24 hours</SelectItem>
+                  <SelectItem value="Longer than 24 hours">Longer than 24 hours</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+          </>
+        )}
+      </div>
+    </div>
+      </div>
+    );
+  };
+  
+  const renderStepTwo = () => {
+    return (
+      <div className="space-y-6 animate-slide-in">
+        <ProgressCelebration step={currentStep} />
+        
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center">
+            <span className="text-lg">⚡</span>
+          </div>
+          <h2 className="text-xl font-semibold">
+            {showSideEffects ? 'Any side effects?' : 'Any barriers?'}
+          </h2>
+        </div>
+
+        {/* Quick tip */}
+        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3">
+          <p className="text-sm text-amber-800 dark:text-amber-200">
+            💡 This helps others know what to expect
+          </p>
+        </div>
+
+        {showSideEffects ? renderSideEffects() : showBarriers ? renderBarriers() : null}
+      </div>
+    );
+  };
+  
+  const renderStepThree = () => {
+    return (
+      <div className="space-y-6 animate-slide-in">
+        <ProgressCelebration step={currentStep} />
+        
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
+            <span className="text-lg">🔍</span>
+          </div>
+          <h2 className="text-xl font-semibold">What else did you try?</h2>
+        </div>
+
+        {/* Context card */}
+        <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-3">
+          <p className="text-sm text-purple-800 dark:text-purple-200">
+            Help others by sharing what didn&apos;t work as well
+          </p>
+        </div>
+
+        {/* Failed Solutions Picker */}
+        <FailedSolutionsPicker
+          goalId={goalId}
+          goalTitle={goalTitle}
+          solutionName={solutionName}
+          onSolutionsChange={setFailedSolutions}
+          existingSolutions={failedSolutions}
+        />
+
+        {/* Skip hint */}
+        {failedSolutions.length === 0 && (
+          <div className="text-center py-8">
+            <div className="inline-flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400">
+              <p className="text-sm">Nothing to add?</p>
+              <div className="flex items-center gap-2">
+                <span className="text-sm">Click Submit to finish</span>
+                <div className="animate-bounce-right">→</div>
+              </div>
             </div>
           </div>
         )}
       </div>
-    </>
+    );
+  };
+  
+  const renderSideEffects = () => {
+    if (loading) {
+      return (
+        <div className="space-y-2">
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+        </div>
+      );
+    }
+    
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {sideEffectOptions.map((effect) => (
+        <label
+          key={effect}
+          className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
+                    transition-all transform hover:scale-[1.02] ${
+            selectedSideEffects.includes(effect)
+              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
+              : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
+          }`}
+        >
+          <input
+            type="checkbox"
+            checked={selectedSideEffects.includes(effect)}
+            onChange={() => handleSideEffectToggle(effect)}
+            className="sr-only"
+          />
+          <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 
+                        transition-all ${
+            selectedSideEffects.includes(effect)
+              ? 'border-blue-500 bg-blue-500'
+              : 'border-gray-300 dark:border-gray-600 group-hover:border-gray-400'
+          }`}>
+            {selectedSideEffects.includes(effect) && (
+              <Check className="w-3 h-3 text-white animate-scale-in" />
+            )}
+          </div>
+          <span className="text-sm">{effect}</span>
+        </label>
+        ))}
+      </div>
+    );
+  };
+  
+  const renderBarriers = () => {
+    if (barriersLoading) {
+      return (
+        <div className="space-y-2">
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+        </div>
+      );
+    }
+    
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {barrierOptions.map((barrier) => (
+        <label
+          key={barrier}
+          className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
+                    transition-all transform hover:scale-[1.02] ${
+            selectedBarriers.includes(barrier)
+              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
+              : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
+          }`}
+        >
+          <input
+            type="checkbox"
+            checked={selectedBarriers.includes(barrier)}
+            onChange={() => handleBarrierToggle(barrier)}
+            className="sr-only"
+          />
+          <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 
+                        transition-all ${
+            selectedBarriers.includes(barrier)
+              ? 'border-blue-500 bg-blue-500'
+              : 'border-gray-300 dark:border-gray-600 group-hover:border-gray-400'
+          }`}>
+            {selectedBarriers.includes(barrier) && (
+              <Check className="w-3 h-3 text-white animate-scale-in" />
+            )}
+          </div>
+          <span className="text-sm">{barrier}</span>
+        </label>
+        ))}
+      </div>
+    );
+  };
+  
+  const canProceedToNextStep = () => {
+    switch (currentStep) {
+      case 1:
+        // Universal fields always required
+        const universalValid = effectiveness !== null && timeToResults !== '';
+        
+        // Cost always required
+        const costValid = costRange !== '';
+        
+        // Category-specific required fields
+        let categorySpecificValid = true;
+        
+        if (category === 'therapists_counselors') {
+          categorySpecificValid = sessionLength !== '';
+        } else if (category === 'medical_procedures') {
+          categorySpecificValid = waitTime !== '';
+        } else if (category === 'professional_services') {
+          categorySpecificValid = specialty !== '';
+        } else if (category === 'crisis_resources') {
+          categorySpecificValid = responseTime !== '';
+        }
+        
+        return universalValid && costValid && categorySpecificValid;
+        
+      case 2:
+        // Must select at least one side effect/barrier
+        const hasSelections = showSideEffects ? selectedSideEffects.length > 0 : selectedBarriers.length > 0;
+        return hasSelections;
+        
+      case 3:
+        // Failed solutions are optional
+        return true;
+        
+      default:
+        return false;
+    }
+  };
+  
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    
+    try {
+      // TODO: Submit implementation
+      console.log('Submitting session form with:', {
+        effectiveness,
+        timeToResults,
+        costRange,
+        costType,
+        sessionFrequency,
+        format,
+        sessionLength,
+        waitTime,
+        insuranceCoverage,
+        specialty,
+        responseTime,
+        sideEffects: showSideEffects ? selectedSideEffects : undefined,
+        barriers: showBarriers ? selectedBarriers : undefined,
+        failedSolutions
+      });
+      
+      // Submit failed solution ratings
+      for (const failed of failedSolutions) {
+        if (failed.id) {
+          await supabase.rpc('create_failed_solution_rating', {
+            p_solution_id: failed.id,
+            p_goal_id: goalId,
+            p_user_id: userId,
+            p_rating: failed.rating,
+            p_solution_name: failed.name
+          });
+        }
+      }
+      
+      setShowSuccessScreen(true);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  const updateAdditionalInfo = async () => {
+    // TODO: Update additional info
+    console.log('Updating additional info:', { 
+      practitionerName, 
+      specificApproach, 
+      completedTreatment,
+      typicalLength,
+      availability,
+      additionalInfo 
+    });
+  };
+  
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1: // Universal fields + Category-specific required fields
+        return renderStepOne();
+      case 2: // Side effects or barriers
+        return renderStepTwo();
+      case 3: // Failed solutions
+        return renderStepThree();
+      default:
+        return <div>Invalid step</div>;
+    }
+  };
+  
+  // Success Screen Component
+  if (showSuccessScreen) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center py-12">
+          {/* Success animation */}
+          <div className="mb-6 opacity-0 animate-[scaleIn_0.5s_ease-out_forwards]">
+            <div className="w-20 h-20 bg-green-100 dark:bg-green-900 rounded-full mx-auto flex items-center justify-center">
+              <Check className="w-10 h-10 text-green-600 dark:text-green-400" />
+            </div>
+          </div>
+          
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 opacity-0 animate-[fadeIn_0.5s_ease-in_0.3s_forwards]">
+            Thank you for sharing!
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
+            Your experience with {solutionName} has been recorded
+          </p>
+
+          {/* Optional fields in a subtle card */}
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 text-left max-w-md mx-auto mb-6 opacity-0 animate-[slideUp_0.5s_ease-out_0.7s_forwards]">
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+              Add more details (optional):
+            </p>
+            
+            <div className="space-y-4">
+              <input
+                type="text"
+                placeholder="Practitioner/Provider name"
+                value={practitionerName}
+                onChange={(e) => setPractitionerName(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         dark:bg-gray-700 dark:text-white text-sm"
+              />
+              
+              <input
+                type="text"
+                placeholder="Specific approach or technique used"
+                value={specificApproach}
+                onChange={(e) => setSpecificApproach(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         dark:bg-gray-700 dark:text-white text-sm"
+              />
+              
+              {['therapists_counselors', 'coaches_mentors', 'medical_procedures'].includes(category) && (
+                <select
+                  value={completedTreatment}
+                  onChange={(e) => setCompletedTreatment(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           dark:bg-gray-700 dark:text-white text-sm"
+                >
+                  <option value="">Completed full treatment?</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                  <option value="Still ongoing">Still ongoing</option>
+                </select>
+              )}
+              
+              {!['professional_services', 'crisis_resources'].includes(category) && (
+                <select
+                  value={typicalLength}
+                  onChange={(e) => setTypicalLength(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           dark:bg-gray-700 dark:text-white text-sm"
+                >
+                  <option value="">Typical treatment length</option>
+                  <option value="Single session only">Single session only</option>
+                  <option value="4-6 sessions">4-6 sessions</option>
+                  <option value="8-12 sessions">8-12 sessions</option>
+                  <option value="3-6 months">3-6 months</option>
+                  <option value="6-12 months">6-12 months</option>
+                  <option value="Ongoing/Indefinite">Ongoing/Indefinite</option>
+                  <option value="Varies significantly">Varies significantly</option>
+                </select>
+              )}
+              
+              {category === 'crisis_resources' && (
+                <div className="space-y-2">
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Availability</p>
+                  {['24/7', 'Business hours', 'Evenings', 'Weekends', 'Immediate response', 'Callback within 24hrs'].map(option => (
+                    <label key={option} className="flex items-center space-x-2">
+                      <input 
+                        type="checkbox" 
+                        checked={availability.includes(option)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setAvailability([...availability, option]);
+                          } else {
+                            setAvailability(availability.filter(a => a !== option));
+                          }
+                        }}
+                        className="rounded border-gray-300 dark:border-gray-600"
+                      />
+                      <span className="text-sm">{option}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+              
+              <textarea
+                placeholder="Any tips or additional info that might help others?"
+                value={additionalInfo}
+                onChange={(e) => setAdditionalInfo(e.target.value)}
+                rows={2}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         dark:bg-gray-700 dark:text-white text-sm"
+              />
+              
+              {(practitionerName || specificApproach || completedTreatment || typicalLength || availability.length > 0 || additionalInfo) && (
+                <button
+                  onClick={updateAdditionalInfo}
+                  className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
+                         text-sm font-medium transition-colors"
+                >
+                  Save additional details
+                </button>
+              )}
+            </div>
+          </div>
+
+          <button
+            onClick={() => router.push(`/goal/${goalId}`)}
+            className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 
+                     rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-100 
+                     transition-all transform hover:scale-105"
+          >
+            Back to goal page
+          </button>
+        </div>
+      </div>
+    );
+  }
+  
+  return (
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Progress Bar */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-2">
+          <button
+            onClick={() => {
+              if (currentStep > 1) {
+                setCurrentStep(currentStep - 1);
+              } else {
+                onBack();
+              }
+            }}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            Step {currentStep} of {totalSteps}
+          </span>
+        </div>
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+          <div 
+            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
+
+      {/* Form Content */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 
+                    dark:border-gray-700 p-4 sm:p-6 overflow-visible">
+        {renderStep()}
+      </div>
+
+      {/* Navigation */}
+      <div className="flex justify-between mt-6">
+        {currentStep > 1 ? (
+          <button
+            onClick={() => setCurrentStep(currentStep - 1)}
+            className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
+                     dark:hover:text-gray-200 font-medium transition-colors"
+          >
+            Back
+          </button>
+        ) : (
+          <div />
+        )}
+        
+        <div className="flex gap-2">
+          {currentStep < totalSteps ? (
+            <button
+              onClick={() => setCurrentStep(currentStep + 1)}
+              disabled={!canProceedToNextStep()}
+              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+                canProceedToNextStep()
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+              }`}
+            >
+              {currentStep === 3 ? 'Skip' : 'Continue'}
+            </button>
+          ) : (
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitting || !canProceedToNextStep()}
+              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+                !isSubmitting
+                  ? 'bg-green-600 hover:bg-green-700 text-white'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+              }`}
+            >
+              {isSubmitting ? 'Submitting...' : 'Submit'}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

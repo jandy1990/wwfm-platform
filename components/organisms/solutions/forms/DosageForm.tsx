@@ -4,7 +4,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
-import { ChevronLeft, Check, X, Star, Plus, Search } from 'lucide-react';
+import { ChevronLeft, Check, X, Plus } from 'lucide-react';
+import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 
 interface DosageFormProps {
   goalId: string;
@@ -22,12 +23,6 @@ interface FailedSolution {
   rating: number;
 }
 
-interface SolutionSuggestion {
-  id: string;
-  title: string;
-  solution_category: string;
-  description: string | null;
-}
 
 // Unit options by category - measurement units only
 const unitOptions = {
@@ -76,6 +71,8 @@ export function DosageForm({
   existingSolutionId,
   onBack
 }: DosageFormProps) {
+  // existingSolutionId will be used when updating existing solutions
+  console.log('DosageForm initialized with solution:', existingSolutionId || 'new');
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -91,6 +88,7 @@ export function DosageForm({
   const [skincareFrequency, setSkincareFrequency] = useState('');
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
   const [timeToResults, setTimeToResults] = useState('');
+  const [lengthOfUse, setLengthOfUse] = useState('');
   
   // Cost field (moved to success screen)
   const [costType, setCostType] = useState<'monthly' | 'one_time'>('monthly');
@@ -103,11 +101,6 @@ export function DosageForm({
   
   // Step 3 - Failed solutions
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
-  const [newFailedSolution, setNewFailedSolution] = useState('');
-  const [solutionSuggestions, setSolutionSuggestions] = useState<SolutionSuggestion[]>([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchTimer, setSearchTimer] = useState<NodeJS.Timeout | null>(null);
   
   // Optional fields (Success screen)
   const [brand, setBrand] = useState('');
@@ -158,41 +151,6 @@ export function DosageForm({
     }
   }, [currentStep, highestStepReached]);
 
-  // Search for solutions as user types
-  useEffect(() => {
-    if (newFailedSolution.length >= 3) {
-      // Clear previous timer
-      if (searchTimer) clearTimeout(searchTimer);
-      
-      // Set new timer for debounced search
-      const timer = setTimeout(async () => {
-        setIsSearching(true);
-        try {
-          const { data, error } = await supabase.rpc('search_all_solutions', {
-            search_term: newFailedSolution
-          });
-          
-          if (!error && data) {
-            setSolutionSuggestions(data);
-            setShowSuggestions(true);
-          }
-        } catch (error) {
-          console.error('Error searching solutions:', error);
-        } finally {
-          setIsSearching(false);
-        }
-      }, 300); // 300ms debounce
-      
-      setSearchTimer(timer);
-    } else {
-      setSolutionSuggestions([]);
-      setShowSuggestions(false);
-    }
-    
-    return () => {
-      if (searchTimer) clearTimeout(searchTimer);
-    };
-  }, [newFailedSolution]);
 
   // Helper functions
   const buildDosageString = () => {
@@ -284,37 +242,6 @@ export function DosageForm({
     }
   };
 
-  const addFailedSolution = () => {
-    if (newFailedSolution.trim()) {
-      // Check if we have a selected solution from suggestions
-      const selectedSuggestion = solutionSuggestions.find(
-        s => s.title.toLowerCase() === newFailedSolution.toLowerCase()
-      );
-      
-      setFailedSolutions([...failedSolutions, { 
-        id: selectedSuggestion?.id,
-        name: newFailedSolution, 
-        rating: 1 
-      }]);
-      setNewFailedSolution('');
-      setShowSuggestions(false);
-    }
-  };
-
-  const selectSuggestion = (suggestion: SolutionSuggestion) => {
-    setNewFailedSolution(suggestion.title);
-    setShowSuggestions(false);
-  };
-
-  const updateFailedSolutionRating = (index: number, rating: number) => {
-    const updated = [...failedSolutions];
-    updated[index].rating = rating;
-    setFailedSolutions(updated);
-  };
-
-  const removeFailedSolution = (index: number) => {
-    setFailedSolutions(failedSolutions.filter((_, i) => i !== index));
-  };
 
   const canProceedToNextStep = () => {
     switch (currentStep) {
@@ -324,7 +251,7 @@ export function DosageForm({
           : doseAmount !== '' && 
             (doseUnit !== '' || (showCustomUnit && customUnit !== '')) && 
             frequency !== '';
-        const effectivenessValid = effectiveness !== null && timeToResults !== '';
+        const effectivenessValid = effectiveness !== null && timeToResults !== '' && lengthOfUse !== '';
         return dosageValid && effectivenessValid;
         
       case 2: // Side Effects
@@ -402,7 +329,7 @@ export function DosageForm({
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
                           border border-blue-200 dark:border-blue-800 rounded-lg p-4">
               <p className="text-sm text-blue-800 dark:text-blue-200">
-                Let's capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
+                Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
               </p>
             </div>
 
@@ -525,11 +452,35 @@ export function DosageForm({
                   {/* Preview */}
                   {(doseAmount && (doseUnit || customUnit) && frequency) && (
                     <div className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 p-3 rounded">
-                      <span className="text-gray-500">You're taking:</span> <strong className="text-gray-900 dark:text-white">{buildDosageString()}</strong>
+                      <span className="text-gray-500">You&apos;re taking:</span> <strong className="text-gray-900 dark:text-white">{buildDosageString()}</strong>
                     </div>
                   )}
                 </>
               )}
+            </div>
+
+            {/* Length of use */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                How long did you use it? <span className="text-red-500">*</span>
+              </label>
+              <select
+                value={lengthOfUse}
+                onChange={(e) => setLengthOfUse(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         dark:bg-gray-800 dark:text-white"
+              >
+                <option value="">Select duration</option>
+                <option value="Less than 1 month">Less than 1 month</option>
+                <option value="1-3 months">1-3 months</option>
+                <option value="3-6 months">3-6 months</option>
+                <option value="6-12 months">6-12 months</option>
+                <option value="1-2 years">1-2 years</option>
+                <option value="Over 2 years">Over 2 years</option>
+                <option value="As needed">As needed</option>
+                <option value="Still using">Still using</option>
+              </select>
             </div>
 
             {/* Visual separator */}
@@ -694,7 +645,7 @@ export function DosageForm({
                   type="text"
                   value={customSideEffect}
                   onChange={(e) => setCustomSideEffect(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && addCustomSideEffect()}
+                  onKeyDown={(e) => e.key === 'Enter' && addCustomSideEffect()}
                   placeholder="Describe the side effect"
                   className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
@@ -769,150 +720,18 @@ export function DosageForm({
             {/* Context card */}
             <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-3">
               <p className="text-sm text-purple-800 dark:text-purple-200">
-                Help others by sharing what didn't work as well
+                Help others by sharing what didn&apos;t work as well
               </p>
             </div>
 
-            {/* Search input */}
-            <div className="space-y-3">
-              <div className="relative">
-                <div className="flex gap-2">
-                  <div className="flex-1 relative">
-                    <input
-                      type="text"
-                      value={newFailedSolution}
-                      onChange={(e) => {
-                        setNewFailedSolution(e.target.value);
-                        if (e.target.value.length < 3) {
-                          setShowSuggestions(false);
-                        }
-                      }}
-                      onFocus={() => {
-                        if (newFailedSolution.length >= 3 && solutionSuggestions.length > 0) {
-                          setShowSuggestions(true);
-                        }
-                      }}
-                      onBlur={() => {
-                        // Delay hiding to allow click events on dropdown items
-                        setTimeout(() => {
-                          setShowSuggestions(false);
-                        }, 200);
-                      }}
-                      onKeyPress={(e) => e.key === 'Enter' && !showSuggestions && addFailedSolution()}
-                      placeholder="Search for solutions you tried (supplements, apps, therapies, etc.)"
-                      className="w-full px-4 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-lg 
-                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                               dark:bg-gray-800 dark:text-white"
-                    />
-                    {isSearching && (
-                      <div className="absolute right-3 top-2.5">
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
-                      </div>
-                    )}
-                    {!isSearching && newFailedSolution.length >= 3 && (
-                      <Search className="absolute right-3 top-2.5 w-5 h-5 text-gray-400" />
-                    )}
-                  </div>
-                  <button
-                    onClick={addFailedSolution}
-                    disabled={!newFailedSolution.trim()}
-                    className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 
-                             dark:hover:bg-gray-600 rounded-lg transition-colors
-                             disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Add
-                  </button>
-                </div>
-                
-                {/* Solution suggestions dropdown */}
-                {showSuggestions && solutionSuggestions.length > 0 && (
-                  <div className="absolute left-0 right-0 top-full mt-1 z-50">
-                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
-                                 rounded-lg shadow-lg max-h-60 overflow-auto">
-                      <div className="p-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800">
-                        <p className="text-xs text-blue-700 dark:text-blue-300 font-medium">
-                          {solutionSuggestions.length} solution{solutionSuggestions.length > 1 ? 's' : ''} found
-                        </p>
-                      </div>
-                      {solutionSuggestions.map((suggestion) => (
-                        <button
-                          key={suggestion.id}
-                          onMouseDown={(e) => {
-                            e.preventDefault(); // Prevent blur on input
-                            selectSuggestion(suggestion);
-                          }}
-                          className="w-full px-4 py-3 text-left hover:bg-blue-50 dark:hover:bg-blue-900/20 
-                                   transition-colors border-b border-gray-100 dark:border-gray-700 
-                                   last:border-b-0 focus:outline-none focus:bg-blue-50 dark:focus:bg-blue-900/20"
-                        >
-                          <div className="font-medium text-gray-900 dark:text-gray-100">
-                            {suggestion.title}
-                          </div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                            {suggestion.solution_category?.replace(/_/g, ' ')}
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {/* No results message */}
-                {showSuggestions && solutionSuggestions.length === 0 && !isSearching && newFailedSolution.length >= 3 && (
-                  <div className="absolute left-0 right-0 top-full mt-1 z-50">
-                    <div className="bg-white dark:bg-gray-800 border border-gray-200 
-                                 dark:border-gray-700 rounded-lg shadow-lg p-4">
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        No existing solutions found. You can still add "{newFailedSolution}" as a custom entry.
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Type at least 3 characters hint */}
-              {newFailedSolution.length > 0 && newFailedSolution.length < 3 && (
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Type at least 3 characters to search existing solutions
-                </p>
-              )}
-            </div>
-
-            {failedSolutions.length > 0 && (
-              <div className="space-y-3">
-                {failedSolutions.map((failed, index) => (
-                  <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                    <span className="flex-1 font-medium">{failed.name}</span>
-                    
-                    <div className="flex gap-1">
-                      {[1, 2, 3, 4, 5].map((rating) => (
-                        <button
-                          key={rating}
-                          onClick={() => updateFailedSolutionRating(index, rating)}
-                          className={`p-1 transition-all ${
-                            failed.rating >= rating
-                              ? 'text-yellow-500'
-                              : 'text-gray-300 hover:text-gray-400'
-                          }`}
-                        >
-                          <Star className="w-4 h-4 fill-current" />
-                        </button>
-                      ))}
-                    </div>
-                    
-                    <button
-                      onClick={() => removeFailedSolution(index)}
-                      className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                ))}
-                <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-                  Rate 1-5 stars (these didn't work as well as {buildDosageString() || solutionName} for {goalTitle})
-                </p>
-              </div>
-            )}
+            {/* New Failed Solutions Picker */}
+            <FailedSolutionsPicker
+              goalId={goalId}
+              goalTitle={goalTitle}
+              solutionName={buildDosageString() || solutionName}
+              onSolutionsChange={setFailedSolutions}
+              existingSolutions={failedSolutions}
+            />
 
             {/* Skip hint with arrow animation */}
             {failedSolutions.length === 0 && (
@@ -992,7 +811,7 @@ export function DosageForm({
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
                            dark:bg-gray-700 dark:text-white text-sm"
                 >
-                  <option value="dont_remember">I don't remember</option>
+                  <option value="dont_remember">I don&apos;t remember</option>
                   <option value="Free">Free</option>
                   {costType === 'monthly' ? (
                     <>
@@ -1190,87 +1009,3 @@ export function DosageForm({
     </div>
   );
 }
-
-// CSS animations to add to your global CSS file:
-const animationStyles = `
-@keyframes slide-in {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes fadeIn {
-  from { 
-    opacity: 0; 
-  }
-  to { 
-    opacity: 1; 
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes bounce-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes bounce-right {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(4px); }
-}
-
-@keyframes scale-in {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.animate-slide-in { animation: slide-in 0.3s ease-out; }
-.animate-scale-in { animation: scale-in 0.3s ease-out; }
-.animate-bounce-in { animation: bounce-in 0.4s ease-out; }
-.animate-fade-in { animation: fade-in 0.3s ease-out; }
-.animate-bounce-right { animation: bounce-right 1s ease-in-out infinite; }
-`;

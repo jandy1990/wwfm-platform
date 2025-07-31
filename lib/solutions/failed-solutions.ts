@@ -20,6 +20,7 @@ export async function searchAllSolutions(searchTerm: string) {
     return [];
   }
 
+  console.log('[searchAllSolutions] Calling RPC with:', searchTerm);
   const { data, error } = await supabase.rpc('search_all_solutions', {
     search_term: searchTerm
   });

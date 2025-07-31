@@ -1,293 +1,1047 @@
-import React, { useState, useEffect } from 'react';
-import { Label } from '@/components/atoms/label';
-import { Input } from '@/components/atoms/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
-import { Checkbox } from '@/components/atoms/checkbox';
-import { SolutionCategory, COST_RANGES } from '@/lib/forms/templates';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Skeleton } from '@/components/atoms/skeleton';
+// components/solutions/forms/PracticeForm.tsx
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/database/client';
+import { ChevronLeft, Check, X, Plus } from 'lucide-react';
+import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 
 interface PracticeFormProps {
-  category: Extract<SolutionCategory, 'exercise_movement' | 'meditation_mindfulness' | 'habits_routines'>;
+  goalId: string;
+  goalTitle?: string;
+  userId: string;
+  solutionName: string;
+  category: string;
+  existingSolutionId?: string;
+  onBack: () => void;
 }
 
-export function PracticeForm({ category }: PracticeFormProps) {
-  const [selectedChallenges, setSelectedChallenges] = useState<string[]>(['None']);
-  const [challengeOptions, setChallengeOptions] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+interface FailedSolution {
+  id?: string;
+  name: string;
+  rating: number;
+}
+
+
+// Progress celebration messages
+const ProgressCelebration = ({ step }: { step: number }) => {
+  if (step === 1) return null;
   
-  const supabase = createClientComponentClient();
+  const celebrations = [
+    "Great start! 🎯",
+    "Almost there! 💪",
+    "Final step! 🏁"
+  ];
   
+  return (
+    <div className="text-center mb-4 opacity-0 animate-[fadeIn_0.5s_ease-in_forwards]">
+      <p className="text-green-600 dark:text-green-400 font-medium text-lg">
+        {celebrations[step - 2]}
+      </p>
+    </div>
+  );
+};
+
+export function PracticeForm({
+  goalId,
+  goalTitle = "your goal",
+  userId,
+  solutionName,
+  category,
+  existingSolutionId,
+  onBack
+}: PracticeFormProps) {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [showSuccessScreen, setShowSuccessScreen] = useState(false);
+  const [highestStepReached, setHighestStepReached] = useState(1);
+  
+  // Step 1 fields - Practice details
+  const [startupCost, setStartupCost] = useState('');
+  const [ongoingCost, setOngoingCost] = useState('');
+  const [timeToResults, setTimeToResults] = useState('');
+  const [frequency, setFrequency] = useState('');
+  const [effectiveness, setEffectiveness] = useState<number | null>(null);
+  
+  // Category-specific fields
+  const [practiceLength, setPracticeLength] = useState(''); // meditation
+  const [duration, setDuration] = useState(''); // exercise
+  const [timeCommitment, setTimeCommitment] = useState(''); // habits
+  
+  // Step 2 fields - Challenges
+  const [challenges, setChallenges] = useState<string[]>(['None']);
+  const [customChallenge, setCustomChallenge] = useState('');
+  const [showCustomChallenge, setShowCustomChallenge] = useState(false);
+  
+  // Step 3 - Failed solutions
+  const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
+  
+  // Optional fields (Success screen)
+  const [bestTime, setBestTime] = useState('');
+  const [location, setLocation] = useState('');
+  const [otherInfo, setOtherInfo] = useState('');
+
+  // Progress indicator
+  const totalSteps = 3;
+  const progress = (currentStep / totalSteps) * 100;
+
+  // Handle browser back button
   useEffect(() => {
-    const fetchOptions = async () => {
-      const { data, error } = await supabase
-        .from('challenge_options')
-        .select('label')
-        .eq('category', category)
-        .eq('is_active', true)
-        .order('display_order');
+    const handlePopState = (e: PopStateEvent) => {
+      e.preventDefault();
       
-      if (!error && data) {
-        setChallengeOptions(data.map(item => item.label));
+      if (currentStep > 1) {
+        setCurrentStep(currentStep - 1);
+        window.history.pushState({ step: currentStep - 1 }, '');
+      } else {
+        onBack();
       }
-      setLoading(false);
     };
+
+    window.history.pushState({ step: currentStep }, '');
+    window.addEventListener('popstate', handlePopState);
     
-    fetchOptions();
-  }, [category, supabase]);
-  
-  const handleChallengeToggle = (challenge: string) => {
-    if (challenge === 'None') {
-      setSelectedChallenges(['None']);
-    } else {
-      setSelectedChallenges(prev => {
-        const filtered = prev.filter(c => c !== 'None');
-        if (prev.includes(challenge)) {
-          const newChallenges = filtered.filter(c => c !== challenge);
-          return newChallenges.length === 0 ? ['None'] : newChallenges;
-        }
-        return [...filtered, challenge];
-      });
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [currentStep, onBack]);
+
+  // Update history when step changes
+  useEffect(() => {
+    window.history.pushState({ step: currentStep }, '');
+  }, [currentStep]);
+
+  // Track highest step reached
+  useEffect(() => {
+    if (currentStep > highestStepReached) {
+      setHighestStepReached(currentStep);
+    }
+  }, [currentStep, highestStepReached]);
+
+
+  // Category-specific challenge options
+  const getChallengeOptions = () => {
+    switch (category) {
+      case 'meditation_mindfulness':
+        return [
+          'None',
+          'Difficulty concentrating',
+          'Restlessness',
+          'Emotional overwhelm',
+          'Physical discomfort',
+          'Anxiety increased',
+          'Boredom',
+          'Difficulty staying awake',
+          'Intrusive thoughts',
+          'Noisy environment',
+          'Pet/child interruptions',
+          'Time management issues',
+          'Initially worse before better'
+        ];
+      case 'exercise_movement':
+        return [
+          'None',
+          'Physical limitations',
+          'Time constraints',
+          'Weather dependent',
+          'Gym intimidation',
+          'Lack of motivation',
+          'Injury/soreness',
+          'Equipment costs',
+          'Finding good instruction',
+          'Progress plateaus',
+          'Schedule conflicts',
+          'Energy levels',
+          'Initially worse before better'
+        ];
+      case 'habits_routines':
+        return [
+          'None',
+          'Hard to remember',
+          'Time constraints',
+          'Lack of motivation',
+          'Inconsistent schedule',
+          'Family/work interruptions',
+          'Environmental barriers',
+          'Too complex',
+          'Lack of support',
+          'Travel disrupts routine',
+          'Meeting conflicts',
+          'Unrealistic expectations',
+          'Initially worse before better'
+        ];
+      default:
+        return ['None'];
     }
   };
 
-  return (
-    <>
-      {/* Cost field - Dual structure */}
-      <div className="space-y-2">
-        <Label className="text-base font-medium">
-          Cost? <span className="text-red-500">*</span>
-        </Label>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label className="text-sm">Startup cost</Label>
-            <Select name="cost_startup" required>
-              <SelectTrigger>
-                <SelectValue placeholder="Initial investment" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Free/No startup cost">Free/No startup cost</SelectItem>
-                <SelectItem value="Under $50">Under $50</SelectItem>
-                <SelectItem value="$50-100">$50-100</SelectItem>
-                <SelectItem value="$100-250">$100-250</SelectItem>
-                <SelectItem value="$250-500">$250-500</SelectItem>
-                <SelectItem value="$500-1000">$500-1000</SelectItem>
-                <SelectItem value="Over $1000">Over $1000</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Label className="text-sm">Ongoing cost</Label>
-            <Select name="cost_ongoing" required>
-              <SelectTrigger>
-                <SelectValue placeholder="Monthly cost" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Free/No ongoing cost">Free/No ongoing cost</SelectItem>
-                <SelectItem value="Under $10/month">Under $10/month</SelectItem>
-                <SelectItem value="$10-25/month">$10-25/month</SelectItem>
-                <SelectItem value="$25-50/month">$25-50/month</SelectItem>
-                <SelectItem value="$50-100/month">$50-100/month</SelectItem>
-                <SelectItem value="$100-200/month">$100-200/month</SelectItem>
-                <SelectItem value="Over $200/month">Over $200/month</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-        <input type="hidden" name="cost_type" value="dual_cost" />
-      </div>
+  const challengeOptions = getChallengeOptions();
 
-      {/* Challenges */}
-      <div className="space-y-2">
-        <Label className="text-base font-medium">
-          Challenges experienced <span className="text-red-500">*</span>
-        </Label>
-        {loading ? (
-          <div className="space-y-2">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto p-3 border rounded-md">
-            {challengeOptions.map((challenge) => (
-              <div key={challenge} className="flex items-center space-x-2">
-                <Checkbox
-                  id={challenge}
-                  checked={selectedChallenges.includes(challenge)}
-                  onCheckedChange={() => handleChallengeToggle(challenge)}
-                />
-                <Label htmlFor={challenge} className="text-sm font-normal cursor-pointer">
-                  {challenge}
-                </Label>
+  const handleChallengeToggle = (challenge: string) => {
+    if (challenge === 'None') {
+      setChallenges(['None']);
+    } else {
+      if (challenges.includes(challenge)) {
+        setChallenges(challenges.filter(c => c !== challenge));
+      } else {
+        setChallenges(challenges.filter(c => c !== 'None').concat(challenge));
+      }
+    }
+  };
+
+  const addCustomChallenge = () => {
+    if (customChallenge.trim()) {
+      setChallenges(challenges.filter(c => c !== 'None').concat(customChallenge.trim()));
+      setCustomChallenge('');
+      setShowCustomChallenge(false);
+    }
+  };
+
+
+  const canProceedToNextStep = () => {
+    switch (currentStep) {
+      case 1: // Practice details
+        const baseFieldsValid = startupCost !== '' && ongoingCost !== '' && 
+                              timeToResults !== '' && frequency !== '' && effectiveness !== null;
+        
+        // Check category-specific required field
+        let categoryFieldValid = true;
+        if (category === 'meditation_mindfulness') {
+          categoryFieldValid = practiceLength !== '';
+        } else if (category === 'exercise_movement') {
+          categoryFieldValid = duration !== '';
+        } else if (category === 'habits_routines') {
+          categoryFieldValid = timeCommitment !== '';
+        }
+        
+        return baseFieldsValid && categoryFieldValid;
+        
+      case 2: // Challenges
+        return challenges.length > 0;
+        
+      case 3: // Failed solutions (optional)
+        return true;
+        
+      default:
+        return false;
+    }
+  };
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    
+    try {
+      // TODO: Main solution submission logic here
+      console.log('TODO: Add main submission logic');
+      
+      // Submit failed solution ratings for existing solutions
+      for (const failed of failedSolutions) {
+        if (failed.id) {
+          await supabase.rpc('create_failed_solution_rating', {
+            p_solution_id: failed.id,
+            p_goal_id: goalId,
+            p_user_id: userId,
+            p_rating: failed.rating,
+            p_solution_name: failed.name
+          });
+        }
+      }
+      
+      // Store non-existing failed solutions as text in implementation
+      const textOnlyFailed = failedSolutions
+        .filter(f => !f.id)
+        .map(f => ({ name: f.name, rating: f.rating }));
+      
+      console.log('Submitting:', {
+        solutionName,
+        effectiveness,
+        startupCost,
+        ongoingCost,
+        timeToResults,
+        frequency,
+        practiceLength,
+        duration,
+        timeCommitment,
+        challenges,
+        failedSolutionsWithRatings: failedSolutions.filter(f => f.id),
+        failedSolutionsTextOnly: textOnlyFailed
+      });
+      
+      // Show success screen instead of redirecting
+      setShowSuccessScreen(true);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const updateAdditionalInfo = async () => {
+    // TODO: Update the solution with additional info
+    console.log('Updating additional info:', { bestTime, location, otherInfo });
+  };
+
+  const getFieldCompletion = () => {
+    switch (currentStep) {
+      case 1:
+        const fields: any = {
+          startupCost: startupCost !== '',
+          ongoingCost: ongoingCost !== '',
+          timeToResults: timeToResults !== '',
+          frequency: frequency !== ''
+        };
+        
+        // Add category-specific field
+        if (category === 'meditation_mindfulness') {
+          fields.practiceLength = practiceLength !== '';
+        } else if (category === 'exercise_movement') {
+          fields.duration = duration !== '';
+        } else if (category === 'habits_routines') {
+          fields.timeCommitment = timeCommitment !== '';
+        }
+        
+        return fields;
+      
+      case 2:
+        return {
+          challenges: challenges.length > 0
+        };
+        
+      case 3:
+        return {
+          optional: true
+        };
+        
+      default:
+        return {};
+    }
+  };
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1: // Practice details
+        return (
+          <div className="space-y-8 animate-slide-in">
+            {/* Quick context card */}
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
+                          border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+              <p className="text-sm text-blue-800 dark:text-blue-200">
+                Let's capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
+              </p>
+            </div>
+
+            {/* Practice Details Section */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                  <span className="text-lg">
+                    {category === 'meditation_mindfulness' && '🧘'}
+                    {category === 'exercise_movement' && '💪'}
+                    {category === 'habits_routines' && '📅'}
+                  </span>
+                </div>
+                <h2 className="text-xl font-semibold">Practice details</h2>
               </div>
-            ))}
-          </div>
-        )}
-        <input 
-          type="hidden" 
-          name="challenges" 
-          value={JSON.stringify(selectedChallenges)} 
-        />
-      </div>
+              
+              {/* Cost fields */}
+              <div className="space-y-4">
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  What did it cost? <span className="text-red-500">*</span>
+                </h3>
+                
+                {/* Startup cost */}
+                <div>
+                  <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                    Initial startup cost
+                  </label>
+                  <select
+                    value={startupCost}
+                    onChange={(e) => setStartupCost(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             dark:bg-gray-800 dark:text-white"
+                  >
+                    <option value="">Select startup cost</option>
+                    <option value="Free/No startup cost">Free/No startup cost</option>
+                    <option value="Under $50">Under $50</option>
+                    <option value="$50-$99.99">$50-$99.99</option>
+                    <option value="$100-$249.99">$100-$249.99</option>
+                    <option value="$250-$499.99">$250-$499.99</option>
+                    <option value="$500-$999.99">$500-$999.99</option>
+                    <option value="$1000+">$1000+</option>
+                  </select>
+                </div>
 
-      {/* Optional fields */}
-      <div className="space-y-4">
-        <div>
-          <Label htmlFor="frequency">Frequency</Label>
-          <Select name="frequency">
-            <SelectTrigger>
-              <SelectValue placeholder="How often?" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Daily">Daily</SelectItem>
-              <SelectItem value="5-6x per week">5-6x per week</SelectItem>
-              <SelectItem value="3-4x per week">3-4x per week</SelectItem>
-              <SelectItem value="1-2x per week">1-2x per week</SelectItem>
-              <SelectItem value="A few times per month">A few times per month</SelectItem>
-              <SelectItem value="As needed">As needed</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+                {/* Ongoing cost */}
+                <div>
+                  <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                    Monthly ongoing cost
+                  </label>
+                  <select
+                    value={ongoingCost}
+                    onChange={(e) => setOngoingCost(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             dark:bg-gray-800 dark:text-white"
+                  >
+                    <option value="">Select ongoing cost</option>
+                    <option value="Free/No ongoing cost">Free/No ongoing cost</option>
+                    <option value="Under $10/month">Under $10/month</option>
+                    <option value="$10-$24.99/month">$10-$24.99/month</option>
+                    <option value="$25-$49.99/month">$25-$49.99/month</option>
+                    <option value="$50-$99.99/month">$50-$99.99/month</option>
+                    <option value="$100-$199.99/month">$100-$199.99/month</option>
+                    <option value="$200+/month">$200+/month</option>
+                  </select>
+                </div>
+              </div>
 
-        {category !== 'habits_routines' && (
-          <div>
-            <Label htmlFor="duration">
-              {category === 'exercise_movement' ? 'Session duration' : 'Practice length'}
-            </Label>
-            <Select name="duration">
-              <SelectTrigger>
-                <SelectValue placeholder="How long?" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Under 10 minutes">Under 10 minutes</SelectItem>
-                <SelectItem value="10-20 minutes">10-20 minutes</SelectItem>
-                <SelectItem value="20-30 minutes">20-30 minutes</SelectItem>
-                <SelectItem value="30-45 minutes">30-45 minutes</SelectItem>
-                <SelectItem value="45-60 minutes">45-60 minutes</SelectItem>
-                <SelectItem value="1-2 hours">1-2 hours</SelectItem>
-                <SelectItem value="Over 2 hours">Over 2 hours</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        )}
+              {/* Frequency */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  How often do you practice? <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={frequency}
+                  onChange={(e) => setFrequency(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           dark:bg-gray-800 dark:text-white"
+                >
+                  <option value="">Select frequency</option>
+                  <option value="Daily">Daily</option>
+                  <option value="5-6 times per week">5-6 times per week</option>
+                  <option value="3-4 times per week">3-4 times per week</option>
+                  <option value="1-2 times per week">1-2 times per week</option>
+                  <option value="Weekly">Weekly</option>
+                  <option value="Few times a month">Few times a month</option>
+                  <option value="As needed">As needed</option>
+                </select>
+              </div>
 
-        {category === 'habits_routines' && (
-          <div>
-            <Label htmlFor="time_commitment">Time commitment</Label>
-            <Select name="time_commitment">
-              <SelectTrigger>
-                <SelectValue placeholder="Daily time needed" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Under 5 minutes">Under 5 minutes</SelectItem>
-                <SelectItem value="5-15 minutes">5-15 minutes</SelectItem>
-                <SelectItem value="15-30 minutes">15-30 minutes</SelectItem>
-                <SelectItem value="30-60 minutes">30-60 minutes</SelectItem>
-                <SelectItem value="Over 1 hour">Over 1 hour</SelectItem>
-                <SelectItem value="Throughout the day">Throughout the day</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-
-        <div>
-          <Label htmlFor="best_time_of_day">Best time of day</Label>
-          <Select name="best_time_of_day">
-            <SelectTrigger>
-              <SelectValue placeholder="When works best?" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Early morning (5-7am)">Early morning (5-7am)</SelectItem>
-              <SelectItem value="Morning (7-10am)">Morning (7-10am)</SelectItem>
-              <SelectItem value="Midday (10am-2pm)">Midday (10am-2pm)</SelectItem>
-              <SelectItem value="Afternoon (2-5pm)">Afternoon (2-5pm)</SelectItem>
-              <SelectItem value="Evening (5-8pm)">Evening (5-8pm)</SelectItem>
-              <SelectItem value="Night (8pm+)">Night (8pm+)</SelectItem>
-              <SelectItem value="Anytime">Anytime</SelectItem>
-              <SelectItem value="Multiple times">Multiple times</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {category !== 'habits_routines' && (
-          <div>
-            <Label htmlFor="location_setting">Location/Setting</Label>
-            <Select name="location_setting">
-              <SelectTrigger>
-                <SelectValue placeholder="Where?" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Home">Home</SelectItem>
-                <SelectItem value="Gym/Studio">Gym/Studio</SelectItem>
-                <SelectItem value="Outdoors">Outdoors</SelectItem>
-                <SelectItem value="Office/Work">Office/Work</SelectItem>
-                <SelectItem value="Community center">Community center</SelectItem>
-                <SelectItem value="Online/Virtual">Online/Virtual</SelectItem>
-                <SelectItem value="Anywhere">Anywhere</SelectItem>
-                <SelectItem value="Multiple locations">Multiple locations</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-
-        <div>
-          <Label htmlFor="guidance_type">Guidance type</Label>
-          <Select name="guidance_type">
-            <SelectTrigger>
-              <SelectValue placeholder="How guided?" />
-            </SelectTrigger>
-            <SelectContent>
-              {category === 'habits_routines' ? (
-                <>
-                  <SelectItem value="Self-directed">Self-directed</SelectItem>
-                  <SelectItem value="App-assisted">App-assisted</SelectItem>
-                  <SelectItem value="Book/Course-based">Book/Course-based</SelectItem>
-                  <SelectItem value="Coach-supported">Coach-supported</SelectItem>
-                </>
-              ) : (
-                <>
-                  <SelectItem value="Self-directed">Self-directed</SelectItem>
-                  <SelectItem value="App-guided">App-guided</SelectItem>
-                  <SelectItem value="Video/Online class">Video/Online class</SelectItem>
-                  <SelectItem value="In-person instructor">In-person instructor</SelectItem>
-                  <SelectItem value="Group class">Group class</SelectItem>
-                  <SelectItem value="Personal trainer/coach">Personal trainer/coach</SelectItem>
-                  <SelectItem value="Mix of guided and self">Mix of guided and self</SelectItem>
-                </>
+              {/* Category-specific field */}
+              {category === 'meditation_mindfulness' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Practice length <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={practiceLength}
+                    onChange={(e) => setPracticeLength(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             dark:bg-gray-800 dark:text-white"
+                  >
+                    <option value="">Select practice length</option>
+                    <option value="Under 5 minutes">Under 5 minutes</option>
+                    <option value="5-10 minutes">5-10 minutes</option>
+                    <option value="10-20 minutes">10-20 minutes</option>
+                    <option value="20-30 minutes">20-30 minutes</option>
+                    <option value="30-45 minutes">30-45 minutes</option>
+                    <option value="45-60 minutes">45-60 minutes</option>
+                    <option value="Over 1 hour">Over 1 hour</option>
+                  </select>
+                </div>
               )}
-            </SelectContent>
-          </Select>
-        </div>
 
-        {category !== 'habits_routines' && (
-          <div>
-            <Label htmlFor="difficulty_level">Difficulty level</Label>
-            <Select name="difficulty_level">
-              <SelectTrigger>
-                <SelectValue placeholder="How challenging?" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Beginner-friendly">Beginner-friendly</SelectItem>
-                <SelectItem value="Easy">Easy</SelectItem>
-                <SelectItem value="Moderate">Moderate</SelectItem>
-                <SelectItem value="Challenging">Challenging</SelectItem>
-                <SelectItem value="Advanced">Advanced</SelectItem>
-                <SelectItem value="Varies by day">Varies by day</SelectItem>
-              </SelectContent>
-            </Select>
+              {category === 'exercise_movement' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Session duration <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             dark:bg-gray-800 dark:text-white"
+                  >
+                    <option value="">Select duration</option>
+                    <option value="Under 15 minutes">Under 15 minutes</option>
+                    <option value="15-30 minutes">15-30 minutes</option>
+                    <option value="30-45 minutes">30-45 minutes</option>
+                    <option value="45-60 minutes">45-60 minutes</option>
+                    <option value="60-90 minutes">60-90 minutes</option>
+                    <option value="90-120 minutes">90-120 minutes</option>
+                    <option value="Over 2 hours">Over 2 hours</option>
+                  </select>
+                </div>
+              )}
+
+              {category === 'habits_routines' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Time commitment <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={timeCommitment}
+                    onChange={(e) => setTimeCommitment(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             dark:bg-gray-800 dark:text-white"
+                  >
+                    <option value="">Select time commitment</option>
+                    <option value="Under 5 minutes">Under 5 minutes</option>
+                    <option value="5-15 minutes">5-15 minutes</option>
+                    <option value="15-30 minutes">15-30 minutes</option>
+                    <option value="30-60 minutes">30-60 minutes</option>
+                    <option value="1-2 hours">1-2 hours</option>
+                    <option value="Throughout the day">Throughout the day</option>
+                  </select>
+                </div>
+              )}
+            </div>
+
+            {/* Visual separator */}
+            <div className="flex items-center gap-4 my-8">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+              <span className="text-xs text-gray-500 dark:text-gray-400">then</span>
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+            </div>
+
+            {/* Effectiveness Section */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
+                  <span className="text-lg">⭐</span>
+                </div>
+                <h2 className="text-xl font-semibold">How well it worked</h2>
+              </div>
+              
+              {/* 5-star rating */}
+              <div className="space-y-4">
+                <div className="grid grid-cols-5 gap-2">
+                  {[1, 2, 3, 4, 5].map((rating) => (
+                    <button
+                      key={rating}
+                      onClick={() => setEffectiveness(rating)}
+                      className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
+                        effectiveness === rating
+                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-105 shadow-lg'
+                          : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                      }`}
+                    >
+                      {effectiveness === rating && (
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center animate-bounce-in">
+                          <Check className="w-4 h-4 text-white" />
+                        </div>
+                      )}
+                      <div className="text-center">
+                        <div className="text-2xl mb-1">
+                          {rating === 1 && '😞'}
+                          {rating === 2 && '😕'}
+                          {rating === 3 && '😐'}
+                          {rating === 4 && '😊'}
+                          {rating === 5 && '🤩'}
+                        </div>
+                        <div className="text-xs text-gray-600 dark:text-gray-400 hidden sm:block">
+                          {rating === 1 && 'Not at all'}
+                          {rating === 2 && 'Slightly'}
+                          {rating === 3 && 'Moderate'}
+                          {rating === 4 && 'Very'}
+                          {rating === 5 && 'Extremely'}
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                <div className="flex justify-between sm:hidden">
+                  <span className="text-xs text-gray-500">Not at all</span>
+                  <span className="text-xs text-gray-500">Extremely</span>
+                </div>
+              </div>
+
+              {/* Time to results */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">⏱️</span>
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    When did you notice results?
+                  </label>
+                </div>
+                <select
+                  value={timeToResults}
+                  onChange={(e) => setTimeToResults(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           dark:bg-gray-800 dark:text-white transition-all"
+                >
+                  <option value="">Select timeframe</option>
+                  <option value="Immediately">Immediately</option>
+                  <option value="Within days">Within days</option>
+                  <option value="1-2 weeks">1-2 weeks</option>
+                  <option value="3-4 weeks">3-4 weeks</option>
+                  <option value="1-2 months">1-2 months</option>
+                  <option value="3-6 months">3-6 months</option>
+                  <option value="6+ months">6+ months</option>
+                  <option value="Still evaluating">Still evaluating</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Field completion dots */}
+            <div className="flex justify-center gap-2 mt-6">
+              {Object.entries(getFieldCompletion()).map(([field, completed]) => (
+                <div
+                  key={field}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    completed ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
-        )}
+        );
 
-        <div>
-          <Label htmlFor="equipment_needed">Equipment/Tools needed</Label>
-          <Input 
-            id="equipment_needed"
-            name="equipment_needed" 
-            placeholder="e.g., Yoga mat, Running shoes, Journal and pen, None"
+      case 2: // Challenges
+        return (
+          <div className="space-y-6 animate-slide-in">
+            <ProgressCelebration step={currentStep} />
+            
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center">
+                <span className="text-lg">⚡</span>
+              </div>
+              <h2 className="text-xl font-semibold">Any challenges?</h2>
+            </div>
+
+            {/* Quick tip */}
+            <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3">
+              <p className="text-sm text-amber-800 dark:text-amber-200">
+                💡 This helps others know what to expect
+              </p>
+            </div>
+
+            {/* Challenges grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {challengeOptions.map((challenge) => (
+                <label
+                  key={challenge}
+                  className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
+                            transition-all transform hover:scale-[1.02] ${
+                    challenges.includes(challenge)
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
+                      : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={challenges.includes(challenge)}
+                    onChange={() => handleChallengeToggle(challenge)}
+                    className="sr-only"
+                  />
+                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 
+                                transition-all ${
+                    challenges.includes(challenge)
+                      ? 'border-blue-500 bg-blue-500'
+                      : 'border-gray-300 dark:border-gray-600 group-hover:border-gray-400'
+                  }`}>
+                    {challenges.includes(challenge) && (
+                      <Check className="w-3 h-3 text-white animate-scale-in" />
+                    )}
+                  </div>
+                  <span className="text-sm">{challenge}</span>
+                </label>
+              ))}
+              
+              {/* Add Other button */}
+              <button
+                onClick={() => setShowCustomChallenge(true)}
+                className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
+                          transition-all transform hover:scale-[1.02] border-dashed
+                          border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-sm"
+              >
+                <Plus className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors" />
+                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200">
+                  Add other challenge
+                </span>
+              </button>
+            </div>
+
+            {/* Custom challenge input */}
+            {showCustomChallenge && (
+              <div className="mt-3 flex gap-2 animate-fade-in">
+                <input
+                  type="text"
+                  value={customChallenge}
+                  onChange={(e) => setCustomChallenge(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && addCustomChallenge()}
+                  placeholder="Describe the challenge"
+                  className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           dark:bg-gray-800 dark:text-white"
+                  autoFocus
+                />
+                <button
+                  onClick={addCustomChallenge}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
+                           rounded-lg transition-colors"
+                >
+                  Add
+                </button>
+                <button
+                  onClick={() => {
+                    setShowCustomChallenge(false);
+                    setCustomChallenge('');
+                  }}
+                  className="px-3 py-2 text-gray-500 hover:text-gray-700"
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+
+            {/* Show custom challenges */}
+            {challenges.filter(c => !challengeOptions.includes(c) && c !== 'None').length > 0 && (
+              <div className="mt-2">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Added:</p>
+                <div className="flex flex-wrap gap-2">
+                  {challenges.filter(c => !challengeOptions.includes(c) && c !== 'None').map((challenge) => (
+                    <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
+                                                 text-blue-700 dark:text-blue-300 rounded-full text-sm">
+                      {challenge}
+                      <button
+                        onClick={() => setChallenges(challenges.filter(c => c !== challenge))}
+                        className="hover:text-blue-900 dark:hover:text-blue-100"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Selected count indicator */}
+            {challenges.length > 0 && challenges[0] !== 'None' && (
+              <div className="text-center">
+                <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
+                               text-blue-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
+                  <Check className="w-4 h-4" />
+                  {challenges.length} selected
+                </span>
+              </div>
+            )}
+          </div>
+        );
+
+      case 3: // What didn't work
+        return (
+          <div className="space-y-6 animate-slide-in">
+            <ProgressCelebration step={currentStep} />
+            
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
+                <span className="text-lg">🔍</span>
+              </div>
+              <h2 className="text-xl font-semibold">What else did you try?</h2>
+            </div>
+
+            {/* Context card */}
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-3">
+              <p className="text-sm text-purple-800 dark:text-purple-200">
+                Help others by sharing what didn't work as well
+              </p>
+            </div>
+
+            {/* New Failed Solutions Picker */}
+            <FailedSolutionsPicker
+              goalId={goalId}
+              goalTitle={goalTitle}
+              solutionName={solutionName}
+              onSolutionsChange={setFailedSolutions}
+              existingSolutions={failedSolutions}
+            />
+
+            {/* Skip hint */}
+            {failedSolutions.length === 0 && (
+              <div className="text-center py-8">
+                <div className="inline-flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400">
+                  <p className="text-sm">Nothing to add?</p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">Click Submit to finish</span>
+                    <div className="animate-bounce-right">→</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+
+      default:
+        return <div>Invalid step</div>;
+    }
+  };
+
+  // Success Screen Component
+  if (showSuccessScreen) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center py-12">
+          {/* Success animation */}
+          <div className="mb-6 opacity-0 animate-[scaleIn_0.5s_ease-out_forwards]">
+            <div className="w-20 h-20 bg-green-100 dark:bg-green-900 rounded-full mx-auto flex items-center justify-center">
+              <Check className="w-10 h-10 text-green-600 dark:text-green-400" />
+            </div>
+          </div>
+          
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 opacity-0 animate-[fadeIn_0.5s_ease-in_0.3s_forwards]">
+            Thank you for sharing!
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
+            Your experience with {solutionName} has been recorded
+          </p>
+
+          {/* Optional fields */}
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 text-left max-w-md mx-auto mb-6 opacity-0 animate-[slideUp_0.5s_ease-out_0.7s_forwards]">
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+              Add more details (optional):
+            </p>
+            
+            <div className="space-y-4">
+              <select
+                value={bestTime}
+                onChange={(e) => setBestTime(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         dark:bg-gray-700 dark:text-white text-sm"
+              >
+                <option value="">Best time of day?</option>
+                <option value="Early morning (5-7am)">Early morning (5-7am)</option>
+                <option value="Morning (7-10am)">Morning (7-10am)</option>
+                <option value="Midday (10am-2pm)">Midday (10am-2pm)</option>
+                <option value="Afternoon (2-5pm)">Afternoon (2-5pm)</option>
+                <option value="Evening (5-8pm)">Evening (5-8pm)</option>
+                <option value="Night (8pm+)">Night (8pm+)</option>
+                <option value="Anytime">Anytime</option>
+              </select>
+
+              {category !== 'habits_routines' && (
+                <select
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           dark:bg-gray-700 dark:text-white text-sm"
+                >
+                  <option value="">Where do you practice?</option>
+                  <option value="Home">Home</option>
+                  <option value="Gym/Studio">Gym/Studio</option>
+                  <option value="Outdoors">Outdoors</option>
+                  <option value="Office/Work">Office/Work</option>
+                  <option value="Online/Virtual">Online/Virtual</option>
+                  <option value="Multiple locations">Multiple locations</option>
+                </select>
+              )}
+              
+              <textarea
+                placeholder="Any tips for beginners? What helped you stick with it?"
+                value={otherInfo}
+                onChange={(e) => setOtherInfo(e.target.value)}
+                rows={3}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         dark:bg-gray-700 dark:text-white text-sm"
+              />
+              
+              {(bestTime || location || otherInfo) && (
+                <button
+                  onClick={updateAdditionalInfo}
+                  className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
+                         text-sm font-medium transition-colors"
+                >
+                  Save additional details
+                </button>
+              )}
+            </div>
+          </div>
+
+          <button
+            onClick={() => router.push(`/goal/${goalId}`)}
+            className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 
+                     rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-100 
+                     transition-all transform hover:scale-105"
+          >
+            Back to goal page
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Progress Bar */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-2">
+          <button
+            onClick={() => {
+              if (currentStep > 1) {
+                setCurrentStep(currentStep - 1);
+              } else {
+                onBack();
+              }
+            }}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            Step {currentStep} of {totalSteps}
+          </span>
+        </div>
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+          <div 
+            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+            style={{ width: `${progress}%` }}
           />
         </div>
       </div>
-    </>
+
+      {/* Form Content */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 
+                    dark:border-gray-700 p-4 sm:p-6 overflow-visible">
+        {renderStep()}
+      </div>
+
+      {/* Navigation */}
+      <div className="flex justify-between mt-6">
+        {currentStep > 1 ? (
+          <button
+            onClick={() => setCurrentStep(currentStep - 1)}
+            className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
+                     dark:hover:text-gray-200 font-medium transition-colors"
+          >
+            Back
+          </button>
+        ) : (
+          <div />
+        )}
+        
+        <div className="flex gap-2">
+          {currentStep < highestStepReached && currentStep < totalSteps && (
+            <button
+              onClick={() => setCurrentStep(currentStep + 1)}
+              className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
+                       dark:hover:text-gray-200 font-medium transition-colors"
+            >
+              Forward
+            </button>
+          )}
+          
+          {currentStep < totalSteps ? (
+            <button
+              onClick={() => setCurrentStep(currentStep + 1)}
+              disabled={!canProceedToNextStep()}
+              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+                canProceedToNextStep()
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+              }`}
+            >
+              {currentStep === 3 ? 'Skip' : 'Continue'}
+            </button>
+          ) : (
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitting || !canProceedToNextStep()}
+              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+                !isSubmitting
+                  ? 'bg-green-600 hover:bg-green-700 text-white'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+              }`}
+            >
+              {isSubmitting ? 'Submitting...' : 'Submit'}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
+
+// CSS animations to add to your global CSS file:
+const animationStyles = `
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+  }
+  to { 
+    opacity: 1; 
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce-right {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-slide-in { animation: slide-in 0.3s ease-out; }
+.animate-scale-in { animation: scale-in 0.3s ease-out; }
+.animate-bounce-in { animation: bounce-in 0.4s ease-out; }
+.animate-fade-in { animation: fade-in 0.3s ease-out; }
+.animate-bounce-right { animation: bounce-right 1s ease-in-out infinite; }
+`;

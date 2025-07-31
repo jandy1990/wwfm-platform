@@ -10,6 +10,15 @@ import { CategoryConfirmation } from '@/components/organisms/solutions/CategoryC
 import { CategoryPicker } from '@/components/organisms/solutions/CategoryPicker';
 import SolutionSearchResults from '@/components/organisms/solutions/SolutionSearchResults';
 import { DosageForm } from '@/components/organisms/solutions/forms/DosageForm';
+import { AppForm } from '@/components/organisms/solutions/forms/AppForm';
+import { HobbyForm } from '@/components/organisms/solutions/forms/HobbyForm';
+import { SessionForm } from '@/components/organisms/solutions/forms/SessionForm';
+import { PracticeForm } from '@/components/organisms/solutions/forms/PracticeForm';
+import { PurchaseForm } from '@/components/organisms/solutions/forms/PurchaseForm';
+import { CommunityForm } from '@/components/organisms/solutions/forms/CommunityForm';
+import { LifestyleForm } from '@/components/organisms/solutions/forms/LifestyleForm';
+import { FinancialForm } from '@/components/organisms/solutions/forms/FinancialForm';
+// Removed Users import as we don't have user data yet
 
 interface SolutionFormWithAutoCategoryProps {
   goalId: string;
@@ -40,6 +49,7 @@ export default function SolutionFormWithAutoCategory({
     selectedSolution: null
   });
   const [fetchedGoalTitle, setFetchedGoalTitle] = useState<string>('');
+  const [showDropdown, setShowDropdown] = useState(false);
   
   const { detectionResult, isLoading, error, detectFromInput, clearResults } = useAutoCategorization();
 
@@ -69,45 +79,47 @@ export default function SolutionFormWithAutoCategory({
   useEffect(() => {
     if (formState.solutionName.length >= 2) {
       detectFromInput(formState.solutionName);
+      setShowDropdown(true);
     } else {
       clearResults();
+      setShowDropdown(false);
     }
   }, [formState.solutionName, detectFromInput, clearResults]);
 
-  const handleSelectExistingSolution = useCallback((solution: SolutionMatch) => {
+  // Handle selecting any item from dropdown
+  const handleSelectItem = useCallback((title: string, category: string, solution?: SolutionMatch) => {
     setFormState({
       ...formState,
-      selectedSolution: solution,
-      solutionName: solution.title,
-      selectedCategory: solution.category,
-      step: 'form'
-    });
-  }, [formState]);
-
-  const handleSelectKeywordSuggestion = useCallback((keyword: string, category: string) => {
-    setFormState({
-      ...formState,
-      solutionName: keyword,
-      selectedCategory: category
-    });
-    // Trigger new detection with the complete keyword
-    detectFromInput(keyword);
-  }, [formState, detectFromInput]);
-
-  const handleCategoryConfirm = useCallback((category: string) => {
-    setFormState({
-      ...formState,
+      solutionName: title,
       selectedCategory: category,
-      step: 'form'
+      selectedSolution: solution || null
     });
+    setShowDropdown(false);
   }, [formState]);
 
-  const handleManualCategorySelect = useCallback(() => {
-    setFormState({
-      ...formState,
-      step: 'category-picker'
-    });
-  }, [formState]);
+  // Handle continuing to next step
+  const handleContinue = useCallback(() => {
+    if (!formState.selectedCategory && detectionResult?.categories.length > 0) {
+      // Auto-detect category if not selected
+      setFormState({
+        ...formState,
+        selectedCategory: detectionResult.categories[0].category,
+        step: 'form'
+      });
+    } else if (formState.selectedCategory) {
+      // Category already selected
+      setFormState({
+        ...formState,
+        step: 'form'
+      });
+    } else {
+      // No category detected, go to manual picker
+      setFormState({
+        ...formState,
+        step: 'category-picker'
+      });
+    }
+  }, [formState, detectionResult]);
 
   const handleCategoryPick = useCallback((category: string) => {
     setFormState({
@@ -127,6 +139,7 @@ export default function SolutionFormWithAutoCategory({
           selectedCategory: null,
           selectedSolution: null
         });
+        setShowDropdown(false);
         break;
       case 'category-picker':
         // Go back to search
@@ -143,7 +156,10 @@ export default function SolutionFormWithAutoCategory({
         }
         break;
     }
-  }, [formState, onCancel]);
+  }, [formState, onCancel, router, goalId]);
+
+  // Check if Continue button should be enabled
+  const canContinue = formState.solutionName.trim().length >= 2;
 
   // Render the appropriate form based on category
   const renderForm = () => {
@@ -167,21 +183,40 @@ export default function SolutionFormWithAutoCategory({
       'natural_remedies': <DosageForm {...formProps} />,
       'beauty_skincare': <DosageForm {...formProps} />,
       
-      // Session Form (7 categories) - TODO: Uncomment when SessionForm is built
-      // 'therapists_counselors': <SessionForm {...formProps} />,
-      // 'doctors_specialists': <SessionForm {...formProps} />,
-      // 'coaches_mentors': <SessionForm {...formProps} />,
-      // 'alternative_practitioners': <SessionForm {...formProps} />,
-      // 'professional_services': <SessionForm {...formProps} />,
-      // 'medical_procedures': <SessionForm {...formProps} />,
-      // 'crisis_resources': <SessionForm {...formProps} />,
+      // App Form (1 category)
+      'apps_software': <AppForm {...formProps} />,
+      
+      // Hobby Form (1 category)
+      'hobbies_activities': <HobbyForm {...formProps} />,
       
       // Practice Form (3 categories)
-      // 'exercise_movement': <PracticeForm {...formProps} />,
-      // 'meditation_mindfulness': <PracticeForm {...formProps} />,
-      // 'habits_routines': <PracticeForm {...formProps} />,
-      
-      // Other forms...
+      'exercise_movement': <PracticeForm {...formProps} />,
+      'meditation_mindfulness': <PracticeForm {...formProps} />,
+      'habits_routines': <PracticeForm {...formProps} />,
+
+      // Session Form (7 categories)
+      'therapists_counselors': <SessionForm {...formProps} />,
+      'doctors_specialists': <SessionForm {...formProps} />,
+      'coaches_mentors': <SessionForm {...formProps} />,
+      'alternative_practitioners': <SessionForm {...formProps} />,
+      'professional_services': <SessionForm {...formProps} />,
+      'medical_procedures': <SessionForm {...formProps} />,
+      'crisis_resources': <SessionForm {...formProps} />,
+
+      // Purchase Form (2 categories)
+      'products_devices': <PurchaseForm {...formProps} />,
+      'books_courses': <PurchaseForm {...formProps} />,
+
+      // Community Form (2 categories)
+      'support_groups': <CommunityForm {...formProps} />,
+      'groups_communities': <CommunityForm {...formProps} />,
+
+      // Lifestyle Form (2 categories)
+      'diet_nutrition': <LifestyleForm {...formProps} />,
+      'sleep': <LifestyleForm {...formProps} />,
+
+      // Financial Form (1 category)
+      'financial_products': <FinancialForm {...formProps} />
     };
 
     return categoryFormMap[formState.selectedCategory] || (
@@ -219,9 +254,42 @@ export default function SolutionFormWithAutoCategory({
       break;
   }
 
+  // Combine all results into a single list for the user
+  const allResults = [];
+  
+  if (detectionResult) {
+    // Add existing solutions
+    detectionResult.solutions.forEach(solution => {
+      allResults.push({
+        type: 'existing' as const,
+        title: solution.title,
+        category: solution.category,
+        categoryDisplayName: solution.categoryDisplayName,
+        solution
+      });
+    });
+    
+    // Add keyword matches that aren't already in solutions
+    detectionResult.keywordMatches.forEach(match => {
+      const isDuplicate = allResults.some(
+        r => r.title.toLowerCase() === match.keyword.toLowerCase()
+      );
+      if (!isDuplicate) {
+        allResults.push({
+          type: 'suggestion' as const,
+          title: match.keyword,
+          category: match.category,
+          categoryDisplayName: match.categoryDisplayName,
+          matchScore: match.matchScore
+        });
+      }
+    });
+  }
+
   // Main search interface
   return (
-    <div className="space-y-6">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="space-y-6">
       {/* Show goal context at the top if available */}
       {actualGoalTitle && (
         <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
@@ -231,224 +299,177 @@ export default function SolutionFormWithAutoCategory({
         </div>
       )}
 
-      <div className="relative">
-        <label htmlFor="solution-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          What helped you?
-        </label>
+      <div className="space-y-4">
         <div className="relative">
-          <input
-            id="solution-name"
-            type="text"
-            value={formState.solutionName}
-            onChange={(e) => setFormState({ ...formState, solutionName: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                     focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                     dark:bg-gray-800 dark:text-white"
-            placeholder="e.g., Headspace, Vitamin D, Running, Therapy..."
-            autoFocus
-          />
-          
-          {/* Category badge when detected */}
-          {detectionResult && detectionResult.categories.length > 0 && (
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
-              <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 
-                             px-2 py-1 rounded-md font-medium">
-                {detectionResult.categories[0].displayName || detectionResult.categories[0].category}
-              </span>
-            </div>
-          )}
-        </div>
-        
-        {/* Autocomplete dropdown */}
-        {formState.solutionName.length >= 2 && !isLoading && detectionResult && (
-          <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 
-                        dark:border-gray-700 rounded-lg shadow-lg max-h-96 overflow-y-auto">
+          <label htmlFor="solution-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            What helped you?
+          </label>
+          <div className="relative">
+            <input
+              id="solution-name"
+              type="text"
+              value={formState.solutionName}
+              onChange={(e) => setFormState({ ...formState, solutionName: e.target.value })}
+              onFocus={() => {
+                if (formState.solutionName.length >= 2 && allResults.length > 0) {
+                  setShowDropdown(true);
+                }
+              }}
+              onBlur={() => {
+                // Delay to allow click events on dropdown
+                setTimeout(() => setShowDropdown(false), 200);
+              }}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                       focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                       dark:bg-gray-800 dark:text-white"
+              placeholder="e.g., Headspace, Vitamin D, Running, Therapy..."
+              autoFocus
+            />
             
-            {/* Existing solutions - with ratings and social proof */}
-            {detectionResult.solutions.length > 0 && (
-              <div className="p-2">
-                <div className="text-xs font-medium text-gray-500 dark:text-gray-400 px-2 py-1 flex items-center gap-1">
-                  <span>📊</span> Existing solutions
-                </div>
-                {detectionResult.solutions.map((solution) => (
-                  <button
-                    key={solution.id}
-                    onClick={() => handleSelectExistingSolution(solution)}
-                    className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 
-                             rounded-md transition-colors flex items-center justify-between group"
-                  >
-                    <div>
-                      <div className="font-medium">{solution.title}</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">
-                        {solution.categoryDisplayName}
-                      </div>
-                    </div>
-                    <span className="text-sm text-blue-600 dark:text-blue-400 opacity-0 
-                                   group-hover:opacity-100 transition-opacity">
-                      Share →
-                    </span>
-                  </button>
-                ))}
-              </div>
-            )}
-            
-            {/* Keyword suggestions for autocomplete */}
-            {detectionResult.keywordMatches && detectionResult.keywordMatches.length > 0 && (
-              <div className="p-2">
-                <div className="text-xs font-medium text-gray-500 dark:text-gray-400 px-2 py-1 flex items-center gap-1">
-                  <span>💡</span> Suggestions
-                </div>
-                {detectionResult.keywordMatches.map((match, index) => (
-                  <button
-                    key={`${match.keyword}-${index}`}
-                    onClick={() => handleSelectKeywordSuggestion(match.keyword, match.category)}
-                    className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 
-                             rounded-md transition-colors flex items-center justify-between group"
-                  >
-                    <div>
-                      <span className="font-medium">{match.keyword}</span>
-                      {match.matchScore < 0.8 && (
-                        <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">(similar)</span>
-                      )}
-                    </div>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
-                      {match.categoryDisplayName}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            )}
-            
-            {/* "Try being more specific" suggestions */}
-            {detectionResult.solutions.length === 0 && 
-             detectionResult.keywordMatches.length === 0 &&
-             ['therapy', 'medication', 'supplement', 'exercise', 'vitamin', 'app', 'treatment', 'counseling', 'workout'].some(term => 
-               formState.solutionName.toLowerCase().includes(term)
-             ) && (
-              <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                <div className="flex items-start gap-2">
-                  <span className="text-lg">💡</span>
-                  <div>
-                    <p className="font-medium text-gray-700 dark:text-gray-300">
-                      Try being more specific
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      {formState.solutionName.toLowerCase().includes('therapy') && (
-                        <>"{formState.solutionName}" → "CBT therapy" or "EMDR" or "talk therapy"</>
-                      )}
-                      {formState.solutionName.toLowerCase().includes('medication') && (
-                        <>"{formState.solutionName}" → specific drug name like "Lexapro" or "Tylenol"</>
-                      )}
-                      {formState.solutionName.toLowerCase().includes('supplement') && (
-                        <>"{formState.solutionName}" → "Vitamin D" or "Omega-3" or "Magnesium"</>
-                      )}
-                      {formState.solutionName.toLowerCase().includes('exercise') && (
-                        <>"{formState.solutionName}" → "Running" or "Yoga" or "CrossFit"</>
-                      )}
-                      {formState.solutionName.toLowerCase().includes('vitamin') && (
-                        <>"{formState.solutionName}" → "Vitamin D" or "B12" or "Vitamin C"</>
-                      )}
-                      {formState.solutionName.toLowerCase().includes('app') && (
-                        <>"{formState.solutionName}" → "Headspace" or "MyFitnessPal" or "Calm"</>
-                      )}
-                      {formState.solutionName.toLowerCase().includes('treatment') && (
-                        <>"{formState.solutionName}" → specific treatment like "Acupuncture" or "Physical therapy"</>
-                      )}
-                      {formState.solutionName.toLowerCase().includes('counseling') && (
-                        <>"{formState.solutionName}" → "Marriage counseling" or "Career counseling"</>
-                      )}
-                      {formState.solutionName.toLowerCase().includes('workout') && (
-                        <>"{formState.solutionName}" → "HIIT workout" or "Strength training" or "Pilates"</>
-                      )}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-            
-            {/* Category suggestions or continue option */}
-            {detectionResult.categories.length > 0 && (
-              <div className="p-2 border-t border-gray-100 dark:border-gray-700">
-                <button
-                  onClick={() => {
-                    if (detectionResult.categories[0].confidence === 'high') {
-                      handleCategoryConfirm(detectionResult.categories[0].category);
-                    } else {
-                      handleManualCategorySelect();
-                    }
-                  }}
-                  className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 
-                           rounded-md transition-colors"
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-gray-700 dark:text-gray-300">
-                        Continue with "{formState.solutionName}"
-                      </span>
-                      {detectionResult.categories[0].confidence === 'high' && (
-                        <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
-                          as new solution
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-gray-400">→</span>
-                  </div>
-                </button>
-              </div>
-            )}
-            
-            {/* No matches at all */}
-            {detectionResult.solutions.length === 0 && 
-             detectionResult.categories.length === 0 && 
-             detectionResult.keywordMatches.length === 0 && (
-              <div className="p-4">
-                <button
-                  onClick={handleManualCategorySelect}
-                  className="w-full text-left hover:bg-gray-100 dark:hover:bg-gray-700 
-                           px-3 py-2 rounded-md transition-colors"
-                >
-                  <div className="flex items-center justify-between">
-                    <span>Add "{formState.solutionName}" as new solution</span>
-                    <span className="text-gray-400">→</span>
-                  </div>
-                </button>
+            {/* Category badge when detected */}
+            {formState.selectedCategory && (
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 
+                               px-2 py-1 rounded-md font-medium">
+                  {detectionResult?.categories.find(c => c.category === formState.selectedCategory)?.displayName || formState.selectedCategory}
+                </span>
               </div>
             )}
           </div>
+          
+          {/* Unified dropdown */}
+          {showDropdown && !isLoading && allResults.length > 0 && (
+            <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 
+                          dark:border-gray-700 rounded-lg shadow-lg max-h-96 overflow-y-auto">
+              
+              {/* Suggestions header */}
+              <div className="px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400 
+                            border-b border-gray-100 dark:border-gray-700">
+                💡 Suggestions
+              </div>
+              
+              {/* All results in one list */}
+              {allResults.map((result, index) => (
+                <button
+                  key={`${result.title}-${index}`}
+                  onClick={() => handleSelectItem(
+                    result.title, 
+                    result.category,
+                    result.type === 'existing' ? result.solution : undefined
+                  )}
+                  className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 
+                           transition-colors flex items-center justify-between group"
+                >
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">{result.title}</span>
+                      {result.type === 'suggestion' && result.matchScore && result.matchScore < 0.8 && (
+                        <span className="text-xs text-gray-500 dark:text-gray-400">(similar)</span>
+                      )}
+                    </div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                      {result.categoryDisplayName}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+          
+          {/* "Try being more specific" helper */}
+          {showDropdown && !isLoading && allResults.length === 0 && formState.solutionName.length >= 2 &&
+           ['therapy', 'medication', 'supplement', 'exercise', 'vitamin', 'app', 'treatment', 'counseling', 'workout'].some(term => 
+             formState.solutionName.toLowerCase().includes(term)
+           ) && (
+            <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 
+                          dark:border-gray-700 rounded-lg shadow-lg p-4">
+              <div className="flex items-start gap-2">
+                <span className="text-lg">💡</span>
+                <div>
+                  <p className="font-medium text-gray-700 dark:text-gray-300">
+                    Try being more specific
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    {formState.solutionName.toLowerCase().includes('therapy') && (
+                      <>"{formState.solutionName}" → "CBT therapy" or "EMDR" or "talk therapy"</>
+                    )}
+                    {formState.solutionName.toLowerCase().includes('medication') && (
+                      <>"{formState.solutionName}" → specific drug name like "Lexapro" or "Tylenol"</>
+                    )}
+                    {formState.solutionName.toLowerCase().includes('supplement') && (
+                      <>"{formState.solutionName}" → "Vitamin D" or "Omega-3" or "Magnesium"</>
+                    )}
+                    {formState.solutionName.toLowerCase().includes('exercise') && (
+                      <>"{formState.solutionName}" → "Running" or "Yoga" or "CrossFit"</>
+                    )}
+                    {formState.solutionName.toLowerCase().includes('vitamin') && (
+                      <>"{formState.solutionName}" → "Vitamin D" or "B12" or "Vitamin C"</>
+                    )}
+                    {formState.solutionName.toLowerCase().includes('app') && (
+                      <>"{formState.solutionName}" → "Headspace" or "MyFitnessPal" or "Calm"</>
+                    )}
+                    {formState.solutionName.toLowerCase().includes('treatment') && (
+                      <>"{formState.solutionName}" → specific treatment like "Acupuncture" or "Physical therapy"</>
+                    )}
+                    {formState.solutionName.toLowerCase().includes('counseling') && (
+                      <>"{formState.solutionName}" → "Marriage counseling" or "Career counseling"</>
+                    )}
+                    {formState.solutionName.toLowerCase().includes('workout') && (
+                      <>"{formState.solutionName}" → "HIIT workout" or "Strength training" or "Pilates"</>
+                    )}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Loading indicator */}
+        {isLoading && formState.solutionName.length >= 2 && (
+          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 
+                          border-blue-600 dark:border-blue-400"></div>
+            <span>Searching...</span>
+          </div>
         )}
-      </div>
 
-      {/* Loading indicator */}
-      {isLoading && formState.solutionName.length >= 2 && (
-        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-          <div className="animate-spin rounded-full h-4 w-4 border-b-2 
-                        border-blue-600 dark:border-blue-400"></div>
-          <span>Searching...</span>
+        {/* Error display */}
+        {error && (
+          <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 
+                        dark:border-red-800 rounded-lg">
+            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+          </div>
+        )}
+
+        {/* Action buttons */}
+        <div className="flex justify-between items-center">
+          <button
+            onClick={() => {
+              if (onCancel) {
+                onCancel();
+              } else {
+                router.push(`/goal/${goalId}`);
+              }
+            }}
+            className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
+                     dark:hover:text-gray-200 font-medium transition-colors"
+          >
+            Cancel
+          </button>
+          
+          <button
+            onClick={handleContinue}
+            disabled={!canContinue}
+            className={`px-6 py-2 rounded-lg font-medium transition-all ${
+              canContinue
+                ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            Continue
+          </button>
         </div>
-      )}
-
-      {/* Error display */}
-      {error && (
-        <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 
-                      dark:border-red-800 rounded-lg">
-          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
         </div>
-      )}
-
-      <div className="flex justify-between pt-4">
-        <button
-          onClick={() => {
-            if (onCancel) {
-              onCancel();
-            } else {
-              router.push(`/goal/${goalId}`);
-            }
-          }}
-          className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                   dark:hover:text-gray-200 font-medium transition-colors"
-        >
-          Cancel
-        </button>
       </div>
     </div>
   );

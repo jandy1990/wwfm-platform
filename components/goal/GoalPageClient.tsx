@@ -109,12 +109,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-pink-700',
     borderColor: 'border-pink-200',
     bgColor: 'bg-pink-50',
-    keyFields: ['time_to_results', 'frequency', 'product_type', 'cost'],
+    keyFields: ['time_to_results', 'skincareFrequency', 'length_of_use', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      frequency: 'Frequency',
-      product_type: 'Type'
+      skincareFrequency: 'Frequency',
+      length_of_use: 'Length of Use'
     },
     arrayField: 'side_effects'
   },
@@ -269,11 +269,11 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['time_to_results', 'daily_prep_time', 'long_term_sustainability', 'cost_impact'],
+    keyFields: ['time_to_results', 'weekly_prep_time', 'long_term_sustainability', 'cost_impact'],
     fieldLabels: {
       cost_impact: 'Cost Impact',
       time_to_results: 'Time to Results',
-      daily_prep_time: 'Prep Time',
+      weekly_prep_time: 'Prep Time',
       long_term_sustainability: 'Sustainability'
     },
     arrayField: 'challenges'
@@ -320,7 +320,7 @@ const CATEGORY_CONFIG: Record<string, {
       format: 'Format',
       learning_difficulty: 'Difficulty'
     },
-    arrayField: 'challenges'
+    arrayField: 'issues'
   },
 
   // APP FORM (1 category)
@@ -375,12 +375,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-purple-700',
     borderColor: 'border-purple-200',
     bgColor: 'bg-purple-50',
-    keyFields: ['time_to_results', 'time_commitment', 'startup_cost', 'ongoing_cost'],
+    keyFields: ['time_to_enjoyment', 'time_commitment', 'startup_cost', 'ongoing_cost'],
     fieldLabels: {
       time_commitment: 'Time Commitment',
       startup_cost: 'Initial Cost',
       ongoing_cost: 'Ongoing Cost',
-      time_to_results: 'Time to Results'
+      time_to_enjoyment: 'Time to Enjoyment'
     },
     arrayField: 'barriers'
   },
@@ -398,7 +398,7 @@ const CATEGORY_CONFIG: Record<string, {
       time_to_results: 'Time to Results',
       access_time: 'Access Time'
     },
-    arrayField: 'key_features'
+    arrayField: 'barriers'
   }
 }
 
