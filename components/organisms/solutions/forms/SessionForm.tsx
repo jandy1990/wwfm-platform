@@ -1,10 +1,11 @@
-'use client';
+  'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
 import { ChevronLeft, Check, Plus, X } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
+import { Label } from '@/components/atoms/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
 import { COST_RANGES } from '@/lib/forms/templates';
@@ -153,7 +154,7 @@ export function SessionForm({
       // Fallback barrier options for categories that might not be in DB yet
       const fallbackBarriers: Record<string, string[]> = {
         professional_services: [
-          'Finding the right professional',
+          'Finding qualified professionals',
           'High cost',
           'Limited availability',
           'Not covered by insurance',
@@ -161,41 +162,7 @@ export function SessionForm({
           'Too many options to choose from',
           'Scheduling conflicts',
           'Location/distance issues',
-          'Communication style mismatch',
-          'Didn\'t see results quickly enough',
-          'Service quality inconsistent',
-          'Contract/Commitment requirements',
-          'None'
-        ],
-        coaches_mentors: [
-          'Finding the right coach',
-          'High cost',
-          'No insurance coverage', 
-          'Hard to verify credentials',
-          'Too pushy or sales-focused',
-          'Chemistry/personality mismatch',
-          'Scheduling conflicts',
-          'Time zone differences',
-          'Unclear what to look for',
-          'Results vary widely',
-          'Time commitment required',
-          'Contract/package pressure',
-          'Other (please describe)',
-          'None'
-        ],
-        doctors_specialists: [
-          'Finding the right doctor',
-          'High cost',
-          'Insurance issues',
-          'Long wait times for appointments',
-          'Long wait times in office/clinic',
-          'Limited availability',
-          'Communication issues',
-          'Didn\'t feel heard',
-          'Rushed appointments',
-          'Location/distance',
-          'Referral required',
-          'Other (please describe)',
+          'Concerns about confidentiality',
           'None'
         ],
         crisis_resources: [
@@ -376,8 +343,7 @@ export function SessionForm({
               onChange={(e) => setTimeToResults(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                        focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                       appearance-none transition-all"
+                       dark:bg-gray-800 dark:text-white transition-all"
             >
               <option value="">Select timeframe</option>
               <option value="Immediately">Immediately</option>
@@ -408,25 +374,25 @@ export function SessionForm({
 
       {/* Cost field */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <Label className="text-base font-medium">
           Cost? <span className="text-red-500">*</span>
-        </label>
+        </Label>
         
         {category !== 'crisis_resources' && (
           <RadioGroup value={costType} onValueChange={(value) => setCostType(value as 'per_session' | 'monthly' | 'total')}>
             <div className="flex gap-4">
               <div className="flex items-center">
                 <RadioGroupItem value="per_session" id="per_session" />
-                <label htmlFor="per_session" className="ml-2">Per session</label>
+                <Label htmlFor="per_session" className="ml-2">Per session</Label>
               </div>
               <div className="flex items-center">
                 <RadioGroupItem value="monthly" id="monthly" />
-                <label htmlFor="monthly" className="ml-2">Monthly</label>
+                <Label htmlFor="monthly" className="ml-2">Monthly</Label>
               </div>
               {category === 'medical_procedures' && (
                 <div className="flex items-center">
                   <RadioGroupItem value="total" id="total" />
-                  <label htmlFor="total" className="ml-2">Total cost</label>
+                  <Label htmlFor="total" className="ml-2">Total cost</Label>
                 </div>
               )}
             </div>
@@ -451,9 +417,9 @@ export function SessionForm({
         {/* Optional fields that remain in Step 1 */}
         {category !== 'crisis_resources' && (
           <div>
-            <label htmlFor="session_frequency" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <Label htmlFor="session_frequency">
               {category === 'medical_procedures' ? 'Treatment frequency' : 'Session frequency'}
-            </label>
+            </Label>
             <Select value={sessionFrequency} onValueChange={setSessionFrequency}>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="How often?" />
@@ -473,21 +439,13 @@ export function SessionForm({
         )}
 
         <div>
-          <label htmlFor="format" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Format</label>
+          <Label htmlFor="format">Format</Label>
           <Select value={format} onValueChange={setFormat}>
             <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
               <SelectValue placeholder="Select format" />
             </SelectTrigger>
             <SelectContent>
-              {category === 'alternative_practitioners' ? (
-                <>
-                  <SelectItem value="Practitioner's office">Practitioner's office</SelectItem>
-                  <SelectItem value="Home visit/Mobile service">Home visit/Mobile service</SelectItem>
-                  <SelectItem value="Virtual/Remote">Virtual/Remote</SelectItem>
-                  <SelectItem value="Wellness center/Clinic">Wellness center/Clinic</SelectItem>
-                  <SelectItem value="Mix of locations">Mix of locations</SelectItem>
-                </>
-              ) : category === 'crisis_resources' ? (
+              {category === 'crisis_resources' ? (
                 <>
                   <SelectItem value="Phone">Phone</SelectItem>
                   <SelectItem value="Text/Chat">Text/Chat</SelectItem>
@@ -503,9 +461,9 @@ export function SessionForm({
               ) : (
                 <>
                   <SelectItem value="In-person">In-person</SelectItem>
-                  <SelectItem value="Virtual">Virtual</SelectItem>
-                  <SelectItem value="By phone/teleconference">By phone/teleconference</SelectItem>
-                  <SelectItem value="Mix of in-person & virtual">Mix of in-person & virtual</SelectItem>
+                  <SelectItem value="Virtual/Online">Virtual/Online</SelectItem>
+                  <SelectItem value="Phone">Phone</SelectItem>
+                  <SelectItem value="Hybrid">Hybrid (both)</SelectItem>
                 </>
               )}
             </SelectContent>
@@ -515,20 +473,20 @@ export function SessionForm({
         {/* Session length for therapists_counselors REQUIRED */}
         {category === 'therapists_counselors' && (
           <div>
-            <label htmlFor="session_length" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <Label htmlFor="session_length">
               Session length <span className="text-red-500">*</span>
-            </label>
+            </Label>
             <Select value={sessionLength} onValueChange={setSessionLength} required>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="How long?" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Under 30 minutes">Under 30 minutes</SelectItem>
-                <SelectItem value="30-45 minutes">30-45 minutes</SelectItem>
-                <SelectItem value="45-60 minutes">45-60 minutes</SelectItem>
-                <SelectItem value="60-90 minutes">60-90 minutes</SelectItem>
-                <SelectItem value="90-120 minutes">90-120 minutes</SelectItem>
-                <SelectItem value="Over 2 hours">Over 2 hours</SelectItem>
+                <SelectItem value="15 minutes">15 minutes</SelectItem>
+                <SelectItem value="30 minutes">30 minutes</SelectItem>
+                <SelectItem value="45 minutes">45 minutes</SelectItem>
+                <SelectItem value="60 minutes">60 minutes</SelectItem>
+                <SelectItem value="90 minutes">90 minutes</SelectItem>
+                <SelectItem value="2+ hours">2+ hours</SelectItem>
                 <SelectItem value="Varies">Varies</SelectItem>
               </SelectContent>
             </Select>
@@ -538,18 +496,18 @@ export function SessionForm({
         {/* Session length for other categories OPTIONAL */}
         {!['crisis_resources', 'medical_procedures', 'therapists_counselors'].includes(category) && (
           <div>
-            <label htmlFor="session_length" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Session length</label>
+            <Label htmlFor="session_length">Session length</Label>
             <Select value={sessionLength} onValueChange={setSessionLength}>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="How long?" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Under 30 minutes">Under 30 minutes</SelectItem>
-                <SelectItem value="30-45 minutes">30-45 minutes</SelectItem>
-                <SelectItem value="45-60 minutes">45-60 minutes</SelectItem>
-                <SelectItem value="60-90 minutes">60-90 minutes</SelectItem>
-                <SelectItem value="90-120 minutes">90-120 minutes</SelectItem>
-                <SelectItem value="Over 2 hours">Over 2 hours</SelectItem>
+                <SelectItem value="15 minutes">15 minutes</SelectItem>
+                <SelectItem value="30 minutes">30 minutes</SelectItem>
+                <SelectItem value="45 minutes">45 minutes</SelectItem>
+                <SelectItem value="60 minutes">60 minutes</SelectItem>
+                <SelectItem value="90 minutes">90 minutes</SelectItem>
+                <SelectItem value="2+ hours">2+ hours</SelectItem>
                 <SelectItem value="Varies">Varies</SelectItem>
               </SelectContent>
             </Select>
@@ -558,7 +516,7 @@ export function SessionForm({
 
         {['therapists_counselors', 'doctors_specialists', 'medical_procedures'].includes(category) && (
           <div>
-            <label htmlFor="insurance_coverage" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Insurance coverage</label>
+            <Label htmlFor="insurance_coverage">Insurance coverage</Label>
             <Select value={insuranceCoverage} onValueChange={setInsuranceCoverage}>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Coverage status" />
@@ -578,7 +536,7 @@ export function SessionForm({
         {/* Wait time for doctors OPTIONAL, medical_procedures REQUIRED */}
         {category === 'doctors_specialists' && (
           <div>
-            <label htmlFor="wait_time" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Wait time</label>
+            <Label htmlFor="wait_time">Wait time</Label>
             <Select value={waitTime} onValueChange={setWaitTime}>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Time to get appointment" />
@@ -588,9 +546,8 @@ export function SessionForm({
                 <SelectItem value="Within a week">Within a week</SelectItem>
                 <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
                 <SelectItem value="2-4 weeks">2-4 weeks</SelectItem>
-                <SelectItem value="1-3 months">1-3 months</SelectItem>
-                <SelectItem value="3-6 months">3-6 months</SelectItem>
-                <SelectItem value="More than 6 months">More than 6 months</SelectItem>
+                <SelectItem value="1-2 months">1-2 months</SelectItem>
+                <SelectItem value="2+ months">2+ months</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -598,9 +555,9 @@ export function SessionForm({
 
         {category === 'medical_procedures' && (
           <div>
-            <label htmlFor="wait_time" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <Label htmlFor="wait_time">
               Wait time <span className="text-red-500">*</span>
-            </label>
+            </Label>
             <Select value={waitTime} onValueChange={setWaitTime} required>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Time to get appointment" />
@@ -622,9 +579,9 @@ export function SessionForm({
         {/* Specialty for professional_services REQUIRED */}
         {category === 'professional_services' && (
           <div>
-            <label htmlFor="specialty" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <Label htmlFor="specialty">
               Type of service <span className="text-red-500">*</span>
-            </label>
+            </Label>
             <Select value={specialty} onValueChange={setSpecialty} required>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Select service type" />
@@ -653,9 +610,9 @@ export function SessionForm({
         {category === 'crisis_resources' && (
           <>
             <div>
-              <label htmlFor="response_time" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <Label htmlFor="response_time">
                 Response time <span className="text-red-500">*</span>
-              </label>
+              </Label>
               <Select value={responseTime} onValueChange={setResponseTime} required>
                 <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                   <SelectValue placeholder="How quickly did they respond?" />
@@ -1069,8 +1026,7 @@ export function SessionForm({
                   onChange={(e) => setCompletedTreatment(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                           appearance-none text-sm"
+                           dark:bg-gray-700 dark:text-white text-sm"
                 >
                   <option value="">Completed full treatment?</option>
                   <option value="Yes">Yes</option>
@@ -1085,16 +1041,18 @@ export function SessionForm({
                   onChange={(e) => setTypicalLength(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                           appearance-none text-sm"
+                           dark:bg-gray-700 dark:text-white text-sm"
                 >
                   <option value="">Typical treatment length</option>
-                  <option value="Single session">Single session</option>
-                  <option value="2-5 sessions">2-5 sessions</option>
-                  <option value="6-12 sessions">6-12 sessions</option>
-                  <option value="3-12 months">3-12 months</option>
-                  <option value="Over 1 year">Over 1 year</option>
-                  <option value="Ongoing/Varies">Ongoing/Varies</option>
+                  <option value="Single session only">Single session only</option>
+                  <option value="2-4 sessions">2-4 sessions</option>
+                  <option value="5-8 sessions">5-8 sessions</option>
+                  <option value="8-12 sessions">8-12 sessions</option>
+                  <option value="3-6 months">3-6 months</option>
+                  <option value="6-12 months">6-12 months</option>
+                  <option value="1-2 years">1-2 years</option>
+                  <option value="Ongoing/Indefinite">Ongoing/Indefinite</option>
+                  <option value="Varies by condition">Varies by condition</option>
                 </select>
               )}
               
