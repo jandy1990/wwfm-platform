@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
 import { ChevronLeft, Check } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 
 interface LifestyleFormProps {
   goalId: string;
@@ -23,24 +24,6 @@ interface FailedSolution {
   rating: number;
 }
 
-// Progress celebration messages
-const ProgressCelebration = ({ step }: { step: number }) => {
-  if (step === 1) return null;
-  
-  const celebrations = [
-    "Great start! 🎯",
-    "Almost there! 💪",
-    "Final step! 🏁"
-  ];
-  
-  return (
-    <div className="text-center mb-4 opacity-0 animate-[fadeIn_0.5s_ease-in_forwards]">
-      <p className="text-green-600 dark:text-green-400 font-medium text-lg">
-        {celebrations[step - 2]}
-      </p>
-    </div>
-  );
-};
 
 export function LifestyleForm({
   goalId,
@@ -64,14 +47,16 @@ export function LifestyleForm({
   const [timeToResults, setTimeToResults] = useState('');
   const [costImpact, setCostImpact] = useState('');
   const [weeklyPrepTime, setWeeklyPrepTime] = useState('');
-  const [adjustmentPeriod, setAdjustmentPeriod] = useState('');
-  const [longTermSustainability, setLongTermSustainability] = useState('');
+  const [stillFollowing, setStillFollowing] = useState<boolean | null>(null);
+  const [sustainabilityReason, setSustainabilityReason] = useState('');
   const [previousSleepHours, setPreviousSleepHours] = useState('');
   
   // Step 2 fields - Challenges
   const [selectedChallenges, setSelectedChallenges] = useState<string[]>(['None']);
   const [challengeOptions, setChallengeOptions] = useState<string[]>([]);
   const [challengesLoading, setChallengesLoading] = useState(true);
+  const [customChallenge, setCustomChallenge] = useState('');
+  const [showCustomChallenge, setShowCustomChallenge] = useState(false);
   
   // Step 3 - Failed solutions
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
@@ -93,17 +78,27 @@ export function LifestyleForm({
       // Fallback challenge options for categories
       const fallbackChallenges: Record<string, string[]> = {
         diet_nutrition: [
-          'Meal planning time',
-          'Higher grocery costs',
-          'Social situations difficult',
-          'Cravings/temptations',
-          'Family not supportive',
-          'Limited food options',
+          'None',
+          // Time & Planning
+          'Meal planning and prep time',
           'Cooking skills needed',
-          'Travel/eating out challenges',
-          'Energy dips initially',
+          'Complicated diet rules',
+          // Cost
+          'Higher grocery costs',
+          // Cravings & Preferences  
+          'Cravings and temptations',
+          'Missing favorite foods',
+          // Social & Lifestyle
+          'Social situations difficult',
+          'Family not supportive',
+          'Travel and eating out',
+          // Physical Effects
+          'Energy dips initially', 
           'Digestive adjustment',
-          'None'
+          // Access
+          'Limited food options nearby',
+          // Other
+          'Other (please describe)'
         ],
         sleep: [
           'Hard to maintain schedule',
@@ -114,9 +109,9 @@ export function LifestyleForm({
           'Physical discomfort',
           'Missing late night activities',
           'Inconsistent results',
-          'Felt worse initially',
           'Environmental factors (noise, light)',
-          'None'
+          'None',
+          'Other (please describe)'
         ]
       };
       
@@ -183,6 +178,17 @@ export function LifestyleForm({
   const handleChallengeToggle = (challenge: string) => {
     if (challenge === 'None') {
       setSelectedChallenges(['None']);
+      setShowCustomChallenge(false);
+    } else if (challenge === 'Other (please describe)') {
+      setShowCustomChallenge(!showCustomChallenge);
+      if (!showCustomChallenge) {
+        setSelectedChallenges(prev => [...prev.filter(c => c !== 'None'), 'Other (please describe)']);
+      } else {
+        setSelectedChallenges(prev => {
+          const newChallenges = prev.filter(c => c !== 'Other (please describe)');
+          return newChallenges.length === 0 ? ['None'] : newChallenges;
+        });
+      }
     } else {
       setSelectedChallenges(prev => {
         const filtered = prev.filter(c => c !== 'None');
@@ -195,10 +201,18 @@ export function LifestyleForm({
     }
   };
 
+  const addCustomChallenge = () => {
+    if (customChallenge.trim()) {
+      setSelectedChallenges(prev => [...prev.filter(c => c !== 'None'), customChallenge.trim()]);
+      setCustomChallenge('');
+      setShowCustomChallenge(false);
+    }
+  };
+
   const canProceedToNextStep = () => {
     switch (currentStep) {
       case 1: // Universal + Required fields
-        const universalValid = effectiveness !== null && timeToResults !== '' && costImpact !== '' && adjustmentPeriod !== '' && longTermSustainability !== '';
+        const universalValid = effectiveness !== null && timeToResults !== '' && costImpact !== '' && stillFollowing !== null;
         const categorySpecificValid = category === 'diet_nutrition' 
           ? weeklyPrepTime !== ''
           : previousSleepHours !== '';
@@ -246,8 +260,8 @@ export function LifestyleForm({
         effectiveness,
         costImpact,
         weeklyPrepTime,
-        adjustmentPeriod,
-        longTermSustainability,
+        still_following: stillFollowing,
+        sustainability_reason: sustainabilityReason,
         previousSleepHours,
         challenges: selectedChallenges,
         failedSolutionsWithRatings: failedSolutions.filter(f => f.id),
@@ -298,7 +312,11 @@ export function LifestyleForm({
                 <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
                   <span className="text-lg">⭐</span>
                 </div>
-                <h2 className="text-xl font-semibold">How well it worked</h2>
+                <FormSectionHeader 
+                  icon="⭐"
+                  title="How well it worked"
+                  bgColor="bg-green-100 dark:bg-green-900"
+                />
               </div>
               
               {/* 5-star rating */}
@@ -358,7 +376,8 @@ export function LifestyleForm({
                   onChange={(e) => setTimeToResults(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white transition-all"
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none transition-all"
                 >
                   <option value="">Select timeframe</option>
                   <option value="Immediately">Immediately</option>
@@ -386,20 +405,24 @@ export function LifestyleForm({
                 <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
                   <span className="text-lg">📋</span>
                 </div>
-                <h2 className="text-xl font-semibold">Key details</h2>
+                <FormSectionHeader 
+                  icon={CATEGORY_ICONS[category as keyof typeof CATEGORY_ICONS] || CATEGORY_ICONS.default}
+                  title="Key details"
+                />
               </div>
 
               {/* Cost Impact */}
               <div className="space-y-3">
                 <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Cost impact? <span className="text-red-500">*</span>
+                  Cost impact <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={costImpact}
                   onChange={(e) => setCostImpact(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white"
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none"
                 >
                   <option value="">{category === 'diet_nutrition' ? "Compared to previous diet" : "Any costs?"}</option>
                   {category === 'diet_nutrition' ? (
@@ -413,10 +436,10 @@ export function LifestyleForm({
                   ) : (
                     <>
                       <option value="Free">Free</option>
-                      <option value="Under $50 one-time">Under $50 one-time</option>
-                      <option value="$50-200 one-time">$50-200 one-time</option>
-                      <option value="Over $200 one-time">Over $200 one-time</option>
-                      <option value="Ongoing costs">Ongoing costs (please describe)</option>
+                      <option value="Under $50">Under $50</option>
+                      <option value="$50-$100">$50-$100</option>
+                      <option value="$100-$200">$100-$200</option>
+                      <option value="Over $200">Over $200</option>
                     </>
                   )}
                 </select>
@@ -433,7 +456,8 @@ export function LifestyleForm({
                     onChange={(e) => setWeeklyPrepTime(e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                              focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                             dark:bg-gray-800 dark:text-white"
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                             appearance-none"
                   >
                     <option value="">Time spent on meal planning/prep</option>
                     <option value="No extra time">No extra time</option>
@@ -457,7 +481,8 @@ export function LifestyleForm({
                     onChange={(e) => setPreviousSleepHours(e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                              focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                             dark:bg-gray-800 dark:text-white"
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                             appearance-none"
                   >
                     <option value="">Before this change</option>
                     <option value="Under 4 hours">Under 4 hours</option>
@@ -471,64 +496,115 @@ export function LifestyleForm({
                 </div>
               )}
 
-              {/* Adjustment Period */}
-              <div className="space-y-3">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Adjustment period <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={adjustmentPeriod}
-                  onChange={(e) => setAdjustmentPeriod(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white"
-                >
-                  <option value="">{category === 'diet_nutrition' ? "Time to feel comfortable with change" : "Time to adjust to new routine"}</option>
-                  {category === 'diet_nutrition' ? (
-                    <>
-                      <option value="No adjustment needed">No adjustment needed</option>
-                      <option value="A few days">A few days</option>
-                      <option value="1-2 weeks">1-2 weeks</option>
-                      <option value="2-4 weeks">2-4 weeks</option>
-                      <option value="1-2 months">1-2 months</option>
-                      <option value="Over 2 months">Over 2 months</option>
-                      <option value="Still adjusting">Still adjusting</option>
-                    </>
-                  ) : (
-                    <>
-                      <option value="Immediate improvement">Immediate improvement</option>
-                      <option value="A few days">A few days</option>
-                      <option value="1 week">1 week</option>
-                      <option value="2 weeks">2 weeks</option>
-                      <option value="3-4 weeks">3-4 weeks</option>
-                      <option value="Over a month">Over a month</option>
-                      <option value="Never fully adjusted">Never fully adjusted</option>
-                    </>
-                  )}
-                </select>
-              </div>
+              {/* Long-term Sustainability - Two-step approach */}
+              <div className="space-y-4">
+                {/* Step A: Radio buttons for still following */}
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Are you still following this {category === 'sleep' ? 'sleep' : 'diet'} approach? <span className="text-red-500">*</span>
+                  </label>
+                  <div className="space-y-2">
+                    <label className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
+                      stillFollowing === true
+                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                    }`}>
+                      <input
+                        type="radio"
+                        name="stillFollowing"
+                        checked={stillFollowing === true}
+                        onChange={() => {
+                          setStillFollowing(true);
+                          setSustainabilityReason(''); // Reset reason when changing selection
+                        }}
+                        className="sr-only"
+                      />
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                        stillFollowing === true
+                          ? 'border-blue-500 bg-blue-500'
+                          : 'border-gray-300 dark:border-gray-600'
+                      }`}>
+                        {stillFollowing === true && (
+                          <div className="w-2 h-2 bg-white rounded-full" />
+                        )}
+                      </div>
+                      <span className="text-sm">Yes, still following it</span>
+                    </label>
+                    
+                    <label className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
+                      stillFollowing === false
+                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                    }`}>
+                      <input
+                        type="radio"
+                        name="stillFollowing"
+                        checked={stillFollowing === false}
+                        onChange={() => {
+                          setStillFollowing(false);
+                          setSustainabilityReason(''); // Reset reason when changing selection
+                        }}
+                        className="sr-only"
+                      />
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                        stillFollowing === false
+                          ? 'border-blue-500 bg-blue-500'
+                          : 'border-gray-300 dark:border-gray-600'
+                      }`}>
+                        {stillFollowing === false && (
+                          <div className="w-2 h-2 bg-white rounded-full" />
+                        )}
+                      </div>
+                      <span className="text-sm">No, I stopped</span>
+                    </label>
+                  </div>
+                </div>
 
-              {/* Long-term Sustainability */}
-              <div className="space-y-3">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Long-term sustainability <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={longTermSustainability}
-                  onChange={(e) => setLongTermSustainability(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white"
-                >
-                  <option value="">How sustainable was it?</option>
-                  <option value="Still maintaining">Still maintaining</option>
-                  <option value="Maintained for years">Maintained for years</option>
-                  <option value="Maintained 6-12 months">Maintained 6-12 months</option>
-                  <option value="Maintained 3-6 months">Maintained 3-6 months</option>
-                  <option value="Maintained 1-3 months">Maintained 1-3 months</option>
-                  <option value="Stopped within a month">Stopped within a month</option>
-                  <option value="Modified but continued">Modified but continued</option>
-                </select>
+                {/* Step B: Conditional dropdown based on selection */}
+                {stillFollowing === true && (
+                  <div className="space-y-3 animate-slide-in">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      How's it going? <span className="text-gray-500 text-xs">(optional)</span>
+                    </label>
+                    <select
+                      value={sustainabilityReason}
+                      onChange={(e) => setSustainabilityReason(e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                               appearance-none"
+                    >
+                      <option value="">Select (optional)</option>
+                      <option value="Easy to maintain now">Easy to maintain now</option>
+                      <option value="Takes effort but manageable">Takes effort but manageable</option>
+                      <option value="Getting harder over time">Getting harder over time</option>
+                      <option value="Struggling but continuing">Struggling but continuing</option>
+                    </select>
+                  </div>
+                )}
+
+                {stillFollowing === false && (
+                  <div className="space-y-3 animate-slide-in">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Main reason you stopped? <span className="text-gray-500 text-xs">(optional)</span>
+                    </label>
+                    <select
+                      value={sustainabilityReason}
+                      onChange={(e) => setSustainabilityReason(e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                               appearance-none"
+                    >
+                      <option value="">Select (optional)</option>
+                      <option value="Too hard to sustain">Too hard to sustain</option>
+                      <option value="No longer needed (problem solved)">No longer needed (problem solved)</option>
+                      <option value="Found something better">Found something better</option>
+                      <option value="Life circumstances changed">Life circumstances changed</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -543,7 +619,11 @@ export function LifestyleForm({
               <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center">
                 <span className="text-lg">⚡</span>
               </div>
-              <h2 className="text-xl font-semibold">Any challenges?</h2>
+              <FormSectionHeader 
+                icon="⚡"
+                title="Any challenges?"
+                bgColor="bg-amber-100 dark:bg-amber-900"
+              />
             </div>
 
             {/* Quick tip */}
@@ -594,13 +674,73 @@ export function LifestyleForm({
               </div>
             )}
 
+            {/* Custom challenge input */}
+            {showCustomChallenge && (
+              <div className="mt-3 flex gap-2 animate-fade-in">
+                <input
+                  type="text"
+                  value={customChallenge}
+                  onChange={(e) => setCustomChallenge(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && addCustomChallenge()}
+                  placeholder="Describe the challenge"
+                  className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           dark:bg-gray-800 dark:text-white"
+                  autoFocus
+                />
+                <button
+                  onClick={addCustomChallenge}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
+                           rounded-lg transition-colors"
+                >
+                  +
+                </button>
+                <button
+                  onClick={() => {
+                    setShowCustomChallenge(false);
+                    setCustomChallenge('');
+                    setSelectedChallenges(prev => prev.filter(c => c !== 'Other (please describe)'));
+                  }}
+                  className="px-3 py-2 text-gray-500 hover:text-gray-700"
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+
+            {/* Display custom challenges */}
+            {(() => {
+              const customChallenges = selectedChallenges.filter(c => 
+                !challengeOptions.includes(c) && c !== 'None' && c !== 'Other (please describe)'
+              );
+              return customChallenges.length > 0 && (
+                <div className="mt-3 space-y-2">
+                  {customChallenges.map((challenge) => (
+                    <div key={challenge} className="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/30 
+                                                  px-3 py-2 rounded-lg animate-fade-in">
+                      <span className="text-sm flex-1">{challenge}</span>
+                      <button
+                        onClick={() => setSelectedChallenges(prev => {
+                          const newChallenges = prev.filter(c => c !== challenge);
+                          return newChallenges.length === 0 ? ['None'] : newChallenges;
+                        })}
+                        className="text-red-500 hover:text-red-700 p-1"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+
             {/* Selected count indicator */}
             {selectedChallenges.length > 0 && selectedChallenges[0] !== 'None' && (
               <div className="text-center">
                 <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
                                text-blue-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
                   <Check className="w-4 h-4" />
-                  {selectedChallenges.length} selected
+                  {selectedChallenges.filter(c => c !== 'Other (please describe)').length} selected
                 </span>
               </div>
             )}
@@ -616,7 +756,11 @@ export function LifestyleForm({
               <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
                 <span className="text-lg">🔍</span>
               </div>
-              <h2 className="text-xl font-semibold">What else did you try?</h2>
+              <FormSectionHeader 
+                icon="🔍"
+                title="What else did you try?"
+                bgColor="bg-purple-100 dark:bg-purple-900"
+              />
             </div>
 
             {/* Context card */}
@@ -690,7 +834,8 @@ export function LifestyleForm({
                     onChange={(e) => setSocialImpact(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                              focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                             dark:bg-gray-700 dark:text-white text-sm"
+                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                             appearance-none text-sm"
                   >
                     <option value="">Social challenges?</option>
                     <option value="No impact">No impact</option>
@@ -710,7 +855,8 @@ export function LifestyleForm({
                     onChange={(e) => setSleepQualityChange(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                              focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                             dark:bg-gray-700 dark:text-white text-sm"
+                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                             appearance-none text-sm"
                   >
                     <option value="">Quality improvement?</option>
                     <option value="Dramatically better">Dramatically better</option>
@@ -723,15 +869,17 @@ export function LifestyleForm({
                 </div>
               )}
 
-              <input
-                type="text"
-                placeholder="Specific approach or method"
-                value={specificApproach}
-                onChange={(e) => setSpecificApproach(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
-              />
+              {category === 'sleep' && (
+                <input
+                  type="text"
+                  placeholder="Specific approach or method"
+                  value={specificApproach}
+                  onChange={(e) => setSpecificApproach(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           dark:bg-gray-700 dark:text-white text-sm"
+                />
+              )}
 
               <input
                 type="text"
@@ -753,13 +901,13 @@ export function LifestyleForm({
                          dark:bg-gray-700 dark:text-white text-sm"
               />
               
-              {(socialImpact || sleepQualityChange || specificApproach || resources || tips) && (
+              {(socialImpact || sleepQualityChange || (category === 'sleep' && specificApproach) || resources || tips) && (
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
                          text-sm font-medium transition-colors"
                 >
-                  Save additional details
+                  Submit
                 </button>
               )}
             </div>

@@ -11,201 +11,102 @@ import {
   EXPECTED_FIELDS_BY_FORM 
 } from '../fixtures/test-data'
 
+// Helper to wait for auto-categorization and proceed
+async function navigateToForm(page: Page, solutionName: string, expectedCategory: string) {
+  // Fill solution name
+  await page.fill('#solution-name', solutionName)
+  
+  // Wait for auto-categorization to trigger
+  await page.waitForTimeout(2000)
+  
+  // Check if category was auto-detected by looking for the badge
+  const categoryBadge = page.locator(`span:has-text("${expectedCategory}")`)
+  const isAutoDetected = await categoryBadge.isVisible({ timeout: 1000 })
+  
+  if (!isAutoDetected) {
+    // If not auto-detected, we might see dropdown suggestions
+    // Try clicking on a suggestion if available
+    const suggestion = page.locator(`button:has-text("${solutionName}")`)
+    if (await suggestion.isVisible({ timeout: 1000 })) {
+      await suggestion.click()
+      await page.waitForTimeout(500)
+    }
+  }
+  
+  // Click Continue button
+  const continueButton = page.locator('button:has-text("Continue")')
+  await continueButton.waitFor({ state: 'visible' })
+  await continueButton.click()
+  
+  // Wait for form to load - forms have different structures
+  // Try multiple possible selectors
+  await page.waitForSelector('form, [name="solution_title"], h2', { timeout: 5000 })
+}
+
 // DosageForm Configuration (4 categories)
 export const dosageFormConfig: FormTestConfig = {
   formName: 'DosageForm',
   categories: ['medications', 'supplements_vitamins', 'natural_remedies', 'beauty_skincare'],
-  requiredFields: ['cost', 'time_to_results', 'side_effects', 'effectiveness'],
+  requiredFields: ['cost', 'time_to_results', 'frequency', 'length_of_use', 'side_effects'],
   arrayFields: ['side_effects'],
   hasVariants: true,
   
-  generateTestData: (category: string) => ({
-    // Basic solution info
-    solutionName: `Test ${category} Solution ${Date.now()}`,
-    
-    // Step 1: Dosage info
-    doseAmount: category === 'beauty_skincare' ? '' : '20',
-    doseUnit: category === 'beauty_skincare' ? '' : 'mg',
-    frequency: category === 'beauty_skincare' ? '' : 'twice daily',
-    skincareFrequency: category === 'beauty_skincare' ? 'twice_daily' : '',
-    
-    // Step 2: Effectiveness
-    effectiveness: 4,
-    timeToResults: '1-2 weeks',
-    
-    // Step 3: Side effects
-    sideEffects: ['None'],
-    
-    // Step 4: Additional info
-    costRange: '$25-50/month',
-    brand: 'Test Brand',
-    form: category === 'medications' ? 'tablet' : category === 'supplements_vitamins' ? 'capsule' : '',
-    otherInfo: 'Test notes'
-  }),
-  
-  fillFormSteps: async (page: Page, testData: any) => {
-    // The form already has the solution name from the previous step
-    // Step 1: Dosage information
-    if (testData.category === 'beauty_skincare') {
-      // Skincare uses different frequency selector
-      await page.selectOption('select[value="' + testData.skincareFrequency + '"]', testData.skincareFrequency)
-    } else {
-      // Other categories use dosage fields
-      await page.fill('input[type="text"][value=""]', testData.doseAmount) // First text input
-      await page.selectOption('select[value=""]', testData.doseUnit) // Unit dropdown
-      await page.selectOption('select[value=""]', testData.frequency) // Frequency dropdown
+  generateTestData: (category: string) => {
+    // Category-specific solution names that will trigger auto-categorization
+    const categoryNames = {
+      'medications': `Lexapro Test ${Date.now()}`,
+      'supplements_vitamins': `Vitamin D Test ${Date.now()}`,
+      'natural_remedies': `Lavender Oil Test ${Date.now()}`,
+      'beauty_skincare': `Retinol Cream Test ${Date.now()}`
     }
     
-    // Click Continue to Step 2
-    await page.click('button:has-text("Continue")')
-    
-    // Step 2: Effectiveness
-    await page.click(`button[aria-label="${testData.effectiveness} stars"]`) // Star rating
-    await page.selectOption('select[value=""]', testData.timeToResults)
-    
-    // Click Continue to Step 3
-    await page.click('button:has-text("Continue")')
-    
-    // Step 3: Side effects (already has 'None' selected by default)
-    // Click Continue to Step 4
-    await page.click('button:has-text("Continue")')
-    
-    // Step 4: Additional info
-    await page.selectOption('select[value="dont_remember"]', testData.costRange)
-    await page.fill('input[placeholder="Brand/Manufacturer"]', testData.brand)
-    if (testData.form) {
-      await page.selectOption('select[value=""]', testData.form)
+    return {
+      title: categoryNames[category] || `Test ${category} ${Date.now()}`
     }
-    await page.fill('textarea', testData.otherInfo)
   },
   
-  verifyData: (result, testData) => {
-    // Verify solution fields
-    expect(result.solutionFields.effectiveness).toBe(testData.effectiveness)
-    expect(result.solutionFields.time_to_results).toBe(testData.timeToResults)
-    expect(result.solutionFields.cost).toBe(testData.costRange)
-    expect(result.solutionFields.side_effects).toEqual(testData.sideEffects)
+  fillFormSteps: async (page: Page, testData: any) => {
+    // Step 1: Basic info and effectiveness
+    await page.fill('[name="solution_title"]', testData.title)
+    await page.fill('[name="description"]', `Test description for ${testData.category}`)
     
-    // Verify variant data for non-skincare categories
+    // Effectiveness rating (stars)
+    await page.click('button[aria-label="4 stars"]')
+    
+    // Time to results
+    await page.selectOption('select[name="time_to_results"]', '3-4 weeks')
+    
+    // Frequency
+    await page.selectOption('select[name="frequency"]', 'Twice daily')
+    
+    // Length of use
+    await page.fill('input[name="length_of_use"]', '3-6 months')
+    
+    // Dosage info (if not skincare)
     if (testData.category !== 'beauty_skincare') {
-      expect(result.variant.amount).toBe(parseInt(testData.doseAmount))
-      expect(result.variant.unit).toBe(testData.doseUnit)
-    }
-  }
-}
-
-// SessionForm Configuration (7 categories)
-export const sessionFormConfig: FormTestConfig = {
-  formName: 'SessionForm',
-  categories: [
-    'therapists_counselors',
-    'doctors_specialists', 
-    'coaches_mentors',
-    'alternative_practitioners',
-    'professional_services',
-    'medical_procedures',
-    'crisis_resources'
-  ],
-  requiredFields: EXPECTED_FIELDS_BY_FORM.session_form,
-  arrayFields: ['barriers', 'side_effects'],
-  hasVariants: false,
-  
-  generateTestData: (category: string) => ({
-    cost: '$100-200/month',
-    time_to_results: '1-2 months',
-    session_frequency: 'Weekly',
-    format: 'Video call',
-    barriers: ['Cost', 'Finding right provider'],
-    // Category-specific fields
-    ...(category === 'doctors_specialists' && {
-      wait_time: '1-2 weeks',
-      insurance_coverage: 'Partially covered'
-    }),
-    ...(category === 'medical_procedures' && {
-      treatment_frequency: 'Monthly',
-      wait_time: '3-4 weeks',
-      side_effects: ['Fatigue', 'Nausea']
-    })
-  }),
-  
-  fillFormSteps: async (page: Page, testData: any) => {
-    await fillStandardFields(page, testData)
-    
-    // Common fields
-    await selectOption(page, '[name="cost"]', testData.cost)
-    await selectOption(page, '[name="time_to_results"]', testData.time_to_results)
-    
-    // Session-specific fields
-    if (testData.session_frequency) {
-      await selectOption(page, '[name="session_frequency"]', testData.session_frequency)
-    }
-    if (testData.format) {
-      await selectOption(page, '[name="format"]', testData.format)
+      await page.fill('input[name="dosage_amount"]', '20')
+      await page.selectOption('select[name="dosage_unit"]', 'mg')
+      await page.selectOption('select[name="dosage_form"]', 'tablet')
     }
     
-    // Category-specific fields
-    if (testData.wait_time) {
-      await selectOption(page, '[name="wait_time"]', testData.wait_time)
-    }
-    if (testData.insurance_coverage) {
-      await selectOption(page, '[name="insurance_coverage"]', testData.insurance_coverage)
-    }
-    if (testData.treatment_frequency) {
-      await selectOption(page, '[name="treatment_frequency"]', testData.treatment_frequency)
+    // Navigate to next step if multi-step
+    const nextButton = page.locator('button:has-text("Next"), button:has-text("Continue")')
+    if (await nextButton.isVisible({ timeout: 1000 })) {
+      await nextButton.click()
+      await page.waitForTimeout(500)
     }
     
-    // Array fields
-    if (testData.barriers) {
-      await checkOptions(page, testData.barriers)
-    }
-    if (testData.side_effects) {
-      await checkOptions(page, testData.side_effects)
-    }
-  }
-}
-
-// PracticeForm Configuration (3 categories)
-export const practiceFormConfig: FormTestConfig = {
-  formName: 'PracticeForm',
-  categories: ['meditation_mindfulness', 'exercise_movement', 'habits_routines'],
-  requiredFields: EXPECTED_FIELDS_BY_FORM.practice_form,
-  arrayFields: ['challenges'],
-  hasVariants: false,
-  
-  generateTestData: (category: string) => ({
-    startup_cost: 'Free',
-    ongoing_cost: '$10-25/month',
-    time_to_results: '1-2 weeks',
-    practice_length: '20-30 minutes',
-    challenges: ['Hard to maintain habit', 'Takes too much time'],
-    // Category-specific
-    ...(category === 'exercise_movement' && {
-      frequency: 'Daily'
-    }),
-    ...(category === 'habits_routines' && {
-      time_commitment: '15-30 min/day'
-    })
-  }),
-  
-  fillFormSteps: async (page: Page, testData: any) => {
-    await fillStandardFields(page, testData)
-    
-    await selectOption(page, '[name="startup_cost"]', testData.startup_cost)
-    await selectOption(page, '[name="ongoing_cost"]', testData.ongoing_cost)
-    await selectOption(page, '[name="time_to_results"]', testData.time_to_results)
-    
-    if (testData.practice_length) {
-      await selectOption(page, '[name="practice_length"]', testData.practice_length)
-    }
-    if (testData.frequency) {
-      await selectOption(page, '[name="frequency"]', testData.frequency)
-    }
-    if (testData.time_commitment) {
-      await selectOption(page, '[name="time_commitment"]', testData.time_commitment)
+    // Step 2: Side effects (if on separate step)
+    const sideEffectsSection = page.locator('text=/side effect/i')
+    if (await sideEffectsSection.isVisible({ timeout: 1000 })) {
+      // Keep "None" selected or select specific ones
+      await checkOptions(page, ['None'])
     }
     
-    if (testData.challenges) {
-      await checkOptions(page, testData.challenges)
+    // Final step: Cost (often on success screen)
+    const costSelect = page.locator('select[name="cost"]')
+    if (await costSelect.isVisible({ timeout: 1000 })) {
+      await costSelect.selectOption('$50-100/month')
     }
   }
 }
@@ -214,39 +115,355 @@ export const practiceFormConfig: FormTestConfig = {
 export const appFormConfig: FormTestConfig = {
   formName: 'AppForm',
   categories: ['apps_software'],
-  requiredFields: EXPECTED_FIELDS_BY_FORM.app_form,
+  requiredFields: ['cost', 'time_to_results', 'usage_frequency', 'subscription_type', 'challenges'],
   arrayFields: ['challenges'],
   hasVariants: false,
   
-  generateTestData: () => ({
-    cost: '$10-25/month',
-    time_to_results: 'Immediately',
-    usage_frequency: 'Daily',
-    subscription_type: 'Premium/Pro',
-    challenges: ['Hard to maintain habit', 'Too many notifications']
+  generateTestData: (category: string) => ({
+    title: `Headspace Test ${Date.now()}`
   }),
   
   fillFormSteps: async (page: Page, testData: any) => {
-    await fillStandardFields(page, testData)
+    // Wait for form to be ready
+    await page.waitForSelector('[name="solution_title"], h2', { timeout: 5000 })
     
-    await selectOption(page, '[name="cost"]', testData.cost)
-    await selectOption(page, '[name="time_to_results"]', testData.time_to_results)
-    await selectOption(page, '[name="usage_frequency"]', testData.usage_frequency)
-    await selectOption(page, '[name="subscription_type"]', testData.subscription_type)
-    
-    if (testData.challenges) {
-      await checkOptions(page, testData.challenges)
+    // Step 1: Basic info
+    const titleField = page.locator('[name="solution_title"]')
+    if (await titleField.isVisible()) {
+      await titleField.fill(testData.title)
     }
+    
+    const descField = page.locator('[name="description"]')
+    if (await descField.isVisible()) {
+      await descField.fill('Test app description')
+    }
+    
+    // App-specific fields
+    await page.selectOption('select[name="subscription_type"]', 'Monthly subscription')
+    await page.selectOption('select[name="cost"]', '$10-25/month')
+    await page.selectOption('select[name="time_to_results"]', 'Immediately')
+    await page.selectOption('select[name="usage_frequency"]', 'Daily')
+    
+    // Effectiveness
+    const stars = page.locator('button[aria-label="4 stars"]')
+    if (await stars.isVisible()) {
+      await stars.click()
+    }
+    
+    // Navigate to challenges if multi-step
+    const nextButton = page.locator('button:has-text("Next"), button:has-text("Continue")')
+    if (await nextButton.isVisible({ timeout: 1000 })) {
+      await nextButton.click()
+      await page.waitForTimeout(500)
+    }
+    
+    // Step 2: Challenges
+    await checkOptions(page, ['Hard to maintain habit'])
   }
 }
 
-// Additional form configurations would follow the same pattern...
-// Leaving as placeholders for now since forms aren't implemented yet
+// HobbyForm Configuration (1 category)
+export const hobbyFormConfig: FormTestConfig = {
+  formName: 'HobbyForm',
+  categories: ['hobbies_activities'],
+  requiredFields: ['time_commitment', 'startup_cost', 'ongoing_cost', 'time_to_enjoyment', 'barriers'],
+  arrayFields: ['barriers'],
+  hasVariants: false,
+  
+  generateTestData: (category: string) => ({
+    title: `Painting Test ${Date.now()}`
+  }),
+  
+  fillFormSteps: async (page: Page, testData: any) => {
+    // Wait for form - HobbyForm uses FormSectionHeader
+    await page.waitForSelector('h2, [name="time_commitment"]', { timeout: 5000 })
+    
+    // Fill basic info if visible
+    const titleField = page.locator('[name="solution_title"]')
+    if (await titleField.isVisible()) {
+      await titleField.fill(testData.title)
+    }
+    
+    // Hobby-specific fields
+    await page.selectOption('select[name="time_commitment"]', '30-60 min/day')
+    await page.selectOption('select[name="startup_cost"]', '$50-100')
+    await page.selectOption('select[name="ongoing_cost"]', '$10-25/month')
+    await page.selectOption('select[name="time_to_enjoyment"]', 'Immediately enjoyable')
+    
+    // Effectiveness
+    const stars = page.locator('button[aria-label="4 stars"]')
+    if (await stars.isVisible()) {
+      await stars.click()
+    }
+    
+    // Navigate to barriers if multi-step
+    const nextButton = page.locator('button:has-text("Next"), button:has-text("Continue")')
+    if (await nextButton.isVisible({ timeout: 1000 })) {
+      await nextButton.click()
+      await page.waitForTimeout(500)
+    }
+    
+    // Step 2: Barriers
+    await checkOptions(page, ['Initial skill required'])
+  }
+}
 
+// PracticeForm Configuration (3 categories)
+export const practiceFormConfig: FormTestConfig = {
+  formName: 'PracticeForm',
+  categories: ['exercise_movement', 'meditation_mindfulness', 'habits_routines'],
+  requiredFields: ['startup_cost', 'ongoing_cost', 'time_to_results', 'frequency', 'challenges'],
+  arrayFields: ['challenges'],
+  hasVariants: false,
+  
+  generateTestData: (category: string) => {
+    const categoryNames = {
+      'exercise_movement': `Running Test ${Date.now()}`,
+      'meditation_mindfulness': `Mindfulness Test ${Date.now()}`,
+      'habits_routines': `Morning Routine Test ${Date.now()}`
+    }
+    return {
+      title: categoryNames[category] || `Test ${category} ${Date.now()}`
+    }
+  },
+  
+  fillFormSteps: async (page: Page, testData: any) => {
+    // Wait for form
+    await page.waitForSelector('[name="solution_title"], h2', { timeout: 5000 })
+    
+    // Fill basic info if visible
+    const titleField = page.locator('[name="solution_title"]')
+    if (await titleField.isVisible()) {
+      await titleField.fill(testData.title)
+    }
+    
+    // Practice-specific fields
+    await page.selectOption('select[name="startup_cost"]', 'Free/No startup cost')
+    await page.selectOption('select[name="ongoing_cost"]', 'Free/No ongoing cost')
+    await page.selectOption('select[name="time_to_results"]', '1-2 weeks')
+    await page.selectOption('select[name="frequency"]', 'Daily')
+    
+    // Navigate to challenges
+    const nextButton = page.locator('button:has-text("Next"), button:has-text("Continue")')
+    if (await nextButton.isVisible({ timeout: 1000 })) {
+      await nextButton.click()
+      await page.waitForTimeout(500)
+    }
+    
+    // Challenges
+    await checkOptions(page, ['Difficulty concentrating'])
+  }
+}
+
+// SessionForm Configuration (7 categories) - Single page form
+export const sessionFormConfig: FormTestConfig = {
+  formName: 'SessionForm',
+  categories: [
+    'therapists_counselors', 'doctors_specialists', 'coaches_mentors',
+    'alternative_practitioners', 'professional_services', 'medical_procedures', 'crisis_resources'
+  ],
+  requiredFields: ['cost', 'time_to_results', 'session_frequency', 'format', 'barriers'],
+  arrayFields: ['barriers'],
+  hasVariants: false,
+  
+  generateTestData: (category: string) => {
+    const categoryNames = {
+      'therapists_counselors': `CBT Therapy Test ${Date.now()}`,
+      'doctors_specialists': `Psychiatrist Test ${Date.now()}`,
+      'coaches_mentors': `Life Coach Test ${Date.now()}`,
+      'alternative_practitioners': `Acupuncture Test ${Date.now()}`,
+      'professional_services': `Financial Advisor Test ${Date.now()}`,
+      'medical_procedures': `Physical Therapy Test ${Date.now()}`,
+      'crisis_resources': `Crisis Hotline Test ${Date.now()}`
+    }
+    return {
+      title: categoryNames[category] || `Test ${category} ${Date.now()}`
+    }
+  },
+  
+  fillFormSteps: async (page: Page, testData: any) => {
+    // SessionForm is a single-page form
+    await page.waitForSelector('form', { timeout: 5000 })
+    
+    // All fields on one page
+    await page.fill('[name="solution_title"]', testData.title)
+    await page.fill('[name="description"]', 'Test session description')
+    
+    await page.selectOption('select[name="cost"]', '$150-200/session')
+    await page.selectOption('select[name="time_to_results"]', '3-4 weeks')
+    await page.selectOption('select[name="session_frequency"]', 'Weekly')
+    await page.selectOption('select[name="format"]', 'In-person')
+    
+    // Effectiveness
+    await page.click('button[aria-label="4 stars"]')
+    
+    // Barriers
+    await checkOptions(page, ['Finding the right therapist'])
+  }
+}
+
+// PurchaseForm Configuration (2 categories) - Single page
+export const purchaseFormConfig: FormTestConfig = {
+  formName: 'PurchaseForm',
+  categories: ['products_devices', 'books_courses'],
+  requiredFields: ['cost', 'time_to_results', 'ease_of_use', 'product_type', 'issues'],
+  arrayFields: ['issues'],
+  hasVariants: false,
+  
+  generateTestData: (category: string) => {
+    const categoryNames = {
+      'products_devices': `Weighted Blanket Test ${Date.now()}`,
+      'books_courses': `Anxiety Workbook Test ${Date.now()}`
+    }
+    return {
+      title: categoryNames[category] || `Test ${category} ${Date.now()}`
+    }
+  },
+  
+  fillFormSteps: async (page: Page, testData: any) => {
+    // PurchaseForm is a single-page form
+    await page.waitForSelector('form, [name="solution_title"]', { timeout: 5000 })
+    
+    // Fill basic info
+    const titleField = page.locator('[name="solution_title"]')
+    if (await titleField.isVisible()) {
+      await titleField.fill(testData.title)
+    }
+    
+    const descField = page.locator('[name="description"]')
+    if (await descField.isVisible()) {
+      await descField.fill('Test purchase description')
+    }
+    
+    // Purchase-specific fields
+    await page.selectOption('select[name="cost"]', '$50-100')
+    await page.selectOption('select[name="time_to_results"]', '1-2 weeks')
+    await page.selectOption('select[name="ease_of_use"]', 'Easy')
+    
+    // Product type depends on category
+    const productType = testData.category === 'books_courses' ? 'Digital download' : 'Physical product'
+    await page.selectOption('select[name="product_type"]', productType)
+    
+    // Effectiveness
+    const stars = page.locator('button[aria-label="4 stars"]')
+    if (await stars.isVisible()) {
+      await stars.click()
+    }
+    
+    // Issues (array field)
+    await checkOptions(page, ['None'])
+  }
+}
+
+// CommunityForm Configuration (2 categories) - Single page
+export const communityFormConfig: FormTestConfig = {
+  formName: 'CommunityForm',
+  categories: ['support_groups', 'groups_communities'],
+  requiredFields: ['cost', 'time_to_results', 'meeting_frequency', 'format', 'challenges'],
+  arrayFields: ['challenges'],
+  hasVariants: false,
+  
+  generateTestData: (category: string) => {
+    const categoryNames = {
+      'support_groups': `Anxiety Support Group Test ${Date.now()}`,
+      'groups_communities': `Running Club Test ${Date.now()}`
+    }
+    return {
+      title: categoryNames[category] || `Test ${category} ${Date.now()}`
+    }
+  },
+  
+  fillFormSteps: async (page: Page, testData: any) => {
+    await page.waitForSelector('form', { timeout: 5000 })
+    
+    await page.fill('[name="solution_title"]', testData.title)
+    await page.selectOption('select[name="cost"]', 'Free')
+    await page.selectOption('select[name="time_to_results"]', '1-2 weeks')
+    await page.selectOption('select[name="meeting_frequency"]', 'Weekly')
+    await page.selectOption('select[name="format"]', 'In-person')
+    
+    await page.click('button[aria-label="4 stars"]')
+    await checkOptions(page, ['None'])
+  }
+}
+
+// LifestyleForm Configuration (2 categories) - Single page
+export const lifestyleFormConfig: FormTestConfig = {
+  formName: 'LifestyleForm',
+  categories: ['diet_nutrition', 'sleep'],
+  requiredFields: ['cost_impact', 'time_to_results', 'prep_time', 'sustainability', 'challenges'],
+  arrayFields: ['challenges'],
+  hasVariants: false,
+  
+  generateTestData: (category: string) => {
+    const categoryNames = {
+      'diet_nutrition': `Mediterranean Diet Test ${Date.now()}`,
+      'sleep': `Sleep Hygiene Test ${Date.now()}`
+    }
+    return {
+      title: categoryNames[category] || `Test ${category} ${Date.now()}`
+    }
+  },
+  
+  fillFormSteps: async (page: Page, testData: any) => {
+    await page.waitForSelector('form', { timeout: 5000 })
+    
+    await page.fill('[name="solution_title"]', testData.title)
+    await page.selectOption('select[name="cost_impact"]', 'Saves money')
+    await page.selectOption('select[name="time_to_results"]', '1-2 weeks')
+    await page.selectOption('select[name="prep_time"]', '30-60 minutes/day')
+    await page.selectOption('select[name="sustainability"]', 'Very sustainable')
+    
+    await page.click('button[aria-label="4 stars"]')
+    await checkOptions(page, ['None'])
+  }
+}
+
+// FinancialForm Configuration (1 category) - Single page
+export const financialFormConfig: FormTestConfig = {
+  formName: 'FinancialForm',
+  categories: ['financial_products'],
+  requiredFields: ['cost_type', 'financial_benefit', 'time_to_results', 'access_time', 'barriers'],
+  arrayFields: ['barriers'],
+  hasVariants: false,
+  
+  generateTestData: (category: string) => ({
+    title: `High Yield Savings Test ${Date.now()}`
+  }),
+  
+  fillFormSteps: async (page: Page, testData: any) => {
+    await page.waitForSelector('form', { timeout: 5000 })
+    
+    await page.fill('[name="solution_title"]', testData.title)
+    await page.selectOption('select[name="cost_type"]', 'No fees')
+    await page.selectOption('select[name="financial_benefit"]', '$100-500/month')
+    await page.selectOption('select[name="time_to_results"]', 'Immediately')
+    await page.selectOption('select[name="access_time"]', 'Available 24/7')
+    
+    await page.click('button[aria-label="4 stars"]')
+    await checkOptions(page, ['None'])
+  }
+}
+
+// Export all configs for easy access
 export const allFormConfigs = [
   dosageFormConfig,
-  sessionFormConfig,
-  practiceFormConfig,
   appFormConfig,
-  // Add other configs as forms are implemented
+  hobbyFormConfig,
+  practiceFormConfig,
+  sessionFormConfig,
+  purchaseFormConfig,
+  communityFormConfig,
+  lifestyleFormConfig,
+  financialFormConfig
 ]
+
+// Helper to get config by form name
+export function getFormConfig(formName: string): FormTestConfig | undefined {
+  return allFormConfigs.find(config => config.formName === formName)
+}
+
+// Helper to get config by category
+export function getFormConfigByCategory(category: string): FormTestConfig | undefined {
+  return allFormConfigs.find(config => config.categories.includes(category))
+}

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
 import { ChevronLeft, Check, X, Plus } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 
 interface AppFormProps {
   goalId: string;
@@ -24,24 +25,6 @@ interface FailedSolution {
 }
 
 
-// Progress celebration messages
-const ProgressCelebration = ({ step }: { step: number }) => {
-  if (step === 1) return null;
-  
-  const celebrations = [
-    "Great start! 🎯",
-    "Almost there! 💪",
-    "Final step! 🏁"
-  ];
-  
-  return (
-    <div className="text-center mb-4 opacity-0 animate-[fadeIn_0.5s_ease-in_forwards]">
-      <p className="text-green-600 dark:text-green-400 font-medium text-lg">
-        {celebrations[step - 2]}
-      </p>
-    </div>
-  );
-};
 
 export function AppForm({
   goalId,
@@ -229,30 +212,6 @@ export function AppForm({
     console.log('Updating additional info:', { platform, otherInfo });
   };
 
-  const getFieldCompletion = () => {
-    switch (currentStep) {
-      case 1:
-        return {
-          cost: cost !== '',
-          timeToResults: timeToResults !== '',
-          usageFrequency: usageFrequency !== '',
-          subscriptionType: subscriptionType !== ''
-        };
-      
-      case 2:
-        return {
-          challenges: challenges.length > 0
-        };
-        
-      case 3:
-        return {
-          optional: true
-        };
-        
-      default:
-        return {};
-    }
-  };
 
   const renderStep = () => {
     switch (currentStep) {
@@ -265,117 +224,6 @@ export function AppForm({
               <p className="text-sm text-blue-800 dark:text-blue-200">
                 Let's capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
               </p>
-            </div>
-
-            {/* App Details Section */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                  <span className="text-lg">📱</span>
-                </div>
-                <h2 className="text-xl font-semibold">App details</h2>
-              </div>
-              
-              {/* Usage frequency */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  How often do you use it? <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={usageFrequency}
-                  onChange={(e) => setUsageFrequency(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white"
-                >
-                  <option value="">Select frequency</option>
-                  <option value="Multiple times daily">Multiple times daily</option>
-                  <option value="Daily">Daily</option>
-                  <option value="Few times a week">Few times a week</option>
-                  <option value="Weekly">Weekly</option>
-                  <option value="As needed">As needed</option>
-                </select>
-              </div>
-
-              {/* Subscription type */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  What version do you use? <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={subscriptionType}
-                  onChange={(e) => {
-                    setSubscriptionType(e.target.value);
-                    // Reset cost when subscription type changes
-                    setCost('');
-                  }}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white"
-                >
-                  <option value="">Select type</option>
-                  <option value="Free version">Free version</option>
-                  <option value="Monthly subscription">Monthly subscription</option>
-                  <option value="Annual subscription">Annual subscription</option>
-                  <option value="One-time purchase">One-time purchase</option>
-                </select>
-              </div>
-
-              {/* Cost - conditional based on subscription type */}
-              {subscriptionType && subscriptionType !== 'Free version' && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Cost? <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={cost}
-                    onChange={(e) => setCost(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                             dark:bg-gray-800 dark:text-white"
-                  >
-                    <option value="">Select cost</option>
-                    {subscriptionType === 'Monthly subscription' && (
-                      <>
-                        <option value="Under $5/month">Under $5/month</option>
-                        <option value="$5-$9.99/month">$5-$9.99/month</option>
-                        <option value="$10-$19.99/month">$10-$19.99/month</option>
-                        <option value="$20-$49.99/month">$20-$49.99/month</option>
-                        <option value="$50-$99.99/month">$50-$99.99/month</option>
-                        <option value="$100+/month">$100+/month</option>
-                      </>
-                    )}
-                    {subscriptionType === 'Annual subscription' && (
-                      <>
-                        <option value="Under $50/year">Under $50/year</option>
-                        <option value="$50-$99.99/year">$50-$99.99/year</option>
-                        <option value="$100-$199.99/year">$100-$199.99/year</option>
-                        <option value="$200-$499.99/year">$200-$499.99/year</option>
-                        <option value="$500-$999.99/year">$500-$999.99/year</option>
-                        <option value="$1000+/year">$1000+/year</option>
-                      </>
-                    )}
-                    {subscriptionType === 'One-time purchase' && (
-                      <>
-                        <option value="Under $5">Under $5</option>
-                        <option value="$5-$9.99">$5-$9.99</option>
-                        <option value="$10-$24.99">$10-$24.99</option>
-                        <option value="$25-$49.99">$25-$49.99</option>
-                        <option value="$50-$99.99">$50-$99.99</option>
-                        <option value="$100-$249.99">$100-$249.99</option>
-                        <option value="$250+">$250+</option>
-                      </>
-                    )}
-                  </select>
-                </div>
-              )}
-            </div>
-
-            {/* Visual separator */}
-            <div className="flex items-center gap-4 my-8">
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
-              <span className="text-xs text-gray-500 dark:text-gray-400">then</span>
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
             </div>
 
             {/* Effectiveness Section */}
@@ -443,7 +291,8 @@ export function AppForm({
                   onChange={(e) => setTimeToResults(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white transition-all"
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none transition-all"
                 >
                   <option value="">Select timeframe</option>
                   <option value="Immediately">Immediately</option>
@@ -458,17 +307,119 @@ export function AppForm({
               </div>
             </div>
 
-            {/* Field completion dots */}
-            <div className="flex justify-center gap-2 mt-6">
-              {Object.entries(getFieldCompletion()).map(([field, completed]) => (
-                <div
-                  key={field}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    completed ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'
-                  }`}
-                />
-              ))}
+            {/* Visual separator */}
+            <div className="flex items-center gap-4 my-8">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+              <span className="text-xs text-gray-500 dark:text-gray-400">then</span>
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
             </div>
+
+            {/* App Details Section */}
+            <div className="space-y-6">
+              <FormSectionHeader 
+                icon={CATEGORY_ICONS[category]} 
+                title="App details"
+              />
+              
+              {/* Usage frequency */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  How often do you use it? <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={usageFrequency}
+                  onChange={(e) => setUsageFrequency(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none"
+                >
+                  <option value="">Select frequency</option>
+                  <option value="Multiple times daily">Multiple times daily</option>
+                  <option value="Daily">Daily</option>
+                  <option value="Few times a week">Few times a week</option>
+                  <option value="Weekly">Weekly</option>
+                  <option value="As needed">As needed</option>
+                </select>
+              </div>
+
+              {/* Subscription type */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  What version do you use? <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={subscriptionType}
+                  onChange={(e) => {
+                    setSubscriptionType(e.target.value);
+                    // Reset cost when subscription type changes
+                    setCost('');
+                  }}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none"
+                >
+                  <option value="">Select type</option>
+                  <option value="Free version">Free version</option>
+                  <option value="Monthly subscription">Monthly subscription</option>
+                  <option value="Annual subscription">Annual subscription</option>
+                  <option value="One-time purchase">One-time purchase</option>
+                </select>
+              </div>
+
+              {/* Cost - conditional based on subscription type */}
+              {subscriptionType && subscriptionType !== 'Free version' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Cost <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={cost}
+                    onChange={(e) => setCost(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                             appearance-none"
+                  >
+                    <option value="">Select cost</option>
+                    {subscriptionType === 'Monthly subscription' && (
+                      <>
+                        <option value="Under $5/month">Under $5/month</option>
+                        <option value="$5-$9.99/month">$5-$9.99/month</option>
+                        <option value="$10-$19.99/month">$10-$19.99/month</option>
+                        <option value="$20-$49.99/month">$20-$49.99/month</option>
+                        <option value="$50-$99.99/month">$50-$99.99/month</option>
+                        <option value="$100+/month">$100+/month</option>
+                      </>
+                    )}
+                    {subscriptionType === 'Annual subscription' && (
+                      <>
+                        <option value="Under $50/year">Under $50/year</option>
+                        <option value="$50-$99.99/year">$50-$99.99/year</option>
+                        <option value="$100-$199.99/year">$100-$199.99/year</option>
+                        <option value="$200-$499.99/year">$200-$499.99/year</option>
+                        <option value="$500-$999.99/year">$500-$999.99/year</option>
+                        <option value="$1000+/year">$1000+/year</option>
+                      </>
+                    )}
+                    {subscriptionType === 'One-time purchase' && (
+                      <>
+                        <option value="Under $5">Under $5</option>
+                        <option value="$5-$9.99">$5-$9.99</option>
+                        <option value="$10-$24.99">$10-$24.99</option>
+                        <option value="$25-$49.99">$25-$49.99</option>
+                        <option value="$50-$99.99">$50-$99.99</option>
+                        <option value="$100-$249.99">$100-$249.99</option>
+                        <option value="$250+">$250+</option>
+                      </>
+                    )}
+                  </select>
+                </div>
+              )}
+            </div>
+
+
           </div>
         );
 
@@ -678,15 +629,24 @@ export function AppForm({
             </p>
             
             <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Platform (iOS, Android, Web, etc.)"
+              <select
                 value={platform}
                 onChange={(e) => setPlatform(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
-              />
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                         appearance-none text-sm"
+              >
+                <option value="">Select platform</option>
+                <option value="iOS">iOS (iPhone/iPad)</option>
+                <option value="Android">Android</option>
+                <option value="Web">Web/Browser</option>
+                <option value="Windows">Windows</option>
+                <option value="Mac">Mac</option>
+                <option value="Cross-platform">Multiple platforms</option>
+                <option value="Chrome Extension">Chrome Extension</option>
+                <option value="Other">Other</option>
+              </select>
               
               <textarea
                 placeholder="Any tips for getting the most out of this app?"
@@ -695,7 +655,8 @@ export function AppForm({
                 rows={3}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                         appearance-none text-sm"
               />
               
               {(platform || otherInfo) && (
@@ -704,7 +665,7 @@ export function AppForm({
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
                          text-sm font-medium transition-colors"
                 >
-                  Save additional details
+                  Submit
                 </button>
               )}
             </div>

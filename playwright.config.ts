@@ -5,6 +5,19 @@ import path from 'path'
 // Load test environment variables
 dotenv.config({ path: path.resolve(__dirname, '.env.test.local') })
 
+// Determine port from environment or use defaults
+const defaultPort = 3000
+const baseURL = process.env.PLAYWRIGHT_TEST_BASE_URL || `http://localhost:${defaultPort}`
+
+// Extract port from baseURL if provided
+let port = defaultPort
+if (process.env.PLAYWRIGHT_TEST_BASE_URL) {
+  const match = process.env.PLAYWRIGHT_TEST_BASE_URL.match(/:(\d+)/)
+  if (match) {
+    port = parseInt(match[1])
+  }
+}
+
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: true,
@@ -12,10 +25,17 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
+  
+  // Global setup for authentication
+  globalSetup: require.resolve('./tests/setup/global-setup.ts'),
+  
   use: {
-    baseURL: process.env.PLAYWRIGHT_TEST_BASE_URL || 'http://localhost:3000',
+    baseURL,
     trace: 'on-first-retry',
+    // Use saved auth state
+    storageState: 'tests/auth.json',
   },
+  
   projects: [
     {
       name: 'chromium',
@@ -26,9 +46,11 @@ export default defineConfig({
       use: { ...devices['Pixel 5'] },
     },
   ],
+  
   webServer: {
     command: 'npm run dev',
-    port: 3000,
+    port,
+    timeout: 120 * 1000, // 2 minutes
     reuseExistingServer: !process.env.CI,
   },
 })

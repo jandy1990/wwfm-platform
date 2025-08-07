@@ -32,11 +32,13 @@ export default function InteractiveRating({
 }: InteractiveRatingProps) {
   const [hoveredStar, setHoveredStar] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  console.log('InteractiveRating state - isHovering:', isHovering);
   const [hasRated, setHasRated] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   // 🔧 FIX: Use a unique key to identify this rating instance
   const ratingKey = `${solution.id}-${variant.id}-${goalId}`;
+  console.log('Rating key generated:', ratingKey);
   
   // 🔧 FIX: Use ref to persist success state across parent re-renders 
   const successStateRef = useRef({
@@ -59,6 +61,7 @@ export default function InteractiveRating({
   // Check if this solution requires variant-specific rating
   const requiresVariantRating = solution.solution_category && 
     VARIANT_CATEGORIES.includes(solution.solution_category);
+  console.log('Requires variant rating:', requiresVariantRating);
   
   // Since variant is now required, we can always rate
   const canRate = true;

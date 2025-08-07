@@ -170,6 +170,7 @@ export const DistributionBottomSheet = ({
   if (!distribution) return null
   
   const formatted = formatDistribution(distribution)
+  console.log('Distribution formatted for bottom sheet:', formatted);
   
   return (
     <>

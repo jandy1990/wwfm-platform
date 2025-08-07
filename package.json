@@ -15,7 +15,12 @@
     "test:forms:debug": "playwright test tests/e2e/forms --debug",
     "test:forms:headed": "playwright test tests/e2e/forms --headed",
     "test:forms:report": "playwright show-report",
-    "test:forms:ci": "playwright test tests/e2e/forms --reporter=html,github"
+    "test:forms:ci": "playwright test tests/e2e/forms --reporter=html,github",
+    "test:forms:all": "node scripts/test-all-forms.js",
+    "test:forms:validate": "node -r dotenv/config scripts/validate-database.ts",
+    "test:setup": "node -r dotenv/config tests/setup/create-test-user.js",
+    "test:check-user": "node tests/setup/check-test-user.js",
+    "test:connection": "node scripts/test-connection.js"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.2",

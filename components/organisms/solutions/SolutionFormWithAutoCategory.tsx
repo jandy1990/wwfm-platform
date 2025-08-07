@@ -6,9 +6,7 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
 import { useAutoCategorization } from '@/lib/hooks/useAutoCategorization';
 import { SolutionMatch } from '@/lib/solutions/categorization';
-import { CategoryConfirmation } from '@/components/organisms/solutions/CategoryConfirmation';
 import { CategoryPicker } from '@/components/organisms/solutions/CategoryPicker';
-import SolutionSearchResults from '@/components/organisms/solutions/SolutionSearchResults';
 import { DosageForm } from '@/components/organisms/solutions/forms/DosageForm';
 import { AppForm } from '@/components/organisms/solutions/forms/AppForm';
 import { HobbyForm } from '@/components/organisms/solutions/forms/HobbyForm';
@@ -391,31 +389,31 @@ export default function SolutionFormWithAutoCategory({
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                     {formState.solutionName.toLowerCase().includes('therapy') && (
-                      <>"{formState.solutionName}" → "CBT therapy" or "EMDR" or "talk therapy"</>
+                      <>&quot;{formState.solutionName}&quot; → &quot;CBT therapy&quot; or &quot;EMDR&quot; or &quot;talk therapy&quot;</>
                     )}
                     {formState.solutionName.toLowerCase().includes('medication') && (
-                      <>"{formState.solutionName}" → specific drug name like "Lexapro" or "Tylenol"</>
+                      <>&quot;{formState.solutionName}&quot; → specific drug name like &quot;Lexapro&quot; or &quot;Tylenol&quot;</>
                     )}
                     {formState.solutionName.toLowerCase().includes('supplement') && (
-                      <>"{formState.solutionName}" → "Vitamin D" or "Omega-3" or "Magnesium"</>
+                      <>&quot;{formState.solutionName}&quot; → &quot;Vitamin D&quot; or &quot;Omega-3&quot; or &quot;Magnesium&quot;</>
                     )}
                     {formState.solutionName.toLowerCase().includes('exercise') && (
-                      <>"{formState.solutionName}" → "Running" or "Yoga" or "CrossFit"</>
+                      <>&quot;{formState.solutionName}&quot; → &quot;Running&quot; or &quot;Yoga&quot; or &quot;CrossFit&quot;</>
                     )}
                     {formState.solutionName.toLowerCase().includes('vitamin') && (
-                      <>"{formState.solutionName}" → "Vitamin D" or "B12" or "Vitamin C"</>
+                      <>&quot;{formState.solutionName}&quot; → &quot;Vitamin D&quot; or &quot;B12&quot; or &quot;Vitamin C&quot;</>
                     )}
                     {formState.solutionName.toLowerCase().includes('app') && (
-                      <>"{formState.solutionName}" → "Headspace" or "MyFitnessPal" or "Calm"</>
+                      <>&quot;{formState.solutionName}&quot; → &quot;Headspace&quot; or &quot;MyFitnessPal&quot; or &quot;Calm&quot;</>
                     )}
                     {formState.solutionName.toLowerCase().includes('treatment') && (
-                      <>"{formState.solutionName}" → specific treatment like "Acupuncture" or "Physical therapy"</>
+                      <>&quot;{formState.solutionName}&quot; → specific treatment like &quot;Acupuncture&quot; or &quot;Physical therapy&quot;</>
                     )}
                     {formState.solutionName.toLowerCase().includes('counseling') && (
-                      <>"{formState.solutionName}" → "Marriage counseling" or "Career counseling"</>
+                      <>&quot;{formState.solutionName}&quot; → &quot;Marriage counseling&quot; or &quot;Career counseling&quot;</>
                     )}
                     {formState.solutionName.toLowerCase().includes('workout') && (
-                      <>"{formState.solutionName}" → "HIIT workout" or "Strength training" or "Pilates"</>
+                      <>&quot;{formState.solutionName}&quot; → &quot;HIIT workout&quot; or &quot;Strength training&quot; or &quot;Pilates&quot;</>
                     )}
                   </p>
                 </div>

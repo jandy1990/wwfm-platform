@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
-import { ChevronLeft, Check } from 'lucide-react';
+import { ChevronLeft, Check, Plus, X } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { Label } from '@/components/atoms/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
 import { COST_RANGES } from '@/lib/forms/templates';
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Skeleton } from '@/components/atoms/skeleton';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 
 interface SessionFormProps {
   goalId: string;
@@ -28,24 +28,6 @@ interface FailedSolution {
   rating: number;
 }
 
-// Progress celebration messages
-const ProgressCelebration = ({ step }: { step: number }) => {
-  if (step === 1) return null;
-  
-  const celebrations = [
-    "Great start! 🎯",
-    "Almost there! 💪",
-    "Final step! 🏁"
-  ];
-  
-  return (
-    <div className="text-center mb-4 opacity-0 animate-[fadeIn_0.5s_ease-in_forwards]">
-      <p className="text-green-600 dark:text-green-400 font-medium text-lg">
-        {celebrations[step - 2]}
-      </p>
-    </div>
-  );
-};
 
 export function SessionForm({
   goalId,
@@ -80,17 +62,19 @@ export function SessionForm({
   // Step 2 fields - Arrays (side effects or barriers)
   const [selectedSideEffects, setSelectedSideEffects] = useState<string[]>(['None']);
   const [sideEffectOptions, setSideEffectOptions] = useState<string[]>([]);
+  const [customSideEffect, setCustomSideEffect] = useState('');
+  const [showCustomSideEffect, setShowCustomSideEffect] = useState(false);
   const [selectedBarriers, setSelectedBarriers] = useState<string[]>(['None']);
   const [barrierOptions, setBarrierOptions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [barriersLoading, setBarriersLoading] = useState(true);
+  const [customBarrier, setCustomBarrier] = useState('');
+  const [showCustomBarrier, setShowCustomBarrier] = useState(false);
   
   // Step 3 - Failed solutions
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
   
   // Optional fields (Success screen)
-  const [practitionerName, setPractitionerName] = useState('');
-  const [specificApproach, setSpecificApproach] = useState('');
   const [completedTreatment, setCompletedTreatment] = useState('');
   const [typicalLength, setTypicalLength] = useState('');
   const [availability, setAvailability] = useState<string[]>([]);
@@ -169,7 +153,7 @@ export function SessionForm({
       // Fallback barrier options for categories that might not be in DB yet
       const fallbackBarriers: Record<string, string[]> = {
         professional_services: [
-          'Finding qualified professionals',
+          'Finding the right professional',
           'High cost',
           'Limited availability',
           'Not covered by insurance',
@@ -177,7 +161,41 @@ export function SessionForm({
           'Too many options to choose from',
           'Scheduling conflicts',
           'Location/distance issues',
-          'Concerns about confidentiality',
+          'Communication style mismatch',
+          'Didn\'t see results quickly enough',
+          'Service quality inconsistent',
+          'Contract/Commitment requirements',
+          'None'
+        ],
+        coaches_mentors: [
+          'Finding the right coach',
+          'High cost',
+          'No insurance coverage', 
+          'Hard to verify credentials',
+          'Too pushy or sales-focused',
+          'Chemistry/personality mismatch',
+          'Scheduling conflicts',
+          'Time zone differences',
+          'Unclear what to look for',
+          'Results vary widely',
+          'Time commitment required',
+          'Contract/package pressure',
+          'Other (please describe)',
+          'None'
+        ],
+        doctors_specialists: [
+          'Finding the right doctor',
+          'High cost',
+          'Insurance issues',
+          'Long wait times for appointments',
+          'Long wait times in office/clinic',
+          'Limited availability',
+          'Communication issues',
+          'Didn\'t feel heard',
+          'Rushed appointments',
+          'Location/distance',
+          'Referral required',
+          'Other (please describe)',
           'None'
         ],
         crisis_resources: [
@@ -218,6 +236,17 @@ export function SessionForm({
   const handleSideEffectToggle = (effect: string) => {
     if (effect === 'None') {
       setSelectedSideEffects(['None']);
+      setShowCustomSideEffect(false);
+    } else if (effect === 'Other (please describe)') {
+      // Toggle the text input visibility
+      if (selectedSideEffects.includes(effect)) {
+        setSelectedSideEffects(prev => prev.filter(e => e !== effect));
+        setShowCustomSideEffect(false);
+        setCustomSideEffect('');
+      } else {
+        setSelectedSideEffects(prev => [...prev.filter(e => e !== 'None'), effect]);
+        setShowCustomSideEffect(true);
+      }
     } else {
       setSelectedSideEffects(prev => {
         const filtered = prev.filter(e => e !== 'None');
@@ -245,13 +274,28 @@ export function SessionForm({
     }
   };
 
+  const addCustomBarrier = () => {
+    if (customBarrier.trim()) {
+      setSelectedBarriers(selectedBarriers.filter(b => b !== 'None').concat(customBarrier.trim()));
+      setCustomBarrier('');
+      setShowCustomBarrier(false);
+    }
+  };
+
   // Different cost options for different categories
   const getCostOptions = () => {
     if (category === 'crisis_resources') {
       return ['Free', 'Donation-based', 'Sliding scale'];
     }
     if (category === 'medical_procedures') {
-      return costType === 'total' ? COST_RANGES.one_time : COST_RANGES.monthly;
+      // Handle all three cost types for medical procedures
+      if (costType === 'total') {
+        return COST_RANGES.one_time;  // For total cost of procedure
+      } else if (costType === 'per_session') {
+        return COST_RANGES.per_session;  // For per session costs
+      } else {
+        return COST_RANGES.monthly;  // For monthly costs
+      }
     }
     return COST_RANGES[costType as keyof typeof COST_RANGES] || COST_RANGES.per_session;
   };
@@ -332,7 +376,8 @@ export function SessionForm({
               onChange={(e) => setTimeToResults(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                        focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                       dark:bg-gray-800 dark:text-white transition-all"
+                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                       appearance-none transition-all"
             >
               <option value="">Select timeframe</option>
               <option value="Immediately">Immediately</option>
@@ -356,29 +401,32 @@ export function SessionForm({
 
         {/* Category-specific fields */}
         <div className="space-y-6">
-          <h2 className="text-xl font-semibold">Session details</h2>
+          <FormSectionHeader 
+            icon={CATEGORY_ICONS[category]} 
+            title="Session details"
+          />
 
       {/* Cost field */}
       <div className="space-y-2">
-        <Label className="text-base font-medium">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Cost? <span className="text-red-500">*</span>
-        </Label>
+        </label>
         
         {category !== 'crisis_resources' && (
           <RadioGroup value={costType} onValueChange={(value) => setCostType(value as 'per_session' | 'monthly' | 'total')}>
             <div className="flex gap-4">
               <div className="flex items-center">
                 <RadioGroupItem value="per_session" id="per_session" />
-                <Label htmlFor="per_session" className="ml-2">Per session</Label>
+                <label htmlFor="per_session" className="ml-2">Per session</label>
               </div>
               <div className="flex items-center">
                 <RadioGroupItem value="monthly" id="monthly" />
-                <Label htmlFor="monthly" className="ml-2">Monthly</Label>
+                <label htmlFor="monthly" className="ml-2">Monthly</label>
               </div>
               {category === 'medical_procedures' && (
                 <div className="flex items-center">
                   <RadioGroupItem value="total" id="total" />
-                  <Label htmlFor="total" className="ml-2">Total cost</Label>
+                  <label htmlFor="total" className="ml-2">Total cost</label>
                 </div>
               )}
             </div>
@@ -386,7 +434,7 @@ export function SessionForm({
         )}
         
         <Select value={costRange} onValueChange={setCostRange} required>
-          <SelectTrigger>
+          <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
             <SelectValue placeholder="Select cost range" />
           </SelectTrigger>
           <SelectContent>
@@ -403,21 +451,21 @@ export function SessionForm({
         {/* Optional fields that remain in Step 1 */}
         {category !== 'crisis_resources' && (
           <div>
-            <Label htmlFor="session_frequency">
+            <label htmlFor="session_frequency" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               {category === 'medical_procedures' ? 'Treatment frequency' : 'Session frequency'}
-            </Label>
+            </label>
             <Select value={sessionFrequency} onValueChange={setSessionFrequency}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="How often?" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="One-time only">One-time only</SelectItem>
                 <SelectItem value="As needed">As needed</SelectItem>
+                <SelectItem value="Multiple times per week">Multiple times per week</SelectItem>
                 <SelectItem value="Weekly">Weekly</SelectItem>
                 <SelectItem value="Fortnightly">Fortnightly</SelectItem>
                 <SelectItem value="Monthly">Monthly</SelectItem>
                 <SelectItem value="Every 2-3 months">Every 2-3 months</SelectItem>
-                <SelectItem value="Multiple times per week">Multiple times per week</SelectItem>
                 <SelectItem value="Other">Other (please describe)</SelectItem>
               </SelectContent>
             </Select>
@@ -425,13 +473,21 @@ export function SessionForm({
         )}
 
         <div>
-          <Label htmlFor="format">Format</Label>
+          <label htmlFor="format" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Format</label>
           <Select value={format} onValueChange={setFormat}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
               <SelectValue placeholder="Select format" />
             </SelectTrigger>
             <SelectContent>
-              {category === 'crisis_resources' ? (
+              {category === 'alternative_practitioners' ? (
+                <>
+                  <SelectItem value="Practitioner's office">Practitioner's office</SelectItem>
+                  <SelectItem value="Home visit/Mobile service">Home visit/Mobile service</SelectItem>
+                  <SelectItem value="Virtual/Remote">Virtual/Remote</SelectItem>
+                  <SelectItem value="Wellness center/Clinic">Wellness center/Clinic</SelectItem>
+                  <SelectItem value="Mix of locations">Mix of locations</SelectItem>
+                </>
+              ) : category === 'crisis_resources' ? (
                 <>
                   <SelectItem value="Phone">Phone</SelectItem>
                   <SelectItem value="Text/Chat">Text/Chat</SelectItem>
@@ -447,9 +503,9 @@ export function SessionForm({
               ) : (
                 <>
                   <SelectItem value="In-person">In-person</SelectItem>
-                  <SelectItem value="Virtual/Online">Virtual/Online</SelectItem>
-                  <SelectItem value="Phone">Phone</SelectItem>
-                  <SelectItem value="Hybrid">Hybrid (both)</SelectItem>
+                  <SelectItem value="Virtual">Virtual</SelectItem>
+                  <SelectItem value="By phone/teleconference">By phone/teleconference</SelectItem>
+                  <SelectItem value="Mix of in-person & virtual">Mix of in-person & virtual</SelectItem>
                 </>
               )}
             </SelectContent>
@@ -459,20 +515,20 @@ export function SessionForm({
         {/* Session length for therapists_counselors REQUIRED */}
         {category === 'therapists_counselors' && (
           <div>
-            <Label htmlFor="session_length">
+            <label htmlFor="session_length" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Session length <span className="text-red-500">*</span>
-            </Label>
+            </label>
             <Select value={sessionLength} onValueChange={setSessionLength} required>
-              <SelectTrigger>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="How long?" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="15 minutes">15 minutes</SelectItem>
-                <SelectItem value="30 minutes">30 minutes</SelectItem>
-                <SelectItem value="45 minutes">45 minutes</SelectItem>
-                <SelectItem value="60 minutes">60 minutes</SelectItem>
-                <SelectItem value="90 minutes">90 minutes</SelectItem>
-                <SelectItem value="2+ hours">2+ hours</SelectItem>
+                <SelectItem value="Under 30 minutes">Under 30 minutes</SelectItem>
+                <SelectItem value="30-45 minutes">30-45 minutes</SelectItem>
+                <SelectItem value="45-60 minutes">45-60 minutes</SelectItem>
+                <SelectItem value="60-90 minutes">60-90 minutes</SelectItem>
+                <SelectItem value="90-120 minutes">90-120 minutes</SelectItem>
+                <SelectItem value="Over 2 hours">Over 2 hours</SelectItem>
                 <SelectItem value="Varies">Varies</SelectItem>
               </SelectContent>
             </Select>
@@ -482,18 +538,18 @@ export function SessionForm({
         {/* Session length for other categories OPTIONAL */}
         {!['crisis_resources', 'medical_procedures', 'therapists_counselors'].includes(category) && (
           <div>
-            <Label htmlFor="session_length">Session length</Label>
+            <label htmlFor="session_length" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Session length</label>
             <Select value={sessionLength} onValueChange={setSessionLength}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="How long?" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="15 minutes">15 minutes</SelectItem>
-                <SelectItem value="30 minutes">30 minutes</SelectItem>
-                <SelectItem value="45 minutes">45 minutes</SelectItem>
-                <SelectItem value="60 minutes">60 minutes</SelectItem>
-                <SelectItem value="90 minutes">90 minutes</SelectItem>
-                <SelectItem value="2+ hours">2+ hours</SelectItem>
+                <SelectItem value="Under 30 minutes">Under 30 minutes</SelectItem>
+                <SelectItem value="30-45 minutes">30-45 minutes</SelectItem>
+                <SelectItem value="45-60 minutes">45-60 minutes</SelectItem>
+                <SelectItem value="60-90 minutes">60-90 minutes</SelectItem>
+                <SelectItem value="90-120 minutes">90-120 minutes</SelectItem>
+                <SelectItem value="Over 2 hours">Over 2 hours</SelectItem>
                 <SelectItem value="Varies">Varies</SelectItem>
               </SelectContent>
             </Select>
@@ -502,17 +558,18 @@ export function SessionForm({
 
         {['therapists_counselors', 'doctors_specialists', 'medical_procedures'].includes(category) && (
           <div>
-            <Label htmlFor="insurance_coverage">Insurance coverage</Label>
+            <label htmlFor="insurance_coverage" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Insurance coverage</label>
             <Select value={insuranceCoverage} onValueChange={setInsuranceCoverage}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Coverage status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Fully covered">Fully covered</SelectItem>
-                <SelectItem value="Partially covered">Partially covered</SelectItem>
-                <SelectItem value="Not covered">Not covered</SelectItem>
-                <SelectItem value="Don't have insurance">Don&apos;t have insurance</SelectItem>
-                <SelectItem value="HSA/FSA eligible">HSA/FSA eligible</SelectItem>
+                <SelectItem value="Fully covered">Fully covered by insurance</SelectItem>
+                <SelectItem value="Partially covered">Partially covered by insurance</SelectItem>
+                <SelectItem value="Not covered">Not covered by insurance</SelectItem>
+                <SelectItem value="No insurance">No insurance/Self-pay</SelectItem>
+                <SelectItem value="Government program">Covered by government program (Medicare, NHS, provincial coverage, etc.)</SelectItem>
+                <SelectItem value="HSA/FSA eligible (US)">HSA/FSA eligible (US)</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -521,9 +578,9 @@ export function SessionForm({
         {/* Wait time for doctors OPTIONAL, medical_procedures REQUIRED */}
         {category === 'doctors_specialists' && (
           <div>
-            <Label htmlFor="wait_time">Wait time</Label>
+            <label htmlFor="wait_time" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Wait time</label>
             <Select value={waitTime} onValueChange={setWaitTime}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Time to get appointment" />
               </SelectTrigger>
               <SelectContent>
@@ -531,8 +588,9 @@ export function SessionForm({
                 <SelectItem value="Within a week">Within a week</SelectItem>
                 <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
                 <SelectItem value="2-4 weeks">2-4 weeks</SelectItem>
-                <SelectItem value="1-2 months">1-2 months</SelectItem>
-                <SelectItem value="2+ months">2+ months</SelectItem>
+                <SelectItem value="1-3 months">1-3 months</SelectItem>
+                <SelectItem value="3-6 months">3-6 months</SelectItem>
+                <SelectItem value="More than 6 months">More than 6 months</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -540,11 +598,11 @@ export function SessionForm({
 
         {category === 'medical_procedures' && (
           <div>
-            <Label htmlFor="wait_time">
+            <label htmlFor="wait_time" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Wait time <span className="text-red-500">*</span>
-            </Label>
+            </label>
             <Select value={waitTime} onValueChange={setWaitTime} required>
-              <SelectTrigger>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Time to get appointment" />
               </SelectTrigger>
               <SelectContent>
@@ -552,8 +610,9 @@ export function SessionForm({
                 <SelectItem value="Within a week">Within a week</SelectItem>
                 <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
                 <SelectItem value="2-4 weeks">2-4 weeks</SelectItem>
-                <SelectItem value="1-2 months">1-2 months</SelectItem>
-                <SelectItem value="2+ months">2+ months</SelectItem>
+                <SelectItem value="1-3 months">1-3 months</SelectItem>
+                <SelectItem value="3-6 months">3-6 months</SelectItem>
+                <SelectItem value="More than 6 months">More than 6 months</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -563,20 +622,28 @@ export function SessionForm({
         {/* Specialty for professional_services REQUIRED */}
         {category === 'professional_services' && (
           <div>
-            <Label htmlFor="specialty">
+            <label htmlFor="specialty" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Type of service <span className="text-red-500">*</span>
-            </Label>
+            </label>
             <Select value={specialty} onValueChange={setSpecialty} required>
-              <SelectTrigger>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Select service type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Career counseling">Career counseling</SelectItem>
-                <SelectItem value="Financial planning">Financial planning</SelectItem>
-                <SelectItem value="Legal consultation">Legal consultation</SelectItem>
-                <SelectItem value="Business coaching">Business coaching</SelectItem>
-                <SelectItem value="Life organizing">Life organizing</SelectItem>
-                <SelectItem value="Other">Other</SelectItem>
+                <SelectItem value="Personal trainer/Fitness coach">Personal trainer/Fitness coach</SelectItem>
+                <SelectItem value="Nutritionist/Dietitian">Nutritionist/Dietitian</SelectItem>
+                <SelectItem value="Professional organizer">Professional organizer</SelectItem>
+                <SelectItem value="Financial advisor/Planner">Financial advisor/Planner</SelectItem>
+                <SelectItem value="Legal services">Legal services</SelectItem>
+                <SelectItem value="Virtual assistant">Virtual assistant</SelectItem>
+                <SelectItem value="Tutor/Educational specialist">Tutor/Educational specialist</SelectItem>
+                <SelectItem value="Hair/Beauty professional">Hair/Beauty professional</SelectItem>
+                <SelectItem value="Home services">Home services (cleaning, handyman, etc.)</SelectItem>
+                <SelectItem value="Career/Business coach">Career/Business coach</SelectItem>
+                <SelectItem value="Digital marketing/Tech specialist">Digital marketing/Tech specialist</SelectItem>
+                <SelectItem value="Pet services">Pet services</SelectItem>
+                <SelectItem value="Creative services">Creative services (photographer, designer, writer)</SelectItem>
+                <SelectItem value="Other">Other professional service</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -586,20 +653,21 @@ export function SessionForm({
         {category === 'crisis_resources' && (
           <>
             <div>
-              <Label htmlFor="response_time">
+              <label htmlFor="response_time" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Response time <span className="text-red-500">*</span>
-              </Label>
+              </label>
               <Select value={responseTime} onValueChange={setResponseTime} required>
-                <SelectTrigger>
+                <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                   <SelectValue placeholder="How quickly did they respond?" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Immediate">Immediate</SelectItem>
                   <SelectItem value="Within 5 minutes">Within 5 minutes</SelectItem>
                   <SelectItem value="Within 30 minutes">Within 30 minutes</SelectItem>
-                  <SelectItem value="Within 1 hour">Within 1 hour</SelectItem>
+                  <SelectItem value="Within hours">Within hours</SelectItem>
                   <SelectItem value="Within 24 hours">Within 24 hours</SelectItem>
-                  <SelectItem value="Longer than 24 hours">Longer than 24 hours</SelectItem>
+                  <SelectItem value="Within a couple of days">Within a couple of days</SelectItem>
+                  <SelectItem value="More than a couple of days">More than a couple of days</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -693,8 +761,9 @@ export function SessionForm({
     }
     
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {sideEffectOptions.map((effect) => (
+      <>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {sideEffectOptions.map((effect) => (
         <label
           key={effect}
           className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
@@ -724,6 +793,23 @@ export function SessionForm({
         </label>
         ))}
       </div>
+
+      {/* Custom side effect input */}
+      {showCustomSideEffect && (
+        <div className="mt-3 animate-fade-in">
+          <input
+            type="text"
+            value={customSideEffect}
+            onChange={(e) => setCustomSideEffect(e.target.value)}
+            placeholder="Please describe the side effect"
+            className="w-full px-3 py-2 border border-blue-500 rounded-lg 
+                     focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                     dark:bg-gray-800 dark:text-white"
+            autoFocus
+          />
+        </div>
+      )}
+      </>
     );
   };
   
@@ -738,8 +824,9 @@ export function SessionForm({
     }
     
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {barrierOptions.map((barrier) => (
+      <>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {barrierOptions.map((barrier) => (
         <label
           key={barrier}
           className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
@@ -768,7 +855,75 @@ export function SessionForm({
           <span className="text-sm">{barrier}</span>
         </label>
         ))}
+        
+        {/* Add Other button */}
+        <button
+          onClick={() => setShowCustomBarrier(true)}
+          className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
+                    transition-all transform hover:scale-[1.02] border-dashed
+                    border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-sm"
+        >
+          <Plus className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors" />
+          <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200">
+            Add other barrier
+          </span>
+        </button>
       </div>
+
+      {/* Custom barrier input */}
+      {showCustomBarrier && (
+        <div className="mt-3 flex gap-2 animate-fade-in">
+          <input
+            type="text"
+            value={customBarrier}
+            onChange={(e) => setCustomBarrier(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && addCustomBarrier()}
+            placeholder="Describe the barrier"
+            className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
+                     focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                     dark:bg-gray-800 dark:text-white"
+            autoFocus
+          />
+          <button
+            onClick={addCustomBarrier}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
+                     rounded-lg transition-colors"
+          >
+            Add
+          </button>
+          <button
+            onClick={() => {
+              setShowCustomBarrier(false);
+              setCustomBarrier('');
+            }}
+            className="px-3 py-2 text-gray-500 hover:text-gray-700"
+          >
+            Cancel
+          </button>
+        </div>
+      )}
+
+      {/* Show custom barriers */}
+      {selectedBarriers.filter(b => !barrierOptions.includes(b) && b !== 'None').length > 0 && (
+        <div className="mt-2">
+          <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Added:</p>
+          <div className="flex flex-wrap gap-2">
+            {selectedBarriers.filter(b => !barrierOptions.includes(b) && b !== 'None').map((barrier) => (
+              <span key={barrier} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
+                                           text-blue-700 dark:text-blue-300 rounded-full text-sm">
+                {barrier}
+                <button
+                  onClick={() => setSelectedBarriers(selectedBarriers.filter(b => b !== barrier))}
+                  className="hover:text-blue-900 dark:hover:text-blue-100"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+      </>
     );
   };
   
@@ -815,6 +970,12 @@ export function SessionForm({
     
     try {
       // TODO: Submit implementation
+      // Include custom side effect description if "Other" is selected
+      const sideEffectsData = showSideEffects ? {
+        selected: selectedSideEffects,
+        customDescription: selectedSideEffects.includes('Other (please describe)') ? customSideEffect : undefined
+      } : undefined;
+
       console.log('Submitting session form with:', {
         effectiveness,
         timeToResults,
@@ -827,7 +988,7 @@ export function SessionForm({
         insuranceCoverage,
         specialty,
         responseTime,
-        sideEffects: showSideEffects ? selectedSideEffects : undefined,
+        sideEffects: sideEffectsData,
         barriers: showBarriers ? selectedBarriers : undefined,
         failedSolutions
       });
@@ -856,8 +1017,6 @@ export function SessionForm({
   const updateAdditionalInfo = async () => {
     // TODO: Update additional info
     console.log('Updating additional info:', { 
-      practitionerName, 
-      specificApproach, 
       completedTreatment,
       typicalLength,
       availability,
@@ -904,33 +1063,14 @@ export function SessionForm({
             </p>
             
             <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Practitioner/Provider name"
-                value={practitionerName}
-                onChange={(e) => setPractitionerName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
-              />
-              
-              <input
-                type="text"
-                placeholder="Specific approach or technique used"
-                value={specificApproach}
-                onChange={(e) => setSpecificApproach(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
-              />
-              
               {['therapists_counselors', 'coaches_mentors', 'medical_procedures'].includes(category) && (
                 <select
                   value={completedTreatment}
                   onChange={(e) => setCompletedTreatment(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-700 dark:text-white text-sm"
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                           appearance-none text-sm"
                 >
                   <option value="">Completed full treatment?</option>
                   <option value="Yes">Yes</option>
@@ -945,16 +1085,16 @@ export function SessionForm({
                   onChange={(e) => setTypicalLength(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-700 dark:text-white text-sm"
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                           appearance-none text-sm"
                 >
                   <option value="">Typical treatment length</option>
-                  <option value="Single session only">Single session only</option>
-                  <option value="4-6 sessions">4-6 sessions</option>
-                  <option value="8-12 sessions">8-12 sessions</option>
-                  <option value="3-6 months">3-6 months</option>
-                  <option value="6-12 months">6-12 months</option>
-                  <option value="Ongoing/Indefinite">Ongoing/Indefinite</option>
-                  <option value="Varies significantly">Varies significantly</option>
+                  <option value="Single session">Single session</option>
+                  <option value="2-5 sessions">2-5 sessions</option>
+                  <option value="6-12 sessions">6-12 sessions</option>
+                  <option value="3-12 months">3-12 months</option>
+                  <option value="Over 1 year">Over 1 year</option>
+                  <option value="Ongoing/Varies">Ongoing/Varies</option>
                 </select>
               )}
               
@@ -991,13 +1131,13 @@ export function SessionForm({
                          dark:bg-gray-700 dark:text-white text-sm"
               />
               
-              {(practitionerName || specificApproach || completedTreatment || typicalLength || availability.length > 0 || additionalInfo) && (
+              {(completedTreatment || typicalLength || availability.length > 0 || additionalInfo) && (
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
                          text-sm font-medium transition-colors"
                 >
-                  Save additional details
+                  Submit
                 </button>
               )}
             </div>

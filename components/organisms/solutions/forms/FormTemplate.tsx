@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/atoms/button';
-import { Label } from '@/components/atoms/label';
 import { Textarea } from '@/components/atoms/textarea';
 import { AlertCircle, Loader2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/atoms/alert';
@@ -55,20 +54,23 @@ interface FormTemplateProps {
   solutionId?: string; // If editing existing
   implementationId?: string; // If editing existing implementation
   children: React.ReactNode; // Category-specific fields
-  onSubmit: (formData: any) => Promise<void>;
+  onSubmit: (formData: Record<string, unknown>) => Promise<void>;
 }
 
 export function FormTemplate({
   goalId,
   solutionTitle,
   solutionCategory,
-  solutionId,
-  implementationId,
+  solutionId, // Used for editing existing solutions
+  implementationId, // Used for editing existing implementations
   children,
   onSubmit
 }: FormTemplateProps) {
+  console.log('solutionId passed to FormTemplate:', solutionId);
+  console.log('implementationId passed to FormTemplate:', implementationId);
   const router = useRouter();
   const supabase = createClientComponentClient();
+  console.log('FormTemplate initialized with:', { goalId, solutionTitle, solutionCategory, supabase: !!supabase });
   
   // Common state for all forms
   const [effectiveness, setEffectiveness] = useState<number>(0);
@@ -140,9 +142,9 @@ export function FormTemplate({
 
       {/* Required Field 1: Effectiveness */}
       <div className="space-y-2">
-        <Label htmlFor="effectiveness" className="text-base font-medium">
+        <label htmlFor="effectiveness" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           How well did it work? <span className="text-red-500">*</span>
-        </Label>
+        </label>
         <StarRating
           value={effectiveness}
           onChange={setEffectiveness}
@@ -155,14 +157,17 @@ export function FormTemplate({
 
       {/* Required Field 2: Time to Results */}
       <div className="space-y-2">
-        <Label htmlFor="time_to_results" className="text-base font-medium">
+        <label htmlFor="time_to_results" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Time to see results? <span className="text-red-500">*</span>
-        </Label>
+        </label>
         <select
           id="time_to_results"
           value={timeToResults}
           onChange={(e) => setTimeToResults(e.target.value)}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 
+                   focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                   bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                   appearance-none"
           required
         >
           <option value="">Select time frame</option>
@@ -182,9 +187,9 @@ export function FormTemplate({
 
       {/* Optional: Other Important Information (all forms have this) */}
       <div className="space-y-2">
-        <Label htmlFor="other_info" className="text-base font-medium">
+        <label htmlFor="other_info" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Other Important Information
-        </Label>
+        </label>
         <Textarea
           id="other_info"
           value={otherInfo}

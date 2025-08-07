@@ -53,12 +53,38 @@ export function createFormTest(config: FormTestConfig) {
           if (config.navigateToForm) {
             await config.navigateToForm(page, testData.goalId, category)
           } else {
-            // Default navigation
+            // Default navigation for auto-categorization flow
             await page.goto(`/goal/${testData.goalId}/add-solution`)
             
-            // Step 1: Category selection
-            await page.selectOption('[name="solution_category"]', category)
-            await page.click('button:has-text("Next")')
+            // Wait for page to fully load
+            await page.waitForSelector('#solution-name', { timeout: 10000 })
+            
+            // Step 1: Enter solution name in the search field
+            await page.fill('#solution-name', testData.title)
+            
+            // Wait for auto-categorization to work
+            await page.waitForTimeout(2000)
+            
+            // Check if category badge appears (indicates auto-detection worked)
+            const categoryBadge = page.locator('.bg-blue-100, .bg-blue-900')
+            const hasAutoDetected = await categoryBadge.isVisible({ timeout: 1000 })
+            
+            if (!hasAutoDetected) {
+              // Try clicking on a dropdown suggestion if available
+              const suggestion = page.locator(`button:has-text("${testData.title}")`).first()
+              if (await suggestion.isVisible({ timeout: 1000 })) {
+                await suggestion.click()
+                await page.waitForTimeout(500)
+              }
+            }
+            
+            // Click Continue button - wait for it to be enabled
+            const continueButton = page.locator('button:has-text("Continue")')
+            await continueButton.waitFor({ state: 'visible' })
+            await continueButton.click()
+            
+            // Wait for form to load - use multiple possible selectors
+            await page.waitForSelector('form, [name="solution_title"], h2, .space-y-6', { timeout: 5000 })
           }
           
           // Fill form using step-based approach
@@ -126,9 +152,23 @@ export function createFormTest(config: FormTestConfig) {
           if (config.navigateToForm) {
             await config.navigateToForm(page, testData.goalId, category)
           } else {
+            // Default navigation for auto-categorization flow
             await page.goto(`/goal/${testData.goalId}/add-solution`)
-            await page.selectOption('[name="solution_category"]', category)
-            await page.click('button:has-text("Next")')
+            
+            // Wait for page to load
+            await page.waitForSelector('#solution-name', { timeout: 10000 })
+            
+            // Enter solution name
+            await page.fill('#solution-name', testData.title)
+            await page.waitForTimeout(1500)
+            
+            // Click Continue button
+            const continueButton = page.locator('button:has-text("Continue")')
+            await continueButton.waitFor({ state: 'visible' })
+            await continueButton.click()
+            
+            // Wait for form to appear
+            await page.waitForSelector('[name="solution_title"], form', { timeout: 5000 })
           }
           
           // Try to submit without filling required fields
@@ -147,9 +187,23 @@ export function createFormTest(config: FormTestConfig) {
           if (config.navigateToForm) {
             await config.navigateToForm(page, testData.goalId, category)
           } else {
+            // Default navigation for auto-categorization flow
             await page.goto(`/goal/${testData.goalId}/add-solution`)
-            await page.selectOption('[name="solution_category"]', category)
-            await page.click('button:has-text("Next")')
+            
+            // Wait for page to load
+            await page.waitForSelector('#solution-name', { timeout: 10000 })
+            
+            // Enter solution name
+            await page.fill('#solution-name', testData.title)
+            await page.waitForTimeout(1500)
+            
+            // Click Continue button
+            const continueButton = page.locator('button:has-text("Continue")')
+            await continueButton.waitFor({ state: 'visible' })
+            await continueButton.click()
+            
+            // Wait for form to appear
+            await page.waitForSelector('[name="solution_title"], form', { timeout: 5000 })
           }
           
           // Fill first part of form

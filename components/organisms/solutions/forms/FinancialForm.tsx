@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
 import { ChevronLeft, Check } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 
 interface FinancialFormProps {
   goalId: string;
@@ -22,24 +23,6 @@ interface FailedSolution {
   rating: number;
 }
 
-// Progress celebration messages
-const ProgressCelebration = ({ step }: { step: number }) => {
-  if (step === 1) return null;
-  
-  const celebrations = [
-    "Great start! 🎯",
-    "Almost there! 💪",
-    "Final step! 🏁"
-  ];
-  
-  return (
-    <div className="text-center mb-4 opacity-0 animate-[fadeIn_0.5s_ease-in_forwards]">
-      <p className="text-green-600 dark:text-green-400 font-medium text-lg">
-        {celebrations[step - 2]}
-      </p>
-    </div>
-  );
-};
 
 export function FinancialForm({
   goalId,
@@ -50,7 +33,7 @@ export function FinancialForm({
   existingSolutionId,
   onBack
 }: FinancialFormProps) {
-  console.log('FinancialForm initialized with solution:', existingSolutionId || 'new');
+  console.log('FinancialForm initialized with solution:', existingSolutionId || 'new', 'category:', category);
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -62,12 +45,14 @@ export function FinancialForm({
   const [financialBenefit, setFinancialBenefit] = useState('');
   const [accessTime, setAccessTime] = useState('');
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
-  const [timeToResults, setTimeToResults] = useState('');
+  const [timeToImpact, setTimeToImpact] = useState('');
 
   // Step 2 fields - Barriers
   const [selectedBarriers, setSelectedBarriers] = useState<string[]>(['None']);
   const [loading, setLoading] = useState(true);
   const [barrierOptions, setBarrierOptions] = useState<string[]>([]);
+  const [customBarrier, setCustomBarrier] = useState('');
+  const [showCustomBarrier, setShowCustomBarrier] = useState(false);
   
   // Step 3 - Failed solutions
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
@@ -137,7 +122,8 @@ export function FinancialForm({
         'Hidden fees discovered',
         'Poor customer service',
         'Technical issues with platform',
-        'None'
+        'None',
+        'Other'
       ];
       
       const { data, error } = await supabase
@@ -177,6 +163,17 @@ export function FinancialForm({
   const handleBarrierToggle = (barrier: string) => {
     if (barrier === 'None') {
       setSelectedBarriers(['None']);
+      setShowCustomBarrier(false);
+    } else if (barrier === 'Other') {
+      setShowCustomBarrier(!showCustomBarrier);
+      if (!showCustomBarrier) {
+        setSelectedBarriers(prev => [...prev.filter(b => b !== 'None'), 'Other']);
+      } else {
+        setSelectedBarriers(prev => {
+          const newBarriers = prev.filter(b => b !== 'Other');
+          return newBarriers.length === 0 ? ['None'] : newBarriers;
+        });
+      }
     } else {
       setSelectedBarriers(prev => {
         const filtered = prev.filter(b => b !== 'None');
@@ -189,6 +186,14 @@ export function FinancialForm({
     }
   };
 
+  const addCustomBarrier = () => {
+    if (customBarrier.trim()) {
+      setSelectedBarriers(prev => [...prev.filter(b => b !== 'None'), customBarrier.trim()]);
+      setCustomBarrier('');
+      setShowCustomBarrier(false);
+    }
+  };
+
   const canProceedToNextStep = () => {
     switch (currentStep) {
       case 1: // Required fields + effectiveness + TTR
@@ -196,7 +201,7 @@ export function FinancialForm({
                financialBenefit !== '' && 
                accessTime !== '' && 
                effectiveness !== null && 
-               timeToResults !== '';
+               timeToImpact !== '';
         
       case 2: // Barriers
         return selectedBarriers.length > 0;
@@ -241,6 +246,7 @@ export function FinancialForm({
         costType,
         financialBenefit,
         accessTime,
+        time_to_impact: timeToImpact,
         barriers: selectedBarriers,
         failedSolutionsWithRatings: failedSolutions.filter(f => f.id),
         failedSolutionsTextOnly: textOnlyFailed
@@ -284,24 +290,23 @@ export function FinancialForm({
 
             {/* Required fields section */}
             <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                  <span className="text-lg">💰</span>
-                </div>
-                <h2 className="text-xl font-semibold">Product details</h2>
-              </div>
+              <FormSectionHeader 
+                icon={CATEGORY_ICONS.financial_tools}
+                title="Product details"
+              />
               
               {/* Cost Type */}
               <div className="space-y-3">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Cost type? <span className="text-red-500">*</span>
+                  Cost type <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={costType}
                   onChange={(e) => setCostType(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white transition-all"
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none transition-all"
                 >
                   <option value="">Select cost type</option>
                   <option value="Free">Free to use</option>
@@ -323,7 +328,8 @@ export function FinancialForm({
                   onChange={(e) => setFinancialBenefit(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white transition-all"
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none transition-all"
                 >
                   <option value="">Savings or earnings</option>
                   <option value="No direct financial benefit">No direct financial benefit</option>
@@ -347,7 +353,8 @@ export function FinancialForm({
                   onChange={(e) => setAccessTime(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white transition-all"
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none transition-all"
                 >
                   <option value="">How quickly available?</option>
                   <option value="Instant approval">Instant approval</option>
@@ -369,12 +376,11 @@ export function FinancialForm({
 
             {/* Effectiveness Section */}
             <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-                  <span className="text-lg">⭐</span>
-                </div>
-                <h2 className="text-xl font-semibold">How well it worked</h2>
-              </div>
+              <FormSectionHeader 
+                icon="⭐"
+                title="How well it worked"
+                bgColor="bg-green-100 dark:bg-green-900"
+              />
               
               {/* 5-star rating */}
               <div className="space-y-4">
@@ -425,15 +431,16 @@ export function FinancialForm({
                 <div className="flex items-center gap-2">
                   <span className="text-lg">⏱️</span>
                   <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    When did you notice results?
+                    When did you notice an impact?
                   </label>
                 </div>
                 <select
-                  value={timeToResults}
-                  onChange={(e) => setTimeToResults(e.target.value)}
+                  value={timeToImpact}
+                  onChange={(e) => setTimeToImpact(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white transition-all"
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none transition-all"
                 >
                   <option value="">Select timeframe</option>
                   <option value="Immediately">Immediately</option>
@@ -455,12 +462,11 @@ export function FinancialForm({
           <div className="space-y-6 animate-slide-in">
             <ProgressCelebration step={currentStep} />
             
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center">
-                <span className="text-lg">🚧</span>
-              </div>
-              <h2 className="text-xl font-semibold">Any barriers encountered?</h2>
-            </div>
+            <FormSectionHeader 
+              icon="🚧"
+              title="Any barriers encountered?"
+              bgColor="bg-amber-100 dark:bg-amber-900"
+            />
 
             {/* Quick tip */}
             <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3">
@@ -509,13 +515,73 @@ export function FinancialForm({
               </div>
             )}
 
+            {/* Custom barrier input */}
+            {showCustomBarrier && (
+              <div className="mt-3 flex gap-2 animate-fade-in">
+                <input
+                  type="text"
+                  value={customBarrier}
+                  onChange={(e) => setCustomBarrier(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && addCustomBarrier()}
+                  placeholder="Describe the barrier"
+                  className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           dark:bg-gray-800 dark:text-white"
+                  autoFocus
+                />
+                <button
+                  onClick={addCustomBarrier}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
+                           rounded-lg transition-colors"
+                >
+                  +
+                </button>
+                <button
+                  onClick={() => {
+                    setShowCustomBarrier(false);
+                    setCustomBarrier('');
+                    setSelectedBarriers(prev => prev.filter(b => b !== 'Other'));
+                  }}
+                  className="px-3 py-2 text-gray-500 hover:text-gray-700"
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+
+            {/* Display custom barriers */}
+            {(() => {
+              const customBarriers = selectedBarriers.filter(b => 
+                !barrierOptions.includes(b) && b !== 'None' && b !== 'Other'
+              );
+              return customBarriers.length > 0 && (
+                <div className="mt-3 space-y-2">
+                  {customBarriers.map((barrier) => (
+                    <div key={barrier} className="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/30 
+                                                  px-3 py-2 rounded-lg animate-fade-in">
+                      <span className="text-sm flex-1">{barrier}</span>
+                      <button
+                        onClick={() => setSelectedBarriers(prev => {
+                          const newBarriers = prev.filter(b => b !== barrier);
+                          return newBarriers.length === 0 ? ['None'] : newBarriers;
+                        })}
+                        className="text-red-500 hover:text-red-700 p-1"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+
             {/* Selected count indicator */}
             {selectedBarriers.length > 0 && selectedBarriers[0] !== 'None' && (
               <div className="text-center">
                 <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
                                text-blue-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
                   <Check className="w-4 h-4" />
-                  {selectedBarriers.length} selected
+                  {selectedBarriers.filter(b => b !== 'Other').length} selected
                 </span>
               </div>
             )}
@@ -527,12 +593,11 @@ export function FinancialForm({
           <div className="space-y-6 animate-slide-in">
             <ProgressCelebration step={currentStep} />
             
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
-                <span className="text-lg">🔍</span>
-              </div>
-              <h2 className="text-xl font-semibold">What else did you try?</h2>
-            </div>
+            <FormSectionHeader 
+              icon="🔄"
+              title="What else did you try?"
+              bgColor="bg-purple-100 dark:bg-purple-900"
+            />
 
             {/* Context card */}
             <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-3">
@@ -603,7 +668,8 @@ export function FinancialForm({
                 onChange={(e) => setProvider(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                         appearance-none text-sm"
               />
 
               {/* Minimum Requirements */}
@@ -643,7 +709,8 @@ export function FinancialForm({
                 onChange={(e) => setEaseOfUse(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                         appearance-none text-sm"
               >
                 <option value="">Ease of use</option>
                 <option value="Very easy">Very easy</option>
@@ -659,7 +726,7 @@ export function FinancialForm({
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
                          text-sm font-medium transition-colors"
                 >
-                  Save additional details
+                  Submit
                 </button>
               )}
             </div>

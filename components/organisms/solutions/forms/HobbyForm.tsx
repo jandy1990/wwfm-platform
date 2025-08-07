@@ -1,11 +1,11 @@
-// components/solutions/forms/HobbyForm.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
-import { ChevronLeft, Check, X, Plus } from 'lucide-react';
+import { ChevronLeft, Check } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 
 interface HobbyFormProps {
   goalId: string;
@@ -23,26 +23,6 @@ interface FailedSolution {
   rating: number;
 }
 
-
-// Progress celebration messages
-const ProgressCelebration = ({ step }: { step: number }) => {
-  if (step === 1) return null;
-  
-  const celebrations = [
-    "Great start! 🎯",
-    "Almost there! 💪",
-    "Final step! 🏁"
-  ];
-  
-  return (
-    <div className="text-center mb-4 opacity-0 animate-[fadeIn_0.5s_ease-in_forwards]">
-      <p className="text-green-600 dark:text-green-400 font-medium text-lg">
-        {celebrations[step - 2]}
-      </p>
-    </div>
-  );
-};
-
 export function HobbyForm({
   goalId,
   goalTitle = "your goal",
@@ -52,6 +32,7 @@ export function HobbyForm({
   existingSolutionId,
   onBack
 }: HobbyFormProps) {
+  console.log('HobbyForm initialized with solution:', existingSolutionId || 'new', 'category:', category);
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -59,22 +40,23 @@ export function HobbyForm({
   const [highestStepReached, setHighestStepReached] = useState(1);
   
   // Step 1 fields - Hobby details
-  const [timeCommitment, setTimeCommitment] = useState('');
   const [startupCost, setStartupCost] = useState('');
   const [ongoingCost, setOngoingCost] = useState('');
-  const [timeToEnjoyment, setTimeToEnjoyment] = useState('');
+  const [timeInvestment, setTimeInvestment] = useState('');
+  const [frequency, setFrequency] = useState('');
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
+  const [timeToResults, setTimeToResults] = useState('');
   
-  // Step 2 fields - Barriers
-  const [barriers, setBarriers] = useState<string[]>(['None']);
-  const [customBarrier, setCustomBarrier] = useState('');
-  const [showCustomBarrier, setShowCustomBarrier] = useState(false);
+  // Step 2 fields - Challenges
+  const [challenges, setChallenges] = useState<string[]>(['None']);
+  const [customChallenge, setCustomChallenge] = useState('');
+  const [showCustomChallenge, setShowCustomChallenge] = useState(false);
   
   // Step 3 - Failed solutions
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
   
   // Optional fields (Success screen)
-  const [skillLevel, setSkillLevel] = useState('');
+  const [communityName, setCommunityName] = useState('');
   const [otherInfo, setOtherInfo] = useState('');
 
   // Progress indicator
@@ -114,52 +96,51 @@ export function HobbyForm({
     }
   }, [currentStep, highestStepReached]);
 
-
-  // Hobby-specific barrier options
-  const barrierOptions = [
+  // Hobby-specific challenge options
+  const challengeOptions = [
     'None',
-    'Initial skill required',
-    'Equipment costs',
-    'Finding time',
-    'Space requirements',
-    'Weather dependent',
+    'Too expensive to start',
+    'Steep learning curve',
+    'Hard to find time',
+    'Equipment/space requirements',
     'Need others to participate',
+    'Not seeing progress',
+    'Lost motivation after initial excitement',
+    'Weather dependent',
     'Physical limitations',
-    'Access to facilities',
-    'Learning curve',
-    'Transportation needed',
-    'Seasonal limitations'
+    'Information overload',
+    'Perfectionism getting in the way',
+    'Hard to find good instruction'
   ];
 
-  const handleBarrierToggle = (barrier: string) => {
-    if (barrier === 'None') {
-      setBarriers(['None']);
+  const handleChallengeToggle = (challenge: string) => {
+    if (challenge === 'None') {
+      setChallenges(['None']);
     } else {
-      if (barriers.includes(barrier)) {
-        setBarriers(barriers.filter(b => b !== barrier));
+      if (challenges.includes(challenge)) {
+        setChallenges(challenges.filter(c => c !== challenge));
       } else {
-        setBarriers(barriers.filter(b => b !== 'None').concat(barrier));
+        setChallenges(challenges.filter(c => c !== 'None').concat(challenge));
       }
     }
   };
 
-  const addCustomBarrier = () => {
-    if (customBarrier.trim()) {
-      setBarriers(barriers.filter(b => b !== 'None').concat(customBarrier.trim()));
-      setCustomBarrier('');
-      setShowCustomBarrier(false);
+  const addCustomChallenge = () => {
+    if (customChallenge.trim()) {
+      setChallenges(challenges.filter(c => c !== 'None').concat(customChallenge.trim()));
+      setCustomChallenge('');
+      setShowCustomChallenge(false);
     }
   };
-
 
   const canProceedToNextStep = () => {
     switch (currentStep) {
       case 1: // Hobby details
-        return timeCommitment !== '' && startupCost !== '' && ongoingCost !== '' && 
-               timeToEnjoyment !== '' && effectiveness !== null;
+        return startupCost !== '' && ongoingCost !== '' && timeInvestment !== '' && frequency !== '' && 
+               effectiveness !== null && timeToResults !== '';
         
-      case 2: // Barriers
-        return barriers.length > 0;
+      case 2: // Challenges
+        return challenges.length > 0;
         
       case 3: // Failed solutions (optional)
         return true;
@@ -194,14 +175,15 @@ export function HobbyForm({
         .filter(f => !f.id)
         .map(f => ({ name: f.name, rating: f.rating }));
       
-      console.log('Submitting:', {
+      console.log('Submitting hobby form:', {
         solutionName,
         effectiveness,
-        timeCommitment,
         startupCost,
         ongoingCost,
-        timeToEnjoyment,
-        barriers,
+        timeInvestment,
+        frequency,
+        timeToResults,
+        challenges,
         failedSolutionsWithRatings: failedSolutions.filter(f => f.id),
         failedSolutionsTextOnly: textOnlyFailed
       });
@@ -216,34 +198,10 @@ export function HobbyForm({
   };
 
   const updateAdditionalInfo = async () => {
-    // TODO: Update the solution with skill level and other info
-    console.log('Updating additional info:', { skillLevel, otherInfo });
+    // TODO: Update the solution with additional info
+    console.log('Updating additional info:', { communityName, otherInfo });
   };
 
-  const getFieldCompletion = () => {
-    switch (currentStep) {
-      case 1:
-        return {
-          timeCommitment: timeCommitment !== '',
-          startupCost: startupCost !== '',
-          ongoingCost: ongoingCost !== '',
-          timeToEnjoyment: timeToEnjoyment !== ''
-        };
-      
-      case 2:
-        return {
-          barriers: barriers.length > 0
-        };
-        
-      case 3:
-        return {
-          optional: true
-        };
-        
-      default:
-        return {};
-    }
-  };
 
   const renderStep = () => {
     switch (currentStep) {
@@ -254,103 +212,8 @@ export function HobbyForm({
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
                           border border-blue-200 dark:border-blue-800 rounded-lg p-4">
               <p className="text-sm text-blue-800 dark:text-blue-200">
-                Let's capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
+                Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
               </p>
-            </div>
-
-            {/* Hobby Details Section */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                  <span className="text-lg">🎨</span>
-                </div>
-                <h2 className="text-xl font-semibold">Hobby details</h2>
-              </div>
-              
-              {/* Time commitment */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  How much time per week? <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={timeCommitment}
-                  onChange={(e) => setTimeCommitment(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white"
-                >
-                  <option value="">Select time per week</option>
-                  <option value="Less than 1 hour/week">Less than 1 hour/week</option>
-                  <option value="1-3 hours/week">1-3 hours/week</option>
-                  <option value="3-5 hours/week">3-5 hours/week</option>
-                  <option value="5-10 hours/week">5-10 hours/week</option>
-                  <option value="10-15 hours/week">10-15 hours/week</option>
-                  <option value="15-20 hours/week">15-20 hours/week</option>
-                  <option value="20-30 hours/week">20-30 hours/week</option>
-                  <option value="30+ hours/week">30+ hours/week</option>
-                </select>
-              </div>
-
-              {/* Cost fields */}
-              <div className="space-y-4">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  What did it cost? <span className="text-red-500">*</span>
-                </h3>
-                
-                {/* Startup cost */}
-                <div>
-                  <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
-                    Initial startup cost
-                  </label>
-                  <select
-                    value={startupCost}
-                    onChange={(e) => setStartupCost(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                             dark:bg-gray-800 dark:text-white"
-                  >
-                    <option value="">Select startup cost</option>
-                    <option value="Free/No startup cost">Free/No startup cost</option>
-                    <option value="Under $50">Under $50</option>
-                    <option value="$50-$99.99">$50-$99.99</option>
-                    <option value="$100-$249.99">$100-$249.99</option>
-                    <option value="$250-$499.99">$250-$499.99</option>
-                    <option value="$500-$999.99">$500-$999.99</option>
-                    <option value="$1000-$2499.99">$1000-$2499.99</option>
-                    <option value="$2500+">$2500+</option>
-                  </select>
-                </div>
-
-                {/* Ongoing cost */}
-                <div>
-                  <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
-                    Monthly ongoing cost
-                  </label>
-                  <select
-                    value={ongoingCost}
-                    onChange={(e) => setOngoingCost(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                             dark:bg-gray-800 dark:text-white"
-                  >
-                    <option value="">Select ongoing cost</option>
-                    <option value="Free/No ongoing cost">Free/No ongoing cost</option>
-                    <option value="Under $10/month">Under $10/month</option>
-                    <option value="$10-$24.99/month">$10-$24.99/month</option>
-                    <option value="$25-$49.99/month">$25-$49.99/month</option>
-                    <option value="$50-$99.99/month">$50-$99.99/month</option>
-                    <option value="$100-$199.99/month">$100-$199.99/month</option>
-                    <option value="$200+/month">$200+/month</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            {/* Visual separator */}
-            <div className="flex items-center gap-4 my-8">
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
-              <span className="text-xs text-gray-500 dark:text-gray-400">then</span>
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
             </div>
 
             {/* Effectiveness Section */}
@@ -405,127 +268,251 @@ export function HobbyForm({
                 </div>
               </div>
 
-              {/* Time to enjoyment */}
+              {/* Time to results */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-lg">😊</span>
+                  <span className="text-lg">⏱️</span>
                   <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    When did it become enjoyable?
+                    When did you notice results?
                   </label>
                 </div>
                 <select
-                  value={timeToEnjoyment}
-                  onChange={(e) => setTimeToEnjoyment(e.target.value)}
+                  value={timeToResults}
+                  onChange={(e) => setTimeToResults(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white transition-all"
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none transition-all"
                 >
                   <option value="">Select timeframe</option>
-                  <option value="Immediately enjoyable">Immediately enjoyable</option>
-                  <option value="Within first week">Within first week</option>
-                  <option value="2-4 weeks">2-4 weeks</option>
+                  <option value="Immediately">Immediately</option>
+                  <option value="Within days">Within days</option>
+                  <option value="1-2 weeks">1-2 weeks</option>
+                  <option value="3-4 weeks">3-4 weeks</option>
                   <option value="1-2 months">1-2 months</option>
                   <option value="3-6 months">3-6 months</option>
-                  <option value="Took persistence">Took persistence</option>
+                  <option value="6+ months">6+ months</option>
+                  <option value="Still evaluating">Still evaluating</option>
                 </select>
               </div>
             </div>
 
-            {/* Field completion dots */}
-            <div className="flex justify-center gap-2 mt-6">
-              {Object.entries(getFieldCompletion()).map(([field, completed]) => (
-                <div
-                  key={field}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    completed ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'
-                  }`}
-                />
-              ))}
+            {/* Visual separator */}
+            <div className="flex items-center gap-4 my-8">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+              <span className="text-xs text-gray-500 dark:text-gray-400">then</span>
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
             </div>
+
+            {/* Hobby Context */}
+            <div className="space-y-4">
+              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <strong>Hobby/Activity:</strong> Something you do for fun, personal growth, or creative expression (not fitness-related)
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Examples: painting, gardening, playing guitar, coding, bird watching, woodworking
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Hobby Details Section */}
+            <div className="space-y-6">
+              <FormSectionHeader 
+                icon={CATEGORY_ICONS[category]} 
+                title="Hobby details"
+              />
+              
+              {/* Initial/Startup Cost */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Initial startup cost <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={startupCost}
+                  onChange={(e) => setStartupCost(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none"
+                >
+                  <option value="">Select startup cost</option>
+                  <option value="Free/No startup cost">Free/No startup cost</option>
+                  <option value="Under $50">Under $50</option>
+                  <option value="$50-$100">$50-$100</option>
+                  <option value="$100-$250">$100-$250</option>
+                  <option value="$250-$500">$250-$500</option>
+                  <option value="$500-$1,000">$500-$1,000</option>
+                  <option value="$1,000-$2,500">$1,000-$2,500</option>
+                  <option value="$2,500-$5,000">$2,500-$5,000</option>
+                  <option value="Over $5,000">Over $5,000</option>
+                </select>
+              </div>
+
+              {/* Ongoing Monthly Cost */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Typical monthly cost <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={ongoingCost}
+                  onChange={(e) => setOngoingCost(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none"
+                >
+                  <option value="">Select monthly cost</option>
+                  <option value="Free/No ongoing cost">Free/No ongoing cost</option>
+                  <option value="Under $25/month">Under $25/month</option>
+                  <option value="$25-$50/month">$25-$50/month</option>
+                  <option value="$50-$100/month">$50-$100/month</option>
+                  <option value="$100-$200/month">$100-$200/month</option>
+                  <option value="$200-$500/month">$200-$500/month</option>
+                  <option value="Over $500/month">Over $500/month</option>
+                </select>
+              </div>
+
+              {/* Time investment */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Time per session? <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={timeInvestment}
+                  onChange={(e) => setTimeInvestment(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none"
+                >
+                  <option value="">Select time</option>
+                  <option value="15-30 minutes">15-30 minutes</option>
+                  <option value="30-60 minutes">30-60 minutes</option>
+                  <option value="1-2 hours">1-2 hours</option>
+                  <option value="2-4 hours">2-4 hours</option>
+                  <option value="Half day">Half day</option>
+                  <option value="Full day">Full day</option>
+                  <option value="Varies significantly">Varies significantly</option>
+                </select>
+              </div>
+
+              {/* Frequency */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  How often do you do it? <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={frequency}
+                  onChange={(e) => setFrequency(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none"
+                >
+                  <option value="">Select frequency</option>
+                  <option value="Daily">Daily</option>
+                  <option value="Few times a week">Few times a week</option>
+                  <option value="Weekly">Weekly</option>
+                  <option value="Few times a month">Few times a month</option>
+                  <option value="Monthly">Monthly</option>
+                  <option value="Occasionally">Occasionally</option>
+                </select>
+              </div>
+            </div>
+
+
           </div>
         );
 
-      case 2: // Barriers
+      case 2: // Challenges
         return (
           <div className="space-y-6 animate-slide-in">
             <ProgressCelebration step={currentStep} />
             
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center">
-                <span className="text-lg">🚧</span>
+                <span className="text-lg">⚡</span>
               </div>
-              <h2 className="text-xl font-semibold">Any barriers?</h2>
+              <h2 className="text-xl font-semibold">Any challenges?</h2>
             </div>
 
             {/* Quick tip */}
             <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3">
               <p className="text-sm text-amber-800 dark:text-amber-200">
-                💡 This helps others know what challenges to expect
+                💡 This helps others know what obstacles to expect
               </p>
             </div>
 
-            {/* Barriers grid */}
+            {/* Challenges grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {barrierOptions.map((barrier) => (
+              {challengeOptions.map((challenge) => (
                 <label
-                  key={barrier}
+                  key={challenge}
                   className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
                             transition-all transform hover:scale-[1.02] ${
-                    barriers.includes(barrier)
+                    challenges.includes(challenge)
                       ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
                       : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
                   }`}
                 >
                   <input
                     type="checkbox"
-                    checked={barriers.includes(barrier)}
-                    onChange={() => handleBarrierToggle(barrier)}
+                    checked={challenges.includes(challenge)}
+                    onChange={() => handleChallengeToggle(challenge)}
                     className="sr-only"
                   />
                   <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 
                                 transition-all ${
-                    barriers.includes(barrier)
+                    challenges.includes(challenge)
                       ? 'border-blue-500 bg-blue-500'
                       : 'border-gray-300 dark:border-gray-600 group-hover:border-gray-400'
                   }`}>
-                    {barriers.includes(barrier) && (
+                    {challenges.includes(challenge) && (
                       <Check className="w-3 h-3 text-white animate-scale-in" />
                     )}
                   </div>
-                  <span className="text-sm">{barrier}</span>
+                  <span className="text-sm">{challenge}</span>
                 </label>
               ))}
               
               {/* Add Other button */}
-              <button
-                onClick={() => setShowCustomBarrier(true)}
-                className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
-                          transition-all transform hover:scale-[1.02] border-dashed
-                          border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-sm"
-              >
-                <Plus className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors" />
-                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200">
-                  Add other barrier
-                </span>
-              </button>
+              {!showCustomChallenge && (
+                <button
+                  onClick={() => setShowCustomChallenge(true)}
+                  className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
+                            transition-all transform hover:scale-[1.02] border-dashed
+                            border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-sm"
+                >
+                  <div className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 
+                                group-hover:border-gray-400 flex items-center justify-center">
+                    <span className="text-gray-500 group-hover:text-gray-700">+</span>
+                  </div>
+                  <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200">
+                    Add other challenge
+                  </span>
+                </button>
+              )}
             </div>
 
-            {/* Custom barrier input */}
-            {showCustomBarrier && (
+            {/* Custom challenge input */}
+            {showCustomChallenge && (
               <div className="mt-3 flex gap-2 animate-fade-in">
                 <input
                   type="text"
-                  value={customBarrier}
-                  onChange={(e) => setCustomBarrier(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && addCustomBarrier()}
-                  placeholder="Describe the barrier"
+                  value={customChallenge}
+                  onChange={(e) => setCustomChallenge(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && addCustomChallenge()}
+                  placeholder="Describe the challenge"
                   className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
                            dark:bg-gray-800 dark:text-white"
                   autoFocus
                 />
                 <button
-                  onClick={addCustomBarrier}
+                  onClick={addCustomChallenge}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
                            rounded-lg transition-colors"
                 >
@@ -533,8 +520,8 @@ export function HobbyForm({
                 </button>
                 <button
                   onClick={() => {
-                    setShowCustomBarrier(false);
-                    setCustomBarrier('');
+                    setShowCustomChallenge(false);
+                    setCustomChallenge('');
                   }}
                   className="px-3 py-2 text-gray-500 hover:text-gray-700"
                 >
@@ -543,20 +530,20 @@ export function HobbyForm({
               </div>
             )}
 
-            {/* Show custom barriers */}
-            {barriers.filter(b => !barrierOptions.includes(b) && b !== 'None').length > 0 && (
+            {/* Show custom challenges */}
+            {challenges.filter(c => !challengeOptions.includes(c) && c !== 'None').length > 0 && (
               <div className="mt-2">
                 <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Added:</p>
                 <div className="flex flex-wrap gap-2">
-                  {barriers.filter(b => !barrierOptions.includes(b) && b !== 'None').map((barrier) => (
-                    <span key={barrier} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
+                  {challenges.filter(c => !challengeOptions.includes(c) && c !== 'None').map((challenge) => (
+                    <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
                                                  text-blue-700 dark:text-blue-300 rounded-full text-sm">
-                      {barrier}
+                      {challenge}
                       <button
-                        onClick={() => setBarriers(barriers.filter(b => b !== barrier))}
+                        onClick={() => setChallenges(challenges.filter(c => c !== challenge))}
                         className="hover:text-blue-900 dark:hover:text-blue-100"
                       >
-                        <X className="w-3 h-3" />
+                        <span className="text-lg leading-none">×</span>
                       </button>
                     </span>
                   ))}
@@ -565,12 +552,12 @@ export function HobbyForm({
             )}
 
             {/* Selected count indicator */}
-            {barriers.length > 0 && barriers[0] !== 'None' && (
+            {challenges.length > 0 && challenges[0] !== 'None' && (
               <div className="text-center">
                 <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
                                text-blue-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
                   <Check className="w-4 h-4" />
-                  {barriers.length} selected
+                  {challenges.length} selected
                 </span>
               </div>
             )}
@@ -592,7 +579,7 @@ export function HobbyForm({
             {/* Context card */}
             <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-3">
               <p className="text-sm text-purple-800 dark:text-purple-200">
-                Help others by sharing what didn't work as well
+                Help others by sharing what didn&apos;t work as well
               </p>
             </div>
 
@@ -607,15 +594,9 @@ export function HobbyForm({
 
             {/* Skip hint */}
             {failedSolutions.length === 0 && (
-              <div className="text-center py-8">
-                <div className="inline-flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400">
-                  <p className="text-sm">Nothing to add?</p>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">Click Submit to finish</span>
-                    <div className="animate-bounce-right">→</div>
-                  </div>
-                </div>
-              </div>
+              <p className="text-center text-gray-500 dark:text-gray-400 py-8">
+                Nothing to add? Click Submit to finish →
+              </p>
             )}
           </div>
         );
@@ -651,22 +632,18 @@ export function HobbyForm({
             </p>
             
             <div className="space-y-4">
-              <select
-                value={skillLevel}
-                onChange={(e) => setSkillLevel(e.target.value)}
+              <input
+                type="text"
+                placeholder="Community or group name"
+                value={communityName}
+                onChange={(e) => setCommunityName(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
                          dark:bg-gray-700 dark:text-white text-sm"
-              >
-                <option value="">Current skill level</option>
-                <option value="Still beginner">Still beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-                <option value="Expert">Expert</option>
-              </select>
+              />
               
               <textarea
-                placeholder="Any tips for beginners? What resources helped you learn?"
+                placeholder="Any tips for getting started or sticking with it?"
                 value={otherInfo}
                 onChange={(e) => setOtherInfo(e.target.value)}
                 rows={3}
@@ -675,13 +652,13 @@ export function HobbyForm({
                          dark:bg-gray-700 dark:text-white text-sm"
               />
               
-              {(skillLevel || otherInfo) && (
+              {(communityName || otherInfo) && (
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
                          text-sm font-medium transition-colors"
                 >
-                  Save additional details
+                  Submit
                 </button>
               )}
             </div>
@@ -790,87 +767,3 @@ export function HobbyForm({
     </div>
   );
 }
-
-// CSS animations to add to your global CSS file:
-const animationStyles = `
-@keyframes slide-in {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes fadeIn {
-  from { 
-    opacity: 0; 
-  }
-  to { 
-    opacity: 1; 
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes bounce-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes bounce-right {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(4px); }
-}
-
-@keyframes scale-in {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.animate-slide-in { animation: slide-in 0.3s ease-out; }
-.animate-scale-in { animation: scale-in 0.3s ease-out; }
-.animate-bounce-in { animation: bounce-in 0.4s ease-out; }
-.animate-fade-in { animation: fade-in 0.3s ease-out; }
-.animate-bounce-right { animation: bounce-right 1s ease-in-out infinite; }
-`;

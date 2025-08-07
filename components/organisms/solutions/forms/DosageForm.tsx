@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
-import { ChevronLeft, Check, X, Star } from 'lucide-react';
+import { ChevronLeft, Check, X, Plus, Star, Search } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 
 interface DosageFormProps {
@@ -199,8 +199,7 @@ export function DosageForm({
   // Helper functions
   const buildDosageString = () => {
     if (category === 'beauty_skincare') {
-      const selected = skincareFrequencies.find(f => f.value === skincareFrequency);
-      return selected?.display || '';
+      return 'Standard'; // Use single variant like apps
     }
 
     const unit = showCustomUnit ? customUnit : doseUnit;
@@ -370,6 +369,17 @@ export function DosageForm({
         .filter(f => !f.id)
         .map(f => ({ name: f.name, rating: f.rating }));
       
+      // Prepare solution fields for storage
+      const solutionFields = {
+        frequency: category === 'beauty_skincare' ? skincareFrequency : frequency,
+        skincareFrequency: category === 'beauty_skincare' ? skincareFrequency : undefined, // Add this for display
+        length_of_use: lengthOfUse,
+        time_to_results: timeToResults,
+        side_effects: sideEffects,
+        dose_amount: category === 'beauty_skincare' ? undefined : doseAmount,
+        dose_unit: category === 'beauty_skincare' ? undefined : (showCustomUnit ? customUnit : doseUnit)
+      };
+
       console.log('Submitting:', {
         solutionName,
         implementationName,
@@ -378,7 +388,8 @@ export function DosageForm({
         costRange: costRange === 'dont_remember' ? null : costRange,
         failedSolutionsWithRatings: failedSolutions.filter(f => f.id),
         failedSolutionsTextOnly: textOnlyFailed,
-        sideEffects
+        sideEffects,
+        solutionFields // Include fields that should be stored
       });
       
       // Show success screen instead of redirecting
@@ -408,34 +419,160 @@ export function DosageForm({
               </p>
             </div>
 
-            {/* Dosage Section */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                  <span className="text-lg">💊</span>
+            {category === 'beauty_skincare' ? (
+              <>
+                {/* Effectiveness Section for Beauty/Skincare */}
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
+                      <span className="text-lg">⭐</span>
+                    </div>
+                    <h2 className="text-xl font-semibold">How well it worked</h2>
+                  </div>
+                  
+                  {/* 5-star rating */}
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-5 gap-2">
+                      {[1, 2, 3, 4, 5].map((rating) => (
+                        <button
+                          key={rating}
+                          onClick={() => setEffectiveness(rating)}
+                          className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
+                            effectiveness === rating
+                              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-105 shadow-lg'
+                              : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                          }`}
+                        >
+                          {effectiveness === rating && (
+                            <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center animate-bounce-in">
+                              <Check className="w-4 h-4 text-white" />
+                            </div>
+                          )}
+                          <div className="text-center">
+                            <div className="text-2xl mb-1">
+                              {rating === 1 && '😞'}
+                              {rating === 2 && '😕'}
+                              {rating === 3 && '😐'}
+                              {rating === 4 && '😊'}
+                              {rating === 5 && '🤩'}
+                            </div>
+                            <div className="text-xs text-gray-600 dark:text-gray-400 hidden sm:block">
+                              {rating === 1 && 'Not at all'}
+                              {rating === 2 && 'Slightly'}
+                              {rating === 3 && 'Moderate'}
+                              {rating === 4 && 'Very'}
+                              {rating === 5 && 'Extremely'}
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                    <div className="flex justify-between sm:hidden">
+                      <span className="text-xs text-gray-500">Not at all</span>
+                      <span className="text-xs text-gray-500">Extremely</span>
+                    </div>
+                  </div>
+
+                  {/* Time to results */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">⏱️</span>
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        When did you notice results?
+                      </label>
+                    </div>
+                    <select
+                      value={timeToResults}
+                      onChange={(e) => setTimeToResults(e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                               appearance-none transition-all"
+                    >
+                      <option value="">Select timeframe</option>
+                      <option value="Immediately">Immediately</option>
+                      <option value="Within days">Within days</option>
+                      <option value="1-2 weeks">1-2 weeks</option>
+                      <option value="3-4 weeks">3-4 weeks</option>
+                      <option value="1-2 months">1-2 months</option>
+                      <option value="3-6 months">3-6 months</option>
+                      <option value="6+ months">6+ months</option>
+                      <option value="Still evaluating">Still evaluating</option>
+                    </select>
+                  </div>
                 </div>
-                <h2 className="text-xl font-semibold">Your dosage</h2>
-              </div>
-              
-              {category === 'beauty_skincare' ? (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                    How often did you use it? <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={skincareFrequency}
-                    onChange={(e) => setSkincareFrequency(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                             dark:bg-gray-800 dark:text-white"
-                  >
-                    <option value="">Select frequency</option>
-                    {skincareFrequencies.map(freq => (
-                      <option key={freq.value} value={freq.value}>{freq.label}</option>
-                    ))}
-                  </select>
+
+                {/* Visual separator */}
+                <div className="flex items-center gap-4 my-8">
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">then</span>
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
                 </div>
-              ) : (
+
+                {/* Application Details Section */}
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                      <span className="text-lg">✨</span>
+                    </div>
+                    <h2 className="text-xl font-semibold">Application details</h2>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                      How often did you use it? <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={skincareFrequency}
+                      onChange={(e) => setSkincareFrequency(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                               appearance-none"
+                    >
+                      <option value="">Select frequency</option>
+                      {skincareFrequencies.map(freq => (
+                        <option key={freq.value} value={freq.value}>{freq.label}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Length of use */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      How long did you use it? <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={lengthOfUse}
+                      onChange={(e) => setLengthOfUse(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                               appearance-none"
+                    >
+                      <option value="">Select duration</option>
+                      <option value="Less than 1 month">Less than 1 month</option>
+                      <option value="1-3 months">1-3 months</option>
+                      <option value="3-6 months">3-6 months</option>
+                      <option value="6-12 months">6-12 months</option>
+                      <option value="1-2 years">1-2 years</option>
+                      <option value="Over 2 years">Over 2 years</option>
+                      <option value="As needed">As needed</option>
+                      <option value="Still using">Still using</option>
+                    </select>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Dosage Section for other categories */}
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                      <span className="text-lg">💊</span>
+                    </div>
+                    <h2 className="text-xl font-semibold">Your dosage</h2>
+                  </div>
                 <>
                   {/* Structured dosage input */}
                   <div className="grid grid-cols-2 gap-3">
@@ -456,7 +593,8 @@ export function DosageForm({
                         placeholder="e.g., 500"
                         className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                                  focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                                 dark:bg-gray-800 dark:text-white"
+                                 bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                                 appearance-none"
                         autoFocus
                       />
                     </div>
@@ -473,7 +611,8 @@ export function DosageForm({
                         }}
                         className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                                  focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                                 dark:bg-gray-800 dark:text-white"
+                                 bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                                 appearance-none"
                       >
                         <option value="">Select unit</option>
                         {unitOptions[category as keyof typeof unitOptions]?.map(unit => (
@@ -509,7 +648,8 @@ export function DosageForm({
                       onChange={(e) => setFrequency(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                                focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                               dark:bg-gray-800 dark:text-white"
+                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                               appearance-none"
                     >
                       <option value="">Select frequency</option>
                       <option value="once daily">Once daily</option>
@@ -525,126 +665,128 @@ export function DosageForm({
                   </div>
 
                   {/* Preview */}
-                  {(doseAmount && (doseUnit || customUnit) && frequency) && (
+                  {(doseAmount && (doseUnit || customUnit) && frequency && category !== 'beauty_skincare') && (
                     <div className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 p-3 rounded">
                       <span className="text-gray-500">You're taking:</span> <strong className="text-gray-900 dark:text-white">{buildDosageString()}</strong>
                     </div>
                   )}
                 </>
-              )}
-            </div>
-
-            {/* Length of use */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                How long did you use it? <span className="text-red-500">*</span>
-              </label>
-              <select
-                value={lengthOfUse}
-                onChange={(e) => setLengthOfUse(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-800 dark:text-white"
-              >
-                <option value="">Select duration</option>
-                <option value="Less than 1 month">Less than 1 month</option>
-                <option value="1-3 months">1-3 months</option>
-                <option value="3-6 months">3-6 months</option>
-                <option value="6-12 months">6-12 months</option>
-                <option value="1-2 years">1-2 years</option>
-                <option value="Over 2 years">Over 2 years</option>
-                <option value="As needed">As needed</option>
-                <option value="Still using">Still using</option>
-              </select>
-            </div>
-
-            {/* Visual separator */}
-            <div className="flex items-center gap-4 my-8">
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
-              <span className="text-xs text-gray-500 dark:text-gray-400">then</span>
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
-            </div>
-
-            {/* Effectiveness Section */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-                  <span className="text-lg">⭐</span>
                 </div>
-                <h2 className="text-xl font-semibold">How well it worked</h2>
-              </div>
-              
-              {/* 5-star rating */}
-              <div className="space-y-4">
-                <div className="grid grid-cols-5 gap-2">
-                  {[1, 2, 3, 4, 5].map((rating) => (
-                    <button
-                      key={rating}
-                      onClick={() => setEffectiveness(rating)}
-                      className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
-                        effectiveness === rating
-                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-105 shadow-lg'
-                          : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
-                      }`}
-                    >
-                      {/* Animated selection indicator */}
-                      {effectiveness === rating && (
-                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center animate-bounce-in">
-                          <Check className="w-4 h-4 text-white" />
-                        </div>
-                      )}
-                      <div className="text-center">
-                        <div className="text-2xl mb-1">
-                          {rating === 1 && '😞'}
-                          {rating === 2 && '😕'}
-                          {rating === 3 && '😐'}
-                          {rating === 4 && '😊'}
-                          {rating === 5 && '🤩'}
-                        </div>
-                        <div className="text-xs text-gray-600 dark:text-gray-400 hidden sm:block">
-                          {rating === 1 && 'Not at all'}
-                          {rating === 2 && 'Slightly'}
-                          {rating === 3 && 'Moderate'}
-                          {rating === 4 && 'Very'}
-                          {rating === 5 && 'Extremely'}
-                        </div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-                <div className="flex justify-between sm:hidden">
-                  <span className="text-xs text-gray-500">Not at all</span>
-                  <span className="text-xs text-gray-500">Extremely</span>
-                </div>
-              </div>
 
-              {/* Time to results */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">⏱️</span>
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    When did you notice results?
+                {/* Length of use for other categories */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    How long did you use it? <span className="text-red-500">*</span>
                   </label>
+                  <select
+                    value={lengthOfUse}
+                    onChange={(e) => setLengthOfUse(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                             appearance-none"
+                  >
+                    <option value="">Select duration</option>
+                    <option value="Less than 1 month">Less than 1 month</option>
+                    <option value="1-3 months">1-3 months</option>
+                    <option value="3-6 months">3-6 months</option>
+                    <option value="6-12 months">6-12 months</option>
+                    <option value="1-2 years">1-2 years</option>
+                    <option value="Over 2 years">Over 2 years</option>
+                    <option value="As needed">As needed</option>
+                    <option value="Still using">Still using</option>
+                  </select>
                 </div>
-                <select
-                  value={timeToResults}
-                  onChange={(e) => setTimeToResults(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white transition-all"
-                >
-                  <option value="">Select timeframe</option>
-                  <option value="Immediately">Immediately</option>
-                  <option value="Within days">Within days</option>
-                  <option value="1-2 weeks">1-2 weeks</option>
-                  <option value="3-4 weeks">3-4 weeks</option>
-                  <option value="1-2 months">1-2 months</option>
-                  <option value="3-6 months">3-6 months</option>
-                  <option value="6+ months">6+ months</option>
-                  <option value="Still evaluating">Still evaluating</option>
-                </select>
-              </div>
-            </div>
+
+                {/* Visual separator */}
+                <div className="flex items-center gap-4 my-8">
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">then</span>
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+                </div>
+
+                {/* Effectiveness Section for other categories */}
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
+                      <span className="text-lg">⭐</span>
+                    </div>
+                    <h2 className="text-xl font-semibold">How well it worked</h2>
+                  </div>
+                  
+                  {/* 5-star rating */}
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-5 gap-2">
+                      {[1, 2, 3, 4, 5].map((rating) => (
+                        <button
+                          key={rating}
+                          onClick={() => setEffectiveness(rating)}
+                          className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
+                            effectiveness === rating
+                              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-105 shadow-lg'
+                              : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                          }`}
+                        >
+                          {effectiveness === rating && (
+                            <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center animate-bounce-in">
+                              <Check className="w-4 h-4 text-white" />
+                            </div>
+                          )}
+                          <div className="text-center">
+                            <div className="text-2xl mb-1">
+                              {rating === 1 && '😞'}
+                              {rating === 2 && '😕'}
+                              {rating === 3 && '😐'}
+                              {rating === 4 && '😊'}
+                              {rating === 5 && '🤩'}
+                            </div>
+                            <div className="text-xs text-gray-600 dark:text-gray-400 hidden sm:block">
+                              {rating === 1 && 'Not at all'}
+                              {rating === 2 && 'Slightly'}
+                              {rating === 3 && 'Moderate'}
+                              {rating === 4 && 'Very'}
+                              {rating === 5 && 'Extremely'}
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                    <div className="flex justify-between sm:hidden">
+                      <span className="text-xs text-gray-500">Not at all</span>
+                      <span className="text-xs text-gray-500">Extremely</span>
+                    </div>
+                  </div>
+
+                  {/* Time to results */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">⏱️</span>
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        When did you notice results?
+                      </label>
+                    </div>
+                    <select
+                      value={timeToResults}
+                      onChange={(e) => setTimeToResults(e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                               appearance-none transition-all"
+                    >
+                      <option value="">Select timeframe</option>
+                      <option value="Immediately">Immediately</option>
+                      <option value="Within days">Within days</option>
+                      <option value="1-2 weeks">1-2 weeks</option>
+                      <option value="3-4 weeks">3-4 weeks</option>
+                      <option value="1-2 months">1-2 months</option>
+                      <option value="3-6 months">3-6 months</option>
+                      <option value="6+ months">6+ months</option>
+                      <option value="Still evaluating">Still evaluating</option>
+                    </select>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         );
 
@@ -1016,7 +1158,8 @@ export function DosageForm({
                   onChange={(e) => setCostRange(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-700 dark:text-white text-sm"
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                           appearance-none text-sm"
                 >
                   <option value="dont_remember">I don't remember</option>
                   <option value="Free">Free</option>
@@ -1062,7 +1205,8 @@ export function DosageForm({
                   onChange={(e) => setForm(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-700 dark:text-white text-sm"
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                           appearance-none text-sm"
                 >
                   <option value="">Form factor</option>
                   <option value="tablet">Tablet/Pill</option>
@@ -1101,7 +1245,7 @@ export function DosageForm({
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
                          text-sm font-medium transition-colors"
                 >
-                  Save additional details
+                  Submit
                 </button>
               )}
             </div>
@@ -1215,3 +1359,4 @@ export function DosageForm({
       </div>
     </div>
   );
+}

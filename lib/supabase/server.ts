@@ -17,6 +17,7 @@ export function createServerSupabaseClient() {
             cookieStore.set({ name, value, ...options });
           } catch (error) {
             // Handle error in Server Component
+            console.log('Error setting cookie:', error);
           }
         },
         remove(name: string, options: CookieOptions) {
@@ -24,6 +25,7 @@ export function createServerSupabaseClient() {
             cookieStore.set({ name, value: '', ...options });
           } catch (error) {
             // Handle error in Server Component
+            console.log('Error removing cookie:', error);
           }
         },
       },

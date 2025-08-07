@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
 import { ChevronLeft, Check, X, Plus } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 
 interface PracticeFormProps {
   goalId: string;
@@ -24,24 +25,6 @@ interface FailedSolution {
 }
 
 
-// Progress celebration messages
-const ProgressCelebration = ({ step }: { step: number }) => {
-  if (step === 1) return null;
-  
-  const celebrations = [
-    "Great start! 🎯",
-    "Almost there! 💪",
-    "Final step! 🏁"
-  ];
-  
-  return (
-    <div className="text-center mb-4 opacity-0 animate-[fadeIn_0.5s_ease-in_forwards]">
-      <p className="text-green-600 dark:text-green-400 font-medium text-lg">
-        {celebrations[step - 2]}
-      </p>
-    </div>
-  );
-};
 
 export function PracticeForm({
   goalId,
@@ -49,9 +32,10 @@ export function PracticeForm({
   userId,
   solutionName,
   category,
-  existingSolutionId,
+  existingSolutionId, // Used for pre-populating form if editing existing solution
   onBack
 }: PracticeFormProps) {
+  console.log('PracticeForm initialized with existingSolutionId:', existingSolutionId);
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -159,18 +143,20 @@ export function PracticeForm({
       case 'habits_routines':
         return [
           'None',
-          'Hard to remember',
-          'Time constraints',
-          'Lack of motivation',
-          'Inconsistent schedule',
-          'Family/work interruptions',
-          'Environmental barriers',
-          'Too complex',
-          'Lack of support',
-          'Travel disrupts routine',
-          'Meeting conflicts',
-          'Unrealistic expectations',
-          'Initially worse before better'
+          'Forgot to do it',
+          'Lost motivation after initial enthusiasm',
+          'Takes too much time',
+          'Hard to do when tired',
+          'Broke the chain and gave up',
+          'Results too slow',
+          'Life got in the way',
+          'Felt silly or self-conscious',
+          'Too ambitious at start',
+          'No immediate reward',
+          'Competing priorities',
+          'Didn\'t track progress',
+          'All-or-nothing thinking',
+          'Initially made things worse'
         ];
       default:
         return ['None'];
@@ -283,41 +269,6 @@ export function PracticeForm({
     console.log('Updating additional info:', { bestTime, location, otherInfo });
   };
 
-  const getFieldCompletion = () => {
-    switch (currentStep) {
-      case 1:
-        const fields: any = {
-          startupCost: startupCost !== '',
-          ongoingCost: ongoingCost !== '',
-          timeToResults: timeToResults !== '',
-          frequency: frequency !== ''
-        };
-        
-        // Add category-specific field
-        if (category === 'meditation_mindfulness') {
-          fields.practiceLength = practiceLength !== '';
-        } else if (category === 'exercise_movement') {
-          fields.duration = duration !== '';
-        } else if (category === 'habits_routines') {
-          fields.timeCommitment = timeCommitment !== '';
-        }
-        
-        return fields;
-      
-      case 2:
-        return {
-          challenges: challenges.length > 0
-        };
-        
-      case 3:
-        return {
-          optional: true
-        };
-        
-      default:
-        return {};
-    }
-  };
 
   const renderStep = () => {
     switch (currentStep) {
@@ -328,177 +279,8 @@ export function PracticeForm({
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
                           border border-blue-200 dark:border-blue-800 rounded-lg p-4">
               <p className="text-sm text-blue-800 dark:text-blue-200">
-                Let's capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
+                Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
               </p>
-            </div>
-
-            {/* Practice Details Section */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                  <span className="text-lg">
-                    {category === 'meditation_mindfulness' && '🧘'}
-                    {category === 'exercise_movement' && '💪'}
-                    {category === 'habits_routines' && '📅'}
-                  </span>
-                </div>
-                <h2 className="text-xl font-semibold">Practice details</h2>
-              </div>
-              
-              {/* Cost fields */}
-              <div className="space-y-4">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  What did it cost? <span className="text-red-500">*</span>
-                </h3>
-                
-                {/* Startup cost */}
-                <div>
-                  <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
-                    Initial startup cost
-                  </label>
-                  <select
-                    value={startupCost}
-                    onChange={(e) => setStartupCost(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                             dark:bg-gray-800 dark:text-white"
-                  >
-                    <option value="">Select startup cost</option>
-                    <option value="Free/No startup cost">Free/No startup cost</option>
-                    <option value="Under $50">Under $50</option>
-                    <option value="$50-$99.99">$50-$99.99</option>
-                    <option value="$100-$249.99">$100-$249.99</option>
-                    <option value="$250-$499.99">$250-$499.99</option>
-                    <option value="$500-$999.99">$500-$999.99</option>
-                    <option value="$1000+">$1000+</option>
-                  </select>
-                </div>
-
-                {/* Ongoing cost */}
-                <div>
-                  <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
-                    Monthly ongoing cost
-                  </label>
-                  <select
-                    value={ongoingCost}
-                    onChange={(e) => setOngoingCost(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                             dark:bg-gray-800 dark:text-white"
-                  >
-                    <option value="">Select ongoing cost</option>
-                    <option value="Free/No ongoing cost">Free/No ongoing cost</option>
-                    <option value="Under $10/month">Under $10/month</option>
-                    <option value="$10-$24.99/month">$10-$24.99/month</option>
-                    <option value="$25-$49.99/month">$25-$49.99/month</option>
-                    <option value="$50-$99.99/month">$50-$99.99/month</option>
-                    <option value="$100-$199.99/month">$100-$199.99/month</option>
-                    <option value="$200+/month">$200+/month</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Frequency */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  How often do you practice? <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={frequency}
-                  onChange={(e) => setFrequency(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white"
-                >
-                  <option value="">Select frequency</option>
-                  <option value="Daily">Daily</option>
-                  <option value="5-6 times per week">5-6 times per week</option>
-                  <option value="3-4 times per week">3-4 times per week</option>
-                  <option value="1-2 times per week">1-2 times per week</option>
-                  <option value="Weekly">Weekly</option>
-                  <option value="Few times a month">Few times a month</option>
-                  <option value="As needed">As needed</option>
-                </select>
-              </div>
-
-              {/* Category-specific field */}
-              {category === 'meditation_mindfulness' && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Practice length <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={practiceLength}
-                    onChange={(e) => setPracticeLength(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                             dark:bg-gray-800 dark:text-white"
-                  >
-                    <option value="">Select practice length</option>
-                    <option value="Under 5 minutes">Under 5 minutes</option>
-                    <option value="5-10 minutes">5-10 minutes</option>
-                    <option value="10-20 minutes">10-20 minutes</option>
-                    <option value="20-30 minutes">20-30 minutes</option>
-                    <option value="30-45 minutes">30-45 minutes</option>
-                    <option value="45-60 minutes">45-60 minutes</option>
-                    <option value="Over 1 hour">Over 1 hour</option>
-                  </select>
-                </div>
-              )}
-
-              {category === 'exercise_movement' && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Session duration <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={duration}
-                    onChange={(e) => setDuration(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                             dark:bg-gray-800 dark:text-white"
-                  >
-                    <option value="">Select duration</option>
-                    <option value="Under 15 minutes">Under 15 minutes</option>
-                    <option value="15-30 minutes">15-30 minutes</option>
-                    <option value="30-45 minutes">30-45 minutes</option>
-                    <option value="45-60 minutes">45-60 minutes</option>
-                    <option value="60-90 minutes">60-90 minutes</option>
-                    <option value="90-120 minutes">90-120 minutes</option>
-                    <option value="Over 2 hours">Over 2 hours</option>
-                  </select>
-                </div>
-              )}
-
-              {category === 'habits_routines' && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Time commitment <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={timeCommitment}
-                    onChange={(e) => setTimeCommitment(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                             dark:bg-gray-800 dark:text-white"
-                  >
-                    <option value="">Select time commitment</option>
-                    <option value="Under 5 minutes">Under 5 minutes</option>
-                    <option value="5-15 minutes">5-15 minutes</option>
-                    <option value="15-30 minutes">15-30 minutes</option>
-                    <option value="30-60 minutes">30-60 minutes</option>
-                    <option value="1-2 hours">1-2 hours</option>
-                    <option value="Throughout the day">Throughout the day</option>
-                  </select>
-                </div>
-              )}
-            </div>
-
-            {/* Visual separator */}
-            <div className="flex items-center gap-4 my-8">
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
-              <span className="text-xs text-gray-500 dark:text-gray-400">then</span>
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
             </div>
 
             {/* Effectiveness Section */}
@@ -566,7 +348,8 @@ export function PracticeForm({
                   onChange={(e) => setTimeToResults(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-800 dark:text-white transition-all"
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none transition-all"
                 >
                   <option value="">Select timeframe</option>
                   <option value="Immediately">Immediately</option>
@@ -581,17 +364,181 @@ export function PracticeForm({
               </div>
             </div>
 
-            {/* Field completion dots */}
-            <div className="flex justify-center gap-2 mt-6">
-              {Object.entries(getFieldCompletion()).map(([field, completed]) => (
-                <div
-                  key={field}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    completed ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'
-                  }`}
-                />
-              ))}
+            {/* Visual separator */}
+            <div className="flex items-center gap-4 my-8">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+              <span className="text-xs text-gray-500 dark:text-gray-400">then</span>
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
             </div>
+
+            {/* Practice Details Section */}
+            <div className="space-y-6">
+              <FormSectionHeader 
+                icon={CATEGORY_ICONS[category as keyof typeof CATEGORY_ICONS] || CATEGORY_ICONS.default}
+                title="Practice details"
+              />
+              
+              {/* Cost fields */}
+              <div className="space-y-4">
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  What did it cost <span className="text-red-500">*</span>
+                </h3>
+                
+                {/* Startup cost */}
+                <div>
+                  <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                    Initial startup cost
+                  </label>
+                  <select
+                    value={startupCost}
+                    onChange={(e) => setStartupCost(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                             appearance-none"
+                  >
+                    <option value="">Select startup cost</option>
+                    <option value="Free/No startup cost">Free/No startup cost</option>
+                    <option value="Under $50">Under $50</option>
+                    <option value="$50-$99.99">$50-$99.99</option>
+                    <option value="$100-$249.99">$100-$249.99</option>
+                    <option value="$250-$499.99">$250-$499.99</option>
+                    <option value="$500-$999.99">$500-$999.99</option>
+                    <option value="$1000+">$1000+</option>
+                  </select>
+                </div>
+
+                {/* Ongoing cost */}
+                <div>
+                  <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                    Monthly ongoing cost
+                  </label>
+                  <select
+                    value={ongoingCost}
+                    onChange={(e) => setOngoingCost(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                             appearance-none"
+                  >
+                    <option value="">Select ongoing cost</option>
+                    <option value="Free/No ongoing cost">Free/No ongoing cost</option>
+                    <option value="Under $10/month">Under $10/month</option>
+                    <option value="$10-$24.99/month">$10-$24.99/month</option>
+                    <option value="$25-$49.99/month">$25-$49.99/month</option>
+                    <option value="$50-$99.99/month">$50-$99.99/month</option>
+                    <option value="$100-$199.99/month">$100-$199.99/month</option>
+                    <option value="$200+/month">$200+/month</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Frequency */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  How often do you practice? <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={frequency}
+                  onChange={(e) => setFrequency(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                           appearance-none"
+                >
+                  <option value="">Select frequency</option>
+                  <option value="Daily">Daily</option>
+                  <option value="5-6 times per week">5-6 times per week</option>
+                  <option value="3-4 times per week">3-4 times per week</option>
+                  <option value="1-2 times per week">1-2 times per week</option>
+                  <option value="Weekly">Weekly</option>
+                  <option value="Few times a month">Few times a month</option>
+                  <option value="As needed">As needed</option>
+                </select>
+              </div>
+
+              {/* Category-specific field */}
+              {category === 'meditation_mindfulness' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Practice length <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={practiceLength}
+                    onChange={(e) => setPracticeLength(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                             appearance-none"
+                  >
+                    <option value="">Select practice length</option>
+                    <option value="Under 5 minutes">Under 5 minutes</option>
+                    <option value="5-10 minutes">5-10 minutes</option>
+                    <option value="10-20 minutes">10-20 minutes</option>
+                    <option value="20-30 minutes">20-30 minutes</option>
+                    <option value="30-45 minutes">30-45 minutes</option>
+                    <option value="45-60 minutes">45-60 minutes</option>
+                    <option value="Over 1 hour">Over 1 hour</option>
+                  </select>
+                </div>
+              )}
+
+              {category === 'exercise_movement' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Session duration <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                             appearance-none"
+                  >
+                    <option value="">Select duration</option>
+                    <option value="Under 15 minutes">Under 15 minutes</option>
+                    <option value="15-30 minutes">15-30 minutes</option>
+                    <option value="30-45 minutes">30-45 minutes</option>
+                    <option value="45-60 minutes">45-60 minutes</option>
+                    <option value="60-90 minutes">60-90 minutes</option>
+                    <option value="90-120 minutes">90-120 minutes</option>
+                    <option value="Over 2 hours">Over 2 hours</option>
+                  </select>
+                </div>
+              )}
+
+              {category === 'habits_routines' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Daily time commitment <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={timeCommitment}
+                    onChange={(e) => setTimeCommitment(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                             appearance-none"
+                  >
+                    <option value="">Select time commitment</option>
+                    <option value="Under 5 minutes">Under 5 minutes</option>
+                    <option value="5-10 minutes">5-10 minutes</option>
+                    <option value="10-20 minutes">10-20 minutes</option>
+                    <option value="20-30 minutes">20-30 minutes</option>
+                    <option value="30-45 minutes">30-45 minutes</option>
+                    <option value="45-60 minutes">45-60 minutes</option>
+                    <option value="1-2 hours">1-2 hours</option>
+                    <option value="2-3 hours">2-3 hours</option>
+                    <option value="More than 3 hours">More than 3 hours</option>
+                    <option value="Multiple times throughout the day">Multiple times throughout the day</option>
+                    <option value="Ongoing/Background habit">Ongoing/Background habit</option>
+                  </select>
+                </div>
+              )}
+            </div>
+
+
           </div>
         );
 
@@ -742,7 +689,7 @@ export function PracticeForm({
             {/* Context card */}
             <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-3">
               <p className="text-sm text-purple-800 dark:text-purple-200">
-                Help others by sharing what didn't work as well
+                Help others by sharing what didn&apos;t work as well
               </p>
             </div>
 
@@ -806,7 +753,8 @@ export function PracticeForm({
                 onChange={(e) => setBestTime(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                         appearance-none text-sm"
               >
                 <option value="">Best time of day?</option>
                 <option value="Early morning (5-7am)">Early morning (5-7am)</option>
@@ -824,7 +772,8 @@ export function PracticeForm({
                   onChange={(e) => setLocation(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-700 dark:text-white text-sm"
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                           appearance-none text-sm"
                 >
                   <option value="">Where do you practice?</option>
                   <option value="Home">Home</option>
@@ -843,7 +792,8 @@ export function PracticeForm({
                 rows={3}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                         appearance-none text-sm"
               />
               
               {(bestTime || location || otherInfo) && (
@@ -852,7 +802,7 @@ export function PracticeForm({
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
                          text-sm font-medium transition-colors"
                 >
-                  Save additional details
+                  Submit
                 </button>
               )}
             </div>
@@ -962,86 +912,4 @@ export function PracticeForm({
   );
 }
 
-// CSS animations to add to your global CSS file:
-const animationStyles = `
-@keyframes slide-in {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes fadeIn {
-  from { 
-    opacity: 0; 
-  }
-  to { 
-    opacity: 1; 
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes bounce-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes bounce-right {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(4px); }
-}
-
-@keyframes scale-in {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.animate-slide-in { animation: slide-in 0.3s ease-out; }
-.animate-scale-in { animation: scale-in 0.3s ease-out; }
-.animate-bounce-in { animation: bounce-in 0.4s ease-out; }
-.animate-fade-in { animation: fade-in 0.3s ease-out; }
-.animate-bounce-right { animation: bounce-right 1s ease-in-out infinite; }
-`;
+console.log('TODO: Add animation styles to global CSS');

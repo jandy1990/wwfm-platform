@@ -1,15 +1,15 @@
 import { createServerSupabaseClient } from '@/lib/database/server'
-import { SolutionV2, SolutionVariant, SolutionWithVariants } from '@/types/solution'
+import { SolutionV2 } from '@/types/solution'
 
 export type SourceType = 'community_contributed' | 'ai_generated' | 'ai_enhanced' | 'expert_verified' | 'ai_foundation';
 
 // Updated type for the new schema
 export interface GoalSolutionWithVariants extends SolutionV2 {
-  solution_fields?: Record<string, any> | null
+  solution_fields?: Record<string, unknown> | null
   variants: {
     id: string
     variant_name: string
-    category_fields?: Record<string, any> | null
+    category_fields?: Record<string, unknown> | null
     effectiveness: number | null
     time_to_results: string | null
     cost_range: string | null

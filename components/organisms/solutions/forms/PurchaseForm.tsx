@@ -3,13 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
-import { ChevronLeft, Check, X, Plus } from 'lucide-react';
+import { ChevronLeft, Check } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { Label } from '@/components/atoms/label';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
-import { Checkbox } from '@/components/atoms/checkbox';
-import { SolutionCategory, COST_RANGES } from '@/lib/forms/templates';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Skeleton } from '@/components/atoms/skeleton';
 
@@ -29,24 +27,6 @@ interface FailedSolution {
   rating: number;
 }
 
-// Progress celebration messages
-const ProgressCelebration = ({ step }: { step: number }) => {
-  if (step === 1) return null;
-  
-  const celebrations = [
-    "Great start! 🎯",
-    "Almost there! 💪",
-    "Final step! 🏁"
-  ];
-  
-  return (
-    <div className="text-center mb-4 opacity-0 animate-[fadeIn_0.5s_ease-in_forwards]">
-      <p className="text-green-600 dark:text-green-400 font-medium text-lg">
-        {celebrations[step - 2]}
-      </p>
-    </div>
-  );
-};
 
 export function PurchaseForm({
   goalId,
@@ -54,9 +34,10 @@ export function PurchaseForm({
   userId,
   solutionName,
   category,
-  existingSolutionId,
+  existingSolutionId, // Used for pre-populating form if editing existing solution
   onBack
 }: PurchaseFormProps) {
+  console.log('PurchaseForm initialized with existingSolutionId:', existingSolutionId);
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -361,7 +342,8 @@ export function PurchaseForm({
               onChange={(e) => setTimeToResults(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
                        focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                       dark:bg-gray-800 dark:text-white transition-all"
+                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                       appearance-none transition-all"
             >
               <option value="">Select timeframe</option>
               <option value="Immediately">Immediately</option>
@@ -385,30 +367,33 @@ export function PurchaseForm({
 
         {/* Category-specific fields */}
         <div className="space-y-6">
-          <h2 className="text-xl font-semibold">Purchase details</h2>
+          <FormSectionHeader 
+            icon={CATEGORY_ICONS[category as keyof typeof CATEGORY_ICONS] || CATEGORY_ICONS.default}
+            title="Purchase details"
+          />
 
           {/* Cost field */}
           <div className="space-y-2">
-            <Label className="text-base font-medium">
-              Cost? <span className="text-red-500">*</span>
-            </Label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Cost <span className="text-red-500">*</span>
+            </label>
             <RadioGroup value={costType} onValueChange={(value) => setCostType(value as 'one_time' | 'subscription')}>
               <div className="flex gap-4">
                 <div className="flex items-center">
                   <RadioGroupItem value="one_time" id="one_time_purchase" />
-                  <Label htmlFor="one_time_purchase" className="ml-2">One-time purchase</Label>
+                  <label htmlFor="one_time_purchase" className="ml-2">One-time purchase</label>
                 </div>
                 <div className="flex items-center">
                   <RadioGroupItem value="subscription" id="subscription" />
-                  <Label htmlFor="subscription" className="ml-2">
+                  <label htmlFor="subscription" className="ml-2">
                     {category === 'products_devices' ? 'Ongoing costs' : 'Subscription'}
-                  </Label>
+                  </label>
                 </div>
               </div>
             </RadioGroup>
             
             <Select value={costRange} onValueChange={setCostRange} required>
-              <SelectTrigger>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Select cost range" />
               </SelectTrigger>
               <SelectContent>
@@ -439,16 +424,16 @@ export function PurchaseForm({
 
           {/* Product type/Format */}
           <div>
-            <Label htmlFor="product_type">
+            <label htmlFor="product_type" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               {category === 'products_devices' ? 'Product type' : 'Format'}
               <span className="text-red-500"> *</span>
-            </Label>
+            </label>
             <Select 
               value={category === 'products_devices' ? productType : format} 
               onValueChange={category === 'products_devices' ? setProductType : setFormat}
               required
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Select type" />
               </SelectTrigger>
               <SelectContent>
@@ -480,9 +465,9 @@ export function PurchaseForm({
           {/* Category-specific required fields */}
           {category === 'products_devices' && (
             <div>
-              <Label htmlFor="ease_of_use">Ease of use <span className="text-red-500">*</span></Label>
+              <label htmlFor="ease_of_use" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ease of use <span className="text-red-500">*</span></label>
               <Select value={easeOfUse} onValueChange={setEaseOfUse} required>
-                <SelectTrigger>
+                <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                   <SelectValue placeholder="How easy to use?" />
                 </SelectTrigger>
                 <SelectContent>
@@ -498,9 +483,9 @@ export function PurchaseForm({
 
           {category === 'books_courses' && (
             <div>
-              <Label htmlFor="learning_difficulty">Learning difficulty <span className="text-red-500">*</span></Label>
+              <label htmlFor="learning_difficulty" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Learning difficulty <span className="text-red-500">*</span></label>
               <Select value={learningDifficulty} onValueChange={setLearningDifficulty} required>
-                <SelectTrigger>
+                <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                   <SelectValue placeholder="How challenging?" />
                 </SelectTrigger>
                 <SelectContent>
@@ -702,7 +687,8 @@ export function PurchaseForm({
                   onChange={(e) => setCompletionStatus(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-700 dark:text-white text-sm"
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                           appearance-none text-sm"
                 >
                   <option value="">Completion status</option>
                   <option value="Completed fully">Completed fully</option>
@@ -728,7 +714,7 @@ export function PurchaseForm({
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
                          text-sm font-medium transition-colors"
                 >
-                  Save additional details
+                  Submit
                 </button>
               )}
             </div>

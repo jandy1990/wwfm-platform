@@ -3,14 +3,12 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
-import { ChevronLeft, Check, X, Plus } from 'lucide-react';
+import { ChevronLeft, Check, Plus, X } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { Label } from '@/components/atoms/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
-import { Checkbox } from '@/components/atoms/checkbox';
-import { SolutionCategory } from '@/lib/forms/templates';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Skeleton } from '@/components/atoms/skeleton';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 
 interface CommunityFormProps {
   goalId: string;
@@ -28,24 +26,6 @@ interface FailedSolution {
   rating: number;
 }
 
-// Progress celebration messages
-const ProgressCelebration = ({ step }: { step: number }) => {
-  if (step === 1) return null;
-  
-  const celebrations = [
-    "Great start! 🎯",
-    "Almost there! 💪",
-    "Final step! 🏁"
-  ];
-  
-  return (
-    <div className="text-center mb-4 opacity-0 animate-[fadeIn_0.5s_ease-in_forwards]">
-      <p className="text-green-600 dark:text-green-400 font-medium text-lg">
-        {celebrations[step - 2]}
-      </p>
-    </div>
-  );
-};
 
 export function CommunityForm({
   goalId,
@@ -53,9 +33,10 @@ export function CommunityForm({
   userId,
   solutionName,
   category,
-  existingSolutionId,
+  existingSolutionId, // Used for pre-populating form if editing existing solution
   onBack
 }: CommunityFormProps) {
+  console.log('CommunityForm initialized with existingSolutionId:', existingSolutionId);
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -66,6 +47,7 @@ export function CommunityForm({
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
   const [timeToResults, setTimeToResults] = useState('');
   const [costRange, setCostRange] = useState('');
+  const [paymentFrequency, setPaymentFrequency] = useState('');
   const [meetingFrequency, setMeetingFrequency] = useState('');
   const [format, setFormat] = useState('');
   const [groupSize, setGroupSize] = useState('');
@@ -74,14 +56,13 @@ export function CommunityForm({
   const [selectedChallenges, setSelectedChallenges] = useState<string[]>(['None']);
   const [challengeOptions, setChallengeOptions] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [customChallenge, setCustomChallenge] = useState('');
+  const [showCustomChallenge, setShowCustomChallenge] = useState(false);
   
   // Step 3 - Failed solutions
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
   
   // Optional fields (Success screen)
-  const [groupName, setGroupName] = useState('');
-  const [location, setLocation] = useState('');
-  const [howToJoin, setHowToJoin] = useState('');
   const [commitmentType, setCommitmentType] = useState('');
   const [accessibilityLevel, setAccessibilityLevel] = useState('');
   const [leadershipStyle, setLeadershipStyle] = useState('');
@@ -261,14 +242,19 @@ export function CommunityForm({
   const updateAdditionalInfo = async () => {
     // TODO: Update additional info
     console.log('Updating additional info:', { 
-      groupName, 
-      location, 
-      howToJoin,
       commitmentType,
       accessibilityLevel,
       leadershipStyle,
       additionalInfo 
     });
+  };
+  
+  const addCustomChallenge = () => {
+    if (customChallenge.trim()) {
+      setSelectedChallenges(selectedChallenges.filter(c => c !== 'None').concat(customChallenge.trim()));
+      setCustomChallenge('');
+      setShowCustomChallenge(false);
+    }
   };
   
   const renderStep = () => {
@@ -363,30 +349,25 @@ export function CommunityForm({
           </div>
 
           {/* Time to results */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="text-lg">⏱️</span>
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                When did you notice results?
-              </label>
-            </div>
-            <select
-              value={timeToResults}
-              onChange={(e) => setTimeToResults(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                       focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                       dark:bg-gray-800 dark:text-white transition-all"
-            >
-              <option value="">Select timeframe</option>
-              <option value="Immediately">Immediately</option>
-              <option value="Within days">Within days</option>
-              <option value="1-2 weeks">1-2 weeks</option>
-              <option value="3-4 weeks">3-4 weeks</option>
-              <option value="1-2 months">1-2 months</option>
-              <option value="3-6 months">3-6 months</option>
-              <option value="6+ months">6+ months</option>
-              <option value="Still evaluating">Still evaluating</option>
-            </select>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              When did you notice results? <span className="text-red-500">*</span>
+            </label>
+            <Select value={timeToResults} onValueChange={setTimeToResults} required>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+                <SelectValue placeholder="Select timeframe" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Immediately">Immediately</SelectItem>
+                <SelectItem value="Within days">Within days</SelectItem>
+                <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
+                <SelectItem value="3-4 weeks">3-4 weeks</SelectItem>
+                <SelectItem value="1-2 months">1-2 months</SelectItem>
+                <SelectItem value="3-6 months">3-6 months</SelectItem>
+                <SelectItem value="6+ months">6+ months</SelectItem>
+                <SelectItem value="Still evaluating">Still evaluating</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
@@ -399,37 +380,91 @@ export function CommunityForm({
 
         {/* Category-specific fields */}
         <div className="space-y-6">
-          <h2 className="text-xl font-semibold">{getCategoryDisplay()} details</h2>
+          <FormSectionHeader 
+            icon={CATEGORY_ICONS[category]} 
+            title={`${getCategoryDisplay()} details`}
+          />
 
-          {/* Cost field */}
+          {/* Payment Frequency - Step 1 */}
           <div className="space-y-2">
-            <Label className="text-base font-medium">
-              Cost? <span className="text-red-500">*</span>
-            </Label>
-            <Select value={costRange} onValueChange={setCostRange} required>
-              <SelectTrigger>
-                <SelectValue placeholder="Select cost" />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Payment type <span className="text-red-500">*</span>
+            </label>
+            <Select value={paymentFrequency} onValueChange={(value) => {
+              setPaymentFrequency(value);
+              setCostRange(''); // Reset cost when frequency changes
+            }} required>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+                <SelectValue placeholder="How do you pay?" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Free">Free</SelectItem>
-                <SelectItem value="Donation-based">Donation-based</SelectItem>
-                <SelectItem value="Under $20/meeting">Under $20/meeting</SelectItem>
-                <SelectItem value="$20-50/meeting">$20-50/meeting</SelectItem>
-                <SelectItem value="Under $20/month">Under $20/month</SelectItem>
-                <SelectItem value="$20-50/month">$20-50/month</SelectItem>
-                <SelectItem value="$50-100/month">$50-100/month</SelectItem>
-                <SelectItem value="Over $100/month">Over $100/month</SelectItem>
+                <SelectItem value="free">Free or donation-based</SelectItem>
+                <SelectItem value="per-meeting">Per meeting/session</SelectItem>
+                <SelectItem value="monthly">Monthly</SelectItem>
+                <SelectItem value="yearly">Yearly</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
+          {/* Cost Range - Step 2 (conditional) */}
+          {paymentFrequency && (
+            <div className="space-y-2 animate-slide-in">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                {paymentFrequency === 'free' ? 'Type' : 'Amount'} <span className="text-red-500">*</span>
+              </label>
+              <Select value={costRange} onValueChange={setCostRange} required>
+                <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+                  <SelectValue placeholder={paymentFrequency === 'free' ? 'Select type' : 'Select amount'} />
+                </SelectTrigger>
+                <SelectContent>
+                  {paymentFrequency === 'free' && (
+                    <>
+                      <SelectItem value="Free">Free</SelectItem>
+                      <SelectItem value="Donation-based">Donation-based</SelectItem>
+                    </>
+                  )}
+                  
+                  {paymentFrequency === 'per-meeting' && (
+                    <>
+                      <SelectItem value="Under $10/meeting">Under $10/meeting</SelectItem>
+                      <SelectItem value="$10-$19.99/meeting">$10-$19.99/meeting</SelectItem>
+                      <SelectItem value="$20-$49.99/meeting">$20-$49.99/meeting</SelectItem>
+                      <SelectItem value="$50-$99.99/meeting">$50-$99.99/meeting</SelectItem>
+                      <SelectItem value="Over $100/meeting">Over $100/meeting</SelectItem>
+                    </>
+                  )}
+                  
+                  {paymentFrequency === 'monthly' && (
+                    <>
+                      <SelectItem value="Under $20/month">Under $20/month</SelectItem>
+                      <SelectItem value="$20-$49.99/month">$20-$49.99/month</SelectItem>
+                      <SelectItem value="$50-$99.99/month">$50-$99.99/month</SelectItem>
+                      <SelectItem value="$100-$199.99/month">$100-$199.99/month</SelectItem>
+                      <SelectItem value="$200-$499.99/month">$200-$499.99/month</SelectItem>
+                      <SelectItem value="Over $500/month">Over $500/month</SelectItem>
+                    </>
+                  )}
+                  
+                  {paymentFrequency === 'yearly' && (
+                    <>
+                      <SelectItem value="Under $100/year">Under $100/year</SelectItem>
+                      <SelectItem value="$100-$499.99/year">$100-$499.99/year</SelectItem>
+                      <SelectItem value="$500-$999.99/year">$500-$999.99/year</SelectItem>
+                      <SelectItem value="Over $1000/year">Over $1000/year</SelectItem>
+                    </>
+                  )}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
           {/* Meeting frequency */}
           <div>
-            <Label htmlFor="meeting_frequency">
+            <label htmlFor="meeting_frequency" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Meeting frequency <span className="text-red-500">*</span>
-            </Label>
+            </label>
             <Select value={meetingFrequency} onValueChange={setMeetingFrequency} required>
-              <SelectTrigger>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="How often?" />
               </SelectTrigger>
               <SelectContent>
@@ -446,11 +481,11 @@ export function CommunityForm({
 
           {/* Format */}
           <div>
-            <Label htmlFor="format">
+            <label htmlFor="format" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Format <span className="text-red-500">*</span>
-            </Label>
+            </label>
             <Select value={format} onValueChange={setFormat} required>
-              <SelectTrigger>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Meeting format" />
               </SelectTrigger>
               <SelectContent>
@@ -464,11 +499,11 @@ export function CommunityForm({
 
           {/* Group size */}
           <div>
-            <Label htmlFor="group_size">
+            <label htmlFor="group_size" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Group size <span className="text-red-500">*</span>
-            </Label>
+            </label>
             <Select value={groupSize} onValueChange={setGroupSize} required>
-              <SelectTrigger>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="How many people?" />
               </SelectTrigger>
               <SelectContent>
@@ -548,7 +583,74 @@ export function CommunityForm({
               <span className="text-sm">{challenge}</span>
             </label>
           ))}
+          
+          {/* Add Other button */}
+          <button
+            onClick={() => setShowCustomChallenge(true)}
+            className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
+                      transition-all transform hover:scale-[1.02] border-dashed
+                      border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-sm"
+          >
+            <Plus className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors" />
+            <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200">
+              Add other challenge
+            </span>
+          </button>
         </div>
+
+        {/* Custom challenge input */}
+        {showCustomChallenge && (
+          <div className="mt-3 flex gap-2 animate-fade-in">
+            <input
+              type="text"
+              value={customChallenge}
+              onChange={(e) => setCustomChallenge(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && addCustomChallenge()}
+              placeholder="Describe the challenge"
+              className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
+                       focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                       dark:bg-gray-800 dark:text-white"
+              autoFocus
+            />
+            <button
+              onClick={addCustomChallenge}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
+                       rounded-lg transition-colors"
+            >
+              Add
+            </button>
+            <button
+              onClick={() => {
+                setShowCustomChallenge(false);
+                setCustomChallenge('');
+              }}
+              className="px-3 py-2 text-gray-500 hover:text-gray-700"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
+
+        {/* Show custom challenges */}
+        {selectedChallenges.filter(c => !challengeOptions.includes(c) && c !== 'None').length > 0 && (
+          <div className="mt-2">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Added:</p>
+            <div className="flex flex-wrap gap-2">
+              {selectedChallenges.filter(c => !challengeOptions.includes(c) && c !== 'None').map((challenge) => (
+                <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
+                                             text-blue-700 dark:text-blue-300 rounded-full text-sm">
+                  {challenge}
+                  <button
+                    onClick={() => setSelectedChallenges(selectedChallenges.filter(c => c !== challenge))}
+                    className="hover:text-blue-900 dark:hover:text-blue-100"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Selected count indicator */}
         {selectedChallenges.length > 0 && selectedChallenges[0] !== 'None' && (
@@ -634,42 +736,13 @@ export function CommunityForm({
             </p>
             
             <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Group/Community name"
-                value={groupName}
-                onChange={(e) => setGroupName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
-              />
-              
-              <input
-                type="text"
-                placeholder="Location (city, online platform, etc.)"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
-              />
-              
-              <input
-                type="text"
-                placeholder="How to join (website, contact info, etc.)"
-                value={howToJoin}
-                onChange={(e) => setHowToJoin(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
-              />
-              
               <select
                 value={commitmentType}
                 onChange={(e) => setCommitmentType(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                         appearance-none text-sm"
               >
                 <option value="">Commitment type</option>
                 <option value="Drop-in anytime">Drop-in anytime</option>
@@ -683,7 +756,8 @@ export function CommunityForm({
                 onChange={(e) => setAccessibilityLevel(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                         appearance-none text-sm"
               >
                 <option value="">{category === 'groups_communities' ? 'Beginner friendly?' : 'Newcomer welcoming?'}</option>
                 <option value="Very welcoming">Very welcoming</option>
@@ -699,7 +773,8 @@ export function CommunityForm({
                   onChange={(e) => setLeadershipStyle(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                           dark:bg-gray-700 dark:text-white text-sm"
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                           appearance-none text-sm"
                 >
                   <option value="">Leadership style</option>
                   <option value="Peer-led">Peer-led</option>
@@ -717,16 +792,17 @@ export function CommunityForm({
                 rows={2}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                         appearance-none text-sm"
               />
               
-              {(groupName || location || howToJoin || commitmentType || accessibilityLevel || leadershipStyle || additionalInfo) && (
+              {(commitmentType || accessibilityLevel || leadershipStyle || additionalInfo) && (
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
                          text-sm font-medium transition-colors"
                 >
-                  Save additional details
+                  Submit
                 </button>
               )}
             </div>

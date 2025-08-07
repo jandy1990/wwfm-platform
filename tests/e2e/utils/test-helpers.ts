@@ -28,8 +28,36 @@ export const testSupabase = new Proxy({} as SupabaseClient, {
 // Test data factory
 export function generateTestSolution(category: string) {
   const timestamp = Date.now()
+  
+  // Generate category-specific solution names that will auto-categorize correctly
+  const categoryToSolutionName: Record<string, string> = {
+    'medications': `Lexapro Test ${timestamp}`,
+    'supplements_vitamins': `Vitamin D Test ${timestamp}`,
+    'natural_remedies': `Lavender Oil Test ${timestamp}`,
+    'beauty_skincare': `Retinol Cream Test ${timestamp}`,
+    'apps_software': `Headspace Test ${timestamp}`,
+    'exercise_movement': `Running Test ${timestamp}`,
+    'meditation_mindfulness': `Mindfulness Meditation Test ${timestamp}`,
+    'habits_routines': `Morning Routine Test ${timestamp}`,
+    'therapists_counselors': `CBT Therapy Test ${timestamp}`,
+    'doctors_specialists': `Psychiatrist Test ${timestamp}`,
+    'coaches_mentors': `Life Coach Test ${timestamp}`,
+    'alternative_practitioners': `Acupuncture Test ${timestamp}`,
+    'professional_services': `Financial Advisor Test ${timestamp}`,
+    'medical_procedures': `Physical Therapy Test ${timestamp}`,
+    'crisis_resources': `Crisis Hotline Test ${timestamp}`,
+    'products_devices': `Fitbit Test ${timestamp}`,
+    'books_courses': `Cognitive Therapy Book Test ${timestamp}`,
+    'support_groups': `Anxiety Support Group Test ${timestamp}`,
+    'groups_communities': `Running Club Test ${timestamp}`,
+    'diet_nutrition': `Mediterranean Diet Test ${timestamp}`,
+    'sleep': `Sleep Hygiene Test ${timestamp}`,
+    'hobbies_activities': `Painting Test ${timestamp}`,
+    'financial_products': `High Yield Savings Test ${timestamp}`
+  }
+  
   return {
-    title: `Test ${category} ${timestamp}`,
+    title: categoryToSolutionName[category] || `Test ${category} ${timestamp}`,
     description: `Automated test solution for ${category}`,
     category,
     goalId: process.env.TEST_GOAL_ID || '56e2801e-0d78-4abd-a795-869e5b780ae7'
