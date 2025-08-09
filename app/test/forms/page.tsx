@@ -57,15 +57,17 @@ const CATEGORIES = [
   { category: 'financial_products', form: 'FinancialForm', icon: '💰', group: 'Financial Forms' },
 ];
 
-// Test data - REPLACE WITH A REAL GOAL ID FROM YOUR DATABASE
-const TEST_GOAL_ID = 'test-goal-uuid'; // TODO: Replace with real goal ID
-const TEST_USER_ID = 'test-user-123';
+// Test data - using sample IDs (will need auth to actually submit)
+const TEST_GOAL_ID = '11111111-1111-1111-1111-111111111111'; // Generic test ID
+const TEST_USER_ID = '22222222-2222-2222-2222-222222222222'; // Generic test ID
 
 export default function FormsTestPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [submissionResult, setSubmissionResult] = useState<string | null>(null);
 
   const handleBack = () => {
     setSelectedCategory(null);
+    setSubmissionResult(null);
   };
 
   // Get the form component for selected category
@@ -113,6 +115,14 @@ export default function FormsTestPage() {
     const categoryInfo = CATEGORIES.find(c => c.category === selectedCategory);
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        {/* Submission result banner */}
+        {submissionResult && (
+          <div className={`p-4 ${submissionResult.includes('Error') ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
+            <div className="max-w-6xl mx-auto">
+              {submissionResult}
+            </div>
+          </div>
+        )}
         <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
           <button
             onClick={handleBack}

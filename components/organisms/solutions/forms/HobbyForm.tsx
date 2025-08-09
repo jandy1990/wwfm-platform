@@ -6,6 +6,8 @@ import { supabase } from '@/lib/database/client';
 import { ChevronLeft, Check } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface HobbyFormProps {
   goalId: string;
@@ -38,6 +40,12 @@ export function HobbyForm({
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
   const [highestStepReached, setHighestStepReached] = useState(1);
+  const [submissionResult, setSubmissionResult] = useState<{
+    solutionId?: string;
+    variantId?: string;
+    otherRatingsCount?: number;
+  }>({});
+  const [restoredFromBackup, setRestoredFromBackup] = useState(false);
   
   // Step 1 fields - Hobby details
   const [startupCost, setStartupCost] = useState('');
@@ -62,6 +70,46 @@ export function HobbyForm({
   // Progress indicator
   const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
+  
+  // Form backup data object
+  const formBackupData = {
+    startupCost,
+    ongoingCost,
+    timeInvestment,
+    frequency,
+    effectiveness,
+    timeToResults,
+    challenges,
+    communityName,
+    otherInfo,
+    failedSolutions,
+    currentStep,
+    highestStepReached
+  };
+  
+  // Use form backup hook
+  const { clearBackup } = useFormBackup(
+    `hobby-form-${goalId}-${solutionName}`,
+    formBackupData,
+    {
+      onRestore: (data) => {
+        setStartupCost(data.startupCost || '');
+        setOngoingCost(data.ongoingCost || '');
+        setTimeInvestment(data.timeInvestment || '');
+        setFrequency(data.frequency || '');
+        setEffectiveness(data.effectiveness || null);
+        setTimeToResults(data.timeToResults || '');
+        setChallenges(data.challenges || ['None']);
+        setCommunityName(data.communityName || '');
+        setOtherInfo(data.otherInfo || '');
+        setFailedSolutions(data.failedSolutions || []);
+        setCurrentStep(data.currentStep || 1);
+        setHighestStepReached(data.highestStepReached || 1);
+        setRestoredFromBackup(true);
+        setTimeout(() => setRestoredFromBackup(false), 5000);
+      }
+    }
+  );
 
   // Handle browser back button
   useEffect(() => {
@@ -154,44 +202,55 @@ export function HobbyForm({
     setIsSubmitting(true);
     
     try {
-      // TODO: Main solution submission logic here
-      console.log('TODO: Add main submission logic');
-      
-      // Submit failed solution ratings for existing solutions
-      for (const failed of failedSolutions) {
-        if (failed.id) {
-          await supabase.rpc('create_failed_solution_rating', {
-            p_solution_id: failed.id,
-            p_goal_id: goalId,
-            p_user_id: userId,
-            p_rating: failed.rating,
-            p_solution_name: failed.name
-          });
-        }
-      }
-      
-      // Store non-existing failed solutions as text in implementation
-      const textOnlyFailed = failedSolutions
-        .filter(f => !f.id)
-        .map(f => ({ name: f.name, rating: f.rating }));
-      
-      console.log('Submitting hobby form:', {
-        solutionName,
-        effectiveness,
-        startupCost,
-        ongoingCost,
-        timeInvestment,
+      // Prepare solution fields for storage
+      const solutionFields = {
+        startup_cost: startupCost,
+        ongoing_cost: ongoingCost,
+        time_investment: timeInvestment,
         frequency,
-        timeToResults,
+        time_to_results: timeToResults,
         challenges,
-        failedSolutionsWithRatings: failedSolutions.filter(f => f.id),
-        failedSolutionsTextOnly: textOnlyFailed
-      });
+        community_name: communityName || undefined,
+        other_info: otherInfo || undefined
+      };
+
+      // Prepare submission data (Hobbies don't have variants)
+      const submissionData: SubmitSolutionData = {
+        goalId,
+        userId,
+        solutionName,
+        category,
+        existingSolutionId,
+        effectiveness: effectiveness!,
+        timeToResults,
+        solutionFields,
+        failedSolutions
+      };
+
+      // Call server action
+      const result = await submitSolution(submissionData);
       
-      // Show success screen instead of redirecting
-      setShowSuccessScreen(true);
+      if (result.success) {
+        // Store the result for success screen
+        setSubmissionResult({
+          solutionId: result.solutionId,
+          variantId: result.variantId,
+          otherRatingsCount: result.otherRatingsCount
+        });
+        
+        // Clear backup on successful submission
+        clearBackup();
+        
+        // Show success screen
+        setShowSuccessScreen(true);
+      } else {
+        // Handle error
+        console.error('Error submitting solution:', result.error);
+        alert(result.error || 'Failed to submit solution. Please try again.');
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -208,6 +267,16 @@ export function HobbyForm({
       case 1: // Hobby details
         return (
           <div className="space-y-8 animate-slide-in">
+            {/* Restore notification */}
+            {restoredFromBackup && (
+              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 
+                            rounded-lg p-3 mb-4 animate-fade-in">
+                <p className="text-sm text-green-800 dark:text-green-200">
+                  ✓ Your previous progress has been restored
+                </p>
+              </div>
+            )}
+            
             {/* Quick context card */}
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
                           border border-blue-200 dark:border-blue-800 rounded-lg p-4">

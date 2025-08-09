@@ -7,11 +7,13 @@ import { ChevronLeft, Check, Plus, X } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { Label } from '@/components/atoms/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
-import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
+// RadioGroup removed - using standard HTML radio inputs for better test compatibility
 import { COST_RANGES } from '@/lib/forms/templates';
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Skeleton } from '@/components/atoms/skeleton';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface SessionFormProps {
   goalId: string;
@@ -46,6 +48,12 @@ export function SessionForm({
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
   const [highestStepReached, setHighestStepReached] = useState(1);
+  const [submissionResult, setSubmissionResult] = useState<{
+    solutionId?: string;
+    variantId?: string;
+    otherRatingsCount?: number;
+  }>({});
+  const [restoredFromBackup, setRestoredFromBackup] = useState(false);
   
   // Step 1 fields - Universal + Category-specific
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
@@ -92,6 +100,66 @@ export function SessionForm({
   // Progress indicator
   const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
+  
+  // Form backup data object
+  const formBackupData = {
+    effectiveness,
+    timeToResults,
+    costType,
+    costRange,
+    sessionFrequency,
+    format,
+    sessionLength,
+    waitTime,
+    insuranceCoverage,
+    specialty,
+    responseTime,
+    selectedSideEffects,
+    customSideEffect,
+    selectedBarriers,
+    customBarrier,
+    failedSolutions,
+    completedTreatment,
+    typicalLength,
+    availability,
+    additionalInfo,
+    currentStep,
+    highestStepReached
+  };
+  
+  // Use form backup hook
+  const { clearBackup } = useFormBackup(
+    `session-form-${goalId}-${solutionName}`,
+    formBackupData,
+    {
+      onRestore: (data) => {
+        setEffectiveness(data.effectiveness || null);
+        setTimeToResults(data.timeToResults || '');
+        setCostType(data.costType || 'per_session');
+        setCostRange(data.costRange || '');
+        setSessionFrequency(data.sessionFrequency || '');
+        setFormat(data.format || '');
+        setSessionLength(data.sessionLength || '');
+        setWaitTime(data.waitTime || '');
+        setInsuranceCoverage(data.insuranceCoverage || '');
+        setSpecialty(data.specialty || '');
+        setResponseTime(data.responseTime || '');
+        setSelectedSideEffects(data.selectedSideEffects || ['None']);
+        setCustomSideEffect(data.customSideEffect || '');
+        setSelectedBarriers(data.selectedBarriers || ['None']);
+        setCustomBarrier(data.customBarrier || '');
+        setFailedSolutions(data.failedSolutions || []);
+        setCompletedTreatment(data.completedTreatment || '');
+        setTypicalLength(data.typicalLength || '');
+        setAvailability(data.availability || []);
+        setAdditionalInfo(data.additionalInfo || '');
+        setCurrentStep(data.currentStep || 1);
+        setHighestStepReached(data.highestStepReached || 1);
+        setRestoredFromBackup(true);
+        setTimeout(() => setRestoredFromBackup(false), 5000);
+      }
+    }
+  );
   
   // Handle browser back button
   useEffect(() => {
@@ -270,6 +338,16 @@ export function SessionForm({
   const renderStepOne = () => {
     return (
       <div className="space-y-8 animate-slide-in">
+        {/* Restore notification */}
+        {restoredFromBackup && (
+          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 
+                        rounded-lg p-3 mb-4 animate-fade-in">
+            <p className="text-sm text-green-800 dark:text-green-200">
+              ✓ Your previous progress has been restored
+            </p>
+          </div>
+        )}
+        
         {/* Quick context card */}
         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
                       border border-blue-200 dark:border-blue-800 rounded-lg p-4">
@@ -379,24 +457,43 @@ export function SessionForm({
         </Label>
         
         {category !== 'crisis_resources' && (
-          <RadioGroup value={costType} onValueChange={(value) => setCostType(value as 'per_session' | 'monthly' | 'total')}>
-            <div className="flex gap-4">
-              <div className="flex items-center">
-                <RadioGroupItem value="per_session" id="per_session" />
-                <Label htmlFor="per_session" className="ml-2">Per session</Label>
-              </div>
-              <div className="flex items-center">
-                <RadioGroupItem value="monthly" id="monthly" />
-                <Label htmlFor="monthly" className="ml-2">Monthly</Label>
-              </div>
-              {category === 'medical_procedures' && (
-                <div className="flex items-center">
-                  <RadioGroupItem value="total" id="total" />
-                  <Label htmlFor="total" className="ml-2">Total cost</Label>
-                </div>
-              )}
-            </div>
-          </RadioGroup>
+          <div className="flex gap-4" role="radiogroup">
+            <label className="flex items-center cursor-pointer">
+              <input
+                type="radio"
+                name="costType"
+                value="per_session"
+                checked={costType === 'per_session'}
+                onChange={(e) => setCostType(e.target.value as 'per_session' | 'monthly' | 'total')}
+                className="mr-2 text-blue-600 focus:ring-blue-500"
+              />
+              <span>Per session</span>
+            </label>
+            <label className="flex items-center cursor-pointer">
+              <input
+                type="radio"
+                name="costType"
+                value="monthly"
+                checked={costType === 'monthly'}
+                onChange={(e) => setCostType(e.target.value as 'per_session' | 'monthly' | 'total')}
+                className="mr-2 text-blue-600 focus:ring-blue-500"
+              />
+              <span>Monthly</span>
+            </label>
+            {category === 'medical_procedures' && (
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="radio"
+                  name="costType"
+                  value="total"
+                  checked={costType === 'total'}
+                  onChange={(e) => setCostType(e.target.value as 'per_session' | 'monthly' | 'total')}
+                  className="mr-2 text-blue-600 focus:ring-blue-500"
+                />
+                <span>Total cost</span>
+              </label>
+            )}
+          </div>
         )}
         
         <Select value={costRange} onValueChange={setCostRange} required>
@@ -926,46 +1023,79 @@ export function SessionForm({
     setIsSubmitting(true);
     
     try {
-      // TODO: Submit implementation
-      // Include custom side effect description if "Other" is selected
-      const sideEffectsData = showSideEffects ? {
-        selected: selectedSideEffects,
-        customDescription: selectedSideEffects.includes('Other (please describe)') ? customSideEffect : undefined
-      } : undefined;
-
-      console.log('Submitting session form with:', {
-        effectiveness,
-        timeToResults,
-        costRange,
-        costType,
-        sessionFrequency,
-        format,
-        sessionLength,
-        waitTime,
-        insuranceCoverage,
-        specialty,
-        responseTime,
-        sideEffects: sideEffectsData,
-        barriers: showBarriers ? selectedBarriers : undefined,
-        failedSolutions
-      });
+      // Prepare solution fields for storage
+      const solutionFields: Record<string, any> = {
+        cost_type: costType,
+        cost_range: costRange,
+        time_to_results: timeToResults
+      };
       
-      // Submit failed solution ratings
-      for (const failed of failedSolutions) {
-        if (failed.id) {
-          await supabase.rpc('create_failed_solution_rating', {
-            p_solution_id: failed.id,
-            p_goal_id: goalId,
-            p_user_id: userId,
-            p_rating: failed.rating,
-            p_solution_name: failed.name
-          });
+      // Add optional fields based on category
+      if (sessionFrequency) solutionFields.session_frequency = sessionFrequency;
+      if (format) solutionFields.format = format;
+      if (sessionLength) solutionFields.session_length = sessionLength;
+      if (waitTime) solutionFields.wait_time = waitTime;
+      if (insuranceCoverage) solutionFields.insurance_coverage = insuranceCoverage;
+      if (specialty) solutionFields.specialty = specialty;
+      if (responseTime) solutionFields.response_time = responseTime;
+      
+      // Add side effects or barriers
+      if (showSideEffects) {
+        solutionFields.side_effects = selectedSideEffects;
+        if (selectedSideEffects.includes('Other (please describe)') && customSideEffect) {
+          solutionFields.custom_side_effect = customSideEffect;
+        }
+      }
+      if (showBarriers) {
+        solutionFields.barriers = selectedBarriers;
+        if (customBarrier) {
+          solutionFields.custom_barrier = customBarrier;
         }
       }
       
-      setShowSuccessScreen(true);
+      // Add optional success screen fields
+      if (completedTreatment) solutionFields.completed_treatment = completedTreatment;
+      if (typicalLength) solutionFields.typical_length = typicalLength;
+      if (availability.length > 0) solutionFields.availability = availability;
+      if (additionalInfo) solutionFields.additional_info = additionalInfo;
+
+      // Prepare submission data
+      const submissionData: SubmitSolutionData = {
+        goalId,
+        userId,
+        solutionName,
+        category,
+        existingSolutionId,
+        effectiveness: effectiveness!,
+        timeToResults,
+        solutionFields,
+        failedSolutions
+      };
+
+      // Call server action
+      const result = await submitSolution(submissionData);
+      
+      if (result.success) {
+        // Store the result for success screen
+        setSubmissionResult({
+          solutionId: result.solutionId,
+          variantId: result.variantId,
+          otherRatingsCount: result.otherRatingsCount
+        });
+        
+        // Clear backup on successful submission
+        clearBackup();
+        
+        // Show success screen
+        setShowSuccessScreen(true);
+      } else {
+        // Handle error
+        console.error('Error submitting solution:', result.error);
+        alert(result.error || 'Failed to submit solution. Please try again.');
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -1010,7 +1140,13 @@ export function SessionForm({
             Thank you for sharing!
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
-            Your experience with {solutionName} has been recorded
+            {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
+              <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'}</>
+            ) : existingSolutionId ? (
+              <>Your experience with {solutionName} has been recorded</>
+            ) : (
+              <>You're the first to review {solutionName}! It needs 2 more reviews to go live.</>
+            )}
           </p>
 
           {/* Optional fields in a subtle card */}

@@ -54,10 +54,19 @@ Quick rating: Hover (desktop) or swipe (mobile) to rate 1-5 stars
 Detailed rating: Full form with duration, side effects, completion %
 🔧 Development Guidelines
 Form System
-9 form templates map to 23 solution categories
+9 form templates map to 23 solution categories (ALL IMPLEMENTED)
 Each form has required fields (effectiveness, time to results, cost)
 Optional fields vary by category (dosage, frequency, side effects)
 All forms support "What else did you try?" for failed solutions
+✅ Forms use 3-step wizard pattern for better UX
+
+Search & Filtering
+⚠️ AGGRESSIVE FILTERING: The search actively filters out generic terms
+Solutions must have "specific indicators" (hyphens, numbers, CamelCase, ®, ™, or "(Test)")
+Test fixtures MUST have "(Test)" suffix to appear in search
+Generic terms like "therapy", "medication" are blocked unless specific
+See /docs/architecture/SOLUTION_SEARCH_DATA_FLOW.md for complete pipeline
+
 Component Patterns
 Server Components by default, Client Components only for interactivity
 Use TypeScript strictly - no any types
@@ -68,26 +77,40 @@ Always use Supabase client (server or client version as appropriate)
 Respect Row Level Security (RLS) policies
 Use proper TypeScript types matching database schema
 Implement optimistic updates for better UX
+EFFECTIVENESS IS STORED IN goal_implementation_links, NOT ON SOLUTIONS
 🚀 Current State & Priorities
 What's Working
 Core browse experience
-Goal/solution display
-Basic search with fuzzy matching
-User authentication
-One form type (DosageForm)
+Goal/solution display with effectiveness ratings
+Fuzzy search with auto-categorization
+User authentication with email verification
+✅ ALL 9 FORM TEMPLATES IMPLEMENTED
+✅ E2E testing infrastructure complete
+✅ Test fixtures with "(Test)" suffix
+✅ Aggressive search filtering for data quality
+
 What Needs Work
-8 remaining form templates
-Solution detail pages
+Content expansion (currently 529 solutions, need 2,000+)
 Admin moderation tools
 Email notifications
-Performance optimization
+Performance optimization at scale
 More comprehensive error handling
+
+Recent Achievements (January 2025)
+✅ Completed all 9 form templates (DosageForm, SessionForm, PracticeForm, etc.)
+✅ Fixed critical search functionality (was querying non-existent solutions_v2 table)
+✅ Added RLS policies for user submissions
+✅ Implemented test fixtures with special "(Test)" suffix handling
+✅ Created comprehensive E2E testing with Playwright
+✅ Documented complete search & submission data flow
+
 Platform Metrics
 652 goals across 13 life arenas
-309 solutions (47% of goals have solutions)
-376 solution variants
-Target: 80% coverage with 2,000+ solutions
-Average effectiveness: 4.2/5 (AI seeded)
+529 solutions (need 2,000+ for launch)
+37% of goals have solutions (target: 80%)
+Average effectiveness: 4.23/5 (AI seeded + user ratings)
+9/9 form templates operational
+23 test fixtures for automated testing
 💡 Key Concepts to Understand
 Solution vs Implementation
 Solution: Generic approach (e.g., "Therapy")
@@ -110,18 +133,29 @@ Follow established patterns in codebase
 Add proper TypeScript types
 Include loading and error states
 Test with both authenticated and anonymous users
+Consider impact on search filtering
+
 Debugging Issues
 Check browser console for errors
 Verify Supabase RLS policies
 Ensure proper authentication state
 Check TypeScript types match database
 Look for similar working examples in codebase
+For search issues: Check if solution is approved AND has proper naming
+
 Working with Forms
+All 9 forms are implemented - see /components/organisms/solutions/forms/
 Identify which of 9 form types applies
-Check solution category mapping
-Ensure variant handling is correct
+Check solution category mapping in SolutionFormWithAutoCategory.tsx
+Ensure variant handling is correct (only 4 categories use real variants)
 Test auto-categorization
-Verify data saves to correct tables
+Verify data saves to correct tables (solution_fields in goal_implementation_links)
+
+Testing
+Run E2E tests: npm run test:forms
+Test fixtures must have "(Test)" suffix
+Verify fixtures are approved: npm run test:fixtures:verify
+See /tests/e2e/TEST_SOLUTIONS_SETUP.md for test infrastructure
 📝 Documentation
 README.md: Basic setup and overview
 ARCHITECTURE.md: Technical design decisions

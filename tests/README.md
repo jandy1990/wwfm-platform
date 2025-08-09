@@ -4,6 +4,8 @@
 
 This directory contains end-to-end tests for the WWFM platform using Playwright. The tests focus on verifying the complete data flow from form submission through to database storage.
 
+**✅ Status: All 9 form types are fully tested and working!**
+
 ## Setup
 
 ### 1. Install Dependencies
@@ -41,6 +43,26 @@ VALUES (
 );
 ```
 
+### 4. Create and Approve Test Fixtures (CRITICAL)
+
+The tests use pre-created test solutions that MUST exist and be approved in the database:
+
+```sql
+-- After test fixtures are created, they MUST be approved
+-- Run this script: /tests/setup/approve-test-fixtures.sql
+
+UPDATE solutions 
+SET is_approved = true 
+WHERE source_type = 'test_fixture';
+
+-- Verify all 23 test fixtures are approved
+SELECT title, is_approved, source_type 
+FROM solutions 
+WHERE source_type = 'test_fixture';
+```
+
+**⚠️ IMPORTANT**: Test fixtures must have `is_approved = true` or they won't appear in search dropdowns during tests. The application filters search results to only show approved solutions.
+
 ## Running Tests
 
 ```bash
@@ -62,6 +84,19 @@ npm run test:forms -- dosage-form
 # Generate and view HTML report
 npm run test:forms:report
 ```
+
+## Test Fixtures
+
+Tests use permanent test solutions in the database (see `/tests/e2e/TEST_SOLUTIONS_SETUP.md`):
+- All have "(Test)" suffix for identification
+- Marked with `source_type = 'test_fixture'`
+- MUST have `is_approved = true` to appear in search
+- Protected from cleanup functions
+
+Example test fixtures:
+- `CBT Therapy (Test)` → therapists_counselors
+- `Headspace (Test)` → apps_software
+- `Prozac (Test)` → medications
 
 ## Writing Tests
 
@@ -129,22 +164,32 @@ npm run test:forms:debug
 
 ### Common Issues
 
-1. **"Solution not found in database"**
+1. **"Solution not found in dropdown"**
+   - Check if test fixtures are approved: `SELECT title, is_approved FROM solutions WHERE source_type = 'test_fixture'`
+   - Run approval script if needed: `/tests/setup/approve-test-fixtures.sql`
+   - Verify exact title match including "(Test)" suffix
+
+2. **"Radio button not being selected"**
+   - SessionForm now uses standard HTML radio inputs instead of shadcn RadioGroup
+   - This was fixed to ensure test compatibility
+   - See `/docs/testing/SESSIONFORM_FIX.md` for details
+
+2. **"Solution not found in database"**
    - Check if form submission succeeded
    - Verify RLS policies aren't blocking
    - Check test is using correct table
 
-2. **"Field count mismatch"**
+3. **"Field count mismatch"**
    - Compare against CATEGORY_CONFIG in GoalPageClient.tsx
    - Verify field names match exactly
    - Check array fields are properly formatted
 
-3. **"Timeout waiting for navigation"**
+4. **"Timeout waiting for navigation"**
    - Increase timeout in waitForSuccessPage
    - Check for form validation errors
    - Verify API endpoints are working
 
-4. **"Cannot find element"**
+5. **"Cannot find element"**
    - Use Playwright Inspector to find correct selectors
    - Check if element is within Shadow DOM
    - Verify element is visible before interaction
@@ -161,12 +206,29 @@ See `.github/workflows/form-tests.yml` for configuration.
 ## Best Practices
 
 1. **Test Isolation**: Each test should be independent
-2. **Cleanup**: Always clean up test data
-3. **Unique Names**: Use timestamps in test data
+2. **Cleanup**: Always clean up test data (but never test fixtures)
+3. **Unique Names**: Use test fixtures for predictability
 4. **Explicit Waits**: Use proper wait conditions
 5. **Error Messages**: Write descriptive assertions
+6. **Fixture Approval**: Always verify test fixtures are approved
 
 ## Troubleshooting
+
+### Test Fixtures Not Appearing in Search
+
+This is the most common issue. The application filters search results to only show approved solutions:
+
+```sql
+-- Check approval status
+SELECT title, is_approved 
+FROM solutions 
+WHERE source_type = 'test_fixture';
+
+-- Fix if needed
+UPDATE solutions 
+SET is_approved = true 
+WHERE source_type = 'test_fixture';
+```
 
 ### Local Development Issues
 
@@ -175,9 +237,11 @@ If tests fail locally but pass in CI:
 2. Ensure dev server is running on correct port
 3. Clear Playwright cache: `npx playwright clean-downloads`
 4. Update browsers: `npx playwright install`
+5. Verify test fixtures are approved in your local database
 
 ### Need Help?
 
 - Playwright Docs: https://playwright.dev
 - Project Architecture: /ARCHITECTURE.md
 - Form Implementation: /testing/testing-setup.md
+- Test Fixtures Setup: /tests/e2e/TEST_SOLUTIONS_SETUP.md

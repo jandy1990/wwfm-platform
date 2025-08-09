@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
 import { ChevronLeft, Check, X, Plus, Star, Search } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
+import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface DosageFormProps {
   goalId: string;
@@ -29,6 +31,9 @@ interface SolutionSuggestion {
   solution_category: string;
   description: string | null;
 }
+
+// Categories that use dosage variants (beauty_skincare uses Standard)
+const DOSAGE_CATEGORIES = ['medications', 'supplements_vitamins', 'natural_remedies']
 
 // Unit options by category - measurement units only
 const unitOptions = {
@@ -82,6 +87,12 @@ export function DosageForm({
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
   const [highestStepReached, setHighestStepReached] = useState(1);
+  const [submissionResult, setSubmissionResult] = useState<{
+    solutionId?: string;
+    variantId?: string;
+    otherRatingsCount?: number;
+  }>({});
+  const [restoredFromBackup, setRestoredFromBackup] = useState(false);
   
   // Step 1 fields - Dosage, Effectiveness, TTR
   const [doseAmount, setDoseAmount] = useState('');
@@ -115,6 +126,63 @@ export function DosageForm({
   const [brand, setBrand] = useState('');
   const [form, setForm] = useState('');
   const [otherInfo, setOtherInfo] = useState('');
+
+  // Form backup - save all critical fields
+  const formBackupData = {
+    currentStep,
+    doseAmount,
+    doseUnit,
+    customUnit,
+    showCustomUnit,
+    frequency,
+    skincareFrequency,
+    effectiveness,
+    timeToResults,
+    lengthOfUse,
+    costType,
+    costRange,
+    sideEffects,
+    customSideEffect,
+    failedSolutions,
+    brand,
+    form,
+    otherInfo
+  };
+
+  // Use the backup hook
+  const { clearBackup, hasBackup } = useFormBackup(
+    `dosage-form-${goalId}-${category}`,
+    formBackupData,
+    {
+      debounceMs: 1000, // Save every second
+      excludeFields: ['isSubmitting', 'showSuccessScreen', 'submissionResult'],
+      onRestore: (data) => {
+        // Restore all form fields
+        if (data.currentStep) setCurrentStep(data.currentStep);
+        if (data.doseAmount !== undefined) setDoseAmount(data.doseAmount);
+        if (data.doseUnit !== undefined) setDoseUnit(data.doseUnit);
+        if (data.customUnit !== undefined) setCustomUnit(data.customUnit);
+        if (data.showCustomUnit !== undefined) setShowCustomUnit(data.showCustomUnit);
+        if (data.frequency !== undefined) setFrequency(data.frequency);
+        if (data.skincareFrequency !== undefined) setSkincareFrequency(data.skincareFrequency);
+        if (data.effectiveness !== undefined) setEffectiveness(data.effectiveness);
+        if (data.timeToResults !== undefined) setTimeToResults(data.timeToResults);
+        if (data.lengthOfUse !== undefined) setLengthOfUse(data.lengthOfUse);
+        if (data.costType !== undefined) setCostType(data.costType);
+        if (data.costRange !== undefined) setCostRange(data.costRange);
+        if (data.sideEffects !== undefined) setSideEffects(data.sideEffects);
+        if (data.customSideEffect !== undefined) setCustomSideEffect(data.customSideEffect);
+        if (data.failedSolutions !== undefined) setFailedSolutions(data.failedSolutions);
+        if (data.brand !== undefined) setBrand(data.brand);
+        if (data.form !== undefined) setForm(data.form);
+        if (data.otherInfo !== undefined) setOtherInfo(data.otherInfo);
+        
+        // Show notification that data was restored
+        setRestoredFromBackup(true);
+        setTimeout(() => setRestoredFromBackup(false), 5000); // Hide after 5 seconds
+      }
+    }
+  );
 
   // Progress indicator
   const totalSteps = 3;
@@ -343,59 +411,69 @@ export function DosageForm({
     setIsSubmitting(true);
     
     try {
-      // Build implementation name
-      const implementationName = buildDosageString();
-      const dailyDose = calculateDailyDose();
-      
-      // TODO: Main solution submission logic here
-      console.log('TODO: Add main submission logic');
-      
-      // Submit failed solution ratings for existing solutions
-      for (const failed of failedSolutions) {
-        if (failed.id) {
-          // This is an existing solution - create a rating for it
-          await supabase.rpc('create_failed_solution_rating', {
-            p_solution_id: failed.id,
-            p_goal_id: goalId,
-            p_user_id: userId,
-            p_rating: failed.rating,
-            p_solution_name: failed.name
-          });
-        }
-      }
-      
-      // Store non-existing failed solutions as text in implementation
-      const textOnlyFailed = failedSolutions
-        .filter(f => !f.id)
-        .map(f => ({ name: f.name, rating: f.rating }));
-      
       // Prepare solution fields for storage
       const solutionFields = {
         frequency: category === 'beauty_skincare' ? skincareFrequency : frequency,
-        skincareFrequency: category === 'beauty_skincare' ? skincareFrequency : undefined, // Add this for display
+        skincareFrequency: category === 'beauty_skincare' ? skincareFrequency : undefined,
         length_of_use: lengthOfUse,
         time_to_results: timeToResults,
         side_effects: sideEffects,
         dose_amount: category === 'beauty_skincare' ? undefined : doseAmount,
-        dose_unit: category === 'beauty_skincare' ? undefined : (showCustomUnit ? customUnit : doseUnit)
+        dose_unit: category === 'beauty_skincare' ? undefined : (showCustomUnit ? customUnit : doseUnit),
+        cost: costRange === 'dont_remember' ? undefined : costRange,
+        brand: brand || undefined,
+        form_factor: form || undefined,
+        other_info: otherInfo || undefined
       };
 
-      console.log('Submitting:', {
+      // Prepare variant data for dosage categories (not beauty_skincare)
+      let variantData = undefined;
+      if (DOSAGE_CATEGORIES.includes(category) && doseAmount && (doseUnit || customUnit)) {
+        variantData = {
+          amount: parseFloat(doseAmount),
+          unit: showCustomUnit ? customUnit : doseUnit,
+          form: form || undefined
+        };
+      }
+
+      // Prepare submission data
+      const submissionData: SubmitSolutionData = {
+        goalId,
+        userId,
         solutionName,
-        implementationName,
-        effectiveness,
-        dailyDose,
-        costRange: costRange === 'dont_remember' ? null : costRange,
-        failedSolutionsWithRatings: failedSolutions.filter(f => f.id),
-        failedSolutionsTextOnly: textOnlyFailed,
-        sideEffects,
-        solutionFields // Include fields that should be stored
-      });
+        category,
+        existingSolutionId,
+        effectiveness: effectiveness!,
+        timeToResults,
+        solutionFields,
+        variantData,
+        failedSolutions
+      };
+
+      // Call server action
+      const result = await submitSolution(submissionData);
       
-      // Show success screen instead of redirecting
-      setShowSuccessScreen(true);
+      if (result.success) {
+        // Store the result for success screen
+        setSubmissionResult({
+          solutionId: result.solutionId,
+          variantId: result.variantId,
+          otherRatingsCount: result.otherRatingsCount
+        });
+        
+        // Clear backup on successful submission
+        clearBackup();
+        
+        // Show success screen
+        setShowSuccessScreen(true);
+      } else {
+        // Handle error
+        console.error('Error submitting solution:', result.error);
+        alert(result.error || 'Failed to submit solution. Please try again.');
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -1118,7 +1196,13 @@ export function DosageForm({
             Thank you for sharing!
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
-            Your experience with {solutionName} has been recorded
+            {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
+              <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'}</>
+            ) : existingSolutionId ? (
+              <>Your experience with {solutionName} has been recorded</>
+            ) : (
+              <>You're the first to review {solutionName}! It needs 2 more reviews to go live.</>
+            )}
           </p>
 
           {/* Optional fields in a subtle card */}
@@ -1266,6 +1350,16 @@ export function DosageForm({
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Restore notification */}
+      {restoredFromBackup && (
+        <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg animate-fade-in">
+          <p className="text-sm text-blue-800 dark:text-blue-200 flex items-center gap-2">
+            <span className="text-lg">✨</span>
+            Your previous progress has been restored
+          </p>
+        </div>
+      )}
+      
       {/* Progress Bar */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">

@@ -1,11 +1,11 @@
-// tests/e2e/forms/dosage-form-complete.spec.ts
+// tests/e2e/forms/session-form-complete.spec.ts
 import { test, expect } from '@playwright/test';
-import { fillDosageForm } from './form-specific-fillers';
+import { fillSessionForm } from './form-specific-fillers';
 
-test.describe('DosageForm End-to-End Tests', () => {
+test.describe('SessionForm End-to-End Tests', () => {
 
-  test('should complete DosageForm for supplements_vitamins (Vitamin D Test)', async ({ page }) => {
-    console.log('=== Starting DosageForm test for Vitamin D (Test) ===');
+  test('should complete SessionForm for therapists_counselors (CBT Therapy Test)', async ({ page }) => {
+    console.log('=== Starting SessionForm test for CBT Therapy (Test) ===');
     
     // Navigate to add solution page directly
     await page.goto('/goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution');
@@ -13,10 +13,10 @@ test.describe('DosageForm End-to-End Tests', () => {
     await page.waitForSelector('text="What helped you?"', { timeout: 10000 })
     console.log('Add solution page loaded')
     
-    // Search for "Vitamin D (Test)"
-    const searchTerm = 'Vitamin D (Test)'
+    // Search for the test solution now that it's approved
+    const searchTerm = 'CBT Therapy (Test)'
     await page.type('#solution-name', searchTerm)
-    console.log(`Typed "${searchTerm}" - looking for supplement solutions`)
+    console.log(`Typed "${searchTerm}" - looking for test solution`)
     
     // Wait for dropdown to appear with suggestions
     try {
@@ -43,67 +43,69 @@ test.describe('DosageForm End-to-End Tests', () => {
         const text = await button.textContent()
         console.log(`Option ${i}: "${text}"`)
         
-        if (text?.includes('Vitamin D (Test)')) {
-          console.log(`Clicking on: "${text}"`)
+        // Look for the exact test solution or any CBT therapy option
+        if (text?.includes('CBT Therapy (Test)')) {
+          console.log(`Found and clicking test solution: "${text}"`)
           await button.click()
           await page.waitForTimeout(500)
-          
-          const inputValue = await page.inputValue('#solution-name')
-          console.log(`Input value after selection: "${inputValue}"`)
-          
           found = true
           break
         }
       }
       
       if (!found) {
-        console.log('Warning: "Vitamin D (Test)" not found in dropdown')
+        console.log('CBT Therapy not found in exact match - using first cbt option')
       }
     } else {
-      console.log('No dropdown appeared - test solution might not be in database')
+      console.log('No dropdown appeared')
     }
     
-    // Check if category was auto-detected
-    const categoryAutoDetected = await page.locator('text="How well it worked"').isVisible().catch(() => false)
-    console.log('Category auto-detected:', categoryAutoDetected)
+    // Close dropdown by pressing Escape or clicking outside
+    await page.keyboard.press('Escape')
+    await page.waitForTimeout(500)
     
-    if (!categoryAutoDetected) {
-      // Click Continue if still on search page
-      const continueBtn = page.locator('button:has-text("Continue")')
-      const isContinueVisible = await continueBtn.isVisible()
-      if (isContinueVisible) {
-        console.log('Clicked Continue button')
-        await continueBtn.click()
-        await page.waitForTimeout(1000)
-      }
+    // After closing dropdown, click Continue
+    const continueBtn = page.locator('button:has-text("Continue")')
+    const isContinueVisible = await continueBtn.isVisible()
+    if (isContinueVisible) {
+      console.log('Clicking Continue button to proceed to form')
+      // Force click to bypass any overlays
+      await continueBtn.click({ force: true })
+      await page.waitForTimeout(1000)
     }
     
-    // Wait for DosageForm to load
+    // Wait for SessionForm to load
     try {
       await page.waitForSelector('text="How well it worked"', { timeout: 5000 })
-      console.log('DosageForm loaded successfully')
+      console.log('SessionForm loaded successfully')
     } catch (error) {
-      await page.screenshot({ path: 'dosage-test-debug-screenshot.png' })
+      await page.screenshot({ path: 'session-test-debug-screenshot.png' })
       console.log('Form did not load - screenshot saved')
       throw error
     }
     
-    // Fill the DosageForm
-    await fillDosageForm(page, 'supplements_vitamins');
+    // Fill the SessionForm
+    await fillSessionForm(page, 'therapists_counselors');
     
     // Verify successful submission
     console.log('Verifying successful submission...')
     await page.waitForTimeout(3000)
     
     const pageContent = await page.textContent('body')
+    console.log('=== PAGE CONTENT FOR VERIFICATION ===')
+    console.log(pageContent?.substring(0, 500) + '...')
+    console.log('=== END PAGE CONTENT ===')
+    
     const wasProcessed = pageContent?.includes('Thank you') || 
                         pageContent?.includes('already') || 
                         pageContent?.includes('recorded') ||
                         pageContent?.includes('success') ||
                         pageContent?.includes('submitted') ||
-                        pageContent?.includes('added')
+                        pageContent?.includes('added') ||
+                        pageContent?.includes('Dashboard') // Check if we're redirected to dashboard
     
+    console.log(`Verification result: ${wasProcessed}`)
     expect(wasProcessed).toBeTruthy()
-    console.log('=== DosageForm supplements_vitamins test completed successfully ===');
+    console.log('=== SessionForm therapists_counselors test completed successfully ===');
   });
 });

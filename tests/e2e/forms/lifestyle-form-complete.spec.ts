@@ -1,0 +1,244 @@
+// tests/e2e/forms/lifestyle-form-complete.spec.ts
+import { test, expect } from '@playwright/test';
+import { fillLifestyleForm } from './form-specific-fillers';
+
+test.describe('LifestyleForm End-to-End Tests', () => {
+
+  test('should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)', async ({ page }) => {
+    console.log('=== Starting LifestyleForm test for Mediterranean Diet (Test) ===');
+    
+    // Navigate to add solution page directly
+    await page.goto('/goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution');
+    
+    await page.waitForSelector('text="What helped you?"', { timeout: 10000 })
+    console.log('Add solution page loaded')
+    
+    // Search for "Mediterranean Diet (Test)"
+    const searchTerm = 'Mediterranean Diet (Test)'
+    await page.type('#solution-name', searchTerm)
+    console.log(`Typed "${searchTerm}" - looking for Mediterranean Diet solutions`)
+    
+    // Wait for dropdown to appear with suggestions
+    try {
+      await page.waitForSelector('.absolute.z-10', { timeout: 5000 })
+      console.log('Dropdown selector found')
+      await page.waitForTimeout(500)
+    } catch (e) {
+      console.log('Dropdown did not appear within 5 seconds')
+    }
+    
+    // Check if dropdown is visible
+    const dropdownVisible = await page.locator('.absolute.z-10').isVisible().catch(() => false)
+    
+    if (dropdownVisible) {
+      console.log('Dropdown appeared with suggestions')
+      
+      // Look for and click "Mediterranean Diet (Test)" in the dropdown
+      const dropdownButtons = page.locator('.absolute.z-10 button')
+      const buttonCount = await dropdownButtons.count()
+      console.log(`Found ${buttonCount} suggestions in dropdown`)
+      
+      let found = false
+      for (let i = 0; i < buttonCount; i++) {
+        const button = dropdownButtons.nth(i)
+        const text = await button.textContent()
+        console.log(`Option ${i}: "${text}"`)
+        
+        if (text?.includes('Mediterranean Diet (Test)')) {
+          console.log(`Clicking on: "${text}"`)
+          await button.click()
+          await page.waitForTimeout(500)
+          
+          const inputValue = await page.inputValue('#solution-name')
+          console.log(`Input value after selection: "${inputValue}"`)
+          
+          found = true
+          break
+        }
+      }
+      
+      if (!found) {
+        console.log('Warning: "Mediterranean Diet (Test)" not found in dropdown')
+      }
+    } else {
+      console.log('No dropdown appeared - test solution might not be in database')
+    }
+    
+    // Check if category was auto-detected
+    const categoryAutoDetected = await page.locator('text="How well it worked"').isVisible().catch(() => false)
+    console.log('Category auto-detected:', categoryAutoDetected)
+    
+    if (!categoryAutoDetected) {
+      // Click Continue if still on search page
+      const continueBtn = page.locator('button:has-text("Continue")')
+      const isContinueVisible = await continueBtn.isVisible()
+      if (isContinueVisible) {
+        console.log('Clicked Continue button')
+        await continueBtn.click()
+        await page.waitForTimeout(1000)
+      }
+    }
+    
+    // Check if we need to manually select category
+    const categoryPickerVisible = await page.locator('text="Choose a category"').isVisible().catch(() => false)
+    if (categoryPickerVisible) {
+      console.log('Category picker visible - selecting Lifestyle category')
+      
+      // Click on "Lifestyle +" to expand the category
+      await page.click('button:has-text("Lifestyle")')
+      await page.waitForTimeout(500)
+      
+      // Click on "Diet/Nutrition"
+      console.log('Selecting Diet/Nutrition')
+      await page.click('button:has-text("Diet/Nutrition")')
+      await page.waitForTimeout(1000)
+    }
+    
+    // Wait for LifestyleForm to load
+    try {
+      await page.waitForSelector('text="How well it worked"', { timeout: 5000 })
+      console.log('LifestyleForm loaded successfully')
+    } catch (error) {
+      await page.screenshot({ path: 'lifestyle-test-debug-screenshot.png' })
+      console.log('Form did not load - screenshot saved to lifestyle-test-debug-screenshot.png')
+      throw error
+    }
+    
+    // Fill the LifestyleForm
+    await fillLifestyleForm(page, 'diet_nutrition');
+    
+    // Verify successful submission
+    console.log('Verifying successful submission...')
+    await page.waitForTimeout(3000)
+    
+    const pageContent = await page.textContent('body')
+    const wasProcessed = pageContent?.includes('Thank you') || 
+                        pageContent?.includes('already') || 
+                        pageContent?.includes('recorded') ||
+                        pageContent?.includes('success') ||
+                        pageContent?.includes('submitted') ||
+                        pageContent?.includes('added')
+    
+    expect(wasProcessed).toBeTruthy()
+    console.log('=== LifestyleForm diet_nutrition test completed successfully ===');
+  });
+
+  test('should complete LifestyleForm for sleep (Sleep Hygiene Test)', async ({ page }) => {
+    console.log('=== Starting LifestyleForm test for Sleep Hygiene (Test) ===');
+    
+    // Navigate to add solution page directly
+    await page.goto('/goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution');
+    
+    await page.waitForSelector('text="What helped you?"', { timeout: 10000 })
+    console.log('Add solution page loaded')
+    
+    // Search for "Sleep Hygiene (Test)"
+    const searchTerm = 'Sleep Hygiene (Test)'
+    await page.type('#solution-name', searchTerm)
+    console.log(`Typed "${searchTerm}" - looking for Sleep Hygiene solutions`)
+    
+    // Wait for dropdown to appear with suggestions
+    try {
+      await page.waitForSelector('.absolute.z-10', { timeout: 5000 })
+      console.log('Dropdown selector found')
+      await page.waitForTimeout(500)
+    } catch (e) {
+      console.log('Dropdown did not appear within 5 seconds')
+    }
+    
+    // Check if dropdown is visible
+    const dropdownVisible = await page.locator('.absolute.z-10').isVisible().catch(() => false)
+    
+    if (dropdownVisible) {
+      console.log('Dropdown appeared with suggestions')
+      
+      // Look for and click "Sleep Hygiene (Test)" in the dropdown
+      const dropdownButtons = page.locator('.absolute.z-10 button')
+      const buttonCount = await dropdownButtons.count()
+      console.log(`Found ${buttonCount} suggestions in dropdown`)
+      
+      let found = false
+      for (let i = 0; i < buttonCount; i++) {
+        const button = dropdownButtons.nth(i)
+        const text = await button.textContent()
+        console.log(`Option ${i}: "${text}"`)
+        
+        if (text?.includes('Sleep Hygiene (Test)')) {
+          console.log(`Clicking on: "${text}"`)
+          await button.click()
+          await page.waitForTimeout(500)
+          
+          const inputValue = await page.inputValue('#solution-name')
+          console.log(`Input value after selection: "${inputValue}"`)
+          
+          found = true
+          break
+        }
+      }
+      
+      if (!found) {
+        console.log('Warning: "Sleep Hygiene (Test)" not found in dropdown')
+      }
+    } else {
+      console.log('No dropdown appeared - test solution might not be in database')
+    }
+    
+    // Check if category was auto-detected
+    const categoryAutoDetected = await page.locator('text="How well it worked"').isVisible().catch(() => false)
+    console.log('Category auto-detected:', categoryAutoDetected)
+    
+    if (!categoryAutoDetected) {
+      // Click Continue if still on search page
+      const continueBtn = page.locator('button:has-text("Continue")')
+      const isContinueVisible = await continueBtn.isVisible()
+      if (isContinueVisible) {
+        console.log('Clicked Continue button')
+        await continueBtn.click()
+        await page.waitForTimeout(1000)
+      }
+    }
+    
+    // Check if we need to manually select category
+    const categoryPickerVisible = await page.locator('text="Choose a category"').isVisible().catch(() => false)
+    if (categoryPickerVisible) {
+      console.log('Category picker visible - selecting Lifestyle category')
+      
+      // Click on "Lifestyle +" to expand the category
+      await page.click('button:has-text("Lifestyle")')
+      await page.waitForTimeout(500)
+      
+      // Click on "Sleep"
+      console.log('Selecting Sleep')
+      await page.click('button:has-text("Sleep")')
+      await page.waitForTimeout(1000)
+    }
+    
+    // Wait for LifestyleForm to load
+    try {
+      await page.waitForSelector('text="How well it worked"', { timeout: 5000 })
+      console.log('LifestyleForm loaded successfully')
+    } catch (error) {
+      await page.screenshot({ path: 'lifestyle-test-debug-screenshot.png' })
+      console.log('Form did not load - screenshot saved to lifestyle-test-debug-screenshot.png')
+      throw error
+    }
+    
+    // Fill the LifestyleForm
+    await fillLifestyleForm(page, 'sleep');
+    
+    // Verify successful submission
+    console.log('Verifying successful submission...')
+    await page.waitForTimeout(3000)
+    
+    const pageContent = await page.textContent('body')
+    const wasProcessed = pageContent?.includes('Thank you') || 
+                        pageContent?.includes('already') || 
+                        pageContent?.includes('recorded') ||
+                        pageContent?.includes('success') ||
+                        pageContent?.includes('submitted') ||
+                        pageContent?.includes('added')
+    
+    expect(wasProcessed).toBeTruthy()
+    console.log('=== LifestyleForm sleep test completed successfully ===');
+  });
+});

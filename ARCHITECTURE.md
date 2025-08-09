@@ -527,6 +527,16 @@ const { data: solutions, error } = await safeOperation(
 3. **Ranking**: Score matches by similarity
 4. **Language Agnostic**: Works for any text
 
+### Why Aggressive Search Filtering?
+
+1. **Force Specificity**: "Therapy" is useless, "CBT with BetterHelp" is trackable
+2. **Data Quality**: Generic entries make effectiveness ratings meaningless
+3. **User Guidance**: Prompts users toward actionable solutions
+4. **Prevent Pollution**: Stops category names becoming solutions
+5. **Test Exception**: "(Test)" suffix bypasses filters for test fixtures
+
+See [Solution Search Data Flow](/docs/architecture/SOLUTION_SEARCH_DATA_FLOW.md) for complete filtering pipeline.
+
 ## 🎯 Architecture Principles
 
 1. **User-Centric**: Optimize for the end user experience
@@ -580,6 +590,31 @@ ORDER BY avg_effectiveness DESC;
 npx supabase gen types typescript --project-id your-project-id > types/supabase.ts
 ```
 
+### Problem: Test solutions not appearing in search
+**Solution**: Ensure test fixtures are approved AND have "(Test)" suffix
+
+```sql
+-- Test fixtures need both
+UPDATE solutions 
+SET is_approved = true 
+WHERE source_type = 'test_fixture';
+
+-- Naming must include (Test) to bypass filters
+-- Example: "CBT Therapy (Test)"
+```
+
+### Problem: Search returns no results for generic terms
+**Solution**: This is intentional - guide users to be specific
+
+```typescript
+// Search for "therapy" shows prompt:
+"Try being more specific: CBT therapy, EMDR, BetterHelp"
+// Not generic "Therapy" solutions
+```
+
 ---
 
-**Next Steps**: See [Database Schema](/docs/database/schema.md) for detailed table structures and [Form Templates](/docs/forms/README.md) for implementing the remaining 8 forms.
+**Next Steps**: 
+- See [Database Schema](/docs/database/schema.md) for detailed table structures
+- See [Solution Search Data Flow](/docs/architecture/SOLUTION_SEARCH_DATA_FLOW.md) for complete search pipeline
+- See [Form Templates](/docs/forms/README.md) for form implementation details

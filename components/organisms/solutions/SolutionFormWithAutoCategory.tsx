@@ -86,6 +86,12 @@ export default function SolutionFormWithAutoCategory({
 
   // Handle selecting any item from dropdown
   const handleSelectItem = useCallback((title: string, category: string, solution?: SolutionMatch) => {
+    console.log('[SolutionFormWithAutoCategory] handleSelectItem called:', {
+      title,
+      category,
+      solution
+    });
+    
     setFormState({
       ...formState,
       solutionName: title,
@@ -172,6 +178,8 @@ export default function SolutionFormWithAutoCategory({
       existingSolutionId: formState.selectedSolution?.id,
       onBack: handleBack
     };
+    
+    console.log('[SolutionFormWithAutoCategory] formProps:', formProps);
 
     // Map categories to their form templates
     const categoryFormMap: Record<string, React.ReactElement> = {

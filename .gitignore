@@ -17,6 +17,28 @@
 /playwright/.cache/
 /tests/auth.json
 
+# test artifacts and debug files
+*.png
+*-screenshot.png
+debug-*.js
+debug-*.mjs
+test-*.js
+test-*.mjs
+/debug-output/
+dev-server.log
+
+# temporary test scripts (keep only essential ones)
+/scripts/check-*.js
+/scripts/diagnose-*.js
+/scripts/find-*.js
+/scripts/investigate-*.js
+/scripts/link-*.js
+/scripts/quick-*.js
+/scripts/run-*.js
+# Keep these essential scripts
+!/scripts/test-all-forms.js
+!/scripts/test-connection.js
+
 # next.js
 /.next/
 /out/

@@ -19,6 +19,8 @@
     "test:forms:all": "node scripts/test-all-forms.js",
     "test:forms:validate": "node -r dotenv/config scripts/validate-database.ts",
     "test:setup": "node -r dotenv/config tests/setup/create-test-user.js",
+    "test:fixtures:verify": "node tests/setup/verify-test-fixtures.js",
+    "test:fixtures:approve": "echo 'Run /tests/setup/approve-test-fixtures.sql in Supabase'",
     "test:check-user": "node tests/setup/check-test-user.js",
     "test:connection": "node scripts/test-connection.js"
   },

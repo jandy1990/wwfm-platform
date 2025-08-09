@@ -7,6 +7,8 @@ import { supabase } from '@/lib/database/client';
 import { ChevronLeft, Check, X, Plus } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface PracticeFormProps {
   goalId: string;
@@ -41,6 +43,12 @@ export function PracticeForm({
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
   const [highestStepReached, setHighestStepReached] = useState(1);
+  const [submissionResult, setSubmissionResult] = useState<{
+    solutionId?: string;
+    variantId?: string;
+    otherRatingsCount?: number;
+  }>({});
+  const [restoredFromBackup, setRestoredFromBackup] = useState(false);
   
   // Step 1 fields - Practice details
   const [startupCost, setStartupCost] = useState('');
@@ -70,6 +78,54 @@ export function PracticeForm({
   // Progress indicator
   const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
+
+  // Form backup data object
+  const formBackupData = {
+    startupCost,
+    ongoingCost,
+    timeToResults,
+    frequency,
+    effectiveness,
+    practiceLength,
+    duration,
+    timeCommitment,
+    challenges,
+    customChallenge,
+    failedSolutions,
+    bestTime,
+    location,
+    otherInfo,
+    currentStep,
+    highestStepReached
+  };
+  
+  // Use form backup hook
+  const { clearBackup } = useFormBackup(
+    `practice-form-${goalId}-${solutionName}`,
+    formBackupData,
+    {
+      onRestore: (data) => {
+        setStartupCost(data.startupCost || '');
+        setOngoingCost(data.ongoingCost || '');
+        setTimeToResults(data.timeToResults || '');
+        setFrequency(data.frequency || '');
+        setEffectiveness(data.effectiveness || null);
+        setPracticeLength(data.practiceLength || '');
+        setDuration(data.duration || '');
+        setTimeCommitment(data.timeCommitment || '');
+        setChallenges(data.challenges || ['None']);
+        setCustomChallenge(data.customChallenge || '');
+        setFailedSolutions(data.failedSolutions || []);
+        setBestTime(data.bestTime || '');
+        setLocation(data.location || '');
+        setOtherInfo(data.otherInfo || '');
+        setCurrentStep(data.currentStep || 1);
+        setHighestStepReached(data.highestStepReached || 1);
+        setRestoredFromBackup(true);
+        setTimeout(() => setRestoredFromBackup(false), 5000);
+      }
+    }
+  );
 
   // Handle browser back button
   useEffect(() => {
@@ -256,6 +312,12 @@ export function PracticeForm({
       });
       
       // Show success screen instead of redirecting
+      // Clear backup on successful submission
+
+      clearBackup();
+
+      
+
       setShowSuccessScreen(true);
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -274,8 +336,17 @@ export function PracticeForm({
     switch (currentStep) {
       case 1: // Practice details
         return (
-          <div className="space-y-8 animate-slide-in">
-            {/* Quick context card */}
+          <div className="space-y-8 animate-slide-in">        {/* Restore notification */}
+        {restoredFromBackup && (
+          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 
+                        rounded-lg p-3 mb-4 animate-fade-in">
+            <p className="text-sm text-green-800 dark:text-green-200">
+              ✓ Your previous progress has been restored
+            </p>
+          </div>
+        )}
+        
+        {/* Quick context card */}
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
                           border border-blue-200 dark:border-blue-800 rounded-lg p-4">
               <p className="text-sm text-blue-800 dark:text-blue-200">
@@ -738,7 +809,13 @@ export function PracticeForm({
             Thank you for sharing!
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
-            Your experience with {solutionName} has been recorded
+            {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
+              <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'}</>
+            ) : existingSolutionId ? (
+              <>Your experience with {solutionName} has been recorded</>
+            ) : (
+              <>You're the first to review {solutionName}! It needs 2 more reviews to go live.</>
+            )}
           </p>
 
           {/* Optional fields */}

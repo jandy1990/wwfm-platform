@@ -14,11 +14,13 @@ WWFM aggregates real experiences from real people to show which solutions are mo
 
 ## 📊 Current Status
 
-- **Platform**: ✅ Operational and accepting contributions
+- **Platform**: ✅ Fully operational with all core features
+- **Forms**: ✅ 9/9 form templates implemented and tested
+- **Testing**: ✅ Complete E2E test suite with Playwright
 - **Goal Coverage**: 240/652 goals have solutions (37%) → targeting 80% for launch
-- **Solutions**: 529 entries across 23 categories
-- **Forms**: 1/9 form templates implemented
-- **Next Priority**: Complete remaining forms and expand content
+- **Solutions**: 529 entries across 23 categories (need 2,000+ for launch)
+- **Search**: ✅ Fixed and operational with aggressive quality filtering
+- **Next Priority**: Content expansion and admin tools
 
 ## 🚀 Quick Start
 
@@ -50,22 +52,24 @@ You should now see the WWFM homepage! Try:
 ### 🧪 Running Tests
 
 ```bash
-# Set up test environment
-cp .env.test.local.example .env.test.local
-# Add your service role key to .env.test.local
+# Ensure test fixtures are approved
+npm run test:fixtures:verify
 
 # Run form tests
 npm run test:forms
 
 # Run with UI for debugging
 npm run test:forms:ui
+
+# Run specific form test
+npm run test:forms -- session-form
 ```
 
-See [Testing Documentation](docs/testing/README.md) for complete testing guide.
+**Important**: Test fixtures must have "(Test)" suffix to bypass search filters. See [Testing Documentation](tests/e2e/TEST_SOLUTIONS_SETUP.md) for complete testing guide.
 
 ## 🏗️ Architecture
 
-WWFM uses a modern JAMstack architecture:
+WWFM uses a modern JAMstack architecture with aggressive search filtering to ensure data quality:
 
 ```
 Next.js 15 (React) → Vercel Edge → Supabase (PostgreSQL)
@@ -73,15 +77,21 @@ Next.js 15 (React) → Vercel Edge → Supabase (PostgreSQL)
 
 - **Frontend**: Server-first React with TypeScript
 - **Database**: PostgreSQL with Row Level Security
-- **Search**: Fuzzy matching with pg_trgm
+- **Search**: Fuzzy matching with pg_trgm + aggressive client-side filtering
 - **Auth**: Supabase Auth with email verification
+- **Testing**: Playwright E2E with permanent test fixtures
 
-For detailed architecture information, see [ARCHITECTURE.md](./ARCHITECTURE.md).
+**Key Innovation**: Search filtering enforces specificity - "Therapy" is blocked, "CBT with BetterHelp" is allowed. Test fixtures use "(Test)" suffix to bypass filters.
+
+For detailed architecture information, see:
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - System design and patterns
+- [Solution Search Data Flow](./docs/architecture/SOLUTION_SEARCH_DATA_FLOW.md) - Complete search pipeline
 
 ## 📁 Documentation
 
 ### Core Documentation
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)** - System design, patterns, and key decisions
+- **[Solution Search Data Flow](./docs/architecture/SOLUTION_SEARCH_DATA_FLOW.md)** - Complete search and filtering pipeline
 - **[Database Schema](/docs/database/schema.md)** - Complete database structure and relationships
 - **[Form Templates](/docs/forms/README.md)** - All 9 form specifications and field mappings
 - **[Goals Taxonomy](/data/taxonomy.md)** - Complete hierarchy of 652 goals
@@ -91,6 +101,10 @@ For detailed architecture information, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 - **[WORKFLOW.md](./WORKFLOW.md)** - Development best practices
 - **[CLAUDE.md](./CLAUDE.md)** - AI assistant collaboration guide
 
+### Testing Documentation
+- **[Test Solutions Setup](tests/e2e/TEST_SOLUTIONS_SETUP.md)** - Test fixture requirements
+- **[Testing Guide](tests/README.md)** - Complete E2E testing documentation
+
 ## 🛠️ Development
 
 ### Project Structure
@@ -99,15 +113,18 @@ wwfm-platform/
 ├── app/                    # Next.js App Router pages
 ├── components/             # React components
 │   ├── solutions/         # Solution forms and displays
-│   │   └── forms/        # 9 form templates
+│   │   └── forms/        # 9 form templates (ALL IMPLEMENTED)
 │   └── ui/               # Reusable UI components
 ├── lib/                   # Utilities and services
 │   ├── supabase/         # Database clients
-│   └── services/         # Business logic
+│   └── solutions/        # Search & categorization logic
+├── tests/                 # E2E tests with Playwright
+│   └── e2e/forms/        # Form submission tests
 ├── types/                 # TypeScript definitions
 ├── data/                  # Reference data
 │   └── taxonomy.md       # Goals hierarchy
 └── docs/                  # Documentation
+    ├── architecture/     # System design docs
     ├── database/         # Schema documentation
     └── forms/            # Form specifications
 ```
@@ -118,16 +135,19 @@ wwfm-platform/
 2. **Goal-Specific Effectiveness**: Same solution can work differently for different goals
 3. **Form System**: 23 categories map to 9 form templates
 4. **Auto-Categorization**: Keywords determine which form to show
+5. **Search Filtering**: Aggressive filters prevent generic entries (e.g., "therapy" alone is blocked)
+6. **Test Fixtures**: Use "(Test)" suffix to bypass production filters
 
 ### Available Scripts
 
 ```bash
-npm run dev          # Start development server (port 3002)
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
-npm run type-check   # TypeScript checking
-npm run format       # Prettier formatting
+npm run dev                # Start development server (port 3002)
+npm run build             # Build for production
+npm run start             # Start production server
+npm run lint              # Run ESLint
+npm run type-check        # TypeScript checking
+npm run test:forms        # Run E2E form tests
+npm run test:fixtures:verify # Verify test fixtures are ready
 ```
 
 ### Making Contributions
@@ -137,6 +157,7 @@ npm run format       # Prettier formatting
    - System auto-categorizes or shows picker
    - Appropriate form loads (1 of 9 types)
    - Data saved to `solutions`, `solution_variants`, and `goal_implementation_links`
+   - Must be specific (e.g., "CBT Therapy" not just "Therapy")
 
 2. **Rating a Solution**:
    - Hover (desktop) or swipe (mobile) to reveal stars
@@ -145,18 +166,19 @@ npm run format       # Prettier formatting
 
 ## 🐛 Known Issues
 
-1. **Rating Bug**: Fixed! Was missing variant prop in InteractiveRating component
-2. **Forms**: 8/9 forms still need implementation
-3. **Content**: Need ~1,500 more solutions for launch readiness
+1. **Search Filtering**: Intentionally aggressive - blocks generic terms to force specificity
+2. **Content Gap**: Need ~1,500 more solutions for launch readiness
+3. **Admin Tools**: Moderation queue not yet implemented
 
 See [DEBUGGING.md](./DEBUGGING.md) for detailed troubleshooting.
 
 ## 🚧 Roadmap
 
-### Immediate (This Week)
-- [ ] Implement remaining 8 form templates
-- [ ] Fix TypeScript strict mode errors
-- [ ] Add loading skeletons
+### Immediate (Completed ✅)
+- [✅] Implement all 9 form templates
+- [✅] Fix search functionality 
+- [✅] Add E2E testing infrastructure
+- [✅] Document data flow architecture
 
 ### Short Term (This Month)
 - [ ] Generate 1,500+ AI seed solutions
@@ -186,6 +208,7 @@ We welcome contributions! Please:
 - Comprehensive error handling
 - Mobile-first responsive design
 - Accessible UI (WCAG 2.1 AA target)
+- Test fixtures must include "(Test)" suffix
 
 ## 📄 License
 

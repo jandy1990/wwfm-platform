@@ -7,6 +7,8 @@ import { supabase } from '@/lib/database/client';
 import { ChevronLeft, Check } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface LifestyleFormProps {
   goalId: string;
@@ -41,6 +43,12 @@ export function LifestyleForm({
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
   const [highestStepReached, setHighestStepReached] = useState(1);
+  const [submissionResult, setSubmissionResult] = useState<{
+    solutionId?: string;
+    variantId?: string;
+    otherRatingsCount?: number;
+  }>({});
+  const [restoredFromBackup, setRestoredFromBackup] = useState(false);
   
   // Step 1 fields - Universal + Required fields
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
@@ -71,6 +79,56 @@ export function LifestyleForm({
   // Progress indicator
   const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
+
+  // Form backup data object
+  const formBackupData = {
+    effectiveness,
+    timeToResults,
+    costImpact,
+    weeklyPrepTime,
+    stillFollowing,
+    sustainabilityReason,
+    previousSleepHours,
+    selectedChallenges,
+    customChallenge,
+    failedSolutions,
+    socialImpact,
+    sleepQualityChange,
+    specificApproach,
+    resources,
+    tips,
+    currentStep,
+    highestStepReached
+  };
+  
+  // Use form backup hook
+  const { clearBackup } = useFormBackup(
+    `lifestyle-form-${goalId}-${solutionName}`,
+    formBackupData,
+    {
+      onRestore: (data) => {
+        setEffectiveness(data.effectiveness || null);
+        setTimeToResults(data.timeToResults || '');
+        setCostImpact(data.costImpact || '');
+        setWeeklyPrepTime(data.weeklyPrepTime || '');
+        setStillFollowing(data.stillFollowing || null);
+        setSustainabilityReason(data.sustainabilityReason || '');
+        setPreviousSleepHours(data.previousSleepHours || '');
+        setSelectedChallenges(data.selectedChallenges || ['None']);
+        setCustomChallenge(data.customChallenge || '');
+        setFailedSolutions(data.failedSolutions || []);
+        setSocialImpact(data.socialImpact || '');
+        setSleepQualityChange(data.sleepQualityChange || '');
+        setSpecificApproach(data.specificApproach || '');
+        setResources(data.resources || '');
+        setTips(data.tips || '');
+        setCurrentStep(data.currentStep || 1);
+        setHighestStepReached(data.highestStepReached || 1);
+        setRestoredFromBackup(true);
+        setTimeout(() => setRestoredFromBackup(false), 5000);
+      }
+    }
+  );
 
   // Load challenge options
   useEffect(() => {
@@ -269,6 +327,12 @@ export function LifestyleForm({
       });
       
       // Show success screen instead of redirecting
+      // Clear backup on successful submission
+
+      clearBackup();
+
+      
+
       setShowSuccessScreen(true);
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -286,8 +350,17 @@ export function LifestyleForm({
     switch (currentStep) {
       case 1: // Universal + Required fields
         return (
-          <div className="space-y-8 animate-slide-in">
-            {/* Quick context card */}
+          <div className="space-y-8 animate-slide-in">        {/* Restore notification */}
+        {restoredFromBackup && (
+          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 
+                        rounded-lg p-3 mb-4 animate-fade-in">
+            <p className="text-sm text-green-800 dark:text-green-200">
+              ✓ Your previous progress has been restored
+            </p>
+          </div>
+        )}
+        
+        {/* Quick context card */}
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
                           border border-blue-200 dark:border-blue-800 rounded-lg p-4">
               <p className="text-sm text-blue-800 dark:text-blue-200">
@@ -815,7 +888,13 @@ export function LifestyleForm({
             Thank you for sharing!
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
-            Your experience with {solutionName} has been recorded
+            {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
+              <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'}</>
+            ) : existingSolutionId ? (
+              <>Your experience with {solutionName} has been recorded</>
+            ) : (
+              <>You're the first to review {solutionName}! It needs 2 more reviews to go live.</>
+            )}
           </p>
 
           {/* Optional fields in a subtle card */}

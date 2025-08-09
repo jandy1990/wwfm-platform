@@ -6,6 +6,8 @@ import { supabase } from '@/lib/database/client';
 import { ChevronLeft, Check } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { useFormBackup } from '@/lib/hooks/useFormBackup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
@@ -43,6 +45,12 @@ export function PurchaseForm({
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
   const [highestStepReached, setHighestStepReached] = useState(1);
+  const [submissionResult, setSubmissionResult] = useState<{
+    solutionId?: string;
+    variantId?: string;
+    otherRatingsCount?: number;
+  }>({});
+  const [restoredFromBackup, setRestoredFromBackup] = useState(false);
   
   // Step 1 fields - Universal + Category-specific
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
@@ -74,6 +82,56 @@ export function PurchaseForm({
   // Progress indicator
   const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
+
+  // Form backup data object
+  const formBackupData = {
+    effectiveness,
+    timeToResults,
+    costType,
+    costRange,
+    productType,
+    easeOfUse,
+    format,
+    learningDifficulty,
+    selectedIssues,
+    failedSolutions,
+    brand,
+    wherePurchased,
+    warrantyInfo,
+    completionStatus,
+    additionalTips,
+    currentStep,
+    highestStepReached
+  };
+  
+  // Use form backup hook
+  const { clearBackup } = useFormBackup(
+    `purchase-form-${goalId}-${solutionName}`,
+    formBackupData,
+    {
+      onRestore: (data) => {
+        setEffectiveness(data.effectiveness || null);
+        setTimeToResults(data.timeToResults || '');
+        setCostType(data.costType || 'one_time');
+        setCostRange(data.costRange || '');
+        setProductType(data.productType || '');
+        setEaseOfUse(data.easeOfUse || '');
+        setFormat(data.format || '');
+        setLearningDifficulty(data.learningDifficulty || '');
+        setSelectedIssues(data.selectedIssues || ['None']);
+        setFailedSolutions(data.failedSolutions || []);
+        setBrand(data.brand || '');
+        setWherePurchased(data.wherePurchased || '');
+        setWarrantyInfo(data.warrantyInfo || '');
+        setCompletionStatus(data.completionStatus || '');
+        setAdditionalTips(data.additionalTips || '');
+        setCurrentStep(data.currentStep || 1);
+        setHighestStepReached(data.highestStepReached || 1);
+        setRestoredFromBackup(true);
+        setTimeout(() => setRestoredFromBackup(false), 5000);
+      }
+    }
+  );
   
   // Handle browser back button
   useEffect(() => {
@@ -234,6 +292,15 @@ export function PurchaseForm({
         }
       }
       
+      // Clear backup on successful submission
+
+      
+      clearBackup();
+
+      
+      
+
+      
       setShowSuccessScreen(true);
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -268,7 +335,16 @@ export function PurchaseForm({
   
   const renderStepOne = () => {
     return (
-      <div className="space-y-8 animate-slide-in">
+      <div className="space-y-8 animate-slide-in">        {/* Restore notification */}
+        {restoredFromBackup && (
+          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 
+                        rounded-lg p-3 mb-4 animate-fade-in">
+            <p className="text-sm text-green-800 dark:text-green-200">
+              ✓ Your previous progress has been restored
+            </p>
+          </div>
+        )}
+        
         {/* Quick context card */}
         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
                       border border-blue-200 dark:border-blue-800 rounded-lg p-4">
@@ -641,7 +717,13 @@ export function PurchaseForm({
             Thank you for sharing!
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
-            Your experience with {solutionName} has been recorded
+            {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
+              <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'}</>
+            ) : existingSolutionId ? (
+              <>Your experience with {solutionName} has been recorded</>
+            ) : (
+              <>You're the first to review {solutionName}! It needs 2 more reviews to go live.</>
+            )}
           </p>
 
           {/* Optional fields in a subtle card */}

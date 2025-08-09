@@ -7,6 +7,8 @@ import { supabase } from '@/lib/database/client';
 import { ChevronLeft, Check, X, Plus } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface AppFormProps {
   goalId: string;
@@ -35,11 +37,24 @@ export function AppForm({
   existingSolutionId,
   onBack
 }: AppFormProps) {
+  // Debug logging
+  console.log('[AppForm] Props received:', {
+    solutionName,
+    category,
+    existingSolutionId
+  });
+  
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
   const [highestStepReached, setHighestStepReached] = useState(1);
+  const [submissionResult, setSubmissionResult] = useState<{
+    solutionId?: string;
+    variantId?: string;
+    otherRatingsCount?: number;
+  }>({});
+  const [restoredFromBackup, setRestoredFromBackup] = useState(false);
   
   // Step 1 fields - App details
   const [cost, setCost] = useState('');
@@ -63,6 +78,44 @@ export function AppForm({
   // Progress indicator
   const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
+  
+  // Form backup data object
+  const formBackupData = {
+    cost,
+    timeToResults,
+    usageFrequency,
+    subscriptionType,
+    effectiveness,
+    challenges,
+    platform,
+    otherInfo,
+    failedSolutions,
+    currentStep,
+    highestStepReached
+  };
+  
+  // Use form backup hook
+  const { clearBackup } = useFormBackup(
+    `app-form-${goalId}-${solutionName}`,
+    formBackupData,
+    {
+      onRestore: (data) => {
+        setCost(data.cost || '');
+        setTimeToResults(data.timeToResults || '');
+        setUsageFrequency(data.usageFrequency || '');
+        setSubscriptionType(data.subscriptionType || '');
+        setEffectiveness(data.effectiveness || null);
+        setChallenges(data.challenges || ['None']);
+        setPlatform(data.platform || '');
+        setOtherInfo(data.otherInfo || '');
+        setFailedSolutions(data.failedSolutions || []);
+        setCurrentStep(data.currentStep || 1);
+        setHighestStepReached(data.highestStepReached || 1);
+        setRestoredFromBackup(true);
+        setTimeout(() => setRestoredFromBackup(false), 5000);
+      }
+    }
+  );
 
   // Handle browser back button
   useEffect(() => {
@@ -165,43 +218,65 @@ export function AppForm({
     setIsSubmitting(true);
     
     try {
-      // TODO: Main solution submission logic here
-      console.log('TODO: Add main submission logic');
-      
-      // Submit failed solution ratings for existing solutions
-      for (const failed of failedSolutions) {
-        if (failed.id) {
-          await supabase.rpc('create_failed_solution_rating', {
-            p_solution_id: failed.id,
-            p_goal_id: goalId,
-            p_user_id: userId,
-            p_rating: failed.rating,
-            p_solution_name: failed.name
-          });
-        }
-      }
-      
-      // Store non-existing failed solutions as text in implementation
-      const textOnlyFailed = failedSolutions
-        .filter(f => !f.id)
-        .map(f => ({ name: f.name, rating: f.rating }));
-      
-      console.log('Submitting:', {
-        solutionName,
-        effectiveness,
+      // Prepare solution fields for storage
+      const solutionFields = {
         cost: subscriptionType === 'Free version' ? 'Free' : cost,
+        time_to_results: timeToResults,
+        usage_frequency: usageFrequency,
+        subscription_type: subscriptionType,
+        challenges: challenges,
+        platform: platform || undefined,
+        other_info: otherInfo || undefined
+      };
+
+      // Prepare submission data (Apps don't have variants)
+      const submissionData: SubmitSolutionData = {
+        goalId,
+        userId,
+        solutionName,
+        category,
+        existingSolutionId,
+        effectiveness: effectiveness!,
         timeToResults,
-        usageFrequency,
-        subscriptionType,
-        challenges,
-        failedSolutionsWithRatings: failedSolutions.filter(f => f.id),
-        failedSolutionsTextOnly: textOnlyFailed
+        solutionFields,
+        failedSolutions
+      };
+
+      // Log submission data for debugging
+      console.log('Submitting solution with data:', {
+        goalId,
+        userId,
+        solutionName,
+        category,
+        existingSolutionId,
+        effectiveness,
+        timeToResults
       });
+
+      // Call server action
+      const result = await submitSolution(submissionData);
       
-      // Show success screen instead of redirecting
-      setShowSuccessScreen(true);
+      if (result.success) {
+        // Store the result for success screen
+        setSubmissionResult({
+          solutionId: result.solutionId,
+          variantId: result.variantId,
+          otherRatingsCount: result.otherRatingsCount
+        });
+        
+        // Clear backup on successful submission
+        clearBackup();
+        
+        // Show success screen
+        setShowSuccessScreen(true);
+      } else {
+        // Handle error
+        console.error('Error submitting solution:', result.error);
+        alert(result.error || 'Failed to submit solution. Please try again.');
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -218,6 +293,16 @@ export function AppForm({
       case 1: // App details
         return (
           <div className="space-y-8 animate-slide-in">
+            {/* Restore notification */}
+            {restoredFromBackup && (
+              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 
+                            rounded-lg p-3 mb-4 animate-fade-in">
+                <p className="text-sm text-green-800 dark:text-green-200">
+                  ✓ Your previous progress has been restored
+                </p>
+              </div>
+            )}
+            
             {/* Quick context card */}
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
                           border border-blue-200 dark:border-blue-800 rounded-lg p-4">
@@ -619,7 +704,13 @@ export function AppForm({
             Thank you for sharing!
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
-            Your experience with {solutionName} has been recorded
+            {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
+              <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'}</>
+            ) : existingSolutionId ? (
+              <>Your experience with {solutionName} has been recorded</>
+            ) : (
+              <>You're the first to review {solutionName}! It needs 2 more reviews to go live.</>
+            )}
           </p>
 
           {/* Optional fields */}
