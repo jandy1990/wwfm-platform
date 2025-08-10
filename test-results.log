@@ -1,0 +1,1781 @@
+
+> wwfm-platform@0.1.0 test:forms
+> playwright test tests/e2e/forms
+
+🔐 Setting up authentication for tests...
+🌐 Using baseURL: http://localhost:3000
+✅ Login successful
+✅ Authentication state saved successfully
+   Test user: test@wwfm-platform.com
+
+Running 176 tests using 5 workers
+
+[1A[2K[1/176] [chromium] › tests/e2e/forms/app-form.spec.ts:160:8 › AppForm Tests › should handle validation errors in AppForm
+[1A[2K[2/176] [chromium] › tests/e2e/forms/app-form.spec.ts:192:8 › AppForm Tests › should restore form data from sessionStorage backup
+[1A[2K[3/176] [chromium] › tests/e2e/forms/app-form.spec.ts:238:8 › AppForm Auto-categorization Flow › should auto-categorize and load correct form
+[1A[2K[4/176] [chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+[1A[2K[5/176] [chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+[1A[2K[6/176] [chromium] › tests/e2e/forms/app-form-complete.spec.ts:12:7 › AppForm - Complete E2E Tests › apps_software: complete form submission flow
+[1A[2K[7/176] [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+[1A[2K[8/176] [chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › CommunityForm - Data Pipeline Tests › support_groups › handles form validation
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Test setup - user already authenticated via global setup
+
+[1A[2KStarting CommunityForm test from actual goal page
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Test setup - user already authenticated via global setup
+
+[1A[2KStarting AppForm test from actual goal page
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+Solution "Community Test 1754793904323" not found
+
+[1A[2K🧹 Cleared previous ratings for Community Test 1754793904323
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › CommunityForm - Data Pipeline Tests › support_groups › handles form validation
+Solution "Community Test 1754793904327" not found
+
+[1A[2K🧹 Cleared previous ratings for Community Test 1754793904327
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Add solution page loaded
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Add solution page loaded
+
+[1A[2KTyped "Headspace" - looking for Headspace solutions
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Typed "Anxiety Support Group" - looking for support group solutions
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Dropdown selector found
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Dropdown selector found
+
+[1A[2K[9/176] [chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › CommunityForm - Data Pipeline Tests › support_groups › handles backward navigation
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Dropdown appeared with suggestions
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Dropdown appeared with suggestions
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Found 6 suggestions in dropdown
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Found 11 suggestions in dropdown
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Option 0: "HeadspaceApps & Software"
+
+[1A[2KOption 1: "Headspace (Test)Apps & Software"
+
+[1A[2KClicking on: "Headspace (Test)Apps & Software"
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Option 0: "Anxiety Support Group (Test)Support Groups"
+
+[1A[2KClicking on: "Anxiety Support Group (Test)Support Groups"
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › CommunityForm - Data Pipeline Tests › support_groups › handles backward navigation
+Solution "Community Test 1754793907795" not found
+
+[1A[2K🧹 Cleared previous ratings for Community Test 1754793907795
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Input value after selection: "Headspace (Test)"
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Input value after selection: "Anxiety Support Group (Test)"
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Category auto-detected: [33mtrue[39m
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Category auto-detected: [33mfalse[39m
+
+[1A[2KClicked Continue button
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Clicked Continue button
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+CommunityForm loaded successfully
+
+[1A[2K[10/176] [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+AppForm loaded successfully
+
+[1A[2KStarting AppForm filler - Updated for 3-step form
+
+[1A[2KStep 1: Filling basic info and effectiveness
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables
+Solution "Community Test 1754793910897" not found
+
+[1A[2K🧹 Cleared previous ratings for Community Test 1754793910897
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Starting CommunityForm filler - 3-step wizard
+
+[1A[2KStep 1: Filling effectiveness, time, and community details
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Selected 4-star rating
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Selected 4-star rating
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Selected time to results: 1-2 weeks
+
+[1A[2KSelected usage frequency: Daily
+
+[1A[2KSelected subscription type: Monthly subscription
+
+[1A[2KSelected cost: $10-$19.99/month
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+Starting CommunityForm filler - Updated for actual 3-step structure
+
+[1A[2KStep 1: Filling effectiveness, time, and community details
+
+[1A[2KSelected 4-star rating
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Clicked Continue to Step 2
+
+[1A[2KStep 2: Selecting challenges
+
+[1A[2KSelected "None" for challenges
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Selected time to results: 1-2 weeks
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Clicked Continue to Step 3
+
+[1A[2KStep 3: Skipping failed solutions
+
+[1A[2KSubmit button found, clicking...
+
+[1A[2KBrowser console [log]: Submitting solution with data: {goalId: 56e2801e-0d78-4abd-a795-869e5b780ae7, userId: e22feb1a-e617-4c8d-9747-0fb958068e1d, solutionName: Headspace (Test), category: apps_software, existingSolutionId: 86fa2f74-8d7a-48c0-b422-2e994f19eaa2}
+
+[1A[2KBrowser console [log]: [AppForm] Props received: {solutionName: Headspace (Test), category: apps_software, existingSolutionId: 86fa2f74-8d7a-48c0-b422-2e994f19eaa2}
+
+[1A[2KBrowser console [log]: [AppForm] Props received: {solutionName: Headspace (Test), category: apps_software, existingSolutionId: 86fa2f74-8d7a-48c0-b422-2e994f19eaa2}
+
+[1A[2KBrowser console [log]: FailedSolutionsPicker initialized for goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2KBrowser console [log]: FailedSolutionsPicker initialized for goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2KClicked Submit button
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Selected payment frequency: Free or donation-based
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+Selected time to results: 1-2 weeks
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Selected cost range: Free
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+Selected payment frequency: Free or donation-based
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Selected meeting frequency: Weekly
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+Selected cost range: Free
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Browser console [log]: [AppForm] Props received: {solutionName: Headspace (Test), category: apps_software, existingSolutionId: 86fa2f74-8d7a-48c0-b422-2e994f19eaa2}
+
+[1A[2KBrowser console [log]: [AppForm] Props received: {solutionName: Headspace (Test), category: apps_software, existingSolutionId: 86fa2f74-8d7a-48c0-b422-2e994f19eaa2}
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Selected format: Online only
+
+[1A[2K  1) [chromium] › tests/e2e/forms/app-form-complete.spec.ts:12:7 › AppForm - Complete E2E Tests › apps_software: complete form submission flow 
+
+    TimeoutError: page.waitForSelector: Timeout 5000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('text=/Subscription|Cost|Free/') to be visible[22m
+    [2m    15 × locator resolved to hidden <option value="Free version">Free version</option>[22m
+
+
+      77 |     
+      78 |     // Step 1: Subscription type and cost
+    > 79 |     await page.waitForSelector('text=/Subscription|Cost|Free/', { timeout: 5000 })
+         |                ^
+      80 |     
+      81 |     // Select subscription type first
+      82 |     const subscriptionSelect = page.locator('select:visible').first()
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/app-form-complete.spec.ts:79:16
+
+    Error Context: test-results/forms-app-form-complete-Ap-0707d-mplete-form-submission-flow-chromium/error-context.md
+
+
+[1A[2K[11/176] [chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › CommunityForm - Data Pipeline Tests › groups_communities › handles form validation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+Selected meeting frequency: Weekly
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › CommunityForm - Data Pipeline Tests › groups_communities › handles form validation
+Solution "Community Test 1754793917251" not found
+
+[1A[2K🧹 Cleared previous ratings for Community Test 1754793917251
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Selected first available group size
+
+[1A[2KClicked Continue to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+Selected format: Online only
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables
+Starting CommunityForm filler - Updated for actual 3-step structure
+
+[1A[2KStep 1: Filling effectiveness, time, and community details
+
+[1A[2KSelected 4-star rating
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+Selected first available group size
+
+[1A[2KClicked Continue to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Step 2: Selecting challenges
+
+[1A[2KClicked Continue to Step 3
+
+[1A[2K[12/176] [chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › CommunityForm - Data Pipeline Tests › groups_communities › handles backward navigation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables
+Selected time to results: 1-2 weeks
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › CommunityForm - Data Pipeline Tests › groups_communities › handles backward navigation
+Solution "Community Test 1754793920694" not found
+
+[1A[2K🧹 Cleared previous ratings for Community Test 1754793920694
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+Step 2: Selecting challenges
+
+[1A[2KClicked Continue to Step 3
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables
+Selected payment frequency: Free or donation-based
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Step 3: Skipping failed solutions
+
+[1A[2KSubmit button found, clicking...
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables
+Selected cost range: Free
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+Step 3: Skipping failed solutions
+
+[1A[2KSubmit button found, clicking...
+
+[1A[2KNo submit button found, checking if already submitted
+
+[1A[2KWaiting for form submission success...
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables
+Selected meeting frequency: Weekly
+
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:4:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Test completed successfully!
+
+[1A[2K[13/176] [chromium] › tests/e2e/forms/debug-calm.spec.ts:4:7 › Debug Calm Solution › Check if Calm exists as solution
+[1A[2K[14/176] [chromium] › tests/e2e/forms/debug-form-flow.spec.ts:7:7 › Debug Form Flow › debug medication form navigation
+[1A[2K[chromium] › tests/e2e/forms/debug-form-flow.spec.ts:7:7 › Debug Form Flow › debug medication form navigation
+Test solution: Prozac (Test)
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables
+Selected format: Online only
+
+[1A[2K[chromium] › tests/e2e/forms/debug-form-flow.spec.ts:7:7 › Debug Form Flow › debug medication form navigation
+Filled solution name: Prozac (Test)
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables
+Selected first available group size
+
+[1A[2KClicked Continue to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/debug-form-flow.spec.ts:7:7 › Debug Form Flow › debug medication form navigation
+Dropdown visible? [33mfalse[39m
+
+[1A[2KContinue button visible? [33mtrue[39m
+
+[1A[2KClicked Continue button
+
+[1A[2K[chromium] › tests/e2e/forms/debug-calm.spec.ts:4:7 › Debug Calm Solution › Check if Calm exists as solution
+Dropdown visible: [33mtrue[39m
+
+[1A[2KFound 9 items in dropdown:
+
+[1A[2KOption 0: "CalmApps & Software"
+
+[1A[2KOption 1: "calm appMeditation & Mindfulness"
+
+[1A[2KOption 2: "calm coachCoaches & Mentors"
+
+[1A[2KOption 3: "calm anxietySleep"
+
+[1A[2KOption 4: "calm routineHabits & Routines"
+
+[1A[2KOption 5: "calm harm appCrisis Resources"
+
+[1A[2KOption 6: "calm app sleepSleep"
+
+[1A[2KOption 7: "calm magnesiumSleep"
+
+[1A[2KOption 8: "calm meditationMeditation & Mindfulness"
+
+[1A[2K
+Clicking on: "CalmApps & Software"
+
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:13:7 › AppForm Tests › should submit app solution successfully from goal page
+Screenshot saved to submission-result.png
+
+[1A[2KChecking submission result...
+
+[1A[2KVisible text elements: [
+  [32m'WWFM🏔️BrowseDashboardtest@wwfm-platform.comSign Out'[39m,
+  [32m'WWFM🏔️'[39m,
+  [32m'WWFM'[39m,
+  [32m'🏔️'[39m,
+  [32m'BrowseDashboard'[39m,
+  [32m'Browse'[39m,
+  [32m'Dashboard'[39m,
+  [32m'test@wwfm-platform.comSign Out'[39m,
+  [32m'test@wwfm-platform.com'[39m,
+  [32m'Sign Out'[39m,
+  [32m'Thank you for sharing!'[39m,
+  [32m'Your experience with Headspace (Test) has been recorded'[39m,
+  [32m'Add more details (optional):Select platformiOS (iPhone/iPad)AndroidWeb/BrowserWindowsMacMultiple platformsChrome ExtensionOther'[39m,
+  [32m'Add more details (optional):'[39m,
+  [32m'Select platformiOS (iPhone/iPad)AndroidWeb/BrowserWindowsMacMultiple platformsChrome ExtensionOther'[39m,
+  [32m'Select platform'[39m,
+  [32m'iOS (iPhone/iPad)'[39m,
+  [32m'Android'[39m,
+  [32m'Web/Browser'[39m,
+  [32m'Windows'[39m,
+  [32m'Mac'[39m,
+  [32m'Multiple platforms'[39m,
+  [32m'Chrome Extension'[39m,
+  [32m'Other'[39m,
+  [32m'Back to goal page'[39m,
+  [32m'Share What Worked | WWFM'[39m
+]
+
+[1A[2KFound 1 alert-like elements
+
+[1A[2KAlert element:
+
+[1A[2K  Text: (empty)
+
+[1A[2K  Visible: [33mtrue[39m
+
+[1A[2K  Classes: [1mnull[22m
+
+[1A[2K  Styles: {
+  backgroundColor: [32m'rgba(0, 0, 0, 0)'[39m,
+  color: [32m'oklch(0.129 0.042 264.695)'[39m,
+  display: [32m'block'[39m
+}
+
+[1A[2KSuccess screen displayed!
+
+[1A[2KTest completed successfully!
+
+[1A[2K[15/176] [chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:8:7 › Debug Generic Form Filler › debug app form with generic filler
+[1A[2K[chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:8:7 › Debug Generic Form Filler › debug app form with generic filler
+Test solution: Headspace (Test)
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables
+Step 2: Selecting challenges
+
+[1A[2K[chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:8:7 › Debug Generic Form Filler › debug app form with generic filler
+Filled solution name: Headspace (Test)
+
+[1A[2K[chromium] › tests/e2e/forms/debug-form-flow.spec.ts:7:7 › Debug Form Flow › debug medication form navigation
+Has category picker? [33mtrue[39m
+
+[1A[2KHas dosage form? [33mfalse[39m
+
+[1A[2KCategory picker is showing, looking for medications button
+
+[1A[2K[chromium] › tests/e2e/forms/debug-calm.spec.ts:4:7 › Debug Calm Solution › Check if Calm exists as solution
+Current URL: http://localhost:3000/goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution
+
+[1A[2KForm loaded: [33mtrue[39m
+
+[1A[2K[chromium] › tests/e2e/forms/debug-form-flow.spec.ts:7:7 › Debug Form Flow › debug medication form navigation
+Selected Medications category
+
+[1A[2K[chromium] › tests/e2e/forms/debug-calm.spec.ts:4:7 › Debug Calm Solution › Check if Calm exists as solution
+
+Attempting to submit form...
+
+[1A[2K[chromium] › tests/e2e/forms/debug-form-flow.spec.ts:7:7 › Debug Form Flow › debug medication form navigation
+Final check - on dosage form? [33mtrue[39m
+
+[1A[2KVisible inputs: 1, Visible selects: 4
+
+[1A[2K[16/176] [chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:59:7 › Debug Generic Form Filler › debug medication form with generic filler
+[1A[2K[chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:59:7 › Debug Generic Form Filler › debug medication form with generic filler
+Test solution: Prozac (Test)
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+Step 3 not found, checking other success indicators...
+
+[1A[2K✅ Form submission successful via alternative indicator
+
+[1A[2K[chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:59:7 › Debug Generic Form Filler › debug medication form with generic filler
+Filled solution name: Prozac (Test)
+
+[1A[2K  2) [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForTimeout: Test timeout of 30000ms exceeded.
+
+      194 |           
+      195 |           // Wait a moment for data to be saved
+    > 196 |           await page.waitForTimeout(2000)
+          |                      ^
+      197 |           
+      198 |           // Verify data was actually saved to Supabase
+      199 |           console.log(`🔍 Verifying data in Supabase for ${testData.title}...`)
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-test-factory.ts:196:22
+
+    Error Context: test-results/forms-community-form-Commu-1389d-ed-fields-to-correct-tables-chromium/error-context.md
+
+
+[1A[2K[chromium] › tests/e2e/forms/debug-calm.spec.ts:4:7 › Debug Calm Solution › Check if Calm exists as solution
+UNKNOWN: Check page for result
+
+[1A[2KFound 1 alerts
+
+[1A[2KAlert: (empty)
+
+[1A[2K[17/176] [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › medications › saves all required fields to correct tables
+[1A[2K[18/176] [chromium] › tests/e2e/forms/dosage-form-complete.spec.ts:7:7 › DosageForm End-to-End Tests › should complete DosageForm for supplements_vitamins (Vitamin D Test)
+[1A[2K[chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:59:7 › Debug Generic Form Filler › debug medication form with generic filler
+Clicked Continue button
+
+[1A[2K[chromium] › tests/e2e/forms/dosage-form-complete.spec.ts:7:7 › DosageForm End-to-End Tests › should complete DosageForm for supplements_vitamins (Vitamin D Test)
+=== Starting DosageForm test for Vitamin D (Test) ===
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › medications › saves all required fields to correct tables
+Solution "Dosage Test 1754793935245" not found
+
+[1A[2K🧹 Cleared previous ratings for Dosage Test 1754793935245
+
+[1A[2K[chromium] › tests/e2e/forms/dosage-form-complete.spec.ts:7:7 › DosageForm End-to-End Tests › should complete DosageForm for supplements_vitamins (Vitamin D Test)
+Add solution page loaded
+
+[1A[2KTyped "Vitamin D (Test)" - looking for supplement solutions
+
+[1A[2K[chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:59:7 › Debug Generic Form Filler › debug medication form with generic filler
+Starting generic form filler...
+
+[1A[2K[chromium] › tests/e2e/forms/dosage-form-complete.spec.ts:7:7 › DosageForm End-to-End Tests › should complete DosageForm for supplements_vitamins (Vitamin D Test)
+Dropdown selector found
+
+[1A[2KDropdown appeared with suggestions
+
+[1A[2KFound 5 suggestions in dropdown
+
+[1A[2KOption 0: "Vitamin D (Test)Supplements & Vitamins"
+
+[1A[2KClicking on: "Vitamin D (Test)Supplements & Vitamins"
+
+[1A[2KInput value after selection: "Vitamin D (Test)"
+
+[1A[2KCategory auto-detected: [33mfalse[39m
+
+[1A[2KClicked Continue button
+
+[1A[2KDosageForm loaded successfully
+
+[1A[2KStarting DosageForm filler for category: supplements_vitamins
+
+[1A[2KStep 1: Filling dosage, effectiveness, and time to results
+
+[1A[2KEntered dosage amount: 500
+
+[1A[2KSelected unit: mg
+
+[1A[2KSelected frequency: Once daily
+
+[1A[2K  3) [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("None")')[22m
+
+
+       at forms/form-specific-fillers.ts:1162
+
+      1160 |   // ============ STEP 2: Challenges ============
+      1161 |   console.log('Step 2: Selecting challenges')
+    > 1162 |   await page.click('label:has-text("None")')
+           |              ^
+      1163 |   await page.waitForTimeout(500)
+      1164 |   
+      1165 |   // Click Continue to Step 3
+        at fillCommunityForm (/Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-specific-fillers.ts:1162:14)
+        at fillFormSpecific (/Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-specific-fillers.ts:1388:5)
+        at Object.fillFormSteps (/Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-configs.ts:126:5)
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-test-factory.ts:178:11
+
+    Error Context: test-results/forms-community-form-Commu-a4803-ed-fields-to-correct-tables-chromium/error-context.md
+
+
+[1A[2KSelected length of use: 1-3 months
+
+[1A[2K[19/176] [chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › DosageForm - Data Pipeline Tests › medications › handles form validation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › DosageForm - Data Pipeline Tests › medications › handles form validation
+Solution "Dosage Test 1754793941535" not found
+
+[1A[2K🧹 Cleared previous ratings for Dosage Test 1754793941535
+
+[1A[2K[chromium] › tests/e2e/forms/dosage-form-complete.spec.ts:7:7 › DosageForm End-to-End Tests › should complete DosageForm for supplements_vitamins (Vitamin D Test)
+Selected 4-star effectiveness rating
+
+[1A[2KSelected time to results: 1-2 weeks
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › medications › saves all required fields to correct tables
+Starting DosageForm filler for category: medications
+
+[1A[2KStep 1: Filling dosage, effectiveness, and time to results
+
+[1A[2KEntered dosage amount: 500
+
+[1A[2K[chromium] › tests/e2e/forms/dosage-form-complete.spec.ts:7:7 › DosageForm End-to-End Tests › should complete DosageForm for supplements_vitamins (Vitamin D Test)
+Moving to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › medications › saves all required fields to correct tables
+Selected unit: mg
+
+[1A[2KSelected frequency: Once daily
+
+[1A[2KSelected length of use: 1-3 months
+
+[1A[2K[chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:59:7 › Debug Generic Form Filler › debug medication form with generic filler
+Continue button disabled on step 1, filling required fields...
+
+[1A[2K[chromium] › tests/e2e/forms/dosage-form-complete.spec.ts:7:7 › DosageForm End-to-End Tests › should complete DosageForm for supplements_vitamins (Vitamin D Test)
+Step 2: Selecting side effects
+
+[1A[2KSelected side effect: None
+
+[1A[2K[chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:59:7 › Debug Generic Form Filler › debug medication form with generic filler
+Continue still disabled after filling fields
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › medications › saves all required fields to correct tables
+Selected 4-star effectiveness rating
+
+[1A[2K[20/176] [chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › DosageForm - Data Pipeline Tests › medications › handles backward navigation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › DosageForm - Data Pipeline Tests › medications › handles backward navigation
+Solution "Dosage Test 1754793945455" not found
+
+[1A[2K🧹 Cleared previous ratings for Dosage Test 1754793945455
+
+[1A[2K[chromium] › tests/e2e/forms/dosage-form-complete.spec.ts:7:7 › DosageForm End-to-End Tests › should complete DosageForm for supplements_vitamins (Vitamin D Test)
+Moving to Step 3
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › medications › saves all required fields to correct tables
+Selected time to results: 1-2 weeks
+
+[1A[2KMoving to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/dosage-form-complete.spec.ts:7:7 › DosageForm End-to-End Tests › should complete DosageForm for supplements_vitamins (Vitamin D Test)
+Step 3: Skipping failed solutions
+
+[1A[2KForm ready for submission
+
+[1A[2KVerifying successful submission...
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › medications › saves all required fields to correct tables
+Step 2: Selecting side effects
+
+[1A[2KSelected side effect: None
+
+[1A[2KMoving to Step 3
+
+[1A[2K[chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:59:7 › Debug Generic Form Filler › debug medication form with generic filler
+Final URL: http://localhost:3000/goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution
+
+[1A[2KSubmit button not found
+
+[1A[2K[21/176] [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › saves all required fields to correct tables
+[1A[2K[22/176] [chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › handles form validation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › handles form validation
+Solution "Dosage Test 1754793948798" not found
+
+[1A[2K🧹 Cleared previous ratings for Dosage Test 1754793948798
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › saves all required fields to correct tables
+Solution "Dosage Test 1754793948722" not found
+
+[1A[2K🧹 Cleared previous ratings for Dosage Test 1754793948722
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › medications › saves all required fields to correct tables
+Step 3: Skipping failed solutions
+
+[1A[2KForm ready for submission
+
+[1A[2KClicking submit button...
+
+[1A[2KWaiting for form submission success...
+
+[1A[2K✅ Form submitted successfully - reached Step 3 (failed solutions optional step)
+
+[1A[2K  4) [chromium] › tests/e2e/forms/dosage-form-complete.spec.ts:7:7 › DosageForm End-to-End Tests › should complete DosageForm for supplements_vitamins (Vitamin D Test) 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBeTruthy[2m()[22m
+
+    Received: [31mfalse[39m
+
+      104 |                         pageContent?.includes('added')
+      105 |     
+    > 106 |     expect(wasProcessed).toBeTruthy()
+          |                          ^
+      107 |     console.log('=== DosageForm supplements_vitamins test completed successfully ===');
+      108 |   });
+      109 | });
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/dosage-form-complete.spec.ts:106:26
+
+    Error Context: test-results/forms-dosage-form-complete-95cd6-ts-vitamins-Vitamin-D-Test--chromium/error-context.md
+
+
+[1A[2K[23/176] [chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › handles backward navigation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › handles backward navigation
+Solution "Dosage Test 1754793950637" not found
+
+[1A[2K🧹 Cleared previous ratings for Dosage Test 1754793950637
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › medications › saves all required fields to correct tables
+🔍 Verifying data in Supabase for Dosage Test 1754793935245...
+
+[1A[2K🔍 Verifying solution "Dosage Test 1754793935245" for goal 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K❌ Solution not found: JSON object requested, multiple (or no) rows returned
+
+[1A[2K[24/176] [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › natural_remedies › saves all required fields to correct tables
+[1A[2K  5) [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › medications › saves all required fields to correct tables 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+      201 |           
+      202 |           // Check that data was saved
+    > 203 |           expect(supabaseData.success).toBe(true)
+          |                                        ^
+      204 |           expect(supabaseData.summary.hasLinks).toBe(true)
+      205 |           expect(supabaseData.summary.hasRatings).toBe(true)
+      206 |           
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-test-factory.ts:203:40
+
+    Error Context: test-results/forms-dosage-form-DosageFo-5eccc-ed-fields-to-correct-tables-chromium/error-context.md
+
+
+[1A[2K[25/176] [chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › DosageForm - Data Pipeline Tests › natural_remedies › handles form validation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › natural_remedies › saves all required fields to correct tables
+Solution "Dosage Test 1754793952309" not found
+
+[1A[2K🧹 Cleared previous ratings for Dosage Test 1754793952309
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › DosageForm - Data Pipeline Tests › natural_remedies › handles form validation
+Solution "Dosage Test 1754793952909" not found
+
+[1A[2K🧹 Cleared previous ratings for Dosage Test 1754793952909
+
+[1A[2K[26/176] [chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › DosageForm - Data Pipeline Tests › natural_remedies › handles backward navigation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › DosageForm - Data Pipeline Tests › natural_remedies › handles backward navigation
+Solution "Dosage Test 1754793954289" not found
+
+[1A[2K🧹 Cleared previous ratings for Dosage Test 1754793954289
+
+[1A[2K[27/176] [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › beauty_skincare › saves all required fields to correct tables
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › beauty_skincare › saves all required fields to correct tables
+Solution "Dosage Test 1754793956124" not found
+
+[1A[2K🧹 Cleared previous ratings for Dosage Test 1754793956124
+
+[1A[2K  6) [chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:8:7 › Debug Generic Form Filler › debug app form with generic filler 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('button:has-text("Continue")')[22m
+    [2m    - locator resolved to <button class="px-6 py-2 rounded-lg font-medium transition-all bg-blue-600 hover:bg-blue-700 text-white">Continue</button>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div class="px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400  border-b border-gray-100 dark:border-gray-700">💡 Suggestions</div> from <div class="relative">…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div class="px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400  border-b border-gray-100 dark:border-gray-700">💡 Suggestions</div> from <div class="relative">…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m    50 × waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div class="px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400  border-b border-gray-100 dark:border-gray-700">💡 Suggestions</div> from <div class="relative">…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+
+
+      27 |     const continueButton = page.locator('button:has-text("Continue")')
+      28 |     if (await continueButton.isVisible()) {
+    > 29 |       await continueButton.click()
+         |                            ^
+      30 |       console.log('Clicked Continue button')
+      31 |       await page.waitForTimeout(2000)
+      32 |     }
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/debug-generic-filler.spec.ts:29:28
+
+    Error Context: test-results/forms-debug-generic-filler-782a5-pp-form-with-generic-filler-chromium/error-context.md
+
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › saves all required fields to correct tables
+Starting DosageForm filler for category: supplements_vitamins
+
+[1A[2KStep 1: Filling dosage, effectiveness, and time to results
+
+[1A[2KEntered dosage amount: 500
+
+[1A[2K[28/176] [chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › DosageForm - Data Pipeline Tests › beauty_skincare › handles form validation
+[1A[2KSelected unit: mg
+
+[1A[2K[29/176] [chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › DosageForm - Data Pipeline Tests › beauty_skincare › handles backward navigation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › DosageForm - Data Pipeline Tests › beauty_skincare › handles form validation
+Solution "Dosage Test 1754793957270" not found
+
+[1A[2K🧹 Cleared previous ratings for Dosage Test 1754793957270
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › saves all required fields to correct tables
+Selected frequency: Once daily
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › DosageForm - Data Pipeline Tests › beauty_skincare › handles backward navigation
+Solution "Dosage Test 1754793957392" not found
+
+[1A[2K🧹 Cleared previous ratings for Dosage Test 1754793957392
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › saves all required fields to correct tables
+Selected length of use: 1-3 months
+
+[1A[2KSelected 4-star effectiveness rating
+
+[1A[2KSelected time to results: 1-2 weeks
+
+[1A[2KMoving to Step 2
+
+[1A[2K[30/176] [chromium] › tests/e2e/forms/dosage-form.spec.ts:12:7 › DosageForm - Additional Tests › handles variant-specific validation
+[1A[2K[31/176] [chromium] › tests/e2e/forms/dosage-form.spec.ts:30:7 › DosageForm - Additional Tests › preserves form data on navigation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › natural_remedies › saves all required fields to correct tables
+Starting DosageForm filler for category: natural_remedies
+
+[1A[2KStep 1: Filling dosage, effectiveness, and time to results
+
+[1A[2KEntered dosage amount: 500
+
+[1A[2KSelected unit: mg
+
+[1A[2KSelected frequency: Once daily
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › saves all required fields to correct tables
+Step 2: Selecting side effects
+
+[1A[2KSelected side effect: None
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › natural_remedies › saves all required fields to correct tables
+Selected length of use: 1-3 months
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › saves all required fields to correct tables
+Moving to Step 3
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › natural_remedies › saves all required fields to correct tables
+Selected 4-star effectiveness rating
+
+[1A[2KSelected time to results: 1-2 weeks
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › saves all required fields to correct tables
+Step 3: Skipping failed solutions
+
+[1A[2KForm ready for submission
+
+[1A[2KClicking submit button...
+
+[1A[2KWaiting for form submission success...
+
+[1A[2K✅ Form submitted successfully - reached Step 3 (failed solutions optional step)
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › natural_remedies › saves all required fields to correct tables
+Moving to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › beauty_skincare › saves all required fields to correct tables
+Starting DosageForm filler for category: beauty_skincare
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › natural_remedies › saves all required fields to correct tables
+Step 2: Selecting side effects
+
+[1A[2KSelected side effect: None
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › saves all required fields to correct tables
+🔍 Verifying data in Supabase for Dosage Test 1754793948722...
+
+[1A[2K🔍 Verifying solution "Dosage Test 1754793948722" for goal 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › natural_remedies › saves all required fields to correct tables
+Moving to Step 3
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › saves all required fields to correct tables
+❌ Solution not found: JSON object requested, multiple (or no) rows returned
+
+[1A[2K  7) [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › supplements_vitamins › saves all required fields to correct tables 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+      201 |           
+      202 |           // Check that data was saved
+    > 203 |           expect(supabaseData.success).toBe(true)
+          |                                        ^
+      204 |           expect(supabaseData.summary.hasLinks).toBe(true)
+      205 |           expect(supabaseData.summary.hasRatings).toBe(true)
+      206 |           
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-test-factory.ts:203:40
+
+    Error Context: test-results/forms-dosage-form-DosageFo-fe9dc-ed-fields-to-correct-tables-chromium/error-context.md
+
+
+[1A[2K[32/176] [chromium] › tests/e2e/forms/financial-form-complete.spec.ts:4:7 › FinancialForm - Complete E2E Tests › should submit financial solution successfully from goal page
+[1A[2K[chromium] › tests/e2e/forms/financial-form-complete.spec.ts:4:7 › FinancialForm - Complete E2E Tests › should submit financial solution successfully from goal page
+Test setup - user already authenticated via global setup
+
+[1A[2KStarting FinancialForm test from actual goal page
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › natural_remedies › saves all required fields to correct tables
+Step 3: Skipping failed solutions
+
+[1A[2KForm ready for submission
+
+[1A[2KClicking submit button...
+
+[1A[2KWaiting for form submission success...
+
+[1A[2K✅ Form submitted successfully - reached Step 3 (failed solutions optional step)
+
+[1A[2K[chromium] › tests/e2e/forms/financial-form-complete.spec.ts:4:7 › FinancialForm - Complete E2E Tests › should submit financial solution successfully from goal page
+Add solution page loaded
+
+[1A[2KTyped "High Yield Savings" - looking for High Yield Savings solutions
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › natural_remedies › saves all required fields to correct tables
+🔍 Verifying data in Supabase for Dosage Test 1754793952309...
+
+[1A[2K🔍 Verifying solution "Dosage Test 1754793952309" for goal 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K  8) [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › beauty_skincare › saves all required fields to correct tables 
+
+    TimeoutError: page.waitForSelector: Timeout 5000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('text="Your dosage"') to be visible[22m
+
+
+       at forms/form-specific-fillers.ts:13
+
+      11 |   
+      12 |   // Wait for form to be ready - Step 1 shows dosage info first
+    > 13 |   await page.waitForSelector('text="Your dosage"', { timeout: 5000 })
+         |              ^
+      14 |   
+      15 |   // ============ STEP 1: Dosage, Effectiveness, TTR ============
+      16 |   console.log('Step 1: Filling dosage, effectiveness, and time to results')
+        at filler (/Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-specific-fillers.ts:13:14)
+        at fillFormSpecific (/Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-specific-fillers.ts:1388:11)
+        at Object.fillFormSteps (/Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-configs.ts:21:27)
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-test-factory.ts:178:24
+
+    Error Context: test-results/forms-dosage-form-DosageFo-a563e-ed-fields-to-correct-tables-chromium/error-context.md
+
+
+[1A[2K[33/176] [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › FinancialForm - Data Pipeline Tests › financial_products › saves all required fields to correct tables
+[1A[2K❌ Solution not found: JSON object requested, multiple (or no) rows returned
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › FinancialForm - Data Pipeline Tests › financial_products › saves all required fields to correct tables
+Solution "Financial Test 1754793969700" not found
+
+[1A[2K🧹 Cleared previous ratings for Financial Test 1754793969700
+
+[1A[2K  9) [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › DosageForm - Data Pipeline Tests › natural_remedies › saves all required fields to correct tables 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+      201 |           
+      202 |           // Check that data was saved
+    > 203 |           expect(supabaseData.success).toBe(true)
+          |                                        ^
+      204 |           expect(supabaseData.summary.hasLinks).toBe(true)
+      205 |           expect(supabaseData.summary.hasRatings).toBe(true)
+      206 |           
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-test-factory.ts:203:40
+
+    Error Context: test-results/forms-dosage-form-DosageFo-fb5dd-ed-fields-to-correct-tables-chromium/error-context.md
+
+
+[1A[2K[chromium] › tests/e2e/forms/financial-form-complete.spec.ts:4:7 › FinancialForm - Complete E2E Tests › should submit financial solution successfully from goal page
+Dropdown selector found
+
+[1A[2K[34/176] [chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › FinancialForm - Data Pipeline Tests › financial_products › handles form validation
+[1A[2KDropdown appeared with suggestions
+
+[1A[2KFound 3 suggestions in dropdown
+
+[1A[2KOption 0: "High Yield Savings (Test)Financial Products"
+
+[1A[2KClicking on: "High Yield Savings (Test)Financial Products"
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › FinancialForm - Data Pipeline Tests › financial_products › handles form validation
+Solution "Financial Test 1754793970633" not found
+
+[1A[2K🧹 Cleared previous ratings for Financial Test 1754793970633
+
+[1A[2K[chromium] › tests/e2e/forms/financial-form-complete.spec.ts:4:7 › FinancialForm - Complete E2E Tests › should submit financial solution successfully from goal page
+Input value after selection: "High Yield Savings (Test)"
+
+[1A[2KCategory auto-detected: [33mfalse[39m
+
+[1A[2KClicked Continue button
+
+[1A[2KFinancialForm loaded successfully
+
+[1A[2KStarting FinancialForm filler - 3-step wizard
+
+[1A[2KStep 1: Filling product details and effectiveness
+
+[1A[2KSelected cost type: Free
+
+[1A[2K[35/176] [chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › FinancialForm - Data Pipeline Tests › financial_products › handles backward navigation
+[1A[2KSelected financial benefit: $25-100/month saved/earned
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › FinancialForm - Data Pipeline Tests › financial_products › handles backward navigation
+Solution "Financial Test 1754793973876" not found
+
+[1A[2K🧹 Cleared previous ratings for Financial Test 1754793973876
+
+[1A[2K[chromium] › tests/e2e/forms/financial-form-complete.spec.ts:4:7 › FinancialForm - Complete E2E Tests › should submit financial solution successfully from goal page
+Selected access time: Same day
+
+[1A[2KSelected 4-star rating
+
+[1A[2KSelected time to impact: 1-2 weeks
+
+[1A[2KClicked Continue to Step 2
+
+[1A[2K[36/176] [chromium] › tests/e2e/forms/hobby-form-complete.spec.ts:4:7 › HobbyForm - Complete E2E Tests › should submit hobby solution successfully from goal page
+[1A[2K[chromium] › tests/e2e/forms/hobby-form-complete.spec.ts:4:7 › HobbyForm - Complete E2E Tests › should submit hobby solution successfully from goal page
+Test setup - user already authenticated via global setup
+
+[1A[2KStarting HobbyForm test from actual goal page
+
+[1A[2K[chromium] › tests/e2e/forms/financial-form-complete.spec.ts:4:7 › FinancialForm - Complete E2E Tests › should submit financial solution successfully from goal page
+Step 2: Selecting barriers
+
+[1A[2KClicked Continue to Step 3
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › FinancialForm - Data Pipeline Tests › financial_products › saves all required fields to correct tables
+Starting FinancialForm filler - Updated for actual 3-step structure
+
+[1A[2KStep 1: Filling product details and effectiveness
+
+[1A[2KSelected cost type: Free
+
+[1A[2K[chromium] › tests/e2e/forms/hobby-form-complete.spec.ts:4:7 › HobbyForm - Complete E2E Tests › should submit hobby solution successfully from goal page
+Add solution page loaded
+
+[1A[2KTyped "Painting" - looking for Painting solutions
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › FinancialForm - Data Pipeline Tests › financial_products › saves all required fields to correct tables
+Selected financial benefit: $25-100/month saved/earned
+
+[1A[2KSelected access time: Same day
+
+[1A[2KSelected 4-star rating
+
+[1A[2K[chromium] › tests/e2e/forms/financial-form-complete.spec.ts:4:7 › FinancialForm - Complete E2E Tests › should submit financial solution successfully from goal page
+Step 3: Skipping failed solutions
+
+[1A[2KSubmit button found, clicking...
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › FinancialForm - Data Pipeline Tests › financial_products › saves all required fields to correct tables
+Selected time to impact: 1-2 weeks
+
+[1A[2KClicked Continue to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/hobby-form-complete.spec.ts:4:7 › HobbyForm - Complete E2E Tests › should submit hobby solution successfully from goal page
+Dropdown selector found
+
+[1A[2KDropdown appeared with suggestions
+
+[1A[2KFound 10 suggestions in dropdown
+
+[1A[2KOption 0: "Painting (Test)Hobbies & Activities"
+
+[1A[2KClicking on: "Painting (Test)Hobbies & Activities"
+
+[1A[2KInput value after selection: "Painting (Test)"
+
+[1A[2K[chromium] › tests/e2e/forms/financial-form-complete.spec.ts:4:7 › FinancialForm - Complete E2E Tests › should submit financial solution successfully from goal page
+Test completed successfully!
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › FinancialForm - Data Pipeline Tests › financial_products › saves all required fields to correct tables
+Step 2: Selecting barriers
+
+[1A[2K[37/176] [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › saves all required fields to correct tables
+[1A[2K[chromium] › tests/e2e/forms/hobby-form-complete.spec.ts:4:7 › HobbyForm - Complete E2E Tests › should submit hobby solution successfully from goal page
+Category auto-detected: [33mfalse[39m
+
+[1A[2KClicked Continue button
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › saves all required fields to correct tables
+Solution "Hobby Test 1754793981321" not found
+
+[1A[2K🧹 Cleared previous ratings for Hobby Test 1754793981321
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › FinancialForm - Data Pipeline Tests › financial_products › saves all required fields to correct tables
+Clicked Continue to Step 3
+
+[1A[2K[chromium] › tests/e2e/forms/hobby-form-complete.spec.ts:4:7 › HobbyForm - Complete E2E Tests › should submit hobby solution successfully from goal page
+HobbyForm loaded successfully
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › FinancialForm - Data Pipeline Tests › financial_products › saves all required fields to correct tables
+Step 3: Skipping failed solutions
+
+[1A[2KSubmit button found, clicking...
+
+[1A[2KNo submit button found, checking if already submitted
+
+[1A[2KWaiting for form submission success...
+
+[1A[2K[chromium] › tests/e2e/forms/hobby-form-complete.spec.ts:4:7 › HobbyForm - Complete E2E Tests › should submit hobby solution successfully from goal page
+Starting HobbyForm filler - 3-step wizard
+
+[1A[2KStep 1: Filling effectiveness and hobby details
+
+[1A[2KSelected 4-star rating
+
+[1A[2KSelected time to results: 1-2 weeks
+
+[1A[2KSelected startup cost: $50-$100
+
+[1A[2KSelected ongoing cost: Under $25/month
+
+[1A[2KSelected time investment: 1-2 hours
+
+[1A[2KSelected frequency: Daily
+
+[1A[2KClicked Continue to Step 2
+
+[1A[2KStep 2: Selecting challenges
+
+[1A[2KClicked Continue to Step 3
+
+[1A[2KStep 3: Skipping failed solutions
+
+[1A[2KSubmit button found, clicking...
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › saves all required fields to correct tables
+Starting HobbyForm filler - 3-step wizard
+
+[1A[2KStep 1: Filling effectiveness and hobby details
+
+[1A[2KClicking 4-star rating
+
+[1A[2KSelecting time to results
+
+[1A[2KSelecting startup cost
+
+[1A[2K  10) [chromium] › tests/e2e/forms/dosage-form.spec.ts:12:7 › DosageForm - Additional Tests › handles variant-specific validation 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.selectOption: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('[name="solution_category"]')[22m
+
+
+      14 |     
+      15 |     await page.goto(`/goal/${testData.goalId}/add-solution`)
+    > 16 |     await page.selectOption('[name="solution_category"]', 'medications')
+         |                ^
+      17 |     await page.click('button:has-text("Next")')
+      18 |     
+      19 |     // Try to enter invalid dosage amount
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/dosage-form.spec.ts:16:16
+
+    Error Context: test-results/forms-dosage-form-DosageFo-f50de-variant-specific-validation-chromium/error-context.md
+
+
+[1A[2K  11) [chromium] › tests/e2e/forms/dosage-form.spec.ts:30:7 › DosageForm - Additional Tests › preserves form data on navigation 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.selectOption: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('[name="solution_category"]')[22m
+
+
+      32 |     
+      33 |     await page.goto(`/goal/${testData.goalId}/add-solution`)
+    > 34 |     await page.selectOption('[name="solution_category"]', 'supplements_vitamins')
+         |                ^
+      35 |     await page.click('button:has-text("Next")')
+      36 |     
+      37 |     // Fill some fields
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/dosage-form.spec.ts:34:16
+
+    Error Context: test-results/forms-dosage-form-DosageFo-dca96-ves-form-data-on-navigation-chromium/error-context.md
+
+
+[1A[2KSelecting ongoing cost
+
+[1A[2K[38/176] [chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › handles form validation
+[1A[2K[39/176] [chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › handles backward navigation
+[1A[2KSelecting time investment
+
+[1A[2K[chromium] › tests/e2e/forms/hobby-form-complete.spec.ts:4:7 › HobbyForm - Complete E2E Tests › should submit hobby solution successfully from goal page
+Alert found: (empty)
+
+[1A[2KScreenshot saved to hobby-test-failure-screenshot.png
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › handles form validation
+Solution "Hobby Test 1754793991072" not found
+
+[1A[2K🧹 Cleared previous ratings for Hobby Test 1754793991072
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › handles backward navigation
+Solution "Hobby Test 1754793991072" not found
+
+[1A[2K🧹 Cleared previous ratings for Hobby Test 1754793991072
+
+[1A[2K  12) [chromium] › tests/e2e/forms/hobby-form-complete.spec.ts:4:7 › HobbyForm - Complete E2E Tests › should submit hobby solution successfully from goal page 
+
+    Error: HobbyForm submission failed - still on Step 3
+
+      213 |       console.log('Screenshot saved to hobby-test-failure-screenshot.png')
+      214 |       
+    > 215 |       throw new Error('HobbyForm submission failed - still on Step 3')
+          |             ^
+      216 |     }
+      217 |     
+      218 |     expect(wasProcessed).toBeTruthy()
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/hobby-form-complete.spec.ts:215:13
+
+    Error Context: test-results/forms-hobby-form-complete--9914f-successfully-from-goal-page-chromium/error-context.md
+
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › saves all required fields to correct tables
+Selecting frequency
+
+[1A[2K[40/176] [chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:7:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)
+[1A[2KClicking Continue to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:7:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)
+=== Starting LifestyleForm test for Mediterranean Diet (Test) ===
+
+[1A[2KAdd solution page loaded
+
+[1A[2KTyped "Mediterranean Diet (Test)" - looking for Mediterranean Diet solutions
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › FinancialForm - Data Pipeline Tests › financial_products › saves all required fields to correct tables
+Step 3 not found, checking other success indicators...
+
+[1A[2K✅ Form submission successful via alternative indicator
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › saves all required fields to correct tables
+Step 2: Selecting challenges
+
+[1A[2K[41/176] [chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test)
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test)
+=== Starting LifestyleForm test for Sleep Hygiene (Test) ===
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › saves all required fields to correct tables
+Clicking Continue to Step 3
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:7:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)
+Dropdown selector found
+
+[1A[2K[42/176] [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › saves all required fields to correct tables
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › FinancialForm - Data Pipeline Tests › financial_products › saves all required fields to correct tables
+🔍 Verifying data in Supabase for Financial Test 1754793969700...
+
+[1A[2K🔍 Verifying solution "Financial Test 1754793969700" for goal 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › saves all required fields to correct tables
+Solution "Lifestyle Test 1754793995211" not found
+
+[1A[2K🧹 Cleared previous ratings for Lifestyle Test 1754793995211
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:7:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)
+Dropdown appeared with suggestions
+
+[1A[2KFound 2 suggestions in dropdown
+
+[1A[2KOption 0: "Mediterranean Diet (Test)Diet & Nutrition"
+
+[1A[2KClicking on: "Mediterranean Diet (Test)Diet & Nutrition"
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test)
+Add solution page loaded
+
+[1A[2KTyped "Sleep Hygiene (Test)" - looking for Sleep Hygiene solutions
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › FinancialForm - Data Pipeline Tests › financial_products › saves all required fields to correct tables
+❌ Solution not found: JSON object requested, multiple (or no) rows returned
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:7:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)
+Input value after selection: "Mediterranean Diet (Test)"
+
+[1A[2KCategory auto-detected: [33mfalse[39m
+
+[1A[2KClicked Continue button
+
+[1A[2K  13) [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › FinancialForm - Data Pipeline Tests › financial_products › saves all required fields to correct tables 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+      201 |           
+      202 |           // Check that data was saved
+    > 203 |           expect(supabaseData.success).toBe(true)
+          |                                        ^
+      204 |           expect(supabaseData.summary.hasLinks).toBe(true)
+      205 |           expect(supabaseData.summary.hasRatings).toBe(true)
+      206 |           
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-test-factory.ts:203:40
+
+    Error Context: test-results/forms-financial-form-Finan-9824f-ed-fields-to-correct-tables-chromium/error-context.md
+
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › saves all required fields to correct tables
+Step 3: Submitting form
+
+[1A[2K[43/176] [chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › handles form validation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › handles form validation
+Solution "Lifestyle Test 1754793996766" not found
+
+[1A[2K🧹 Cleared previous ratings for Lifestyle Test 1754793996766
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:7:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)
+LifestyleForm loaded successfully
+
+[1A[2KStarting LifestyleForm filler for category: diet_nutrition
+
+[1A[2KStep 1: Filling effectiveness and required fields
+
+[1A[2KSelected 4-star effectiveness rating
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test)
+Dropdown selector found
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:7:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)
+Selected time to results: 1-2 weeks
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test)
+Dropdown appeared with suggestions
+
+[1A[2KFound 3 suggestions in dropdown
+
+[1A[2KOption 0: "Sleep Hygiene (Test)Sleep"
+
+[1A[2KClicking on: "Sleep Hygiene (Test)Sleep"
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:7:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)
+Selected cost impact: About the same
+
+[1A[2KSelected weekly prep time: 1-2 hours/week
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › saves all required fields to correct tables
+Clicking submit button...
+
+[1A[2KWaiting for form submission success...
+
+[1A[2K✅ Form submitted successfully - reached Step 3 (failed solutions optional step)
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test)
+Input value after selection: "Sleep Hygiene (Test)"
+
+[1A[2KCategory auto-detected: [33mfalse[39m
+
+[1A[2KClicked Continue button
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:7:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)
+Selected: Yes, still following it
+
+[1A[2KMoving to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test)
+LifestyleForm loaded successfully
+
+[1A[2KStarting LifestyleForm filler for category: sleep
+
+[1A[2KStep 1: Filling effectiveness and required fields
+
+[1A[2KSelected 4-star effectiveness rating
+
+[1A[2K[44/176] [chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › handles backward navigation
+[1A[2KSelected time to results: 1-2 weeks
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › saves all required fields to correct tables
+🔍 Verifying data in Supabase for Hobby Test 1754793981321...
+
+[1A[2K🔍 Verifying solution "Hobby Test 1754793981321" for goal 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test)
+Selected cost impact: Free
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › handles backward navigation
+Solution "Lifestyle Test 1754794000351" not found
+
+[1A[2K🧹 Cleared previous ratings for Lifestyle Test 1754794000351
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:7:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)
+Step 2: Selecting challenges
+
+[1A[2KSelected challenge: None
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › saves all required fields to correct tables
+❌ Solution not found: JSON object requested, multiple (or no) rows returned
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test)
+Selected previous sleep hours: 6-7 hours
+
+[1A[2KSelected: Yes, still following it
+
+[1A[2K  14) [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › HobbyForm - Data Pipeline Tests › hobbies_activities › saves all required fields to correct tables 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+      201 |           
+      202 |           // Check that data was saved
+    > 203 |           expect(supabaseData.success).toBe(true)
+          |                                        ^
+      204 |           expect(supabaseData.summary.hasLinks).toBe(true)
+      205 |           expect(supabaseData.summary.hasRatings).toBe(true)
+      206 |           
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-test-factory.ts:203:40
+
+    Error Context: test-results/forms-hobby-form-HobbyForm-ee50b-ed-fields-to-correct-tables-chromium/error-context.md
+
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:7:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)
+Moving to Step 3
+
+[1A[2K[45/176] [chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › sleep › saves all required fields to correct tables
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test)
+Moving to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › sleep › saves all required fields to correct tables
+Solution "Lifestyle Test 1754794001757" not found
+
+[1A[2K🧹 Cleared previous ratings for Lifestyle Test 1754794001757
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:7:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)
+Step 3: Skipping failed solutions
+
+[1A[2KForm ready for submission
+
+[1A[2KVerifying successful submission...
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test)
+Step 2: Selecting challenges
+
+[1A[2KSelected challenge: None
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › saves all required fields to correct tables
+Starting LifestyleForm filler for category: diet_nutrition
+
+[1A[2KStep 1: Filling effectiveness and required fields
+
+[1A[2KSelected 4-star effectiveness rating
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test)
+Moving to Step 3
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › saves all required fields to correct tables
+Selected time to results: 1-2 weeks
+
+[1A[2K[46/176] [chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › LifestyleForm - Data Pipeline Tests › sleep › handles form validation
+[1A[2KSelected cost impact: About the same
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:272:13 › LifestyleForm - Data Pipeline Tests › sleep › handles form validation
+Solution "Lifestyle Test 1754794004258" not found
+
+[1A[2K🧹 Cleared previous ratings for Lifestyle Test 1754794004258
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › saves all required fields to correct tables
+Selected weekly prep time: 1-2 hours/week
+
+[1A[2KSelected: Yes, still following it
+
+[1A[2K[chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test)
+Step 3: Skipping failed solutions
+
+[1A[2KForm ready for submission
+
+[1A[2KVerifying successful submission...
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › saves all required fields to correct tables
+Moving to Step 2
+
+[1A[2K  15) [chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:7:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test) 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBeTruthy[2m()[22m
+
+    Received: [31mfalse[39m
+
+      120 |                         pageContent?.includes('added')
+      121 |     
+    > 122 |     expect(wasProcessed).toBeTruthy()
+          |                          ^
+      123 |     console.log('=== LifestyleForm diet_nutrition test completed successfully ===');
+      124 |   });
+      125 |
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/lifestyle-form-complete.spec.ts:122:26
+
+    Error Context: test-results/forms-lifestyle-form-compl-a3ff6-on-Mediterranean-Diet-Test--chromium/error-context.md
+
+
+[1A[2K[47/176] [chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › LifestyleForm - Data Pipeline Tests › sleep › handles backward navigation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:343:13 › LifestyleForm - Data Pipeline Tests › sleep › handles backward navigation
+Solution "Lifestyle Test 1754794006328" not found
+
+[1A[2K🧹 Cleared previous ratings for Lifestyle Test 1754794006328
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › saves all required fields to correct tables
+Step 2: Selecting challenges
+
+[1A[2KSelected challenge: None
+
+[1A[2K[48/176] [chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+=== Starting PracticeForm test for Running (Test) ===
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › saves all required fields to correct tables
+Moving to Step 3
+
+[1A[2K  16) [chromium] › tests/e2e/forms/lifestyle-form-complete.spec.ts:126:7 › LifestyleForm End-to-End Tests › should complete LifestyleForm for sleep (Sleep Hygiene Test) 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBeTruthy[2m()[22m
+
+    Received: [31mfalse[39m
+
+      239 |                         pageContent?.includes('added')
+      240 |     
+    > 241 |     expect(wasProcessed).toBeTruthy()
+          |                          ^
+      242 |     console.log('=== LifestyleForm sleep test completed successfully ===');
+      243 |   });
+      244 | });
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/lifestyle-form-complete.spec.ts:241:26
+
+    Error Context: test-results/forms-lifestyle-form-compl-7984e-r-sleep-Sleep-Hygiene-Test--chromium/error-context.md
+
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+Add solution page loaded
+
+[1A[2KTyped "Running (Test)" - looking for exercise solutions
+
+[1A[2K[49/176] [chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+=== Starting PracticeForm test for Mindfulness Meditation (Test) ===
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › saves all required fields to correct tables
+Step 3: Skipping failed solutions
+
+[1A[2KForm ready for submission
+
+[1A[2KClicking submit button...
+
+[1A[2KWaiting for form submission success...
+
+[1A[2K[50/176] [chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+=== Starting PracticeForm test for Morning Routine (Test) ===
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+Add solution page loaded
+
+[1A[2KTyped "Mindfulness Meditation (Test)" - looking for meditation solutions
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › sleep › saves all required fields to correct tables
+Starting LifestyleForm filler for category: sleep
+
+[1A[2KStep 1: Filling effectiveness and required fields
+
+[1A[2KSelected 4-star effectiveness rating
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+Dropdown selector found
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › sleep › saves all required fields to correct tables
+Selected time to results: 1-2 weeks
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+Add solution page loaded
+
+[1A[2KTyped "Morning Routine (Test)" - looking for habits solutions
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › sleep › saves all required fields to correct tables
+Selected cost impact: Free
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+Dropdown appeared with suggestions
+
+[1A[2KFound 2 suggestions in dropdown
+
+[1A[2KOption 0: "Running (Test)Exercise & Movement"
+
+[1A[2KClicking on: "Running (Test)Exercise & Movement"
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › sleep › saves all required fields to correct tables
+Selected previous sleep hours: 6-7 hours
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+Input value after selection: "Running (Test)"
+
+[1A[2KCategory auto-detected: [33mfalse[39m
+
+[1A[2KClicked Continue button
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › sleep › saves all required fields to correct tables
+Selected: Yes, still following it
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+Dropdown selector found
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › sleep › saves all required fields to correct tables
+Moving to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+Dropdown appeared with suggestions
+
+[1A[2KFound 2 suggestions in dropdown
+
+[1A[2KOption 0: "Mindfulness Meditation (Test)Meditation & Mindfulness"
+
+[1A[2KClicking on: "Mindfulness Meditation (Test)Meditation & Mindfulness"
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+Dropdown selector found
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+PracticeForm loaded successfully
+
+[1A[2KStarting PracticeForm filler for category: exercise_movement
+
+[1A[2KStep 1: Filling effectiveness and practice details
+
+[1A[2KSelected 4-star effectiveness rating
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+Input value after selection: "Mindfulness Meditation (Test)"
+
+[1A[2KCategory auto-detected: [33mfalse[39m
+
+[1A[2KClicked Continue button
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+Dropdown appeared with suggestions
+
+[1A[2KFound 7 suggestions in dropdown
+
+[1A[2KOption 0: "Morning Routine (Test)Habits & Routines"
+
+[1A[2KClicking on: "Morning Routine (Test)Habits & Routines"
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+Selected time to results: 1-2 weeks
+
+[1A[2KSelected startup cost: Free/No startup cost
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+Input value after selection: "Morning Routine (Test)"
+
+[1A[2KCategory auto-detected: [33mfalse[39m
+
+[1A[2KClicked Continue button
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › sleep › saves all required fields to correct tables
+Step 2: Selecting challenges
+
+[1A[2KSelected challenge: None
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+Selected ongoing cost: Free/No ongoing cost
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+PracticeForm loaded successfully
+
+[1A[2KStarting PracticeForm filler for category: meditation_mindfulness
+
+[1A[2KStep 1: Filling effectiveness and practice details
+
+[1A[2KSelected 4-star effectiveness rating
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+Selected frequency: 3-4 times per week
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › sleep › saves all required fields to correct tables
+Moving to Step 3
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+Selected time to results: 1-2 weeks
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+Selected session duration: 30-45 minutes
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+PracticeForm loaded successfully
+
+[1A[2KStarting PracticeForm filler for category: habits_routines
+
+[1A[2KStep 1: Filling effectiveness and practice details
+
+[1A[2KSelected 4-star effectiveness rating
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+Selected startup cost: Free/No startup cost
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+Moving to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+Selected ongoing cost: Free/No ongoing cost
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+Selected time to results: 1-2 weeks
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+Selected frequency: 3-4 times per week
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+Selected startup cost: Free/No startup cost
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+Selected practice length: 10-20 minutes
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › sleep › saves all required fields to correct tables
+Step 3: Skipping failed solutions
+
+[1A[2KForm ready for submission
+
+[1A[2KClicking submit button...
+
+[1A[2KWaiting for form submission success...
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+Selected ongoing cost: Free/No ongoing cost
+
+[1A[2KSelected frequency: 3-4 times per week
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+Moving to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+Selected daily time commitment: 10-20 minutes
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+Step 2: Selecting challenges
+
+[1A[2KSelected challenge: None
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+Moving to Step 2
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+Moving to Step 3
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+Step 2: Selecting challenges
+
+[1A[2KSelected challenge: None
+
+[1A[2KMoving to Step 3
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+Step 2: Selecting challenges
+
+[1A[2KSelected challenge: None
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:7:7 › PracticeForm End-to-End Tests › should complete PracticeForm for exercise_movement (Running Test)
+Step 3: Skipping failed solutions
+
+[1A[2KForm ready for submission
+
+[1A[2KVerifying successful submission...
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+Moving to Step 3
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › saves all required fields to correct tables
+Step 3 not found, checking other success indicators...
+
+[1A[2K✅ Form submission successful via alternative indicator
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:125:7 › PracticeForm End-to-End Tests › should complete PracticeForm for meditation_mindfulness (Mindfulness Meditation Test)
+Step 3: Skipping failed solutions
+
+[1A[2KForm ready for submission
+
+[1A[2KVerifying successful submission...
+
+[1A[2K[chromium] › tests/e2e/forms/practice-form-complete.spec.ts:243:7 › PracticeForm End-to-End Tests › should complete PracticeForm for habits_routines (Morning Routine Test)
+Step 3: Skipping failed solutions
+
+[1A[2KForm ready for submission
+
+[1A[2KVerifying successful submission...
+
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:57:13 › LifestyleForm - Data Pipeline Tests › diet_nutrition › saves all required fields to correct tables
+🔍 Verifying data in Supabase for Lifestyle Test 1754793995211...
+
+[1A[2K🔍 Verifying solution "Lifestyle Test 1754793995211" for goal 56e2801e-0d78-4abd-a795-869e5b780ae7
+

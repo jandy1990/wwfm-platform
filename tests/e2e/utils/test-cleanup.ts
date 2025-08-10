@@ -47,12 +47,12 @@ export async function clearTestRatings(goalId: string = process.env.TEST_GOAL_ID
     console.log(`✅ Cleared ${linkCount || 0} goal_implementation_links`)
   }
   
-  // Delete from ratings table
+  // Delete from ratings table - using implementation_id field (not solution_variant_id)
   const { error: ratingError, count: ratingCount } = await supabase
     .from('ratings')
     .delete()
     .eq('goal_id', goalId)
-    .in('solution_variant_id', variantIds)
+    .in('implementation_id', variantIds)
   
   if (ratingError) {
     console.error('Error clearing ratings:', ratingError)
@@ -104,12 +104,12 @@ export async function clearTestRatingsForSolution(
     .eq('goal_id', goalId)
     .in('implementation_id', variantIds)
   
-  // Delete ratings
+  // Delete ratings - using implementation_id field (not solution_variant_id)
   await supabase
     .from('ratings')
     .delete()
     .eq('goal_id', goalId)
-    .in('solution_variant_id', variantIds)
+    .in('implementation_id', variantIds)
   
   console.log(`✅ Cleared ratings for "${solutionTitle}"`)
 }
@@ -132,52 +132,104 @@ export async function verifyDataInSupabase(
 ) {
   const supabase = getTestSupabase()
   
-  // Find the solution
-  const { data: solution } = await supabase
+  console.log(`🔍 Verifying solution "${solutionTitle}" for goal ${goalId}`)
+  
+  // Find the solution - it might be user_generated and not approved yet
+  // First try exact match
+  let { data: solution, error: solutionError } = await supabase
     .from('solutions')
-    .select('id, title')
+    .select('id, title, source_type, is_approved, solution_category')
     .eq('title', solutionTitle)
     .single()
   
-  if (!solution) {
+  // If not found, try with LIKE for partial matches
+  if (solutionError && solutionError.code === 'PGRST116') {
+    const { data: solutions } = await supabase
+      .from('solutions')
+      .select('id, title, source_type, is_approved, solution_category')
+      .ilike('title', `${solutionTitle}%`)
+      .order('created_at', { ascending: false })
+      .limit(1)
+    
+    if (solutions && solutions.length > 0) {
+      solution = solutions[0]
+      solutionError = null
+      console.log(`Found solution with similar title: "${solution.title}"`)
+    }
+  }
+  
+  if (solutionError || !solution) {
+    console.log('❌ Solution not found:', solutionError?.message)
     return { success: false, error: 'Solution not found' }
   }
   
+  console.log('✅ Found solution:', { 
+    id: solution.id, 
+    source_type: solution.source_type,
+    is_approved: solution.is_approved 
+  })
+  
   // Find variants
-  const { data: variants } = await supabase
+  const { data: variants, error: variantError } = await supabase
     .from('solution_variants')
-    .select('id, variant_name')
+    .select('id, variant_name, solution_id')
     .eq('solution_id', solution.id)
   
-  if (!variants || variants.length === 0) {
+  if (variantError || !variants || variants.length === 0) {
+    console.log('❌ No variants found:', variantError?.message)
     return { success: false, error: 'No variants found' }
   }
   
+  console.log(`✅ Found ${variants.length} variant(s):`, variants.map(v => v.variant_name))
+  
   // Check goal_implementation_links
-  const { data: links } = await supabase
+  const { data: links, error: linkError } = await supabase
     .from('goal_implementation_links')
     .select('*')
     .eq('goal_id', goalId)
     .in('implementation_id', variants.map(v => v.id))
   
-  // Check ratings
-  const { data: ratings } = await supabase
+  if (linkError) {
+    console.log('⚠️ Error checking links:', linkError.message)
+  }
+  
+  // Check ratings - the new field name is implementation_id, not solution_variant_id
+  const { data: ratings, error: ratingError } = await supabase
     .from('ratings')
     .select('*')
     .eq('goal_id', goalId)
-    .in('solution_variant_id', variants.map(v => v.id))
+    .in('implementation_id', variants.map(v => v.id))
+  
+  if (ratingError) {
+    console.log('⚠️ Error checking ratings:', ratingError.message)
+  }
+  
+  const hasLinks = (links?.length || 0) > 0
+  const hasRatings = (ratings?.length || 0) > 0
+  
+  console.log(`📊 Data verification summary:`)
+  console.log(`   - Links: ${links?.length || 0} (${hasLinks ? '✅' : '❌'})`)
+  console.log(`   - Ratings: ${ratings?.length || 0} (${hasRatings ? '✅' : '❌'})`)
+  
+  // For server action submissions, we expect:
+  // 1. Solution exists (any source_type)
+  // 2. At least one variant exists
+  // 3. At least one link exists
+  // 4. At least one rating exists
+  const success = solution && variants.length > 0 && hasLinks && hasRatings
   
   return {
-    success: true,
+    success,
     solution,
     variants,
     links: links || [],
     ratings: ratings || [],
     summary: {
-      hasLinks: (links?.length || 0) > 0,
-      hasRatings: (ratings?.length || 0) > 0,
+      hasLinks,
+      hasRatings,
       linkCount: links?.length || 0,
       ratingCount: ratings?.length || 0
-    }
+    },
+    error: success ? undefined : `Missing data: solution=${!!solution}, variants=${variants.length}, links=${hasLinks}, ratings=${hasRatings}`
   }
 }

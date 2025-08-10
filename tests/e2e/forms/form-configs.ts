@@ -17,6 +17,7 @@ export const dosageFormConfig: FormTestConfig = {
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
+    // Note: Do not submit the form here - test handles submission
     await fillFormSpecific(page, testData.category)
   }
 }
@@ -33,6 +34,7 @@ export const appFormConfig: FormTestConfig = {
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
+    // Note: Do not submit the form here - test handles submission
     await fillFormSpecific(page, testData.category)
   }
 }
@@ -49,6 +51,7 @@ export const hobbyFormConfig: FormTestConfig = {
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
+    // Note: Do not submit the form here - test handles submission
     await fillFormSpecific(page, testData.category)
   }
 }
@@ -65,6 +68,7 @@ export const practiceFormConfig: FormTestConfig = {
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
+    // Note: Do not submit the form here - test handles submission
     await fillFormSpecific(page, testData.category)
   }
 }
@@ -84,6 +88,7 @@ export const sessionFormConfig: FormTestConfig = {
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
+    // Note: Do not submit the form here - test handles submission
     await fillFormSpecific(page, testData.category)
   }
 }
@@ -100,6 +105,7 @@ export const purchaseFormConfig: FormTestConfig = {
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
+    // Note: Do not submit the form here - test handles submission
     await fillFormSpecific(page, testData.category)
   }
 }
@@ -116,6 +122,7 @@ export const communityFormConfig: FormTestConfig = {
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
+    // Note: Do not submit the form here - test handles submission
     await fillFormSpecific(page, testData.category)
   }
 }
@@ -132,6 +139,7 @@ export const lifestyleFormConfig: FormTestConfig = {
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
+    // Note: Do not submit the form here - test handles submission
     await fillFormSpecific(page, testData.category)
   }
 }
@@ -148,6 +156,7 @@ export const financialFormConfig: FormTestConfig = {
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
+    // Note: Do not submit the form here - test handles submission
     await fillFormSpecific(page, testData.category)
   }
 }

@@ -533,9 +533,8 @@ const { data: solutions, error } = await safeOperation(
 2. **Data Quality**: Generic entries make effectiveness ratings meaningless
 3. **User Guidance**: Prompts users toward actionable solutions
 4. **Prevent Pollution**: Stops category names becoming solutions
-5. **Test Exception**: "(Test)" suffix bypasses filters for test fixtures
 
-See [Solution Search Data Flow](/docs/architecture/SOLUTION_SEARCH_DATA_FLOW.md) for complete filtering pipeline.
+The search pipeline has 4 layers of filtering to ensure quality. See [Solution Search Data Flow](/docs/architecture/SOLUTION_SEARCH_DATA_FLOW.md) for implementation details.
 
 ## 🎯 Architecture Principles
 
@@ -590,27 +589,15 @@ ORDER BY avg_effectiveness DESC;
 npx supabase gen types typescript --project-id your-project-id > types/supabase.ts
 ```
 
-### Problem: Test solutions not appearing in search
-**Solution**: Ensure test fixtures are approved AND have "(Test)" suffix
-
-```sql
--- Test fixtures need both
-UPDATE solutions 
-SET is_approved = true 
-WHERE source_type = 'test_fixture';
-
--- Naming must include (Test) to bypass filters
--- Example: "CBT Therapy (Test)"
-```
-
 ### Problem: Search returns no results for generic terms
-**Solution**: This is intentional - guide users to be specific
+**Solution**: This is intentional - the system requires specificity
 
 ```typescript
-// Search for "therapy" shows prompt:
+// Instead of accepting "therapy", prompt for:
 "Try being more specific: CBT therapy, EMDR, BetterHelp"
-// Not generic "Therapy" solutions
 ```
+
+This ensures trackable, ratable solutions rather than vague categories.
 
 ---
 

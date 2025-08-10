@@ -14,13 +14,13 @@ WWFM aggregates real experiences from real people to show which solutions are mo
 
 ## 📊 Current Status
 
-- **Platform**: ✅ Fully operational with all core features
-- **Forms**: ✅ 9/9 form templates implemented and tested
-- **Testing**: ✅ Complete E2E test suite with Playwright
-- **Goal Coverage**: 240/652 goals have solutions (37%) → targeting 80% for launch
-- **Solutions**: 529 entries across 23 categories (need 2,000+ for launch)
-- **Search**: ✅ Fixed and operational with aggressive quality filtering
-- **Next Priority**: Content expansion and admin tools
+- **Platform**: ✅ Fully operational - users can browse, search, and contribute
+- **Content**: 58 AI-seeded solutions covering 13/653 goals (2%) → need 80% for launch
+- **User Experience**: Auto-categorization, fuzzy search, progressive disclosure all working
+- **Forms**: 9/9 form templates for 23 solution categories implemented
+- **Data Model**: Clean 2-layer architecture (solutions + variants) proven effective
+- **Testing**: E2E test coverage ensures reliability
+- **Next Priority**: Generate 2,000+ solutions to reach launch viability
 
 ## 🚀 Quick Start
 
@@ -49,43 +49,32 @@ You should now see the WWFM homepage! Try:
 - Searching for "anxiety" or "sleep"
 - Viewing solution effectiveness ratings
 
-### 🧪 Running Tests
+### 🧪 Testing
 
 ```bash
-# Ensure test fixtures are approved
-npm run test:fixtures:verify
-
-# Run form tests
-npm run test:forms
-
-# Run with UI for debugging
-npm run test:forms:ui
-
-# Run specific form test
-npm run test:forms -- session-form
+npm run test:forms        # Run E2E tests
+npm run test:forms:ui     # Debug with UI
 ```
 
-**Important**: Test fixtures must have "(Test)" suffix to bypass search filters. See [Testing Documentation](tests/e2e/TEST_SOLUTIONS_SETUP.md) for complete testing guide.
+Tests ensure all form submissions work correctly. See [Testing Guide](tests/README.md) for details.
 
 ## 🏗️ Architecture
 
-WWFM uses a modern JAMstack architecture with aggressive search filtering to ensure data quality:
+WWFM uses a modern JAMstack architecture optimized for content discovery:
 
 ```
 Next.js 15 (React) → Vercel Edge → Supabase (PostgreSQL)
 ```
 
-- **Frontend**: Server-first React with TypeScript
-- **Database**: PostgreSQL with Row Level Security
-- **Search**: Fuzzy matching with pg_trgm + aggressive client-side filtering
-- **Auth**: Supabase Auth with email verification
-- **Testing**: Playwright E2E with permanent test fixtures
+- **Frontend**: Server Components with progressive enhancement
+- **Database**: PostgreSQL with Row Level Security and JSONB flexibility
+- **Search**: Fuzzy matching (pg_trgm) with quality filters
+- **Data Model**: 2-layer system (solutions + variants) prevents duplication
+- **Forms**: 9 templates handle 23 categories with smart routing
 
-**Key Innovation**: Search filtering enforces specificity - "Therapy" is blocked, "CBT with BetterHelp" is allowed. Test fixtures use "(Test)" suffix to bypass filters.
+**Key Design**: Solutions are generic ("Vitamin D") with goal-specific effectiveness ratings, allowing one entry to serve all 652 goals with different results.
 
-For detailed architecture information, see:
-- [ARCHITECTURE.md](./ARCHITECTURE.md) - System design and patterns
-- [Solution Search Data Flow](./docs/architecture/SOLUTION_SEARCH_DATA_FLOW.md) - Complete search pipeline
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed design decisions.
 
 ## 📁 Documentation
 
@@ -145,9 +134,10 @@ npm run dev                # Start development server (port 3002)
 npm run build             # Build for production
 npm run start             # Start production server
 npm run lint              # Run ESLint
-npm run type-check        # TypeScript checking
 npm run test:forms        # Run E2E form tests
+npm run test:forms:all    # Run all form tests sequentially
 npm run test:fixtures:verify # Verify test fixtures are ready
+node scripts/cleanup-all.js # Clean all test artifacts
 ```
 
 ### Making Contributions

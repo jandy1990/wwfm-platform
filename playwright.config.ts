@@ -27,7 +27,7 @@ export default defineConfig({
   reporter: 'html',
   
   // Global setup for authentication
-  globalSetup: require.resolve('./tests/setup/global-setup.ts'),
+  // globalSetup: require.resolve('./tests/setup/global-setup.ts'),
   
   use: {
     baseURL,

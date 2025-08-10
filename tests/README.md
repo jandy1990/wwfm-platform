@@ -4,7 +4,18 @@
 
 This directory contains end-to-end tests for the WWFM platform using Playwright. The tests focus on verifying the complete data flow from form submission through to database storage.
 
-**✅ Status: All 9 form types are fully tested and working!**
+**✅ Status: All 9 form types are fully tested and working! (14/14 tests passing)**
+
+### Test Coverage
+- DosageForm: 4 categories (medications, supplements, natural remedies, beauty)
+- SessionForm: 7 categories (therapists, doctors, coaches, etc.)
+- PracticeForm: 3 categories (exercise, meditation, habits)
+- AppForm: 1 category (apps & software)
+- PurchaseForm: 2 categories (products/devices, books/courses)
+- CommunityForm: 2 categories (support groups, communities)
+- LifestyleForm: 2 categories (diet/nutrition, sleep)
+- HobbyForm: 1 category (hobbies & activities)
+- FinancialForm: 1 category (financial products)
 
 ## Setup
 

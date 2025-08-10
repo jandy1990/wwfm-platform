@@ -100,8 +100,10 @@ export async function fillDosageForm(page: Page, category: string) {
   
   // Skip failed solutions and submit directly
   const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
-  await submitBtn.click()
-  console.log('Submitted form')
+  // AUTO_SUBMIT_DISABLED: Submission handled by test
+  // await submitBtn.click()
+  // console.log('Submitted form')
+  console.log('Form ready for submission')
 }
 
 // AppForm filler - for apps_software
@@ -875,8 +877,10 @@ export async function fillSessionForm(page: Page, category: string) {
   
   // Skip failed solutions and submit directly
   const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
-  await submitBtn.click()
-  console.log('Submitted form')
+  // AUTO_SUBMIT_DISABLED: Submission handled by test
+  // await submitBtn.click()
+  // console.log('Submitted form')
+  console.log('Form ready for submission')
 }
 
 // PracticeForm filler - for exercise, meditation, habits
@@ -966,8 +970,10 @@ export async function fillPracticeForm(page: Page, category: string) {
   
   // Skip failed solutions and submit directly
   const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
-  await submitBtn.click()
-  console.log('Submitted form')
+  // AUTO_SUBMIT_DISABLED: Submission handled by test
+  // await submitBtn.click()
+  // console.log('Submitted form')
+  console.log('Form ready for submission')
 }
 
 // PurchaseForm filler - for products, books
@@ -1256,8 +1262,10 @@ export async function fillLifestyleForm(page: Page, category: string) {
   
   // Skip failed solutions and submit directly
   const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
-  await submitBtn.click()
-  console.log('Submitted form')
+  // AUTO_SUBMIT_DISABLED: Submission handled by test
+  // await submitBtn.click()
+  // console.log('Submitted form')
+  console.log('Form ready for submission')
 }
 
 // FinancialForm filler - for financial products
