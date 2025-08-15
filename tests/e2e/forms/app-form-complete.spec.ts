@@ -37,7 +37,7 @@ test.describe('AppForm - Complete E2E Tests', () => {
     await page.waitForTimeout(1500)
     
     // Select from dropdown if it appears
-    const dropdown = page.locator('.absolute.z-10.w-full.mt-1.bg-white, .absolute.z-10.w-full.mt-1.bg-gray-800')
+    const dropdown = page.locator('[data-testid="solution-dropdown"].w-full.mt-1.bg-white, [data-testid="solution-dropdown"].w-full.mt-1.bg-gray-800')
     if (await dropdown.isVisible({ timeout: 2000 })) {
       const dropdownItem = dropdown.locator('button').first()
       if (await dropdownItem.isVisible()) {

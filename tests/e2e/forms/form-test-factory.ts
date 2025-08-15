@@ -7,7 +7,7 @@ import {
   verifyJSONBStructure,
   generateTestSolution
 } from '../utils/test-helpers'
-import { clearTestRatingsForSolution, verifyDataInSupabase } from '../utils/test-cleanup'
+import { clearTestRatingsForSolution, aggressiveCleanupForSolution, verifyDataInSupabase } from '../utils/test-cleanup'
 
 export interface FormTestConfig {
   formName: string
@@ -43,10 +43,17 @@ export function createFormTest(config: FormTestConfig) {
             ? { ...baseData, ...config.generateTestData(category) }
             : baseData
             
-          // Clear any existing ratings for this test solution
-          // This allows the test to run multiple times
-          await clearTestRatingsForSolution(testData.title)
-          console.log(`🧹 Cleared previous ratings for ${testData.title}`)
+          // Use aggressive cleanup to ensure clean slate
+          await aggressiveCleanupForSolution(testData.title)
+          console.log(`🧹 Aggressively cleaned all data for ${testData.title}`)
+        })
+        
+        test.afterEach(async () => {
+          // Clean up after test to prevent accumulation
+          if (testData?.title) {
+            await clearTestRatingsForSolution(testData.title)
+            console.log(`🧤 Post-test cleanup for ${testData.title}`)
+          }
         })
         
         test.afterEach(async () => {
@@ -68,20 +75,39 @@ export function createFormTest(config: FormTestConfig) {
             // Step 1: Enter solution name in the search field
             await page.fill('#solution-name', testData.title)
             
-            // Wait for auto-categorization to work
-            await page.waitForTimeout(2000)
-            
-            // Check if category badge appears (indicates auto-detection worked)
-            const categoryBadge = page.locator('.bg-blue-100, .bg-blue-900')
-            const hasAutoDetected = await categoryBadge.isVisible({ timeout: 1000 })
-            
-            if (!hasAutoDetected) {
+            // Wait for dropdown to appear AND for loading to complete
+            try {
+              await page.waitForSelector('[data-testid="solution-dropdown"]', { timeout: 3000 })
+              
+              // CRITICAL: Wait for search to complete (loading spinner to disappear)
+              await page.waitForSelector('[data-testid="solution-dropdown"]:not(:has-text("Searching..."))', { timeout: 3000 })
+              
+              // Additional small wait to ensure DOM is stable
+              await page.waitForTimeout(200)
+              
               // Try clicking on a dropdown suggestion if available
               const suggestion = page.locator(`button:has-text("${testData.title}")`).first()
               if (await suggestion.isVisible({ timeout: 1000 })) {
                 await suggestion.click()
                 await page.waitForTimeout(500)
               }
+            } catch (e) {
+              // Dropdown didn't appear, continue anyway
+            }
+            
+            // Check if category badge appears (indicates auto-detection worked)
+            const categoryBadge = page.locator('.bg-blue-100, .bg-blue-900')
+            const hasAutoDetected = await categoryBadge.isVisible({ timeout: 1000 })
+            
+            // IMPORTANT: Close dropdown by clicking outside it to avoid interference
+            await page.click('body', { position: { x: 10, y: 10 } })
+            await page.waitForTimeout(200) // Give dropdown time to close
+            
+            // Verify dropdown is closed before continuing
+            const dropdownStillVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible().catch(() => false)
+            if (dropdownStillVisible) {
+              await page.keyboard.press('Escape')
+              await page.waitForTimeout(200)
             }
             
             // Click Continue button - wait for it to be enabled
@@ -282,7 +308,30 @@ export function createFormTest(config: FormTestConfig) {
             
             // Enter solution name
             await page.fill('#solution-name', testData.title)
-            await page.waitForTimeout(1500)
+            
+            // Wait for dropdown to appear AND for loading to complete
+            try {
+              await page.waitForSelector('[data-testid="solution-dropdown"]', { timeout: 3000 })
+              
+              // CRITICAL: Wait for search to complete (loading spinner to disappear)
+              await page.waitForSelector('[data-testid="solution-dropdown"]:not(:has-text("Searching..."))', { timeout: 3000 })
+              
+              // Additional small wait to ensure DOM is stable
+              await page.waitForTimeout(200)
+            } catch (e) {
+              // Dropdown didn't appear, continue anyway
+            }
+            
+            // IMPORTANT: Close dropdown by clicking outside it to avoid interference
+            await page.click('body', { position: { x: 10, y: 10 } })
+            await page.waitForTimeout(200) // Give dropdown time to close
+            
+            // Verify dropdown is closed before continuing
+            const dropdownStillVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible().catch(() => false)
+            if (dropdownStillVisible) {
+              await page.keyboard.press('Escape')
+              await page.waitForTimeout(200)
+            }
             
             // Click Continue button
             const continueButton = page.locator('button:has-text("Continue")')
@@ -353,7 +402,30 @@ export function createFormTest(config: FormTestConfig) {
             
             // Enter solution name
             await page.fill('#solution-name', testData.title)
-            await page.waitForTimeout(1500)
+            
+            // Wait for dropdown to appear AND for loading to complete
+            try {
+              await page.waitForSelector('[data-testid="solution-dropdown"]', { timeout: 3000 })
+              
+              // CRITICAL: Wait for search to complete (loading spinner to disappear)
+              await page.waitForSelector('[data-testid="solution-dropdown"]:not(:has-text("Searching..."))', { timeout: 3000 })
+              
+              // Additional small wait to ensure DOM is stable
+              await page.waitForTimeout(200)
+            } catch (e) {
+              // Dropdown didn't appear, continue anyway
+            }
+            
+            // IMPORTANT: Close dropdown by clicking outside it to avoid interference
+            await page.click('body', { position: { x: 10, y: 10 } })
+            await page.waitForTimeout(200) // Give dropdown time to close
+            
+            // Verify dropdown is closed before continuing
+            const dropdownStillVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible().catch(() => false)
+            if (dropdownStillVisible) {
+              await page.keyboard.press('Escape')
+              await page.waitForTimeout(200)
+            }
             
             // Click Continue button
             const continueButton = page.locator('button:has-text("Continue")')

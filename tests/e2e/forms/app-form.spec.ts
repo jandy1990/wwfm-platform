@@ -27,23 +27,30 @@ test.describe('AppForm Tests', () => {
     await page.type('#solution-name', searchTerm)
     console.log(`Typed "${searchTerm}" - looking for Headspace solutions`)
     
-    // Wait for dropdown to appear with suggestions (increase timeout)
+    // Wait for dropdown to appear AND for loading to complete
     try {
-      await page.waitForSelector('.absolute.z-10', { timeout: 5000 })
-      console.log('Dropdown selector found')
-      await page.waitForTimeout(500) // Give it a moment to populate
+      await page.waitForSelector('[data-testid="solution-dropdown"]', { timeout: 5000 })
+      console.log('Dropdown appeared')
+      
+      // CRITICAL: Wait for search to complete (loading spinner to disappear)
+      // The component shows "Searching..." while loading
+      await page.waitForSelector('[data-testid="solution-dropdown"]:not(:has-text("Searching..."))', { timeout: 5000 })
+      console.log('Search completed, results ready')
+      
+      // Additional small wait to ensure DOM is stable
+      await page.waitForTimeout(200)
     } catch (e) {
-      console.log('Dropdown did not appear within 5 seconds')
+      console.log('Dropdown did not appear or search did not complete within 5 seconds')
     }
     
     // Check if dropdown is visible
-    const dropdownVisible = await page.locator('.absolute.z-10').isVisible().catch(() => false)
+    const dropdownVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible().catch(() => false)
     
     if (dropdownVisible) {
       console.log('Dropdown appeared with suggestions')
       
       // Look for and click "Headspace (Test)" in the dropdown
-      const dropdownButtons = page.locator('.absolute.z-10 button')
+      const dropdownButtons = page.locator('[data-testid="solution-dropdown"] button')
       const buttonCount = await dropdownButtons.count()
       console.log(`Found ${buttonCount} suggestions in dropdown`)
       
@@ -81,6 +88,18 @@ test.describe('AppForm Tests', () => {
     // Check if category was auto-detected (should show blue badge for apps_software)
     const categoryBadge = await page.locator('.bg-blue-100, .bg-blue-900').isVisible().catch(() => false)
     console.log('Category auto-detected:', categoryBadge)
+    
+    // IMPORTANT: Close dropdown by clicking outside it to avoid interference
+    await page.click('body', { position: { x: 10, y: 10 } })
+    await page.waitForTimeout(200) // Give dropdown time to close
+    
+    // Verify dropdown is closed before continuing
+    const dropdownStillVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible().catch(() => false)
+    if (dropdownStillVisible) {
+      console.log('Warning: Dropdown still visible, attempting to close again')
+      await page.keyboard.press('Escape')
+      await page.waitForTimeout(200)
+    }
     
     // Click Continue button to proceed to form
     const continueButton = page.locator('button:has-text("Continue")')

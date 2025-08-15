@@ -23,14 +23,14 @@ test.describe('Debug Form Flow', () => {
     await page.waitForTimeout(1500)
     
     // Check if dropdown is visible
-    const dropdown = page.locator('.absolute.z-10.w-full.mt-1.bg-white, .absolute.z-10.w-full.mt-1.bg-gray-800')
+    const dropdown = page.locator('[data-testid="solution-dropdown"].w-full.mt-1.bg-white, [data-testid="solution-dropdown"].w-full.mt-1.bg-gray-800')
     const dropdownVisible = await dropdown.isVisible()
     console.log('Dropdown visible?', dropdownVisible)
     
     if (dropdownVisible) {
       // Look for an item in the dropdown to click
       // Could be an existing solution or a suggestion
-      const dropdownItem = page.locator('.absolute.z-10.w-full.mt-1').locator('button').first()
+      const dropdownItem = page.locator('[data-testid="solution-dropdown"].w-full.mt-1').locator('button').first()
       if (await dropdownItem.isVisible()) {
         const itemText = await dropdownItem.textContent()
         console.log('Clicking dropdown item:', itemText)

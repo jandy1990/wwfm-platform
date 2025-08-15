@@ -14,12 +14,12 @@ test.describe('Debug Calm Solution', () => {
     await page.waitForTimeout(2000)
     
     // Check what appears in dropdown
-    const dropdownVisible = await page.locator('.absolute.z-10').isVisible()
+    const dropdownVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible()
     console.log('Dropdown visible:', dropdownVisible)
     
     if (dropdownVisible) {
       // Get all dropdown buttons
-      const buttons = await page.locator('.absolute.z-10 button').all()
+      const buttons = await page.locator('[data-testid="solution-dropdown"] button').all()
       console.log(`Found ${buttons.length} items in dropdown:`)
       
       for (let i = 0; i < buttons.length; i++) {

@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
 import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrumbs'
 import EmptyState from '@/components/molecules/EmptyState'
+import { GoalPageTracker } from '@/components/tracking/GoalPageTracker'
 
 // Types - Updated to match actual database columns
 type Goal = {
@@ -76,6 +77,7 @@ export default async function ArenaPage({ params }: { params: Promise<{ slug: st
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <GoalPageTracker arenaName={arena.name} arenaId={arena.id} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Breadcrumb Navigation */}
         <Breadcrumbs 

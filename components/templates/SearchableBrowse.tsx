@@ -1,9 +1,8 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import { ArenaSkeleton, SkeletonGrid, SearchSkeleton, PageHeaderSkeleton } from '@/components/atoms/SkeletonLoader'
-import EmptyState from '@/components/molecules/EmptyState'
 
 // Types
 type Goal = {
@@ -60,8 +59,8 @@ function highlightText(text: string, query: string): React.ReactElement {
   )
 }
 
-// Debounce hook
-function useDebounce<T>(value: T, delay: number): T {
+// Debounce hook with faster default
+function useDebounce<T>(value: T, delay: number = 150): T { // Default to 150ms
   const [debouncedValue, setDebouncedValue] = useState<T>(value)
 
   useEffect(() => {
@@ -79,55 +78,156 @@ function useDebounce<T>(value: T, delay: number): T {
 
 export default function SearchableBrowse({ arenas, totalGoals, isLoading = false }: SearchableBrowseProps) {
   const [searchQuery, setSearchQuery] = useState('')
-  const debouncedSearch = useDebounce(searchQuery, 300)
+  const [isSearching, setIsSearching] = useState(false) // Add loading state
+  const [showDropdown, setShowDropdown] = useState(false) // Add dropdown state
+  const debouncedSearch = useDebounce(searchQuery, 150) // Changed from 300ms
+  
+  // Search cache to avoid repeated filtering
+  const searchCache = useRef<Map<string, {
+    suggestions: Array<{
+      goal: Goal,
+      category: Category,
+      arena: Arena,
+      score: number
+    }>
+  }>>(new Map())
+  const cacheTimeout = useRef<Map<string, NodeJS.Timeout>>(new Map())
+  
+  // Handle click outside to close dropdown
+  const searchContainerRef = useRef<HTMLDivElement>(null)
 
-  // Filter arenas and goals based on search
+  // Helper to manage cache with expiry
+  const setCacheWithExpiry = useCallback((key: string, data: {
+    suggestions: Array<{
+      goal: Goal,
+      category: Category,
+      arena: Arena,
+      score: number
+    }>
+  }, expiryMs: number = 300000) => {
+    if (cacheTimeout.current.has(key)) {
+      clearTimeout(cacheTimeout.current.get(key)!)
+    }
+    
+    searchCache.current.set(key, data)
+    
+    const timeout = setTimeout(() => {
+      searchCache.current.delete(key)
+      cacheTimeout.current.delete(key)
+    }, expiryMs)
+    
+    cacheTimeout.current.set(key, timeout)
+  }, [])
+
+  // Search goals for dropdown suggestions only
   const filteredData = useMemo(() => {
-    if (!debouncedSearch.trim()) {
-      return { arenas, hasResults: true }
+    const trimmedSearch = debouncedSearch.trim()
+    
+    // Check cache first
+    const cacheKey = trimmedSearch.toLowerCase()
+    if (searchCache.current.has(cacheKey)) {
+      return searchCache.current.get(cacheKey)
+    }
+    
+    // Show loading state for search
+    if (trimmedSearch && trimmedSearch !== searchQuery.trim()) {
+      setIsSearching(true)
+    }
+    
+    if (!trimmedSearch) {
+      setIsSearching(false)
+      setShowDropdown(false)
+      return { suggestions: [] }
     }
 
-    const query = debouncedSearch.toLowerCase()
-    const results: Arena[] = []
+    const query = trimmedSearch.toLowerCase()
+    const goalSuggestions: Array<{
+      goal: Goal,
+      category: Category,
+      arena: Arena,
+      score: number
+    }> = []
 
+    // Search through all arenas and categories for matching goals
     arenas.forEach(arena => {
-      const arenaNameMatch = arena.name.toLowerCase().includes(query)
-      const matchingCategories: Category[] = []
-
       arena.categories?.forEach(category => {
-        const categoryNameMatch = category.name.toLowerCase().includes(query)
-        const matchingGoals = category.goals?.filter(goal => {
-          const titleMatch = goal.title.toLowerCase().includes(query)
+        category.goals?.forEach(goal => {
+          const titleLower = goal.title.toLowerCase()
+          let score = 0
+          
+          // Scoring system for smart ranking
+          if (titleLower === query) {
+            score = 100 // Exact match
+          } else if (titleLower.startsWith(query)) {
+            score = 90 // Starts with query
+          } else if (titleLower.split(' ').some(word => word.startsWith(query))) {
+            score = 80 // Word starts with query
+          } else if (titleLower.includes(' ' + query)) {
+            score = 70 // Word boundary match
+          } else if (titleLower.includes(query)) {
+            score = 60 // Contains query
+          }
+          
+          // Bonus for action verbs
           const actionVerb = goal.title.split(' ')[0].toLowerCase()
-          const actionVerbMatch = actionVerb.includes(query)
-          return titleMatch || actionVerbMatch
-        }) || []
-
-        if (categoryNameMatch || matchingGoals.length > 0) {
-          matchingCategories.push({
-            ...category,
-            goals: matchingGoals.length > 0 ? matchingGoals : category.goals
-          })
-        }
-      })
-
-      if (arenaNameMatch || matchingCategories.length > 0) {
-        results.push({
-          ...arena,
-          categories: matchingCategories.length > 0 ? matchingCategories : arena.categories
+          if (actionVerb === query) {
+            score += 20
+          }
+          
+          if (score > 0) {
+            goalSuggestions.push({ goal, category, arena, score })
+          }
         })
-      }
+      })
     })
 
-    return {
-      arenas: results,
-      hasResults: results.length > 0
+    // Sort suggestions by score
+    goalSuggestions.sort((a, b) => b.score - a.score)
+    
+    // Take top 10 suggestions for dropdown
+    const topSuggestions = goalSuggestions.slice(0, 10)
+    
+    setIsSearching(false)
+    setShowDropdown(topSuggestions.length > 0)
+    
+    const result = {
+      suggestions: topSuggestions
     }
-  }, [arenas, debouncedSearch])
+    
+    // Cache the result
+    setCacheWithExpiry(cacheKey, result)
+    
+    return result
+  }, [arenas, debouncedSearch, searchQuery, setCacheWithExpiry])
 
   const clearSearch = () => {
     setSearchQuery('')
+    setShowDropdown(false)
+    setIsSearching(false)
   }
+  
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        setShowDropdown(false)
+      }
+    }
+    
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+  
+  // Clean up cache on unmount
+  useEffect(() => {
+    return () => {
+      // Store refs in local variables to avoid React warning
+      const timeouts = Array.from(cacheTimeout.current.values())
+      timeouts.forEach(timeout => clearTimeout(timeout))
+      searchCache.current.clear()
+      cacheTimeout.current.clear()
+    }
+  }, [])
 
   // Show loading state
   if (isLoading) {
@@ -159,7 +259,7 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
 
         {/* Search Bar */}
         <section className="mb-8" aria-label="Search goals">
-          <div className="relative">
+          <div className="relative" ref={searchContainerRef}>
             <label htmlFor="goal-search" className="sr-only">
               Search goals
             </label>
@@ -168,6 +268,11 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => {
+                if (filteredData.suggestions?.length > 0) {
+                  setShowDropdown(true)
+                }
+              }}
               placeholder={`Search ${totalGoals} goals...`}
               aria-describedby="search-description"
               className="w-full px-4 py-4 pl-12 pr-12 text-base text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-transparent min-h-[44px] transition-all duration-200"
@@ -175,6 +280,8 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
             <div id="search-description" className="sr-only">
               Search through {totalGoals} goals across different life areas
             </div>
+            
+            {/* Search Icon */}
             <svg
               className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
               fill="none"
@@ -188,7 +295,19 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
-            {searchQuery && (
+            
+            {/* Loading Spinner */}
+            {isSearching && (
+              <div className="absolute right-12 top-1/2 transform -translate-y-1/2">
+                <svg className="animate-spin h-5 w-5 text-gray-400" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+              </div>
+            )}
+            
+            {/* Clear Button */}
+            {searchQuery && !isSearching && (
               <button
                 onClick={clearSearch}
                 aria-label="Clear search"
@@ -199,67 +318,55 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
                 </svg>
               </button>
             )}
+            
+            {/* Dropdown Suggestions */}
+            {showDropdown && (
+              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 rounded-lg shadow-lg border 
+                          border-gray-200 dark:border-gray-700 max-h-96 overflow-auto
+                          transition-all duration-200 ease-out">
+                {filteredData.suggestions?.length > 0 ? (
+                  <>
+                    <div className="p-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800">
+                      <p className="text-xs text-blue-700 dark:text-blue-300 font-medium">
+                        Top {filteredData.suggestions.length} matching goals
+                      </p>
+                    </div>
+                    {filteredData.suggestions.map(({ goal, category, arena }, index) => (
+                      <Link
+                        key={`${goal.id}-${index}`}
+                        href={`/goal/${goal.id}`}
+                        className="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 
+                                 transition-colors border-b border-gray-100 dark:border-gray-700 
+                                 last:border-b-0 focus:outline-none focus:bg-blue-50 dark:focus:bg-blue-900/20"
+                        onClick={() => setShowDropdown(false)}
+                      >
+                        <div className="font-medium text-gray-900 dark:text-gray-100">
+                          {highlightText(goal.title, searchQuery)}
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                          {arena.name} → {category.name}
+                        </div>
+                      </Link>
+                    ))}
+                  </>
+                ) : searchQuery.length >= 3 ? (
+                  // No results message
+                  <div className="p-4 text-center">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      No goals found for &quot;{searchQuery}&quot;
+                    </p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                      Try different keywords like &quot;anxiety&quot;, &quot;sleep&quot;, or &quot;focus&quot;
+                    </p>
+                  </div>
+                ) : null}
+              </div>
+            )}
           </div>
         </section>
 
-        {/* Search Results or Arena Grid */}
+        {/* Arena Grid - Always show all arenas */}
         <main>
-        {debouncedSearch ? (
-          <>
-            {filteredData.hasResults ? (
-              <div className="space-y-6 sm:space-y-8">
-                {filteredData.arenas.map((arena) => (
-                  <div key={arena.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                    <div className="flex items-center mb-4">
-                      <span className="text-2xl sm:text-3xl mr-3">{arena.icon}</span>
-                      <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
-                        {highlightText(arena.name, debouncedSearch)}
-                      </h2>
-                    </div>
-                    
-                    {/* Show matching goals grouped by category */}
-                    {arena.categories && arena.categories.length > 0 && (
-                      <div className="space-y-4">
-                        {arena.categories.map(category => (
-                          <div key={category.id}>
-                            <h3 className="text-sm sm:text-base font-medium text-gray-700 mb-2">
-                              {highlightText(category.name, debouncedSearch)}
-                            </h3>
-                            {category.goals && category.goals.length > 0 && (
-                              <div className="grid grid-cols-1 gap-2">
-                                {category.goals.map(goal => (
-                                  <Link
-                                    key={goal.id}
-                                    href={`/goal/${goal.id}`}
-                                    className="text-blue-600 hover:text-blue-700 hover:underline py-2 px-2 -mx-2 rounded-md hover:bg-blue-50 min-h-[44px] flex items-center text-sm sm:text-base transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                                  >
-                                    {highlightText(goal.title, debouncedSearch)}
-                                  </Link>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <EmptyState
-                icon="🔍"
-                heading={`No goals found for "${debouncedSearch}"`}
-                subtext="Try searching for different keywords like 'stop smoking', 'lose weight', or 'improve sleep'."
-                actionButton={{
-                  text: "Clear Search",
-                  onClick: clearSearch,
-                  variant: "secondary"
-                }}
-              />
-            )}
-          </>
-        ) : (
-          /* Arena Grid - Default View */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {arenas.map((arena) => (
               <Link
@@ -285,14 +392,13 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
               </Link>
             ))}
           </div>
-        )}
 
-        {/* Empty State */}
-        {!debouncedSearch && arenas.length === 0 && (
-          <div className="text-center py-8 sm:py-12">
-            <p className="text-sm sm:text-base text-gray-500">No areas available yet.</p>
-          </div>
-        )}
+          {/* Empty State - Only show when there are no arenas at all */}
+          {arenas.length === 0 && (
+            <div className="text-center py-8 sm:py-12">
+              <p className="text-sm sm:text-base text-gray-500">No areas available yet.</p>
+            </div>
+          )}
         </main>
       </div>
     </div>

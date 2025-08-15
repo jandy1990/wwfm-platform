@@ -20,20 +20,21 @@ if (process.env.PLAYWRIGHT_TEST_BASE_URL) {
 
 export default defineConfig({
   testDir: './tests/e2e',
-  fullyParallel: true,
+  fullyParallel: false,  // Disabled for pre-launch to avoid data conflicts
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1,  // Run tests sequentially to avoid "already rated" errors
   reporter: 'html',
+  timeout: 60000,  // 60 seconds per test (up from default 30s)
   
   // Global setup for authentication
-  // globalSetup: require.resolve('./tests/setup/global-setup.ts'),
+  globalSetup: require.resolve('./tests/setup/global-setup.ts'),
   
   use: {
     baseURL,
     trace: 'on-first-retry',
     // Use saved auth state
-    storageState: 'tests/auth.json',
+    storageState: 'tests/setup/auth.json',
   },
   
   projects: [

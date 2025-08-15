@@ -52,7 +52,7 @@ async function globalSetup(config: FullConfig) {
     }
     
     // Save authentication state
-    const authFile = path.join(__dirname, '../auth.json')
+    const authFile = path.join(__dirname, 'auth.json')
     await page.context().storageState({ path: authFile })
     
     await browser.close()

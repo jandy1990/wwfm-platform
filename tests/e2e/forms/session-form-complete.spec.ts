@@ -20,7 +20,7 @@ test.describe('SessionForm End-to-End Tests', () => {
     
     // Wait for dropdown to appear with suggestions
     try {
-      await page.waitForSelector('.absolute.z-10', { timeout: 5000 })
+      await page.waitForSelector('[data-testid="solution-dropdown"]', { timeout: 5000 })
       console.log('Dropdown selector found')
       await page.waitForTimeout(500)
     } catch (e) {
@@ -28,12 +28,12 @@ test.describe('SessionForm End-to-End Tests', () => {
     }
     
     // Check if dropdown is visible and select solution
-    const dropdownVisible = await page.locator('.absolute.z-10').isVisible().catch(() => false)
+    const dropdownVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible().catch(() => false)
     
     if (dropdownVisible) {
       console.log('Dropdown appeared with suggestions')
       
-      const dropdownButtons = page.locator('.absolute.z-10 button')
+      const dropdownButtons = page.locator('[data-testid="solution-dropdown"] button')
       const buttonCount = await dropdownButtons.count()
       console.log(`Found ${buttonCount} suggestions in dropdown`)
       

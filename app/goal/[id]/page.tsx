@@ -7,6 +7,7 @@ import { getGoalSolutions, type GoalSolutionWithVariants } from '@/lib/solutions
 import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrumbs'
 import GoalPageClient from '@/components/goal/GoalPageClient'
 import { getRelatedGoals } from '@/lib/solutions/related-goals'
+import { GoalPageTracker } from '@/components/tracking/GoalPageTracker'
 
 type Goal = {
   id: string
@@ -144,8 +145,13 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
     )
   }
 
+  // Get arena name from the goal's category
+  const arenaName = goal?.arenas?.name || 'Unknown'
+  const arenaId = goal?.arenas?.id
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <GoalPageTracker arenaName={arenaName} arenaId={arenaId} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-4">

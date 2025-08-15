@@ -1,258 +1,314 @@
-# WWFM E2E Testing Guide
+# WWFM Testing Guide
 
-## Overview
+## Quick Start (Pre-Launch Testing)
 
-This directory contains end-to-end tests for the WWFM platform using Playwright. The tests focus on verifying the complete data flow from form submission through to database storage.
+Since we're pre-launch with no real users, we keep testing simple and reliable:
 
-**✅ Status: All 9 form types are fully tested and working! (14/14 tests passing)**
-
-### Test Coverage
-- DosageForm: 4 categories (medications, supplements, natural remedies, beauty)
-- SessionForm: 7 categories (therapists, doctors, coaches, etc.)
-- PracticeForm: 3 categories (exercise, meditation, habits)
-- AppForm: 1 category (apps & software)
-- PurchaseForm: 2 categories (products/devices, books/courses)
-- CommunityForm: 2 categories (support groups, communities)
-- LifestyleForm: 2 categories (diet/nutrition, sleep)
-- HobbyForm: 1 category (hobbies & activities)
-- FinancialForm: 1 category (financial products)
-
-## Setup
-
-### 1. Install Dependencies
-
+### The One Command You Need:
 ```bash
-npm install -D @playwright/test playwright
+npm run test:quick
+```
+This automatically cleans data and runs all desktop tests. That's it!
+
+### Why This Works:
+- **Automatic cleanup** - Every test run starts fresh (no "already rated" errors)
+- **Sequential execution** - Tests run one at a time (no conflicts)
+- **Desktop-only by default** - Faster and more reliable for development
+- **Simple** - No complex infrastructure needed pre-launch
+
+## Full Setup Guide (If Needed)
+
+If you're setting up from scratch:
+
+### Step 1: Prerequisites
+```bash
+# Install test dependencies
+npm install
+
+# Install Playwright browsers (only needed once)
 npx playwright install
 ```
 
-### 2. Configure Environment
-
-Copy the test environment template and add your credentials:
-
+### Step 2: Setup Test Environment
 ```bash
-cp .env.test.local.example .env.test.local
+# This single command sets up EVERYTHING you need:
+npm run test:setup
 ```
 
-Required environment variables:
-- `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Public anonymous key
-- `SUPABASE_SERVICE_KEY`: Service role key (bypasses RLS for testing)
-- `TEST_GOAL_ID`: UUID of a dedicated test goal
+This command will:
+- ✅ Create/verify test user account (test@wwfm-platform.com)
+- ✅ **Clean up previous test ratings** (prevents "already rated" errors)
+- ✅ Create 23 test fixtures with **(Test) suffix** (e.g., "Headspace (Test)")
+- ✅ **Create variants** for each fixture (e.g., "20mg tablet" for medications)
+- ✅ **Link all fixtures to test goal** (CRITICAL - without this, search won't find them!)
+- ✅ Mark all fixtures as approved (required for them to appear in search)
+- ✅ Verify everything is ready
 
-### 3. Create Test Goal
+**Expected output:**
+```
+🚀 WWFM Complete Test Setup
 
-In your Supabase dashboard or using SQL:
+📋 Step 1: Checking test user...
+   ✅ Test user exists
+📋 Step 2: Cleaning up old test ratings...
+   ✅ Cleaned up old ratings
+📋 Step 3: Setting up test fixtures...
+   ✅ Test fixtures created
+📋 Step 4: Verifying setup...
+   ✅ All 23 test fixtures verified
+   ✅ 23 fixtures linked to test goal
 
-```sql
-INSERT INTO goals (title, description, arena_id, is_approved)
-VALUES (
-  'TEST - Automated Testing Goal',
-  'This goal is used for automated E2E testing. Do not delete.',
-  (SELECT id FROM arenas LIMIT 1),
-  true
-);
+✅ Test setup complete! You can now run tests with:
+   npm run test:forms
 ```
 
-### 4. Create and Approve Test Fixtures (CRITICAL)
-
-The tests use pre-created test solutions that MUST exist and be approved in the database:
-
-```sql
--- After test fixtures are created, they MUST be approved
--- Run this script: /tests/setup/approve-test-fixtures.sql
-
-UPDATE solutions 
-SET is_approved = true 
-WHERE source_type = 'test_fixture';
-
--- Verify all 23 test fixtures are approved
-SELECT title, is_approved, source_type 
-FROM solutions 
-WHERE source_type = 'test_fixture';
-```
-
-**⚠️ IMPORTANT**: Test fixtures must have `is_approved = true` or they won't appear in search dropdowns during tests. The application filters search results to only show approved solutions.
-
-## Running Tests
-
+### Step 3: Run Tests
 ```bash
-# Run all form tests
+# Run all tests
 npm run test:forms
 
-# Run tests with UI mode (interactive)
-npm run test:forms:ui
-
-# Run tests in debug mode
-npm run test:forms:debug
-
-# Run tests with visible browser
+# OR run tests with visual browser (helpful for debugging)
 npm run test:forms:headed
 
-# Run specific test file
-npm run test:forms -- dosage-form
-
-# Generate and view HTML report
-npm run test:forms:report
+# OR run tests in interactive UI mode
+npm run test:forms:ui
 ```
 
-## Test Fixtures
+**That's it!** The tests should now run successfully.
 
-Tests use permanent test solutions in the database (see `/tests/e2e/TEST_SOLUTIONS_SETUP.md`):
-- All have "(Test)" suffix for identification
-- Marked with `source_type = 'test_fixture'`
-- MUST have `is_approved = true` to appear in search
-- Protected from cleanup functions
+---
 
-Example test fixtures:
-- `CBT Therapy (Test)` → therapists_counselors
-- `Headspace (Test)` → apps_software
-- `Prozac (Test)` → medications
+## What These Tests Do
 
-## Writing Tests
+The WWFM platform is a crowdsourced mental health solution tracker. These E2E tests verify that users can:
+1. Search for solutions
+2. Fill out forms for different solution types
+3. Submit their experiences
+4. Have data correctly saved to the database
 
-### Test Structure
+We test 9 different form types covering 23 solution categories (medications, apps, therapy, etc.).
 
-```typescript
-import { test, expect } from '@playwright/test'
-import { testSupabase, generateTestSolution, cleanupTestData } from '../utils/test-helpers'
+## Test Status
 
-test.describe('FormName - Data Pipeline', () => {
-  const testData = generateTestSolution('category_name')
-  
-  test.afterEach(async () => {
-    await cleanupTestData(testData.title)
-  })
+✅ **Desktop Tests: All 96 Chromium tests passing**
+⚠️  **Mobile Tests: Currently failing due to duplicate rating issues**
+🔧 **Skipped Tests: 6 tests skipped (validation/restoration features pending)**
 
-  test('saves all required fields', async ({ page }) => {
-    // Your test implementation
-  })
-})
-```
+**Total: 176 tests** covering all 9 form types
+- DosageForm: medications, supplements, natural remedies, beauty products
+- SessionForm: therapy, doctors, coaches, classes, treatments
+- PracticeForm: exercise, meditation, habits
+- AppForm: apps & software
+- PurchaseForm: products, devices, books, courses
+- CommunityForm: support groups, online communities
+- LifestyleForm: diet, nutrition, sleep
+- HobbyForm: hobbies & activities
+- FinancialForm: financial products
 
-### Using Test Helpers
+## Daily Development Workflow
 
-```typescript
-// Generate unique test data
-const testData = generateTestSolution('medications')
-
-// Fill standard fields
-await fillStandardFields(page, testData)
-
-// Select dropdown options
-await selectOption(page, '[name="cost"]', '$50-100/month')
-
-// Check multiple checkboxes
-await checkOptions(page, ['Nausea', 'Headache'])
-
-// Wait for success navigation
-await waitForSuccessPage(page)
-
-// Verify JSONB structure
-const validation = verifyJSONBStructure(solutionFields, expectedFields)
-expect(validation.isValid).toBe(true)
-```
-
-## Test Data
-
-Test fixtures are available in `/tests/e2e/fixtures/test-data.ts`:
-- `FORM_DROPDOWN_OPTIONS`: All dropdown values by field name
-- `ARRAY_FIELD_OPTIONS`: Checkbox/multi-select options
-- `SAMPLE_FORM_DATA`: Example data for each category
-- `EXPECTED_FIELDS_BY_FORM`: Required fields per form type
-
-## Debugging Failed Tests
-
-### View Test Report
+### For Regular Development:
 ```bash
-npm run test:forms:report
+# This is all you need - runs cleanup + desktop tests
+npm run test:quick
 ```
 
-### Debug Mode
+### Before Committing:
 ```bash
+# Run full desktop suite (also includes automatic cleanup)
+npm run test:forms:chromium
+```
+
+### Before Major Releases:
+```bash
+# Run everything including mobile (also includes automatic cleanup)
+npm run test:forms
+```
+
+## All Available Commands
+
+```bash
+# Quick test (RECOMMENDED - cleanup + desktop tests)
+npm run test:quick
+
+# Full test suite (cleanup + all tests)
+npm run test:forms
+
+# Desktop only (cleanup + chromium tests)
+npm run test:forms:chromium
+
+# Mobile only (cleanup + mobile tests)
+npm run test:forms:mobile
+
+# Interactive UI mode
+npm run test:forms:ui
+
+# Debug mode
 npm run test:forms:debug
+
+# View test report
+npm run test:forms:report
+
+# Manual setup (usually not needed - automatic in test commands)
+npm run test:setup
 ```
 
-### Common Issues
-
-1. **"Solution not found in dropdown"**
-   - Check if test fixtures are approved: `SELECT title, is_approved FROM solutions WHERE source_type = 'test_fixture'`
-   - Run approval script if needed: `/tests/setup/approve-test-fixtures.sql`
-   - Verify exact title match including "(Test)" suffix
-
-2. **"Radio button not being selected"**
-   - SessionForm now uses standard HTML radio inputs instead of shadcn RadioGroup
-   - This was fixed to ensure test compatibility
-   - See `/docs/testing/SESSIONFORM_FIX.md` for details
-
-2. **"Solution not found in database"**
-   - Check if form submission succeeded
-   - Verify RLS policies aren't blocking
-   - Check test is using correct table
-
-3. **"Field count mismatch"**
-   - Compare against CATEGORY_CONFIG in GoalPageClient.tsx
-   - Verify field names match exactly
-   - Check array fields are properly formatted
-
-4. **"Timeout waiting for navigation"**
-   - Increase timeout in waitForSuccessPage
-   - Check for form validation errors
-   - Verify API endpoints are working
-
-5. **"Cannot find element"**
-   - Use Playwright Inspector to find correct selectors
-   - Check if element is within Shadow DOM
-   - Verify element is visible before interaction
-
-## CI/CD Integration
-
-Tests run automatically on:
-- Pull requests affecting form code
-- Pushes to main branch
-- Manual workflow dispatch
-
-See `.github/workflows/form-tests.yml` for configuration.
-
-## Best Practices
-
-1. **Test Isolation**: Each test should be independent
-2. **Cleanup**: Always clean up test data (but never test fixtures)
-3. **Unique Names**: Use test fixtures for predictability
-4. **Explicit Waits**: Use proper wait conditions
-5. **Error Messages**: Write descriptive assertions
-6. **Fixture Approval**: Always verify test fixtures are approved
+**Note:** All test commands now automatically run cleanup first, so you never need to worry about "already rated" errors!
 
 ## Troubleshooting
 
-### Test Fixtures Not Appearing in Search
+### Tests are failing with "Solution not found in dropdown" or "Found 0 suggestions"
+**Causes:**
+- Test fixtures don't have "(Test)" suffix
+- Fixtures aren't linked to test goal
+- Fixtures aren't approved
+- Fixtures don't have variants
 
-This is the most common issue. The application filters search results to only show approved solutions:
+**Solution:** Run `npm run test:setup` to recreate everything properly
 
-```sql
--- Check approval status
-SELECT title, is_approved 
-FROM solutions 
-WHERE source_type = 'test_fixture';
+### Tests fail with "You've already rated this solution"
+**Cause:** Previous test runs left ratings in database
+**Solution:** Run `npm run test:setup` (it cleans up old ratings)
 
--- Fix if needed
-UPDATE solutions 
-SET is_approved = true 
-WHERE source_type = 'test_fixture';
+### Tests timeout or hang
+**Possible causes:**
+1. Dev server not running → Start it with `npm run dev`
+2. Wrong port → Tests expect localhost:3000
+3. Database connection issues → Check your `.env.local` file
+
+### "Test user not found" error
+**Solution:** Run `npm run test:setup` to create the test user
+
+### Tests pass locally but fail in CI
+**Check:**
+1. Environment variables are set in CI
+2. Test database is accessible from CI
+3. CI has correct Node/npm versions
+
+## Environment Requirements
+
+Your `.env.local` file needs these variables:
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 ```
 
-### Local Development Issues
+The tests will:
+- Use test user: `test@wwfm-platform.com` (password: `TestPassword123!`)
+- Create test fixtures with "(Test)" suffix
+- Use a dedicated test goal (ID: `56e2801e-0d78-4abd-a795-869e5b780ae7`)
 
-If tests fail locally but pass in CI:
-1. Check your local environment variables
-2. Ensure dev server is running on correct port
-3. Clear Playwright cache: `npx playwright clean-downloads`
-4. Update browsers: `npx playwright install`
-5. Verify test fixtures are approved in your local database
+## Why These Setup Steps Matter
 
-### Need Help?
+Understanding what the setup does helps diagnose issues:
 
-- Playwright Docs: https://playwright.dev
-- Project Architecture: /ARCHITECTURE.md
-- Form Implementation: /testing/testing-setup.md
-- Test Fixtures Setup: /tests/e2e/TEST_SOLUTIONS_SETUP.md
+| Setup Step | What Happens | What Goes Wrong Without It |
+|------------|--------------|---------------------------|
+| **Clean ratings** | Deletes previous test ratings | "You've already rated this solution" errors |
+| **Create fixtures with (Test) suffix** | Creates 23 fake solutions | No test data to work with |
+| **Create variants** | Adds "20mg tablet", "Standard", etc. | Forms can't save without variants |
+| **Link to goal** | Connects fixtures to test goal ID | **Search returns 0 results** (most common issue!) |
+| **Mark as approved** | Sets `is_approved = true` | Fixtures filtered out by search |
+
+**The #1 cause of test failures:** Fixtures not linked to test goal. Without this link, the search will never find them!
+
+## How It Works
+
+### Test Architecture
+1. **Global Setup** (`tests/setup/global-setup.ts`): Logs in test user once before all tests
+2. **Test Fixtures**: 23 permanent test solutions in database marked with "(Test)" suffix
+3. **Form Tests**: Each form type has comprehensive tests for data flow
+4. **Cleanup**: Test setup cleans old data before each run
+
+### Test Fixtures
+Test fixtures are fake solutions used for testing. **All have "(Test)" suffix** to distinguish them from real data:
+- `Headspace (Test)` → Apps & Software
+- `Prozac (Test)` → Medications (with "20mg tablet" variant)
+- `Vitamin D (Test)` → Supplements (with "1000 IU capsule" variant)
+- `CBT Therapy (Test)` → Therapists
+- ...and 19 more
+
+**Critical requirements for test fixtures:**
+1. **Must have "(Test)" suffix** - This identifies them as test data
+2. **Must be approved** (`is_approved = true`) - Or they won't appear in search
+3. **Must have variants** - Even if just "Standard" for non-dosage categories
+4. **Must be linked to test goal** - Via `goal_implementation_links` table
+5. **Previous ratings must be cleaned** - Or you'll get "already rated" errors
+
+All of this is handled automatically by `npm run test:setup`!
+
+### What Gets Tested
+Each form test verifies:
+1. User can search and find test fixtures
+2. Form fields work correctly
+3. Data saves to correct database tables
+4. Success page displays after submission
+5. Validation works properly
+
+## Advanced Usage
+
+### Running Specific Tests
+```bash
+# Single test file
+npx playwright test tests/e2e/forms/app-form.spec.ts
+
+# Test by pattern
+npx playwright test --grep "DosageForm"
+
+# Specific browser
+npx playwright test --project=chromium
+```
+
+### Debugging
+```bash
+# Step through test interactively
+npm run test:forms:debug
+
+# See browser while tests run
+npm run test:forms:headed
+
+# Generate trace for failed tests
+npx playwright test --trace on
+```
+
+### Manual Database Setup
+If automated setup fails, you can manually set up the database:
+
+1. Run SQL in Supabase dashboard: `tests/setup/manual-setup.sql`
+2. Then run: `npm run test:setup`
+
+## File Structure
+```
+tests/
+├── e2e/
+│   └── forms/
+│       ├── *-form.spec.ts        # Individual form tests
+│       ├── *-form-complete.spec.ts # Complete E2E tests
+│       └── form-test-factory.ts   # Test generator
+├── setup/
+│   ├── complete-test-setup.js    # All-in-one setup script
+│   ├── manual-setup.sql          # Manual SQL if needed
+│   └── global-setup.ts           # Playwright auth setup
+└── README.md                      # This file
+```
+
+## Need Help?
+
+1. **First step for any issue:** Run `npm run test:setup`
+2. **Check prerequisites:** Is dev server running? (`npm run dev`)
+3. **Review test output:** Tests log detailed progress
+4. **Use debug mode:** `npm run test:forms:debug` to step through
+5. **Check database:** Ensure test fixtures exist with "(Test)" suffix
+
+## Contributing
+
+When adding new tests:
+1. Use existing test fixtures (don't create new ones)
+2. Follow naming convention: `*-form.spec.ts` or `*-form-complete.spec.ts`
+3. Clean up test data after tests (but never delete test fixtures)
+4. Ensure tests are independent and can run in any order
+5. Add clear error messages for debugging
+
+---
+
+**Remember:** When in doubt, run `npm run test:setup` - it fixes most issues!

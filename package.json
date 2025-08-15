@@ -11,6 +11,9 @@
     "debug:goal": "node tools/debug-page.js http://localhost:3001/goal/",
     "debug:mobile": "node tools/debug-page.js --mobile",
     "test:forms": "playwright test tests/e2e/forms",
+    "test:forms:chromium": "playwright test tests/e2e/forms --project=chromium",
+    "test:forms:mobile": "playwright test tests/e2e/forms --project='Mobile Chrome'",
+    "test:quick": "npm run test:setup && playwright test tests/e2e/forms --project=chromium",
     "test:forms:ui": "playwright test tests/e2e/forms --ui",
     "test:forms:debug": "playwright test tests/e2e/forms --debug",
     "test:forms:headed": "playwright test tests/e2e/forms --headed",
@@ -18,10 +21,7 @@
     "test:forms:ci": "playwright test tests/e2e/forms --reporter=html,github",
     "test:forms:all": "node scripts/test-all-forms.js",
     "test:forms:validate": "node -r dotenv/config scripts/validate-database.ts",
-    "test:setup": "node -r dotenv/config tests/setup/create-test-user.js",
-    "test:fixtures:verify": "node tests/setup/verify-test-fixtures.js",
-    "test:fixtures:approve": "echo 'Run /tests/setup/approve-test-fixtures.sql in Supabase'",
-    "test:check-user": "node tests/setup/check-test-user.js",
+    "test:setup": "node tests/setup/complete-test-setup.js",
     "test:connection": "node scripts/test-connection.js"
   },
   "dependencies": {

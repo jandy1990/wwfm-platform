@@ -18,22 +18,29 @@ test.describe('PracticeForm End-to-End Tests', () => {
     await page.type('#solution-name', searchTerm)
     console.log(`Typed "${searchTerm}" - looking for exercise solutions`)
     
-    // Wait for dropdown to appear with suggestions
+    // Wait for dropdown to appear AND for loading to complete
     try {
-      await page.waitForSelector('.absolute.z-10', { timeout: 5000 })
-      console.log('Dropdown selector found')
-      await page.waitForTimeout(500)
+      await page.waitForSelector('[data-testid="solution-dropdown"]', { timeout: 5000 })
+      console.log('Dropdown appeared')
+      
+      // CRITICAL: Wait for search to complete (loading spinner to disappear)
+      // The component shows "Searching..." while loading
+      await page.waitForSelector('[data-testid="solution-dropdown"]:not(:has-text("Searching..."))', { timeout: 5000 })
+      console.log('Search completed, results ready')
+      
+      // Additional small wait to ensure DOM is stable
+      await page.waitForTimeout(200)
     } catch (e) {
-      console.log('Dropdown did not appear within 5 seconds')
+      console.log('Dropdown did not appear or search did not complete within 5 seconds')
     }
     
     // Check if dropdown is visible and select solution
-    const dropdownVisible = await page.locator('.absolute.z-10').isVisible().catch(() => false)
+    const dropdownVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible().catch(() => false)
     
     if (dropdownVisible) {
       console.log('Dropdown appeared with suggestions')
       
-      const dropdownButtons = page.locator('.absolute.z-10 button')
+      const dropdownButtons = page.locator('[data-testid="solution-dropdown"] button')
       const buttonCount = await dropdownButtons.count()
       console.log(`Found ${buttonCount} suggestions in dropdown`)
       
@@ -68,6 +75,18 @@ test.describe('PracticeForm End-to-End Tests', () => {
     console.log('Category auto-detected:', categoryAutoDetected)
     
     if (!categoryAutoDetected) {
+      // IMPORTANT: Close dropdown by clicking outside it to avoid interference
+      await page.click('body', { position: { x: 10, y: 10 } })
+      await page.waitForTimeout(200) // Give dropdown time to close
+      
+      // Verify dropdown is closed before continuing
+      const dropdownStillVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible().catch(() => false)
+      if (dropdownStillVisible) {
+        console.log('Warning: Dropdown still visible, attempting to close with Escape')
+        await page.keyboard.press('Escape')
+        await page.waitForTimeout(200)
+      }
+      
       // Click Continue if still on search page
       const continueBtn = page.locator('button:has-text("Continue")')
       const isContinueVisible = await continueBtn.isVisible()
@@ -136,22 +155,29 @@ test.describe('PracticeForm End-to-End Tests', () => {
     await page.type('#solution-name', searchTerm)
     console.log(`Typed "${searchTerm}" - looking for meditation solutions`)
     
-    // Wait for dropdown to appear with suggestions
+    // Wait for dropdown to appear AND for loading to complete
     try {
-      await page.waitForSelector('.absolute.z-10', { timeout: 5000 })
-      console.log('Dropdown selector found')
-      await page.waitForTimeout(500)
+      await page.waitForSelector('[data-testid="solution-dropdown"]', { timeout: 5000 })
+      console.log('Dropdown appeared')
+      
+      // CRITICAL: Wait for search to complete (loading spinner to disappear)
+      // The component shows "Searching..." while loading
+      await page.waitForSelector('[data-testid="solution-dropdown"]:not(:has-text("Searching..."))', { timeout: 5000 })
+      console.log('Search completed, results ready')
+      
+      // Additional small wait to ensure DOM is stable
+      await page.waitForTimeout(200)
     } catch (e) {
-      console.log('Dropdown did not appear within 5 seconds')
+      console.log('Dropdown did not appear or search did not complete within 5 seconds')
     }
     
     // Check if dropdown is visible and select solution
-    const dropdownVisible = await page.locator('.absolute.z-10').isVisible().catch(() => false)
+    const dropdownVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible().catch(() => false)
     
     if (dropdownVisible) {
       console.log('Dropdown appeared with suggestions')
       
-      const dropdownButtons = page.locator('.absolute.z-10 button')
+      const dropdownButtons = page.locator('[data-testid="solution-dropdown"] button')
       const buttonCount = await dropdownButtons.count()
       console.log(`Found ${buttonCount} suggestions in dropdown`)
       
@@ -186,6 +212,18 @@ test.describe('PracticeForm End-to-End Tests', () => {
     console.log('Category auto-detected:', categoryAutoDetected)
     
     if (!categoryAutoDetected) {
+      // IMPORTANT: Close dropdown by clicking outside it to avoid interference
+      await page.click('body', { position: { x: 10, y: 10 } })
+      await page.waitForTimeout(200) // Give dropdown time to close
+      
+      // Verify dropdown is closed before continuing
+      const dropdownStillVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible().catch(() => false)
+      if (dropdownStillVisible) {
+        console.log('Warning: Dropdown still visible, attempting to close with Escape')
+        await page.keyboard.press('Escape')
+        await page.waitForTimeout(200)
+      }
+      
       // Click Continue if still on search page
       const continueBtn = page.locator('button:has-text("Continue")')
       const isContinueVisible = await continueBtn.isVisible()
@@ -254,22 +292,29 @@ test.describe('PracticeForm End-to-End Tests', () => {
     await page.type('#solution-name', searchTerm)
     console.log(`Typed "${searchTerm}" - looking for habits solutions`)
     
-    // Wait for dropdown to appear with suggestions
+    // Wait for dropdown to appear AND for loading to complete
     try {
-      await page.waitForSelector('.absolute.z-10', { timeout: 5000 })
-      console.log('Dropdown selector found')
-      await page.waitForTimeout(500)
+      await page.waitForSelector('[data-testid="solution-dropdown"]', { timeout: 5000 })
+      console.log('Dropdown appeared')
+      
+      // CRITICAL: Wait for search to complete (loading spinner to disappear)
+      // The component shows "Searching..." while loading
+      await page.waitForSelector('[data-testid="solution-dropdown"]:not(:has-text("Searching..."))', { timeout: 5000 })
+      console.log('Search completed, results ready')
+      
+      // Additional small wait to ensure DOM is stable
+      await page.waitForTimeout(200)
     } catch (e) {
-      console.log('Dropdown did not appear within 5 seconds')
+      console.log('Dropdown did not appear or search did not complete within 5 seconds')
     }
     
     // Check if dropdown is visible and select solution
-    const dropdownVisible = await page.locator('.absolute.z-10').isVisible().catch(() => false)
+    const dropdownVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible().catch(() => false)
     
     if (dropdownVisible) {
       console.log('Dropdown appeared with suggestions')
       
-      const dropdownButtons = page.locator('.absolute.z-10 button')
+      const dropdownButtons = page.locator('[data-testid="solution-dropdown"] button')
       const buttonCount = await dropdownButtons.count()
       console.log(`Found ${buttonCount} suggestions in dropdown`)
       
@@ -304,6 +349,18 @@ test.describe('PracticeForm End-to-End Tests', () => {
     console.log('Category auto-detected:', categoryAutoDetected)
     
     if (!categoryAutoDetected) {
+      // IMPORTANT: Close dropdown by clicking outside it to avoid interference
+      await page.click('body', { position: { x: 10, y: 10 } })
+      await page.waitForTimeout(200) // Give dropdown time to close
+      
+      // Verify dropdown is closed before continuing
+      const dropdownStillVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible().catch(() => false)
+      if (dropdownStillVisible) {
+        console.log('Warning: Dropdown still visible, attempting to close with Escape')
+        await page.keyboard.press('Escape')
+        await page.waitForTimeout(200)
+      }
+      
       // Click Continue if still on search page
       const continueBtn = page.locator('button:has-text("Continue")')
       const isContinueVisible = await continueBtn.isVisible()

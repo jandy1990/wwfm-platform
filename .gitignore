@@ -10,6 +10,13 @@
 !.yarn/releases
 !.yarn/versions
 
+# SECURITY: Never commit service keys or sensitive environment variables
+.env*
+.env.local
+.env.test.local
+*SERVICE_KEY*
+*service_key*
+
 # testing
 /coverage
 /test-results/
@@ -48,6 +55,7 @@ dev-server.log
 
 # misc
 .DS_Store
+.mcp.json
 *.pem
 .trash/
 *.swp

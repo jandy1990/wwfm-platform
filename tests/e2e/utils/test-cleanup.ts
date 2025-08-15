@@ -6,6 +6,36 @@
  */
 
 import { getTestSupabase } from './test-helpers'
+import { createClient } from '@supabase/supabase-js'
+
+/**
+ * Get admin client that bypasses RLS completely
+ */
+function getAdminSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const serviceKey = process.env.SUPABASE_SERVICE_KEY
+  
+  if (!url || !serviceKey) {
+    throw new Error('Missing SUPABASE_SERVICE_KEY in environment')
+  }
+  
+  // Create admin client with explicit RLS bypass
+  return createClient(url, serviceKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    },
+    db: {
+      schema: 'public'
+    },
+    global: {
+      headers: {
+        'apikey': serviceKey,
+        'Authorization': `Bearer ${serviceKey}`
+      }
+    }
+  })
+}
 
 /**
  * Clear all test user ratings for test fixtures
@@ -64,54 +94,73 @@ export async function clearTestRatings(goalId: string = process.env.TEST_GOAL_ID
 }
 
 /**
- * Clear test ratings for a specific solution
+ * Clear test ratings for a specific solution - uses admin client
  */
 export async function clearTestRatingsForSolution(
   solutionTitle: string, 
   goalId: string = process.env.TEST_GOAL_ID!
 ) {
-  const supabase = getTestSupabase()
+  // Use admin client to bypass RLS
+  const supabase = getAdminSupabase()
   
   // Find the solution
-  const { data: solution } = await supabase
+  const { data: solution, error: solutionError } = await supabase
     .from('solutions')
     .select('id')
     .eq('title', solutionTitle)
     .single()
   
-  if (!solution) {
-    console.log(`Solution "${solutionTitle}" not found`)
-    return
+  if (solutionError || !solution) {
+    console.log(`Solution "${solutionTitle}" not found - may be first run`)
+    return { linksDeleted: 0, ratingsDeleted: 0 }
   }
   
   // Find its variants
-  const { data: variants } = await supabase
+  const { data: variants, error: variantError } = await supabase
     .from('solution_variants')
     .select('id')
     .eq('solution_id', solution.id)
   
-  if (!variants || variants.length === 0) {
+  if (variantError || !variants || variants.length === 0) {
     console.log('No variants found for solution')
-    return
+    return { linksDeleted: 0, ratingsDeleted: 0 }
   }
   
   const variantIds = variants.map(v => v.id)
+  console.log(`Found ${variantIds.length} variants to clean for "${solutionTitle}"`)
   
-  // Delete goal_implementation_links
-  await supabase
+  // Delete goal_implementation_links - get count of deleted rows
+  const { data: deletedLinks, error: linkError } = await supabase
     .from('goal_implementation_links')
     .delete()
     .eq('goal_id', goalId)
     .in('implementation_id', variantIds)
+    .select()
+  
+  if (linkError) {
+    console.error('Error deleting goal_implementation_links:', linkError.message)
+  }
   
   // Delete ratings - using implementation_id field (not solution_variant_id)
-  await supabase
+  const { data: deletedRatings, error: ratingError } = await supabase
     .from('ratings')
     .delete()
     .eq('goal_id', goalId)
     .in('implementation_id', variantIds)
+    .select()
   
-  console.log(`✅ Cleared ratings for "${solutionTitle}"`)
+  if (ratingError) {
+    console.error('Error deleting ratings:', ratingError.message)
+  }
+  
+  const linksDeleted = deletedLinks?.length || 0
+  const ratingsDeleted = deletedRatings?.length || 0
+  
+  if (linksDeleted > 0 || ratingsDeleted > 0) {
+    console.log(`✅ Cleared for "${solutionTitle}": ${ratingsDeleted} ratings, ${linksDeleted} links`)
+  }
+  
+  return { linksDeleted, ratingsDeleted }
 }
 
 /**
@@ -121,6 +170,71 @@ export async function setupTestEnvironment() {
   // Clear all test ratings before starting tests
   await clearTestRatings()
   console.log('✅ Test environment ready')
+}
+
+/**
+ * Aggressive cleanup for a specific solution - deletes everything
+ */
+export async function aggressiveCleanupForSolution(
+  solutionTitle: string,
+  goalId: string = process.env.TEST_GOAL_ID!
+) {
+  const adminClient = getAdminSupabase()
+  
+  console.log(`🔥 Aggressive cleanup for "${solutionTitle}"`)
+  
+  // First, find ALL solutions with this title (including user-generated)
+  const { data: solutions, error: searchError } = await adminClient
+    .from('solutions')
+    .select('id')
+    .eq('title', solutionTitle)
+  
+  if (searchError || !solutions || solutions.length === 0) {
+    console.log('No solutions found to clean')
+    return { success: true, message: 'No solutions found' }
+  }
+  
+  const solutionIds = solutions.map(s => s.id)
+  console.log(`Found ${solutionIds.length} solution(s) to clean`)
+  
+  // Get ALL variants for these solutions
+  const { data: variants } = await adminClient
+    .from('solution_variants')
+    .select('id')
+    .in('solution_id', solutionIds)
+  
+  if (variants && variants.length > 0) {
+    const variantIds = variants.map(v => v.id)
+    console.log(`Found ${variantIds.length} variant(s) to clean`)
+    
+    // Delete ALL ratings for these variants (regardless of goal)
+    const { data: deletedRatings, error: ratingError } = await adminClient
+      .from('ratings')
+      .delete()
+      .in('implementation_id', variantIds)
+      .select()
+    
+    if (ratingError) {
+      console.error('Failed to delete ratings:', ratingError)
+    } else {
+      console.log(`Deleted ${deletedRatings?.length || 0} ratings`)
+    }
+    
+    // Delete ALL goal links for these variants
+    const { data: deletedLinks, error: linkError } = await adminClient
+      .from('goal_implementation_links')
+      .delete()
+      .in('implementation_id', variantIds)
+      .select()
+    
+    if (linkError) {
+      console.error('Failed to delete links:', linkError)
+    } else {
+      console.log(`Deleted ${deletedLinks?.length || 0} goal links`)
+    }
+  }
+  
+  return { success: true, message: 'Aggressive cleanup complete' }
 }
 
 /**

@@ -1,11 +1,10 @@
 // components/solutions/SolutionFormWithAutoCategory.tsx
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
-import { useAutoCategorization } from '@/lib/hooks/useAutoCategorization';
-import { SolutionMatch } from '@/lib/solutions/categorization';
+import { SolutionMatch, DetectionResult } from '@/lib/solutions/categorization';
 import { CategoryPicker } from '@/components/organisms/solutions/CategoryPicker';
 import { DosageForm } from '@/components/organisms/solutions/forms/DosageForm';
 import { AppForm } from '@/components/organisms/solutions/forms/AppForm';
@@ -33,6 +32,81 @@ interface FormState {
   selectedSolution: SolutionMatch | null;
 }
 
+// Custom hook for click outside detection
+const useClickOutside = (ref: React.RefObject<HTMLElement>, handler: () => void) => {
+  useEffect(() => {
+    const listener = (event: MouseEvent | TouchEvent) => {
+      if (!ref.current || ref.current.contains(event.target as Node)) {
+        return;
+      }
+      handler();
+    };
+    
+    document.addEventListener('mousedown', listener);
+    document.addEventListener('touchstart', listener);
+    
+    return () => {
+      document.removeEventListener('mousedown', listener);
+      document.removeEventListener('touchstart', listener);
+    };
+  }, [ref, handler]);
+};
+
+// Helper function to highlight matching text
+const highlightMatch = (text: string, query: string): React.ReactElement => {
+  if (!query.trim()) return <>{text}</>;
+  
+  const parts = text.split(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'));
+  
+  return (
+    <>
+      {parts.map((part, index) => 
+        part.toLowerCase() === query.toLowerCase() ? (
+          <mark key={index} className="bg-yellow-200 dark:bg-yellow-800 text-inherit font-semibold">
+            {part}
+          </mark>
+        ) : (
+          <span key={index}>{part}</span>
+        )
+      )}
+    </>
+  );
+};
+
+// Smart ranking for search results
+const sortSuggestions = (results: any[], query: string): any[] => {
+  const queryLower = query.toLowerCase();
+  
+  return results.sort((a, b) => {
+    const aTitle = a.title.toLowerCase();
+    const bTitle = b.title.toLowerCase();
+    
+    // Exact matches first
+    if (aTitle === queryLower) return -1;
+    if (bTitle === queryLower) return 1;
+    
+    // Starts with query second
+    const aStartsWith = aTitle.startsWith(queryLower);
+    const bStartsWith = bTitle.startsWith(queryLower);
+    if (aStartsWith && !bStartsWith) return -1;
+    if (!aStartsWith && bStartsWith) return 1;
+    
+    // Word boundary matches third
+    const aWordBoundary = aTitle.includes(' ' + queryLower) || aTitle.includes('-' + queryLower);
+    const bWordBoundary = bTitle.includes(' ' + queryLower) || bTitle.includes('-' + queryLower);
+    if (aWordBoundary && !bWordBoundary) return -1;
+    if (!aWordBoundary && bWordBoundary) return 1;
+    
+    // By match score if available
+    if (a.matchScore && b.matchScore) {
+      return b.matchScore - a.matchScore;
+    }
+    
+    // Alphabetical as fallback
+    return aTitle.localeCompare(bTitle);
+  });
+};
+
 export default function SolutionFormWithAutoCategory({
   goalId,
   goalTitle,
@@ -49,7 +123,91 @@ export default function SolutionFormWithAutoCategory({
   const [fetchedGoalTitle, setFetchedGoalTitle] = useState<string>('');
   const [showDropdown, setShowDropdown] = useState(false);
   
-  const { detectionResult, isLoading, error, detectFromInput, clearResults } = useAutoCategorization();
+  // Search cache to avoid repeated API calls
+  const searchCache = useRef<Map<string, DetectionResult>>(new Map());
+  const cacheTimeout = useRef<Map<string, NodeJS.Timeout>>(new Map());
+
+  // Helper to manage cache with expiry
+  const setCacheWithExpiry = useCallback((key: string, data: DetectionResult, expiryMs: number = 300000) => {
+    // Clear any existing timeout for this key
+    if (cacheTimeout.current.has(key)) {
+      clearTimeout(cacheTimeout.current.get(key)!);
+    }
+    
+    // Set the cache
+    searchCache.current.set(key, data);
+    
+    // Set expiry (5 minutes default)
+    const timeout = setTimeout(() => {
+      searchCache.current.delete(key);
+      cacheTimeout.current.delete(key);
+    }, expiryMs);
+    
+    cacheTimeout.current.set(key, timeout);
+  }, []);
+  
+  // Refs for click outside detection
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const dropdownContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Use click outside hook
+  useClickOutside(dropdownContainerRef, () => {
+    if (showDropdown) {
+      setShowDropdown(false);
+    }
+  });
+  
+  // Create a custom version of useAutoCategorization with optimizations
+  const [detectionResult, setDetectionResult] = useState<DetectionResult | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const searchTimer = useRef<NodeJS.Timeout | null>(null);
+  
+  // Optimized search function with cache
+  const searchSolutions = useCallback(async (term: string) => {
+    if (term.length < 2) {
+      setDetectionResult(null);
+      setShowDropdown(false);
+      return;
+    }
+
+    // Check cache first
+    const cacheKey = term.toLowerCase().trim();
+    if (searchCache.current.has(cacheKey)) {
+      const cachedData = searchCache.current.get(cacheKey)!;
+      setDetectionResult(cachedData);
+      setShowDropdown(true);
+      setIsLoading(false);
+      return; // Use cached results immediately
+    }
+
+    // Show loading immediately
+    setIsLoading(true);
+    setShowDropdown(true);
+    
+    // Import the detection function
+    const { detectFromInput } = await import('@/lib/solutions/categorization');
+    
+    try {
+      const result = await detectFromInput(term);
+      setDetectionResult(result);
+      
+      // Cache the results
+      setCacheWithExpiry(cacheKey, result);
+    } catch (error) {
+      console.error('Error searching solutions:', error);
+      setError(error instanceof Error ? error.message : 'Failed to detect category');
+      setDetectionResult(null);
+    } finally {
+      setIsLoading(false); // No artificial delay
+    }
+  }, [setCacheWithExpiry]);
+  
+  const clearResults = useCallback(() => {
+    setDetectionResult(null);
+    setError(null);
+    setIsLoading(false);
+  }, []);
 
   // Fetch goal title if not provided
   useEffect(() => {
@@ -72,17 +230,90 @@ export default function SolutionFormWithAutoCategory({
 
   // Use provided goalTitle or fetched one
   const actualGoalTitle = goalTitle || fetchedGoalTitle;
-
-  // Trigger detection when user types
+  
+  // Clean up cache on unmount
   useEffect(() => {
+    return () => {
+      // Clear all cache timeouts on unmount
+      const timeouts = cacheTimeout.current;
+      const cache = searchCache.current;
+      timeouts.forEach(timeout => clearTimeout(timeout));
+      cache.clear();
+      timeouts.clear();
+    };
+  }, []);
+  
+  // Prefetch common solutions on focus for instant results
+  const handleInputFocus = useCallback(async () => {
+    // Only prefetch if cache is empty
+    if (searchCache.current.size === 0) {
+      // Prefetch some common terms in the background
+      const commonTerms = ['meditation', 'therapy', 'exercise', 'vitamin'];
+      
+      commonTerms.forEach(async (term) => {
+        if (!searchCache.current.has(term)) {
+          try {
+            const { detectFromInput } = await import('@/lib/solutions/categorization');
+            const result = await detectFromInput(term);
+            
+            if (result) {
+              setCacheWithExpiry(term, result);
+            }
+          } catch (error) {
+            // Silent fail for prefetch
+          }
+        }
+      });
+    }
+  }, [setCacheWithExpiry]);
+
+  // Add keyboard event handler for Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showDropdown) {
+        setShowDropdown(false);
+        if (searchInputRef.current) {
+          searchInputRef.current.blur();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [showDropdown]);
+
+  // Trigger detection when user types with reduced debounce
+  useEffect(() => {
+    // Don't trigger search if we have a selected category (user already selected an option)
+    if (formState.selectedCategory) {
+      return;
+    }
+    
     if (formState.solutionName.length >= 2) {
-      detectFromInput(formState.solutionName);
+      // Clear existing timeout
+      if (searchTimer.current) {
+        clearTimeout(searchTimer.current);
+      }
+      
+      // Set loading immediately for responsive feel
+      setIsLoading(true);
       setShowDropdown(true);
+      
+      // Debounce the actual search with reduced time (150ms instead of 300ms)
+      searchTimer.current = setTimeout(() => {
+        searchSolutions(formState.solutionName);
+      }, 150); // Faster debounce - still prevents spam
     } else {
       clearResults();
       setShowDropdown(false);
     }
-  }, [formState.solutionName, detectFromInput, clearResults]);
+    
+    return () => {
+      if (searchTimer.current) {
+        clearTimeout(searchTimer.current);
+      }
+    };
+  }, [formState.solutionName, formState.selectedCategory, searchSolutions, clearResults]);
 
   // Handle selecting any item from dropdown
   const handleSelectItem = useCallback((title: string, category: string, solution?: SolutionMatch) => {
@@ -92,6 +323,12 @@ export default function SolutionFormWithAutoCategory({
       solution
     });
     
+    // Clear the search timer to prevent it from reopening dropdown
+    if (searchTimer.current) {
+      clearTimeout(searchTimer.current);
+      searchTimer.current = null;
+    }
+    
     setFormState({
       ...formState,
       solutionName: title,
@@ -99,7 +336,12 @@ export default function SolutionFormWithAutoCategory({
       selectedSolution: solution || null
     });
     setShowDropdown(false);
-  }, [formState]);
+    clearResults();
+    // Clear focus from input to ensure dropdown closes
+    if (searchInputRef.current) {
+      searchInputRef.current.blur();
+    }
+  }, [formState, clearResults]);
 
   // Handle continuing to next step
   const handleContinue = useCallback(() => {
@@ -261,7 +503,7 @@ export default function SolutionFormWithAutoCategory({
   }
 
   // Combine all results into a single list for the user
-  const allResults = [];
+  const allResults: any[] = [];
   
   if (detectionResult) {
     // Add existing solutions
@@ -291,6 +533,9 @@ export default function SolutionFormWithAutoCategory({
       }
     });
   }
+  
+  // Sort results intelligently
+  const sortedResults = sortSuggestions(allResults, formState.solutionName);
 
   // Main search interface
   return (
@@ -306,24 +551,29 @@ export default function SolutionFormWithAutoCategory({
       )}
 
       <div className="space-y-4">
-        <div className="relative">
+        <div className="relative" ref={dropdownContainerRef}>
           <label htmlFor="solution-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             What helped you?
           </label>
           <div className="relative">
             <input
+              ref={searchInputRef}
               id="solution-name"
+              data-testid="solution-name-input"
               type="text"
               value={formState.solutionName}
-              onChange={(e) => setFormState({ ...formState, solutionName: e.target.value })}
-              onFocus={() => {
-                if (formState.solutionName.length >= 2 && allResults.length > 0) {
+              onChange={(e) => {
+                setFormState({ ...formState, solutionName: e.target.value });
+                if (e.target.value.length >= 2) {
                   setShowDropdown(true);
                 }
               }}
-              onBlur={() => {
-                // Delay to allow click events on dropdown
-                setTimeout(() => setShowDropdown(false), 200);
+              onFocus={() => {
+                handleInputFocus();
+                // Only show dropdown if no category selected yet
+                if (formState.solutionName.length >= 2 && detectionResult && !formState.selectedCategory) {
+                  setShowDropdown(true);
+                }
               }}
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                        focus:ring-2 focus:ring-blue-500 focus:border-transparent
@@ -343,42 +593,87 @@ export default function SolutionFormWithAutoCategory({
             )}
           </div>
           
-          {/* Unified dropdown */}
-          {showDropdown && !isLoading && allResults.length > 0 && (
-            <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 
-                          dark:border-gray-700 rounded-lg shadow-lg max-h-96 overflow-y-auto">
-              
-              {/* Suggestions header */}
-              <div className="px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400 
-                            border-b border-gray-100 dark:border-gray-700">
-                💡 Suggestions
-              </div>
-              
-              {/* All results in one list */}
-              {allResults.map((result, index) => (
-                <button
-                  key={`${result.title}-${index}`}
-                  onClick={() => handleSelectItem(
-                    result.title, 
-                    result.category,
-                    result.type === 'existing' ? result.solution : undefined
-                  )}
-                  className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 
-                           transition-colors flex items-center justify-between group"
-                >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">{result.title}</span>
-                      {result.type === 'suggestion' && result.matchScore && result.matchScore < 0.8 && (
-                        <span className="text-xs text-gray-500 dark:text-gray-400">(similar)</span>
-                      )}
-                    </div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
-                      {result.categoryDisplayName}
-                    </div>
+          {/* Improved dropdown with loading and no results states */}
+          {showDropdown && (
+            <div 
+              data-testid="solution-dropdown"
+              className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 rounded-lg shadow-lg border 
+                          border-gray-200 dark:border-gray-700 max-h-60 overflow-auto
+                          transition-all duration-200 ease-out"
+              style={{ pointerEvents: showDropdown ? 'auto' : 'none' }}>
+              {isLoading ? (
+                // Loading state
+                <div className="p-4 text-center">
+                  <div className="inline-flex items-center gap-2 text-gray-500">
+                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    <span className="text-sm">Searching...</span>
                   </div>
-                </button>
-              ))}
+                </div>
+              ) : sortedResults.length > 0 ? (
+                // Results
+                <>
+                  <div className="p-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800">
+                    <p className="text-xs text-blue-700 dark:text-blue-300 font-medium">
+                      {sortedResults.length} solution{sortedResults.length > 1 ? 's' : ''} found
+                    </p>
+                  </div>
+                  {sortedResults.map((result, index) => (
+                    <button
+                      key={`${result.title}-${index}`}
+                      data-testid={`solution-option-${index}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleSelectItem(
+                          result.title, 
+                          result.category,
+                          result.type === 'existing' ? result.solution : undefined
+                        );
+                        // Force dropdown to close immediately
+                        setShowDropdown(false);
+                      }}
+                      className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 
+                               transition-colors border-b border-gray-100 dark:border-gray-700 
+                               last:border-b-0 focus:outline-none focus:bg-blue-50 dark:focus:bg-blue-900/20"
+                    >
+                      <div className="font-medium text-gray-900 dark:text-gray-100">
+                        {highlightMatch(result.title, formState.solutionName)}
+                      </div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
+                        {result.categoryDisplayName}
+                      </div>
+                    </button>
+                  ))}
+                </>
+              ) : formState.solutionName.length >= 2 ? (
+                // No results - allow custom entry
+                <div className="p-4">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setShowDropdown(false);
+                      handleContinue();
+                    }}
+                    className="w-full py-3 px-4 bg-white dark:bg-gray-800 hover:bg-blue-50 
+                             dark:hover:bg-blue-900/20 transition-colors text-left group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full 
+                                    flex items-center justify-center group-hover:bg-blue-200 
+                                    dark:group-hover:bg-blue-900/50 transition-colors">
+                        <span className="text-blue-600 dark:text-blue-400 text-lg">+</span>
+                      </div>
+                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Add "{formState.solutionName}" as a solution
+                      </p>
+                    </div>
+                  </button>
+                </div>
+              ) : null}
             </div>
           )}
           
@@ -430,15 +725,6 @@ export default function SolutionFormWithAutoCategory({
           )}
         </div>
 
-        {/* Loading indicator */}
-        {isLoading && formState.solutionName.length >= 2 && (
-          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 
-                          border-blue-600 dark:border-blue-400"></div>
-            <span>Searching...</span>
-          </div>
-        )}
-
         {/* Error display */}
         {error && (
           <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 
@@ -466,6 +752,7 @@ export default function SolutionFormWithAutoCategory({
           <button
             onClick={handleContinue}
             disabled={!canContinue}
+            data-testid="continue-button"
             className={`px-6 py-2 rounded-lg font-medium transition-all ${
               canContinue
                 ? 'bg-blue-600 hover:bg-blue-700 text-white'

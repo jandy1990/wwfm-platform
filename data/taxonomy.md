@@ -57,6 +57,28 @@
 - 🎭 Feel confident despite flaws [FEEL/BECOME/EMBRACE/ACCEPT]
 - 💄 Master makeup basics [MASTER/LEARN/APPLY/UNDERSTAND]
 
+**🌟 Additional Skin & Beauty Challenges:**
+- 🌹 Deal with rosacea [DEAL/MANAGE/CONTROL/CALM]
+- 🩹 Manage eczema/psoriasis [MANAGE/CONTROL/SOOTHE/TREAT]
+- ⏰ Treat wrinkles [TREAT/REDUCE/PREVENT/MINIMIZE]
+- 💨 Deal with body odor [DEAL/MANAGE/CONTROL/ELIMINATE]
+- 💅 Have healthy nails [HAVE/GROW/MAINTAIN/STRENGTHEN]
+- 🔆 Remove age spots [REMOVE/FADE/TREAT/PREVENT]
+- 💦 Deal with excessive sweating [DEAL/MANAGE/CONTROL/REDUCE]
+- 🌸 Manage sensitive skin [MANAGE/CARE/PROTECT/SOOTHE]
+- ☀️ Get a sunless tan [GET/ACHIEVE/MAINTAIN/APPLY]
+
+**🌟 Additional Skin & Beauty Challenges:**
+- 🌹 Deal with rosacea [DEAL/MANAGE/CONTROL/CALM]
+- 🩹 Manage eczema/psoriasis [MANAGE/CONTROL/SOOTHE/TREAT]
+- ⏰ Treat wrinkles [TREAT/REDUCE/PREVENT/MINIMIZE]
+- 💨 Deal with body odor [DEAL/MANAGE/CONTROL/ELIMINATE]
+- 💅 Have healthy nails [HAVE/GROW/MAINTAIN/STRENGTHEN]
+- 🔆 Remove age spots [REMOVE/FADE/TREAT/PREVENT]
+- 💦 Deal with excessive sweating [DEAL/MANAGE/CONTROL/REDUCE]
+- 🌸 Manage sensitive skin [MANAGE/CARE/PROTECT/SOOTHE]
+- ☀️ Get a sunless tan [GET/ACHIEVE/MAINTAIN/APPLY]
+
 ---
 
 ## 🧠 Feeling & Emotion
@@ -132,6 +154,20 @@
 - 🛒 Control compulsive shopping [CONTROL/STOP/MANAGE/BREAK]
 - 📱 Break porn addiction [BREAK/STOP/OVERCOME/QUIT]
 - 🎮 Control gaming addiction [CONTROL/MANAGE/REDUCE/BREAK]
+
+**🧩 Mental Health Conditions:**
+- 🧠 Manage ADHD symptoms [MANAGE/CONTROL/COPE/HANDLE]
+- 💔 Cope with PTSD [COPE/HEAL/PROCESS/MANAGE]
+- 🔄 Control OCD behaviors [CONTROL/MANAGE/REDUCE/STOP]
+- 📊 Manage bipolar episodes [MANAGE/STABILIZE/CONTROL/PREVENT]
+- 🧩 Navigate autism challenges [NAVIGATE/MANAGE/COPE/HANDLE]
+- 🍽️ Overcome eating disorders [OVERCOME/RECOVER/HEAL/MANAGE]
+- 🌫️ Deal with dissociation [DEAL/MANAGE/GROUND/COPE]
+- ❄️ Manage seasonal depression [MANAGE/PREVENT/COPE/TREAT]
+- 🔄 Stop ruminating [STOP/BREAK/INTERRUPT/CONTROL]
+- 🌊 Manage sensory overload [MANAGE/COPE/HANDLE/REDUCE]
+- ⚡ Deal with flashbacks [DEAL/MANAGE/STOP/GROUND]
+- 😨 Overcome phobias [OVERCOME/FACE/CONQUER/MANAGE]
 
 ---
 
@@ -222,6 +258,23 @@
 - 💔 Trust people again [TRUST/OPEN/BELIEVE/RISK]
 - 🎭 Be vulnerable [BE/BECOME/ALLOW/SHOW]
 
+**💔 Relationship Challenges:**
+- 💔 Recover from infidelity [RECOVER/HEAL/REBUILD/FORGIVE]
+- 😤 Manage jealousy [MANAGE/CONTROL/OVERCOME/HANDLE]
+- 🔥 Improve sexual intimacy [IMPROVE/ENHANCE/RESTORE/BUILD]
+- ⚖️ Navigate separation/divorce [NAVIGATE/HANDLE/MANAGE/SURVIVE]
+- 👨‍👩‍👧 Deal with in-laws [DEAL/MANAGE/HANDLE/NAVIGATE]
+- 👶 Try to conceive [TRY/MANAGE/NAVIGATE/COPE]
+- 😢 Handle miscarriage grief [HANDLE/PROCESS/HEAL/COPE]
+- 🌐 Manage codependency [MANAGE/BREAK/OVERCOME/HEAL]
+- 💕 Navigate open relationships [NAVIGATE/MANAGE/EXPLORE/COMMUNICATE]
+- 🌱 Rebuild after abuse [REBUILD/HEAL/RECOVER/RESTORE]
+- ⚖️ Handle custody battles [HANDLE/NAVIGATE/MANAGE/SURVIVE]
+- 💕 Date after divorce [DATE/START/NAVIGATE/BEGIN]
+- 🏠 Manage step-parenting [MANAGE/NAVIGATE/BUILD/HANDLE]
+- 📞 Deal with estrangement [DEAL/COPE/MANAGE/HEAL]
+- 🥱 Navigate caregiving stress [NAVIGATE/MANAGE/HANDLE/COPE]
+
 ---
 
 ## 💼 Work & Career
@@ -294,6 +347,15 @@
 - 🎯 Prepare for job loss [PREPARE/PLAN/READY/ANTICIPATE]
 - 💪 Bounce back from firing [BOUNCE/RECOVER/REBOUND/MOVE ON]
 - 🔄 Handle job uncertainty [HANDLE/MANAGE/COPE/DEAL]
+
+**🔥 Workplace Challenges:**
+- 🔥 Recover from burnout [RECOVER/HEAL/PREVENT/MANAGE]
+- 🚫 Deal with workplace harassment [DEAL/REPORT/HANDLE/STOP]
+- 🤱 Return after maternity/leave [RETURN/TRANSITION/MANAGE/NAVIGATE]
+- 🤔 Deal with micromanagement [DEAL/HANDLE/MANAGE/SURVIVE]
+- 🎯 Build professional reputation [BUILD/ESTABLISH/REPAIR/ENHANCE]
+- 💕 Navigate office romance [NAVIGATE/MANAGE/HANDLE/BALANCE]
+- 🤹 Manage multiple jobs [MANAGE/BALANCE/JUGGLE/HANDLE]
 
 ---
 

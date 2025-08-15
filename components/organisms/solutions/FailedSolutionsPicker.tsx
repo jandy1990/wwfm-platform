@@ -5,6 +5,81 @@ import { supabase } from '@/lib/database/client';
 import { Star, X, Search, Plus } from 'lucide-react';
 import { useKeyboardNavigation } from '@/lib/hooks/useKeyboardNavigation';
 
+// Custom hook for click outside detection
+const useClickOutside = (ref: React.RefObject<HTMLElement>, handler: () => void) => {
+  useEffect(() => {
+    const listener = (event: MouseEvent | TouchEvent) => {
+      if (!ref.current || ref.current.contains(event.target as Node)) {
+        return;
+      }
+      handler();
+    };
+    
+    document.addEventListener('mousedown', listener);
+    document.addEventListener('touchstart', listener);
+    
+    return () => {
+      document.removeEventListener('mousedown', listener);
+      document.removeEventListener('touchstart', listener);
+    };
+  }, [ref, handler]);
+};
+
+// Helper function to highlight matching text
+const highlightMatch = (text: string, query: string): React.ReactElement => {
+  if (!query.trim()) return <>{text}</>;
+  
+  const parts = text.split(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'));
+  
+  return (
+    <>
+      {parts.map((part, index) => 
+        part.toLowerCase() === query.toLowerCase() ? (
+          <mark key={index} className="bg-yellow-200 dark:bg-yellow-800 text-inherit font-semibold">
+            {part}
+          </mark>
+        ) : (
+          <span key={index}>{part}</span>
+        )
+      )}
+    </>
+  );
+};
+
+// Smart ranking for search results
+const sortSuggestions = (results: SolutionSuggestion[], query: string): SolutionSuggestion[] => {
+  const queryLower = query.toLowerCase();
+  
+  return results.sort((a, b) => {
+    const aTitle = a.title.toLowerCase();
+    const bTitle = b.title.toLowerCase();
+    
+    // Exact matches first
+    if (aTitle === queryLower) return -1;
+    if (bTitle === queryLower) return 1;
+    
+    // Starts with query second
+    const aStartsWith = aTitle.startsWith(queryLower);
+    const bStartsWith = bTitle.startsWith(queryLower);
+    if (aStartsWith && !bStartsWith) return -1;
+    if (!aStartsWith && bStartsWith) return 1;
+    
+    // Word boundary matches third
+    const aWordBoundary = aTitle.includes(' ' + queryLower) || aTitle.includes('-' + queryLower);
+    const bWordBoundary = bTitle.includes(' ' + queryLower) || bTitle.includes('-' + queryLower);
+    if (aWordBoundary && !bWordBoundary) return -1;
+    if (!aWordBoundary && bWordBoundary) return 1;
+    
+    // By match score if available
+    if (a.match_score && b.match_score) {
+      return b.match_score - a.match_score;
+    }
+    
+    // Alphabetical as fallback
+    return aTitle.localeCompare(bTitle);
+  });
+};
+
 interface FailedSolution {
   id?: string;
   name: string;
@@ -47,8 +122,39 @@ export function FailedSolutionsPicker({
   const [showMobileSheet, setShowMobileSheet] = useState(false);
   const [isDropdownInteracting, setIsDropdownInteracting] = useState(false);
   
+  // Search cache to avoid repeated API calls
+  const searchCache = useRef<Map<string, SolutionSuggestion[]>>(new Map());
+  const cacheTimeout = useRef<Map<string, NodeJS.Timeout>>(new Map());
+
+  // Helper to manage cache with expiry
+  const setCacheWithExpiry = useCallback((key: string, data: SolutionSuggestion[], expiryMs: number = 300000) => {
+    // Clear any existing timeout for this key
+    if (cacheTimeout.current.has(key)) {
+      clearTimeout(cacheTimeout.current.get(key)!);
+    }
+    
+    // Set the cache
+    searchCache.current.set(key, data);
+    
+    // Set expiry (5 minutes default)
+    const timeout = setTimeout(() => {
+      searchCache.current.delete(key);
+      cacheTimeout.current.delete(key);
+    }, expiryMs);
+    
+    cacheTimeout.current.set(key, timeout);
+  }, []);
+  
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Use click outside hook
+  useClickOutside(containerRef, () => {
+    if (showSuggestions && !isDropdownInteracting) {
+      setShowSuggestions(false);
+    }
+  });
 
   // Detect mobile
   useEffect(() => {
@@ -85,52 +191,72 @@ export function FailedSolutionsPicker({
   // Search for solutions
   useEffect(() => {
     console.log('Search term changed:', searchTerm, 'Length:', searchTerm.length);
+    
     if (searchTerm.length >= 3) {
+      // Check cache first
+      const cacheKey = searchTerm.toLowerCase().trim();
+      if (searchCache.current.has(cacheKey)) {
+        const cachedData = searchCache.current.get(cacheKey)!;
+        setSuggestions(cachedData);
+        setShowSuggestions(true);
+        setIsSearching(false);
+        return; // Use cached results, skip API call
+      }
+      
       console.log('Triggering search for:', searchTerm);
       if (searchTimer) clearTimeout(searchTimer);
       
+      // Show loading immediately for perceived performance
+      setIsSearching(true);
+      setShowSuggestions(true); // Show dropdown with loading state
+      
       const timer = setTimeout(async () => {
         console.log('Executing search after debounce');
-        setIsSearching(true);
+        
         try {
           console.log('Making search call with term:', searchTerm);
           
-          // Use the fuzzy search RPC function
+          // Use the working search RPC function (same as DosageForm)
           const { data, error } = await supabase
-            .rpc('search_solutions_fuzzy', {
-              search_term: searchTerm.toLowerCase().trim()
+            .rpc('search_all_solutions', {
+              search_term: searchTerm.trim()
             });
           
-          console.log('Fuzzy search result:', { data, error });
+          console.log('Search result:', { data, error });
           
           if (!error && data && data.length > 0) {
             console.log('✅ Search Success - Results:', data);
-            setSuggestions(data);
-            // Don't set showSuggestions here, let the effect handle it
+            const sortedData = sortSuggestions(data, searchTerm);
+            setSuggestions(sortedData);
+            
+            // Cache the results
+            setCacheWithExpiry(cacheKey, sortedData);
           } else {
             console.log('No results found for:', searchTerm);
             setSuggestions([]);
-            if (error) {
-              console.error('Query error:', error);
-            }
+            
+            // Cache empty results too (avoid repeated failed searches)
+            setCacheWithExpiry(cacheKey, [], 60000); // 1 minute for empty results
           }
         } catch (error) {
           console.error('Error searching solutions:', error);
+          setSuggestions([]);
         } finally {
-          setIsSearching(false);
+          setIsSearching(false); // No artificial delay
         }
-      }, 300);
+      }, 150); // Reduced from 300ms
       
       setSearchTimer(timer);
     } else {
       setSuggestions([]);
       setShowSuggestions(false);
+      setIsSearching(false);
     }
     
     return () => {
       if (searchTimer) clearTimeout(searchTimer);
     };
-  }, [searchTerm, isMobile, searchTimer]);
+  }, [searchTerm, isMobile, setCacheWithExpiry, searchTimer]);
 
   // Show suggestions when results arrive
   useEffect(() => {
@@ -212,6 +338,44 @@ export function FailedSolutionsPicker({
       return () => window.removeEventListener('keydown', handleNumberKeyPress as unknown as EventListener);
     }
   }, [ratingIndex, handleNumberKeyPress]);
+  
+  // Clean up cache on unmount
+  useEffect(() => {
+    return () => {
+      // Clear all cache timeouts on unmount
+      const timeouts = cacheTimeout.current;
+      const cache = searchCache.current;
+      timeouts.forEach(timeout => clearTimeout(timeout));
+      cache.clear();
+      timeouts.clear();
+    };
+  }, []);
+  
+  // Prefetch common solutions on focus for instant results
+  const handleInputFocus = useCallback(async () => {
+    // Only prefetch if cache is empty
+    if (searchCache.current.size === 0) {
+      // Prefetch some common terms in the background
+      const commonTerms = ['meditation', 'therapy', 'exercise', 'vitamin'];
+      
+      commonTerms.forEach(async (term) => {
+        if (!searchCache.current.has(term)) {
+          try {
+            const { data } = await supabase
+              .rpc('search_all_solutions', {
+                search_term: term
+              });
+            
+            if (data) {
+              setCacheWithExpiry(term, data);
+            }
+          } catch {
+            // Silent fail for prefetch
+          }
+        }
+      });
+    }
+  }, [setCacheWithExpiry]);
 
   // Mobile bottom sheet
   const MobileBottomSheet = () => (
@@ -256,7 +420,18 @@ export function FailedSolutionsPicker({
           </div>
           
           <div className="max-h-64 overflow-y-auto -mx-4 px-4">
-            {suggestions.length > 0 ? (
+            {isSearching ? (
+              // Loading state
+              <div className="p-4 text-center">
+                <div className="inline-flex items-center gap-2 text-gray-500">
+                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  <span className="text-sm">Searching...</span>
+                </div>
+              </div>
+            ) : suggestions.length > 0 ? (
               <>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                   Found {suggestions.length} solutions
@@ -268,14 +443,14 @@ export function FailedSolutionsPicker({
                     className="w-full text-left p-4 -mx-4 hover:bg-gray-50 dark:hover:bg-gray-700 
                              transition-colors border-b border-gray-100 dark:border-gray-700"
                   >
-                    <div className="font-medium">{suggestion.title}</div>
+                    <div className="font-medium">{highlightMatch(suggestion.title, searchTerm)}</div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
                       {suggestion.solution_category?.replace(/_/g, ' ')}
                     </div>
                   </button>
                 ))}
               </>
-            ) : searchTerm.length >= 3 && !isSearching ? (
+            ) : searchTerm.length >= 3 ? (
               <button
                 onClick={addCustomSolution}
                 className="w-full text-left p-4 -mx-4 hover:bg-gray-50 dark:hover:bg-gray-700 
@@ -301,7 +476,7 @@ export function FailedSolutionsPicker({
   );
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" ref={containerRef}>
       {/* Search input */}
       <div className="relative">
         <div className="flex gap-2">
@@ -313,6 +488,7 @@ export function FailedSolutionsPicker({
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={handleKeyDown}
               onFocus={() => {
+                handleInputFocus();
                 if (isMobile) {
                   setShowMobileSheet(true);
                 } else if (searchTerm.length >= 3 && suggestions.length > 0) {
@@ -343,44 +519,80 @@ export function FailedSolutionsPicker({
               <Search className="absolute right-3 top-2.5 w-5 h-5 text-gray-400" />
             )}
             
-            {/* Desktop dropdown */}
-            {!isMobile && showSuggestions && suggestions.length > 0 && (
+            {/* Desktop dropdown with improved UX */}
+            {!isMobile && showSuggestions && (
               <div 
                 ref={dropdownRef}
                 onMouseEnter={() => setIsDropdownInteracting(true)}
                 onMouseLeave={() => setIsDropdownInteracting(false)}
                 className="absolute left-0 right-0 top-full mt-1 z-50 bg-white dark:bg-gray-800 
-                         border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-auto"
-                style={{ display: 'block' }}
+                         border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-auto
+                         transition-all duration-200 ease-out"
               >
-                <div className="p-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800">
-                  <p className="text-xs text-blue-700 dark:text-blue-300 font-medium">
-                    {suggestions.length} solution{suggestions.length > 1 ? 's' : ''} found
-                  </p>
-                </div>
-                {suggestions.map((suggestion, index) => (
-                  <button
-                    key={suggestion.id}
-                    onMouseEnter={() => handleMouseEnter(index)}
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      selectSuggestion(suggestion);
-                    }}
-                    className={`w-full px-4 py-3 text-left transition-colors border-b 
-                             border-gray-100 dark:border-gray-700 last:border-b-0 ${
-                      selectedIndex === index
-                        ? 'bg-blue-50 dark:bg-blue-900/20'
-                        : 'hover:bg-gray-50 dark:hover:bg-gray-700'
-                    }`}
-                  >
-                    <div className="font-medium text-gray-900 dark:text-gray-100">
-                      {suggestion.title}
+                {isSearching ? (
+                  // Loading state
+                  <div className="p-4 text-center">
+                    <div className="inline-flex items-center gap-2 text-gray-500">
+                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      <span className="text-sm">Searching...</span>
                     </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                      {suggestion.solution_category?.replace(/_/g, ' ')}
+                  </div>
+                ) : suggestions.length > 0 ? (
+                  // Results
+                  <>
+                    <div className="p-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800">
+                      <p className="text-xs text-blue-700 dark:text-blue-300 font-medium">
+                        {suggestions.length} solution{suggestions.length > 1 ? 's' : ''} found
+                      </p>
                     </div>
-                  </button>
-                ))}
+                    {suggestions.map((suggestion, index) => (
+                      <button
+                        key={suggestion.id}
+                        onMouseEnter={() => handleMouseEnter(index)}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          selectSuggestion(suggestion);
+                        }}
+                        className={`w-full px-4 py-3 text-left transition-all duration-150 ease-out
+                                 border-b border-gray-100 dark:border-gray-700 last:border-b-0 ${
+                          selectedIndex === index
+                            ? 'bg-blue-50 dark:bg-blue-900/20 shadow-sm'
+                            : 'hover:bg-gray-50 dark:hover:bg-gray-700'
+                        } focus:outline-none focus:bg-blue-50 dark:focus:bg-blue-900/20`}
+                      >
+                        <div className="font-medium text-gray-900 dark:text-gray-100">
+                          {highlightMatch(suggestion.title, searchTerm)}
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                          {suggestion.solution_category?.replace(/_/g, ' ')}
+                        </div>
+                      </button>
+                    ))}
+                  </>
+                ) : searchTerm.length >= 3 ? (
+                  // No results - allow custom entry
+                  <div className="p-4">
+                    <button
+                      onClick={addCustomSolution}
+                      className="w-full py-3 px-4 bg-white dark:bg-gray-800 hover:bg-blue-50 
+                               dark:hover:bg-blue-900/20 transition-colors text-left group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full 
+                                      flex items-center justify-center group-hover:bg-blue-200 
+                                      dark:group-hover:bg-blue-900/50 transition-colors">
+                          <span className="text-blue-600 dark:text-blue-400 text-lg">+</span>
+                        </div>
+                        <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                          Add "{searchTerm}" as a solution
+                        </p>
+                      </div>
+                    </button>
+                  </div>
+                ) : null}
               </div>
             )}
           </div>

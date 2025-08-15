@@ -2,6 +2,7 @@
 
 import { createServerSupabaseClient } from '@/lib/database/server'
 import SearchableBrowse from '@/components/templates/SearchableBrowse'
+import { BrowsePageTracker } from '@/components/tracking/BrowsePageTracker'
 
 // Type definitions
 type Goal = {
@@ -151,5 +152,10 @@ export default async function BrowsePage() {
     })
   }
 
-  return <SearchableBrowse arenas={arenas} totalGoals={totalGoals} />
+  return (
+    <>
+      <BrowsePageTracker />
+      <SearchableBrowse arenas={arenas} totalGoals={totalGoals} />
+    </>
+  )
 }

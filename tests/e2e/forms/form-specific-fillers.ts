@@ -100,10 +100,9 @@ export async function fillDosageForm(page: Page, category: string) {
   
   // Skip failed solutions and submit directly
   const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
-  // AUTO_SUBMIT_DISABLED: Submission handled by test
-  // await submitBtn.click()
-  // console.log('Submitted form')
-  console.log('Form ready for submission')
+  // AUTO_SUBMIT_ENABLED: Form filler handles submission for consistency
+  await submitBtn.click()
+  console.log('Submitted form')
 }
 
 // AppForm filler - for apps_software
@@ -877,10 +876,9 @@ export async function fillSessionForm(page: Page, category: string) {
   
   // Skip failed solutions and submit directly
   const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
-  // AUTO_SUBMIT_DISABLED: Submission handled by test
-  // await submitBtn.click()
-  // console.log('Submitted form')
-  console.log('Form ready for submission')
+  // AUTO_SUBMIT_ENABLED: Form filler handles submission for consistency
+  await submitBtn.click()
+  console.log('Submitted form')
 }
 
 // PracticeForm filler - for exercise, meditation, habits
@@ -970,10 +968,9 @@ export async function fillPracticeForm(page: Page, category: string) {
   
   // Skip failed solutions and submit directly
   const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
-  // AUTO_SUBMIT_DISABLED: Submission handled by test
-  // await submitBtn.click()
-  // console.log('Submitted form')
-  console.log('Form ready for submission')
+  // AUTO_SUBMIT_ENABLED: Form filler handles submission for consistency
+  await submitBtn.click()
+  console.log('Submitted form')
 }
 
 // PurchaseForm filler - for products, books
@@ -1262,10 +1259,9 @@ export async function fillLifestyleForm(page: Page, category: string) {
   
   // Skip failed solutions and submit directly
   const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
-  // AUTO_SUBMIT_DISABLED: Submission handled by test
-  // await submitBtn.click()
-  // console.log('Submitted form')
-  console.log('Form ready for submission')
+  // AUTO_SUBMIT_ENABLED: Form filler handles submission for consistency
+  await submitBtn.click()
+  console.log('Submitted form')
 }
 
 // FinancialForm filler - for financial products
