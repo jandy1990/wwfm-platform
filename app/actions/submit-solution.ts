@@ -1,6 +1,7 @@
 'use server'
 
 import { createServerSupabaseClient } from '@/lib/database/server'
+import { solutionAggregator } from '@/lib/services/solution-aggregator'
 
 // Types for the submission data
 interface VariantData {
@@ -258,7 +259,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
       }
     }
     
-    // 5. Create individual rating
+    // 5. Create individual rating WITH solution_fields (new architecture)
     const { data: newRating, error: ratingError } = await supabase
       .from('ratings')
       .insert({
@@ -271,7 +272,8 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
         duration_used: formData.solutionFields.length_of_use || null,
         side_effects: formData.solutionFields.side_effects ? 
           formData.solutionFields.side_effects.join(', ') : null,
-        completion_percentage: 100
+        completion_percentage: 100,
+        solution_fields: formData.solutionFields // Store individual user's fields here
       })
       .select()
       .single()
@@ -298,8 +300,8 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
         .from('goal_implementation_links')
         .update({
           avg_effectiveness: newAvg,
-          rating_count: newCount,
-          solution_fields: formData.solutionFields // Update with latest fields
+          rating_count: newCount
+          // REMOVED: solution_fields - now stored per rating, not shared
         })
         .eq('id', currentLink.id)
       
@@ -315,22 +317,28 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           .update({ is_approved: true })
           .eq('id', solutionId)
       }
+      
+      // Compute and store aggregated fields
+      await solutionAggregator.updateAggregatesAfterRating(formData.goalId, variantId)
     } else {
-      // Create new link
+      // Create new link (without solution_fields - those are in ratings now)
       const { error: createLinkError } = await supabase
         .from('goal_implementation_links')
         .insert({
           goal_id: formData.goalId,
           implementation_id: variantId,
           avg_effectiveness: formData.effectiveness,
-          rating_count: 1,
-          solution_fields: formData.solutionFields
+          rating_count: 1
+          // REMOVED: solution_fields - now stored per rating
         })
       
       if (createLinkError) {
         console.error('Error creating link:', createLinkError)
         return { success: false, error: 'Failed to link solution to goal' }
       }
+      
+      // Compute initial aggregates (will be empty for first rating, but sets structure)
+      await solutionAggregator.updateAggregatesAfterRating(formData.goalId, variantId)
     }
     
     // 7. Process failed solutions
@@ -408,18 +416,18 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
         }
       }
       
-      // If we have text-only failed solutions, update the solution_fields
-      if (textOnlyFailed.length > 0) {
-        const updatedFields = {
-          ...formData.solutionFields,
-          failed_solutions_text: textOnlyFailed
-        }
-        
+      // Store text-only failed solutions with the rating
+      if (textOnlyFailed.length > 0 && newRating) {
+        // Update the rating we just created to include failed solutions text
         await supabase
-          .from('goal_implementation_links')
-          .update({ solution_fields: updatedFields })
-          .eq('goal_id', formData.goalId)
-          .eq('implementation_id', variantId)
+          .from('ratings')
+          .update({ 
+            solution_fields: {
+              ...formData.solutionFields,
+              failed_solutions_text: textOnlyFailed
+            }
+          })
+          .eq('id', newRating.id)
       }
     }
     
