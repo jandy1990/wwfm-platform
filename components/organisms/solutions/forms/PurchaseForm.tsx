@@ -7,6 +7,7 @@ import { ChevronLeft, Check } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
@@ -48,6 +49,8 @@ export function PurchaseForm({
   const [submissionResult, setSubmissionResult] = useState<{
     solutionId?: string;
     variantId?: string;
+    ratingId?: string;
+    implementationId?: string;
     otherRatingsCount?: number;
   }>({});
   const [restoredFromBackup, setRestoredFromBackup] = useState(false);
@@ -55,16 +58,16 @@ export function PurchaseForm({
   // Step 1 fields - Universal + Category-specific
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
   const [timeToResults, setTimeToResults] = useState('');
-  const [costType, setCostType] = useState<'one_time' | 'subscription'>('one_time');
+  const [costType, setCostType] = useState<'one_time' | 'subscription' | ''>('');
   const [costRange, setCostRange] = useState('');
   const [productType, setProductType] = useState('');
   const [easeOfUse, setEaseOfUse] = useState('');
   const [format, setFormat] = useState('');
   const [learningDifficulty, setLearningDifficulty] = useState('');
   
-  // Step 2 fields - Issues array
-  const [selectedIssues, setSelectedIssues] = useState<string[]>(['None']);
-  const [issueOptions, setIssueOptions] = useState<string[]>([]);
+  // Step 2 fields - Challenges array
+  const [selectedChallenges, setSelectedChallenges] = useState<string[]>(['None']);
+  const [challengeOptions, setChallengeOptions] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   
   // Step 3 - Failed solutions
@@ -72,10 +75,8 @@ export function PurchaseForm({
   
   // Optional fields (Success screen)
   const [brand, setBrand] = useState('');
-  const [wherePurchased, setWherePurchased] = useState('');
-  const [warrantyInfo, setWarrantyInfo] = useState('');
   const [completionStatus, setCompletionStatus] = useState('');
-  const [additionalTips, setAdditionalTips] = useState('');
+  const [notes, setNotes] = useState('');
   
   const supabaseClient = createClientComponentClient();
   
@@ -93,13 +94,11 @@ export function PurchaseForm({
     easeOfUse,
     format,
     learningDifficulty,
-    selectedIssues,
+    selectedChallenges,
     failedSolutions,
     brand,
-    wherePurchased,
-    warrantyInfo,
     completionStatus,
-    additionalTips,
+    notes,
     currentStep,
     highestStepReached
   };
@@ -112,19 +111,17 @@ export function PurchaseForm({
       onRestore: (data) => {
         setEffectiveness(data.effectiveness || null);
         setTimeToResults(data.timeToResults || '');
-        setCostType(data.costType || 'one_time');
+        setCostType(data.costType || '');
         setCostRange(data.costRange || '');
         setProductType(data.productType || '');
         setEaseOfUse(data.easeOfUse || '');
         setFormat(data.format || '');
         setLearningDifficulty(data.learningDifficulty || '');
-        setSelectedIssues(data.selectedIssues || ['None']);
+        setSelectedChallenges(data.selectedChallenges || ['None']);
         setFailedSolutions(data.failedSolutions || []);
         setBrand(data.brand || '');
-        setWherePurchased(data.wherePurchased || '');
-        setWarrantyInfo(data.warrantyInfo || '');
         setCompletionStatus(data.completionStatus || '');
-        setAdditionalTips(data.additionalTips || '');
+        setNotes(data.notes || '');
         setCurrentStep(data.currentStep || 1);
         setHighestStepReached(data.highestStepReached || 1);
         setRestoredFromBackup(true);
@@ -202,10 +199,10 @@ export function PurchaseForm({
         .order('display_order');
       
       if (!error && data && data.length > 0) {
-        setIssueOptions(data.map(item => item.label));
+        setChallengeOptions(data.map(item => item.label));
       } else if (fallbackIssues[category]) {
         // Use fallback if no data in DB
-        setIssueOptions(fallbackIssues[category]);
+        setChallengeOptions(fallbackIssues[category]);
       }
       setLoading(false);
     };
@@ -213,17 +210,17 @@ export function PurchaseForm({
     fetchOptions();
   }, [category, supabaseClient]);
   
-  const handleIssueToggle = (issue: string) => {
-    if (issue === 'None') {
-      setSelectedIssues(['None']);
+  const handleChallengeToggle = (challenge: string) => {
+    if (challenge === 'None') {
+      setSelectedChallenges(['None']);
     } else {
-      setSelectedIssues(prev => {
-        const filtered = prev.filter(i => i !== 'None');
-        if (prev.includes(issue)) {
-          const newIssues = filtered.filter(i => i !== issue);
-          return newIssues.length === 0 ? ['None'] : newIssues;
+      setSelectedChallenges(prev => {
+        const filtered = prev.filter(c => c !== 'None');
+        if (prev.includes(challenge)) {
+          const newChallenges = filtered.filter(c => c !== challenge);
+          return newChallenges.length === 0 ? ['None'] : newChallenges;
         }
-        return [...filtered, issue];
+        return [...filtered, challenge];
       });
     }
   };
@@ -235,7 +232,7 @@ export function PurchaseForm({
         const universalValid = effectiveness !== null && timeToResults !== '';
         
         // Cost always required
-        const costValid = costRange !== '';
+        const costValid = costRange !== '' && costType !== '';
         
         // Category-specific required fields
         let categorySpecificValid = true;
@@ -249,8 +246,8 @@ export function PurchaseForm({
         return universalValid && costValid && categorySpecificValid;
         
       case 2:
-        // Must select at least one issue
-        return selectedIssues.length > 0;
+        // Must select at least one challenge
+        return selectedChallenges.length > 0;
         
       case 3:
         // Failed solutions are optional
@@ -265,59 +262,118 @@ export function PurchaseForm({
     setIsSubmitting(true);
     
     try {
-      // TODO: Submit implementation
-      console.log('Submitting purchase form with:', {
-        effectiveness,
+      // Determine primary cost and cost_type
+      const hasUnknownCost = costRange === "Don't remember";
+      const primaryCost = hasUnknownCost ? "Unknown" : 
+                          costRange === "Free" ? "Free" :
+                          costRange;
+      const derivedCostType = hasUnknownCost ? "unknown" :
+                              costRange === "Free" ? "free" :
+                              costType === "one_time" ? "one_time" :
+                              "recurring"; // subscription
+      
+      // Prepare solution fields for storage
+      const solutionFields: Record<string, any> = {
+        // Cost fields
+        cost: primaryCost,
+        cost_type: derivedCostType,
+        purchase_cost_type: costType, // Preserve original choice (one_time or subscription)
+        cost_range: costRange,
+        
+        // Category-specific fields
+        ...(category === 'products_devices' && {
+          product_type: productType,
+          ease_of_use: easeOfUse
+        }),
+        ...(category === 'books_courses' && {
+          format,
+          learning_difficulty: learningDifficulty
+        }),
+        
+        // Array field (challenges for both categories)
+        challenges: selectedChallenges.filter(c => c !== 'None'),
+        
+        // REMOVED from initial submission - optional fields handled in success screen only
+      };
+      
+      // Prepare submission data with correct structure
+      const submissionData: SubmitSolutionData = {
+        goalId,
+        userId,
+        solutionName,
+        category,
+        existingSolutionId,
+        effectiveness: effectiveness!,
         timeToResults,
-        costRange,
-        costType,
-        productType,
-        easeOfUse,
-        format,
-        learningDifficulty,
-        issues: selectedIssues,
+        solutionFields,
         failedSolutions
-      });
+      };
       
-      // Submit failed solution ratings
-      for (const failed of failedSolutions) {
-        if (failed.id) {
-          await supabase.rpc('create_failed_solution_rating', {
-            p_solution_id: failed.id,
-            p_goal_id: goalId,
-            p_user_id: userId,
-            p_rating: failed.rating,
-            p_solution_name: failed.name
-          });
-        }
+      // Call server action
+      const result = await submitSolution(submissionData);
+      
+      if (result.success) {
+        // Store the result for success screen
+        setSubmissionResult({
+          solutionId: result.solutionId,
+          variantId: result.variantId,
+          ratingId: result.ratingId,
+          implementationId: result.variantId,
+          otherRatingsCount: result.otherRatingsCount
+        });
+        
+        // Clear backup on successful submission
+        clearBackup();
+        
+        // Show success screen
+        setShowSuccessScreen(true);
+      } else {
+        // Handle error
+        console.error('Error submitting solution:', result.error);
+        alert(result.error || 'Failed to submit solution. Please try again.');
       }
-      
-      // Clear backup on successful submission
-
-      
-      clearBackup();
-
-      
-      
-
-      
-      setShowSuccessScreen(true);
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
   
-  const updateAdditionalInfo = async () => {
-    // TODO: Update additional info
-    console.log('Updating additional info:', { 
-      brand, 
-      wherePurchased, 
-      warrantyInfo,
-      completionStatus,
-      additionalTips 
-    });
+    const updateAdditionalInfo = async () => {
+    // Prepare the additional fields to save
+    const additionalFields: Record<string, any> = {};
+    
+    if (brand && brand.trim()) additionalFields.brand = brand.trim();
+    if (completionStatus && completionStatus.trim()) additionalFields.completion_status = completionStatus.trim();
+    if (notes && notes.trim()) additionalFields.notes = notes.trim();
+    
+    // Only proceed if there are fields to update
+    if (Object.keys(additionalFields).length === 0) {
+      console.log('No additional fields to update');
+      return;
+    }
+    
+    try {
+      const result = await updateSolutionFields({
+        ratingId: submissionResult.ratingId,
+        goalId,
+        implementationId: submissionResult.implementationId!,
+        userId,
+        additionalFields
+      });
+      
+      if (result.success) {
+        console.log('Successfully updated additional information');
+        alert('Additional information saved successfully!');
+      } else {
+        console.error('Failed to update:', result.error);
+        alert('Failed to save additional information. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating additional info:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
   
   const renderStep = () => {
@@ -600,7 +656,7 @@ export function PurchaseForm({
           <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center">
             <span className="text-lg">⚡</span>
           </div>
-          <h2 className="text-xl font-semibold">Any issues?</h2>
+          <h2 className="text-xl font-semibold">Any challenges?</h2>
         </div>
 
         {/* Quick tip */}
@@ -612,44 +668,44 @@ export function PurchaseForm({
 
         {/* Issues grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {issueOptions.map((issue) => (
+          {challengeOptions.map((challenge) => (
             <label
-              key={issue}
+              key={challenge}
               className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
                         transition-all transform hover:scale-[1.02] ${
-                selectedIssues.includes(issue)
+                selectedChallenges.includes(challenge)
                   ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
                   : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
               }`}
             >
               <input
                 type="checkbox"
-                checked={selectedIssues.includes(issue)}
-                onChange={() => handleIssueToggle(issue)}
+                checked={selectedChallenges.includes(challenge)}
+                onChange={() => handleChallengeToggle(challenge)}
                 className="sr-only"
               />
               <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 
                             transition-all ${
-                selectedIssues.includes(issue)
+                selectedChallenges.includes(challenge)
                   ? 'border-blue-500 bg-blue-500'
                   : 'border-gray-300 dark:border-gray-600 group-hover:border-gray-400'
               }`}>
-                {selectedIssues.includes(issue) && (
+                {selectedChallenges.includes(challenge) && (
                   <Check className="w-3 h-3 text-white animate-scale-in" />
                 )}
               </div>
-              <span className="text-sm">{issue}</span>
+              <span className="text-sm">{challenge}</span>
             </label>
           ))}
         </div>
 
         {/* Selected count indicator */}
-        {selectedIssues.length > 0 && selectedIssues[0] !== 'None' && (
+        {selectedChallenges.length > 0 && selectedChallenges[0] !== 'None' && (
           <div className="text-center">
             <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
                            text-blue-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
               <Check className="w-4 h-4" />
-              {selectedIssues.length} selected
+              {selectedChallenges.length} selected
             </span>
           </div>
         )}
@@ -743,25 +799,6 @@ export function PurchaseForm({
                          dark:bg-gray-700 dark:text-white text-sm"
               />
               
-              <input
-                type="text"
-                placeholder="Where did you purchase it?"
-                value={wherePurchased}
-                onChange={(e) => setWherePurchased(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
-              />
-              
-              <input
-                type="text"
-                placeholder="Warranty/return policy info"
-                value={warrantyInfo}
-                onChange={(e) => setWarrantyInfo(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
-              />
               
               {category === 'books_courses' && (
                 <select
@@ -781,16 +818,16 @@ export function PurchaseForm({
               )}
               
               <textarea
-                placeholder="Any additional tips that might help others?"
-                value={additionalTips}
-                onChange={(e) => setAdditionalTips(e.target.value)}
+                placeholder="What do others need to know?"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
                 rows={2}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
                          dark:bg-gray-700 dark:text-white text-sm"
               />
               
-              {(brand || wherePurchased || warrantyInfo || completionStatus || additionalTips) && (
+              {(brand || completionStatus || notes) && (
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 

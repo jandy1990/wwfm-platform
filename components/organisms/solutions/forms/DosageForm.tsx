@@ -8,6 +8,7 @@ import { ChevronLeft, Check, X, Plus, Star } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { FormSectionHeader } from './shared';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface DosageFormProps {
@@ -84,6 +85,8 @@ export function DosageForm({
   const [submissionResult, setSubmissionResult] = useState<{
     solutionId?: string;
     variantId?: string;
+    ratingId?: string;
+    implementationId?: string;
     otherRatingsCount?: number;
   }>({});
   const [restoredFromBackup, setRestoredFromBackup] = useState(false);
@@ -100,8 +103,8 @@ export function DosageForm({
   const [lengthOfUse, setLengthOfUse] = useState('');
   
   // Cost field (moved to success screen)
-  const [costType, setCostType] = useState<'monthly' | 'one_time'>('monthly');
-  const [costRange, setCostRange] = useState('dont_remember');
+  const [costType, setCostType] = useState<'monthly' | 'one_time' | ''>('');
+  const [costRange, setCostRange] = useState('');
   
   // Step 2 fields - Side Effects
   const [sideEffects, setSideEffects] = useState<string[]>(['None']);
@@ -114,7 +117,7 @@ export function DosageForm({
   // Optional fields (Success screen)
   const [brand, setBrand] = useState('');
   const [form, setForm] = useState('');
-  const [otherInfo, setOtherInfo] = useState('');
+  const [notes, setNotes] = useState('');
 
   // Form backup - save all critical fields
   const formBackupData = {
@@ -135,7 +138,7 @@ export function DosageForm({
     failedSolutions,
     brand,
     form,
-    otherInfo
+    notes
   };
 
   // Use the backup hook
@@ -164,7 +167,7 @@ export function DosageForm({
         if (data.failedSolutions !== undefined) setFailedSolutions(data.failedSolutions);
         if (data.brand !== undefined) setBrand(data.brand);
         if (data.form !== undefined) setForm(data.form);
-        if (data.otherInfo !== undefined) setOtherInfo(data.otherInfo);
+        if (data.notes !== undefined) setNotes(data.notes);
         
         // Show notification that data was restored
         setRestoredFromBackup(true);
@@ -315,6 +318,7 @@ export function DosageForm({
         const dosageValid = category === 'beauty_skincare' 
           ? skincareFrequency !== ''
           : doseAmount !== '' && 
+            parseFloat(doseAmount) > 0 &&  // Ensure positive number
             (doseUnit !== '' || (showCustomUnit && customUnit !== '')) && 
             frequency !== '';
         const effectivenessValid = effectiveness !== null && timeToResults !== '' && lengthOfUse !== '';
@@ -335,20 +339,32 @@ export function DosageForm({
     setIsSubmitting(true);
     
     try {
+      // Determine cost type - dosage items are typically recurring purchases
+      const costType = costRange === 'dont_remember' || !costRange ? undefined : 'recurring';
+      
       // Prepare solution fields for storage
-      const solutionFields = {
-        frequency: category === 'beauty_skincare' ? skincareFrequency : frequency,
-        skincareFrequency: category === 'beauty_skincare' ? skincareFrequency : undefined,
-        length_of_use: lengthOfUse,
-        time_to_results: timeToResults,
-        side_effects: sideEffects,
-        dose_amount: category === 'beauty_skincare' ? undefined : doseAmount,
-        dose_unit: category === 'beauty_skincare' ? undefined : (showCustomUnit ? customUnit : doseUnit),
-        cost: costRange === 'dont_remember' ? undefined : costRange,
-        brand: brand || undefined,
-        form_factor: form || undefined,
-        other_info: otherInfo || undefined
-      };
+      // Only include fields that user has actually filled (no phantom fields)
+      const solutionFields: Record<string, any> = {}
+      
+      // Add fields only if they have values
+      if (category !== 'beauty_skincare' && frequency) {
+        solutionFields.frequency = frequency
+      }
+      if (category === 'beauty_skincare' && skincareFrequency) {
+        solutionFields.skincare_frequency = skincareFrequency
+      }
+      if (lengthOfUse) solutionFields.length_of_use = lengthOfUse
+      if (timeToResults) solutionFields.time_to_results = timeToResults
+      if (sideEffects && sideEffects.length > 0) solutionFields.side_effects = sideEffects
+      if (category !== 'beauty_skincare' && doseAmount) {
+        solutionFields.dosage_amount = doseAmount
+        solutionFields.dosage_unit = showCustomUnit ? customUnit : doseUnit
+      }
+      if (costRange && costRange !== 'dont_remember') {
+        solutionFields.cost = costRange
+        solutionFields.cost_type = costType
+      }
+      // REMOVED phantom fields: brand, form_factor, notes (shown on success screen)
 
       // Prepare variant data for dosage categories (not beauty_skincare)
       let variantData = undefined;
@@ -356,7 +372,7 @@ export function DosageForm({
         variantData = {
           amount: parseFloat(doseAmount),
           unit: showCustomUnit ? customUnit : doseUnit,
-          form: form || undefined
+          form_factor: form || undefined
         };
       }
 
@@ -382,6 +398,8 @@ export function DosageForm({
         setSubmissionResult({
           solutionId: result.solutionId,
           variantId: result.variantId,
+          ratingId: result.ratingId,
+          implementationId: result.variantId, // For dosage forms, variantId is the implementationId
           otherRatingsCount: result.otherRatingsCount
         });
         
@@ -403,10 +421,6 @@ export function DosageForm({
     }
   };
 
-  const updateAdditionalInfo = async () => {
-    // TODO: Update the solution with brand, form, and other info
-    console.log('Updating additional info:', { brand, form, otherInfo });
-  };
 
   const renderStep = () => {
     switch (currentStep) {
@@ -866,6 +880,7 @@ export function DosageForm({
                   onChange={(e) => setCustomSideEffect(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && addCustomSideEffect()}
                   placeholder="Describe the side effect"
+                  maxLength={500}
                   className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
                            dark:bg-gray-800 dark:text-white"
@@ -970,6 +985,43 @@ export function DosageForm({
     }
   };
 
+  const updateAdditionalInfo = async () => {
+    // Prepare the additional fields to save
+    const additionalFields: Record<string, any> = {};
+    
+    if (brand && brand.trim()) additionalFields.brand = brand.trim();
+    if (form && form.trim()) additionalFields.form = form.trim();
+    if (notes && notes.trim()) additionalFields.notes = notes.trim();
+    if (costRange && costRange !== 'dont_remember') additionalFields.cost = costRange;
+    
+    // Only proceed if there are fields to update
+    if (Object.keys(additionalFields).length === 0) {
+      console.log('No additional fields to update');
+      return;
+    }
+    
+    try {
+      const result = await updateSolutionFields({
+        ratingId: submissionResult.ratingId,
+        goalId,
+        implementationId: submissionResult.implementationId!,
+        userId,
+        additionalFields
+      });
+      
+      if (result.success) {
+        console.log('Successfully updated additional information');
+        alert('Additional information saved successfully!');
+      } else {
+        console.error('Failed to update:', result.error);
+        alert('Failed to save additional information. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating additional info:', error);
+      alert('An error occurred. Please try again.');
+    }
+  };
+
   // Success Screen Component
   if (showSuccessScreen) {
     return (
@@ -1035,8 +1087,9 @@ export function DosageForm({
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                            appearance-none text-sm"
                 >
-                  <option value="dont_remember">I don't remember</option>
+                  <option value="">Select cost range...</option>
                   <option value="Free">Free</option>
+                  <option value="dont_remember">I don't remember</option>
                   {costType === 'monthly' ? (
                     <>
                       <option value="Under $10/month">Under $10/month</option>
@@ -1104,16 +1157,16 @@ export function DosageForm({
               )}
               
               <textarea
-                placeholder="Any tips, warnings, or anything else that might help others?"
-                value={otherInfo}
-                onChange={(e) => setOtherInfo(e.target.value)}
+                placeholder="What do others need to know?"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
                 rows={2}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
                          dark:bg-gray-700 dark:text-white text-sm"
               />
               
-              {(brand || form || otherInfo || costRange !== 'dont_remember') && (
+              {(brand || form || notes || costRange !== 'dont_remember') && (
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 

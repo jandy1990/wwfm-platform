@@ -10,6 +10,7 @@ export interface DistributionData {
   mode: string; // Most common value for simple view
   values: DistributionValue[];
   totalReports: number;
+  dataSource?: 'user' | 'ai' | 'mixed'; // Optional source indicator
 }
 
 interface NewDistributionFieldProps {
@@ -39,7 +40,7 @@ export const NewDistributionField: React.FC<NewDistributionFieldProps> = ({
     );
   }
 
-  // Simple view: Show top 3 with percentages
+  // Simple view: Show top 3 with counts and percentages
   if (viewMode === 'simple') {
     const topValues = distribution.values.slice(0, 3);
     const remainingCount = distribution.values.length - 3;
@@ -54,7 +55,7 @@ export const NewDistributionField: React.FC<NewDistributionFieldProps> = ({
           <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
             {distribution.values[0].value}
             <span className="text-gray-500 dark:text-gray-400 ml-1">
-              (100% of users)
+              ({distribution.values[0].count} of {distribution.totalReports} users)
             </span>
           </div>
         </div>
@@ -74,7 +75,7 @@ export const NewDistributionField: React.FC<NewDistributionFieldProps> = ({
             <div key={index} className="text-sm font-medium text-gray-900 dark:text-gray-100">
               {item.value}
               <span className="text-gray-500 dark:text-gray-400 ml-1">
-                ({item.percentage}%)
+                ({item.count} of {distribution.totalReports} users · {item.percentage}%)
               </span>
             </div>
           ))}
@@ -132,7 +133,7 @@ export const NewDistributionField: React.FC<NewDistributionFieldProps> = ({
                 {value.value}
               </span>
               <span className="text-gray-500 dark:text-gray-400 text-xs whitespace-nowrap">
-                {value.percentage}%
+                {value.count} users · {value.percentage}%
               </span>
             </div>
             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">

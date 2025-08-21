@@ -6,6 +6,7 @@ export type SourceType = 'community_contributed' | 'ai_generated' | 'ai_enhanced
 // Updated type for the new schema
 export interface GoalSolutionWithVariants extends SolutionV2 {
   solution_fields?: Record<string, unknown> | null
+  aggregated_fields?: Record<string, unknown> | null // Added for aligned display data
   variants: {
     id: string
     variant_name: string
@@ -40,6 +41,7 @@ export async function getGoalSolutions(goalId: string): Promise<GoalSolutionWith
       avg_effectiveness,
       rating_count,
       solution_fields,
+      aggregated_fields,
       solution_variants!implementation_id (
         id,
         variant_name,
@@ -78,7 +80,8 @@ export async function getGoalSolutions(goalId: string): Promise<GoalSolutionWith
     if (!solutionsMap.has(solution.id)) {
       solutionsMap.set(solution.id, {
         ...solution,
-        solution_fields: link.solution_fields, // This is where the fields come from!
+        solution_fields: link.solution_fields, // Legacy AI data
+        aggregated_fields: link.aggregated_fields, // New aligned format for display
         variants: []
       });
     }

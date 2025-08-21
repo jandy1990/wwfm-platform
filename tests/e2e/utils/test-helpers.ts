@@ -207,6 +207,106 @@ export async function waitForSuccessPage(page: Page) {
   throw new Error(`Form submission did not show success. URL: ${currentUrl}, Page contains: ${pageText?.substring(0, 200)}...`)
 }
 
+// Helper to fill and submit success screen fields
+export async function fillSuccessScreenFields(page: Page, fields: Record<string, any>) {
+  console.log('\n📝 Filling success screen fields...')
+  
+  for (const [fieldName, fieldValue] of Object.entries(fields)) {
+    // Try different selector strategies
+    const selectors = [
+      `[name="${fieldName}"]`,
+      `#${fieldName}`,
+      `[data-testid="${fieldName}"]`,
+      `label:has-text("${fieldName.replace(/_/g, ' ')}")`
+    ]
+    
+    let filled = false
+    for (const selector of selectors) {
+      try {
+        const element = page.locator(selector)
+        if (await element.isVisible({ timeout: 1000 })) {
+          if (typeof fieldValue === 'boolean') {
+            // Handle checkboxes
+            if (fieldValue) {
+              await element.check()
+            }
+          } else if (Array.isArray(fieldValue)) {
+            // Handle multiple selections
+            for (const value of fieldValue) {
+              await page.check(`label:has-text("${value}")`)
+            }
+          } else {
+            // Handle text inputs and selects
+            await element.fill(String(fieldValue))
+          }
+          console.log(`   ✅ Filled ${fieldName} with "${fieldValue}"`)
+          filled = true
+          break
+        }
+      } catch (e) {
+        // Try next selector
+      }
+    }
+    
+    if (!filled) {
+      console.log(`   ⚠️ Could not fill ${fieldName} - field not found`)
+    }
+  }
+  
+  // Submit the success screen form
+  const updateButton = page.locator('button:has-text("Update")')
+  if (await updateButton.isVisible()) {
+    console.log('   📤 Clicking Update button...')
+    await updateButton.click()
+    await page.waitForTimeout(2000) // Wait for save
+    console.log('   ✅ Success screen fields submitted')
+  } else {
+    console.log('   ⚠️ Update button not found')
+  }
+}
+
+// Helper to verify fields in UI display
+export async function verifyFieldsInUI(page: Page, expectedFields: Record<string, any>) {
+  console.log('\n🖥️ Verifying fields in UI display...')
+  
+  const results: Record<string, boolean> = {}
+  
+  for (const [fieldName, expectedValue] of Object.entries(expectedFields)) {
+    // Convert field names to display labels
+    const displayLabel = fieldName
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, l => l.toUpperCase())
+    
+    // Check if the field and value appear in the UI
+    const fieldVisible = await page.locator(`text="${displayLabel}"`).isVisible().catch(() => false)
+    const valueVisible = await page.locator(`text="${expectedValue}"`).isVisible().catch(() => false)
+    
+    if (fieldVisible && valueVisible) {
+      console.log(`   ✅ ${displayLabel}: "${expectedValue}" displayed`)
+      results[fieldName] = true
+    } else if (fieldVisible && !valueVisible) {
+      console.log(`   ⚠️ ${displayLabel} shown but value "${expectedValue}" not found`)
+      results[fieldName] = false
+    } else {
+      console.log(`   ❌ ${displayLabel} not displayed`)
+      results[fieldName] = false
+    }
+  }
+  
+  const allFieldsVisible = Object.values(results).every(v => v)
+  
+  if (allFieldsVisible) {
+    console.log('\n✅ All expected fields are displayed correctly')
+  } else {
+    const missingFields = Object.entries(results)
+      .filter(([_, visible]) => !visible)
+      .map(([field, _]) => field)
+    console.log(`\n❌ Missing fields in UI: ${missingFields.join(', ')}`)
+  }
+  
+  return results
+}
+
 // Authentication helper
 export async function authenticateUser(page: Page, email: string, password: string) {
   await page.goto('/login')
@@ -288,8 +388,12 @@ export async function getTestGoalImplementation(variantId: string) {
   return data
 }
 
-// Helper to verify complete data pipeline (updated for server action)
-export async function verifyDataPipeline(solutionTitle: string, expectedCategory: string) {
+// Helper to verify complete data pipeline with field-level verification
+export async function verifyDataPipeline(
+  solutionTitle: string, 
+  expectedCategory: string,
+  expectedFields?: Record<string, any>
+) {
   console.log(`📊 Verifying data pipeline for "${solutionTitle}" in category "${expectedCategory}"`)
   
   // Find the solution
@@ -353,6 +457,62 @@ export async function verifyDataPipeline(solutionTitle: string, expectedCategory
     // This is not a failure for anonymous users or if rating already exists
   } else {
     console.log('✅ Found user rating')
+    
+    // Field-level verification for ratings
+    if (expectedFields && userRating.solution_fields) {
+      console.log('\n📋 Verifying individual rating fields...')
+      const ratingFields = userRating.solution_fields
+      let fieldMismatches = []
+      
+      for (const [fieldName, expectedValue] of Object.entries(expectedFields)) {
+        const actualValue = ratingFields[fieldName]
+        if (actualValue !== expectedValue) {
+          fieldMismatches.push({
+            field: fieldName,
+            expected: expectedValue,
+            actual: actualValue
+          })
+          console.log(`   ❌ ${fieldName}: expected "${expectedValue}", got "${actualValue}"`)
+        } else {
+          console.log(`   ✅ ${fieldName}: "${actualValue}" (correct)`)
+        }
+      }
+      
+      if (fieldMismatches.length > 0) {
+        console.log(`\n❌ Field verification failed: ${fieldMismatches.length} mismatches`)
+        return {
+          success: false,
+          error: `Field mismatches: ${fieldMismatches.map(m => m.field).join(', ')}`,
+          fieldMismatches
+        }
+      }
+    }
+  }
+  
+  // Verify aggregated fields if we have expectations
+  if (expectedFields && goalLink.aggregated_fields) {
+    console.log('\n📊 Verifying aggregated fields...')
+    const aggregatedFields = goalLink.aggregated_fields
+    
+    for (const [fieldName, expectedValue] of Object.entries(expectedFields)) {
+      const aggregatedField = aggregatedFields[fieldName]
+      if (aggregatedField) {
+        // For aggregated fields, check if the expected value is included in the distribution
+        if (aggregatedField.mode) {
+          console.log(`   📈 ${fieldName}: mode="${aggregatedField.mode}", reports=${aggregatedField.totalReports}`)
+          
+          // Check if our expected value is in the distribution
+          if (aggregatedField.values && Array.isArray(aggregatedField.values)) {
+            const hasValue = aggregatedField.values.some((v: any) => v.value === expectedValue)
+            if (!hasValue && aggregatedField.mode !== expectedValue) {
+              console.log(`      ⚠️ Expected value "${expectedValue}" not in distribution`)
+            }
+          }
+        }
+      } else {
+        console.log(`   ⚠️ ${fieldName}: not aggregated yet`)
+      }
+    }
   }
   
   return {
@@ -362,6 +522,8 @@ export async function verifyDataPipeline(solutionTitle: string, expectedCategory
     goalLink,
     userRating,
     // IMPORTANT: solution_fields now stored on goal_implementation_links, not solutions
-    solutionFields: goalLink.solution_fields || {}
+    solutionFields: goalLink.solution_fields || {},
+    ratingFields: userRating?.solution_fields || {},
+    aggregatedFields: goalLink.aggregated_fields || {}
   }
 }

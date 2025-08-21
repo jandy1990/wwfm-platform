@@ -1,8 +1,21 @@
 // tests/e2e/forms/dosage-form-complete.spec.ts
 import { test, expect } from '@playwright/test';
 import { fillDosageForm } from './form-specific-fillers';
+import { 
+  verifyDataPipeline, 
+  fillSuccessScreenFields,
+  verifyFieldsInUI
+} from '../utils/test-helpers';
+import { clearTestRatingsForSolution } from '../utils/test-cleanup';
+import { TEST_SOLUTIONS } from '../fixtures/test-solutions';
 
 test.describe('DosageForm End-to-End Tests', () => {
+  
+  test.beforeEach(async () => {
+    // Clear any existing test data before each test
+    console.log('Clearing previous test data...')
+    await clearTestRatingsForSolution(TEST_SOLUTIONS.supplements_vitamins)
+  })
 
   test('should complete DosageForm for supplements_vitamins (Vitamin D Test)', async ({ page }) => {
     console.log('=== Starting DosageForm test for Vitamin D (Test) ===');
@@ -123,6 +136,78 @@ test.describe('DosageForm End-to-End Tests', () => {
                         pageContent?.includes('added')
     
     expect(wasProcessed).toBeTruthy()
+    
+    // Field-level verification for DosageForm
+    console.log('\n=== Verifying DosageForm Data Pipeline ===')
+    
+    // Expected fields based on what fillDosageForm sets
+    const expectedFields = {
+      effectiveness: 4,
+      time_to_results: '1-2 weeks',
+      cost: '$10-30',
+      dosage_amount: '5000',  // Changed from dose_amount
+      dosage_unit: 'IU',      // Changed from dose_unit
+      usage_frequency: 'Daily',
+      time_of_day: ['Morning'],
+      with_food: true
+    }
+    
+    // Verify data was saved correctly
+    const result = await verifyDataPipeline(
+      TEST_SOLUTIONS.supplements_vitamins,
+      'supplements_vitamins',
+      expectedFields
+    )
+    
+    expect(result.success).toBeTruthy()
+    
+    // Test success screen fields update
+    if (await page.locator('text="What else helped?"').isVisible()) {
+      console.log('\n=== Testing Success Screen Fields ===')
+      
+      const successFields = {
+        side_effects: 'None',
+        would_recommend: true,
+        additional_notes: 'Test note for vitamin D'
+      }
+      
+      await fillSuccessScreenFields(page, successFields)
+      
+      // Verify the update saved
+      await page.waitForTimeout(2000)
+      const updatedResult = await verifyDataPipeline(
+        TEST_SOLUTIONS.supplements_vitamins,
+        'supplements_vitamins',
+        { ...expectedFields, ...successFields }
+      )
+      
+      expect(updatedResult.success).toBeTruthy()
+    }
+    
+    // Navigate to solution display page to verify UI
+    console.log('\n=== Verifying UI Display ===')
+    await page.goto(`/goal/56e2801e-0d78-4abd-a795-869e5b780ae7`)
+    await page.waitForTimeout(2000)
+    
+    // Look for our solution in the UI
+    const solutionCard = page.locator(`text="${TEST_SOLUTIONS.supplements_vitamins}"`)
+    if (await solutionCard.isVisible()) {
+      await solutionCard.click()
+      await page.waitForTimeout(1000)
+      
+      // Verify key fields are displayed
+      const uiFields = {
+        'Dosage Amount': '5000',
+        'Dosage Unit': 'IU',
+        'Usage Frequency': 'Daily',
+        'Time Of Day': 'Morning'
+      }
+      
+      const uiResults = await verifyFieldsInUI(page, uiFields)
+      const allVisible = Object.values(uiResults).every(v => v)
+      expect(allVisible).toBeTruthy()
+    }
+    
     console.log('=== DosageForm supplements_vitamins test completed successfully ===');
   });
 });

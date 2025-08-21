@@ -7,6 +7,7 @@ import { ChevronLeft, Check } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface FinancialFormProps {
@@ -44,6 +45,8 @@ export function FinancialForm({
   const [submissionResult, setSubmissionResult] = useState<{
     solutionId?: string;
     variantId?: string;
+    ratingId?: string;
+    implementationId?: string;
     otherRatingsCount?: number;
   }>({});
   const [restoredFromBackup, setRestoredFromBackup] = useState(false);
@@ -55,12 +58,12 @@ export function FinancialForm({
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
   const [timeToImpact, setTimeToImpact] = useState('');
 
-  // Step 2 fields - Barriers
-  const [selectedBarriers, setSelectedBarriers] = useState<string[]>(['None']);
+  // Step 2 fields - Challenges
+  const [selectedChallenges, setSelectedChallenges] = useState<string[]>(['None']);
   const [loading, setLoading] = useState(true);
-  const [barrierOptions, setBarrierOptions] = useState<string[]>([]);
-  const [customBarrier, setCustomBarrier] = useState('');
-  const [showCustomBarrier, setShowCustomBarrier] = useState(false);
+  const [challengeOptions, setChallengeOptions] = useState<string[]>([]);
+  const [customChallenge, setCustomChallenge] = useState('');
+  const [showCustomChallenge, setShowCustomChallenge] = useState(false);
   
   // Step 3 - Failed solutions
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
@@ -69,6 +72,7 @@ export function FinancialForm({
   const [provider, setProvider] = useState('');
   const [selectedRequirements, setSelectedRequirements] = useState<string[]>(['None']);
   const [easeOfUse, setEaseOfUse] = useState('');
+  const [notes, setNotes] = useState('');
 
   // Progress indicator
   const totalSteps = 3;
@@ -81,12 +85,13 @@ export function FinancialForm({
     accessTime,
     effectiveness,
     timeToImpact,
-    selectedBarriers,
-    customBarrier,
+    selectedChallenges,
+    customChallenge,
     failedSolutions,
     provider,
     selectedRequirements,
     easeOfUse,
+    notes,
     currentStep,
     highestStepReached
   };
@@ -102,12 +107,13 @@ export function FinancialForm({
         setAccessTime(data.accessTime || '');
         setEffectiveness(data.effectiveness || null);
         setTimeToImpact(data.timeToImpact || '');
-        setSelectedBarriers(data.selectedBarriers || ['None']);
-        setCustomBarrier(data.customBarrier || '');
+        setSelectedChallenges(data.selectedChallenges || ['None']);
+        setCustomChallenge(data.customChallenge || '');
         setFailedSolutions(data.failedSolutions || []);
         setProvider(data.provider || '');
         setSelectedRequirements(data.selectedRequirements || ['None']);
         setEaseOfUse(data.easeOfUse || '');
+        setNotes(data.notes || '');
         setCurrentStep(data.currentStep || 1);
         setHighestStepReached(data.highestStepReached || 1);
         setRestoredFromBackup(true);
@@ -156,11 +162,11 @@ export function FinancialForm({
     }
   }, [currentStep, highestStepReached]);
 
-  // Load barrier options
+  // Load challenge options
   useEffect(() => {
     const fetchOptions = async () => {
-      // Fallback barrier options for financial products
-      const fallbackBarriers: string[] = [
+      // Fallback challenge options for financial products
+      const fallbackChallenges: string[] = [
         'Credit score too low',
         'Income requirements not met',
         'Complex application process',
@@ -184,10 +190,10 @@ export function FinancialForm({
         .order('display_order');
       
       if (!error && data && data.length > 0) {
-        setBarrierOptions(data.map((item: { label: string }) => item.label));
+        setChallengeOptions(data.map((item: { label: string }) => item.label));
       } else {
         // Use fallback if no data in DB
-        setBarrierOptions(fallbackBarriers);
+        setChallengeOptions(fallbackChallenges);
       }
       setLoading(false);
     };
@@ -210,37 +216,37 @@ export function FinancialForm({
     }
   };
 
-  const handleBarrierToggle = (barrier: string) => {
-    if (barrier === 'None') {
-      setSelectedBarriers(['None']);
-      setShowCustomBarrier(false);
-    } else if (barrier === 'Other') {
-      setShowCustomBarrier(!showCustomBarrier);
-      if (!showCustomBarrier) {
-        setSelectedBarriers(prev => [...prev.filter(b => b !== 'None'), 'Other']);
+  const handleChallengeToggle = (challenge: string) => {
+    if (challenge === 'None') {
+      setSelectedChallenges(['None']);
+      setShowCustomChallenge(false);
+    } else if (challenge === 'Other') {
+      setShowCustomChallenge(!showCustomChallenge);
+      if (!showCustomChallenge) {
+        setSelectedChallenges(prev => [...prev.filter(c => c !== 'None'), 'Other']);
       } else {
-        setSelectedBarriers(prev => {
-          const newBarriers = prev.filter(b => b !== 'Other');
-          return newBarriers.length === 0 ? ['None'] : newBarriers;
+        setSelectedChallenges(prev => {
+          const newChallenges = prev.filter(c => c !== 'Other');
+          return newChallenges.length === 0 ? ['None'] : newChallenges;
         });
       }
     } else {
-      setSelectedBarriers(prev => {
-        const filtered = prev.filter(b => b !== 'None');
-        if (prev.includes(barrier)) {
-          const newBarriers = filtered.filter(b => b !== barrier);
-          return newBarriers.length === 0 ? ['None'] : newBarriers;
+      setSelectedChallenges(prev => {
+        const filtered = prev.filter(c => c !== 'None');
+        if (prev.includes(challenge)) {
+          const newChallenges = filtered.filter(c => c !== challenge);
+          return newChallenges.length === 0 ? ['None'] : newChallenges;
         }
-        return [...filtered, barrier];
+        return [...filtered, challenge];
       });
     }
   };
 
-  const addCustomBarrier = () => {
-    if (customBarrier.trim()) {
-      setSelectedBarriers(prev => [...prev.filter(b => b !== 'None'), customBarrier.trim()]);
-      setCustomBarrier('');
-      setShowCustomBarrier(false);
+  const addCustomChallenge = () => {
+    if (customChallenge.trim()) {
+      setSelectedChallenges(prev => [...prev.filter(c => c !== 'None'), customChallenge.trim()]);
+      setCustomChallenge('');
+      setShowCustomChallenge(false);
     }
   };
 
@@ -253,8 +259,8 @@ export function FinancialForm({
                effectiveness !== null && 
                timeToImpact !== '';
         
-      case 2: // Barriers
-        return selectedBarriers.length > 0;
+      case 2: // Challenges
+        return selectedChallenges.length > 0;
         
       case 3: // Failed solutions (optional)
         return true;
@@ -268,58 +274,99 @@ export function FinancialForm({
     setIsSubmitting(true);
     
     try {
-      // TODO: Main solution submission logic here
-      console.log('TODO: Add main submission logic');
+      // Prepare solution fields for storage
+      const solutionFields: Record<string, any> = {
+        // Required fields for financial products
+        cost_type: costType,
+        financial_benefit: financialBenefit,
+        access_time: accessTime,
+        time_to_results: timeToImpact,
+        
+        // Array field (challenges) - exclude 'None' and 'Other'
+        challenges: selectedChallenges.filter(c => c !== 'None' && c !== 'Other'),
+        
+        // REMOVED from initial submission - optional fields handled in success screen only
+      };
       
-      // Submit failed solution ratings for existing solutions
-      for (const failed of failedSolutions) {
-        if (failed.id) {
-          // This is an existing solution - create a rating for it
-          await supabase.rpc('create_failed_solution_rating', {
-            p_solution_id: failed.id,
-            p_goal_id: goalId,
-            p_user_id: userId,
-            p_rating: failed.rating,
-            p_solution_name: failed.name
-          });
-        }
-      }
-      
-      // Store non-existing failed solutions as text in implementation
-      const textOnlyFailed = failedSolutions
-        .filter(f => !f.id)
-        .map(f => ({ name: f.name, rating: f.rating }));
-      
-      console.log('Submitting:', {
+      // Prepare submission data with correct structure
+      const submissionData: SubmitSolutionData = {
+        goalId,
+        userId,
         solutionName,
-        effectiveness,
-        costType,
-        financialBenefit,
-        accessTime,
-        time_to_impact: timeToImpact,
-        barriers: selectedBarriers,
-        failedSolutionsWithRatings: failedSolutions.filter(f => f.id),
-        failedSolutionsTextOnly: textOnlyFailed
-      });
+        category,
+        existingSolutionId,
+        effectiveness: effectiveness!,
+        timeToResults: timeToImpact,
+        solutionFields,
+        failedSolutions
+      };
+
+      // Call server action
+      const result = await submitSolution(submissionData);
       
-      // Show success screen instead of redirecting
-      // Clear backup on successful submission
-
-      clearBackup();
-
-      
-
-      setShowSuccessScreen(true);
+      if (result.success) {
+        // Store the result for success screen
+        setSubmissionResult({
+          solutionId: result.solutionId,
+          variantId: result.variantId,
+          ratingId: result.ratingId,
+          implementationId: result.variantId,
+          otherRatingsCount: result.otherRatingsCount
+        });
+        
+        // Clear backup on successful submission
+        clearBackup();
+        
+        // Show success screen
+        setShowSuccessScreen(true);
+      } else {
+        // Handle error
+        console.error('Error submitting solution:', result.error);
+        alert(result.error || 'Failed to submit solution. Please try again.');
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const updateAdditionalInfo = async () => {
-    // TODO: Update the solution with provider, requirements, and ease of use
-    console.log('Updating additional info:', { provider, selectedRequirements, easeOfUse });
+    const updateAdditionalInfo = async () => {
+    // Prepare the additional fields to save
+    const additionalFields: Record<string, any> = {};
+    
+    if (provider && provider.trim()) additionalFields.provider = provider.trim();
+    if (selectedRequirements.length > 0 && selectedRequirements[0] !== 'None') additionalFields.minimum_requirements = selectedRequirements;
+    if (easeOfUse && easeOfUse.trim()) additionalFields.ease_of_use = easeOfUse.trim();
+    if (notes && notes.trim()) additionalFields.notes = notes.trim();
+    
+    // Only proceed if there are fields to update
+    if (Object.keys(additionalFields).length === 0) {
+      console.log('No additional fields to update');
+      return;
+    }
+    
+    try {
+      const result = await updateSolutionFields({
+        ratingId: submissionResult.ratingId,
+        goalId,
+        implementationId: submissionResult.implementationId!,
+        userId,
+        additionalFields
+      });
+      
+      if (result.success) {
+        console.log('Successfully updated additional information');
+        alert('Additional information saved successfully!');
+      } else {
+        console.error('Failed to update:', result.error);
+        alert('Failed to save additional information. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating additional info:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
 
   const renderStep = () => {
@@ -396,7 +443,7 @@ export function FinancialForm({
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                            appearance-none transition-all"
                 >
-                  <option value="">Savings or earnings</option>
+                  <option value="">Select savings or earnings...</option>
                   <option value="No direct financial benefit">No direct financial benefit</option>
                   <option value="Under $25/month saved/earned">Under $25/month saved/earned</option>
                   <option value="$25-100/month saved/earned">$25-100/month saved/earned</option>
@@ -421,7 +468,7 @@ export function FinancialForm({
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                            appearance-none transition-all"
                 >
-                  <option value="">How quickly available?</option>
+                  <option value="">Select access time...</option>
                   <option value="Instant approval">Instant approval</option>
                   <option value="Same day">Same day</option>
                   <option value="1-3 business days">1-3 business days</option>
@@ -522,14 +569,14 @@ export function FinancialForm({
           </div>
         );
 
-      case 2: // Barriers only
+      case 2: // Challenges only
         return (
           <div className="space-y-6 animate-slide-in">
             <ProgressCelebration step={currentStep} />
             
             <FormSectionHeader 
               icon="🚧"
-              title="Any barriers encountered?"
+              title="Any challenges?"
               bgColor="bg-amber-100 dark:bg-amber-900"
             />
 
@@ -540,7 +587,7 @@ export function FinancialForm({
               </p>
             </div>
 
-            {/* Barriers grid */}
+            {/* Challenges grid */}
             {loading ? (
               <div className="space-y-2">
                 <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
@@ -548,54 +595,55 @@ export function FinancialForm({
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {barrierOptions.map((barrier) => (
+                {challengeOptions.map((challenge) => (
                   <label
-                    key={barrier}
+                    key={challenge}
                     className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
                               transition-all transform hover:scale-[1.02] ${
-                      selectedBarriers.includes(barrier)
+                      selectedChallenges.includes(challenge)
                         ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
                         : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
                     }`}
                   >
                     <input
                       type="checkbox"
-                      checked={selectedBarriers.includes(barrier)}
-                      onChange={() => handleBarrierToggle(barrier)}
+                      checked={selectedChallenges.includes(challenge)}
+                      onChange={() => handleChallengeToggle(challenge)}
                       className="sr-only"
                     />
                     <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 
                                   transition-all ${
-                      selectedBarriers.includes(barrier)
+                      selectedChallenges.includes(challenge)
                         ? 'border-blue-500 bg-blue-500'
                         : 'border-gray-300 dark:border-gray-600 group-hover:border-gray-400'
                     }`}>
-                      {selectedBarriers.includes(barrier) && (
+                      {selectedChallenges.includes(challenge) && (
                         <Check className="w-3 h-3 text-white animate-scale-in" />
                       )}
                     </div>
-                    <span className="text-sm">{barrier}</span>
+                    <span className="text-sm">{challenge}</span>
                   </label>
                 ))}
               </div>
             )}
 
-            {/* Custom barrier input */}
-            {showCustomBarrier && (
+            {/* Custom challenge input */}
+            {showCustomChallenge && (
               <div className="mt-3 flex gap-2 animate-fade-in">
                 <input
                   type="text"
-                  value={customBarrier}
-                  onChange={(e) => setCustomBarrier(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && addCustomBarrier()}
-                  placeholder="Describe the barrier"
+                  value={customChallenge}
+                  onChange={(e) => setCustomChallenge(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && addCustomChallenge()}
+                  placeholder="Describe the challenge"
+                  maxLength={500}
                   className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
                            dark:bg-gray-800 dark:text-white"
                   autoFocus
                 />
                 <button
-                  onClick={addCustomBarrier}
+                  onClick={addCustomChallenge}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
                            rounded-lg transition-colors"
                 >
@@ -603,9 +651,9 @@ export function FinancialForm({
                 </button>
                 <button
                   onClick={() => {
-                    setShowCustomBarrier(false);
-                    setCustomBarrier('');
-                    setSelectedBarriers(prev => prev.filter(b => b !== 'Other'));
+                    setShowCustomChallenge(false);
+                    setCustomChallenge('');
+                    setSelectedChallenges(prev => prev.filter(c => c !== 'Other'));
                   }}
                   className="px-3 py-2 text-gray-500 hover:text-gray-700"
                 >
@@ -614,21 +662,21 @@ export function FinancialForm({
               </div>
             )}
 
-            {/* Display custom barriers */}
+            {/* Display custom challenges */}
             {(() => {
-              const customBarriers = selectedBarriers.filter(b => 
-                !barrierOptions.includes(b) && b !== 'None' && b !== 'Other'
+              const customChallenges = selectedChallenges.filter(c => 
+                !challengeOptions.includes(c) && c !== 'None' && c !== 'Other'
               );
-              return customBarriers.length > 0 && (
+              return customChallenges.length > 0 && (
                 <div className="mt-3 space-y-2">
-                  {customBarriers.map((barrier) => (
-                    <div key={barrier} className="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/30 
+                  {customChallenges.map((challenge) => (
+                    <div key={challenge} className="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/30 
                                                   px-3 py-2 rounded-lg animate-fade-in">
-                      <span className="text-sm flex-1">{barrier}</span>
+                      <span className="text-sm flex-1">{challenge}</span>
                       <button
-                        onClick={() => setSelectedBarriers(prev => {
-                          const newBarriers = prev.filter(b => b !== barrier);
-                          return newBarriers.length === 0 ? ['None'] : newBarriers;
+                        onClick={() => setSelectedChallenges(prev => {
+                          const newChallenges = prev.filter(c => c !== challenge);
+                          return newChallenges.length === 0 ? ['None'] : newChallenges;
                         })}
                         className="text-red-500 hover:text-red-700 p-1"
                       >
@@ -641,12 +689,12 @@ export function FinancialForm({
             })()}
 
             {/* Selected count indicator */}
-            {selectedBarriers.length > 0 && selectedBarriers[0] !== 'None' && (
+            {selectedChallenges.length > 0 && selectedChallenges[0] !== 'None' && (
               <div className="text-center">
                 <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
                                text-blue-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
                   <Check className="w-4 h-4" />
-                  {selectedBarriers.filter(b => b !== 'Other').length} selected
+                  {selectedChallenges.filter(c => c !== 'Other').length} selected
                 </span>
               </div>
             )}
@@ -791,7 +839,17 @@ export function FinancialForm({
                 <option value="Very complex">Very complex</option>
               </select>
               
-              {(provider || selectedRequirements.length > 1 || selectedRequirements[0] !== 'None' || easeOfUse) && (
+              <textarea
+                placeholder="What do others need to know?"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                rows={3}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         dark:bg-gray-700 dark:text-white text-sm"
+              />
+              
+              {(provider || selectedRequirements.length > 1 || selectedRequirements[0] !== 'None' || easeOfUse || notes) && (
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 

@@ -8,6 +8,7 @@ import { ChevronLeft, Check, X, Plus } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface PracticeFormProps {
@@ -46,6 +47,8 @@ export function PracticeForm({
   const [submissionResult, setSubmissionResult] = useState<{
     solutionId?: string;
     variantId?: string;
+    ratingId?: string;
+    implementationId?: string;
     otherRatingsCount?: number;
   }>({});
   const [restoredFromBackup, setRestoredFromBackup] = useState(false);
@@ -73,7 +76,7 @@ export function PracticeForm({
   // Optional fields (Success screen)
   const [bestTime, setBestTime] = useState('');
   const [location, setLocation] = useState('');
-  const [otherInfo, setOtherInfo] = useState('');
+  const [notes, setNotes] = useState('');
 
   // Progress indicator
   const totalSteps = 3;
@@ -94,7 +97,7 @@ export function PracticeForm({
     failedSolutions,
     bestTime,
     location,
-    otherInfo,
+    notes,
     currentStep,
     highestStepReached
   };
@@ -118,7 +121,7 @@ export function PracticeForm({
         setFailedSolutions(data.failedSolutions || []);
         setBestTime(data.bestTime || '');
         setLocation(data.location || '');
-        setOtherInfo(data.otherInfo || '');
+        setNotes(data.notes || '');
         setCurrentStep(data.currentStep || 1);
         setHighestStepReached(data.highestStepReached || 1);
         setRestoredFromBackup(true);
@@ -275,60 +278,135 @@ export function PracticeForm({
     setIsSubmitting(true);
     
     try {
-      // TODO: Main solution submission logic here
-      console.log('TODO: Add main submission logic');
+      // Primary cost field for cross-category filtering
+      const hasUnknownCost = ongoingCost === "Don't remember" || startupCost === "Don't remember";
+      const primaryCost = hasUnknownCost ? "Unknown" : 
+                          ongoingCost && ongoingCost !== "Free/No ongoing cost" ? ongoingCost :
+                          startupCost && startupCost !== "Free/No startup cost" ? startupCost : 
+                          "Free";
+      const costType = hasUnknownCost ? "unknown" :
+                       (ongoingCost && ongoingCost !== "Free/No ongoing cost") && 
+                       (startupCost && startupCost !== "Free/No startup cost") ? "dual" : 
+                       ongoingCost && ongoingCost !== "Free/No ongoing cost" ? "recurring" : 
+                       startupCost && startupCost !== "Free/No startup cost" ? "one_time" : "free";
       
-      // Submit failed solution ratings for existing solutions
-      for (const failed of failedSolutions) {
-        if (failed.id) {
-          await supabase.rpc('create_failed_solution_rating', {
-            p_solution_id: failed.id,
-            p_goal_id: goalId,
-            p_user_id: userId,
-            p_rating: failed.rating,
-            p_solution_name: failed.name
-          });
-        }
-      }
-      
-      // Store non-existing failed solutions as text in implementation
-      const textOnlyFailed = failedSolutions
-        .filter(f => !f.id)
-        .map(f => ({ name: f.name, rating: f.rating }));
-      
-      console.log('Submitting:', {
+      // Build solution fields object with category-specific fields
+      const solutionFields: Record<string, any> = {
+        // Primary cost fields for filtering
+        cost: primaryCost,
+        cost_type: costType,
+        // Detailed cost fields preserved
+        startup_cost: startupCost,
+        ongoing_cost: ongoingCost,
+        // Common fields for all practice categories
+        time_to_results: timeToResults,
+        frequency: frequency,
+        
+        // Category-specific fields
+        ...(category === 'exercise_movement' && {
+          duration: duration
+        }),
+        ...(category === 'meditation_mindfulness' && {
+          practice_length: practiceLength
+        }),
+        ...(category === 'habits_routines' && {
+          time_commitment: timeCommitment
+        }),
+        
+        // Array fields (remove 'None' from challenges)
+        challenges: challenges.filter(c => c !== 'None')
+        
+        // NOTE: bestTime, location, and notes are handled in success screen only
+      };
+
+      // Prepare submission data
+      const submissionData: SubmitSolutionData = {
+        goalId,
+        userId,
         solutionName,
-        effectiveness,
-        startupCost,
-        ongoingCost,
+        category,
+        existingSolutionId,
+        effectiveness: effectiveness!,  // Pass effectiveness separately, not in solutionFields
         timeToResults,
-        frequency,
-        practiceLength,
-        duration,
-        timeCommitment,
-        challenges,
-        failedSolutionsWithRatings: failedSolutions.filter(f => f.id),
-        failedSolutionsTextOnly: textOnlyFailed
+        solutionFields,
+        failedSolutions
+      };
+
+      console.log('Submitting solution with data:', {
+        goalId,
+        userId,
+        solutionName,
+        category,
+        existingSolutionId,
+        effectiveness,
+        timeToResults
       });
+
+      // Call server action to submit the solution
+      const result = await submitSolution(submissionData);
       
-      // Show success screen instead of redirecting
-      // Clear backup on successful submission
-
-      clearBackup();
-
-      
-
-      setShowSuccessScreen(true);
+      if (result.success) {
+        // Store the result for success screen
+        setSubmissionResult({
+          solutionId: result.solutionId,
+          variantId: result.variantId,
+          ratingId: result.ratingId,
+          implementationId: result.variantId,
+          otherRatingsCount: result.otherRatingsCount
+        });
+        
+        // Clear backup on successful submission
+        clearBackup();
+        
+        // Show success screen
+        setShowSuccessScreen(true);
+      } else {
+        // Handle error
+        console.error('Error submitting solution:', result.error);
+        alert(result.error || 'Failed to submit solution. Please try again.');
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const updateAdditionalInfo = async () => {
-    // TODO: Update the solution with additional info
-    console.log('Updating additional info:', { bestTime, location, otherInfo });
+    const updateAdditionalInfo = async () => {
+    // Prepare the additional fields to save
+    const additionalFields: Record<string, any> = {};
+    
+    if (bestTime && bestTime.trim()) additionalFields.best_time = bestTime.trim();
+    if (location && location.trim()) additionalFields.location = location.trim();
+    if (notes && notes.trim()) additionalFields.notes = notes.trim();
+    
+    // Only proceed if there are fields to update
+    if (Object.keys(additionalFields).length === 0) {
+      console.log('No additional fields to update');
+      return;
+    }
+    
+    try {
+      const result = await updateSolutionFields({
+        ratingId: submissionResult.ratingId,
+        goalId,
+        implementationId: submissionResult.implementationId!,
+        userId,
+        additionalFields
+      });
+      
+      if (result.success) {
+        console.log('Successfully updated additional information');
+        alert('Additional information saved successfully!');
+      } else {
+        console.error('Failed to update:', result.error);
+        alert('Failed to save additional information. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating additional info:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
 
 
@@ -470,6 +548,7 @@ export function PracticeForm({
                   >
                     <option value="">Select startup cost</option>
                     <option value="Free/No startup cost">Free/No startup cost</option>
+                    <option value="Don't remember">Don't remember</option>
                     <option value="Under $50">Under $50</option>
                     <option value="$50-$99.99">$50-$99.99</option>
                     <option value="$100-$249.99">$100-$249.99</option>
@@ -494,6 +573,7 @@ export function PracticeForm({
                   >
                     <option value="">Select ongoing cost</option>
                     <option value="Free/No ongoing cost">Free/No ongoing cost</option>
+                    <option value="Don't remember">Don't remember</option>
                     <option value="Under $10/month">Under $10/month</option>
                     <option value="$10-$24.99/month">$10-$24.99/month</option>
                     <option value="$25-$49.99/month">$25-$49.99/month</option>
@@ -687,6 +767,7 @@ export function PracticeForm({
                   onChange={(e) => setCustomChallenge(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && addCustomChallenge()}
                   placeholder="Describe the challenge"
+                  maxLength={500}
                   className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
                            dark:bg-gray-800 dark:text-white"
@@ -863,9 +944,9 @@ export function PracticeForm({
               )}
               
               <textarea
-                placeholder="Any tips for beginners? What helped you stick with it?"
-                value={otherInfo}
-                onChange={(e) => setOtherInfo(e.target.value)}
+                placeholder="What do others need to know?"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
                 rows={3}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
@@ -873,7 +954,7 @@ export function PracticeForm({
                          appearance-none text-sm"
               />
               
-              {(bestTime || location || otherInfo) && (
+              {(bestTime || location || notes) && (
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 

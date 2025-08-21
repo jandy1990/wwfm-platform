@@ -7,6 +7,7 @@ import { ChevronLeft, Check } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface HobbyFormProps {
@@ -43,6 +44,8 @@ export function HobbyForm({
   const [submissionResult, setSubmissionResult] = useState<{
     solutionId?: string;
     variantId?: string;
+    ratingId?: string;
+    implementationId?: string;
     otherRatingsCount?: number;
   }>({});
   const [restoredFromBackup, setRestoredFromBackup] = useState(false);
@@ -50,7 +53,7 @@ export function HobbyForm({
   // Step 1 fields - Hobby details
   const [startupCost, setStartupCost] = useState('');
   const [ongoingCost, setOngoingCost] = useState('');
-  const [timeInvestment, setTimeInvestment] = useState('');
+  const [timeCommitment, setTimeCommitment] = useState('');
   const [frequency, setFrequency] = useState('');
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
   const [timeToResults, setTimeToResults] = useState('');
@@ -65,7 +68,7 @@ export function HobbyForm({
   
   // Optional fields (Success screen)
   const [communityName, setCommunityName] = useState('');
-  const [otherInfo, setOtherInfo] = useState('');
+  const [notes, setNotes] = useState('');
 
   // Progress indicator
   const totalSteps = 3;
@@ -75,13 +78,13 @@ export function HobbyForm({
   const formBackupData = {
     startupCost,
     ongoingCost,
-    timeInvestment,
+    timeCommitment,
     frequency,
     effectiveness,
     timeToResults,
     challenges,
     communityName,
-    otherInfo,
+    notes,
     failedSolutions,
     currentStep,
     highestStepReached
@@ -95,13 +98,13 @@ export function HobbyForm({
       onRestore: (data) => {
         setStartupCost(data.startupCost || '');
         setOngoingCost(data.ongoingCost || '');
-        setTimeInvestment(data.timeInvestment || '');
+        setTimeCommitment(data.timeCommitment || '');
         setFrequency(data.frequency || '');
         setEffectiveness(data.effectiveness || null);
         setTimeToResults(data.timeToResults || '');
         setChallenges(data.challenges || ['None']);
         setCommunityName(data.communityName || '');
-        setOtherInfo(data.otherInfo || '');
+        setNotes(data.notes || '');
         setFailedSolutions(data.failedSolutions || []);
         setCurrentStep(data.currentStep || 1);
         setHighestStepReached(data.highestStepReached || 1);
@@ -184,7 +187,7 @@ export function HobbyForm({
   const canProceedToNextStep = () => {
     switch (currentStep) {
       case 1: // Hobby details
-        return startupCost !== '' && ongoingCost !== '' && timeInvestment !== '' && frequency !== '' && 
+        return startupCost !== '' && ongoingCost !== '' && timeCommitment !== '' && frequency !== '' && 
                effectiveness !== null && timeToResults !== '';
         
       case 2: // Challenges
@@ -203,15 +206,31 @@ export function HobbyForm({
     
     try {
       // Prepare solution fields for storage
+      // Primary cost field for cross-category filtering
+      const hasUnknownCost = ongoingCost === "Don't remember" || startupCost === "Don't remember";
+      const primaryCost = hasUnknownCost ? "Unknown" : 
+                          ongoingCost && ongoingCost !== "Free/No ongoing cost" ? ongoingCost :
+                          startupCost && startupCost !== "Free/No startup cost" ? startupCost : 
+                          "Free";
+      const costType = hasUnknownCost ? "unknown" :
+                       (ongoingCost && ongoingCost !== "Free/No ongoing cost") && 
+                       (startupCost && startupCost !== "Free/No startup cost") ? "dual" : 
+                       ongoingCost && ongoingCost !== "Free/No ongoing cost" ? "recurring" : 
+                       startupCost && startupCost !== "Free/No startup cost" ? "one_time" : "free";
+      
       const solutionFields = {
+        // Primary cost fields for filtering
+        cost: primaryCost,
+        cost_type: costType,
+        // Detailed cost fields preserved
         startup_cost: startupCost,
         ongoing_cost: ongoingCost,
-        time_investment: timeInvestment,
+        // Other fields
+        time_commitment: timeCommitment,
         frequency,
-        time_to_results: timeToResults,
+        time_to_results: timeToResults,  // Standardized field name
         challenges,
-        community_name: communityName || undefined,
-        other_info: otherInfo || undefined
+        // REMOVED from initial submission - optional fields handled in success screen only
       };
 
       // Prepare submission data (Hobbies don't have variants)
@@ -235,6 +254,8 @@ export function HobbyForm({
         setSubmissionResult({
           solutionId: result.solutionId,
           variantId: result.variantId,
+          ratingId: result.ratingId,
+          implementationId: result.variantId,
           otherRatingsCount: result.otherRatingsCount
         });
         
@@ -256,9 +277,39 @@ export function HobbyForm({
     }
   };
 
-  const updateAdditionalInfo = async () => {
-    // TODO: Update the solution with additional info
-    console.log('Updating additional info:', { communityName, otherInfo });
+    const updateAdditionalInfo = async () => {
+    // Prepare the additional fields to save
+    const additionalFields: Record<string, any> = {};
+    
+    if (communityName && communityName.trim()) additionalFields.community_name = communityName.trim();
+    if (notes && notes.trim()) additionalFields.notes = notes.trim();
+    
+    // Only proceed if there are fields to update
+    if (Object.keys(additionalFields).length === 0) {
+      console.log('No additional fields to update');
+      return;
+    }
+    
+    try {
+      const result = await updateSolutionFields({
+        ratingId: submissionResult.ratingId,
+        goalId,
+        implementationId: submissionResult.implementationId!,
+        userId,
+        additionalFields
+      });
+      
+      if (result.success) {
+        console.log('Successfully updated additional information');
+        alert('Additional information saved successfully!');
+      } else {
+        console.error('Failed to update:', result.error);
+        alert('Failed to save additional information. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating additional info:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
 
 
@@ -337,12 +388,12 @@ export function HobbyForm({
                 </div>
               </div>
 
-              {/* Time to results */}
+              {/* Time to enjoyment */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <span className="text-lg">⏱️</span>
                   <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    When did you notice results?
+                    How long until you enjoyed it?
                   </label>
                 </div>
                 <select
@@ -361,7 +412,7 @@ export function HobbyForm({
                   <option value="1-2 months">1-2 months</option>
                   <option value="3-6 months">3-6 months</option>
                   <option value="6+ months">6+ months</option>
-                  <option value="Still evaluating">Still evaluating</option>
+                  <option value="Still learning">Still learning to enjoy it</option>
                 </select>
               </div>
             </div>
@@ -409,6 +460,7 @@ export function HobbyForm({
                 >
                   <option value="">Select startup cost</option>
                   <option value="Free/No startup cost">Free/No startup cost</option>
+                  <option value="Don't remember">Don't remember</option>
                   <option value="Under $50">Under $50</option>
                   <option value="$50-$100">$50-$100</option>
                   <option value="$100-$250">$100-$250</option>
@@ -435,6 +487,7 @@ export function HobbyForm({
                 >
                   <option value="">Select monthly cost</option>
                   <option value="Free/No ongoing cost">Free/No ongoing cost</option>
+                  <option value="Don't remember">Don't remember</option>
                   <option value="Under $25/month">Under $25/month</option>
                   <option value="$25-$50/month">$25-$50/month</option>
                   <option value="$50-$100/month">$50-$100/month</option>
@@ -444,14 +497,14 @@ export function HobbyForm({
                 </select>
               </div>
 
-              {/* Time investment */}
+              {/* Time commitment */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Time per session? <span className="text-red-500">*</span>
                 </label>
                 <select
-                  value={timeInvestment}
-                  onChange={(e) => setTimeInvestment(e.target.value)}
+                  value={timeCommitment}
+                  onChange={(e) => setTimeCommitment(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
@@ -575,6 +628,7 @@ export function HobbyForm({
                   onChange={(e) => setCustomChallenge(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && addCustomChallenge()}
                   placeholder="Describe the challenge"
+                  maxLength={500}
                   className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
                            dark:bg-gray-800 dark:text-white"
@@ -712,16 +766,16 @@ export function HobbyForm({
               />
               
               <textarea
-                placeholder="Any tips for getting started or sticking with it?"
-                value={otherInfo}
-                onChange={(e) => setOtherInfo(e.target.value)}
+                placeholder="What do others need to know?"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
                 rows={3}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
                          dark:bg-gray-700 dark:text-white text-sm"
               />
               
-              {(communityName || otherInfo) && (
+              {(communityName || notes) && (
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 

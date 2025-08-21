@@ -8,6 +8,7 @@ import { ChevronLeft, Check, X, Plus } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface AppFormProps {
@@ -52,6 +53,8 @@ export function AppForm({
   const [submissionResult, setSubmissionResult] = useState<{
     solutionId?: string;
     variantId?: string;
+    ratingId?: string;
+    implementationId?: string;
     otherRatingsCount?: number;
   }>({});
   const [restoredFromBackup, setRestoredFromBackup] = useState(false);
@@ -73,7 +76,7 @@ export function AppForm({
   
   // Optional fields (Success screen)
   const [platform, setPlatform] = useState('');
-  const [otherInfo, setOtherInfo] = useState('');
+  const [notes, setNotes] = useState('');
 
   // Progress indicator
   const totalSteps = 3;
@@ -88,7 +91,7 @@ export function AppForm({
     effectiveness,
     challenges,
     platform,
-    otherInfo,
+    notes,
     failedSolutions,
     currentStep,
     highestStepReached
@@ -107,7 +110,7 @@ export function AppForm({
         setEffectiveness(data.effectiveness || null);
         setChallenges(data.challenges || ['None']);
         setPlatform(data.platform || '');
-        setOtherInfo(data.otherInfo || '');
+        setNotes(data.notes || '');
         setFailedSolutions(data.failedSolutions || []);
         setCurrentStep(data.currentStep || 1);
         setHighestStepReached(data.highestStepReached || 1);
@@ -218,15 +221,20 @@ export function AppForm({
     setIsSubmitting(true);
     
     try {
+      // Determine cost type based on subscription type
+      const costType = subscriptionType === 'Free version' ? 'free' :
+                       subscriptionType === 'One-time purchase' ? 'one_time' :
+                       'recurring'; // Monthly or Annual subscription
+      
       // Prepare solution fields for storage
       const solutionFields = {
         cost: subscriptionType === 'Free version' ? 'Free' : cost,
+        cost_type: costType,
         time_to_results: timeToResults,
         usage_frequency: usageFrequency,
         subscription_type: subscriptionType,
-        challenges: challenges,
-        platform: platform || undefined,
-        other_info: otherInfo || undefined
+        challenges: challenges
+        // REMOVED from initial submission - platform and notes handled in success screen only
       };
 
       // Prepare submission data (Apps don't have variants)
@@ -261,6 +269,8 @@ export function AppForm({
         setSubmissionResult({
           solutionId: result.solutionId,
           variantId: result.variantId,
+          ratingId: result.ratingId,
+          implementationId: result.variantId,
           otherRatingsCount: result.otherRatingsCount
         });
         
@@ -282,9 +292,39 @@ export function AppForm({
     }
   };
 
-  const updateAdditionalInfo = async () => {
-    // TODO: Update the solution with platform and other info
-    console.log('Updating additional info:', { platform, otherInfo });
+    const updateAdditionalInfo = async () => {
+    // Prepare the additional fields to save
+    const additionalFields: Record<string, any> = {};
+    
+    if (platform && platform.trim()) additionalFields.platform = platform.trim();
+    if (notes && notes.trim()) additionalFields.notes = notes.trim();
+    
+    // Only proceed if there are fields to update
+    if (Object.keys(additionalFields).length === 0) {
+      console.log('No additional fields to update');
+      return;
+    }
+    
+    try {
+      const result = await updateSolutionFields({
+        ratingId: submissionResult.ratingId,
+        goalId,
+        implementationId: submissionResult.implementationId!,
+        userId,
+        additionalFields
+      });
+      
+      if (result.success) {
+        console.log('Successfully updated additional information');
+        alert('Additional information saved successfully!');
+      } else {
+        console.error('Failed to update:', result.error);
+        alert('Failed to save additional information. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating additional info:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
 
 
@@ -582,6 +622,7 @@ export function AppForm({
                   onChange={(e) => setCustomChallenge(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && addCustomChallenge()}
                   placeholder="Describe the challenge"
+                  maxLength={500}
                   className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
                            dark:bg-gray-800 dark:text-white"
@@ -740,9 +781,9 @@ export function AppForm({
               </select>
               
               <textarea
-                placeholder="Any tips for getting the most out of this app?"
-                value={otherInfo}
-                onChange={(e) => setOtherInfo(e.target.value)}
+                placeholder="What do others need to know?"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
                 rows={3}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
@@ -750,7 +791,7 @@ export function AppForm({
                          appearance-none text-sm"
               />
               
-              {(platform || otherInfo) && (
+              {(platform || notes) && (
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 

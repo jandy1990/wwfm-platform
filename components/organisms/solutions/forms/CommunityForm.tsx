@@ -10,6 +10,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Skeleton } from '@/components/atoms/skeleton';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface CommunityFormProps {
@@ -47,6 +48,8 @@ export function CommunityForm({
   const [submissionResult, setSubmissionResult] = useState<{
     solutionId?: string;
     variantId?: string;
+    ratingId?: string;
+    implementationId?: string;
     otherRatingsCount?: number;
   }>({});
   const [restoredFromBackup, setRestoredFromBackup] = useState(false);
@@ -74,7 +77,7 @@ export function CommunityForm({
   const [commitmentType, setCommitmentType] = useState('');
   const [accessibilityLevel, setAccessibilityLevel] = useState('');
   const [leadershipStyle, setLeadershipStyle] = useState('');
-  const [additionalInfo, setAdditionalInfo] = useState('');
+  const [notes, setNotes] = useState('');
   
   const supabaseClient = createClientComponentClient();
   
@@ -97,7 +100,7 @@ export function CommunityForm({
     commitmentType,
     accessibilityLevel,
     leadershipStyle,
-    additionalInfo,
+    notes,
     currentStep,
     highestStepReached
   };
@@ -121,7 +124,7 @@ export function CommunityForm({
         setCommitmentType(data.commitmentType || '');
         setAccessibilityLevel(data.accessibilityLevel || '');
         setLeadershipStyle(data.leadershipStyle || '');
-        setAdditionalInfo(data.additionalInfo || '');
+        setNotes(data.notes || '');
         setCurrentStep(data.currentStep || 1);
         setHighestStepReached(data.highestStepReached || 1);
         setRestoredFromBackup(true);
@@ -262,56 +265,107 @@ export function CommunityForm({
     setIsSubmitting(true);
     
     try {
-      // TODO: Submit implementation
-      console.log('Submitting community form with:', {
-        effectiveness,
-        timeToResults,
-        costRange,
-        meetingFrequency,
+      // Determine cost type based on payment structure
+      const costType = costRange === 'Free' ? 'free' : 
+                       paymentFrequency === 'One-time' ? 'one_time' : 
+                       'recurring';
+      
+      // Prepare solution fields for storage
+      const solutionFields: Record<string, any> = {
+        // Required fields
+        cost: costRange,
+        cost_type: costType,
+        meeting_frequency: meetingFrequency,
         format,
-        groupSize,
-        challenges: selectedChallenges,
+        group_size: groupSize,
+        
+        // Array field (challenges)
+        challenges: selectedChallenges.filter(c => c !== 'None'),
+        
+        // Optional fields from success screen
+        // REMOVED from initial submission - optional fields handled in success screen only
+      };
+      
+      // Prepare submission data with correct structure
+      const submissionData: SubmitSolutionData = {
+        goalId,
+        userId,
+        solutionName,
+        category,
+        existingSolutionId,
+        effectiveness: effectiveness!,
+        timeToResults,
+        solutionFields,
         failedSolutions
-      });
+      };
       
-      // Submit failed solution ratings
-      for (const failed of failedSolutions) {
-        if (failed.id) {
-          await supabase.rpc('create_failed_solution_rating', {
-            p_solution_id: failed.id,
-            p_goal_id: goalId,
-            p_user_id: userId,
-            p_rating: failed.rating,
-            p_solution_name: failed.name
-          });
-        }
+      // Call server action
+      const result = await submitSolution(submissionData);
+      
+      if (result.success) {
+        // Store the result for success screen
+        setSubmissionResult({
+          solutionId: result.solutionId,
+          variantId: result.variantId,
+          ratingId: result.ratingId,
+          implementationId: result.variantId,
+          otherRatingsCount: result.otherRatingsCount
+        });
+        
+        // Clear backup on successful submission
+        clearBackup();
+        
+        // Show success screen
+        setShowSuccessScreen(true);
+      } else {
+        // Handle error
+        console.error('Error submitting solution:', result.error);
+        alert(result.error || 'Failed to submit solution. Please try again.');
       }
-      
-      // Clear backup on successful submission
-
-      
-      clearBackup();
-
-      
-      
-
-      
-      setShowSuccessScreen(true);
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
   
-  const updateAdditionalInfo = async () => {
-    // TODO: Update additional info
-    console.log('Updating additional info:', { 
-      commitmentType,
-      accessibilityLevel,
-      leadershipStyle,
-      additionalInfo 
-    });
+    const updateAdditionalInfo = async () => {
+    // Prepare the additional fields to save
+    const additionalFields: Record<string, any> = {};
+    
+    if (paymentFrequency && paymentFrequency.trim()) additionalFields.payment_frequency = paymentFrequency.trim();
+    if (commitmentType && commitmentType.trim()) additionalFields.commitment_type = commitmentType.trim();
+    if (accessibilityLevel && accessibilityLevel.trim()) additionalFields.accessibility_level = accessibilityLevel.trim();
+    if (leadershipStyle && leadershipStyle.trim()) additionalFields.leadership_style = leadershipStyle.trim();
+    if (notes && notes.trim()) additionalFields.notes = notes.trim();
+    
+    // Only proceed if there are fields to update
+    if (Object.keys(additionalFields).length === 0) {
+      console.log('No additional fields to update');
+      return;
+    }
+    
+    try {
+      const result = await updateSolutionFields({
+        ratingId: submissionResult.ratingId,
+        goalId,
+        implementationId: submissionResult.implementationId!,
+        userId,
+        additionalFields
+      });
+      
+      if (result.success) {
+        console.log('Successfully updated additional information');
+        alert('Additional information saved successfully!');
+      } else {
+        console.error('Failed to update:', result.error);
+        alert('Failed to save additional information. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating additional info:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
   
   const addCustomChallenge = () => {
@@ -521,10 +575,11 @@ export function CommunityForm({
                   
                   {paymentFrequency === 'yearly' && (
                     <>
-                      <SelectItem value="Under $100/year">Under $100/year</SelectItem>
-                      <SelectItem value="$100-$499.99/year">$100-$499.99/year</SelectItem>
-                      <SelectItem value="$500-$999.99/year">$500-$999.99/year</SelectItem>
-                      <SelectItem value="Over $1000/year">Over $1000/year</SelectItem>
+                      <SelectItem value="Under $50/year">Under $50/year</SelectItem>
+                      <SelectItem value="$50-$99.99/year">$50-$99.99/year</SelectItem>
+                      <SelectItem value="$100-$249.99/year">$100-$249.99/year</SelectItem>
+                      <SelectItem value="$250-$499.99/year">$250-$499.99/year</SelectItem>
+                      <SelectItem value="$500+/year">$500+/year</SelectItem>
                     </>
                   )}
                 </SelectContent>
@@ -681,6 +736,7 @@ export function CommunityForm({
               onChange={(e) => setCustomChallenge(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && addCustomChallenge()}
               placeholder="Describe the challenge"
+              maxLength={500}
               className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
                        focus:ring-2 focus:ring-blue-500 focus:border-transparent
                        dark:bg-gray-800 dark:text-white"
@@ -866,9 +922,9 @@ export function CommunityForm({
               )}
               
               <textarea
-                placeholder="Any additional info that might help others?"
-                value={additionalInfo}
-                onChange={(e) => setAdditionalInfo(e.target.value)}
+                placeholder="What do others need to know?"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
                 rows={2}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
@@ -876,7 +932,7 @@ export function CommunityForm({
                          appearance-none text-sm"
               />
               
-              {(commitmentType || accessibilityLevel || leadershipStyle || additionalInfo) && (
+              {(commitmentType || accessibilityLevel || leadershipStyle || notes) && (
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 

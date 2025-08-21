@@ -8,6 +8,7 @@ import { ChevronLeft, Check } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface LifestyleFormProps {
@@ -46,6 +47,8 @@ export function LifestyleForm({
   const [submissionResult, setSubmissionResult] = useState<{
     solutionId?: string;
     variantId?: string;
+    ratingId?: string;
+    implementationId?: string;
     otherRatingsCount?: number;
   }>({});
   const [restoredFromBackup, setRestoredFromBackup] = useState(false);
@@ -74,7 +77,7 @@ export function LifestyleForm({
   const [sleepQualityChange, setSleepQualityChange] = useState('');
   const [specificApproach, setSpecificApproach] = useState('');
   const [resources, setResources] = useState('');
-  const [tips, setTips] = useState('');
+  const [notes, setNotes] = useState('');
 
   // Progress indicator
   const totalSteps = 3;
@@ -96,7 +99,7 @@ export function LifestyleForm({
     sleepQualityChange,
     specificApproach,
     resources,
-    tips,
+    notes,
     currentStep,
     highestStepReached
   };
@@ -121,7 +124,7 @@ export function LifestyleForm({
         setSleepQualityChange(data.sleepQualityChange || '');
         setSpecificApproach(data.specificApproach || '');
         setResources(data.resources || '');
-        setTips(data.tips || '');
+        setNotes(data.notes || '');
         setCurrentStep(data.currentStep || 1);
         setHighestStepReached(data.highestStepReached || 1);
         setRestoredFromBackup(true);
@@ -291,59 +294,120 @@ export function LifestyleForm({
     setIsSubmitting(true);
     
     try {
-      // TODO: Main solution submission logic here
-      console.log('TODO: Add main submission logic');
+      // Keep stillFollowing and sustainabilityReason as separate fields
       
-      // Submit failed solution ratings for existing solutions
-      for (const failed of failedSolutions) {
-        if (failed.id) {
-          // This is an existing solution - create a rating for it
-          await supabase.rpc('create_failed_solution_rating', {
-            p_solution_id: failed.id,
-            p_goal_id: goalId,
-            p_user_id: userId,
-            p_rating: failed.rating,
-            p_solution_name: failed.name
-          });
-        }
-      }
+      // Primary cost field for cross-category filtering
+      const primaryCost = costImpact; // For lifestyle, the impact IS the primary cost info
+      const costType = "impact"; // Special type for relative cost changes
       
-      // Store non-existing failed solutions as text in implementation
-      const textOnlyFailed = failedSolutions
-        .filter(f => !f.id)
-        .map(f => ({ name: f.name, rating: f.rating }));
+      // Prepare the solution fields with correct field names
+      const solutionFields: Record<string, any> = {
+        // Primary cost fields for filtering
+        cost: primaryCost,
+        cost_type: costType,
+        // Keep detailed cost impact field
+        cost_impact: costImpact,
+        // Universal field
+        time_to_results: timeToResults,
+        // Completion tracking fields (separate for clarity)
+        ...(stillFollowing !== null && { still_following: stillFollowing }),
+        ...(sustainabilityReason && { sustainability_reason: sustainabilityReason }),
+        
+        // Category-specific fields
+        ...(category === 'diet_nutrition' && {
+          weekly_prep_time: weeklyPrepTime,
+        }),
+        ...(category === 'sleep' && {
+          previous_sleep_hours: previousSleepHours,
+        }),
+        
+        // Array field (challenges for both categories)
+        challenges: selectedChallenges.filter(c => c !== 'None') // Remove 'None' from the array
+        
+        // REMOVED from initial submission - optional fields handled in success screen only
+      };
       
-      console.log('Submitting:', {
+      // Submit the solution
+      const submitData: SubmitSolutionData = {
         solutionName,
-        effectiveness,
-        costImpact,
-        weeklyPrepTime,
-        still_following: stillFollowing,
-        sustainability_reason: sustainabilityReason,
-        previousSleepHours,
-        challenges: selectedChallenges,
-        failedSolutionsWithRatings: failedSolutions.filter(f => f.id),
-        failedSolutionsTextOnly: textOnlyFailed
-      });
+        category,
+        goalId,
+        userId,
+        existingSolutionId,
+        effectiveness: effectiveness!,  // Pass effectiveness as top-level field
+        timeToResults,  // Pass timeToResults as top-level field
+        solutionFields,
+        failedSolutions: failedSolutions.map(f => ({
+          name: f.name,
+          rating: f.rating,
+          id: f.id
+        }))
+      };
       
-      // Show success screen instead of redirecting
-      // Clear backup on successful submission
-
-      clearBackup();
-
+      const result = await submitSolution(submitData);
       
-
-      setShowSuccessScreen(true);
+      if (result.success) {
+        setSubmissionResult({
+          solutionId: result.solutionId,
+          variantId: result.variantId,
+          ratingId: result.ratingId,
+          implementationId: result.variantId,
+          otherRatingsCount: result.otherRatingsCount
+        });
+        
+        // Clear backup on successful submission
+        clearBackup();
+        
+        // Show success screen
+        setShowSuccessScreen(true);
+      } else {
+        console.error('Submission failed:', result.error);
+        // You might want to show an error message to the user here
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
+      // You might want to show an error message to the user here
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const updateAdditionalInfo = async () => {
-    // TODO: Update the solution with additional info
-    console.log('Updating additional info:', { socialImpact, sleepQualityChange, specificApproach, resources, tips });
+    const updateAdditionalInfo = async () => {
+    // Prepare the additional fields to save
+    const additionalFields: Record<string, any> = {};
+    
+    if (socialImpact && socialImpact.trim()) additionalFields.social_impact = socialImpact.trim();
+    if (sleepQualityChange && sleepQualityChange.trim()) additionalFields.sleep_quality_change = sleepQualityChange.trim();
+    if (specificApproach && specificApproach.trim()) additionalFields.specific_approach = specificApproach.trim();
+    if (resources && resources.trim()) additionalFields.resources = resources.trim();
+    if (notes && notes.trim()) additionalFields.notes = notes.trim();
+    
+    // Only proceed if there are fields to update
+    if (Object.keys(additionalFields).length === 0) {
+      console.log('No additional fields to update');
+      return;
+    }
+    
+    try {
+      const result = await updateSolutionFields({
+        ratingId: submissionResult.ratingId,
+        goalId,
+        implementationId: submissionResult.implementationId!,
+        userId,
+        additionalFields
+      });
+      
+      if (result.success) {
+        console.log('Successfully updated additional information');
+        alert('Additional information saved successfully!');
+      } else {
+        console.error('Failed to update:', result.error);
+        alert('Failed to save additional information. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating additional info:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
 
   const renderStep = () => {
@@ -756,6 +820,7 @@ export function LifestyleForm({
                   onChange={(e) => setCustomChallenge(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && addCustomChallenge()}
                   placeholder="Describe the challenge"
+                  maxLength={500}
                   className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
                            focus:ring-2 focus:ring-blue-500 focus:border-transparent
                            dark:bg-gray-800 dark:text-white"
@@ -971,16 +1036,16 @@ export function LifestyleForm({
               />
               
               <textarea
-                placeholder="Any tips, warnings, or anything else that might help others?"
-                value={tips}
-                onChange={(e) => setTips(e.target.value)}
+                placeholder="What do others need to know?"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
                 rows={2}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
                          dark:bg-gray-700 dark:text-white text-sm"
               />
               
-              {(socialImpact || sleepQualityChange || (category === 'sleep' && specificApproach) || resources || tips) && (
+              {(socialImpact || sleepQualityChange || (category === 'sleep' && specificApproach) || resources || notes) && (
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 

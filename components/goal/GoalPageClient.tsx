@@ -110,11 +110,11 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-pink-700',
     borderColor: 'border-pink-200',
     bgColor: 'bg-pink-50',
-    keyFields: ['time_to_results', 'skincareFrequency', 'length_of_use', 'cost'],
+    keyFields: ['time_to_results', 'skincare_frequency', 'length_of_use', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      skincareFrequency: 'Frequency',
+      skincare_frequency: 'Frequency',
       length_of_use: 'Length of Use'
     },
     arrayField: 'side_effects'
@@ -126,10 +126,9 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['time_to_results', 'practice_length', 'startup_cost', 'ongoing_cost'],
+    keyFields: ['time_to_results', 'practice_length', 'cost'],
     fieldLabels: {
-      startup_cost: 'Initial Cost',
-      ongoing_cost: 'Ongoing Cost',
+      cost: 'Cost',
       time_to_results: 'Time to Results',
       practice_length: 'Practice Length'
     },
@@ -140,10 +139,9 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['time_to_results', 'frequency', 'startup_cost', 'ongoing_cost'],
+    keyFields: ['time_to_results', 'frequency', 'cost'],
     fieldLabels: {
-      startup_cost: 'Initial Cost',
-      ongoing_cost: 'Ongoing Cost',
+      cost: 'Cost',
       time_to_results: 'Time to Results',
       frequency: 'Frequency'
     },
@@ -154,10 +152,9 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-orange-700',
     borderColor: 'border-orange-200',
     bgColor: 'bg-orange-50',
-    keyFields: ['time_to_results', 'time_commitment', 'startup_cost', 'ongoing_cost'],
+    keyFields: ['time_to_results', 'time_commitment', 'cost'],
     fieldLabels: {
-      startup_cost: 'Initial Cost',
-      ongoing_cost: 'Ongoing Cost',
+      cost: 'Cost',
       time_to_results: 'Time to Results',
       time_commitment: 'Time Commitment'
     },
@@ -170,14 +167,14 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-purple-700',
     borderColor: 'border-purple-200',
     bgColor: 'bg-purple-50',
-    keyFields: ['time_to_results', 'session_frequency', 'format', 'cost'],
+    keyFields: ['time_to_results', 'session_frequency', 'session_length', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
       session_frequency: 'Session Frequency',
-      format: 'Format'
+      session_length: 'Session Length'
     },
-    arrayField: 'barriers'
+    arrayField: 'challenges'
   },
   doctors_specialists: {
     icon: '👨‍⚕️',
@@ -191,33 +188,33 @@ const CATEGORY_CONFIG: Record<string, {
       wait_time: 'Wait Time',
       insurance_coverage: 'Insurance Coverage'
     },
-    arrayField: 'barriers'
+    arrayField: 'challenges'
   },
   coaches_mentors: {
     icon: '🎯',
     color: 'text-yellow-700',
     borderColor: 'border-yellow-200',
     bgColor: 'bg-yellow-50',
-    keyFields: ['time_to_results', 'session_frequency', 'format', 'cost'],
+    keyFields: ['time_to_results', 'session_frequency', 'session_length', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
       session_frequency: 'Session Frequency',
-      format: 'Format'
+      session_length: 'Session Length'
     },
-    arrayField: 'barriers'
+    arrayField: 'challenges'
   },
   alternative_practitioners: {
     icon: '🌸',
     color: 'text-teal-700',
     borderColor: 'border-teal-200',
     bgColor: 'bg-teal-50',
-    keyFields: ['time_to_results', 'session_frequency', 'format', 'cost'],
+    keyFields: ['time_to_results', 'session_frequency', 'session_length', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
       session_frequency: 'Session Frequency',
-      format: 'Format'
+      session_length: 'Session Length'
     },
     arrayField: 'side_effects'
   },
@@ -226,25 +223,25 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-gray-700',
     borderColor: 'border-gray-200',
     bgColor: 'bg-gray-50',
-    keyFields: ['time_to_results', 'session_frequency', 'format', 'cost'],
+    keyFields: ['time_to_results', 'session_frequency', 'specialty_service_type', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
       session_frequency: 'Session Frequency',
-      format: 'Format'
+      specialty_service_type: 'Service Type'
     },
-    arrayField: 'barriers'
+    arrayField: 'challenges'
   },
   medical_procedures: {
     icon: '🏥',
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['time_to_results', 'treatment_frequency', 'wait_time', 'cost'],
+    keyFields: ['time_to_results', 'session_frequency', 'wait_time', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      treatment_frequency: 'Frequency',
+      session_frequency: 'Treatment Frequency',
       wait_time: 'Wait Time'
     },
     arrayField: 'side_effects'
@@ -254,12 +251,11 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['time_to_results', 'response_time', 'format', 'cost'],
+    keyFields: ['time_to_results', 'response_time', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      response_time: 'Response Time',
-      format: 'Format'
+      response_time: 'Response Time'
     },
     arrayField: null
   },
@@ -270,12 +266,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['time_to_results', 'weekly_prep_time', 'long_term_sustainability', 'cost_impact'],
+    keyFields: ['time_to_results', 'weekly_prep_time', 'still_following', 'cost'],
     fieldLabels: {
-      cost_impact: 'Cost Impact',
+      cost: 'Cost Impact',
       time_to_results: 'Time to Results',
       weekly_prep_time: 'Prep Time',
-      long_term_sustainability: 'Sustainability'
+      still_following: 'Still Following'
     },
     arrayField: 'challenges'
   },
@@ -284,12 +280,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['time_to_results', 'previous_sleep_hours', 'long_term_sustainability', 'cost_impact'],
+    keyFields: ['time_to_results', 'previous_sleep_hours', 'still_following', 'cost'],
     fieldLabels: {
-      cost_impact: 'Cost Impact',
+      cost: 'Cost Impact',
       time_to_results: 'Time to Results',
       previous_sleep_hours: 'Previous Sleep',
-      long_term_sustainability: 'Sustainability'
+      still_following: 'Still Following'
     },
     arrayField: 'challenges'
   },
@@ -307,7 +303,7 @@ const CATEGORY_CONFIG: Record<string, {
       ease_of_use: 'Ease of Use',
       product_type: 'Product Type'
     },
-    arrayField: 'issues'
+    arrayField: 'challenges'
   },
   books_courses: {
     icon: '📚',
@@ -321,7 +317,7 @@ const CATEGORY_CONFIG: Record<string, {
       format: 'Format',
       learning_difficulty: 'Difficulty'
     },
-    arrayField: 'issues'
+    arrayField: 'challenges'
   },
 
   // APP FORM (1 category)
@@ -376,14 +372,14 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-purple-700',
     borderColor: 'border-purple-200',
     bgColor: 'bg-purple-50',
-    keyFields: ['time_to_enjoyment', 'time_commitment', 'startup_cost', 'ongoing_cost'],
+    keyFields: ['time_to_results', 'time_commitment', 'frequency', 'cost'],
     fieldLabels: {
-      time_commitment: 'Time Commitment',
-      startup_cost: 'Initial Cost',
-      ongoing_cost: 'Ongoing Cost',
-      time_to_enjoyment: 'Time to Enjoyment'
+      time_commitment: 'Time per Session',
+      frequency: 'Frequency',
+      cost: 'Cost',
+      time_to_results: 'Time to Enjoyment'
     },
-    arrayField: 'barriers'
+    arrayField: 'challenges'
   },
 
   // FINANCIAL FORM (1 category)
@@ -392,14 +388,13 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['time_to_impact', 'cost_type', 'financial_benefit', 'access_time'],
+    keyFields: ['time_to_results', 'financial_benefit', 'access_time'],
     fieldLabels: {
-      cost_type: 'Cost Type',
       financial_benefit: 'Financial Benefit',
-      time_to_impact: 'Time to Impact',
+      time_to_results: 'Time to Impact',
       access_time: 'Access Time'
     },
-    arrayField: 'barriers'
+    arrayField: 'challenges'
   }
 }
 
@@ -745,12 +740,41 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
 
   // Helper to get distribution for a specific solution and field
   const getDistributionForSolutionField = (solution: GoalSolutionWithVariants, fieldName: string): DistributionData | null => {
-    // First try direct lookup
+    // First check aggregated_fields (user data in aligned format)
+    if (solution.aggregated_fields) {
+      const aggregated = solution.aggregated_fields as Record<string, any>
+      
+      // Check metadata for data source
+      const metadata = aggregated._metadata
+      const dataSource = metadata?.data_source || 'user'
+      
+      if (aggregated[fieldName]) {
+        // Already in DistributionData format from our aggregator
+        const distribution = aggregated[fieldName] as DistributionData
+        distribution.dataSource = dataSource
+        return distribution
+      }
+      
+      // Try field mappings for aggregated data
+      const mappedFields = FIELD_MAPPINGS[fieldName] || []
+      for (const mappedField of mappedFields) {
+        if (aggregated[mappedField]) {
+          const distribution = aggregated[mappedField] as DistributionData
+          distribution.dataSource = dataSource
+          return distribution
+        }
+      }
+    }
+    
+    // Fall back to AI distributions if no user data
     const directKey = `${solution.id}-${fieldName}`;
     const directResult = distributionMap.get(directKey);
-    if (directResult) return directResult;
+    if (directResult) {
+      directResult.dataSource = 'ai' // Mark as AI data
+      return directResult
+    }
     
-    // If no direct match, try field mappings
+    // If no direct match, try field mappings for AI data
     const mappedFields = FIELD_MAPPINGS[fieldName] || [];
     for (const mappedField of mappedFields) {
       const mappedKey = `${solution.id}-${mappedField}`;
@@ -758,8 +782,9 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
       if (mappedResult) {
         // Debug logging
         if (process.env.NODE_ENV === 'development') {
-          console.log(`Distribution found via mapping: ${fieldName} -> ${mappedField}`);
+          console.log(`AI distribution found via mapping: ${fieldName} -> ${mappedField}`);
         }
+        mappedResult.dataSource = 'ai' // Mark as AI data
         return mappedResult;
       }
     }
@@ -820,6 +845,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
     }
     
     // Handle legacy string format
+    // Handle legacy long_term_sustainability field (for old data)
     if ('long_term_sustainability' in solutionFields && typeof solutionFields.long_term_sustainability === 'string') {
       const value = solutionFields.long_term_sustainability as string
       const positiveTerms = ['still maintaining', 'maintained for years', 'easy', 'sustainable']
@@ -1317,7 +1343,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                             const distribution = getDistributionForSolutionField(solution, fieldName)
                             
                             // Check if this is sustainability field for sleep/diet categories
-                            if (fieldName === 'long_term_sustainability' && 
+                            if ((fieldName === 'long_term_sustainability' || fieldName === 'still_following') && 
                                 (solution.solution_category === 'sleep' || solution.solution_category === 'diet_nutrition')) {
                               const sustainabilityData = calculateSustainabilityData(solution)
                               if (sustainabilityData) {
@@ -1343,13 +1369,15 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                     label={categoryConfig.fieldLabels[fieldName] || fieldName}
                                     value={topValue.value}
                                     consensusStrength={topValue.percentage}
+                                    count={topValue.count}
+                                    totalReports={distribution.totalReports}
                                   />
                                 </div>
                               )
                             }
                             
                             // Detailed view - check for sustainability first
-                            if (fieldName === 'long_term_sustainability' && 
+                            if ((fieldName === 'long_term_sustainability' || fieldName === 'still_following') && 
                                 (solution.solution_category === 'sleep' || solution.solution_category === 'diet_nutrition') &&
                                 cardView === 'detailed') {
                               const sustainabilityData = calculateSustainabilityData(solution)
@@ -1441,7 +1469,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                             const distribution = getDistributionForSolutionField(solution, fieldName)
                             
                             // Check if this is sustainability field for sleep/diet categories
-                            if (fieldName === 'long_term_sustainability' && 
+                            if ((fieldName === 'long_term_sustainability' || fieldName === 'still_following') && 
                                 (solution.solution_category === 'sleep' || solution.solution_category === 'diet_nutrition')) {
                               const sustainabilityData = calculateSustainabilityData(solution)
                               if (sustainabilityData) {
@@ -1467,13 +1495,15 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                     label={categoryConfig.fieldLabels[fieldName] || fieldName}
                                     value={topValue.value}
                                     consensusStrength={topValue.percentage}
+                                    count={topValue.count}
+                                    totalReports={distribution.totalReports}
                                   />
                                 </div>
                               )
                             }
                             
                             // Detailed view - check for sustainability first
-                            if (fieldName === 'long_term_sustainability' && 
+                            if ((fieldName === 'long_term_sustainability' || fieldName === 'still_following') && 
                                 (solution.solution_category === 'sleep' || solution.solution_category === 'diet_nutrition') &&
                                 cardView === 'detailed') {
                               const sustainabilityData = calculateSustainabilityData(solution)
@@ -1566,11 +1596,8 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                       if (fieldName === 'challenges' || fieldName === 'challenges_experienced') {
                         return 'Challenges'
                       }
-                      if (fieldName === 'issues') {
-                        return 'Issues'
-                      }
-                      if (fieldName === 'barriers') {
-                        return 'Barriers'
+                      if (fieldName === 'challenges') {
+                        return 'Challenges'
                       }
                       // Default: capitalize first letter
                       return fieldName.split('_').map(word => 

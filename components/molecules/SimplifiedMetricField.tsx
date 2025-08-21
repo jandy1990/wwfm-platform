@@ -4,12 +4,16 @@ interface SimplifiedMetricFieldProps {
   label: string;
   value: string;
   consensusStrength: number; // 0-100 percentage
+  count?: number; // Number of users reporting this value
+  totalReports?: number; // Total number of reports
 }
 
 export const SimplifiedMetricField: React.FC<SimplifiedMetricFieldProps> = ({
   label,
   value,
-  consensusStrength
+  consensusStrength,
+  count,
+  totalReports
 }) => {
   const getBarColor = (percentage: number): string => {
     if (percentage >= 40) return 'bg-green-500 dark:bg-green-600';
@@ -32,7 +36,13 @@ export const SimplifiedMetricField: React.FC<SimplifiedMetricFieldProps> = ({
             style={{ width: `${consensusStrength}%` }}
           />
         </div>
-        <span className="text-xs text-gray-500 dark:text-gray-400">{consensusStrength}%</span>
+        <span className="text-xs text-gray-500 dark:text-gray-400">
+          {count && totalReports ? (
+            <>{count} of {totalReports} · {consensusStrength}%</>
+          ) : (
+            <>{consensusStrength}%</>
+          )}
+        </span>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/database/client';
-import { ChevronLeft, Check, Plus, X } from 'lucide-react';
+import { ChevronLeft, Check, X } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { Label } from '@/components/atoms/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
@@ -13,6 +13,7 @@ import { COST_RANGES } from '@/lib/forms/templates';
 import { Skeleton } from '@/components/atoms/skeleton';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
+import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 
 interface SessionFormProps {
@@ -51,6 +52,8 @@ export function SessionForm({
   const [submissionResult, setSubmissionResult] = useState<{
     solutionId?: string;
     variantId?: string;
+    ratingId?: string;
+    implementationId?: string;
     otherRatingsCount?: number;
   }>({});
   const [restoredFromBackup, setRestoredFromBackup] = useState(false);
@@ -58,7 +61,7 @@ export function SessionForm({
   // Step 1 fields - Universal + Category-specific
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
   const [timeToResults, setTimeToResults] = useState('');
-  const [costType, setCostType] = useState<'per_session' | 'monthly' | 'total'>('per_session');
+  const [costType, setCostType] = useState<'per_session' | 'monthly' | 'total' | ''>('');
   const [costRange, setCostRange] = useState('');
   const [sessionFrequency, setSessionFrequency] = useState('');
   const [format, setFormat] = useState('');
@@ -68,34 +71,34 @@ export function SessionForm({
   const [specialty, setSpecialty] = useState('');
   const [responseTime, setResponseTime] = useState('');
   
-  // Step 2 fields - Arrays (side effects or barriers)
+  // Step 2 fields - Arrays (side effects or challenges)
   const [selectedSideEffects, setSelectedSideEffects] = useState<string[]>(['None']);
   const [sideEffectOptions, setSideEffectOptions] = useState<string[]>([]);
   const [customSideEffect, setCustomSideEffect] = useState('');
   const [showCustomSideEffect, setShowCustomSideEffect] = useState(false);
-  const [selectedBarriers, setSelectedBarriers] = useState<string[]>(['None']);
-  const [barrierOptions, setBarrierOptions] = useState<string[]>([]);
+  const [selectedChallenges, setSelectedChallenges] = useState<string[]>(['None']);
+  const [challengeOptions, setChallengeOptions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [barriersLoading, setBarriersLoading] = useState(true);
-  const [customBarrier, setCustomBarrier] = useState('');
-  const [showCustomBarrier, setShowCustomBarrier] = useState(false);
+  const [challengesLoading, setChallengesLoading] = useState(true);
+  const [customChallenge, setCustomChallenge] = useState('');
+  const [showCustomChallenge, setShowCustomChallenge] = useState(false);
   
   // Step 3 - Failed solutions
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
   
-  // Optional fields (Success screen)
+  // Optional fields (Success screen only - not included in initial submission)
   const [completedTreatment, setCompletedTreatment] = useState('');
   const [typicalLength, setTypicalLength] = useState('');
   const [availability, setAvailability] = useState<string[]>([]);
-  const [additionalInfo, setAdditionalInfo] = useState('');
+  const [notes, setNotes] = useState('');
   
   // const supabaseClient = createClientComponentClient();
   
   // Only show side effects for medical procedures and alternative practitioners
   const showSideEffects = ['medical_procedures', 'alternative_practitioners'].includes(category);
   
-  // Show barriers for therapists, coaches, doctors, professional services, and crisis resources
-  const showBarriers = ['therapists_counselors', 'coaches_mentors', 'doctors_specialists', 'professional_services', 'crisis_resources'].includes(category);
+  // Show challenges for therapists, coaches, doctors, professional services, and crisis resources
+  const showChallenges = ['therapists_counselors', 'coaches_mentors', 'doctors_specialists', 'professional_services', 'crisis_resources'].includes(category);
   
   // Progress indicator
   const totalSteps = 3;
@@ -116,13 +119,13 @@ export function SessionForm({
     responseTime,
     selectedSideEffects,
     customSideEffect,
-    selectedBarriers,
-    customBarrier,
+    selectedChallenges,
+    customChallenge,
     failedSolutions,
     completedTreatment,
     typicalLength,
     availability,
-    additionalInfo,
+    notes,
     currentStep,
     highestStepReached
   };
@@ -135,7 +138,7 @@ export function SessionForm({
       onRestore: (data) => {
         setEffectiveness(data.effectiveness || null);
         setTimeToResults(data.timeToResults || '');
-        setCostType(data.costType || 'per_session');
+        setCostType(data.costType || '');
         setCostRange(data.costRange || '');
         setSessionFrequency(data.sessionFrequency || '');
         setFormat(data.format || '');
@@ -146,13 +149,13 @@ export function SessionForm({
         setResponseTime(data.responseTime || '');
         setSelectedSideEffects(data.selectedSideEffects || ['None']);
         setCustomSideEffect(data.customSideEffect || '');
-        setSelectedBarriers(data.selectedBarriers || ['None']);
-        setCustomBarrier(data.customBarrier || '');
+        setSelectedChallenges(data.selectedChallenges || ['None']);
+        setCustomChallenge(data.customChallenge || '');
         setFailedSolutions(data.failedSolutions || []);
         setCompletedTreatment(data.completedTreatment || '');
         setTypicalLength(data.typicalLength || '');
         setAvailability(data.availability || []);
-        setAdditionalInfo(data.additionalInfo || '');
+        setNotes(data.notes || '');
         setCurrentStep(data.currentStep || 1);
         setHighestStepReached(data.highestStepReached || 1);
         setRestoredFromBackup(true);
@@ -216,11 +219,11 @@ export function SessionForm({
   }, [category, showSideEffects]);
   
   useEffect(() => {
-    if (showBarriers) {
-      setBarriersLoading(true);
+    if (showChallenges) {
+      setChallengesLoading(true);
       
-      // Fallback barrier options for categories that might not be in DB yet
-      const fallbackBarriers: Record<string, string[]> = {
+      // Fallback challenge options for categories that might not be in DB yet
+      const fallbackChallenges: Record<string, string[]> = {
         professional_services: [
           'Finding qualified professionals',
           'High cost',
@@ -247,7 +250,7 @@ export function SessionForm({
         ]
       };
       
-      const fetchBarriers = async () => {
+      const fetchChallenges = async () => {
         const { data, error } = await supabase
           .from('challenge_options')
           .select('label')
@@ -256,17 +259,17 @@ export function SessionForm({
           .order('display_order');
         
         if (!error && data && data.length > 0) {
-          setBarrierOptions(data.map(item => item.label));
-        } else if (fallbackBarriers[category]) {
+          setChallengeOptions(data.map(item => item.label));
+        } else if (fallbackChallenges[category]) {
           // Use fallback if no data in DB
-          setBarrierOptions(fallbackBarriers[category]);
+          setChallengeOptions(fallbackChallenges[category]);
         }
-        setBarriersLoading(false);
+        setChallengesLoading(false);
       };
       
-      fetchBarriers();
+      fetchChallenges();
     }
-  }, [category, showBarriers]);
+  }, [category, showChallenges]);
   
   const handleSideEffectToggle = (effect: string) => {
     if (effect === 'None') {
@@ -274,12 +277,10 @@ export function SessionForm({
       setShowCustomSideEffect(false);
     } else if (effect === 'Other (please describe)') {
       // Toggle the text input visibility
-      if (selectedSideEffects.includes(effect)) {
-        setSelectedSideEffects(prev => prev.filter(e => e !== effect));
+      if (showCustomSideEffect) {
         setShowCustomSideEffect(false);
         setCustomSideEffect('');
       } else {
-        setSelectedSideEffects(prev => [...prev.filter(e => e !== 'None'), effect]);
         setShowCustomSideEffect(true);
       }
     } else {
@@ -294,45 +295,63 @@ export function SessionForm({
     }
   };
   
-  const handleBarrierToggle = (barrier: string) => {
-    if (barrier === 'None') {
-      setSelectedBarriers(['None']);
+  const addCustomSideEffect = () => {
+    if (customSideEffect.trim()) {
+      setSelectedSideEffects(selectedSideEffects.filter(e => e !== 'None').concat(customSideEffect.trim()));
+      setCustomSideEffect('');
+      setShowCustomSideEffect(false);
+    }
+  };
+  
+  const handleChallengeToggle = (challenge: string) => {
+    if (challenge === 'None') {
+      setSelectedChallenges(['None']);
+      setShowCustomChallenge(false);
+    } else if (challenge === 'Other (please describe)') {
+      // Toggle the text input visibility
+      if (showCustomChallenge) {
+        setShowCustomChallenge(false);
+        setCustomChallenge('');
+      } else {
+        setShowCustomChallenge(true);
+      }
     } else {
-      setSelectedBarriers(prev => {
-        const filtered = prev.filter(b => b !== 'None');
-        if (prev.includes(barrier)) {
-          const newBarriers = filtered.filter(b => b !== barrier);
-          return newBarriers.length === 0 ? ['None'] : newBarriers;
+      setSelectedChallenges(prev => {
+        const filtered = prev.filter(c => c !== 'None');
+        if (prev.includes(challenge)) {
+          const newChallenges = filtered.filter(c => c !== challenge);
+          return newChallenges.length === 0 ? ['None'] : newChallenges;
         }
-        return [...filtered, barrier];
+        return [...filtered, challenge];
       });
     }
   };
 
-  const addCustomBarrier = () => {
-    if (customBarrier.trim()) {
-      setSelectedBarriers(selectedBarriers.filter(b => b !== 'None').concat(customBarrier.trim()));
-      setCustomBarrier('');
-      setShowCustomBarrier(false);
+  const addCustomChallenge = () => {
+    if (customChallenge.trim()) {
+      setSelectedChallenges(selectedChallenges.filter(c => c !== 'None').concat(customChallenge.trim()));
+      setCustomChallenge('');
+      setShowCustomChallenge(false);
     }
   };
 
   // Different cost options for different categories
   const getCostOptions = () => {
     if (category === 'crisis_resources') {
-      return ['Free', 'Donation-based', 'Sliding scale'];
+      return ['Free', 'Donation-based', 'Sliding scale', "Don't remember"];
     }
     if (category === 'medical_procedures') {
       // Handle all three cost types for medical procedures
       if (costType === 'total') {
-        return COST_RANGES.one_time;  // For total cost of procedure
+        return [...COST_RANGES.one_time, "Don't remember"];  // For total cost of procedure
       } else if (costType === 'per_session') {
-        return COST_RANGES.per_session;  // For per session costs
+        return [...COST_RANGES.per_session, "Don't remember"];  // For per session costs
       } else {
-        return COST_RANGES.monthly;  // For monthly costs
+        return [...COST_RANGES.monthly, "Don't remember"];  // For monthly costs
       }
     }
-    return COST_RANGES[costType as keyof typeof COST_RANGES] || COST_RANGES.per_session;
+    const baseOptions = COST_RANGES[costType as keyof typeof COST_RANGES] || COST_RANGES.per_session;
+    return [...baseOptions, "Don't remember"];
   };
   
   const renderStepOne = () => {
@@ -744,7 +763,7 @@ export function SessionForm({
             <span className="text-lg">⚡</span>
           </div>
           <h2 className="text-xl font-semibold">
-            {showSideEffects ? 'Any side effects?' : 'Any barriers?'}
+            {showSideEffects ? 'Any side effects?' : 'Any challenges?'}
           </h2>
         </div>
 
@@ -755,7 +774,7 @@ export function SessionForm({
           </p>
         </div>
 
-        {showSideEffects ? renderSideEffects() : showBarriers ? renderBarriers() : null}
+        {showSideEffects ? renderSideEffects() : showChallenges ? renderChallenges() : null}
       </div>
     );
   };
@@ -814,10 +833,15 @@ export function SessionForm({
       );
     }
     
+    // Add "Other" option if not already in the list
+    const allSideEffects = sideEffectOptions.includes('Other (please describe)') 
+      ? sideEffectOptions 
+      : [...sideEffectOptions, 'Other (please describe)'];
+    
     return (
       <>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {sideEffectOptions.map((effect) => (
+          {allSideEffects.map((effect) => (
         <label
           key={effect}
           className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
@@ -850,24 +874,37 @@ export function SessionForm({
 
       {/* Custom side effect input */}
       {showCustomSideEffect && (
-        <div className="mt-3 animate-fade-in">
-          <input
-            type="text"
-            value={customSideEffect}
-            onChange={(e) => setCustomSideEffect(e.target.value)}
-            placeholder="Please describe the side effect"
-            className="w-full px-3 py-2 border border-blue-500 rounded-lg 
-                     focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                     dark:bg-gray-800 dark:text-white"
-            autoFocus
-          />
+        <div className="mt-3 space-y-2 animate-fade-in">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={customSideEffect}
+              onChange={(e) => setCustomSideEffect(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && addCustomSideEffect()}
+              placeholder="Please describe the side effect"
+              maxLength={500}
+              className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
+                       focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                       dark:bg-gray-800 dark:text-white"
+              autoFocus
+            />
+            <button
+              type="button"
+              onClick={addCustomSideEffect}
+              disabled={!customSideEffect.trim()}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
+                       disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Add
+            </button>
+          </div>
         </div>
       )}
       </>
     );
   };
   
-  const renderBarriers = () => {
+  const renderChallenges = () => {
     if (barriersLoading) {
       return (
         <div className="space-y-2">
@@ -877,78 +914,73 @@ export function SessionForm({
       );
     }
     
+    // Add "Other" option if not already in the list
+    const allChallenges = challengeOptions.includes('Other (please describe)') 
+      ? challengeOptions 
+      : [...challengeOptions, 'Other (please describe)'];
+    
     return (
       <>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {barrierOptions.map((barrier) => (
+          {allChallenges.map((challenge) => (
         <label
-          key={barrier}
+          key={challenge}
           className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
                     transition-all transform hover:scale-[1.02] ${
-            selectedBarriers.includes(barrier)
+            selectedChallenges.includes(challenge)
               ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
               : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
           }`}
         >
           <input
             type="checkbox"
-            checked={selectedBarriers.includes(barrier)}
-            onChange={() => handleBarrierToggle(barrier)}
+            checked={selectedChallenges.includes(challenge)}
+            onChange={() => handleChallengeToggle(challenge)}
             className="sr-only"
           />
           <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 
                         transition-all ${
-            selectedBarriers.includes(barrier)
+            selectedChallenges.includes(challenge)
               ? 'border-blue-500 bg-blue-500'
               : 'border-gray-300 dark:border-gray-600 group-hover:border-gray-400'
           }`}>
-            {selectedBarriers.includes(barrier) && (
+            {selectedChallenges.includes(challenge) && (
               <Check className="w-3 h-3 text-white animate-scale-in" />
             )}
           </div>
-          <span className="text-sm">{barrier}</span>
+          <span className="text-sm">{challenge}</span>
         </label>
         ))}
-        
-        {/* Add Other button */}
-        <button
-          onClick={() => setShowCustomBarrier(true)}
-          className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
-                    transition-all transform hover:scale-[1.02] border-dashed
-                    border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-sm"
-        >
-          <Plus className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors" />
-          <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200">
-            Add other barrier
-          </span>
-        </button>
       </div>
 
       {/* Custom barrier input */}
-      {showCustomBarrier && (
+      {showCustomChallenge && (
         <div className="mt-3 flex gap-2 animate-fade-in">
           <input
             type="text"
-            value={customBarrier}
-            onChange={(e) => setCustomBarrier(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && addCustomBarrier()}
-            placeholder="Describe the barrier"
+            value={customChallenge}
+            onChange={(e) => setCustomChallenge(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && addCustomChallenge()}
+            placeholder="Describe the challenge"
+            maxLength={500}
             className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
                      focus:ring-2 focus:ring-blue-500 focus:border-transparent
                      dark:bg-gray-800 dark:text-white"
             autoFocus
           />
           <button
-            onClick={addCustomBarrier}
+            type="button"
+            onClick={addCustomChallenge}
+            disabled={!customChallenge.trim()}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
-                     rounded-lg transition-colors"
+                     rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Add
           </button>
           <button
             onClick={() => {
-              setShowCustomBarrier(false);
-              setCustomBarrier('');
+              setShowCustomChallenge(false);
+              setCustomChallenge('');
             }}
             className="px-3 py-2 text-gray-500 hover:text-gray-700"
           >
@@ -958,16 +990,16 @@ export function SessionForm({
       )}
 
       {/* Show custom barriers */}
-      {selectedBarriers.filter(b => !barrierOptions.includes(b) && b !== 'None').length > 0 && (
+      {selectedChallenges.filter(c => !challengeOptions.includes(c) && c !== 'None').length > 0 && (
         <div className="mt-2">
           <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Added:</p>
           <div className="flex flex-wrap gap-2">
-            {selectedBarriers.filter(b => !barrierOptions.includes(b) && b !== 'None').map((barrier) => (
-              <span key={barrier} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
+            {selectedChallenges.filter(c => !challengeOptions.includes(c) && c !== 'None').map((challenge) => (
+              <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
                                            text-blue-700 dark:text-blue-300 rounded-full text-sm">
-                {barrier}
+                {challenge}
                 <button
-                  onClick={() => setSelectedBarriers(selectedBarriers.filter(b => b !== barrier))}
+                  onClick={() => setSelectedChallenges(selectedChallenges.filter(c => c !== challenge))}
                   className="hover:text-blue-900 dark:hover:text-blue-100"
                 >
                   <X className="w-3 h-3" />
@@ -988,26 +1020,31 @@ export function SessionForm({
         const universalValid = effectiveness !== null && timeToResults !== '';
         
         // Cost always required
-        const costValid = costRange !== '';
+        const costValid = costRange !== '' && 
+                         (category === 'crisis_resources' || costType !== '');
         
         // Category-specific required fields
         let categorySpecificValid = true;
         
         if (category === 'therapists_counselors') {
-          categorySpecificValid = sessionLength !== '';
+          categorySpecificValid = sessionLength !== '' && sessionFrequency !== '';
         } else if (category === 'medical_procedures') {
-          categorySpecificValid = waitTime !== '';
+          categorySpecificValid = waitTime !== '' && sessionFrequency !== '';
         } else if (category === 'professional_services') {
-          categorySpecificValid = specialty !== '';
+          categorySpecificValid = specialty !== '' && sessionFrequency !== '';
         } else if (category === 'crisis_resources') {
           categorySpecificValid = responseTime !== '';
+          // Note: crisis_resources doesn't need session_frequency
+        } else {
+          // For other categories (coaches, alternative practitioners, etc.)
+          categorySpecificValid = sessionFrequency !== '';
         }
         
         return universalValid && costValid && categorySpecificValid;
         
       case 2:
         // Must select at least one side effect/barrier
-        const hasSelections = showSideEffects ? selectedSideEffects.length > 0 : selectedBarriers.length > 0;
+        const hasSelections = showSideEffects ? selectedSideEffects.length > 0 : selectedChallenges.length > 0;
         return hasSelections;
         
       case 3:
@@ -1023,11 +1060,28 @@ export function SessionForm({
     setIsSubmitting(true);
     
     try {
+      // Determine primary cost and type
+      const hasUnknownCost = costRange === "Don't remember";
+      const primaryCost = hasUnknownCost ? "Unknown" : 
+                          costRange === "Free" || costRange === "Donation-based" ? "Free" :
+                          costRange;
+      
+      // Determine cost_type for the primary cost field
+      const derivedCostType = hasUnknownCost ? "unknown" :
+                              costRange === "Free" || costRange === "Donation-based" ? "free" :
+                              costType === "total" ? "one_time" :
+                              costType === "per_session" ? "per_session" :
+                              "recurring"; // monthly
+      
       // Prepare solution fields for storage
       const solutionFields: Record<string, any> = {
-        cost_type: costType,
+        // Universal field
+        time_to_results: timeToResults,
+        // Cost fields
+        cost: primaryCost,
+        cost_type: derivedCostType,
         cost_range: costRange,
-        time_to_results: timeToResults
+        session_cost_type: costType // Preserve the original session cost type
       };
       
       // Add optional fields based on category
@@ -1041,23 +1095,15 @@ export function SessionForm({
       
       // Add side effects or barriers
       if (showSideEffects) {
-        solutionFields.side_effects = selectedSideEffects;
-        if (selectedSideEffects.includes('Other (please describe)') && customSideEffect) {
-          solutionFields.custom_side_effect = customSideEffect;
-        }
+        // Filter out 'None' and don't include 'Other (please describe)' marker
+        solutionFields.side_effects = selectedSideEffects.filter(e => e !== 'None' && e !== 'Other (please describe)');
       }
-      if (showBarriers) {
-        solutionFields.barriers = selectedBarriers;
-        if (customBarrier) {
-          solutionFields.custom_barrier = customBarrier;
-        }
+      if (showChallenges) {
+        // Filter out 'None' from challenges
+        solutionFields.challenges = selectedChallenges.filter(c => c !== 'None');
       }
       
-      // Add optional success screen fields
-      if (completedTreatment) solutionFields.completed_treatment = completedTreatment;
-      if (typicalLength) solutionFields.typical_length = typicalLength;
-      if (availability.length > 0) solutionFields.availability = availability;
-      if (additionalInfo) solutionFields.additional_info = additionalInfo;
+      // REMOVED from initial submission - notes handled in success screen only
 
       // Prepare submission data
       const submissionData: SubmitSolutionData = {
@@ -1080,6 +1126,8 @@ export function SessionForm({
         setSubmissionResult({
           solutionId: result.solutionId,
           variantId: result.variantId,
+          ratingId: result.ratingId,
+          implementationId: result.variantId, // For session forms, variantId is the implementationId
           otherRatingsCount: result.otherRatingsCount
         });
         
@@ -1102,13 +1150,42 @@ export function SessionForm({
   };
   
   const updateAdditionalInfo = async () => {
-    // TODO: Update additional info
-    console.log('Updating additional info:', { 
-      completedTreatment,
-      typicalLength,
-      availability,
-      additionalInfo 
-    });
+    // Prepare the additional fields to save
+    const additionalFields: Record<string, any> = {};
+    
+    if (completedTreatment) additionalFields.completed_treatment = completedTreatment;
+    if (typicalLength) additionalFields.typical_length = typicalLength;
+    if (availability.length > 0) additionalFields.availability = availability;
+    if (notes && notes.trim()) additionalFields.notes = notes.trim();
+    
+    // Only proceed if there are fields to update
+    if (Object.keys(additionalFields).length === 0) {
+      console.log('No additional fields to update');
+      return;
+    }
+    
+    try {
+      const result = await updateSolutionFields({
+        ratingId: submissionResult.ratingId,
+        goalId,
+        implementationId: submissionResult.implementationId!,
+        userId,
+        additionalFields
+      });
+      
+      if (result.success) {
+        // Show success feedback
+        console.log('Successfully updated additional information');
+        // Clear the form or show success indicator
+        alert('Additional information saved successfully!');
+      } else {
+        console.error('Failed to update:', result.error);
+        alert('Failed to save additional information. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating additional info:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
   
   const renderStep = () => {
@@ -1216,16 +1293,16 @@ export function SessionForm({
               )}
               
               <textarea
-                placeholder="Any tips or additional info that might help others?"
-                value={additionalInfo}
-                onChange={(e) => setAdditionalInfo(e.target.value)}
+                placeholder="What do others need to know?"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
                 rows={2}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
                          dark:bg-gray-700 dark:text-white text-sm"
               />
               
-              {(completedTreatment || typicalLength || availability.length > 0 || additionalInfo) && (
+              {(completedTreatment || typicalLength || availability.length > 0 || notes) && (
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
