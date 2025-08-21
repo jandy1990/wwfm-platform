@@ -9,24 +9,16 @@
  */
 
 import { createServerSupabaseClient } from '@/lib/database/server'
+import type { 
+  DistributionData, 
+  DistributionValue,
+  AggregatedFields, 
+  RatingWithFields,
+  AggregatedFieldsMetadata 
+} from '@/types/aggregated-fields'
 
-// Matches the display layer's expected format
-interface DistributionValue {
-  value: string
-  count: number
-  percentage: number
-}
-
-interface DistributionData {
-  mode: string // Most common value for simple view
-  values: DistributionValue[]
-  totalReports: number
-}
-
-interface AggregatedFields {
-  // Array fields (side_effects, challenges) become DistributionData
-  side_effects?: DistributionData
-  challenges?: DistributionData
+// Re-export types for convenience
+export type { DistributionData, AggregatedFields, RatingWithFields }
   
   // Cost fields with special handling
   cost?: DistributionData
