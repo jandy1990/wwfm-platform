@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/database/client';
 import { ChevronLeft, Check, X } from 'lucide-react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { Label } from '@/components/atoms/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
@@ -185,10 +185,7 @@ export function SessionForm({
     };
   }, [currentStep, onBack]);
   
-  // Update history when step changes
-  useEffect(() => {
-    window.history.pushState({ step: currentStep }, '');
-  }, [currentStep]);
+  // REMOVED: Duplicate history push - already handled in the useEffect above
   
   // Track highest step reached
   useEffect(() => {
@@ -201,6 +198,7 @@ export function SessionForm({
     if (showSideEffects) {
       setLoading(true);
       const fetchOptions = async () => {
+        const supabase = createClientComponentClient();
         const { data, error } = await supabase
           .from('side_effect_options')
           .select('label')
@@ -209,7 +207,7 @@ export function SessionForm({
           .order('display_order');
         
         if (!error && data) {
-          setSideEffectOptions(data.map(item => item.label));
+          setSideEffectOptions(data.map((item: any) => item.label));
         }
         setLoading(false);
       };
@@ -251,6 +249,7 @@ export function SessionForm({
       };
       
       const fetchChallenges = async () => {
+        const supabase = createClientComponentClient();
         const { data, error } = await supabase
           .from('challenge_options')
           .select('label')
@@ -259,7 +258,7 @@ export function SessionForm({
           .order('display_order');
         
         if (!error && data && data.length > 0) {
-          setChallengeOptions(data.map(item => item.label));
+          setChallengeOptions(data.map((item: any) => item.label));
         } else if (fallbackChallenges[category]) {
           // Use fallback if no data in DB
           setChallengeOptions(fallbackChallenges[category]);
@@ -754,6 +753,11 @@ export function SessionForm({
   };
   
   const renderStepTwo = () => {
+    console.log('[DEBUG] renderStepTwo called');
+    console.log('[DEBUG] showSideEffects:', showSideEffects);
+    console.log('[DEBUG] showChallenges:', showChallenges);
+    console.log('[DEBUG] category:', category);
+    
     return (
       <div className="space-y-6 animate-slide-in">
         <ProgressCelebration step={currentStep} />
@@ -905,7 +909,11 @@ export function SessionForm({
   };
   
   const renderChallenges = () => {
-    if (barriersLoading) {
+    console.log('[DEBUG] renderChallenges called, category:', category);
+    console.log('[DEBUG] challengesLoading:', challengesLoading);
+    console.log('[DEBUG] challengeOptions:', challengeOptions);
+    
+    if (challengesLoading) {
       return (
         <div className="space-y-2">
           <Skeleton className="h-10 w-full" />
@@ -914,10 +922,16 @@ export function SessionForm({
       );
     }
     
+    // Safety check for challengeOptions
+    if (!Array.isArray(challengeOptions)) {
+      console.error('[DEBUG] challengeOptions is not an array:', challengeOptions);
+      return <div>Error loading challenges. Please refresh the page.</div>;
+    }
+    
     // Add "Other" option if not already in the list
-    const allChallenges = challengeOptions.includes('Other (please describe)') 
-      ? challengeOptions 
-      : [...challengeOptions, 'Other (please describe)'];
+    const allChallenges = (challengeOptions || []).includes('Other (please describe)') 
+      ? (challengeOptions || [])
+      : [...(challengeOptions || []), 'Other (please describe)'];
     
     return (
       <>
@@ -990,11 +1004,11 @@ export function SessionForm({
       )}
 
       {/* Show custom barriers */}
-      {selectedChallenges.filter(c => !challengeOptions.includes(c) && c !== 'None').length > 0 && (
+      {selectedChallenges.filter(c => !challengeOptions?.includes(c) && c !== 'None').length > 0 && (
         <div className="mt-2">
           <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Added:</p>
           <div className="flex flex-wrap gap-2">
-            {selectedChallenges.filter(c => !challengeOptions.includes(c) && c !== 'None').map((challenge) => (
+            {selectedChallenges.filter(c => !challengeOptions?.includes(c) && c !== 'None').map((challenge) => (
               <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
                                            text-blue-700 dark:text-blue-300 rounded-full text-sm">
                 {challenge}
@@ -1379,7 +1393,19 @@ export function SessionForm({
         <div className="flex gap-2">
           {currentStep < totalSteps ? (
             <button
-              onClick={() => setCurrentStep(currentStep + 1)}
+              onClick={() => {
+                try {
+                  console.log('[DEBUG] Continue clicked, currentStep:', currentStep);
+                  console.log('[DEBUG] Moving to step:', currentStep + 1);
+                  console.log('[DEBUG] Category:', category);
+                  console.log('[DEBUG] showChallenges:', showChallenges);
+                  console.log('[DEBUG] challengeOptions:', challengeOptions);
+                  setCurrentStep(currentStep + 1);
+                } catch (error) {
+                  console.error('[DEBUG] Error in Continue click:', error);
+                  alert('Error: ' + error);
+                }
+              }}
               disabled={!canProceedToNextStep()}
               className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
                 canProceedToNextStep()

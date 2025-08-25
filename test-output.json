@@ -1,0 +1,5 @@
+🔐 Setting up authentication for tests...
+🌐 Using baseURL: http://localhost:3000
+✅ Login successful
+✅ Authentication state saved successfully
+   Test user: test@wwfm-platform.com

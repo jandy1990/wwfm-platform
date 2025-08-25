@@ -1,8 +1,17 @@
 // tests/e2e/forms/practice-form-complete.spec.ts
 import { test, expect } from '@playwright/test';
 import { fillPracticeForm } from './form-specific-fillers';
+import { clearTestRatingsForSolution } from '../utils/test-cleanup';
 
 test.describe('PracticeForm End-to-End Tests', () => {
+
+  test.beforeEach(async () => {
+    // Clean up any existing test ratings before each test
+    console.log('Cleaning up test ratings...');
+    await clearTestRatingsForSolution('Running (Test)');
+    await clearTestRatingsForSolution('Mindfulness Meditation (Test)');
+    await clearTestRatingsForSolution('Morning Routine (Test)');
+  });
 
   test('should complete PracticeForm for exercise_movement (Running Test)', async ({ page }) => {
     console.log('=== Starting PracticeForm test for Running (Test) ===');
@@ -23,18 +32,23 @@ test.describe('PracticeForm End-to-End Tests', () => {
       await page.waitForSelector('[data-testid="solution-dropdown"]', { timeout: 5000 })
       console.log('Dropdown appeared')
       
-      // CRITICAL: Wait for search to complete (loading spinner to disappear)
-      // The component shows "Searching..." while loading
-      await page.waitForSelector('[data-testid="solution-dropdown"]:not(:has-text("Searching..."))', { timeout: 5000 })
-      console.log('Search completed, results ready')
+      // CRITICAL: Wait for search to complete and results to load
+      // Wait for the dropdown to have actual button elements (results)
+      await page.waitForFunction(() => {
+        const dropdown = document.querySelector('[data-testid="solution-dropdown"]')
+        const buttons = dropdown?.querySelectorAll('button')
+        return buttons && buttons.length > 0
+      }, { timeout: 5000 })
+      console.log('Search completed, results loaded')
       
       // Additional small wait to ensure DOM is stable
-      await page.waitForTimeout(200)
+      await page.waitForTimeout(500)
     } catch (e) {
-      console.log('Dropdown did not appear or search did not complete within 5 seconds')
+      console.log('Dropdown did not appear or search results did not load within 5 seconds')
     }
     
-    // Check if dropdown is visible and select solution
+    // CRITICAL: Must select from dropdown to get existingSolutionId
+    // Wait for dropdown and select the solution
     const dropdownVisible = await page.locator('[data-testid="solution-dropdown"]').isVisible().catch(() => false)
     
     if (dropdownVisible) {
@@ -51,7 +65,7 @@ test.describe('PracticeForm End-to-End Tests', () => {
         console.log(`Option ${i}: "${text}"`)
         
         if (text?.includes('Running (Test)')) {
-          console.log(`Clicking on: "${text}"`)
+          console.log(`Clicking on: "${text}" to set existingSolutionId`)
           await button.click()
           await page.waitForTimeout(500)
           
@@ -64,10 +78,12 @@ test.describe('PracticeForm End-to-End Tests', () => {
       }
       
       if (!found) {
-        console.log('Warning: "Running (Test)" not found in dropdown')
+        console.log('ERROR: "Running (Test)" not found in dropdown - will create duplicate!')
+        throw new Error('Test solution "Running (Test)" not found in dropdown')
       }
     } else {
-      console.log('No dropdown appeared - test solution might not be in database')
+      console.log('ERROR: No dropdown appeared - cannot select existing solution!')
+      throw new Error('Dropdown did not appear for existing test solution')
     }
     
     // Check if category was auto-detected
@@ -122,12 +138,12 @@ test.describe('PracticeForm End-to-End Tests', () => {
       throw error
     }
     
-    // Fill the PracticeForm
+    // Fill the PracticeForm (now includes waiting for success)
     await fillPracticeForm(page, 'exercise_movement');
     
-    // Verify successful submission
+    // The fillPracticeForm now waits for the success screen, 
+    // but let's verify it's actually there
     console.log('Verifying successful submission...')
-    await page.waitForTimeout(3000)
     
     const pageContent = await page.textContent('body')
     const wasProcessed = pageContent?.includes('Thank you') || 
@@ -160,15 +176,19 @@ test.describe('PracticeForm End-to-End Tests', () => {
       await page.waitForSelector('[data-testid="solution-dropdown"]', { timeout: 5000 })
       console.log('Dropdown appeared')
       
-      // CRITICAL: Wait for search to complete (loading spinner to disappear)
-      // The component shows "Searching..." while loading
-      await page.waitForSelector('[data-testid="solution-dropdown"]:not(:has-text("Searching..."))', { timeout: 5000 })
-      console.log('Search completed, results ready')
+      // CRITICAL: Wait for search to complete and results to load
+      // Wait for the dropdown to have actual button elements (results)
+      await page.waitForFunction(() => {
+        const dropdown = document.querySelector('[data-testid="solution-dropdown"]')
+        const buttons = dropdown?.querySelectorAll('button')
+        return buttons && buttons.length > 0
+      }, { timeout: 5000 })
+      console.log('Search completed, results loaded')
       
       // Additional small wait to ensure DOM is stable
-      await page.waitForTimeout(200)
+      await page.waitForTimeout(500)
     } catch (e) {
-      console.log('Dropdown did not appear or search did not complete within 5 seconds')
+      console.log('Dropdown did not appear or search results did not load within 5 seconds')
     }
     
     // Check if dropdown is visible and select solution
@@ -201,10 +221,12 @@ test.describe('PracticeForm End-to-End Tests', () => {
       }
       
       if (!found) {
-        console.log('Warning: "Mindfulness Meditation (Test)" not found in dropdown')
+        console.log('ERROR: "Mindfulness Meditation (Test)" not found in dropdown - will create duplicate!')
+        throw new Error('Test solution "Mindfulness Meditation (Test)" not found in dropdown')
       }
     } else {
-      console.log('No dropdown appeared - test solution might not be in database')
+      console.log('ERROR: No dropdown appeared - cannot select existing solution!')
+      throw new Error('Dropdown did not appear for existing test solution')
     }
     
     // Check if category was auto-detected
@@ -297,15 +319,19 @@ test.describe('PracticeForm End-to-End Tests', () => {
       await page.waitForSelector('[data-testid="solution-dropdown"]', { timeout: 5000 })
       console.log('Dropdown appeared')
       
-      // CRITICAL: Wait for search to complete (loading spinner to disappear)
-      // The component shows "Searching..." while loading
-      await page.waitForSelector('[data-testid="solution-dropdown"]:not(:has-text("Searching..."))', { timeout: 5000 })
-      console.log('Search completed, results ready')
+      // CRITICAL: Wait for search to complete and results to load
+      // Wait for the dropdown to have actual button elements (results)
+      await page.waitForFunction(() => {
+        const dropdown = document.querySelector('[data-testid="solution-dropdown"]')
+        const buttons = dropdown?.querySelectorAll('button')
+        return buttons && buttons.length > 0
+      }, { timeout: 5000 })
+      console.log('Search completed, results loaded')
       
       // Additional small wait to ensure DOM is stable
-      await page.waitForTimeout(200)
+      await page.waitForTimeout(500)
     } catch (e) {
-      console.log('Dropdown did not appear or search did not complete within 5 seconds')
+      console.log('Dropdown did not appear or search results did not load within 5 seconds')
     }
     
     // Check if dropdown is visible and select solution
@@ -338,10 +364,12 @@ test.describe('PracticeForm End-to-End Tests', () => {
       }
       
       if (!found) {
-        console.log('Warning: "Morning Routine (Test)" not found in dropdown')
+        console.log('ERROR: "Morning Routine (Test)" not found in dropdown - will create duplicate!')
+        throw new Error('Test solution "Morning Routine (Test)" not found in dropdown')
       }
     } else {
-      console.log('No dropdown appeared - test solution might not be in database')
+      console.log('ERROR: No dropdown appeared - cannot select existing solution!')
+      throw new Error('Dropdown did not appear for existing test solution')
     }
     
     // Check if category was auto-detected

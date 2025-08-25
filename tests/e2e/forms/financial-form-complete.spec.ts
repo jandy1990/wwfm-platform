@@ -1,6 +1,13 @@
 import { test, expect } from '@playwright/test';
+import { clearTestRatingsForSolution } from '../utils/test-cleanup';
+import { fillFinancialForm } from './form-specific-fillers';
 
 test.describe('FinancialForm - Complete E2E Tests', () => {
+  test.beforeEach(async () => {
+    // Clear any existing test data before each test
+    await clearTestRatingsForSolution('High Yield Savings (Test)');
+  });
+
   test('should submit financial solution successfully from goal page', async ({ page }) => {
     console.log('Test setup - user already authenticated via global setup')
     console.log('Starting FinancialForm test from actual goal page')
@@ -135,71 +142,8 @@ test.describe('FinancialForm - Complete E2E Tests', () => {
       throw error
     }
     
-    // Fill the form using our updated filler
-    await page.waitForTimeout(1000)
-    
-    // Step 1: Product Details + Effectiveness + Time to Impact
-    console.log('Starting FinancialForm filler - 3-step wizard')
-    console.log('Step 1: Filling product details and effectiveness')
-    
-    // Select cost type (required field)
-    const costTypeSelect = page.locator('select').first()
-    await costTypeSelect.selectOption('Free')
-    console.log('Selected cost type: Free')
-    await page.waitForTimeout(300)
-    
-    // Select financial benefit (required field)
-    const benefitSelect = page.locator('select').nth(1) 
-    await benefitSelect.selectOption('$25-100/month saved/earned')
-    console.log('Selected financial benefit: $25-100/month saved/earned')
-    await page.waitForTimeout(300)
-    
-    // Select access time (required field)
-    const accessSelect = page.locator('select').nth(2)
-    await accessSelect.selectOption('Same day')
-    console.log('Selected access time: Same day')
-    await page.waitForTimeout(300)
-    
-    // Click effectiveness rating (4 stars)
-    const ratingButtons = await page.locator('.grid.grid-cols-5 button').all()
-    if (ratingButtons.length >= 4) {
-      await ratingButtons[3].click() // 4 stars
-      console.log('Selected 4-star rating')
-    }
-    await page.waitForTimeout(500)
-    
-    // Select time to impact (required field)
-    const timeToImpactSelect = page.locator('select').nth(3)
-    await timeToImpactSelect.selectOption('1-2 weeks')
-    console.log('Selected time to impact: 1-2 weeks')
-    await page.waitForTimeout(300)
-    
-    // Click Continue to Step 2
-    console.log('Clicked Continue to Step 2')
-    const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
-    await continueBtn1.click()
-    await page.waitForTimeout(1500)
-    
-    // Step 2: Barriers
-    console.log('Step 2: Selecting barriers')
-    await page.click('label:has-text("None")')
-    await page.waitForTimeout(500)
-    
-    // Click Continue to Step 3
-    console.log('Clicked Continue to Step 3')
-    const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
-    await continueBtn2.click()
-    await page.waitForTimeout(1500)
-    
-    // Step 3: Failed Solutions (Optional)
-    console.log('Step 3: Skipping failed solutions')
-    // This step is optional - can proceed directly to submit
-    
-    // Submit form
-    console.log('Submit button found, clicking...')
-    const submitBtn = page.locator('button:has-text("Submit")')
-    await submitBtn.click()
-    await page.waitForTimeout(2000)
+    // Fill the form using the shared filler function
+    await fillFinancialForm(page);
     
     // Verify the form was processed (success, duplicate, or any completion message)
     const pageContent = await page.textContent('body')

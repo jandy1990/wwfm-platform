@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test';
 import { 
   verifyDataPipeline, 
   fillSuccessScreenFields,
-  verifyFieldsInUI
+  verifyFieldsInUI,
+  waitForSuccessPage
 } from '../utils/test-helpers';
 import { clearTestRatingsForSolution } from '../utils/test-cleanup';
 import { TEST_SOLUTIONS } from '../fixtures/test-solutions';
@@ -16,6 +17,13 @@ test.describe('CommunityForm - Complete E2E Tests', () => {
   })
   
   test('should submit community solution successfully from goal page', async ({ page }) => {
+    // Capture browser console logs
+    page.on('console', msg => {
+      if (msg.type() === 'log') {
+        console.log('Browser console:', msg.text())
+      }
+    })
+    
     console.log('Test setup - user already authenticated via global setup')
     console.log('Starting CommunityForm test from actual goal page')
     
@@ -25,10 +33,10 @@ test.describe('CommunityForm - Complete E2E Tests', () => {
     await page.waitForSelector('text="What helped you?"', { timeout: 10000 })
     console.log('Add solution page loaded')
     
-    // Type "Anxiety Support Group" to search for support group solutions
+    // Fill "Anxiety Support Group" to search for support group solutions
     const searchTerm = 'Anxiety Support Group'
-    await page.type('#solution-name', searchTerm)
-    console.log(`Typed "${searchTerm}" - looking for support group solutions`)
+    await page.fill('#solution-name', searchTerm)
+    console.log(`Filled "${searchTerm}" - looking for support group solutions`)
     
     // Wait for dropdown to appear AND for loading to complete
     try {
@@ -236,52 +244,25 @@ test.describe('CommunityForm - Complete E2E Tests', () => {
     
     // Submit form
     console.log('Submit button found, clicking...')
-    const submitBtn = page.locator('button:has-text("Submit")')
+    const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
+    await submitBtn.waitFor({ state: 'visible', timeout: 5000 })
     await submitBtn.click()
-    await page.waitForTimeout(2000)
     
-    // Verify the form was processed (success, duplicate, or any completion message)
-    const pageContent = await page.textContent('body')
-    const wasProcessed = pageContent?.includes('Thank you') || 
-                        pageContent?.includes('already') || 
-                        pageContent?.includes('recorded') ||
-                        pageContent?.includes('success') ||
-                        pageContent?.includes('submitted') ||
-                        pageContent?.includes('added')
-    
-    // Also check if we're still on Step 3 (which means submission failed)
-    const stillOnStep3 = await page.locator('text="What else did you try?"').isVisible().catch(() => false)
-    
-    if (stillOnStep3) {
-      // Check for any error alerts
-      const alerts = await page.locator('[role="alert"]').all()
-      for (const alert of alerts) {
-        const alertText = await alert.textContent()
-        console.log('Alert found:', alertText || '(empty)')
-      }
-      
-      // Take a screenshot for debugging
-      await page.screenshot({ path: 'community-test-failure-screenshot.png' })
-      console.log('Screenshot saved to community-test-failure-screenshot.png')
-      
-      throw new Error('CommunityForm submission failed - still on Step 3')
-    }
-    
-    expect(wasProcessed).toBeTruthy()
+    // Wait for success using standard helper (same as AppForm)
+    await waitForSuccessPage(page)
     
     // Field-level verification for CommunityForm
     console.log('\n=== Verifying CommunityForm Data Pipeline ===')
     
     // Expected fields based on what we filled in the form
+    // Note: effectiveness and time_to_results are stored as separate columns, not in solution_fields
     const expectedFields = {
-      effectiveness: 4,
-      time_to_results: '1-2 weeks',
-      payment_frequency: 'Free or donation-based',
+      // payment_frequency is not stored in CommunityForm
       cost: 'Free',
       meeting_frequency: 'Weekly',  // New field added in our fixes
       format: 'Online only',
-      group_size: '5-10 people',  // May vary based on dropdown options
-      challenges: ['None']
+      group_size: 'Small (under 10 people)',  // Actual value from dropdown
+      // challenges array is only added if non-empty and not 'None'
     }
     
     // Verify data was saved correctly

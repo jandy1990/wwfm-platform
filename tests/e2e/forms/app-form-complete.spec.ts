@@ -5,10 +5,16 @@ import {
   verifyDataPipeline,
   waitForSuccessPage
 } from '../utils/test-helpers'
+import { clearTestRatingsForSolution } from '../utils/test-cleanup'
 
 const TEST_GOAL_ID = process.env.TEST_GOAL_ID!
 
 test.describe('AppForm - Complete E2E Tests', () => {
+  test.beforeEach(async () => {
+    // Clear any existing test data before each test
+    await clearTestRatingsForSolution('Headspace (Test)')
+  })
+  
   test('apps_software: complete form submission flow', async ({ page }) => {
     // Generate properly named solution that will auto-categorize
     const baseData = generateTestSolution('apps_software')
@@ -33,17 +39,25 @@ test.describe('AppForm - Complete E2E Tests', () => {
     // Step 0: Solution name and category selection
     await page.fill('input[placeholder*="Headspace"]', testData.solutionName)
     
-    // Wait for dropdown to appear
-    await page.waitForTimeout(1500)
+    // Wait for dropdown to appear and search to complete
+    await page.waitForTimeout(2000)
     
-    // Select from dropdown if it appears
-    const dropdown = page.locator('[data-testid="solution-dropdown"].w-full.mt-1.bg-white, [data-testid="solution-dropdown"].w-full.mt-1.bg-gray-800')
-    if (await dropdown.isVisible({ timeout: 2000 })) {
-      const dropdownItem = dropdown.locator('button').first()
-      if (await dropdownItem.isVisible()) {
-        await dropdownItem.click()
-        await page.waitForTimeout(500)
-      }
+    // Select the specific test solution from dropdown
+    const dropdown = page.locator('[data-testid="solution-dropdown"]')
+    await dropdown.waitFor({ state: 'visible', timeout: 5000 })
+    
+    // Look for the specific solution in the dropdown
+    const solutionButton = dropdown.locator(`button:has-text("${testData.solutionName}")`)
+    if (await solutionButton.isVisible()) {
+      console.log('Found test solution in dropdown, clicking it')
+      await solutionButton.click()
+      await page.waitForTimeout(500)
+    } else {
+      // If not found, click the first item
+      console.log('Test solution not found, clicking first dropdown item')
+      const firstButton = dropdown.locator('button').first()
+      await firstButton.click()
+      await page.waitForTimeout(500)
     }
     
     // Click Continue button
@@ -75,17 +89,34 @@ test.describe('AppForm - Complete E2E Tests', () => {
     // Wait for form to be visible
     await page.waitForSelector('select:visible', { timeout: 10000 })
     
-    // Step 1: Subscription type and cost
-    await page.waitForSelector('text=/Subscription|Cost|Free/', { timeout: 5000 })
+    // Step 1: Fill all required fields in order
     
-    // Select subscription type first
-    const subscriptionSelect = page.locator('select:visible').first()
+    // 1. Effectiveness rating (required) - look for the emoji button for 4 stars (😊)
+    const rating4Button = page.locator('button:has-text("😊")')
+    await rating4Button.click()
+    console.log('Selected 4-star rating')
+    
+    // 2. Time to results (select index 0)
+    const timeSelect = page.locator('select:visible').nth(0)
+    await timeSelect.selectOption('1-2 weeks')
+    console.log('Selected time to results')
+    
+    // 3. Usage frequency (select index 1)
+    const usageSelect = page.locator('select:visible').nth(1)
+    await usageSelect.selectOption('Daily')
+    console.log('Selected usage frequency')
+    
+    // 4. Subscription type (select index 2)
+    const subscriptionSelect = page.locator('select:visible').nth(2)
     await subscriptionSelect.selectOption('Monthly subscription')
-    await page.waitForTimeout(500) // Wait for cost options to update
+    console.log('Selected subscription type')
+    await page.waitForTimeout(500) // Wait for cost field to appear
     
-    // Select cost (this should be the second select now)
-    const costSelect = page.locator('select:visible').nth(1)
+    // 5. Cost (should appear as select index 3 after subscription type is set)
+    const costSelect = page.locator('select:visible').nth(3)
+    await costSelect.waitFor({ state: 'visible', timeout: 5000 })
     await costSelect.selectOption('$10-$19.99/month')
+    console.log('Selected cost')
     
     // Click Continue to Step 2
     await page.waitForTimeout(1000)
@@ -93,64 +124,30 @@ test.describe('AppForm - Complete E2E Tests', () => {
     await continueToStep2.waitFor({ state: 'visible', timeout: 5000 })
     await continueToStep2.click()
     
-    // Step 2: Effectiveness
-    await page.waitForSelector('text=/How effective|Rate your experience/', { timeout: 5000 })
+    // Step 2: Challenges
+    await page.waitForSelector('text=/challenges|side effects/', { timeout: 5000 })
     
-    // Click the effectiveness rating button (1-5)
-    const ratingButtons = await page.locator('button').filter({ hasText: /^[1-5]$/ }).all()
-    if (ratingButtons.length >= testData.effectiveness) {
-      await ratingButtons[testData.effectiveness - 1].click()
-    }
-    
-    // Select time to results
-    const timeSelect = page.locator('select:visible').first()
-    await timeSelect.selectOption('1-2 weeks')
+    // Select "None" for challenges
+    const noneCheckbox = page.locator('label:has-text("None")')
+    await noneCheckbox.click()
+    console.log('Selected "None" for challenges')
     
     // Click Continue to Step 3
     await page.waitForTimeout(1000)
     const continueToStep3 = page.locator('button:has-text("Continue"):not([disabled])')
     await continueToStep3.waitFor({ state: 'visible', timeout: 5000 })
     await continueToStep3.click()
+    console.log('Clicked Continue to Step 3')
     
-    // Step 3: Usage details
-    await page.waitForSelector('text=/Usage|How often|Platform/', { timeout: 5000 })
+    // Step 3: Failed solutions (optional - just skip)
+    // Wait for either the failed solutions text or the submit button
+    await page.waitForTimeout(2000)
     
-    // Select usage frequency
-    const frequencySelect = page.locator('select:visible').first()
-    await frequencySelect.selectOption('Daily')
-    
-    // Select platform
-    const platformSelect = page.locator('select:visible').nth(1)
-    await platformSelect.selectOption('iOS')
-    
-    // Click Continue to Step 4
-    await page.waitForTimeout(1000)
-    const continueToStep4 = page.locator('button:has-text("Continue"):not([disabled])')
-    await continueToStep4.waitFor({ state: 'visible', timeout: 5000 })
-    await continueToStep4.click()
-    
-    // Step 4: Additional info
-    await page.waitForSelector('text=/Additional|Challenges|Other/', { timeout: 5000 })
-    
-    // Fill challenges if visible
-    const challengesInput = page.locator('input[placeholder*="challenge" i], textarea[placeholder*="challenge" i]')
-    if (await challengesInput.isVisible()) {
-      await challengesInput.fill(testData.challenges)
-    }
-    
-    // Fill other info
-    const textarea = page.locator('textarea:visible').last()
-    if (await textarea.isVisible()) {
-      await textarea.fill(testData.otherInfo)
-    }
-    
-    // Wait for form validation
-    await page.waitForTimeout(1000)
-    
-    // Submit the form
-    const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
+    // Submit form
+    const submitBtn = page.locator('button').filter({ hasText: /Share Solution|Submit/i })
     await submitBtn.waitFor({ state: 'visible', timeout: 5000 })
     await submitBtn.click()
+    console.log('Clicked submit button')
     
     // Wait for success
     await waitForSuccessPage(page)

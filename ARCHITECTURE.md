@@ -81,19 +81,42 @@ All other 19 categories use a single "Standard" variant to maintain consistency.
 
 ### JSONB for Flexibility
 
-The `solution_fields` column in `goal_implementation_links` stores form-specific data:
+The system uses JSONB columns for flexible data storage:
 
+**Individual Data** (`ratings.solution_fields`):
 ```json
 {
   "cost": "$10-25/month",
   "time_to_results": "3-4 weeks",
   "side_effects": ["Nausea", "Headache"],
   "frequency": "Once daily",
-  "brand_manufacturer": "Generic available"
+  "brand": "Generic available"
 }
 ```
 
-This allows different forms to collect different data without schema changes.
+**Aggregated Data** (`goal_implementation_links.aggregated_fields`):
+```json
+{
+  "cost": {
+    "mode": "$10-25/month",
+    "values": [
+      {"value": "$10-25/month", "count": 15, "percentage": 60},
+      {"value": "$25-50/month", "count": 10, "percentage": 40}
+    ],
+    "totalReports": 25
+  },
+  "side_effects": {
+    "mode": "Nausea",
+    "values": [
+      {"value": "Nausea", "count": 12, "percentage": 48},
+      {"value": "Headache", "count": 8, "percentage": 32}
+    ],
+    "totalReports": 25
+  }
+}
+```
+
+This dual-storage approach preserves individual contributions while enabling efficient aggregated displays.
 
 ## 🎨 Frontend Architecture
 
@@ -166,16 +189,20 @@ Client: Filter/sort without refetch
 Progressive disclosure on interaction
 ```
 
-### 2. Contribution Flow (Multi-step)
+### 2. Contribution Flow (Two-Phase Submission)
 
 ```
-User Input → Auto-categorization → Form Selection → Validation
+User Input → Auto-categorization → Form Selection → Step 1-3 Collection
                                          ↓
-                              Goal Selection ← Form Submission
+                         Initial Submission (Required Fields Only)
                                          ↓
-                              Create Solution → Create Variant
+                      Store in ratings.solution_fields (Individual)
                                          ↓
-                              Create Link → Update Effectiveness
+                         Success Screen (Optional Fields)
+                                         ↓
+                   updateSolutionFields (Merge Additional Data)
+                                         ↓
+                     Trigger Aggregation Service → Store in aggregated_fields
 ```
 
 ### 3. Search Flow (Fuzzy Matching)

@@ -1,5 +1,7 @@
 # WWFM Testing Guide
 
+> **📚 For complete testing documentation, see [Master Testing Guide](/docs/testing/MASTER_TESTING_GUIDE.md)**
+
 ## Quick Start (Pre-Launch Testing)
 
 Since we're pre-launch with no real users, we keep testing simple and reliable:

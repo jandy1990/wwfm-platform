@@ -1,0 +1,966 @@
+
+> wwfm-platform@0.1.0 test:forms:chromium
+> playwright test tests/e2e/forms --project=chromium
+
+🔐 Setting up authentication for tests...
+🌐 Using baseURL: http://localhost:3000
+✅ Login successful
+✅ Authentication state saved successfully
+   Test user: test@wwfm-platform.com
+
+Running 88 tests using 1 worker
+
+[1A[2K[1/88] [chromium] › tests/e2e/forms/app-form-complete.spec.ts:18:7 › AppForm - Complete E2E Tests › apps_software: complete form submission flow
+[1A[2K[chromium] › tests/e2e/forms/app-form-complete.spec.ts:18:7 › AppForm - Complete E2E Tests › apps_software: complete form submission flow
+🧹 Clearing ratings for solution: "Headspace (Test)" on goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K✅ "Headspace (Test)" is a test fixture - will only clear ratings, not the solution
+
+[1A[2KFound 1 variants to clean for "Headspace (Test)"
+
+[1A[2K[2m[WebServer] [22m [33m[1m⚠[22m[39m ./node_modules/@supabase/realtime-js/dist/main/RealtimeClient.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m./node_modules/@supabase/realtime-js/dist/main/RealtimeClient.js
+[2m[WebServer] [22m./node_modules/@supabase/realtime-js/dist/main/index.js
+[2m[WebServer] [22m./node_modules/@supabase/supabase-js/dist/module/index.js
+[2m[WebServer] [22m./node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+[2m[WebServer] [22m./node_modules/@supabase/ssr/dist/module/index.js
+[2m[WebServer] [22m./lib/database/server.ts
+[2m[WebServer] [22m./app/actions/submit-solution.ts
+
+[1A[2KTest solution not found, clicking first dropdown item
+
+[1A[2KSelected 4-star rating
+
+[1A[2KSelected time to results
+
+[1A[2KSelected usage frequency
+
+[1A[2KSelected subscription type
+
+[1A[2KSelected cost
+
+[1A[2KSelected "None" for challenges
+
+[1A[2KClicked Continue to Step 3
+
+[1A[2KClicked submit button
+
+[1A[2KWaiting for form submission success...
+
+[1A[2K✅ Form submitted successfully - reached Step 3 (failed solutions optional step)
+
+[1A[2K📊 Verifying data pipeline for "Headspace (Test)" in category "apps_software"
+
+[1A[2K✅ Found solution: {
+  id: [32m'524c9865-b12b-4bf2-8ba5-b4ac87803f3a'[39m,
+  category: [32m'apps_software'[39m,
+  source: [32m'test_fixture'[39m,
+  approved: [33mtrue[39m
+}
+
+[1A[2K✅ Found 1 variant(s)
+
+[1A[2KError finding goal implementation: {
+  code: [32m'PGRST116'[39m,
+  details: [32m'The result contains 0 rows'[39m,
+  hint: [1mnull[22m,
+  message: [32m'JSON object requested, multiple (or no) rows returned'[39m
+}
+
+[1A[2K⏳ Waiting for aggregation... attempt 1/5
+
+[1A[2KError finding goal implementation: {
+  code: [32m'PGRST116'[39m,
+  details: [32m'The result contains 0 rows'[39m,
+  hint: [1mnull[22m,
+  message: [32m'JSON object requested, multiple (or no) rows returned'[39m
+}
+
+[1A[2K⏳ Waiting for aggregation... attempt 2/5
+
+[1A[2K✅ Found goal implementation link
+
+[1A[2K✅ Found user rating
+
+[1A[2K📊 Rating effectiveness: [90mundefined[39m
+
+[1A[2K⏱️ Time to results: [90mundefined[39m
+
+[1A[2KSkipping cleanup for test fixture: Headspace (Test)
+
+[1A[2K[2/88] [chromium] › tests/e2e/forms/app-form.spec.ts:16:7 › AppForm Tests › should submit app solution successfully from goal page
+[1A[2K[chromium] › tests/e2e/forms/app-form.spec.ts:16:7 › AppForm Tests › should submit app solution successfully from goal page
+Test setup - user already authenticated via global setup
+
+[1A[2K🧹 Clearing ratings for solution: "Headspace (Test)" on goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K✅ "Headspace (Test)" is a test fixture - will only clear ratings, not the solution
+
+[1A[2KFound 1 variants to clean for "Headspace (Test)"
+
+[1A[2K✅ Cleared for "Headspace (Test)": 1 ratings, 1 links
+
+[1A[2KStarting AppForm test from actual goal page
+
+[1A[2KAdd solution page loaded
+
+[1A[2KTyped "Headspace" - looking for Headspace solutions
+
+[1A[2KDropdown appeared
+
+[1A[2KSearch completed, results ready
+
+[1A[2KDropdown appeared with suggestions
+
+[1A[2KFound 6 suggestions in dropdown
+
+[1A[2KOption 0: "HeadspaceApps & Software"
+
+[1A[2KOption 1: "Headspace (Test)Apps & Software"
+
+[1A[2KClicking on: "Headspace (Test)Apps & Software"
+
+[1A[2KInput value after selection: "Headspace (Test)"
+
+[1A[2KCategory auto-detected: [33mtrue[39m
+
+[1A[2KClicked Continue button
+
+[1A[2KAppForm loaded successfully
+
+[1A[2KStarting AppForm filler - Updated for 3-step form
+
+[1A[2KStep 1: Filling basic info and effectiveness
+
+[1A[2KSelected 4-star rating
+
+[1A[2KSelected time to results: 1-2 weeks
+
+[1A[2KSelected usage frequency: Daily
+
+[1A[2KSelected subscription type: Monthly subscription
+
+[1A[2KSelected cost: $10-$19.99/month
+
+[1A[2KClicked Continue to Step 2
+
+[1A[2KStep 2: Selecting challenges
+
+[1A[2KSelected "None" for challenges
+
+[1A[2KClicked Continue to Step 3
+
+[1A[2KStep 3: Skipping failed solutions
+
+[1A[2KSubmit button found, clicking...
+
+[1A[2KBrowser console [log]: Submitting solution with data: {goalId: 56e2801e-0d78-4abd-a795-869e5b780ae7, userId: e22feb1a-e617-4c8d-9747-0fb958068e1d, solutionName: Headspace (Test), category: apps_software, existingSolutionId: 524c9865-b12b-4bf2-8ba5-b4ac87803f3a}
+
+[1A[2KBrowser console [log]: [AppForm] Props received: {solutionName: Headspace (Test), category: apps_software, existingSolutionId: 524c9865-b12b-4bf2-8ba5-b4ac87803f3a}
+
+[1A[2KBrowser console [log]: [AppForm] Props received: {solutionName: Headspace (Test), category: apps_software, existingSolutionId: 524c9865-b12b-4bf2-8ba5-b4ac87803f3a}
+
+[1A[2KBrowser console [log]: FailedSolutionsPicker initialized for goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2KBrowser console [log]: FailedSolutionsPicker initialized for goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2KClicked Submit button
+
+[1A[2KBrowser console [log]: [AppForm] Props received: {solutionName: Headspace (Test), category: apps_software, existingSolutionId: 524c9865-b12b-4bf2-8ba5-b4ac87803f3a}
+
+[1A[2KBrowser console [log]: [AppForm] Props received: {solutionName: Headspace (Test), category: apps_software, existingSolutionId: 524c9865-b12b-4bf2-8ba5-b4ac87803f3a}
+
+[1A[2KScreenshot saved to submission-result.png
+
+[1A[2KChecking submission result...
+
+[1A[2KVisible text elements: [
+  [32m'WWFM🏔️BrowseDashboardtest@wwfm-platform.comSign Out'[39m,
+  [32m'WWFM🏔️'[39m,
+  [32m'WWFM'[39m,
+  [32m'🏔️'[39m,
+  [32m'BrowseDashboard'[39m,
+  [32m'Browse'[39m,
+  [32m'Dashboard'[39m,
+  [32m'test@wwfm-platform.comSign Out'[39m,
+  [32m'test@wwfm-platform.com'[39m,
+  [32m'Sign Out'[39m,
+  [32m'Thank you for sharing!'[39m,
+  [32m'Your experience with Headspace (Test) has been recorded'[39m,
+  [32m'Add more details (optional):Select platformiOS (iPhone/iPad)AndroidWeb/BrowserWindowsMacMultiple platformsChrome ExtensionOther'[39m,
+  [32m'Add more details (optional):'[39m,
+  [32m'Select platformiOS (iPhone/iPad)AndroidWeb/BrowserWindowsMacMultiple platformsChrome ExtensionOther'[39m,
+  [32m'Select platform'[39m,
+  [32m'iOS (iPhone/iPad)'[39m,
+  [32m'Android'[39m,
+  [32m'Web/Browser'[39m,
+  [32m'Windows'[39m,
+  [32m'Mac'[39m,
+  [32m'Multiple platforms'[39m,
+  [32m'Chrome Extension'[39m,
+  [32m'Other'[39m,
+  [32m'Back to goal page'[39m,
+  [32m'Share What Worked | WWFM'[39m
+]
+
+[1A[2KFound 1 alert-like elements
+
+[1A[2KAlert element:
+
+[1A[2K  Text: (empty)
+
+[1A[2K  Visible: [33mtrue[39m
+
+[1A[2K  Classes: [1mnull[22m
+
+[1A[2K  Styles: {
+  backgroundColor: [32m'rgba(0, 0, 0, 0)'[39m,
+  color: [32m'oklch(0.129 0.042 264.695)'[39m,
+  display: [32m'block'[39m
+}
+
+[1A[2KSuccess screen displayed!
+
+[1A[2KTest completed successfully!
+
+[1A[2K[3/88] [chromium] › tests/e2e/forms/app-form.spec.ts:182:8 › AppForm Tests › should handle validation errors in AppForm
+[1A[2K[4/88] [chromium] › tests/e2e/forms/app-form.spec.ts:214:8 › AppForm Tests › should restore form data from sessionStorage backup
+[1A[2K[5/88] [chromium] › tests/e2e/forms/app-form.spec.ts:260:8 › AppForm Auto-categorization Flow › should auto-categorize and load correct form
+[1A[2K[6/88] [chromium] › tests/e2e/forms/community-form-complete.spec.ts:19:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+[1A[2K[chromium] › tests/e2e/forms/community-form-complete.spec.ts:19:7 › CommunityForm - Complete E2E Tests › should submit community solution successfully from goal page
+Clearing previous test data...
+
+[1A[2K🧹 Clearing ratings for solution: "Anxiety Support Group (Test)" on goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K✅ "Anxiety Support Group (Test)" is a test fixture - will only clear ratings, not the solution
+
+[1A[2KFound 1 variants to clean for "Anxiety Support Group (Test)"
+
+[1A[2KTest setup - user already authenticated via global setup
+
+[1A[2KStarting CommunityForm test from actual goal page
+
+[1A[2KBrowser console: TODO: Add animation styles to global CSS
+
+[1A[2KBrowser console: [searchExistingSolutions] Searching for: meditation
+
+[1A[2KBrowser console: [searchExistingSolutions] Searching for: therapy
+
+[1A[2KBrowser console: [searchExistingSolutions] Searching for: exercise
+
+[1A[2KBrowser console: [searchExistingSolutions] Searching for: vitamin
+
+[1A[2KAdd solution page loaded
+
+[1A[2KFilled "Anxiety Support Group" - looking for support group solutions
+
+[1A[2KDropdown appeared
+
+[1A[2KBrowser console: [searchExistingSolutions] Searching for: anxiety support group
+
+[1A[2KBrowser console: [searchExistingSolutions] Found solutions: [Body Scan Meditation, Loving-Kindness Meditation, Mindfulness Meditation (Test)]
+
+[1A[2KBrowser console: Allowing test fixture: Mindfulness Meditation (Test)
+
+[1A[2KBrowser console: [searchExistingSolutions] Found solutions: [Somatic Therapy, CBT Therapy, EMDR Therapy, DBT Therapy, ACT Therapy, CBT Therapy (Test), Physical Therapy (Test), Cognitive Therapy Book (Test)]
+
+[1A[2KBrowser console: Filtered out generic solution: Somatic Therapy
+
+[1A[2KBrowser console: Filtered out generic solution: CBT Therapy
+
+[1A[2KBrowser console: Filtered out generic solution: EMDR Therapy
+
+[1A[2KBrowser console: Filtered out generic solution: DBT Therapy
+
+[1A[2KBrowser console: Filtered out category-like solution: ACT Therapy
+
+[1A[2KBrowser console: Allowing test fixture: CBT Therapy (Test)
+
+[1A[2KBrowser console: Allowing test fixture: Physical Therapy (Test)
+
+[1A[2KBrowser console: Allowing test fixture: Cognitive Therapy Book (Test)
+
+[1A[2KBrowser console: [searchExistingSolutions] Found solutions: [Vitamin B Complex, Vitamin D (Test)]
+
+[1A[2KBrowser console: Filtered out vitamin solution for generic search: Vitamin B Complex
+
+[1A[2KBrowser console: Allowing test fixture: Vitamin D (Test)
+
+[1A[2KBrowser console: [searchExistingSolutions] Found solutions: []
+
+[1A[2KBrowser console: [searchExistingSolutions] Found solutions: [Anxiety Support Group (Test)]
+
+[1A[2KBrowser console: Allowing test fixture: Anxiety Support Group (Test)
+
+[1A[2KBrowser console: [SolutionFormWithAutoCategory] Adding existing solution to results: {title: Anxiety Support Group (Test), id: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39, category: support_groups}
+
+[1A[2KBrowser console: [SolutionFormWithAutoCategory] Adding existing solution to results: {title: Anxiety Support Group (Test), id: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39, category: support_groups}
+
+[1A[2KSearch completed, results ready
+
+[1A[2KDropdown appeared with suggestions
+
+[1A[2KFound 11 suggestions in dropdown
+
+[1A[2KOption 0: "anxiety support groupSupport Groups"
+
+[1A[2KOption 1: "Anxiety Support Group (Test)Support Groups"
+
+[1A[2KClicking on: "Anxiety Support Group (Test)Support Groups"
+
+[1A[2KBrowser console: [SolutionFormWithAutoCategory] handleSelectItem called: {title: Anxiety Support Group (Test), category: support_groups, solution: Object, solutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39}
+
+[1A[2KInput value after selection: "Anxiety Support Group (Test)"
+
+[1A[2KCategory auto-detected: [33mfalse[39m
+
+[1A[2KClicked Continue button
+
+[1A[2KBrowser console: [SolutionFormWithAutoCategory] formProps: {goalId: 56e2801e-0d78-4abd-a795-869e5b780ae7, goalTitle: Calm my anxiety, userId: e22feb1a-e617-4c8d-9747-0fb958068e1d, solutionName: Anxiety Support Group (Test), category: support_groups}
+
+[1A[2KBrowser console: [SolutionFormWithAutoCategory] formProps: {goalId: 56e2801e-0d78-4abd-a795-869e5b780ae7, goalTitle: Calm my anxiety, userId: e22feb1a-e617-4c8d-9747-0fb958068e1d, solutionName: Anxiety Support Group (Test), category: support_groups}
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KCommunityForm loaded successfully
+
+[1A[2KStarting CommunityForm filler - 3-step wizard
+
+[1A[2KStep 1: Filling effectiveness, time, and community details
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: false, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KSelected 4-star rating
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KSelected time to results: 1-2 weeks
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: , meetingFrequency: , format: }
+
+[1A[2KSelected payment frequency: Free or donation-based
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: Free, meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: Free, meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: Free, meetingFrequency: , format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: Free, meetingFrequency: , format: }
+
+[1A[2KSelected cost range: Free
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: Free, meetingFrequency: Weekly, format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: Free, meetingFrequency: Weekly, format: }
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: Free, meetingFrequency: Weekly, format: }
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: Free, meetingFrequency: Weekly, format: }
+
+[1A[2KSelected meeting frequency: Weekly
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: Free, meetingFrequency: Weekly, format: Online only}
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: Free, meetingFrequency: Weekly, format: Online only}
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: Free, meetingFrequency: Weekly, format: Online only}
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: false, costRange: Free, meetingFrequency: Weekly, format: Online only}
+
+[1A[2KSelected format: Online only
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: true, costRange: Free, meetingFrequency: Weekly, format: Online only}
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: true, costRange: Free, meetingFrequency: Weekly, format: Online only}
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: true, costRange: Free, meetingFrequency: Weekly, format: Online only}
+
+[1A[2KBrowser console: CommunityForm Step 1 validation: {universalValid: true, requiredValid: true, costRange: Free, meetingFrequency: Weekly, format: Online only}
+
+[1A[2KSelected first available group size
+
+[1A[2KClicked Continue to Step 2
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KStep 2: Selecting challenges
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KClicked Continue to Step 3
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: FailedSolutionsPicker initialized for goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2KBrowser console: FailedSolutionsPicker initialized for goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2KBrowser console: Search term changed:  Length: 0
+
+[1A[2KBrowser console: Search term changed:  Length: 0
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: FailedSolutionsPicker initialized for goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2KBrowser console: FailedSolutionsPicker initialized for goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2KStep 3: Skipping failed solutions
+
+[1A[2KSubmit button found, clicking...
+
+[1A[2KBrowser console: CommunityForm handleSubmit called with: {effectiveness: 4, timeToResults: 1-2 weeks, costRange: Free, meetingFrequency: Weekly, format: Online only}
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: CommunityForm initialized with existingSolutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39
+
+[1A[2KBrowser console: FailedSolutionsPicker initialized for goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2KBrowser console: FailedSolutionsPicker initialized for goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2KWaiting for form submission success...
+
+[1A[2K✅ Form submitted successfully - reached Step 3 (failed solutions optional step)
+
+[1A[2K
+=== Verifying CommunityForm Data Pipeline ===
+
+[1A[2K📊 Verifying data pipeline for "Anxiety Support Group (Test)" in category "support_groups"
+
+[1A[2K✅ Found solution: {
+  id: [32m'5920ff2e-2dc0-42cf-be9a-225a14e1fd39'[39m,
+  category: [32m'support_groups'[39m,
+  source: [32m'test_fixture'[39m,
+  approved: [33mtrue[39m
+}
+
+[1A[2K✅ Found 1 variant(s)
+
+[1A[2KError finding goal implementation: {
+  code: [32m'PGRST116'[39m,
+  details: [32m'The result contains 0 rows'[39m,
+  hint: [1mnull[22m,
+  message: [32m'JSON object requested, multiple (or no) rows returned'[39m
+}
+
+[1A[2K⏳ Waiting for aggregation... attempt 1/5
+
+[1A[2K✅ Found goal implementation link
+
+[1A[2KBrowser console: CommunityForm submission result: {success: true, solutionId: 5920ff2e-2dc0-42cf-be9a-225a14e1fd39, variantId: 0e9a5798-a05f-4203-a15f-09d3b09416c9, ratingId: 97d74270-935b-4fbd-a768-ed7804f640d4, otherRatingsCount: 0}
+
+[1A[2KBrowser console: CommunityForm: Component unmounted during submission, aborting state updates
+
+[1A[2K✅ Found user rating
+
+[1A[2K📊 Rating effectiveness: [90mundefined[39m
+
+[1A[2K⏱️ Time to results: [90mundefined[39m
+
+[1A[2K
+📋 Verifying solution_fields JSON...
+
+[1A[2K   ✅ cost: "Free" (correct)
+
+[1A[2K   ✅ meeting_frequency: "Weekly" (correct)
+
+[1A[2K   ✅ format: "Online only" (correct)
+
+[1A[2K   ✅ group_size: "Small (under 10 people)" (correct)
+
+[1A[2K
+📊 Verifying aggregated fields...
+
+[1A[2K   📈 cost: mode="Free", reports=1
+
+[1A[2K   📈 meeting_frequency: mode="Weekly", reports=1
+
+[1A[2K   📈 format: mode="Online only", reports=1
+
+[1A[2K   📈 group_size: mode="Small (under 10 people)", reports=1
+
+[1A[2K
+=== Checking New Field Aggregations ===
+
+[1A[2K   ✅ meeting_frequency is being aggregated
+
+[1A[2K   ✅ group_size is being aggregated
+
+[1A[2K   ✅ format is being aggregated
+
+[1A[2K
+=== Verifying UI Display ===
+
+[1A[2K[2m[WebServer] [22m [33m[1m⚠[22m[39m ./node_modules/@supabase/realtime-js/dist/main/RealtimeClient.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m./node_modules/@supabase/realtime-js/dist/main/RealtimeClient.js
+[2m[WebServer] [22m./node_modules/@supabase/realtime-js/dist/main/index.js
+[2m[WebServer] [22m./node_modules/@supabase/supabase-js/dist/module/index.js
+[2m[WebServer] [22m./node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+[2m[WebServer] [22m./node_modules/@supabase/ssr/dist/module/index.js
+[2m[WebServer] [22m./lib/database/server.ts
+[2m[WebServer] [22m./app/actions/submit-solution.ts
+
+[1A[2KBrowser console: [Fast Refresh] rebuilding
+
+[1A[2K[2m[WebServer] [22m [33m[1m⚠[22m[39m ./node_modules/@supabase/realtime-js/dist/main/RealtimeClient.js
+[2m[WebServer] [22mCritical dependency: the request of a dependency is an expression
+[2m[WebServer] [22m
+[2m[WebServer] [22mImport trace for requested module:
+[2m[WebServer] [22m./node_modules/@supabase/realtime-js/dist/main/RealtimeClient.js
+[2m[WebServer] [22m./node_modules/@supabase/realtime-js/dist/main/index.js
+[2m[WebServer] [22m./node_modules/@supabase/supabase-js/dist/module/index.js
+[2m[WebServer] [22m./node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+[2m[WebServer] [22m./node_modules/@supabase/ssr/dist/module/index.js
+[2m[WebServer] [22m./lib/database/server.ts
+[2m[WebServer] [22m./app/actions/submit-solution.ts
+
+[1A[2KBrowser console: [Fast Refresh] done in 395ms
+
+[1A[2KBrowser console: %c%s%c [DEBUG] Fetching solutions for goal: 56e2801e-0d78-4abd-a795-869e5b780ae7 background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  
+
+[1A[2KBrowser console: %c%s%c [DEBUG] Goal links fetched: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   23
+
+[1A[2KBrowser console: %c%s%c [DEBUG] Total unique solutions: 23 background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  
+
+[1A[2KBrowser console: %c%s%c Fetched 306 distribution records for goal 56e2801e-0d78-4abd-a795-869e5b780ae7 background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  
+
+[1A[2KBrowser console: %c%s%c Calling RPC with goalId: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2KBrowser console: %c%s%c RPC response: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {data: Array(6), error: null}
+
+[1A[2K
+🖥️ Verifying fields in UI display...
+
+[1A[2K   ❌ Meeting Frequency not displayed
+
+[1A[2K   ❌ Group Size not displayed
+
+[1A[2K   ❌ Format not displayed
+
+[1A[2K   ❌ Cost not displayed
+
+[1A[2K
+❌ Missing fields in UI: Meeting Frequency, Group Size, Format, Cost
+
+[1A[2K
+=== CommunityForm test completed successfully ===
+
+[1A[2K[7/88] [chromium] › tests/e2e/forms/form-test-factory.ts:64:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:64:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables
+🔥 Aggressive cleanup for "Anxiety Support Group (Test)"
+
+[1A[2KFound 1 solution(s) to clean
+
+[1A[2KFound 1 variant(s) to clean
+
+[1A[2KDeleted 1 ratings
+
+[1A[2KDeleted 1 goal links
+
+[1A[2K🧹 Aggressively cleaned all data for Anxiety Support Group (Test)
+
+[1A[2KStarting CommunityForm filler - 3-step wizard
+
+[1A[2KStep 1: Filling effectiveness, time, and community details
+
+[1A[2KSelected 4-star rating
+
+[1A[2KSelected time to results: 1-2 weeks
+
+[1A[2KSelected payment frequency: Free or donation-based
+
+[1A[2KSelected cost range: Free
+
+[1A[2KSelected meeting frequency: Weekly
+
+[1A[2KSelected format: Online only
+
+[1A[2KSelected first available group size
+
+[1A[2KClicked Continue to Step 2
+
+[1A[2KStep 2: Selecting challenges
+
+[1A[2KClicked Continue to Step 3
+
+[1A[2KStep 3: Skipping failed solutions
+
+[1A[2KSubmit button visible: true, enabled: true
+
+[1A[2KAttempting to click Submit button...
+
+[1A[2KClicking submit button...
+
+[1A[2K🧹 Clearing ratings for solution: "Anxiety Support Group (Test)" on goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K✅ "Anxiety Support Group (Test)" is a test fixture - will only clear ratings, not the solution
+
+[1A[2KFound 1 variants to clean for "Anxiety Support Group (Test)"
+
+[1A[2K✅ Cleared for "Anxiety Support Group (Test)": 1 ratings, 1 links
+
+[1A[2K🧤 Post-test cleanup for Anxiety Support Group (Test)
+
+[1A[2KSkipping cleanup for test fixture: Anxiety Support Group (Test)
+
+[1A[2K  1) [chromium] › tests/e2e/forms/form-test-factory.ts:64:13 › CommunityForm - Data Pipeline Tests › support_groups › saves all required fields to correct tables 
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 60000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('button:has-text("Submit"):visible').first()[22m
+    [2m    - locator resolved to <button disabled class="px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed">Submitting...</button>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is not enabled[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is not enabled[22m
+    [2m    - retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m    72 × waiting for element to be visible, enabled and stable[22m
+    [2m       - element is not enabled[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+
+
+      210 |           if (submitExists) {
+      211 |             console.log('Clicking submit button...')
+    > 212 |             await submitBtn.click()
+          |                             ^
+      213 |           } else {
+      214 |             // For multi-step forms that auto-progress
+      215 |             console.log('No submit button found, checking if already submitted')
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-test-factory.ts:212:29
+
+    Error Context: test-results/forms-community-form-Commu-1389d-ed-fields-to-correct-tables-chromium/error-context.md
+
+
+[1A[2K[8/88] [chromium] › tests/e2e/forms/form-test-factory.ts:298:13 › CommunityForm - Data Pipeline Tests › support_groups › handles form validation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:298:13 › CommunityForm - Data Pipeline Tests › support_groups › handles form validation
+🔥 Aggressive cleanup for "Anxiety Support Group (Test)"
+
+[1A[2KFound 1 solution(s) to clean
+
+[1A[2KFound 1 variant(s) to clean
+
+[1A[2KDeleted 0 ratings
+
+[1A[2KDeleted 0 goal links
+
+[1A[2K🧹 Aggressively cleaned all data for Anxiety Support Group (Test)
+
+[1A[2K🧹 Clearing ratings for solution: "Anxiety Support Group (Test)" on goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K✅ "Anxiety Support Group (Test)" is a test fixture - will only clear ratings, not the solution
+
+[1A[2KFound 1 variants to clean for "Anxiety Support Group (Test)"
+
+[1A[2K🧤 Post-test cleanup for Anxiety Support Group (Test)
+
+[1A[2KSkipping cleanup for test fixture: Anxiety Support Group (Test)
+
+[1A[2K[9/88] [chromium] › tests/e2e/forms/form-test-factory.ts:392:13 › CommunityForm - Data Pipeline Tests › support_groups › handles backward navigation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:392:13 › CommunityForm - Data Pipeline Tests › support_groups › handles backward navigation
+🔥 Aggressive cleanup for "Anxiety Support Group (Test)"
+
+[1A[2KFound 1 solution(s) to clean
+
+[1A[2KFound 1 variant(s) to clean
+
+[1A[2KDeleted 0 ratings
+
+[1A[2KDeleted 0 goal links
+
+[1A[2K🧹 Aggressively cleaned all data for Anxiety Support Group (Test)
+
+[1A[2K🧹 Clearing ratings for solution: "Anxiety Support Group (Test)" on goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K✅ "Anxiety Support Group (Test)" is a test fixture - will only clear ratings, not the solution
+
+[1A[2KFound 1 variants to clean for "Anxiety Support Group (Test)"
+
+[1A[2K🧤 Post-test cleanup for Anxiety Support Group (Test)
+
+[1A[2KSkipping cleanup for test fixture: Anxiety Support Group (Test)
+
+[1A[2K[10/88] [chromium] › tests/e2e/forms/form-test-factory.ts:64:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:64:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables
+🔥 Aggressive cleanup for "Running Club (Test)"
+
+[1A[2KFound 1 solution(s) to clean
+
+[1A[2KFound 1 variant(s) to clean
+
+[1A[2KDeleted 0 ratings
+
+[1A[2KDeleted 1 goal links
+
+[1A[2K🧹 Aggressively cleaned all data for Running Club (Test)
+
+[1A[2KStarting CommunityForm filler - 3-step wizard
+
+[1A[2KStep 1: Filling effectiveness, time, and community details
+
+[1A[2KSelected 4-star rating
+
+[1A[2KSelected time to results: 1-2 weeks
+
+[1A[2KSelected payment frequency: Free or donation-based
+
+[1A[2KSelected cost range: Free
+
+[1A[2KSelected meeting frequency: Weekly
+
+[1A[2KSelected format: Online only
+
+[1A[2KSelected first available group size
+
+[1A[2KClicked Continue to Step 2
+
+[1A[2KStep 2: Selecting challenges
+
+[1A[2K🧹 Clearing ratings for solution: "Running Club (Test)" on goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K✅ "Running Club (Test)" is a test fixture - will only clear ratings, not the solution
+
+[1A[2KFound 1 variants to clean for "Running Club (Test)"
+
+[1A[2K🧤 Post-test cleanup for Running Club (Test)
+
+[1A[2KSkipping cleanup for test fixture: Running Club (Test)
+
+[1A[2K  2) [chromium] › tests/e2e/forms/form-test-factory.ts:64:13 › CommunityForm - Data Pipeline Tests › groups_communities › saves all required fields to correct tables 
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    Error: page.click: Test timeout of 60000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("None")')[22m
+
+
+       at forms/form-specific-fillers.ts:1159
+
+      1157 |   // ============ STEP 2: Challenges ============
+      1158 |   console.log('Step 2: Selecting challenges')
+    > 1159 |   await page.click('label:has-text("None")')
+           |              ^
+      1160 |   await page.waitForTimeout(500)
+      1161 |   
+      1162 |   // Click Continue to Step 3
+        at fillCommunityForm (/Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-specific-fillers.ts:1159:14)
+        at fillFormSpecific (/Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-specific-fillers.ts:1405:5)
+        at Object.fillFormSteps (/Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-configs.ts:126:5)
+        at /Users/jackandrews/Desktop/wwfm-platform/tests/e2e/forms/form-test-factory.ts:204:11
+
+    Error Context: test-results/forms-community-form-Commu-a4803-ed-fields-to-correct-tables-chromium/error-context.md
+
+
+[1A[2K[11/88] [chromium] › tests/e2e/forms/form-test-factory.ts:298:13 › CommunityForm - Data Pipeline Tests › groups_communities › handles form validation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:298:13 › CommunityForm - Data Pipeline Tests › groups_communities › handles form validation
+🔥 Aggressive cleanup for "Running Club (Test)"
+
+[1A[2KFound 1 solution(s) to clean
+
+[1A[2KFound 1 variant(s) to clean
+
+[1A[2KDeleted 0 ratings
+
+[1A[2KDeleted 0 goal links
+
+[1A[2K🧹 Aggressively cleaned all data for Running Club (Test)
+
+[1A[2K🧹 Clearing ratings for solution: "Running Club (Test)" on goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K✅ "Running Club (Test)" is a test fixture - will only clear ratings, not the solution
+
+[1A[2KFound 1 variants to clean for "Running Club (Test)"
+
+[1A[2K🧤 Post-test cleanup for Running Club (Test)
+
+[1A[2KSkipping cleanup for test fixture: Running Club (Test)
+
+[1A[2K[12/88] [chromium] › tests/e2e/forms/form-test-factory.ts:392:13 › CommunityForm - Data Pipeline Tests › groups_communities › handles backward navigation
+[1A[2K[chromium] › tests/e2e/forms/form-test-factory.ts:392:13 › CommunityForm - Data Pipeline Tests › groups_communities › handles backward navigation
+🔥 Aggressive cleanup for "Running Club (Test)"
+
+[1A[2KFound 1 solution(s) to clean
+
+[1A[2KFound 1 variant(s) to clean
+
+[1A[2KDeleted 0 ratings
+
+[1A[2KDeleted 0 goal links
+
+[1A[2K🧹 Aggressively cleaned all data for Running Club (Test)
+
+[1A[2K🧹 Clearing ratings for solution: "Running Club (Test)" on goal: 56e2801e-0d78-4abd-a795-869e5b780ae7
+
+[1A[2K✅ "Running Club (Test)" is a test fixture - will only clear ratings, not the solution
+
+[1A[2KFound 1 variants to clean for "Running Club (Test)"
+
+[1A[2K🧤 Post-test cleanup for Running Club (Test)
+
+[1A[2KSkipping cleanup for test fixture: Running Club (Test)
+
+[1A[2K[13/88] [chromium] › tests/e2e/forms/debug-calm.spec.ts:4:7 › Debug Calm Solution › Check if Calm exists as solution
+[1A[2K[chromium] › tests/e2e/forms/debug-calm.spec.ts:4:7 › Debug Calm Solution › Check if Calm exists as solution
+Dropdown visible: [33mtrue[39m
+
+[1A[2KFound 0 items in dropdown:
+
+[1A[2K[14/88] [chromium] › tests/e2e/forms/debug-form-flow.spec.ts:7:7 › Debug Form Flow › debug medication form navigation
+[1A[2K[chromium] › tests/e2e/forms/debug-form-flow.spec.ts:7:7 › Debug Form Flow › debug medication form navigation
+Test solution: Prozac (Test)
+
+[1A[2KFilled solution name: Prozac (Test)
+
+[1A[2KDropdown visible
+
+[1A[2KTest solution not found, clicking first dropdown item
+
+[1A[2KContinue button visible? [33mtrue[39m
+
+[1A[2KClicked Continue button
+
+[1A[2KHas category picker? [33mfalse[39m
+
+[1A[2KHas dosage form? [33mtrue[39m
+
+[1A[2KFinal check - on dosage form? [33mtrue[39m
+
+[1A[2KVisible inputs: 1, Visible selects: 4
+
+[1A[2K[15/88] [chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:8:7 › Debug Generic Form Filler › debug app form with generic filler
+[1A[2K[chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:8:7 › Debug Generic Form Filler › debug app form with generic filler
+Test solution: Headspace (Test)
+
+[1A[2KFilled solution name: Headspace (Test)
+
+[1A[2KClicked Continue button
+
+[1A[2KStarting generic form filler...
+
+[1A[2KContinue button disabled on step 1, filling required fields...
+
+[1A[2KFinal URL: http://localhost:3000/goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution
+
+[1A[2KSubmit button is visible
+
+[1A[2KSubmit button disabled? [33mfalse[39m
+
+[1A[2KClicked submit, final URL: http://localhost:3000/goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution
+
+[1A[2K[16/88] [chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:70:7 › Debug Generic Form Filler › debug medication form with generic filler
+[1A[2K[chromium] › tests/e2e/forms/debug-generic-filler.spec.ts:70:7 › Debug Generic Form Filler › debug medication form with generic filler
+Test solution: Prozac (Test)
+
+[1A[2KFilled solution name: Prozac (Test)
+
+[1A[2KClicked Continue button
+
+[1A[2KStarting generic form filler...
+

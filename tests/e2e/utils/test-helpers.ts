@@ -381,7 +381,8 @@ export async function getTestGoalImplementation(variantId: string) {
     .eq('implementation_id', variantId)
     .single()
   
-  if (error) {
+  if (error && error.code !== 'PGRST116') {
+    // Only log actual errors, not "no rows found" which is expected after cleanup
     console.error('Error finding goal implementation:', error)
   }
   
@@ -432,12 +433,24 @@ export async function verifyDataPipeline(
   
   console.log(`✅ Found ${variants.length} variant(s)`)
   
-  // Find goal implementation link for test goal
+  // Find goal implementation link for test goal with retry
   const variant = variants[0] // For most tests, we expect one variant
-  const goalLink = await getTestGoalImplementation(variant.id)
+  
+  // Retry logic for goal implementation link (aggregation might be async)
+  let goalLink = null
+  const maxRetries = 5
+  for (let i = 0; i < maxRetries; i++) {
+    goalLink = await getTestGoalImplementation(variant.id)
+    if (goalLink) break
+    
+    if (i < maxRetries - 1) {
+      console.log(`⏳ Waiting for aggregation... attempt ${i + 1}/${maxRetries}`)
+      await new Promise(resolve => setTimeout(resolve, 2000))
+    }
+  }
   
   if (!goalLink) {
-    console.log('❌ Goal implementation link not found')
+    console.log('❌ Goal implementation link not found after retries')
     return { success: false, error: 'Goal implementation link not found' }
   }
   
@@ -458,23 +471,30 @@ export async function verifyDataPipeline(
   } else {
     console.log('✅ Found user rating')
     
-    // Field-level verification for ratings
+    // Check effectiveness and time_to_results as separate columns
+    console.log('📊 Rating effectiveness:', userRating.effectiveness)
+    console.log('⏱️ Time to results:', userRating.time_to_results)
+    
+    // Field-level verification for solution_fields JSON
     if (expectedFields && userRating.solution_fields) {
-      console.log('\n📋 Verifying individual rating fields...')
+      console.log('\n📋 Verifying solution_fields JSON...')
       const ratingFields = userRating.solution_fields
       let fieldMismatches = []
       
       for (const [fieldName, expectedValue] of Object.entries(expectedFields)) {
         const actualValue = ratingFields[fieldName]
-        if (actualValue !== expectedValue) {
+        // Use JSON.stringify for comparison to handle arrays and objects
+        const expectedStr = JSON.stringify(expectedValue)
+        const actualStr = JSON.stringify(actualValue)
+        if (actualStr !== expectedStr) {
           fieldMismatches.push({
             field: fieldName,
             expected: expectedValue,
             actual: actualValue
           })
-          console.log(`   ❌ ${fieldName}: expected "${expectedValue}", got "${actualValue}"`)
+          console.log(`   ❌ ${fieldName}: expected ${expectedStr}, got ${actualStr}`)
         } else {
-          console.log(`   ✅ ${fieldName}: "${actualValue}" (correct)`)
+          console.log(`   ✅ ${fieldName}: ${actualStr} (correct)`)
         }
       }
       
@@ -526,4 +546,81 @@ export async function verifyDataPipeline(
     ratingFields: userRating?.solution_fields || {},
     aggregatedFields: goalLink.aggregated_fields || {}
   }
+}
+
+// Enhanced field-level verification helper
+export async function verifyFieldStorage(
+  ratingId: string,
+  expectedFields: Record<string, any>
+) {
+  const supabase = getTestSupabase()
+  
+  const { data: rating, error } = await supabase
+    .from('ratings')
+    .select('solution_fields')
+    .eq('id', ratingId)
+    .single()
+  
+  if (error || !rating) {
+    console.error('Failed to fetch rating:', error)
+    return null
+  }
+  
+  // Verify NO undefined values were stored
+  for (const [key, value] of Object.entries(rating.solution_fields || {})) {
+    if (value === undefined) {
+      console.error(`❌ Field "${key}" has undefined value - should not be stored`)
+    }
+    if (value === null && expectedFields[key] !== null) {
+      console.error(`❌ Field "${key}" is null but expected non-null`)
+    }
+  }
+  
+  // Verify each expected field matches exactly
+  for (const [key, value] of Object.entries(expectedFields)) {
+    const storedValue = rating.solution_fields?.[key]
+    if (storedValue !== value) {
+      console.error(`❌ Field "${key}" mismatch: expected "${value}", got "${storedValue}"`)
+    } else {
+      console.log(`✅ Field "${key}" correctly stored as "${value}"`)
+    }
+  }
+  
+  return rating.solution_fields
+}
+
+// Verify aggregation completeness
+export async function verifyAggregation(
+  solutionId: string,
+  goalId: string,
+  expectedFields: string[]
+) {
+  const supabase = getTestSupabase()
+  
+  const { data: link, error } = await supabase
+    .from('goal_implementation_links')
+    .select('aggregated_fields')
+    .eq('solution_id', solutionId)
+    .eq('goal_id', goalId)
+    .single()
+  
+  if (error || !link) {
+    console.error('Failed to fetch goal_implementation_links:', error)
+    return null
+  }
+  
+  const aggregated = link.aggregated_fields || {}
+  
+  // Verify all expected fields were aggregated
+  for (const field of expectedFields) {
+    if (!aggregated[field]) {
+      console.error(`❌ Field "${field}" not aggregated`)
+    } else if (aggregated[field].mode !== undefined) {
+      console.log(`✅ Field "${field}" aggregated with mode: ${aggregated[field].mode}`)
+    } else if (aggregated[field].values) {
+      console.log(`✅ Field "${field}" aggregated with ${aggregated[field].values.length} values`)
+    }
+  }
+  
+  return aggregated
 }

@@ -20,8 +20,19 @@ test.describe('Debug Generic Form Filler', () => {
     await page.fill('input[placeholder*="Headspace"]', testData.title)
     console.log('Filled solution name:', testData.title)
     
-    // Wait for auto-categorization
+    // Wait for dropdown to appear and search to complete
     await page.waitForTimeout(2000)
+    
+    // Select from dropdown if it appears
+    const dropdown = page.locator('[data-testid="solution-dropdown"]')
+    try {
+      await dropdown.waitFor({ state: 'visible', timeout: 3000 })
+      const firstButton = dropdown.locator('button').first()
+      await firstButton.click()
+      await page.waitForTimeout(500)
+    } catch (e) {
+      // Dropdown didn't appear, continue
+    }
     
     // Click Continue
     const continueButton = page.locator('button:has-text("Continue")')
@@ -71,8 +82,19 @@ test.describe('Debug Generic Form Filler', () => {
     await page.fill('input[placeholder*="Headspace"]', testData.title)
     console.log('Filled solution name:', testData.title)
     
-    // Wait for auto-categorization
+    // Wait for dropdown to appear and search to complete
     await page.waitForTimeout(2000)
+    
+    // Select from dropdown if it appears
+    const dropdown = page.locator('[data-testid="solution-dropdown"]')
+    try {
+      await dropdown.waitFor({ state: 'visible', timeout: 3000 })
+      const firstButton = dropdown.locator('button').first()
+      await firstButton.click()
+      await page.waitForTimeout(500)
+    } catch (e) {
+      // Dropdown didn't appear, continue
+    }
     
     // Click Continue
     const continueButton = page.locator('button:has-text("Continue")')

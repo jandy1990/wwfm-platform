@@ -13,7 +13,7 @@ export const dosageFormConfig: FormTestConfig = {
   arrayFields: [],
   hasVariants: true, // Only medications, supplements, natural_remedies create dosage variants
   generateTestData: (category: string) => ({
-    title: `Dosage Test ${Date.now()}`,
+    // Use test fixture solutions, not dynamic names
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
@@ -30,7 +30,7 @@ export const appFormConfig: FormTestConfig = {
   arrayFields: [],
   hasVariants: false,
   generateTestData: (category: string) => ({
-    title: `App Test ${Date.now()}`,
+    // Use test fixture solutions, not dynamic names
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
@@ -47,7 +47,7 @@ export const hobbyFormConfig: FormTestConfig = {
   arrayFields: [],
   hasVariants: false,
   generateTestData: (category: string) => ({
-    title: `Hobby Test ${Date.now()}`,
+    // Use test fixture solutions, not dynamic names
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
@@ -64,7 +64,7 @@ export const practiceFormConfig: FormTestConfig = {
   arrayFields: [],
   hasVariants: false,
   generateTestData: (category: string) => ({
-    title: `Practice Test ${Date.now()}`,
+    // Use test fixture solutions, not dynamic names
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
@@ -84,7 +84,7 @@ export const sessionFormConfig: FormTestConfig = {
   arrayFields: [],
   hasVariants: false,
   generateTestData: (category: string) => ({
-    title: `Session Test ${Date.now()}`,
+    // Use test fixture solutions, not dynamic names
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
@@ -101,7 +101,7 @@ export const purchaseFormConfig: FormTestConfig = {
   arrayFields: [],
   hasVariants: false,
   generateTestData: (category: string) => ({
-    title: `Purchase Test ${Date.now()}`,
+    // Use test fixture solutions, not dynamic names
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
@@ -118,7 +118,7 @@ export const communityFormConfig: FormTestConfig = {
   arrayFields: [],
   hasVariants: false,
   generateTestData: (category: string) => ({
-    title: `Community Test ${Date.now()}`,
+    // Use test fixture solutions, not dynamic names
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
@@ -135,7 +135,7 @@ export const lifestyleFormConfig: FormTestConfig = {
   arrayFields: [],
   hasVariants: false,
   generateTestData: (category: string) => ({
-    title: `Lifestyle Test ${Date.now()}`,
+    // Use test fixture solutions, not dynamic names
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {
@@ -152,7 +152,7 @@ export const financialFormConfig: FormTestConfig = {
   arrayFields: [],
   hasVariants: false,
   generateTestData: (category: string) => ({
-    title: `Financial Test ${Date.now()}`,
+    // Use test fixture solutions, not dynamic names
     category: category
   }),
   fillFormSteps: async (page: Page, testData: any) => {

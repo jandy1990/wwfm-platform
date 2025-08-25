@@ -278,18 +278,60 @@ export class SolutionAggregator {
   ): Promise<void> {
     const supabase = await createServerSupabaseClient()
     
+    console.log(`[Aggregator] Starting aggregation for goal=${goalId}, implementation=${implementationId}`)
+    
     // Compute new aggregates
     const aggregated = await this.computeAggregates(goalId, implementationId)
+    console.log(`[Aggregator] Computed aggregates:`, Object.keys(aggregated))
     
-    // Update goal_implementation_links
-    const { error } = await supabase
+    // First check if the link exists
+    const { data: existingLink, error: checkError } = await supabase
       .from('goal_implementation_links')
-      .update({ aggregated_fields: aggregated })
+      .select('id')
       .eq('goal_id', goalId)
       .eq('implementation_id', implementationId)
+      .single()
     
-    if (error) {
-      console.error('Error updating aggregated fields:', error)
+    if (checkError && checkError.code !== 'PGRST116') {
+      console.error('[Aggregator] Error checking for existing link:', checkError)
+      throw checkError
+    }
+    
+    if (existingLink) {
+      // Update existing link
+      console.log(`[Aggregator] Updating existing link ${existingLink.id}`)
+      const { error: updateError } = await supabase
+        .from('goal_implementation_links')
+        .update({ 
+          aggregated_fields: aggregated,
+          updated_at: new Date().toISOString()
+        })
+        .eq('goal_id', goalId)
+        .eq('implementation_id', implementationId)
+      
+      if (updateError) {
+        console.error('[Aggregator] Error updating aggregated fields:', updateError)
+        throw updateError
+      }
+      console.log('[Aggregator] Successfully updated aggregated fields')
+    } else {
+      // Create new link with aggregated fields
+      console.log('[Aggregator] Creating new link with aggregated fields')
+      const { error: insertError } = await supabase
+        .from('goal_implementation_links')
+        .insert({
+          goal_id: goalId,
+          implementation_id: implementationId,
+          aggregated_fields: aggregated,
+          avg_effectiveness: 0, // Will be updated by triggers
+          rating_count: 1
+        })
+      
+      if (insertError) {
+        console.error('[Aggregator] Error creating link with aggregated fields:', insertError)
+        throw insertError
+      }
+      console.log('[Aggregator] Successfully created new link with aggregated fields')
     }
   }
 }

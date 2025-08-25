@@ -1,9 +1,22 @@
 import { test, expect } from '@playwright/test';
+import { clearTestRatingsForSolution } from '../utils/test-cleanup';
 
 test.describe('HobbyForm - Complete E2E Tests', () => {
+  test.beforeEach(async () => {
+    // Clear any existing test data before each test
+    await clearTestRatingsForSolution('Painting (Test)');
+  });
+
   test('should submit hobby solution successfully from goal page', async ({ page }) => {
     console.log('Test setup - user already authenticated via global setup')
     console.log('Starting HobbyForm test from actual goal page')
+    
+    // Listen for console errors
+    page.on('console', msg => {
+      if (msg.type() === 'error') {
+        console.log('Browser console error:', msg.text())
+      }
+    })
     
     // Navigate to goal page and click "Share What Worked"
     await page.goto('/goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution')
@@ -202,10 +215,23 @@ test.describe('HobbyForm - Complete E2E Tests', () => {
     
     // Step 3: Submit form
     console.log('Step 3: Skipping failed solutions')
-    console.log('Submit button found, clicking...')
+    
+    // Check submit button state before clicking
     const submitBtn = page.locator('button:has-text("Submit")')
+    const isDisabled = await submitBtn.isDisabled()
+    console.log('Submit button disabled?', isDisabled)
+    
+    console.log('Clicking submit button...')
     await submitBtn.click()
-    await page.waitForTimeout(2000)
+    
+    // Wait a bit and check if button changed to "Submitting..."
+    await page.waitForTimeout(500)
+    const submittingBtn = page.locator('button:has-text("Submitting...")')
+    const isSubmitting = await submittingBtn.isVisible().catch(() => false)
+    console.log('Form is submitting:', isSubmitting)
+    
+    // Wait longer for submission to complete
+    await page.waitForTimeout(5000)
     
     // Verify the form was processed (success, duplicate, or any completion message)
     const pageContent = await page.textContent('body')

@@ -38,7 +38,6 @@ export function PracticeForm({
   existingSolutionId, // Used for pre-populating form if editing existing solution
   onBack
 }: PracticeFormProps) {
-  console.log('PracticeForm initialized with existingSolutionId:', existingSolutionId);
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -332,18 +331,10 @@ export function PracticeForm({
         failedSolutions
       };
 
-      console.log('Submitting solution with data:', {
-        goalId,
-        userId,
-        solutionName,
-        category,
-        existingSolutionId,
-        effectiveness,
-        timeToResults
-      });
 
       // Call server action to submit the solution
       const result = await submitSolution(submissionData);
+      
       
       if (result.success) {
         // Store the result for success screen
@@ -383,7 +374,6 @@ export function PracticeForm({
     
     // Only proceed if there are fields to update
     if (Object.keys(additionalFields).length === 0) {
-      console.log('No additional fields to update');
       return;
     }
     
@@ -397,7 +387,6 @@ export function PracticeForm({
       });
       
       if (result.success) {
-        console.log('Successfully updated additional information');
         alert('Additional information saved successfully!');
       } else {
         console.error('Failed to update:', result.error);
@@ -1070,4 +1059,4 @@ export function PracticeForm({
   );
 }
 
-console.log('TODO: Add animation styles to global CSS');
+// TODO: Add animation styles to global CSS

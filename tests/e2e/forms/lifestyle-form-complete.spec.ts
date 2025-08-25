@@ -1,8 +1,14 @@
 // tests/e2e/forms/lifestyle-form-complete.spec.ts
 import { test, expect } from '@playwright/test';
 import { fillLifestyleForm } from './form-specific-fillers';
+import { clearTestRatingsForSolution } from '../utils/test-cleanup';
 
 test.describe('LifestyleForm End-to-End Tests', () => {
+  test.beforeEach(async () => {
+    // Clear any existing test data before each test
+    await clearTestRatingsForSolution('Mediterranean Diet (Test)');
+    await clearTestRatingsForSolution('Sleep Hygiene (Test)');
+  });
 
   test('should complete LifestyleForm for diet_nutrition (Mediterranean Diet Test)', async ({ page }) => {
     console.log('=== Starting LifestyleForm test for Mediterranean Diet (Test) ===');

@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/database/client';
 import { ChevronLeft, Check, Plus, X } from 'lucide-react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Skeleton } from '@/components/atoms/skeleton';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
@@ -41,6 +40,7 @@ export function CommunityForm({
 }: CommunityFormProps) {
   console.log('CommunityForm initialized with existingSolutionId:', existingSolutionId);
   const router = useRouter();
+  const isMounted = useRef(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
@@ -137,6 +137,13 @@ export function CommunityForm({
   const getCategoryDisplay = () => {
     return category === 'support_groups' ? 'Support Group' : 'Community/Group';
   };
+  
+  // Track component mount status
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
   
   // Handle browser back button
   useEffect(() => {
@@ -246,6 +253,15 @@ export function CommunityForm({
         // Cost, meeting frequency, format, and group size are required
         const requiredValid = costRange !== '' && meetingFrequency !== '' && format !== '' && groupSize !== '';
         
+        console.log('CommunityForm Step 1 validation:', {
+          universalValid,
+          requiredValid,
+          costRange,
+          meetingFrequency,
+          format,
+          groupSize
+        });
+        
         return universalValid && requiredValid;
         
       case 2:
@@ -262,6 +278,23 @@ export function CommunityForm({
   };
   
   const handleSubmit = async () => {
+    console.log('CommunityForm handleSubmit called with:', {
+      effectiveness,
+      timeToResults,
+      costRange,
+      meetingFrequency,
+      format,
+      groupSize,
+      paymentFrequency,
+      selectedChallenges
+    });
+    
+    // Prevent re-submission if already submitting
+    if (isSubmitting) {
+      console.log('CommunityForm: Already submitting, ignoring duplicate call');
+      return;
+    }
+    
     setIsSubmitting(true);
     
     try {
@@ -270,21 +303,29 @@ export function CommunityForm({
                        paymentFrequency === 'One-time' ? 'one_time' : 
                        'recurring';
       
-      // Prepare solution fields for storage
-      const solutionFields: Record<string, any> = {
-        // Required fields
-        cost: costRange,
-        cost_type: costType,
-        meeting_frequency: meetingFrequency,
-        format,
-        group_size: groupSize,
-        
-        // Array field (challenges)
-        challenges: selectedChallenges.filter(c => c !== 'None'),
-        
-        // Optional fields from success screen
-        // REMOVED from initial submission - optional fields handled in success screen only
-      };
+      // Prepare solution fields for storage using conditional pattern (like DosageForm)
+      // Only include fields that have actual values to avoid undefined
+      const solutionFields: Record<string, any> = {};
+      
+      // Add cost fields
+      if (costRange) {
+        solutionFields.cost = costRange;
+        solutionFields.cost_type = costType;
+      }
+      
+      // Add other fields only if they have values
+      if (meetingFrequency) solutionFields.meeting_frequency = meetingFrequency;
+      if (format) solutionFields.format = format;
+      if (groupSize) solutionFields.group_size = groupSize;
+      
+      // Array field (challenges) - only add if not empty
+      const filteredChallenges = selectedChallenges.filter(c => c !== 'None');
+      if (filteredChallenges.length > 0) {
+        solutionFields.challenges = filteredChallenges;
+      }
+      
+      // Optional fields from success screen
+      // REMOVED from initial submission - optional fields handled in success screen only
       
       // Prepare submission data with correct structure
       const submissionData: SubmitSolutionData = {
@@ -301,6 +342,13 @@ export function CommunityForm({
       
       // Call server action
       const result = await submitSolution(submissionData);
+      console.log('CommunityForm submission result:', result);
+      
+      // Check if component is still mounted before updating state
+      if (!isMounted.current) {
+        console.log('CommunityForm: Component unmounted during submission, aborting state updates');
+        return;
+      }
       
       if (result.success) {
         // Store the result for success screen
@@ -326,7 +374,9 @@ export function CommunityForm({
       console.error('Error submitting form:', error);
       alert('An unexpected error occurred. Please try again.');
     } finally {
-      setIsSubmitting(false);
+      if (isMounted.current) {
+        setIsSubmitting(false);
+      }
     }
   };
   

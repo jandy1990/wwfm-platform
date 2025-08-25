@@ -39,11 +39,6 @@ export function AppForm({
   onBack
 }: AppFormProps) {
   // Debug logging
-  console.log('[AppForm] Props received:', {
-    solutionName,
-    category,
-    existingSolutionId
-  });
   
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -226,16 +221,25 @@ export function AppForm({
                        subscriptionType === 'One-time purchase' ? 'one_time' :
                        'recurring'; // Monthly or Annual subscription
       
-      // Prepare solution fields for storage
-      const solutionFields = {
-        cost: subscriptionType === 'Free version' ? 'Free' : cost,
-        cost_type: costType,
-        time_to_results: timeToResults,
-        usage_frequency: usageFrequency,
-        subscription_type: subscriptionType,
-        challenges: challenges
-        // REMOVED from initial submission - platform and notes handled in success screen only
-      };
+      // Prepare solution fields for storage using conditional pattern (like DosageForm)
+      // Only include fields that have actual values to avoid undefined
+      const solutionFields: Record<string, any> = {};
+      
+      // Add cost fields
+      if (subscriptionType === 'Free version') {
+        solutionFields.cost = 'Free';
+        solutionFields.cost_type = 'free';
+      } else if (cost) {
+        solutionFields.cost = cost;
+        solutionFields.cost_type = costType;
+      }
+      
+      // Add other fields only if they have values
+      if (timeToResults) solutionFields.time_to_results = timeToResults;
+      if (usageFrequency) solutionFields.usage_frequency = usageFrequency;
+      if (subscriptionType) solutionFields.subscription_type = subscriptionType;
+      if (challenges && challenges.length > 0) solutionFields.challenges = challenges;
+      // REMOVED from initial submission - platform and notes handled in success screen only
 
       // Prepare submission data (Apps don't have variants)
       const submissionData: SubmitSolutionData = {
@@ -250,16 +254,6 @@ export function AppForm({
         failedSolutions
       };
 
-      // Log submission data for debugging
-      console.log('Submitting solution with data:', {
-        goalId,
-        userId,
-        solutionName,
-        category,
-        existingSolutionId,
-        effectiveness,
-        timeToResults
-      });
 
       // Call server action
       const result = await submitSolution(submissionData);
@@ -301,7 +295,6 @@ export function AppForm({
     
     // Only proceed if there are fields to update
     if (Object.keys(additionalFields).length === 0) {
-      console.log('No additional fields to update');
       return;
     }
     
@@ -315,7 +308,6 @@ export function AppForm({
       });
       
       if (result.success) {
-        console.log('Successfully updated additional information');
         alert('Additional information saved successfully!');
       } else {
         console.error('Failed to update:', result.error);

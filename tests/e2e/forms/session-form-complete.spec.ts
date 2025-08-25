@@ -1,8 +1,13 @@
 // tests/e2e/forms/session-form-complete.spec.ts
 import { test, expect } from '@playwright/test';
 import { fillSessionForm } from './form-specific-fillers';
+import { clearTestRatingsForSolution } from '../utils/test-cleanup';
 
 test.describe('SessionForm End-to-End Tests', () => {
+  test.beforeEach(async () => {
+    // Clear any existing test data before each test
+    await clearTestRatingsForSolution('CBT Therapy (Test)');
+  });
 
   test('should complete SessionForm for therapists_counselors (CBT Therapy Test)', async ({ page }) => {
     console.log('=== Starting SessionForm test for CBT Therapy (Test) ===');
@@ -74,6 +79,22 @@ test.describe('SessionForm End-to-End Tests', () => {
       await page.waitForTimeout(1000)
     }
     
+    // Check if we need to select category manually
+    const pageContent = await page.textContent('body');
+    
+    if (pageContent?.includes('Choose a category')) {
+      console.log('Category picker appeared - selecting therapists_counselors');
+      
+      // Click the category section and then the specific category
+      await page.click('button:has-text("People you see")');
+      await page.waitForTimeout(500);
+      await page.click('button:has-text("Therapists & Counselors")');
+      console.log('Selected category manually');
+      
+      // Wait for form to load after category selection
+      await page.waitForTimeout(2000);
+    }
+    
     // Wait for SessionForm to load
     try {
       await page.waitForSelector('text="How well it worked"', { timeout: 5000 })
@@ -91,18 +112,18 @@ test.describe('SessionForm End-to-End Tests', () => {
     console.log('Verifying successful submission...')
     await page.waitForTimeout(3000)
     
-    const pageContent = await page.textContent('body')
+    const verificationContent = await page.textContent('body')
     console.log('=== PAGE CONTENT FOR VERIFICATION ===')
-    console.log(pageContent?.substring(0, 500) + '...')
+    console.log(verificationContent?.substring(0, 500) + '...')
     console.log('=== END PAGE CONTENT ===')
     
-    const wasProcessed = pageContent?.includes('Thank you') || 
-                        pageContent?.includes('already') || 
-                        pageContent?.includes('recorded') ||
-                        pageContent?.includes('success') ||
-                        pageContent?.includes('submitted') ||
-                        pageContent?.includes('added') ||
-                        pageContent?.includes('Dashboard') // Check if we're redirected to dashboard
+    const wasProcessed = verificationContent?.includes('Thank you') || 
+                        verificationContent?.includes('already') || 
+                        verificationContent?.includes('recorded') ||
+                        verificationContent?.includes('success') ||
+                        verificationContent?.includes('submitted') ||
+                        verificationContent?.includes('added') ||
+                        verificationContent?.includes('Dashboard') // Check if we're redirected to dashboard
     
     console.log(`Verification result: ${wasProcessed}`)
     expect(wasProcessed).toBeTruthy()

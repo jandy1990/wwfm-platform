@@ -317,11 +317,6 @@ export default function SolutionFormWithAutoCategory({
 
   // Handle selecting any item from dropdown
   const handleSelectItem = useCallback((title: string, category: string, solution?: SolutionMatch) => {
-    console.log('[SolutionFormWithAutoCategory] handleSelectItem called:', {
-      title,
-      category,
-      solution
-    });
     
     // Clear the search timer to prevent it from reopening dropdown
     if (searchTimer.current) {
@@ -420,67 +415,82 @@ export default function SolutionFormWithAutoCategory({
       existingSolutionId: formState.selectedSolution?.id,
       onBack: handleBack
     };
-    
-    console.log('[SolutionFormWithAutoCategory] formProps:', formProps);
 
-    // Map categories to their form templates
-    const categoryFormMap: Record<string, React.ReactElement> = {
+    // Use conditional rendering with stable keys to maintain component identity
+    // This prevents React from recreating components on every render
+    const category = formState.selectedCategory;
+    
+    // Create a stable key combining category and solution ID
+    const formKey = `${category}-${formState.selectedSolution?.id || 'new'}`;
+
+    // Render based on category using conditional logic instead of creating new elements
+    switch (category) {
       // Dosage Form (4 categories)
-      'supplements_vitamins': <DosageForm {...formProps} />,
-      'medications': <DosageForm {...formProps} />,
-      'natural_remedies': <DosageForm {...formProps} />,
-      'beauty_skincare': <DosageForm {...formProps} />,
+      case 'supplements_vitamins':
+      case 'medications':
+      case 'natural_remedies':
+      case 'beauty_skincare':
+        return <DosageForm key={formKey} {...formProps} />;
       
       // App Form (1 category)
-      'apps_software': <AppForm {...formProps} />,
+      case 'apps_software':
+        return <AppForm key={formKey} {...formProps} />;
       
       // Hobby Form (1 category)
-      'hobbies_activities': <HobbyForm {...formProps} />,
+      case 'hobbies_activities':
+        return <HobbyForm key={formKey} {...formProps} />;
       
       // Practice Form (3 categories)
-      'exercise_movement': <PracticeForm {...formProps} />,
-      'meditation_mindfulness': <PracticeForm {...formProps} />,
-      'habits_routines': <PracticeForm {...formProps} />,
+      case 'exercise_movement':
+      case 'meditation_mindfulness':
+      case 'habits_routines':
+        return <PracticeForm key={formKey} {...formProps} />;
 
       // Session Form (7 categories)
-      'therapists_counselors': <SessionForm {...formProps} />,
-      'doctors_specialists': <SessionForm {...formProps} />,
-      'coaches_mentors': <SessionForm {...formProps} />,
-      'alternative_practitioners': <SessionForm {...formProps} />,
-      'professional_services': <SessionForm {...formProps} />,
-      'medical_procedures': <SessionForm {...formProps} />,
-      'crisis_resources': <SessionForm {...formProps} />,
+      case 'therapists_counselors':
+      case 'doctors_specialists':
+      case 'coaches_mentors':
+      case 'alternative_practitioners':
+      case 'professional_services':
+      case 'medical_procedures':
+      case 'crisis_resources':
+        return <SessionForm key={formKey} {...formProps} />;
 
       // Purchase Form (2 categories)
-      'products_devices': <PurchaseForm {...formProps} />,
-      'books_courses': <PurchaseForm {...formProps} />,
+      case 'products_devices':
+      case 'books_courses':
+        return <PurchaseForm key={formKey} {...formProps} />;
 
       // Community Form (2 categories)
-      'support_groups': <CommunityForm {...formProps} />,
-      'groups_communities': <CommunityForm {...formProps} />,
+      case 'support_groups':
+      case 'groups_communities':
+        return <CommunityForm key={formKey} {...formProps} />;
 
       // Lifestyle Form (2 categories)
-      'diet_nutrition': <LifestyleForm {...formProps} />,
-      'sleep': <LifestyleForm {...formProps} />,
+      case 'diet_nutrition':
+      case 'sleep':
+        return <LifestyleForm key={formKey} {...formProps} />;
 
       // Financial Form (1 category)
-      'financial_products': <FinancialForm {...formProps} />
-    };
+      case 'financial_products':
+        return <FinancialForm key={formKey} {...formProps} />;
 
-    return categoryFormMap[formState.selectedCategory] || (
-      <div className="p-6 text-center">
-        <p className="text-gray-600 dark:text-gray-400">
-          Form for {formState.selectedCategory} is coming soon!
-        </p>
-        <button
-          onClick={handleBack}
-          className="mt-4 text-blue-600 hover:text-blue-700 dark:text-blue-400 
-                   dark:hover:text-blue-300 font-medium"
-        >
-          Go back
-        </button>
-      </div>
-    );
+      default:
+        return (
+          <div className="p-6 text-center">
+            <p className="text-gray-600 dark:text-gray-400">
+              Form for {category} is coming soon!
+            </p>
+            <button
+              onClick={handleBack}
+              className="mt-4 text-blue-600 hover:text-blue-700 dark:text-blue-400 
+                       dark:hover:text-blue-300 font-medium"
+            >
+              Go back
+            </button>
+          </div>
+        );
+    }
   };
 
   // Render based on current step

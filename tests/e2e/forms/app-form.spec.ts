@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { KNOWN_SOLUTIONS } from '../fixtures/known-solutions'
 import { fillAppForm } from './form-specific-fillers'
+import { clearTestRatingsForSolution } from '../utils/test-cleanup'
 
 test.describe('AppForm Tests', () => {
   // Authentication is handled by global setup in playwright.config.ts
@@ -8,6 +9,8 @@ test.describe('AppForm Tests', () => {
   
   test.beforeEach(async ({ page }) => {
     console.log('Test setup - user already authenticated via global setup')
+    // Clear any existing test data before each test
+    await clearTestRatingsForSolution('Headspace (Test)')
   })
 
   test('should submit app solution successfully from goal page', async ({ page }) => {

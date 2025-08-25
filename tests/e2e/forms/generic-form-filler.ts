@@ -315,20 +315,7 @@ export async function fillFormGeneric(page: Page, category: string) {
   await page.waitForTimeout(2000)
 }
 
-export function createGenericFormConfig(formName: string, categories: string[], triggerWords: Record<string, string>) {
-  return {
-    formName,
-    categories,
-    requiredFields: [], // We don't validate specific fields
-    arrayFields: [],
-    hasVariants: false,
-    
-    generateTestData: (category: string) => ({
-      title: triggerWords[category] || `Test ${category} ${Date.now()}`
-    }),
-    
-    fillFormSteps: async (page: Page, testData: any) => {
-      await fillFormGeneric(page, testData.category)
-    }
-  }
-}
+// Note: createGenericFormConfig has been removed
+// All tests must use pre-created test fixtures from TEST_SOLUTIONS
+// Dynamic solution creation (Date.now(), etc.) is not allowed
+// See /docs/testing/MASTER_TESTING_GUIDE.md for the correct approach

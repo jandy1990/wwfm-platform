@@ -1,6 +1,14 @@
 import { test, expect } from '@playwright/test';
+import { clearTestRatingsForSolution } from '../utils/test-cleanup';
 
 test.describe('PurchaseForm - Complete E2E Tests', () => {
+  test.beforeEach(async () => {
+    // Clear any existing test data before each test
+    await clearTestRatingsForSolution('Fitbit (Test)');
+    await clearTestRatingsForSolution('MasterClass (Test)');
+    console.log('Test cleanup completed');
+  });
+
   test('should submit purchase solution successfully from goal page', async ({ page }) => {
     console.log('Test setup - user already authenticated via global setup')
     console.log('Starting PurchaseForm test from actual goal page')
@@ -156,8 +164,11 @@ test.describe('PurchaseForm - Complete E2E Tests', () => {
     console.log('Selected time to results: 1-2 weeks')
     await page.waitForTimeout(300)
     
-    // Cost type defaults to 'one_time' - keep the default
-    console.log('Using default cost type: one_time')
+    // Select cost type first (RadioGroup)
+    console.log('Selecting cost type: one_time')
+    // Click on the label text instead of the radio input
+    await page.click('text="One-time purchase"')
+    await page.waitForTimeout(500)
     
     // Select cost range using Select component
     // Find the cost range Select component (it has SelectTrigger)
@@ -165,7 +176,7 @@ test.describe('PurchaseForm - Complete E2E Tests', () => {
     await costRangeSelect.click()
     await page.waitForTimeout(300)
     
-    // Select from the dropdown options
+    // Select from the dropdown options (for one_time, no "/month" suffix)
     await page.click('text="$50-100"')
     console.log('Selected cost range: $50-100')
     await page.waitForTimeout(300)
@@ -247,7 +258,9 @@ test.describe('PurchaseForm - Complete E2E Tests', () => {
     console.log('Submit button found, clicking...')
     const submitBtn = page.locator('button:has-text("Submit")')
     await submitBtn.click()
-    await page.waitForTimeout(2000)
+    
+    // Wait longer for submission to complete (like HobbyForm)
+    await page.waitForTimeout(5000)
     
     // Verify the form was processed (success, duplicate, or any completion message)
     const pageContent = await page.textContent('body')

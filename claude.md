@@ -131,4 +131,16 @@ RLS: Enabled on all tables
 For connection details and keys, see:
 `/docs/technical/supabase-connection-guide.md` (gitignored)
 
+## 🔧 Recent Technical Improvements (August 2025)
+
+**Data Architecture Overhaul**: Fixed critical data overwriting bug and implemented proper aggregation system. Individual data now stored in `ratings.solution_fields`, aggregated data in `goal_implementation_links.aggregated_fields`.
+
+**50% Data Loss Fix**: Added 36 missing field aggregations. All user-submitted data now properly aggregated and displayed.
+
+**Two-Phase Submission**: Forms now submit required fields first, then optional fields via success screen using `updateSolutionFields` action.
+
+**Field Standardization**: Fixed naming inconsistencies (e.g., dose_amount → dosage_amount) across entire data pipeline.
+
+**UI Enhancements**: Solution cards now show "X of Y users" counts and data source indicators (AI vs User) for transparency.
+
 Remember: WWFM helps real people find solutions to life challenges. Every feature should make it easier to discover what works or share what worked for you.

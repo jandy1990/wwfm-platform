@@ -19,24 +19,30 @@ test.describe('Debug Form Flow', () => {
     await page.fill('input[placeholder*="Headspace"]', testData.title)
     console.log('Filled solution name:', testData.title)
     
-    // Wait for dropdown to appear with suggestions
-    await page.waitForTimeout(1500)
+    // Wait for dropdown to appear and search to complete
+    await page.waitForTimeout(2000)
     
-    // Check if dropdown is visible
-    const dropdown = page.locator('[data-testid="solution-dropdown"].w-full.mt-1.bg-white, [data-testid="solution-dropdown"].w-full.mt-1.bg-gray-800')
-    const dropdownVisible = await dropdown.isVisible()
-    console.log('Dropdown visible?', dropdownVisible)
+    // Select from dropdown using consistent selector
+    const dropdown = page.locator('[data-testid="solution-dropdown"]')
     
-    if (dropdownVisible) {
-      // Look for an item in the dropdown to click
-      // Could be an existing solution or a suggestion
-      const dropdownItem = page.locator('[data-testid="solution-dropdown"].w-full.mt-1').locator('button').first()
-      if (await dropdownItem.isVisible()) {
-        const itemText = await dropdownItem.textContent()
-        console.log('Clicking dropdown item:', itemText)
-        await dropdownItem.click()
-        await page.waitForTimeout(500)
+    try {
+      await dropdown.waitFor({ state: 'visible', timeout: 5000 })
+      console.log('Dropdown visible')
+      
+      // Look for the specific test solution first
+      const solutionButton = dropdown.locator(`button:has-text("${testData.title}")`)
+      if (await solutionButton.isVisible()) {
+        console.log('Found test solution in dropdown, clicking it')
+        await solutionButton.click()
+      } else {
+        // If not found, click the first item
+        console.log('Test solution not found, clicking first dropdown item')
+        const firstButton = dropdown.locator('button').first()
+        await firstButton.click()
       }
+      await page.waitForTimeout(500)
+    } catch (e) {
+      console.log('Dropdown did not appear, continuing without selection')
     }
     
     // Take a screenshot to see what's on screen
@@ -48,6 +54,8 @@ test.describe('Debug Form Flow', () => {
     console.log('Continue button visible?', isContinueVisible)
     
     if (isContinueVisible) {
+      // Wait for dropdown to be fully closed before clicking Continue
+      await page.waitForTimeout(500)
       // Click Continue
       await continueButton.click()
       console.log('Clicked Continue button')

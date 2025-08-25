@@ -22,7 +22,10 @@
     "test:forms:all": "node scripts/test-all-forms.js",
     "test:forms:validate": "node -r dotenv/config scripts/validate-database.ts",
     "test:setup": "node tests/setup/complete-test-setup.js",
-    "test:connection": "node scripts/test-connection.js"
+    "test:connection": "node scripts/test-connection.js",
+    "test:better": "node tests/utils/better-test-runner.js",
+    "test:analyze": "node tests/utils/analyze-test-output.js",
+    "test:capture": "npm run test:forms 2>&1 | tee test-output.txt && npm run test:analyze test-output.txt"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.2",

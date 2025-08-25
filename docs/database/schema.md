@@ -218,8 +218,11 @@ CREATE TABLE goal_implementation_links (
   avg_effectiveness NUMERIC DEFAULT 0.00,
   rating_count INTEGER DEFAULT 0,
   
-  -- Form-specific data storage
+  -- Legacy: Individual data (deprecated - moved to ratings.solution_fields)
   solution_fields JSONB DEFAULT '{}',
+  
+  -- Aggregated data from all user ratings (added Aug 2025)
+  aggregated_fields JSONB DEFAULT '{}',
   
   -- Additional context
   typical_application TEXT,
@@ -235,13 +238,24 @@ CREATE INDEX idx_gil_goal_id ON goal_implementation_links(goal_id);
 CREATE INDEX idx_gil_implementation_id ON goal_implementation_links(implementation_id);
 CREATE INDEX idx_gil_effectiveness ON goal_implementation_links(avg_effectiveness DESC);
 
--- Example solution_fields content:
+-- Example aggregated_fields content (Aug 2025):
 -- {
---   "cost": "$10-25/month",
---   "time_to_results": "3-4 weeks",
---   "side_effects": ["Nausea", "Headache"],
---   "frequency": "Once daily",
---   "brand_manufacturer": "Generic available"
+--   "cost": {
+--     "mode": "$10-25/month",
+--     "values": [
+--       {"value": "$10-25/month", "count": 15, "percentage": 60},
+--       {"value": "$25-50/month", "count": 10, "percentage": 40}
+--     ],
+--     "totalReports": 25
+--   },
+--   "side_effects": {
+--     "mode": "Nausea",
+--     "values": [
+--       {"value": "Nausea", "count": 12, "percentage": 48},
+--       {"value": "Headache", "count": 8, "percentage": 32}
+--     ],
+--     "totalReports": 25
+--   }
 -- }
 ```
 
@@ -262,6 +276,9 @@ CREATE TABLE ratings (
   effectiveness_score NUMERIC NOT NULL CHECK (effectiveness_score >= 1 AND effectiveness_score <= 5),
   is_quick_rating BOOLEAN DEFAULT false,
   
+  -- Individual user's form data (added Aug 2025)
+  solution_fields JSONB DEFAULT '{}',
+  
   -- Optional detailed feedback
   duration_used TEXT,
   severity_before INTEGER,
@@ -278,6 +295,17 @@ CREATE TABLE ratings (
 -- Indexes
 CREATE INDEX idx_ratings_user_id ON ratings(user_id);
 CREATE INDEX idx_ratings_implementation_goal ON ratings(implementation_id, goal_id);
+
+-- Example solution_fields content (individual user data):
+-- {
+--   "cost": "$10-25/month",
+--   "time_to_results": "3-4 weeks",
+--   "side_effects": ["Nausea", "Headache"],
+--   "frequency": "Once daily",
+--   "brand": "Generic available",
+--   "dosage_amount": "200",
+--   "dosage_unit": "mg"
+-- }
 ```
 
 ### 9. user_ratings (Legacy/Alternative table)

@@ -103,16 +103,23 @@ export async function clearTestRatingsForSolution(
   // Use admin client to bypass RLS
   const supabase = getAdminSupabase()
   
+  console.log(`🧹 Clearing ratings for solution: "${solutionTitle}" on goal: ${goalId}`)
+  
   // Find the solution
   const { data: solution, error: solutionError } = await supabase
     .from('solutions')
-    .select('id')
+    .select('id, source_type')
     .eq('title', solutionTitle)
     .single()
   
   if (solutionError || !solution) {
     console.log(`Solution "${solutionTitle}" not found - may be first run`)
     return { linksDeleted: 0, ratingsDeleted: 0 }
+  }
+  
+  // Never delete test fixtures themselves
+  if (solution.source_type === 'test_fixture') {
+    console.log(`✅ "${solutionTitle}" is a test fixture - will only clear ratings, not the solution`)
   }
   
   // Find its variants
