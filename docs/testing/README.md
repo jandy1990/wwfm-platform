@@ -1,269 +1,116 @@
 # WWFM Testing Documentation
 
-## Overview
+## 📚 Active Documentation (6 files)
 
-WWFM uses automated E2E testing to ensure the form submission pipeline works correctly from UI to database. This documentation covers the complete testing setup, from local development to CI/CD.
+| Document | Purpose | Status |
+|----------|---------|--------|
+| **[MASTER_TESTING_GUIDE.md](./MASTER_TESTING_GUIDE.md)** | Complete testing reference guide | ✅ Primary Reference |
+| **[FORM_FIX_PROGRESS.md](./FORM_FIX_PROGRESS.md)** | Live dashboard tracking test status | ✅ 23/23 categories working! |
+| **[FORM_FIX_PROCESS.md](./FORM_FIX_PROCESS.md)** | Systematic debugging approach | ✅ Process Guide |
+| **[TEST_SUITE_ASSESSMENT.md](./TEST_SUITE_ASSESSMENT.md)** | Test suite structure and optimization | ✅ Assessment |
+| **[TEST_SETUP_ASSESSMENT.md](./TEST_SETUP_ASSESSMENT.md)** | Test setup and fixture management | ✅ Setup Guide |
+| **[quick-reference.md](./quick-reference.md)** | Essential commands cheatsheet | ✅ Quick Reference |
 
-## Quick Start
-
-### 1. Set Up Environment
-
-```bash
-# Copy test environment template
-cp .env.test.local.example .env.test.local
-
-# Add your credentials to .env.test.local
-# - Service role key from Supabase dashboard
-# - Test goal ID is already set
-```
-
-### 2. Run Tests Locally
+## 🚀 Quick Start
 
 ```bash
-# Install dependencies (if not already done)
-npm install
-npx playwright install
-
-# Run all form tests
-npm run test:forms
+# Tiered Testing Approach (fastest to most comprehensive)
+npm run test:smoke       # 6 tests, ~30 seconds - Basic functionality
+npm run test:critical    # 34 tests, ~5 minutes - All form completions  
+npm run test:forms       # 186 tests, ~15 minutes - Full test suite
 
 # Run specific form tests
-npm run test:forms -- dosage-form
+npm run test:forms -- session-form
 
-# Run with UI (recommended for debugging)
+# Run with UI for debugging
 npm run test:forms:ui
+
+# Setup & Cleanup
+npm run test:setup       # Create test fixtures in database
+npm run test:reset       # Nuclear cleanup of all test data
 ```
 
-### 3. View Results
+## 📊 Current Test Status
 
+**Overall: 23/23 categories working (100% coverage)** 🎉
+
+### Test Suite Metrics
+- **Total E2E Tests**: 186 (reduced from 216 after removing debug tests)
+- **Smoke Tests**: 6 core functionality checks
+- **Critical Tests**: 34 form completion tests
+- **Full Suite Runtime**: ~15 minutes
+
+### ✅ All Forms Working (9)
+- **AppForm**: apps
+- **PracticeForm**: therapies, activities 
+- **CommunityForm**: communities
+- **LifestyleForm**: lifestyle_changes
+- **HobbyForm**: hobbies
+- **PurchaseForm**: products_purchases
+- **FinancialForm**: financial_services  
+- **SessionForm**: All 6 categories (therapists_counselors, doctors_specialists, coaches_mentors, alternative_practitioners, professional_services, crisis_resources)
+- **DosageForm**: All 4 categories (supplements_vitamins, medications, natural_remedies, beauty_skincare)
+
+For detailed status, see [FORM_FIX_PROGRESS.md](./FORM_FIX_PROGRESS.md)
+
+## 🎯 Tiered Testing Strategy
+
+Our test suite uses a tiered approach for efficiency:
+
+### Tier 1: Smoke Tests (6 tests, ~30 seconds)
+- **Purpose**: Verify core functionality after deployments
+- **Coverage**: Authentication, browsing, solution search
+- **When to run**: After every deploy, before deeper testing
+- **Command**: `npm run test:smoke`
+
+### Tier 2: Critical Tests (34 tests, ~5 minutes)
+- **Purpose**: Ensure all form submissions work end-to-end
+- **Coverage**: Complete submission flow for all 23 categories
+- **When to run**: Before merging PRs, after significant changes
+- **Command**: `npm run test:critical`
+
+### Tier 3: Full Suite (186 tests, ~15 minutes)
+- **Purpose**: Comprehensive validation including edge cases
+- **Coverage**: All forms, variants, error handling, data pipeline
+- **When to run**: Before releases, after major refactors
+- **Command**: `npm run test:forms`
+
+## 🔧 Test Setup & Maintenance
+
+### Prerequisites
 ```bash
-# Generate HTML report
-npm run test:forms:report
+# Initial setup - creates test fixtures in database
+npm run test:setup
+
+# This creates:
+# - Test solutions with "(Test)" suffix
+# - Test user account (test@wwfm-platform.com)
+# - Test goal (Reduce anxiety and stress)
 ```
 
-## Documentation Index
-
-### Setup & Configuration
-- [Implementation Plan](./implementation-plan.md) - Full project plan with checklist
-- [Testing Setup Guide](./testing-setup.md) - Original comprehensive guide
-- [GitHub Secrets Setup](./github-secrets-setup.md) - CI/CD configuration
-
-### Test Structure
-- [Test Directory Structure](/tests/STRUCTURE.md) - How tests are organized
-- [Test Utilities](/tests/README.md) - Helper functions and patterns
-- [Form Test Factory](/tests/e2e/forms/README.md) - Reusable test framework
-
-### CI/CD
-- [GitHub Actions README](/.github/workflows/README.md) - Workflow documentation
-- [Workflows](/.github/workflows/) - Automated test execution
-
-### Special Topics
-- [Handling Seeded Data](/tests/e2e/notes/handling-seeded-data.md) - Testing with AI-generated content
-
-## Key Concepts
-
-### 1. Test Goal Isolation
-
-All tests run against a dedicated test goal to avoid polluting production data:
-- Goal ID: `91d4a950-bb87-4570-b32d-cf4f4a4bb20d`
-- Title: "TEST GOAL - Automated E2E Testing"
-- Tagged with: `['test', 'automated', 'e2e', 'ignore-for-analytics']`
-
-### 2. Form Testing Flow
-
-Each form test follows this pattern:
-1. Navigate to `/goal/{TEST_GOAL_ID}/add-solution`
-2. Enter solution name (triggers auto-categorization)
-3. Confirm or select category
-4. Fill multi-step form
-5. Submit and verify data in database
-
-### 3. Data Verification
-
-Tests verify the complete data pipeline:
-```
-Form Input → Solution Creation → Variant Creation → Goal Link → JSONB Fields
-```
-
-### 4. Test Factory Pattern
-
-The test factory (`form-test-factory.ts`) provides:
-- Automated tests for all form categories
-- Consistent test structure
-- Easy addition of new forms
-- Built-in cleanup
-
-## Current Test Coverage
-
-### ✅ Implemented
-- **DosageForm** (4 categories)
-  - medications
-  - supplements_vitamins
-  - natural_remedies
-  - beauty_skincare
-
-### 📋 Ready for Implementation
-- **SessionForm** (7 categories)
-- **PracticeForm** (3 categories)
-- **AppForm** (1 category)
-
-### ⏳ Pending Forms
-- PurchaseForm (2 categories)
-- CommunityForm (2 categories)
-- LifestyleForm (2 categories)
-- HobbyForm (1 category)
-- FinancialForm (1 category)
-
-## Best Practices
-
-### 1. Writing Tests
-
-```typescript
-// Use descriptive test names
-test('medications: complete form submission flow', async ({ page }) => {
-  // Test implementation
-})
-
-// Always cleanup test data
-test.afterEach(async () => {
-  await cleanupTestData(testData.title)
-})
-
-// Use data attributes for selectors when possible
-await page.click('[data-testid="submit-button"]')
-```
-
-### 2. Debugging Failed Tests
-
+### Cleanup Options
 ```bash
-# Run single test with headed browser
-npm run test:forms:headed -- -g "medications"
+# Nuclear reset - clears ALL test data
+npm run test:reset
 
-# Use debug mode with breakpoints
-npm run test:forms:debug
-
-# Check screenshots in test results
-open playwright-report/index.html
+# Individual test cleanup (automatic)
+# Each test file has beforeEach() hooks that clear its specific data
 ```
 
-### 3. CI/CD Considerations
+### CI/CD Integration
+The GitHub Actions workflow automatically:
+1. Runs `test:setup` to ensure fixtures exist
+2. Executes tests based on PR labels
+3. Reports results back to the PR
 
-- Tests run on every PR affecting forms
-- Nightly tests run across all browsers
-- Keep tests under 5 minutes total
-- Use GitHub secrets for credentials
+## 🗂️ Archive
 
-## Troubleshooting
+Historical documentation has been moved to [`/archive/`](./archive/) to reduce clutter while preserving institutional knowledge.
 
-### Common Issues
+## 💡 Need Help?
 
-#### "Missing required environment variables"
-- Check `.env.test.local` exists and has all 4 variables
-- Ensure no typos in variable names
-
-#### "Solution not found in database"
-- Form may have validation errors
-- Check browser console in headed mode
-- Verify test goal exists and is approved
-
-#### "Timeout waiting for element"
-- Selectors may have changed
-- Use Playwright Inspector to find new selectors
-- Check if form structure changed
-
-#### Tests pass locally but fail in CI
-- Ensure GitHub secrets are set correctly
-- Check for timing issues (CI may be slower)
-- Verify same Node/browser versions
-
-### Debug Commands
-
-```bash
-# List all available tests
-npm run test:forms -- --list
-
-# Run with verbose logging
-DEBUG=pw:api npm run test:forms
-
-# Generate trace for debugging
-npm run test:forms -- --trace on
-```
-
-## Adding New Form Tests
-
-### 1. Create Form Configuration
-
-Add to `/tests/e2e/forms/form-configs.ts`:
-
-```typescript
-export const yourFormConfig: FormTestConfig = {
-  formName: 'YourForm',
-  categories: ['category1', 'category2'],
-  requiredFields: ['field1', 'field2'],
-  // ... configuration
-}
-```
-
-### 2. Create Test File
-
-Create `/tests/e2e/forms/your-form.spec.ts`:
-
-```typescript
-import { createFormTest } from './form-test-factory'
-import { yourFormConfig } from './form-configs'
-
-createFormTest(yourFormConfig)
-```
-
-### 3. Run Tests
-
-```bash
-npm run test:forms -- your-form
-```
-
-### 4. Update Documentation
-
-- Add to coverage list
-- Update any changed selectors
-- Document special cases
-
-## Maintenance
-
-### Weekly Tasks
-- Review test execution times
-- Check for flaky tests
-- Update selectors if UI changed
-
-### Monthly Tasks
-- Review test coverage
-- Update documentation
-- Optimize slow tests
-- Archive old test reports
-
-### On Each Release
-- Run full test suite
-- Update test data if needed
-- Document any new patterns
-
-## Resources
-
-### Internal
-- [CLAUDE.md](/CLAUDE.md) - AI assistant instructions
-- [ARCHITECTURE.md](/ARCHITECTURE.md) - System architecture
-- [Database Schema](/docs/database/schema.md) - Table structures
-
-### External
-- [Playwright Documentation](https://playwright.dev)
-- [GitHub Actions Docs](https://docs.github.com/en/actions)
-- [Supabase Testing Guide](https://supabase.com/docs/guides/testing)
-
-## Contact
-
-For questions about testing:
-1. Check this documentation first
-2. Review test examples in codebase
-3. Ask in team chat with @testing tag
-
----
-
-**Remember**: Every form needs tests. No exceptions! 🧪
+1. **Start with**: [MASTER_TESTING_GUIDE.md](./MASTER_TESTING_GUIDE.md) for complete reference
+2. **Check status**: [FORM_FIX_PROGRESS.md](./FORM_FIX_PROGRESS.md) for current issues
+3. **Debug forms**: [FORM_FIX_PROCESS.md](./FORM_FIX_PROCESS.md) for systematic approach
+4. **Test setup**: [TEST_SETUP_ASSESSMENT.md](./TEST_SETUP_ASSESSMENT.md) for fixture management
+5. **Quick commands**: [quick-reference.md](./quick-reference.md) for common tasks

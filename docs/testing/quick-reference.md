@@ -3,8 +3,10 @@
 ## 🚀 Essential Commands
 
 ```bash
-# Run all tests
-npm run test:forms
+# Tiered Testing (fastest to comprehensive)
+npm run test:smoke       # 6 tests, ~30 seconds
+npm run test:critical    # 34 tests, ~5 minutes  
+npm run test:forms       # 186 tests, ~15 minutes
 
 # Run specific form
 npm run test:forms -- dosage-form
@@ -12,8 +14,9 @@ npm run test:forms -- dosage-form
 # Debug with UI
 npm run test:forms:ui
 
-# Debug single test
-npm run test:forms:debug -- -g "medications"
+# Setup & Cleanup
+npm run test:setup       # Create test fixtures
+npm run test:reset       # Nuclear cleanup
 
 # View report
 npm run test:forms:report

@@ -1,9 +1,0 @@
-🔐 Setting up authentication for tests...
-🌐 Using baseURL: http://localhost:3000
-✅ Login successful
-✅ Authentication state saved successfully
-   Test user: test@wwfm-platform.com
-
-Running 3 tests using 1 worker
-
-🧹 Clearing ratings for solution: "Headspace (Test)" on goal: 56e2801e-0d78-4abd-a795-869e5b780ae7

@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Check } from 'lucide-react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
@@ -175,7 +176,10 @@ export function LifestyleForm({
         ]
       };
       
-      const { data, error } = await supabase
+      // Initialize Supabase client
+      const supabaseClient = createClientComponentClient();
+      
+      const { data, error } = await supabaseClient
         .from('challenge_options')
         .select('label')
         .eq('category', category)

@@ -177,7 +177,6 @@ export function SessionForm({
       }
     };
 
-    window.history.pushState({ step: currentStep }, '');
     window.addEventListener('popstate', handlePopState);
     
     return () => {
@@ -185,7 +184,10 @@ export function SessionForm({
     };
   }, [currentStep, onBack]);
   
-  // REMOVED: Duplicate history push - already handled in the useEffect above
+  // Update history when step changes
+  useEffect(() => {
+    window.history.pushState({ step: currentStep }, '');
+  }, [currentStep]);
   
   // Track highest step reached
   useEffect(() => {
@@ -723,28 +725,25 @@ export function SessionForm({
 
         {/* Response time for crisis_resources REQUIRED */}
         {category === 'crisis_resources' && (
-          <>
-            <div>
-              <Label htmlFor="response_time">
-                Response time <span className="text-red-500">*</span>
-              </Label>
-              <Select value={responseTime} onValueChange={setResponseTime} required>
-                <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
-                  <SelectValue placeholder="How quickly did they respond?" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Immediate">Immediate</SelectItem>
-                  <SelectItem value="Within 5 minutes">Within 5 minutes</SelectItem>
-                  <SelectItem value="Within 30 minutes">Within 30 minutes</SelectItem>
-                  <SelectItem value="Within hours">Within hours</SelectItem>
-                  <SelectItem value="Within 24 hours">Within 24 hours</SelectItem>
-                  <SelectItem value="Within a couple of days">Within a couple of days</SelectItem>
-                  <SelectItem value="More than a couple of days">More than a couple of days</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-          </>
+          <div>
+            <Label htmlFor="response_time">
+              Response time <span className="text-red-500">*</span>
+            </Label>
+            <Select value={responseTime} onValueChange={setResponseTime} required>
+              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+                <SelectValue placeholder="How quickly did they respond?" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Immediate">Immediate</SelectItem>
+                <SelectItem value="Within 5 minutes">Within 5 minutes</SelectItem>
+                <SelectItem value="Within 30 minutes">Within 30 minutes</SelectItem>
+                <SelectItem value="Within hours">Within hours</SelectItem>
+                <SelectItem value="Within 24 hours">Within 24 hours</SelectItem>
+                <SelectItem value="Within a couple of days">Within a couple of days</SelectItem>
+                <SelectItem value="More than a couple of days">More than a couple of days</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         )}
       </div>
     </div>
@@ -1393,19 +1392,7 @@ export function SessionForm({
         <div className="flex gap-2">
           {currentStep < totalSteps ? (
             <button
-              onClick={() => {
-                try {
-                  console.log('[DEBUG] Continue clicked, currentStep:', currentStep);
-                  console.log('[DEBUG] Moving to step:', currentStep + 1);
-                  console.log('[DEBUG] Category:', category);
-                  console.log('[DEBUG] showChallenges:', showChallenges);
-                  console.log('[DEBUG] challengeOptions:', challengeOptions);
-                  setCurrentStep(currentStep + 1);
-                } catch (error) {
-                  console.error('[DEBUG] Error in Continue click:', error);
-                  alert('Error: ' + error);
-                }
-              }}
+              onClick={() => setCurrentStep(currentStep + 1)}
               disabled={!canProceedToNextStep()}
               className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
                 canProceedToNextStep()

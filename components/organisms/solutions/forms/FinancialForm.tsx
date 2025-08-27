@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Check } from 'lucide-react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
@@ -164,6 +165,9 @@ export function FinancialForm({
   // Load challenge options
   useEffect(() => {
     const fetchOptions = async () => {
+      // Initialize Supabase client
+      const supabaseClient = createClientComponentClient();
+      
       // Fallback challenge options for financial products
       const fallbackChallenges: string[] = [
         'Credit score too low',
@@ -181,7 +185,7 @@ export function FinancialForm({
         'Other'
       ];
       
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from('challenge_options')
         .select('label')
         .eq('category', 'financial_products')

@@ -8,7 +8,7 @@ Since we're pre-launch with no real users, we keep testing simple and reliable:
 
 ### The One Command You Need:
 ```bash
-npm run test:quick
+/
 ```
 This automatically cleans data and runs all desktop tests. That's it!
 

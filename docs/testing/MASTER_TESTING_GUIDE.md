@@ -2,7 +2,13 @@
 
 > **⚠️ THIS IS THE AUTHORITATIVE TESTING GUIDE**  
 > All other testing documentation should reference this document.  
-> Last updated: January 2025
+> Last updated: January 26, 2025 (Post-consolidation)
+
+## 📚 Active Documentation
+- **This Guide**: Complete testing reference
+- **[FORM_FIX_PROGRESS.md](./FORM_FIX_PROGRESS.md)**: Live dashboard of test status (8/9 forms working)
+- **[FORM_FIX_PROCESS.md](./FORM_FIX_PROCESS.md)**: Systematic debugging approach
+- **[quick-reference.md](./quick-reference.md)**: Command cheatsheet
 
 ## 🚀 Quick Start (2 minutes)
 
