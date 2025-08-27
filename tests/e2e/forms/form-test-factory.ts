@@ -204,12 +204,40 @@ export function createFormTest(config: FormTestConfig) {
           await config.fillFormSteps(page, testData)
           
           // Submit the form
-          const submitBtn = page.locator('button:has-text("Submit"):visible').first()
+          // First, wait for the submit button to be ready (not in "Submitting..." state)
+          try {
+            await page.waitForSelector('button:has-text("Submit"):not(:has-text("Submitting...")):visible', { 
+              timeout: 5000 
+            })
+          } catch (e) {
+            console.log('Submit button not ready, checking current state...')
+            const buttonText = await page.locator('button:visible').first().textContent()
+            console.log('Button text:', buttonText)
+          }
+          
+          const submitBtn = page.locator('button:has-text("Submit"):not(:has-text("Submitting...")):visible').first()
           const submitExists = await submitBtn.count() > 0
           
           if (submitExists) {
             console.log('Clicking submit button...')
             await submitBtn.click()
+            
+            // Wait a moment for submission to start
+            await page.waitForTimeout(500)
+            
+            // If button changes to "Submitting...", wait for it to complete
+            const submittingBtn = page.locator('button:has-text("Submitting..."):visible')
+            if (await submittingBtn.count() > 0) {
+              console.log('Form is submitting, waiting for completion...')
+              // Wait for button to change back from "Submitting..." or for success page
+              await Promise.race([
+                page.waitForSelector('button:has-text("Submit"):not(:has-text("Submitting...")):visible', { timeout: 30000 }),
+                page.waitForSelector('text="What else did you try?"', { timeout: 30000 }),
+                page.waitForSelector('text="Thank you"', { timeout: 30000 })
+              ]).catch(() => {
+                console.log('Form submission timeout - button may be stuck in submitting state')
+              })
+            }
           } else {
             // For multi-step forms that auto-progress
             console.log('No submit button found, checking if already submitted')

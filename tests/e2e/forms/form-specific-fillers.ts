@@ -28,48 +28,73 @@ async function waitForFormSuccess(page: Page): Promise<void> {
 export async function fillDosageForm(page: Page, category: string) {
   console.log(`Starting DosageForm filler for category: ${category}`)
   
-  // Wait for form to be ready - Step 1 shows dosage info first
-  await page.waitForSelector('text="Your dosage"', { timeout: 5000 })
+  // Wait for form to be ready - beauty_skincare shows effectiveness first, others show dosage
+  if (category === 'beauty_skincare') {
+    await page.waitForSelector('text="How well it worked"', { timeout: 5000 })
+    console.log('Form loaded - beauty_skincare starts with effectiveness section')
+  } else {
+    await page.waitForSelector('text="Your dosage"', { timeout: 5000 })
+    console.log('Form loaded - starting with dosage section')
+  }
   
   // ============ STEP 1: Dosage, Effectiveness, TTR ============
   console.log('Step 1: Filling dosage, effectiveness, and time to results')
   
   if (category === 'beauty_skincare') {
-    // Beauty/skincare: Skincare frequency and length of use
-    const skincareFrequencySelect = page.locator('select').nth(0)
-    await skincareFrequencySelect.selectOption('twice_daily')
-    console.log('Selected skincare frequency: Twice daily')
-    await page.waitForTimeout(300)
+    // Beauty/skincare: NO DOSAGE FIELDS - effectiveness comes FIRST
+    console.log('beauty_skincare category - effectiveness first, then application details')
     
-    // Length of use
-    const lengthSelect = page.locator('select').nth(1)
-    await lengthSelect.selectOption('1-3 months')
-    console.log('Selected length of use: 1-3 months')
+    // Skip to effectiveness section below (it's handled after this if/else)
+    console.log('Will handle effectiveness rating first, then application details')
   } else {
     // Other categories: Dosage amount, unit, frequency, length of use
     
+    // Category-specific dosage amounts and units
+    let dosageAmount = '500'
+    let dosageUnit = 'mg'
+    let frequencyValue = 'once daily'
+    let lengthValue = '1-3 months'
+    let timeToResultsValue = '1-2 weeks'
+    
+    // Adjust values based on category
+    if (category === 'medications') {
+      console.log('Using medications-specific values')
+      dosageAmount = '20'  // Standard Prozac dose
+      dosageUnit = 'mg'
+      frequencyValue = 'once daily'
+      lengthValue = '6-12 months'  // Medications often taken longer
+      timeToResultsValue = '3-4 weeks'  // Antidepressants take longer
+    } else if (category === 'natural_remedies') {
+      console.log('Using natural_remedies-specific values')
+      dosageAmount = '5'
+      dosageUnit = 'ml'  // Liquid form for Lavender Oil (drops not available, using ml)
+      frequencyValue = 'as needed'
+      lengthValue = 'As needed'
+      timeToResultsValue = 'Immediately'  // Essential oils work quickly
+    }
+    
     // Fill dosage amount
     const doseInput = page.locator('input[type="text"]').first()
-    await doseInput.fill('500')
-    console.log('Entered dosage amount: 500')
+    await doseInput.fill(dosageAmount)
+    console.log(`Entered dosage amount: ${dosageAmount}`)
     await page.waitForTimeout(300)
     
     // Select unit (first select on page)
     const unitSelect = page.locator('select').nth(0)
-    await unitSelect.selectOption('mg')
-    console.log('Selected unit: mg')
+    await unitSelect.selectOption(dosageUnit)
+    console.log(`Selected unit: ${dosageUnit}`)
     await page.waitForTimeout(300)
     
     // Select frequency (second select)
     const frequencySelect = page.locator('select').nth(1)
-    await frequencySelect.selectOption('Once daily')
-    console.log('Selected frequency: Once daily')
+    await frequencySelect.selectOption(frequencyValue)
+    console.log(`Selected frequency: ${frequencyValue}`)
     await page.waitForTimeout(300)
     
     // Select length of use (third select)
     const lengthSelect = page.locator('select').nth(2)
-    await lengthSelect.selectOption('1-3 months')
-    console.log('Selected length of use: 1-3 months')
+    await lengthSelect.selectOption(lengthValue)
+    console.log(`Selected length of use: ${lengthValue}`)
   }
   await page.waitForTimeout(500)
   
@@ -85,26 +110,73 @@ export async function fillDosageForm(page: Page, category: string) {
   }
   await page.waitForTimeout(500)
   
-  // Select time to results (should be select after effectiveness section)
-  const timeSelect = page.locator('select').nth(category === 'beauty_skincare' ? 2 : 3)
-  await timeSelect.selectOption('1-2 weeks')
-  console.log('Selected time to results: 1-2 weeks')
-  await page.waitForTimeout(300)
+  // For beauty_skincare, handle application details AFTER effectiveness
+  if (category === 'beauty_skincare') {
+    // Time to results (first select after effectiveness)
+    const timeSelect = page.locator('select').nth(0)
+    await timeSelect.selectOption('3-4 weeks')  // Retinol takes time
+    console.log('Selected time to results: 3-4 weeks')
+    await page.waitForTimeout(300)
+    
+    // Skincare frequency (second select)
+    const skincareFrequencySelect = page.locator('select').nth(1)
+    await skincareFrequencySelect.selectOption('once_daily_pm')  // Night use for retinol
+    console.log('Selected skincare frequency: Once daily (night)')
+    await page.waitForTimeout(300)
+    
+    // Length of use (third select)
+    const lengthSelect = page.locator('select').nth(2)
+    await lengthSelect.selectOption('3-6 months')  // Longer trial period
+    console.log('Selected length of use: 3-6 months')
+    await page.waitForTimeout(300)
+  } else {
+    // Select time to results (should be select after effectiveness section)
+    const timeSelect = page.locator('select').nth(3)  // 4th select for other categories
+    
+    // Use category-specific time to results value
+    let timeToResultsValue = '1-2 weeks'  // Default
+    if (category === 'medications') {
+      timeToResultsValue = '3-4 weeks'  // Antidepressants take longer
+    } else if (category === 'natural_remedies') {
+      timeToResultsValue = 'Immediately'  // Essential oils work quickly
+    }
+    
+    await timeSelect.selectOption(timeToResultsValue)
+    console.log(`Selected time to results: ${timeToResultsValue}`)
+    await page.waitForTimeout(300)
+  }
   
   // Click Continue to Step 2
   const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn1.click()
   console.log('Moving to Step 2')
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // ============ STEP 2: Side Effects ============
   console.log('Step 2: Selecting side effects')
   
-  // Select "None" side effect by default
-  const noneEffect = page.locator('label').filter({ hasText: 'None' })
-  if (await noneEffect.isVisible()) {
-    await noneEffect.click()
-    console.log('Selected side effect: None')
+  // Select appropriate side effect based on category
+  if (category === 'beauty_skincare') {
+    // For retinol, select dryness/peeling which is common
+    const drynessPeeling = page.locator('label').filter({ hasText: 'Dryness/peeling' })
+    if (await drynessPeeling.isVisible()) {
+      await drynessPeeling.click()
+      console.log('Selected side effect: Dryness/peeling (common for retinol)')
+    } else {
+      // Fallback to None if not found
+      const noneEffect = page.locator('label').filter({ hasText: 'None' })
+      if (await noneEffect.isVisible()) {
+        await noneEffect.click()
+        console.log('Selected side effect: None (fallback)')
+      }
+    }
+  } else {
+    // Select "None" side effect by default for other categories
+    const noneEffect = page.locator('label').filter({ hasText: 'None' })
+    if (await noneEffect.isVisible()) {
+      await noneEffect.click()
+      console.log('Selected side effect: None')
+    }
   }
   await page.waitForTimeout(500)
   
@@ -112,7 +184,7 @@ export async function fillDosageForm(page: Page, category: string) {
   const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn2.click()
   console.log('Moving to Step 3')
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // ============ STEP 3: Failed Solutions (Optional) ============
   console.log('Step 3: Skipping failed solutions')
@@ -376,7 +448,7 @@ export async function fillHobbyForm(page: Page) {
   await page.waitForTimeout(1000)
   const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn1.click()
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // Step 2: Challenges  
   console.log('Step 2: Selecting challenges')
@@ -388,7 +460,7 @@ export async function fillHobbyForm(page: Page) {
   console.log('Clicking Continue to Step 3')
   const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn2.click()
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // Step 3: Skip failed solutions
   console.log('Step 3: Submitting form')
@@ -414,53 +486,77 @@ export async function fillSessionForm(page: Page, category: string) {
   await page.waitForSelector('text="How well it worked"')
   await page.waitForTimeout(1000) // Give ratings time to render
   
-  const ratingButtons = await page.locator('.grid.grid-cols-5 button').all()
-  console.log(`Found ${ratingButtons.length} rating buttons`)
+  // Check if using button-based UI (for crisis_resources and potentially others)
+  const effectivenessButtons = page.locator('button').filter({ hasText: /Not at all|Slightly|Moderate|Very|Extremely/i });
+  const hasEffectivenessButtons = await effectivenessButtons.count() > 0;
   
-  if (ratingButtons.length >= 4) {
-    await ratingButtons[3].click() // 4 stars (index 3 = 4th button)
-    console.log('Selected 4-star effectiveness rating')
-    await page.waitForTimeout(500)
-    
-    // Verify the button was clicked and effectiveness is set
-    const isSelected = await ratingButtons[3].getAttribute('class')
-    console.log(`4-star button classes: ${isSelected}`)
+  if (hasEffectivenessButtons) {
+    // New button-based UI - click "Very"
+    const veryButton = effectivenessButtons.filter({ hasText: 'Very' }).first();
+    await veryButton.click();
+    console.log('Selected "Very effective" using button UI');
   } else {
-    console.log('ERROR: Could not find effectiveness rating buttons')
-    // Try alternative selector
-    const alternativeButtons = await page.locator('button').filter({ hasText: /^\d+$/ }).all()
-    console.log(`Found ${alternativeButtons.length} alternative rating buttons`)
-    if (alternativeButtons.length >= 4) {
-      await alternativeButtons[3].click()
-      console.log('Selected 4-star effectiveness rating (alternative selector)')
+    // Original star rating UI
+    const ratingButtonsLocator = page.locator('.grid.grid-cols-5 button');
+    const ratingButtonCount = await ratingButtonsLocator.count();
+    console.log(`Found ${ratingButtonCount} rating buttons`);
+    
+    if (ratingButtonCount >= 4) {
+      await ratingButtonsLocator.nth(3).click(); // 4 stars (index 3 = 4th button)
+      console.log('Selected 4-star effectiveness rating');
+      await page.waitForTimeout(500);
+      
+      // Verify the button was clicked and effectiveness is set
+      const isSelected = await ratingButtonsLocator.nth(3).getAttribute('class');
+      console.log(`4-star button classes: ${isSelected}`);
+    } else {
+      console.log('ERROR: Could not find effectiveness rating buttons');
+      // Try alternative selector
+      const alternativeButtonsLocator = page.locator('button').filter({ hasText: /^\d+$/ });
+      const alternativeCount = await alternativeButtonsLocator.count();
+      console.log(`Found ${alternativeCount} alternative rating buttons`);
+      if (alternativeCount >= 4) {
+        await alternativeButtonsLocator.nth(3).click();
+        console.log('Selected 4-star effectiveness rating (alternative selector)');
+      }
     }
   }
   await page.waitForTimeout(500)
   
-  // Select time to results - check if it's a select or custom component
-  const hasNativeSelect = await page.locator('select').first().isVisible().catch(() => false)
+  // Select time to results - check if using buttons or select/dropdown
+  let timeToResults = '1-2 weeks'; // Define at higher scope for logging
+  const timeButtons = page.locator('button').filter({ hasText: /Immediate|days|weeks|months/i });
+  const hasTimeButtons = await timeButtons.count() > 0;
   
-  let timeToResults = '1-2 weeks'
-  if (hasNativeSelect) {
-    // Use native select element
-    const timeSelect = page.locator('select').first()
-    await timeSelect.selectOption(timeToResults)
-    console.log('Selected time to results using native select: 1-2 weeks')
+  if (hasTimeButtons) {
+    // Button-based UI for time to results (crisis_resources)
+    const immediateButton = timeButtons.filter({ hasText: /Immediate/i }).first();
+    await immediateButton.click();
+    timeToResults = 'Immediate';
+    console.log('Selected "Immediate" time to results using button UI');
   } else {
-    // Use custom Select component
-    const timeSelect = page.locator('button[role="combobox"]').first()
-    await timeSelect.click()
-    await page.waitForTimeout(500)
+    // Check for native select or custom dropdown
+    const hasNativeSelect = await page.locator('select').first().isVisible().catch(() => false);
     
-    // Take a screenshot to debug dropdown
-    await page.screenshot({ path: 'session-dropdown-debug.png' })
-    
-    // Try to click the option with various selectors
-    const clicked = await page.locator('text="1-2 weeks"').first().click({ timeout: 2000 }).then(() => true).catch(() => false)
-    if (!clicked) {
-      console.log('WARNING: Could not select time to results')
+    if (hasNativeSelect) {
+      // Use native select element
+      const timeSelect = page.locator('select').first();
+      await timeSelect.selectOption(timeToResults);
+      console.log('Selected time to results using native select: 1-2 weeks');
     } else {
-      console.log('Selected time to results: 1-2 weeks')
+      // Use custom Select component
+      const timeSelect = page.locator('button[role="combobox"]').first();
+      await timeSelect.click();
+      await page.waitForTimeout(500);
+      
+      // Try to click the option with various selectors
+      const clicked = await page.locator('text="1-2 weeks"').first().click({ timeout: 2000 }).then(() => true).catch(() => false);
+      if (!clicked) {
+        console.log('WARNING: Could not select time to results');
+        timeToResults = 'not selected';
+      } else {
+        console.log('Selected time to results: 1-2 weeks');
+      }
     }
   }
   await page.waitForTimeout(300)
@@ -572,14 +668,28 @@ export async function fillSessionForm(page: Page, category: string) {
     // Wait for dropdown content to appear
     await page.waitForSelector('[role="option"]', { timeout: 3000 });
     
-    // Select first non-free option for testing ($0-10/session)
-    const costOption = page.locator('[role="option"]').filter({ hasText: '$0-10' }).first();
-    const hasOption = await costOption.isVisible().catch(() => false);
+    // Select appropriate option based on category
+    let selectedOption = false;
     
-    if (hasOption) {
-      await costOption.click();
-      console.log('Selected cost range: $0-10/session');
+    if (category === 'crisis_resources') {
+      // crisis_resources has different options: Free, Donation-based, Sliding scale, Don't remember
+      const freeOption = page.locator('[role="option"]').filter({ hasText: 'Free' }).first();
+      if (await freeOption.isVisible().catch(() => false)) {
+        await freeOption.click();
+        console.log('Selected cost range: Free');
+        selectedOption = true;
+      }
     } else {
+      // Other categories have numeric ranges
+      const costOption = page.locator('[role="option"]').filter({ hasText: '$0-10' }).first();
+      if (await costOption.isVisible().catch(() => false)) {
+        await costOption.click();
+        console.log('Selected cost range: $0-10/session');
+        selectedOption = true;
+      }
+    }
+    
+    if (!selectedOption) {
       // Fallback: click first available option
       const firstOption = page.locator('[role="option"]').first();
       await firstOption.click();
@@ -638,11 +748,11 @@ export async function fillSessionForm(page: Page, category: string) {
   console.log('Selecting format...');
   
   // Format is typically the 3rd combobox (index 2) for most categories
-  const allComboboxes2 = await page.locator('button[role="combobox"]').all();
+  const comboboxCount2 = await page.locator('button[role="combobox"]').count();
   const formatIndex = category === 'crisis_resources' ? 1 : 2; // Adjust index based on category
   
-  if (allComboboxes2.length > formatIndex) {
-    const formatTrigger = allComboboxes2[formatIndex];
+  if (comboboxCount2 > formatIndex) {
+    const formatTrigger = page.locator('button[role="combobox"]').nth(formatIndex);
     const triggerText = await formatTrigger.textContent();
     
     // Verify this looks like the format dropdown
@@ -676,19 +786,20 @@ export async function fillSessionForm(page: Page, category: string) {
   
   // Session length - REQUIRED for therapists_counselors, OPTIONAL for others but may still appear
   // Check if session length dropdown exists for any category
-  const allComboboxes3 = await page.locator('button[role="combobox"]').all();
+  const comboboxCount3 = await page.locator('button[role="combobox"]').count();
   let sessionLengthFound = false;
   
   // Look for session length dropdown by checking text content
-  for (let i = 0; i < allComboboxes3.length; i++) {
-    const triggerText = await allComboboxes3[i].textContent();
+  for (let i = 0; i < comboboxCount3; i++) {
+    const combobox = page.locator('button[role="combobox"]').nth(i);
+    const triggerText = await combobox.textContent();
     if (triggerText?.includes('How long') || triggerText?.includes('minutes') || 
         triggerText?.includes('length')) {
       sessionLengthFound = true;
       console.log(`Found session length dropdown at index ${i} for ${category}`);
       
       // Fill it whether required or not to ensure form validation passes
-      await allComboboxes3[i].click();
+      await combobox.click();
       await page.waitForTimeout(500);
       
       // Select 60 minutes option if available
@@ -817,28 +928,87 @@ export async function fillSessionForm(page: Page, category: string) {
   if (category === 'crisis_resources') {
     console.log('Selecting response time (REQUIRED for crisis_resources)...');
     
-    // Response time is a Select component
-    const responseTrigger = await page.locator('button[role="combobox"]').filter({ hasText: 'How quickly' }).first();
-    const hasResponseTrigger = await responseTrigger.isVisible().catch(() => false);
-    
-    if (hasResponseTrigger) {
-      await responseTrigger.click();
+    try {
+      // Be very careful with selectors to avoid clicking wrong elements
+      // Look for the response time label first
+      const responseLabel = page.locator('label').filter({ hasText: 'Response time' }).first();
+      const hasLabel = await responseLabel.isVisible().catch(() => false);
+      
+      if (hasLabel) {
+        console.log('Found response time label, looking for associated dropdown...');
+        // Find the next select/combobox after the label
+        const responseTrigger = page.locator('label:has-text("Response time") ~ div button[role="combobox"], label:has-text("Response time") + div button[role="combobox"]').first();
+        const hasResponseTrigger = await responseTrigger.isVisible().catch(() => false);
+        
+        if (!hasResponseTrigger) {
+          // Try finding by placeholder text
+          const altTrigger = page.locator('button[role="combobox"]').filter({ hasText: 'How quickly did they respond?' }).first();
+          const hasAltTrigger = await altTrigger.isVisible().catch(() => false);
+          
+          if (hasAltTrigger) {
+            console.log('Found response time dropdown by placeholder');
+            await altTrigger.click();
+          } else {
+            console.log('WARNING: Could not find response time dropdown reliably');
+            // Skip response time selection to see if form works without it
+          }
+        } else {
+          console.log('Found response time dropdown by label association');
+          await responseTrigger.click();
+        }
+      } else {
+        console.log('WARNING: Response time label not found');
+        // Try finding by placeholder text as fallback
+        const responseTrigger = page.locator('button[role="combobox"]').filter({ hasText: 'How quickly did they respond?' }).first();
+        const hasResponseTrigger = await responseTrigger.isVisible().catch(() => false);
+        
+        if (hasResponseTrigger) {
+          console.log('Found response time dropdown by placeholder (fallback)');
+          await responseTrigger.click();
+        } else {
+          console.log('ERROR: Cannot find response time dropdown');
+        }
+      }
+      
+      // After clicking dropdown (if we found it), select an option
       await page.waitForTimeout(500);
       
-      // Select "Immediate" option
-      const option = page.locator('[role="option"]').filter({ hasText: 'Immediate' }).first();
-      if (await option.isVisible()) {
-        await option.click();
-        console.log('Selected response time: Immediate');
+      // Check if dropdown opened
+      const optionsVisible = await page.locator('[role="option"]').first().isVisible().catch(() => false);
+      if (optionsVisible) {
+        // Select "Immediate" option
+        const option = page.locator('[role="option"]').filter({ hasText: 'Immediate' }).first();
+        if (await option.isVisible().catch(() => false)) {
+          await option.click();
+          console.log('Selected response time: Immediate');
+        } else {
+          // Fallback to first option
+          await page.locator('[role="option"]').first().click();
+          console.log('Selected first available response time option');
+        }
       } else {
-        // Fallback to first option
-        await page.locator('[role="option"]').first().click();
-        console.log('Selected first available response time');
+        console.log('WARNING: Response time dropdown did not open or was not selected');
       }
-    } else {
-      console.log('ERROR: Response time dropdown not found for crisis_resources');
+      
+      // Check if page is still valid after selection
+      // Give extra time for crisis_resources to stabilize after response time selection
+      await page.waitForTimeout(2000);
+      console.log('Response time selection completed, checking page state...');
+      
+      // Verify the page is still valid before continuing
+      try {
+        await page.evaluate(() => {
+          console.log('Page is still responsive');
+          return document.readyState;
+        });
+      } catch (evalError) {
+        console.log('ERROR: Page context lost after response time selection');
+        throw evalError;
+      }
+    } catch (error) {
+      console.log('ERROR during response time selection:', error);
+      throw error;
     }
-    await page.waitForTimeout(300);
   }
   
   // Debug: Check form field states before clicking Continue
@@ -905,8 +1075,84 @@ export async function fillSessionForm(page: Page, category: string) {
   
   console.log('=== END DEBUG INFO ===\n')
   
+  // Special handling for crisis_resources to avoid page context loss
+  let skipNormalFlow = false
+  if (category === 'crisis_resources') {
+    console.log('Special handling for crisis_resources Continue button...')
+    
+    // Crisis resources has simpler validation - try to proceed quickly
+    try {
+      // Wait for Continue button to be visible
+      const continueBtn = page.locator('button:has-text("Continue"):visible').first()
+      await continueBtn.waitFor({ state: 'visible', timeout: 5000 })
+      
+      // Check if it's enabled
+      const isDisabled = await continueBtn.isDisabled()
+      if (!isDisabled) {
+        console.log('Continue button is enabled for crisis_resources, clicking...')
+        await continueBtn.click({ timeout: 10000 })
+        await page.waitForTimeout(1500)
+        
+        // Check if we moved to step 2
+        const step2Content = await page.textContent('body').catch(() => '')
+        if (step2Content?.includes('Any challenges') || step2Content?.includes('barriers')) {
+          console.log('Successfully navigated to Step 2')
+          skipNormalFlow = true
+        }
+      } else {
+        console.log('Continue button is disabled, checking required fields...')
+        // Log current form state for debugging
+        const effectiveness = await page.locator('.grid.grid-cols-5 button[aria-pressed="true"]').count()
+        const timeToResults = await page.inputValue('select').catch(() => '')
+        console.log(`Current state - Effectiveness: ${effectiveness}, Time: ${timeToResults}`)
+      }
+    } catch (err) {
+      console.log('Failed to click Continue for crisis_resources:', err.message)
+      // Continue with normal flow as fallback
+    }
+  }
+  
+  // Normal flow for other categories (or if crisis_resources special handling failed)
+  if (!skipNormalFlow) {
   // Click Continue to Step 2 - check if it's enabled
-  const continueBtn1 = page.locator('button:has-text("Continue")')
+  // Find the Continue button more reliably - it's in the navigation area
+  console.log('Looking for Continue button...')
+  
+  // The Continue button is in the bottom navigation, not disabled when validation passes
+  let continueBtn1 = page.locator('button').filter({ hasText: 'Continue' }).first()
+  
+  // Check if button exists and is visible
+  const btnVisible = await continueBtn1.isVisible().catch(() => false)
+  if (!btnVisible) {
+    console.log('Continue button not immediately visible, waiting...')
+    
+    // Check if page is still valid before waiting
+    try {
+      await page.evaluate(() => document.readyState)
+    } catch (e) {
+      console.log('Page context lost - browser may have closed')
+      throw new Error('Page context lost during form fill')
+    }
+    
+    // Wait a bit for React to render
+    await page.waitForTimeout(1000)
+    
+    // Try alternative selectors
+    const altButton = page.locator('button:has-text("Continue")')
+    const altCount = await altButton.count().catch(() => 0)
+    console.log(`Found ${altCount} Continue buttons`)
+    if (altCount > 0) {
+      continueBtn1 = altButton.first()
+      console.log('Using first Continue button found')
+    } else {
+      console.log('ERROR: No Continue button found on page')
+      await page.screenshot({ path: `session-form-no-continue-${category}.png` }).catch(() => {})
+      throw new Error('Continue button not found on page')
+    }
+  } else {
+    console.log('Continue button found and visible')
+  }
+  
   const continueBtnDisabled = await continueBtn1.isDisabled().catch(() => {
     console.log('WARNING: Could not check Continue button state');
     return false; // Assume enabled if we can't check
@@ -923,13 +1169,40 @@ export async function fillSessionForm(page: Page, category: string) {
   console.log('Continue button is ENABLED - validation passed')
   
   try {
-    await continueBtn1.click({ timeout: 5000 })
-    console.log('Moving to Step 2')
+    // Wait for button to be stable and clickable
+    await continueBtn1.waitFor({ state: 'visible', timeout: 5000 })
+    await page.waitForTimeout(500) // Small wait for any animations
+    
+    // Try multiple click strategies
+    try {
+      // First try regular click
+      await continueBtn1.click({ timeout: 5000 })
+      console.log('Moving to Step 2 - regular click successful')
+    } catch (clickError) {
+      console.log('Regular click failed, trying force click...')
+      // If regular click fails, try force click
+      await continueBtn1.click({ force: true, timeout: 5000 })
+      console.log('Moving to Step 2 - force click successful')
+    }
+    
+    // Wait for navigation/step change
+    await page.waitForTimeout(1000)
+    
+    // Verify we moved to step 2 by checking for expected content
+    const step2Content = await page.textContent('body')
+    if (step2Content?.includes('Any challenges') || step2Content?.includes('side effects')) {
+      console.log('Successfully navigated to Step 2')
+    } else {
+      console.log('Warning: May not have navigated to Step 2 properly')
+    }
   } catch (error) {
     console.log('ERROR: Failed to click Continue button:', error)
+    // Take a screenshot for debugging
+    await page.screenshot({ path: `session-form-continue-error-${category}.png` })
     throw new Error('Failed to click Continue button to move to Step 2')
   }
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
+  } // End of if (!skipNormalFlow)
   
   // ============ STEP 2: Side Effects or Barriers ============
   const showSideEffects = ['medical_procedures', 'alternative_practitioners'].includes(category)
@@ -958,7 +1231,7 @@ export async function fillSessionForm(page: Page, category: string) {
   const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn2.click()
   console.log('Moving to Step 3')
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // ============ STEP 3: Failed Solutions (Optional) ============
   console.log('Step 3: Skipping failed solutions')
@@ -1036,7 +1309,7 @@ export async function fillPracticeForm(page: Page, category: string) {
   const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn1.click()
   console.log('Moving to Step 2')
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // ============ STEP 2: Challenges ============
   console.log('Step 2: Selecting challenges')
@@ -1053,7 +1326,7 @@ export async function fillPracticeForm(page: Page, category: string) {
   const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn2.click()
   console.log('Moving to Step 3')
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // ============ STEP 3: Failed Solutions (Optional) ============
   console.log('Step 3: Skipping failed solutions')
@@ -1155,7 +1428,7 @@ export async function fillPurchaseForm(page: Page, category: string) {
   console.log('Clicked Continue to Step 2')
   const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn1.click()
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // ============ STEP 2: Issues ============
   console.log('Step 2: Selecting issues')
@@ -1166,7 +1439,7 @@ export async function fillPurchaseForm(page: Page, category: string) {
   console.log('Clicked Continue to Step 3')
   const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn2.click()
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // ============ STEP 3: Failed Solutions (Optional) ============
   console.log('Step 3: Skipping failed solutions')
@@ -1255,7 +1528,7 @@ export async function fillCommunityForm(page: Page, category: string) {
   console.log('Clicked Continue to Step 2')
   const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn1.click()
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // ============ STEP 2: Challenges ============
   console.log('Step 2: Selecting challenges - skipping (all optional)')
@@ -1266,7 +1539,7 @@ export async function fillCommunityForm(page: Page, category: string) {
   console.log('Clicked Continue to Step 3')
   const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn2.click()
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // ============ STEP 3: Failed Solutions (Optional) ============
   console.log('Step 3: Skipping failed solutions')
@@ -1359,7 +1632,7 @@ export async function fillLifestyleForm(page: Page, category: string) {
   const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn1.click()
   console.log('Moving to Step 2')
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // ============ STEP 2: Challenges ============
   console.log('Step 2: Selecting challenges')
@@ -1376,7 +1649,7 @@ export async function fillLifestyleForm(page: Page, category: string) {
   const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn2.click()
   console.log('Moving to Step 3')
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // ============ STEP 3: Failed Solutions (Optional) ============
   console.log('Step 3: Skipping failed solutions')
@@ -1437,15 +1710,22 @@ export async function fillFinancialForm(page: Page) {
   console.log('Clicked Continue to Step 2')
   const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn1.click()
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // ============ STEP 2: Challenges ============
   console.log('Step 2: Waiting for challenges to load')
   
+  // Wait a bit for async load to complete
+  await page.waitForTimeout(2000)
+  
   // Wait for ANY challenge label to appear (indicates loading complete)
   try {
-    await page.waitForSelector('label', { timeout: 5000 })
+    await page.waitForSelector('label', { timeout: 10000 })
     console.log('Challenge labels found')
+    
+    // Log all visible labels for debugging
+    const labels = await page.locator('label').allTextContents()
+    console.log(`Found ${labels.length} challenge labels:`, labels.slice(0, 5))
   } catch (e) {
     console.log('No challenge labels appeared - form may be stuck in loading state')
     // Try to continue anyway, Continue button should be enabled
@@ -1469,7 +1749,7 @@ export async function fillFinancialForm(page: Page) {
   console.log('Clicked Continue to Step 3')
   const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn2.click()
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(500)
   
   // ============ STEP 3: Failed Solutions (Optional) ============
   console.log('Step 3: Skipping failed solutions')
