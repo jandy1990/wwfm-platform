@@ -1,0 +1,263 @@
+#!/usr/bin/env node
+/**
+ * SQL Generator for WWFM Solutions
+ * 
+ * Since you're using Claude Max plan (not API keys), this script:
+ * 1. Generates structured prompts for Claude
+ * 2. You paste these prompts into Claude
+ * 3. Claude generates SQL
+ * 4. Execute the SQL in Supabase
+ * 
+ * Usage:
+ *   npm run generate:prompts              # Generate prompts for all goals
+ *   npm run generate:prompts -- --batch=10 # Generate prompts in batches
+ */
+
+import { createClient } from '@supabase/supabase-js'
+import { Command } from 'commander'
+import * as dotenv from 'dotenv'
+import * as fs from 'fs'
+import * as path from 'path'
+import chalk from 'chalk'
+import { MASTER_PROMPT, DISTRIBUTION_PROMPT } from './prompts/master-prompts'
+import { CATEGORY_FIELDS } from './config/category-fields'
+
+// Load environment variables
+dotenv.config({ path: '.env.local' })
+
+const program = new Command()
+  .name('prompt-generator')
+  .description('Generate prompts for Claude to create SQL')
+  .option('--batch <number>', 'Goals per batch', '10')
+  .option('--start-from <number>', 'Start from goal index', '0')
+  .option('--output <dir>', 'Output directory', './generated-prompts')
+  .parse()
+
+const options = program.opts()
+
+// Initialize Supabase
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_KEY!
+)
+
+async function main() {
+  console.log(chalk.cyan('🚀 WWFM Solution Prompt Generator'))
+  console.log(chalk.gray('━'.repeat(50)))
+  console.log(chalk.white('📝 Generating prompts for Claude Max...\n'))
+  
+  // Create output directory
+  const outputDir = path.resolve(options.output)
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true })
+  }
+  
+  // Fetch goals
+  const { data: goals, error } = await supabase
+    .from('goals')
+    .select('id, title, description, arena_id, arenas(name), categories(name)')
+    .order('title')
+  
+  if (error) {
+    console.error(chalk.red('❌ Error fetching goals:'), error)
+    process.exit(1)
+  }
+  
+  if (!goals || goals.length === 0) {
+    console.log(chalk.yellow('No goals found'))
+    return
+  }
+  
+  console.log(chalk.green(`✓ Found ${goals.length} goals\n`))
+  
+  // Generate prompts in batches
+  const batchSize = parseInt(options.batch)
+  const startFrom = parseInt(options.startFrom)
+  
+  const goalsToProcess = goals.slice(startFrom)
+  const totalBatches = Math.ceil(goalsToProcess.length / batchSize)
+  
+  // Generate master instruction file
+  const instructionsPath = path.join(outputDir, '00_INSTRUCTIONS.md')
+  fs.writeFileSync(instructionsPath, generateInstructions(totalBatches))
+  console.log(chalk.green(`✓ Created: ${instructionsPath}`))
+  
+  // Generate prompt files for each batch
+  for (let i = 0; i < goalsToProcess.length; i += batchSize) {
+    const batch = goalsToProcess.slice(i, i + batchSize)
+    const batchNumber = Math.floor(i / batchSize) + 1
+    
+    const promptFile = path.join(outputDir, `batch_${String(batchNumber).padStart(3, '0')}_prompts.md`)
+    const sqlFile = path.join(outputDir, `batch_${String(batchNumber).padStart(3, '0')}_execute.sql`)
+    
+    // Generate prompt content
+    const promptContent = generateBatchPrompt(batch, batchNumber, totalBatches)
+    fs.writeFileSync(promptFile, promptContent)
+    
+    // Create empty SQL file for Claude's output
+    const sqlHeader = `-- WWFM Solution Generation - Batch ${batchNumber}/${totalBatches}
+-- Generated: ${new Date().toISOString()}
+-- Goals in this batch: ${batch.map(g => g.title).join(', ')}
+
+-- PASTE CLAUDE'S GENERATED SQL BELOW THIS LINE:
+-- ================================================
+
+`
+    fs.writeFileSync(sqlFile, sqlHeader)
+    
+    console.log(chalk.green(`✓ Created batch ${batchNumber}: ${promptFile}`))
+  }
+  
+  console.log(chalk.cyan('\n' + '═'.repeat(50)))
+  console.log(chalk.cyan('📋 Next Steps:'))
+  console.log(chalk.cyan('═'.repeat(50)))
+  console.log(chalk.white('\n1. Open the first prompt file:'))
+  console.log(chalk.gray(`   ${path.join(outputDir, 'batch_001_prompts.md')}`))
+  console.log(chalk.white('\n2. Copy the entire content and paste into Claude'))
+  console.log(chalk.white('\n3. Claude will generate SQL - copy it'))
+  console.log(chalk.white('\n4. Paste the SQL into the corresponding .sql file'))
+  console.log(chalk.white('\n5. Execute in Supabase SQL editor'))
+  console.log(chalk.white('\n6. Repeat for each batch\n'))
+}
+
+function generateInstructions(totalBatches: number): string {
+  return `# WWFM Solution Generation Instructions
+
+## Overview
+This folder contains ${totalBatches} batches of prompts for generating solutions using Claude.
+
+## Process
+1. Open each batch_XXX_prompts.md file
+2. Copy the ENTIRE content
+3. Paste into a new Claude conversation
+4. Claude will generate SQL
+5. Copy Claude's SQL output
+6. Paste into the corresponding batch_XXX_execute.sql file
+7. Run the SQL in Supabase SQL Editor
+
+## Important Notes
+- Each batch is independent - can be run in any order
+- Use a fresh Claude conversation for each batch to avoid context pollution
+- The SQL includes all necessary INSERT statements
+- Check for any errors in Supabase after execution
+
+## Validation
+After running all batches, verify:
+- Goals have 10-15 solutions each
+- Solutions display correctly in the UI
+- Effectiveness ratings are between 3.0-5.0
+- Field data appears correctly
+
+## Files
+- 00_INSTRUCTIONS.md - This file
+- batch_001_prompts.md - First batch prompt
+- batch_001_execute.sql - Place for first batch SQL
+- ... continues for all ${totalBatches} batches
+`
+}
+
+function generateBatchPrompt(goals: any[], batchNumber: number, totalBatches: number): string {
+  const goalList = goals.map((g, i) => 
+    `${i + 1}. "${g.title}" (${g.arenas?.name || 'General'} - ${g.categories?.name || 'General'})`
+  ).join('\n')
+  
+  return `# Solution Generation Request - Batch ${batchNumber}/${totalBatches}
+
+## Your Task
+Generate evidence-based solutions for the following ${goals.length} goals, creating SQL INSERT statements for the WWFM database.
+
+## Goals to Process
+${goalList}
+
+## Instructions
+
+For EACH goal listed above:
+1. Generate 10-15 evidence-based solutions based on your training data
+2. Create proper SQL INSERT statements for all required tables
+3. Include effectiveness ratings based on actual research (3.0-5.0 scale)
+4. Generate realistic prevalence distributions
+
+## SQL Structure Required
+
+For each solution, generate:
+
+\`\`\`sql
+-- Solution: [Solution Name] for Goal: [Goal Title]
+-- Effectiveness: X.X based on [brief evidence rationale]
+
+-- 1. Insert solution (if new)
+INSERT INTO solutions (id, title, description, solution_category, source_type, is_approved)
+VALUES (
+  gen_random_uuid(),
+  'Solution Title',
+  'Evidence-based description',
+  'category_name', -- Use exact category from list below
+  'ai_foundation',
+  true
+) ON CONFLICT (title, solution_category) DO NOTHING;
+
+-- 2. Insert variant
+INSERT INTO solution_variants (id, solution_id, variant_name, is_default)
+VALUES (
+  gen_random_uuid(),
+  (SELECT id FROM solutions WHERE title = 'Solution Title' AND solution_category = 'category_name'),
+  'Standard', -- Or specific variant for dosage categories
+  true
+);
+
+-- 3. Insert goal-solution link
+INSERT INTO goal_implementation_links (
+  goal_id,
+  implementation_id,
+  avg_effectiveness,
+  rating_count,
+  solution_fields
+)
+VALUES (
+  '${goals[0]?.id || 'GOAL_ID'}', -- Use actual goal ID
+  (SELECT id FROM solution_variants WHERE solution_id = (SELECT id FROM solutions WHERE title = 'Solution Title')),
+  4.5, -- Based on evidence
+  1, -- Marks as AI-generated
+  '{
+    "field1": "value1",
+    "field2": "value2",
+    "field3": "value3",
+    "field4": "value4",
+    "array_field": ["item1", "item2", "item3"]
+  }'::jsonb
+);
+
+-- 4. Insert prevalence distributions
+INSERT INTO ai_field_distributions (solution_id, goal_id, field_name, distributions)
+VALUES 
+  ((SELECT id FROM solutions WHERE title = 'Solution Title'), 'GOAL_ID', 'field1',
+   '[{"name": "value1", "percentage": 40}, {"name": "value2", "percentage": 35}, {"name": "value3", "percentage": 25}]'::jsonb),
+  -- Continue for all fields including array fields
+;
+\`\`\`
+
+## Categories (use exact strings)
+${Object.keys(CATEGORY_FIELDS).join(', ')}
+
+## Field Requirements by Category
+${Object.entries(CATEGORY_FIELDS).map(([cat, config]) => 
+  `- **${cat}**: ${config.required.join(', ')}${config.arrayField ? ` + array: ${config.arrayField}` : ''}`
+).join('\n')}
+
+## Critical Rules
+1. Effectiveness must be 3.0-5.0 based on real evidence
+2. Array field values in solution_fields MUST appear in distributions
+3. Percentages must sum to 100
+4. Use exact category names from the list
+5. Include rationale comment for each effectiveness rating
+
+## Generate Complete SQL
+Provide ready-to-execute SQL for all ${goals.length} goals with 10-15 solutions each.
+Start generating now:
+`
+}
+
+main().catch(error => {
+  console.error(chalk.red('Error:'), error)
+  process.exit(1)
+})
