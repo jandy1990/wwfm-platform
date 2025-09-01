@@ -88,12 +88,39 @@ Description: "{{GOAL_DESCRIPTION}}"
 Life Area: {{ARENA}}
 Category Context: {{CATEGORY}}
 
+CRITICAL REQUIREMENT - ATTRIBUTION REQUIRED:
+=============================================
+Every solution MUST be attributed to its specific source:
+[Creator/Organization/Tradition] + [Specific Method/Product]
+
+Your solutions must follow these attribution patterns:
+• "Source's Method" (e.g., "Dr. Weil's 4-7-8 breathing")
+• "Method by Source" (e.g., "Pomodoro Technique by Francesco Cirillo")
+• "Organization Program" (e.g., "AA's 12-step program")
+• "Company Product" (e.g., "Headspace's anxiety pack")
+
+Sources can be:
+- Individuals (Dr. Weil, Tim Ferriss, Marie Kondo)
+- Companies (Nike, Headspace, Calm, Peloton)
+- Organizations (AA, Weight Watchers, Red Cross)
+- Traditions (Zen Buddhism, Stoicism, Ayurveda)
+- Institutions (Harvard, Mayo Clinic, Navy SEALs)
+- Authors/Creators (David Allen's GTD, Stephen Covey's 7 Habits)
+
+UNACCEPTABLE (will be rejected):
+❌ "Meditation" → Must be "Transcendental Meditation by Maharishi"
+❌ "Exercise program" → Must be "StrongLifts 5x5 by Mehdi"
+❌ "Support group" → Must be "SMART Recovery meetings"
+❌ "Breathing technique" → Must be "Wim Hof Method"
+❌ "Therapy" → Must be "Beck's Cognitive Therapy"
+
 Instructions:
 1. Draw from your complete training data - medical and non-medical sources
 2. Include solutions you know to be effective based on research, studies, and evidence
-3. Rank by real-world effectiveness based on your training knowledge
-4. Include both conventional and alternative approaches where evidence exists
-5. Be specific about effectiveness ratings based on actual data you've seen
+3. Every solution MUST have clear attribution to its source
+4. Rank by real-world effectiveness based on your training knowledge
+5. Include both conventional and alternative approaches where evidence exists
+6. Be specific about effectiveness ratings based on actual data you've seen
 
 {{FIELD_REQUIREMENTS}}
 
@@ -108,7 +135,7 @@ VALUE GENERATION NOTES:
 Return EXACTLY {{LIMIT}} solutions as a JSON array with this structure:
 [
   {
-    "title": "Specific solution name",
+    "title": "Attributed solution name (e.g., 'Headspace's anxiety pack', 'Dr. Weil's 4-7-8 breathing')",
     "description": "Brief, accurate description",
     "category": "exact_category_from_list",
     "effectiveness": 4.5,

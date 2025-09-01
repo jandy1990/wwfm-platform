@@ -1,3 +1,18 @@
+⚠️⚠️⚠️ **ARCHIVED - CONTAINS OUTDATED FIELD NAMES - DO NOT USE AS REFERENCE** ⚠️⚠️⚠️
+
+# ❌ THIS DOCUMENT IS OUTDATED - DO NOT USE FOR REFERENCE
+## ✅ USE INSTEAD: `/docs/WWFM Solution Fields Matrix - Code-Aligned.md`
+
+### INCORRECT FIELD NAMES IN THIS DOCUMENT:
+- `barriers` → should be `challenges`
+- `issues` → should be `challenges`
+- `time_to_enjoyment` → should be `time_to_results`
+- `skincareFrequency` → should be `skincare_frequency`
+- `long_term_sustainability` → should be `still_following`
+- `adjustment_period` → should be `previous_sleep_hours`
+
+---
+
 # WWFM Forms Field Matrix - ACTUAL Implementation
 
 ## Overview

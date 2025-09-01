@@ -1,0 +1,7 @@
+{
+  "strategy": "breadth_first",
+  "minSolutionsPerGoal": 5,
+  "targetSolutionsPerGoal": 10,
+  "maxSolutionsPerGoal": 20,
+  "resumeFromFailures": true
+}

@@ -37,11 +37,19 @@ Goal: {{GOAL_TITLE}}
 Description: {{GOAL_DESCRIPTION}}
 Arena: {{ARENA}}
 
+🚨 CRITICAL SPECIFICITY REQUIREMENT:
+Every solution MUST be a SPECIFIC product/app/book/method, NOT a generic category.
+- ❌ WRONG: "meditation" → ✅ RIGHT: "Headspace anxiety pack"
+- ❌ WRONG: "therapy" → ✅ RIGHT: "BetterHelp online CBT"
+- ❌ WRONG: "vitamins" → ✅ RIGHT: "Nature Made Vitamin D3 2000 IU"
+
+Solutions MUST be googleable and include brand names, app names, authors, or protocol names.
+
 {{CATEGORY_FIELDS_TABLE}}
 
 CRITICAL INSTRUCTIONS:
-1. Draw from your COMPLETE training data - medical and non-medical sources
-2. Include solutions you KNOW to be effective based on research, studies, and evidence
+1. Every solution MUST be a specific implementation that exists and can be googled
+2. Include brand names, app names, author names, or specific protocol names
 3. Be specific about effectiveness ratings based on actual data you've seen
 4. Include both conventional AND alternative approaches where evidence exists
 5. Rate effectiveness (3.0-5.0) based on actual research and clinical evidence:

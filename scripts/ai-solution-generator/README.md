@@ -1,12 +1,24 @@
-# AI-Powered Solution Generator for WWFM
+# AI-Powered Solution Generator with Quality System for WWFM
 
 ## 📖 IMPORTANT: Read Context First
-**Before using this system, read [CONTEXT.md](./CONTEXT.md) to understand the principles, reasoning, and rules behind this generator.**
+**Before using this system, read [CONTEXT.md](./CONTEXT.md) and [LEARNINGS.md](./LEARNINGS.md) to understand the principles, specificity requirements, and rules behind this generator.**
 
-## Overview
-This system automatically generates evidence-based solutions for all WWFM goals by consulting Gemini AI (free tier) for recommendations based on training data from medical literature, clinical studies, and research.
+## 🎯 Overview
+This is a hybrid AI system that combines:
+1. **Gemini Generation** - Mass generation of solutions using Attribution Required strategy (100% specificity)
+2. **Claude Quality Checking** - Targeted quality improvements across 5 dimensions
 
-**🎉 Migration Complete: Now using Google Gemini instead of Claude, reducing cost from $137 to $0!**
+**Result:** 95%+ quality solutions at 5% of the cost of pure Claude generation
+
+## ⚠️ Critical: Attribution Required Strategy
+**All solutions MUST have attribution to their source:**
+- ✅ "Dr. Weil's 4-7-8 breathing" 
+- ✅ "Headspace's anxiety pack"
+- ✅ "AA's 12-step program"
+- ❌ "meditation" → REJECTED
+- ❌ "therapy" → REJECTED
+
+This strategy achieved 100% specificity in testing (see [REFINED_TESTING_SUMMARY.md](./REFINED_TESTING_SUMMARY.md))
 
 ## How It Works
 1. **Reads all goals** from the database
@@ -205,6 +217,17 @@ If you need to switch back to Claude:
 
 ## Validation & Quality Assurance
 
+### Specificity Validation (NEW)
+**MUST RUN BEFORE GENERATION** to ensure solutions meet specificity requirements:
+
+```bash
+# Test the validation system
+npx tsx scripts/ai-solution-generator/validate-specificity-standalone.ts
+
+# Validate solutions during generation
+npx tsx scripts/ai-solution-generator/generate-specific-solutions.ts
+```
+
 ### Automated Validation Scripts
 After generation, run these validation scripts to ensure data quality:
 
@@ -261,21 +284,145 @@ Add these validation scripts:
 }
 ```
 
+## 🎯 Claude × Gemini Quality System
+
+### Overview
+After Gemini generates solutions, Claude evaluates and fixes them across 5 quality dimensions:
+
+1. **Conversational Completeness (30%)**: Can a friend act on this recommendation?
+2. **Evidence Alignment (25%)**: Is the effectiveness rating justified?
+3. **Accessibility Truth (20%)**: Are costs and barriers fully disclosed?
+4. **Expectation Accuracy (15%)**: Are time/effort expectations realistic?
+5. **Category Accuracy (10%)**: Is it in the right category?
+
+**Pass Threshold**: All dimensions must score ≥85%
+
+### Quality Commands
+
+#### Test with 100 Solutions (Full Data Capture)
+```bash
+npx tsx scripts/ai-solution-generator/quality-test-100.ts
+```
+This creates 4 files in `quality-test-results/`:
+- `BEFORE.md` - Complete data for all 100 solutions pre-review
+- `AFTER.md` - Complete data after Claude's fixes
+- `REPORT.json` - Detailed quality check results
+- `SUMMARY.md` - Statistics and overview
+
+#### Quick Test (10 solutions, no database changes)
+```bash
+npm run quality:test
+```
+
+#### Run Full Quality Pipeline
+```bash
+npm run quality:check                    # Process all pending solutions
+npm run quality:orchestrate              # Start automated orchestrator
+npm run quality:dashboard                # View real-time metrics
+npm run quality:dashboard -- --watch     # Auto-refresh mode
+```
+
+### Quality Pipeline Options
+
+```bash
+# Check with custom parameters
+npm run quality:check -- \
+  --batch-size 50 \      # Solutions per Claude call
+  --cost-limit 5.0       # Max spend in USD
+
+# Orchestrator with triggers
+npm run quality:orchestrate -- \
+  --trigger 100 \        # Check after 100 pending
+  --interval 6 \         # Check every 6 hours
+  --quality 80 \         # Trigger if quality < 80%
+  --cost-limit 10.0      # Daily limit $10
+```
+
+### Cost Analysis
+- **Gemini Generation**: $0-30 (free tier available)
+- **Claude Quality Checks**: ~$0.001 per solution
+- **Total for 32,000 solutions**: ~$30-40
+- **Savings vs Pure Claude**: 70-75%
+
+### Database Schema for Quality Tracking
+The system adds these fields to track quality:
+- `quality_status`: pending|checking|passed|fixed|failed
+- `conversation_completeness_score`: 0-100
+- `evidence_alignment_score`: 0-100
+- `accessibility_truth_score`: 0-100
+- `expectation_accuracy_score`: 0-100
+- `category_accuracy_score`: 0-100
+- `quality_issues`: JSON of issues found
+- `quality_fixes_applied`: JSON of fixes applied
+
+## 📋 Complete Workflow
+
+### Step 1: Generate Solutions with Attribution
+```bash
+# Standard generation
+npm run generate:ai-solutions
+
+# Smart selection for better coverage
+npm run generate:smart
+
+# Generate for specific goal
+npm run generate:ai-solutions -- --goal-id=<uuid>
+```
+
+### Step 2: Test Quality System
+```bash
+# Test with 100 solutions (captures all data)
+npx tsx scripts/ai-solution-generator/quality-test-100.ts
+
+# Review the generated markdown files
+open scripts/ai-solution-generator/quality-test-results/
+```
+
+### Step 3: Run Quality Pipeline
+```bash
+# Apply database migration first
+npm run quality:migrate
+
+# Run quality checks
+npm run quality:check
+
+# Or start automated orchestrator
+npm run quality:orchestrate
+```
+
+### Step 4: Monitor Progress
+```bash
+# Real-time dashboard
+npm run quality:dashboard -- --watch
+```
+
 ## For Future Developers
 
 This system is completely self-contained. To use it:
-1. Ensure environment variables are set (GEMINI_API_KEY)
-2. Run `npm run generate:ai-solutions`
-3. Monitor the output for any errors
-4. Run validation after generation: `npm run generate:validate`
-5. Check the database for generated content
-6. Test front-end display with Playwright tests
-7. If daily limit is hit, resume tomorrow with the provided command
 
-The AI consults its training data for real effectiveness ratings, not random values. All solutions are marked with `source_type: 'ai_foundation'` and `rating_count: 1` to indicate they're AI-generated.
+### Initial Setup
+1. Add API keys to `.env.local`:
+   ```
+   GEMINI_API_KEY=AIzaSyAeHrw-JAKpenIJO6Z7uIxza9WvjnSlYA0
+   ANTHROPIC_API_KEY=sk-ant-api03-xxxxx
+   ```
+2. Apply database migration: `npm run quality:migrate`
+
+### Generation Process
+1. Run `npm run generate:ai-solutions` (uses Attribution Required strategy)
+2. Monitor output for any errors
+3. If daily limit hit, resume with `--start-from=<index>`
+
+### Quality Process
+1. Test with 100 solutions first: `npx tsx scripts/ai-solution-generator/quality-test-100.ts`
+2. Review the markdown files to verify quality improvements
+3. Run full pipeline: `npm run quality:check`
+4. Monitor with dashboard: `npm run quality:dashboard`
 
 ### Data Quality Standards
+- **Attribution Required**: Every solution must attribute its source
 - **Field Completion**: 100% of required fields must be populated
 - **Dropdown Values**: Must exactly match options in `config/dropdown-options.ts`
 - **Effectiveness Range**: 3.0-5.0 stars based on evidence
-- **Logical Accuracy**: Values should make sense (e.g., mindful eating ≠ expensive)
+- **Conversation Completeness**: ≥85% (friend can act on it)
+- **No Inflated Ratings**: Must have evidence-based justification

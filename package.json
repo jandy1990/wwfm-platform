@@ -35,7 +35,13 @@
     "generate:check": "tsx scripts/ai-solution-generator/check-progress.ts",
     "test:ai-generator": "tsx scripts/ai-solution-generator/test.ts",
     "test:ai-dropdown": "tsx scripts/ai-solution-generator/test-dropdown-validation.ts",
-    "test:ai-mapper": "tsx scripts/ai-solution-generator/test-value-mapper.ts"
+    "test:ai-mapper": "tsx scripts/ai-solution-generator/test-value-mapper.ts",
+    "quality:check": "tsx scripts/ai-solution-generator/quality-pipeline.ts check",
+    "quality:orchestrate": "tsx scripts/ai-solution-generator/quality-pipeline.ts orchestrate",
+    "quality:dashboard": "tsx scripts/ai-solution-generator/quality-pipeline.ts dashboard",
+    "quality:test": "tsx scripts/ai-solution-generator/quality-pipeline.ts test",
+    "quality:test-100": "tsx scripts/ai-solution-generator/quality-test-100.ts",
+    "quality:migrate": "tsx scripts/ai-solution-generator/quality-pipeline.ts migrate"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.30.1",
@@ -55,6 +61,7 @@
     "dotenv": "^16.5.0",
     "lucide-react": "^0.516.0",
     "next": "15.3.2",
+    "ora": "^8.2.0",
     "puppeteer": "^24.14.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

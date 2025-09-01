@@ -5,7 +5,9 @@
 
 ## 📋 Matrix Overview
 
-Every solution card displays exactly **4 key fields** + **1 array field** (optional). This document shows the EXACT field names as they appear in the code and must be used for generation.
+Every solution card displays exactly **3-4 key fields** + **1 array field** (optional). This document shows the EXACT field names as they appear in the code and must be used for generation.
+
+**⚠️ UPDATE (August 2025)**: meditation_mindfulness now displays only 3 fields (time_to_results, practice_length, frequency) instead of 4
 
 ## 🎯 Category-to-Fields Mapping
 
@@ -15,45 +17,44 @@ Every solution card displays exactly **4 key fields** + **1 array field** (optio
 | medications | `time_to_results` | `frequency` | `length_of_use` | `cost` | `side_effects` |
 | supplements_vitamins | `time_to_results` | `frequency` | `length_of_use` | `cost` | `side_effects` |
 | natural_remedies | `time_to_results` | `frequency` | `length_of_use` | `cost` | `side_effects` |
-| beauty_skincare | `time_to_results` | `skincareFrequency` ⚠️ | `length_of_use` | `cost` | `side_effects` |
+| beauty_skincare | `time_to_results` | `skincare_frequency` ⚠️ | `length_of_use` | `cost` | `side_effects` |
 
-**⚠️ CRITICAL**: beauty_skincare uses `skincareFrequency` not `frequency`
+**⚠️ CRITICAL**: beauty_skincare uses `skincare_frequency` not `frequency`
 
 ### PRACTICE FORMS (3 categories)
 | Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
 |----------|---------|---------|---------|---------|-------------|
-| meditation_mindfulness | `time_to_results` | `practice_length` | `startup_cost` | `ongoing_cost` | `challenges` |
+| meditation_mindfulness | `time_to_results` | `practice_length` | `frequency` | **(only 3 fields)** | `challenges` |
 | exercise_movement | `time_to_results` | `frequency` | `startup_cost` | `ongoing_cost` | `challenges` |
 | habits_routines | `time_to_results` | `time_commitment` | `startup_cost` | `ongoing_cost` | `challenges` |
 
 ### SESSION FORMS (7 categories)
 | Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
 |----------|---------|---------|---------|---------|-------------|
-| therapists_counselors | `time_to_results` | `session_frequency` | `format` | `cost` | `barriers` |
-| doctors_specialists | `time_to_results` | `wait_time` | `insurance_coverage` | `cost` | `barriers` |
-| coaches_mentors | `time_to_results` | `session_frequency` | `format` | `cost` | `barriers` |
+| therapists_counselors | `time_to_results` | `session_frequency` | `format` | `cost` | `challenges` |
+| doctors_specialists | `time_to_results` | `wait_time` | `insurance_coverage` | `cost` | `challenges` |
+| coaches_mentors | `time_to_results` | `session_frequency` | `format` | `cost` | `challenges` |
 | alternative_practitioners | `time_to_results` | `session_frequency` | `format` | `cost` | `side_effects` ⚠️ |
-| professional_services | `time_to_results` | `session_frequency` | `format` | `cost` | `barriers` |
+| professional_services | `time_to_results` | `session_frequency` | `format` | `cost` | `challenges` |
 | medical_procedures | `time_to_results` | `treatment_frequency` | `wait_time` | `cost` | `side_effects` |
 | crisis_resources | `time_to_results` | `response_time` | `format` | `cost` | **null** ⚠️ |
 
 **⚠️ CRITICAL**: 
-- alternative_practitioners uses `side_effects` not `barriers`
+- alternative_practitioners uses `side_effects` not `challenges`
 - crisis_resources has NO array field (null)
 
 ### LIFESTYLE FORMS (2 categories)
 | Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
 |----------|---------|---------|---------|---------|-------------|
-| diet_nutrition | `time_to_results` | `weekly_prep_time` | `long_term_sustainability` | `cost_impact` | `challenges` |
-| sleep | `time_to_results` | `previous_sleep_hours` | `long_term_sustainability` | `cost_impact` | `challenges` |
+| diet_nutrition | `time_to_results` | `weekly_prep_time` | `still_following` | `cost_impact` | `challenges` |
+| sleep | `time_to_results` | `previous_sleep_hours` | `still_following` | `cost_impact` | `challenges` |
 
 ### PURCHASE FORMS (2 categories)
 | Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
 |----------|---------|---------|---------|---------|-------------|
-| products_devices | `time_to_results` | `ease_of_use` | `product_type` | `cost` | `issues` ⚠️ |
-| books_courses | `time_to_results` | `format` | `learning_difficulty` | `cost` | `issues` ⚠️ |
+| products_devices | `time_to_results` | `ease_of_use` | `product_type` | `cost` | `challenges` |
+| books_courses | `time_to_results` | `format` | `learning_difficulty` | `cost` | `challenges` |
 
-**⚠️ CRITICAL**: Uses `issues` not `challenges`
 
 ### APP FORM (1 category)
 | Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
@@ -69,14 +70,13 @@ Every solution card displays exactly **4 key fields** + **1 array field** (optio
 ### HOBBY FORM (1 category)
 | Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
 |----------|---------|---------|---------|---------|-------------|
-| hobbies_activities | `time_to_enjoyment` ⚠️ | `time_commitment` | `startup_cost` | `ongoing_cost` | `barriers` |
+| hobbies_activities | `time_to_results` | `time_commitment` | `startup_cost` | `ongoing_cost` | `challenges` |
 
-**⚠️ CRITICAL**: Uses `time_to_enjoyment` not `time_to_results`
 
 ### FINANCIAL FORM (1 category)
 | Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
 |----------|---------|---------|---------|---------|-------------|
-| financial_products | `time_to_impact` ⚠️ | `cost_type` | `financial_benefit` | `access_time` | `barriers` |
+| financial_products | `time_to_results` | `cost_type` | `financial_benefit` | `access_time` | `challenges` |
 
 **⚠️ CRITICAL**: Uses `time_to_impact` not `time_to_results`
 
@@ -84,12 +84,11 @@ Every solution card displays exactly **4 key fields** + **1 array field** (optio
 
 ### Time Fields (3 variations)
 - **Standard** (19 categories): `time_to_results`
-- **Hobbies**: `time_to_enjoyment`
-- **Financial**: `time_to_impact`
+- **Standard** (all categories): `time_to_results`
 
 ### Frequency Fields (7 variations)
 - **Dosage forms**: `frequency` (meds, supplements, natural)
-- **Beauty**: `skincareFrequency`
+- **Beauty**: `skincare_frequency`
 - **Exercise**: `frequency`
 - **Sessions**: `session_frequency` (therapists, coaches, alternative, professional)
 - **Medical procedures**: `treatment_frequency`
@@ -105,8 +104,8 @@ Every solution card displays exactly **4 key fields** + **1 array field** (optio
 ### Array Fields (5 types)
 1. **`side_effects`** (6 categories): medications, supplements, natural, beauty, alternative practitioners, medical procedures
 2. **`challenges`** (9 categories): meditation, exercise, habits, diet, sleep, apps, groups, support groups
-3. **`barriers`** (6 categories): therapists, doctors, coaches, professional services, hobbies, financial
-4. **`issues`** (2 categories): products, books
+3. **`challenges`** (most categories): Most forms use this for difficulties/challenges
+4. **`side_effects`** (medical categories): alternative_practitioners, medical_procedures
 5. **`null`** (1 category): crisis_resources
 
 ## 📊 Data Requirements per Solution
@@ -195,9 +194,9 @@ ai_field_distributions: {
 
 Before generating any solution, verify:
 
-- [ ] Using exact field names from this matrix (e.g., `skincareFrequency` not `frequency` for beauty)
+- [ ] Using exact field names from this matrix (e.g., `skincare_frequency` not `frequency` for beauty)
 - [ ] All 4 required fields have values
-- [ ] Array field name matches category (e.g., `barriers` for therapists, not `challenges`)
+- [ ] Array field name matches category (e.g., `challenges` for most categories, `side_effects` for medical)
 - [ ] Array values in solution_fields exactly match distribution names
 - [ ] All percentages in distributions sum to 100
 - [ ] Field values match dropdown options from forms

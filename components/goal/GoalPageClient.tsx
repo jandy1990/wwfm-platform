@@ -126,9 +126,9 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['time_to_results', 'practice_length', 'cost'],
+    keyFields: ['time_to_results', 'practice_length', 'frequency'],
     fieldLabels: {
-      cost: 'Cost',
+      frequency: 'Frequency',
       time_to_results: 'Time to Results',
       practice_length: 'Practice Length'
     },
@@ -223,12 +223,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-gray-700',
     borderColor: 'border-gray-200',
     bgColor: 'bg-gray-50',
-    keyFields: ['time_to_results', 'session_frequency', 'specialty_service_type', 'cost'],
+    keyFields: ['time_to_results', 'session_frequency', 'specialty', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
       session_frequency: 'Session Frequency',
-      specialty_service_type: 'Service Type'
+      specialty: 'Service Type'
     },
     arrayField: 'challenges'
   },

@@ -8,7 +8,7 @@ WWFM aggregates real experiences from real people to show which solutions are mo
 
 - **652 Life Goals**: Covering everything from mental health to career growth
 - **Real Effectiveness Data**: Aggregated ratings from actual users
-- **No Fluff**: Just solutions ranked by what actually worked
+- **Specific Solutions**: Not "try meditation" but "Headspace anxiety pack" - actual things you can do
 - **Smart Categorization**: 10,000+ keywords automatically organize contributions
 - **Progressive Disclosure**: Simple overviews or detailed breakdowns - you choose
 

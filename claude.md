@@ -68,6 +68,7 @@ Search filters block generic terms (forces specificity)
 Effectiveness varies by goal (stored in junction table)
 Forms use 3-step wizard pattern for better UX
 Test fixtures need "(Test)" suffix to bypass filters
+Solutions must be specific implementations, not categories (e.g., "Headspace" not "meditation apps")
 🚀 Current Platform Status
 Operational Metrics
 653 goals across 13 life arenas

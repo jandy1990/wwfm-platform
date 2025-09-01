@@ -192,7 +192,7 @@ class SolutionValidator {
     // Based on matrix, return exact 4 fields
     const fieldMap = {
       'medications': ['time_to_results', 'frequency', 'length_of_use', 'cost'],
-      'beauty_skincare': ['time_to_results', 'skincareFrequency', 'length_of_use', 'cost'],
+      'beauty_skincare': ['time_to_results', 'skincare_frequency', 'length_of_use', 'cost'],
       // ... etc from matrix
     }
     return fieldMap[category] || []
@@ -464,7 +464,7 @@ Check in UI at `/goal/[id]`:
 
 ### Prerequisites
 - [ ] Read `/docs/WWFM Solution Fields Matrix - Code-Aligned.md`
-- [ ] Understand field variations (skincareFrequency, time_to_enjoyment, etc.)
+- [ ] Understand field variations (skincare_frequency for beauty_skincare)
 - [ ] Have Supabase credentials
 - [ ] TypeScript environment ready
 
@@ -496,8 +496,8 @@ Check in UI at `/goal/[id]`:
 
 ### Problem: "Wrong fields displaying"
 **Solution**: Verify against `/docs/WWFM Solution Fields Matrix - Code-Aligned.md`
-- beauty_skincare uses `skincareFrequency`
-- hobbies uses `time_to_enjoyment`
+- beauty_skincare uses `skincare_frequency`
+- All categories use `time_to_results`
 - financial uses `time_to_impact`
 
 ### Problem: "SQL failing"

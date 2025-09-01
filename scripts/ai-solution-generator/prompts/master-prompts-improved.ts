@@ -113,6 +113,21 @@ Goal: {{GOAL_TITLE}}
 Description: {{GOAL_DESCRIPTION}}
 Arena: {{ARENA}}
 
+🚨 CRITICAL SPECIFICITY REQUIREMENT:
+Every solution MUST be a SPECIFIC product/app/book/method, NOT a generic category.
+Solutions MUST be googleable and include brand names, app names, authors, or specific protocols.
+
+❌ NEVER suggest vague solutions like:
+- "CBT therapy" → Use "BetterHelp online CBT" or "Psychology Today CBT therapist finder"
+- "Morning routine" → Use "Miracle Morning by Hal Elrod" or "Robin Sharma's 5AM Club"
+- "Meditation" → Use "Headspace Focus music" or "Ten Percent Happier app"
+
+✅ ALWAYS provide specific implementations:
+- Named apps: "Calm app", "MyFitnessPal", "Headspace"
+- Books with authors: "Atomic Habits by James Clear"
+- Specific programs: "Couch to 5K", "StrongLifts 5x5"
+- Brand products: "Nature Made Vitamin D3", "Fitbit Charge 5"
+
 CRITICAL FIELD REQUIREMENTS - YOU MUST USE THESE EXACT FIELD NAMES:
 {{FIELD_REQUIREMENTS}}
 
@@ -120,8 +135,8 @@ Return a JSON array of solutions. Here are COMPLETE examples showing the EXACT f
 
 Example 1 - therapists_counselors category:
 {
-  "title": "Cognitive Behavioral Therapy",
-  "description": "Evidence-based therapy focusing on changing thought patterns",
+  "title": "BetterHelp online CBT therapy",
+  "description": "Online platform connecting users with licensed CBT therapists",
   "category": "therapists_counselors",
   "effectiveness": 4.5,
   "effectiveness_rationale": "Strong evidence from multiple RCTs",
@@ -137,8 +152,8 @@ Example 1 - therapists_counselors category:
 
 Example 2 - habits_routines category:
 {
-  "title": "Morning Routine",
-  "description": "Structured morning habits for productivity",
+  "title": "The Miracle Morning by Hal Elrod",
+  "description": "6-step morning routine system (SAVERS) for personal development",
   "category": "habits_routines",
   "effectiveness": 4.2,
   "effectiveness_rationale": "Consistent positive user reports",

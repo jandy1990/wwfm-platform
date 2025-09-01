@@ -1,3 +1,16 @@
+⚠️⚠️⚠️ **ARCHIVED - CONTAINS OUTDATED FIELD NAMES - DO NOT USE AS REFERENCE** ⚠️⚠️⚠️
+
+# ❌ OUTDATED ANALYSIS - FIELD NAMES HAVE BEEN FIXED
+## ✅ FOR CURRENT FIELD NAMES SEE: `/docs/WWFM Solution Fields Matrix - Code-Aligned.md`
+
+### THIS DOCUMENT REFERENCES OLD FIELD NAMES:
+- `issues` (now `challenges`)
+- `barriers` (now `challenges`)
+- `sustainabilityReason` (now `sustainability_reason`)
+- Other outdated naming conventions
+
+---
+
 # WWFM Forms Data Flow Analysis
 
 ## Executive Summary

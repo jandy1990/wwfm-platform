@@ -35,12 +35,17 @@ Goal: {{GOAL_TITLE}}
 Description: {{GOAL_DESCRIPTION}}
 Arena: {{ARENA}}
 
+CRITICAL: Every solution MUST be a SPECIFIC product/app/book/method that can be googled.
+Include brand names, app names, authors, or protocol names. NO generic categories.
+Wrong: "meditation" → Right: "Headspace anxiety pack"
+Wrong: "therapy" → Right: "BetterHelp online CBT"
+
 {{FIELD_REQUIREMENTS}}
 
 Return a valid JSON array. Each solution must have this exact structure:
 {
-  "title": "Solution name",
-  "description": "Brief description",
+  "title": "Specific product/app/method name (must be googleable)",
+  "description": "Brief description mentioning the brand/author",
   "category": "category_from_list",
   "effectiveness": 4.2,
   "effectiveness_rationale": "Evidence basis",
