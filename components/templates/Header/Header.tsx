@@ -7,6 +7,7 @@ import { User } from '@supabase/supabase-js'
 
 export default function Header() {
   const [user, setUser] = useState<User | null>(null)
+  const [retrospectiveCount, setRetrospectiveCount] = useState(0)
 
   useEffect(() => {
     // Get initial user
@@ -25,6 +26,25 @@ export default function Header() {
 
     return () => subscription.unsubscribe()
   }, [])
+
+  useEffect(() => {
+    // Load retrospective count if user is logged in
+    if (user) {
+      loadRetrospectiveCount()
+    } else {
+      setRetrospectiveCount(0)
+    }
+  }, [user])
+
+  const loadRetrospectiveCount = async () => {
+    try {
+      const { getUnreadRetrospectiveCount } = await import('@/app/actions/retrospectives')
+      const count = await getUnreadRetrospectiveCount()
+      setRetrospectiveCount(count)
+    } catch (error) {
+      console.error('Error loading retrospective count:', error)
+    }
+  }
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -53,9 +73,14 @@ export default function Header() {
             </Link>
             <Link 
               href="/dashboard" 
-              className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              className="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
               Dashboard
+              {retrospectiveCount > 0 && (
+                <span className="absolute -top-1 -right-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 bg-red-600 rounded-full">
+                  {retrospectiveCount}
+                </span>
+              )}
             </Link>
           </nav>
 

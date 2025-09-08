@@ -130,7 +130,7 @@ const categoryInfo: Record<string, { displayName: string; description: string }>
 /**
  * Search for existing solutions in the database with fuzzy matching
  */
-async function searchExistingSolutions(searchTerm: string): Promise<SolutionMatch[]> {
+export async function searchExistingSolutions(searchTerm: string): Promise<SolutionMatch[]> {
   const normalizedSearch = searchTerm.toLowerCase().trim();
   
   console.log('[searchExistingSolutions] Searching for:', normalizedSearch);
@@ -303,7 +303,7 @@ async function searchExistingSolutions(searchTerm: string): Promise<SolutionMatc
 /**
  * Detect categories from user input using keywords with fuzzy matching
  */
-async function detectCategoriesFromKeywords(userInput: string): Promise<CategoryMatch[]> {
+export async function detectCategoriesFromKeywords(userInput: string): Promise<CategoryMatch[]> {
   const normalizedInput = userInput.toLowerCase().trim();
   const matches: Map<string, 'high' | 'medium' | 'low'> = new Map();
 
@@ -574,7 +574,7 @@ async function searchKeywordsAsSolutions(searchTerm: string): Promise<Array<{
 /**
  * Search for keyword autocomplete suggestions with fuzzy matching
  */
-async function searchKeywordSuggestions(searchTerm: string): Promise<KeywordMatch[]> {
+export async function searchKeywordSuggestions(searchTerm: string): Promise<KeywordMatch[]> {
   const { data, error } = await supabase
     .rpc('search_keywords_for_autocomplete', {
       search_term: searchTerm

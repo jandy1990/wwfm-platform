@@ -43,11 +43,11 @@ export default function SourceBadge({ sourceType, size = 'sm', className = '' }:
         }
       case 'ai_foundation':
         return {
-          text: 'AI Base',
-          bgColor: 'bg-indigo-100 dark:bg-indigo-900/30',
-          textColor: 'text-indigo-800 dark:text-indigo-300',
-          borderColor: 'border-indigo-200 dark:border-indigo-700',
-          icon: '🧠'
+          text: 'AI-generated',
+          bgColor: 'bg-purple-100 dark:bg-purple-900/40',
+          textColor: 'text-purple-800 dark:text-purple-200',
+          borderColor: 'border-purple-300 dark:border-purple-600',
+          icon: '🤖'
         }
       default:
         return {

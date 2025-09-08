@@ -9,6 +9,7 @@ import { notFound } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
 import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrumbs'
 import EmptyState from '@/components/molecules/EmptyState'
+import { GoalPageTracker } from '@/components/tracking/GoalPageTracker'
 
 // Types
 type Goal = {
@@ -72,7 +73,7 @@ async function getCategoryWithGoals(slug: string) {
   // Filter to only include approved goals
   const filteredCategory = {
     ...category,
-    goals: category.goals?.filter((goal: any) => goal.is_approved) || []
+    goals: category.goals?.filter((goal: Goal) => goal.is_approved) || []
   }
   
   return filteredCategory as Category
@@ -96,6 +97,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <GoalPageTracker arenaName={category.arenas.name} arenaId={category.arenas.id} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Breadcrumb Navigation */}
         <Breadcrumbs 

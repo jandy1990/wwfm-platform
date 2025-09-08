@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { ArenaTimeService, type ArenaStats, type TimeSummary } from '@/lib/services/arena-time-service'
 import { ArenaTimeTracker } from '@/lib/tracking/arena-time-tracker'
+import { ArenaTimePieChart } from '@/components/charts/ArenaTimePieChart'
 
 export function TimeTrackingDisplay() {
   const [stats, setStats] = useState<ArenaStats[]>([])
@@ -31,44 +32,134 @@ export function TimeTrackingDisplay() {
     loadDashboardData()
   }, [])
 
-  if (loading) return <div>Loading your data...</div>
+  // Calculate percentages for each arena
+  const totalSeconds = stats.reduce((sum, stat) => sum + stat.total_seconds, 0)
+  const getPercentage = (seconds: number) => {
+    if (totalSeconds === 0) return 0
+    return Math.round((seconds / totalSeconds) * 100)
+  }
+
+  // Get the max seconds for scaling progress bars
+  const maxSeconds = stats.length > 0 ? Math.max(...stats.map(s => s.total_seconds)) : 0
+
+  // Color palette for pie chart - using a nice, accessible color scheme
+  const colors = [
+    '#3B82F6', // Blue
+    '#10B981', // Emerald
+    '#F59E0B', // Amber
+    '#EF4444', // Red
+    '#8B5CF6', // Violet
+    '#06B6D4', // Cyan
+    '#F97316', // Orange
+    '#84CC16', // Lime
+    '#EC4899', // Pink
+    '#6B7280', // Gray
+    '#14B8A6', // Teal
+    '#F43F5E', // Rose
+  ]
+
+  // Prepare data for pie chart
+  const pieChartData = stats.map((stat, index) => ({
+    arena_name: stat.arena_name,
+    total_seconds: stat.total_seconds,
+    percentage: getPercentage(stat.total_seconds),
+    color: colors[index % colors.length]
+  })).filter(item => item.percentage > 0) // Only show arenas with time spent
+
+  if (loading) return (
+    <div className="animate-pulse">
+      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
+      <div className="space-y-3">
+        <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded"></div>
+        <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded"></div>
+      </div>
+    </div>
+  )
 
   return (
     <div className="space-y-6">
       {/* Summary stats */}
       {summary && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded">
-            <div className="text-sm text-gray-600 dark:text-gray-400">Total Time</div>
+          <div className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Total Time</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">{service.formatTime(summary.total_seconds)}</div>
           </div>
-          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded">
-            <div className="text-sm text-gray-600 dark:text-gray-400">Most Visited</div>
-            <div className="text-xl font-bold text-gray-900 dark:text-gray-100">{summary.most_visited_arena || 'None yet'}</div>
+          <div className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Most Visited</div>
+            <div className="text-xl font-bold text-blue-600 dark:text-blue-400">{summary.most_visited_arena || 'None yet'}</div>
           </div>
-          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded">
-            <div className="text-sm text-gray-600 dark:text-gray-400">Areas Explored</div>
+          <div className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Areas Explored</div>
             <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">{summary.unique_arenas}</div>
           </div>
         </div>
       )}
       
       {/* Arena breakdown */}
-      <div>
-        <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Time by Arena</h2>
-        {stats.length > 0 ? (
-          <div className="space-y-2">
-            {stats.map(stat => (
-              <div key={stat.arena_name} className="flex justify-between p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">
-                <span className="text-gray-900 dark:text-gray-100">{stat.arena_name}</span>
-                <span className="font-medium text-gray-900 dark:text-gray-100">{service.formatTime(stat.total_seconds)}</span>
-              </div>
-            ))}
+      {stats.length > 0 ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Pie Chart */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Time Distribution</h3>
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
+              <ArenaTimePieChart 
+                data={pieChartData}
+                formatTime={service.formatTime}
+                size={280}
+              />
+            </div>
           </div>
-        ) : (
-          <p className="text-gray-600 dark:text-gray-400">No tracking data yet. Start browsing to see your time investments!</p>
-        )}
-      </div>
+          
+          {/* Detailed List */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Detailed Breakdown</h3>
+            <div className="space-y-3">
+              {stats.map(stat => {
+                const percentage = getPercentage(stat.total_seconds)
+                const isTopArena = summary?.most_visited_arena === stat.arena_name
+                const progressWidth = maxSeconds > 0 ? (stat.total_seconds / maxSeconds) * 100 : 0
+                
+                return (
+                  <div key={stat.arena_name} className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className={`font-medium ${isTopArena ? 'text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100'}`}>
+                        {stat.arena_name}
+                      </span>
+                      <div className="text-right">
+                        <span className="font-semibold text-gray-900 dark:text-gray-100">
+                          {service.formatTime(stat.total_seconds)}
+                        </span>
+                        <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
+                          ({percentage}%)
+                        </span>
+                      </div>
+                    </div>
+                    
+                    {/* Progress bar */}
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div 
+                        className={`h-2 rounded-full transition-all duration-500 ${
+                          isTopArena 
+                            ? 'bg-blue-500 dark:bg-blue-400' 
+                            : 'bg-gray-400 dark:bg-gray-500'
+                        }`}
+                        style={{ width: `${progressWidth}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="text-center py-12">
+          <div className="text-gray-400 dark:text-gray-500 mb-2 text-4xl">📊</div>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">No tracking data yet</h3>
+          <p className="text-gray-600 dark:text-gray-400">Start browsing to see your time investments!</p>
+        </div>
+      )}
     </div>
   )
 }

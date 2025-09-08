@@ -9,6 +9,7 @@ import { User } from '@supabase/supabase-js'
 // import ProtectedRoute from '@/components/auth/ProtectedRoute' // Temporarily disabled
 // import Link from 'next/link' // Unused for now
 import EmptyState from '@/components/molecules/EmptyState'
+import { TimeTrackingDisplay } from './time/TimeTrackingDisplay'
 
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null)
@@ -45,6 +46,14 @@ export default function DashboardPage() {
               >
                 Sign Out
               </button>
+            </div>
+
+            {/* Time Tracking Section */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                Your Time Investment
+              </h2>
+              <TimeTrackingDisplay />
             </div>
 
             {/* Welcome Empty State */}

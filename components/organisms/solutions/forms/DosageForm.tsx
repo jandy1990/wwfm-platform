@@ -1156,15 +1156,23 @@ export function DosageForm({
                 </select>
               )}
               
-              <textarea
-                placeholder="What do others need to know?"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                rows={2}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
-              />
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  What should other people know about trying to {goalTitle}?
+                </label>
+                <textarea
+                  placeholder="Share your experience, challenges, tips, or advice that could help others..."
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           dark:bg-gray-700 dark:text-white text-sm"
+                />
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  💡 Your insights will be shared in the Community Discussion to help others working toward this goal
+                </p>
+              </div>
               
               {(brand || form || notes || costRange !== 'dont_remember') && (
                 <button

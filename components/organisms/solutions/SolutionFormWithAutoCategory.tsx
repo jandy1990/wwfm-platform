@@ -146,14 +146,21 @@ export default function SolutionFormWithAutoCategory({
     cacheTimeout.current.set(key, timeout);
   }, []);
   
-  // Refs for click outside detection
+  // Refs for click outside detection and focus management
   const searchInputRef = useRef<HTMLInputElement>(null);
   const dropdownContainerRef = useRef<HTMLDivElement>(null);
+  const focusTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
-  // Use click outside hook
+  // Use click outside hook with improved timeout handling
   useClickOutside(dropdownContainerRef, () => {
     if (showDropdown) {
+      console.log('🖱️ Step0: Click outside - hiding dropdown');
       setShowDropdown(false);
+      // Also clear any pending focus timeout
+      if (focusTimeoutRef.current) {
+        clearTimeout(focusTimeoutRef.current);
+        focusTimeoutRef.current = null;
+      }
     }
   });
   
@@ -163,7 +170,7 @@ export default function SolutionFormWithAutoCategory({
   const [error, setError] = useState<string | null>(null);
   const searchTimer = useRef<NodeJS.Timeout | null>(null);
   
-  // Optimized search function with cache
+  // Optimized search function with solution-first approach (like Step 3)
   const searchSolutions = useCallback(async (term: string) => {
     if (term.length < 2) {
       setDetectionResult(null);
@@ -175,6 +182,7 @@ export default function SolutionFormWithAutoCategory({
     const cacheKey = term.toLowerCase().trim();
     if (searchCache.current.has(cacheKey)) {
       const cachedData = searchCache.current.get(cacheKey)!;
+      console.log('📦 Step0: Cache hit for:', term, 'Solutions:', cachedData.solutions?.length || 0);
       setDetectionResult(cachedData);
       setShowDropdown(true);
       setIsLoading(false);
@@ -184,22 +192,52 @@ export default function SolutionFormWithAutoCategory({
     // Show loading immediately
     setIsLoading(true);
     setShowDropdown(true);
-    
-    // Import the detection function
-    const { detectFromInput } = await import('@/lib/solutions/categorization');
+    console.log('🚀 Step0: Starting solution-focused search for:', term);
     
     try {
-      const result = await detectFromInput(term);
-      setDetectionResult(result);
+      // PHASE 1: Get solutions first (fast response like Step 3)
+      const { searchExistingSolutions } = await import('@/lib/solutions/categorization');
+      const solutionsResults = await searchExistingSolutions(term);
       
-      // Cache the results
-      setCacheWithExpiry(cacheKey, result);
+      console.log('✅ Step0: Got', solutionsResults.length, 'solutions immediately');
+      
+      // Show solutions immediately for fast perceived performance
+      const quickResult: DetectionResult = {
+        solutions: solutionsResults,
+        categories: [],
+        searchTerm: term,
+        keywordMatches: []
+      };
+      
+      setDetectionResult(quickResult);
+      setIsLoading(false);
+      
+      // PHASE 2: Get categories in background for comprehensive results
+      const { detectCategoriesFromKeywords, searchKeywordSuggestions } = await import('@/lib/solutions/categorization');
+      const categoriesPromise = detectCategoriesFromKeywords(term);
+      const keywordMatchesPromise = searchKeywordSuggestions(term);
+      
+      const [categories, keywordMatches] = await Promise.all([categoriesPromise, keywordMatchesPromise]);
+      
+      // Update with complete results
+      const completeResult: DetectionResult = {
+        solutions: solutionsResults,
+        categories,
+        searchTerm: term,
+        keywordMatches
+      };
+      
+      setDetectionResult(completeResult);
+      
+      // Cache the complete results
+      setCacheWithExpiry(cacheKey, completeResult);
+      console.log('💾 Step0: Cached complete results for:', term);
+      
     } catch (error) {
-      console.error('Error searching solutions:', error);
+      console.error('💥 Step0: Error searching solutions:', error);
       setError(error instanceof Error ? error.message : 'Failed to detect category');
       setDetectionResult(null);
-    } finally {
-      setIsLoading(false); // No artificial delay
+      setIsLoading(false);
     }
   }, [setCacheWithExpiry]);
   
@@ -231,7 +269,7 @@ export default function SolutionFormWithAutoCategory({
   // Use provided goalTitle or fetched one
   const actualGoalTitle = goalTitle || fetchedGoalTitle;
   
-  // Clean up cache on unmount
+  // Clean up cache and timeouts on unmount
   useEffect(() => {
     return () => {
       // Clear all cache timeouts on unmount
@@ -240,10 +278,15 @@ export default function SolutionFormWithAutoCategory({
       timeouts.forEach(timeout => clearTimeout(timeout));
       cache.clear();
       timeouts.clear();
+      
+      // Clear focus timeout
+      if (focusTimeoutRef.current) {
+        clearTimeout(focusTimeoutRef.current);
+      }
     };
   }, []);
   
-  // Prefetch common solutions on focus for instant results
+  // Prefetch common solutions on focus for instant results (shared with Step 3)
   const handleInputFocus = useCallback(async () => {
     // Only prefetch if cache is empty
     if (searchCache.current.size === 0) {
@@ -253,12 +296,20 @@ export default function SolutionFormWithAutoCategory({
       commonTerms.forEach(async (term) => {
         if (!searchCache.current.has(term)) {
           try {
-            const { detectFromInput } = await import('@/lib/solutions/categorization');
-            const result = await detectFromInput(term);
+            // Use the same fast search function as Step 3 for consistency
+            const { searchExistingSolutions } = await import('@/lib/solutions/categorization');
+            const solutionsResults = await searchExistingSolutions(term);
             
-            if (result) {
-              setCacheWithExpiry(term, result);
-            }
+            // Create a minimal DetectionResult for prefetch (solutions only)
+            const quickResult: DetectionResult = {
+              solutions: solutionsResults,
+              categories: [],
+              searchTerm: term,
+              keywordMatches: []
+            };
+            
+            console.log('🚀 Step0: Prefetched', solutionsResults.length, 'solutions for:', term);
+            setCacheWithExpiry(term, quickResult);
           } catch (error) {
             // Silent fail for prefetch
           }
@@ -579,11 +630,27 @@ export default function SolutionFormWithAutoCategory({
                 }
               }}
               onFocus={() => {
+                // Clear any pending blur timeout (like Step 3)
+                if (focusTimeoutRef.current) {
+                  clearTimeout(focusTimeoutRef.current);
+                  focusTimeoutRef.current = null;
+                }
+                
+                console.log('👁️ Step0: Input focused');
                 handleInputFocus();
                 // Only show dropdown if no category selected yet
                 if (formState.solutionName.length >= 2 && detectionResult && !formState.selectedCategory) {
+                  console.log('📍 Step0: Showing dropdown on focus with existing results');
                   setShowDropdown(true);
                 }
+              }}
+              onBlur={() => {
+                // Use longer timeout like Step 3 for better UX
+                focusTimeoutRef.current = setTimeout(() => {
+                  console.log('💤 Step0: Input blur timeout - hiding dropdown');
+                  setShowDropdown(false);
+                  focusTimeoutRef.current = null;
+                }, 200); // Increased from typical 100ms to 200ms like Step 3
               }}
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
                        focus:ring-2 focus:ring-blue-500 focus:border-transparent

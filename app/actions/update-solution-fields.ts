@@ -105,6 +105,27 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
       // Don't fail the whole operation if aggregation fails
     }
     
+    // If user provided notes, create a discussion post
+    if (data.additionalFields.notes && typeof data.additionalFields.notes === 'string') {
+      const notesContent = data.additionalFields.notes.trim()
+      if (notesContent.length >= 10) { // Minimum length for discussion posts
+        try {
+          await supabase
+            .from('goal_discussions')
+            .insert({
+              goal_id: data.goalId,
+              user_id: data.userId,
+              content: notesContent
+            })
+          
+          console.log('Created discussion post from form notes')
+        } catch (discussionError) {
+          console.error('Error creating discussion post:', discussionError)
+          // Don't fail the main operation if discussion creation fails
+        }
+      }
+    }
+    
     return { success: true }
     
   } catch (error) {

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { supabase } from '@/lib/database/client';
 import { Star, X, Search, Plus } from 'lucide-react';
 import { useKeyboardNavigation } from '@/lib/hooks/useKeyboardNavigation';
+import { searchExistingSolutions } from '@/lib/solutions/categorization';
 
 // Custom hook for click outside detection
 const useClickOutside = (ref: React.RefObject<HTMLElement>, handler: () => void) => {
@@ -46,39 +47,7 @@ const highlightMatch = (text: string, query: string): React.ReactElement => {
   );
 };
 
-// Smart ranking for search results
-const sortSuggestions = (results: SolutionSuggestion[], query: string): SolutionSuggestion[] => {
-  const queryLower = query.toLowerCase();
-  
-  return results.sort((a, b) => {
-    const aTitle = a.title.toLowerCase();
-    const bTitle = b.title.toLowerCase();
-    
-    // Exact matches first
-    if (aTitle === queryLower) return -1;
-    if (bTitle === queryLower) return 1;
-    
-    // Starts with query second
-    const aStartsWith = aTitle.startsWith(queryLower);
-    const bStartsWith = bTitle.startsWith(queryLower);
-    if (aStartsWith && !bStartsWith) return -1;
-    if (!aStartsWith && bStartsWith) return 1;
-    
-    // Word boundary matches third
-    const aWordBoundary = aTitle.includes(' ' + queryLower) || aTitle.includes('-' + queryLower);
-    const bWordBoundary = bTitle.includes(' ' + queryLower) || bTitle.includes('-' + queryLower);
-    if (aWordBoundary && !bWordBoundary) return -1;
-    if (!aWordBoundary && bWordBoundary) return 1;
-    
-    // By match score if available
-    if (a.match_score && b.match_score) {
-      return b.match_score - a.match_score;
-    }
-    
-    // Alphabetical as fallback
-    return aTitle.localeCompare(bTitle);
-  });
-};
+// Note: Sorting is now handled by the searchExistingSolutions function
 
 interface FailedSolution {
   id?: string;
@@ -89,9 +58,10 @@ interface FailedSolution {
 interface SolutionSuggestion {
   id: string;
   title: string;
-  solution_category: string;
-  description?: string | null;
-  match_score?: number;
+  category: string;
+  categoryDisplayName: string;
+  matchType: 'exact' | 'partial';
+  matchScore?: number;
 }
 
 interface FailedSolutionsPickerProps {
@@ -121,6 +91,7 @@ export function FailedSolutionsPicker({
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileSheet, setShowMobileSheet] = useState(false);
   const [isDropdownInteracting, setIsDropdownInteracting] = useState(false);
+  const focusTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   // Search cache to avoid repeated API calls
   const searchCache = useRef<Map<string, SolutionSuggestion[]>>(new Map());
@@ -151,8 +122,14 @@ export function FailedSolutionsPicker({
   
   // Use click outside hook
   useClickOutside(containerRef, () => {
-    if (showSuggestions && !isDropdownInteracting) {
+    if (showSuggestions) {
+      console.log('Click outside - hiding suggestions');
       setShowSuggestions(false);
+      // Also clear any pending focus timeout
+      if (focusTimeoutRef.current) {
+        clearTimeout(focusTimeoutRef.current);
+        focusTimeoutRef.current = null;
+      }
     }
   });
 
@@ -190,20 +167,22 @@ export function FailedSolutionsPicker({
 
   // Search for solutions
   useEffect(() => {
-    console.log('Search term changed:', searchTerm, 'Length:', searchTerm.length);
+    console.log('🔍 FailedSolutionsPicker: Search term changed:', searchTerm, 'Length:', searchTerm.length);
+    console.log('🔍 FailedSolutionsPicker: Current state - showSuggestions:', showSuggestions, 'isSearching:', isSearching, 'suggestions count:', suggestions.length);
     
     if (searchTerm.length >= 3) {
       // Check cache first
       const cacheKey = searchTerm.toLowerCase().trim();
       if (searchCache.current.has(cacheKey)) {
         const cachedData = searchCache.current.get(cacheKey)!;
+        console.log('📦 FailedSolutionsPicker: Cache hit for:', searchTerm, 'Found:', cachedData.length, 'results');
         setSuggestions(cachedData);
         setShowSuggestions(true);
         setIsSearching(false);
         return; // Use cached results, skip API call
       }
       
-      console.log('Triggering search for:', searchTerm);
+      console.log('🚀 FailedSolutionsPicker: Cache miss, triggering search for:', searchTerm);
       if (searchTimer) clearTimeout(searchTimer);
       
       // Show loading immediately for perceived performance
@@ -211,37 +190,48 @@ export function FailedSolutionsPicker({
       setShowSuggestions(true); // Show dropdown with loading state
       
       const timer = setTimeout(async () => {
-        console.log('Executing search after debounce');
+        console.log('⏰ FailedSolutionsPicker: Executing search after debounce');
         
         try {
-          console.log('Making search call with term:', searchTerm);
+          console.log('🔍 FailedSolutionsPicker: Making search call with term:', searchTerm);
           
-          // Use the working search RPC function (same as DosageForm)
-          const { data, error } = await supabase
-            .rpc('search_all_solutions', {
-              search_term: searchTerm.trim()
-            });
+          // Use the same sophisticated search logic as Step 0
+          const results = await searchExistingSolutions(searchTerm.trim());
           
-          console.log('Search result:', { data, error });
+          console.log('📊 FailedSolutionsPicker: Raw search result:', results);
           
-          if (!error && data && data.length > 0) {
-            console.log('✅ Search Success - Results:', data);
-            const sortedData = sortSuggestions(data, searchTerm);
-            setSuggestions(sortedData);
+          if (results && results.length > 0) {
+            console.log('✅ FailedSolutionsPicker: Search Success - Results:', results.map(r => r.title));
+            
+            // Convert SolutionMatch[] to SolutionSuggestion[] format
+            const suggestions = results.map(result => ({
+              id: result.id,
+              title: result.title,
+              category: result.category,
+              categoryDisplayName: result.categoryDisplayName,
+              matchType: result.matchType,
+              matchScore: result.matchScore
+            }));
+            
+            console.log('📤 FailedSolutionsPicker: Setting', suggestions.length, 'suggestions');
+            setSuggestions(suggestions);
             
             // Cache the results
-            setCacheWithExpiry(cacheKey, sortedData);
+            setCacheWithExpiry(cacheKey, suggestions);
+            console.log('💾 FailedSolutionsPicker: Cached results for:', searchTerm);
           } else {
-            console.log('No results found for:', searchTerm);
+            console.log('❌ FailedSolutionsPicker: No results found for:', searchTerm);
             setSuggestions([]);
             
             // Cache empty results too (avoid repeated failed searches)
             setCacheWithExpiry(cacheKey, [], 60000); // 1 minute for empty results
+            console.log('💾 FailedSolutionsPicker: Cached empty result for:', searchTerm);
           }
         } catch (error) {
-          console.error('Error searching solutions:', error);
+          console.error('💥 FailedSolutionsPicker: Error searching solutions:', error);
           setSuggestions([]);
         } finally {
+          console.log('🏁 FailedSolutionsPicker: Search completed, setting isSearching to false');
           setIsSearching(false); // No artificial delay
         }
       }, 150); // Reduced from 300ms
@@ -256,12 +246,13 @@ export function FailedSolutionsPicker({
     return () => {
       if (searchTimer) clearTimeout(searchTimer);
     };
-  }, [searchTerm, isMobile, setCacheWithExpiry, searchTimer]);
+  }, [searchTerm, isMobile, setCacheWithExpiry]);
 
   // Show suggestions when results arrive
   useEffect(() => {
+    console.log('👁️ FailedSolutionsPicker: Suggestions updated:', suggestions.length, 'items. SearchTerm:', searchTerm, 'Mobile:', isMobile, 'Input focused:', inputRef.current === document.activeElement);
     if (suggestions.length > 0 && searchTerm.length >= 3 && !isMobile && inputRef.current === document.activeElement) {
-      console.log('📍 Showing suggestions because we have results');
+      console.log('📍 FailedSolutionsPicker: Auto-showing suggestions because we have results and input is focused');
       setShowSuggestions(true);
     }
   }, [suggestions, searchTerm, isMobile]);
@@ -339,7 +330,7 @@ export function FailedSolutionsPicker({
     }
   }, [ratingIndex, handleNumberKeyPress]);
   
-  // Clean up cache on unmount
+  // Clean up cache and timeouts on unmount
   useEffect(() => {
     return () => {
       // Clear all cache timeouts on unmount
@@ -348,6 +339,11 @@ export function FailedSolutionsPicker({
       timeouts.forEach(timeout => clearTimeout(timeout));
       cache.clear();
       timeouts.clear();
+      
+      // Clear focus timeout
+      if (focusTimeoutRef.current) {
+        clearTimeout(focusTimeoutRef.current);
+      }
     };
   }, []);
   
@@ -361,13 +357,19 @@ export function FailedSolutionsPicker({
       commonTerms.forEach(async (term) => {
         if (!searchCache.current.has(term)) {
           try {
-            const { data } = await supabase
-              .rpc('search_all_solutions', {
-                search_term: term
-              });
+            const results = await searchExistingSolutions(term);
             
-            if (data) {
-              setCacheWithExpiry(term, data);
+            if (results) {
+              // Convert to SolutionSuggestion format for cache consistency
+              const suggestions = results.map(result => ({
+                id: result.id,
+                title: result.title,
+                category: result.category,
+                categoryDisplayName: result.categoryDisplayName,
+                matchType: result.matchType,
+                matchScore: result.matchScore
+              }));
+              setCacheWithExpiry(term, suggestions);
             }
           } catch {
             // Silent fail for prefetch
@@ -445,7 +447,7 @@ export function FailedSolutionsPicker({
                   >
                     <div className="font-medium">{highlightMatch(suggestion.title, searchTerm)}</div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
-                      {suggestion.solution_category?.replace(/_/g, ' ')}
+                      {suggestion.categoryDisplayName}
                     </div>
                   </button>
                 ))}
@@ -488,21 +490,30 @@ export function FailedSolutionsPicker({
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={handleKeyDown}
               onFocus={() => {
+                // Clear any pending blur timeout
+                if (focusTimeoutRef.current) {
+                  clearTimeout(focusTimeoutRef.current);
+                  focusTimeoutRef.current = null;
+                }
+                
                 handleInputFocus();
                 if (isMobile) {
                   setShowMobileSheet(true);
                 } else if (searchTerm.length >= 3 && suggestions.length > 0) {
+                  console.log('onFocus - showing suggestions with', suggestions.length, 'results');
                   setShowSuggestions(true);
                 }
               }}
               onBlur={() => {
-                if (!isMobile && !isDropdownInteracting) {
-                  setTimeout(() => {
+                if (!isMobile) {
+                  // Use a longer timeout to allow for dropdown interactions
+                  focusTimeoutRef.current = setTimeout(() => {
                     if (!isDropdownInteracting) {
-                      console.log('onBlur - hiding suggestions');
+                      console.log('onBlur - hiding suggestions after timeout');
                       setShowSuggestions(false);
                     }
-                  }, 100);
+                    focusTimeoutRef.current = null;
+                  }, 200);
                 }
               }}
               placeholder={isMobile ? "Tap to search solutions..." : "Search for solutions you tried..."}
@@ -523,8 +534,19 @@ export function FailedSolutionsPicker({
             {!isMobile && showSuggestions && (
               <div 
                 ref={dropdownRef}
-                onMouseEnter={() => setIsDropdownInteracting(true)}
-                onMouseLeave={() => setIsDropdownInteracting(false)}
+                onMouseEnter={() => {
+                  console.log('Mouse entered dropdown');
+                  setIsDropdownInteracting(true);
+                  // Clear any pending blur timeout when mouse enters dropdown
+                  if (focusTimeoutRef.current) {
+                    clearTimeout(focusTimeoutRef.current);
+                    focusTimeoutRef.current = null;
+                  }
+                }}
+                onMouseLeave={() => {
+                  console.log('Mouse left dropdown');
+                  setIsDropdownInteracting(false);
+                }}
                 className="absolute left-0 right-0 top-full mt-1 z-50 bg-white dark:bg-gray-800 
                          border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-auto
                          transition-all duration-200 ease-out"
@@ -567,7 +589,7 @@ export function FailedSolutionsPicker({
                           {highlightMatch(suggestion.title, searchTerm)}
                         </div>
                         <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                          {suggestion.solution_category?.replace(/_/g, ' ')}
+                          {suggestion.categoryDisplayName}
                         </div>
                       </button>
                     ))}

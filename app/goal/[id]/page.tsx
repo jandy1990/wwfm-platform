@@ -8,6 +8,7 @@ import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrum
 import GoalPageClient from '@/components/goal/GoalPageClient'
 import { getRelatedGoals } from '@/lib/solutions/related-goals'
 import { GoalPageTracker } from '@/components/tracking/GoalPageTracker'
+import { getGoalWisdomScore } from '@/app/actions/retrospectives'
 
 type Goal = {
   id: string
@@ -72,6 +73,7 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
   let goal: Goal | null = null
   let solutions: GoalSolutionWithVariants[] = []
   let relatedGoals: Awaited<ReturnType<typeof getRelatedGoals>> = []
+  let wisdom: Awaited<ReturnType<typeof getGoalWisdomScore>> = null
   let distributions: Array<{
     id: string
     solution_id: string
@@ -126,6 +128,14 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
       console.error('Error fetching related goals:', relatedError)
       // Don't set error for this - related goals are enhancement, not critical
     }
+
+    // Get wisdom scores
+    try {
+      wisdom = await getGoalWisdomScore(resolvedParams.id)
+    } catch (wisdomError) {
+      console.error('Error fetching wisdom scores:', wisdomError)
+      // Don't set error for this - wisdom scores are enhancement, not critical
+    }
   } catch (pageError) {
     console.error('Error loading goal page:', pageError)
     error = 'Unable to load this goal'
@@ -169,6 +179,7 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
           goal={goal}
           initialSolutions={solutions}
           distributions={distributions}
+          wisdom={wisdom}
           error={error}
           relatedGoals={relatedGoals}
         />

@@ -1,7 +1,7 @@
 // app/browse/page.tsx
 
 import { createServerSupabaseClient } from '@/lib/database/server'
-import SearchableBrowse from '@/components/templates/SearchableBrowse'
+import HybridBrowse from '@/components/templates/HybridBrowse'
 import { BrowsePageTracker } from '@/components/tracking/BrowsePageTracker'
 
 // Type definitions
@@ -155,7 +155,7 @@ export default async function BrowsePage() {
   return (
     <>
       <BrowsePageTracker />
-      <SearchableBrowse arenas={arenas} totalGoals={totalGoals} />
+      <HybridBrowse arenas={arenas} totalGoals={totalGoals} />
     </>
   )
 }

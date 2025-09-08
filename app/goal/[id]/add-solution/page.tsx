@@ -4,6 +4,7 @@ import { Metadata } from 'next'
 import { redirect, notFound } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
 import SolutionFormWithAutoCategory from '@/components/organisms/solutions/SolutionFormWithAutoCategory'
+import { GoalPageTracker } from '@/components/tracking/GoalPageTracker'
 
 export const metadata: Metadata = {
   title: 'Share What Worked | WWFM',
@@ -34,7 +35,9 @@ export default async function AddSolutionPage({ params }: PageProps) {
       categories (
         name,
         slug,
+        arena_id,
         arenas (
+          id,
           name,
           slug
         )
@@ -48,10 +51,13 @@ export default async function AddSolutionPage({ params }: PageProps) {
   }
 
   return (
-    <SolutionFormWithAutoCategory 
-      goalId={resolvedParams.id}
-      goalTitle={goal.title}  // Add this line to pass the goal title
-      userId={user.id}
-    />
+    <>
+      <GoalPageTracker arenaName={goal.categories.arenas.name} arenaId={goal.categories.arenas.id} />
+      <SolutionFormWithAutoCategory 
+        goalId={resolvedParams.id}
+        goalTitle={goal.title}  // Add this line to pass the goal title
+        userId={user.id}
+      />
+    </>
   )
 }

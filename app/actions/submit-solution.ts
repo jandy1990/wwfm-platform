@@ -530,6 +530,36 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
       .eq('goal_id', formData.goalId)
       .neq('user_id', formData.userId)
     
+    // 8.5 Schedule retrospective for 6 months from now
+    if (newRating?.id) {
+      console.log('[submitSolution] Scheduling 6-month retrospective')
+      
+      // Calculate 6 months from now
+      const sixMonthsFromNow = new Date()
+      sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6)
+      
+      const { error: scheduleError } = await supabase
+        .from('retrospective_schedules')
+        .insert({
+          user_id: formData.userId,
+          rating_id: newRating.id,
+          goal_id: formData.goalId,
+          solution_id: solutionId,
+          schedule_type: '6_month',
+          scheduled_date: sixMonthsFromNow.toISOString().split('T')[0], // YYYY-MM-DD format
+          status: 'pending',
+          opted_in: true,
+          preferred_channel: 'in_app'
+        })
+      
+      if (scheduleError) {
+        console.error('[submitSolution] Failed to schedule retrospective:', scheduleError)
+        // Don't fail the submission over this - retrospective is a nice-to-have
+      } else {
+        console.log('[submitSolution] Scheduled 6-month retrospective for', sixMonthsFromNow.toISOString().split('T')[0])
+      }
+    }
+    
     // 9. Return success result
     const result = {
       success: true,

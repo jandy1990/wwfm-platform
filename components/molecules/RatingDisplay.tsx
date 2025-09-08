@@ -53,7 +53,7 @@ export default function RatingDisplay({
     const emptyStars = hasPartialStar ? 4 - filledStars : 5 - filledStars
     
     // Generate unique ID for this rating instance
-    const gradientId = `star-gradient-${Math.random().toString(36).substring(2, 11)}`
+    const gradientId = `star-gradient-${Math.floor(ratingValue * 10)}-${filledStars}-${hasPartialStar ? '1' : '0'}`
     
     return (
       <div className={`flex items-center ${className}`} role="img" aria-label={`${ratingValue.toFixed(1)} out of 5 stars`}>

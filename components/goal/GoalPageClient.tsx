@@ -13,6 +13,9 @@ import EmptyState from '@/components/molecules/EmptyState'
 import SourceBadge from '@/components/atoms/SourceBadge'
 import { RelatedGoal } from '@/lib/solutions/related-goals'
 import { trackGoalRelationshipClick } from '@/lib/solutions/related-goals'
+import CommunityDiscussions from './CommunityDiscussions'
+import GoalWisdom from '@/components/organisms/goal/GoalWisdom'
+import { GoalWisdomScore } from '@/types/retrospectives'
 
 type Goal = {
   id: string
@@ -45,6 +48,7 @@ interface GoalPageClientProps {
       percentage: number
     }>
   }>
+  wisdom?: GoalWisdomScore | null
   error?: string | null
   relatedGoals?: RelatedGoal[]
 }
@@ -626,7 +630,7 @@ const CategoryDropdown = ({
   )
 }
 
-export default function GoalPageClient({ goal, initialSolutions, distributions, error, relatedGoals = [] }: GoalPageClientProps) {
+export default function GoalPageClient({ goal, initialSolutions, distributions, wisdom, error, relatedGoals = [] }: GoalPageClientProps) {
   const [sortBy, setSortBy] = useState('effectiveness')
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set())
   const [viewMode, setViewMode] = useState<'simple' | 'detailed'>('simple')
@@ -635,6 +639,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
   const [solutions, setSolutions] = useState(initialSolutions)
   const [hasRatedAny, setHasRatedAny] = useState(false) // Simple flag to disable sorting
   const [showBanner, setShowBanner] = useState(false) // First-time user banner
+  const [activeTab, setActiveTab] = useState<'solutions' | 'discussions'>('solutions')
   const [individualCardViews, setIndividualCardViews] = useState<Map<string, 'simple' | 'detailed'>>(new Map())
   const [isMobile, setIsMobile] = useState(false)
   const [variantSheet, setVariantSheet] = useState<{
@@ -749,19 +754,30 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
       const dataSource = metadata?.data_source || 'user'
       
       if (aggregated[fieldName]) {
-        // Already in DistributionData format from our aggregator
-        const distribution = aggregated[fieldName] as DistributionData
-        distribution.dataSource = dataSource
-        return distribution
+        // Check if it's already in DistributionData format from our aggregator
+        const fieldValue = aggregated[fieldName]
+        if (typeof fieldValue === 'object' && fieldValue.mode !== undefined && fieldValue.values !== undefined) {
+          const distribution = fieldValue as DistributionData
+          distribution.dataSource = dataSource
+          return distribution
+        }
+        // Handle case where it's a simple string value (shouldn't happen in new format)
+        console.warn(`Field ${fieldName} contains unexpected format:`, fieldValue)
+        return null
       }
       
       // Try field mappings for aggregated data
       const mappedFields = FIELD_MAPPINGS[fieldName] || []
       for (const mappedField of mappedFields) {
         if (aggregated[mappedField]) {
-          const distribution = aggregated[mappedField] as DistributionData
-          distribution.dataSource = dataSource
-          return distribution
+          const fieldValue = aggregated[mappedField]
+          if (typeof fieldValue === 'object' && fieldValue.mode !== undefined && fieldValue.values !== undefined) {
+            const distribution = fieldValue as DistributionData
+            distribution.dataSource = dataSource
+            return distribution
+          }
+          // Handle case where it's a simple string value (shouldn't happen in new format)
+          console.warn(`Mapped field ${mappedField} contains unexpected format:`, fieldValue)
         }
       }
     }
@@ -1039,16 +1055,35 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
           
           {/* Tabs */}
           <div className="flex gap-6 mt-4 border-b border-gray-200 dark:border-gray-700">
-            <button className="pb-3 text-sm font-medium text-purple-600 dark:text-purple-400 border-b-2 border-purple-600 dark:border-purple-400">
+            <button 
+              onClick={() => setActiveTab('solutions')}
+              className={`pb-3 text-sm font-medium transition-colors ${
+                activeTab === 'solutions'
+                  ? 'text-purple-600 dark:text-purple-400 border-b-2 border-purple-600 dark:border-purple-400'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+              }`}
+            >
               What Worked
             </button>
-            <button className="pb-3 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+            <button 
+              onClick={() => setActiveTab('discussions')}
+              className={`pb-3 text-sm font-medium transition-colors ${
+                activeTab === 'discussions'
+                  ? 'text-purple-600 dark:text-purple-400 border-b-2 border-purple-600 dark:border-purple-400'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+              }`}
+            >
               Community Discussion
             </button>
           </div>
         </div>
       </div>
 
+      {/* Goal Wisdom Scores */}
+      <div className="max-w-7xl mx-auto">
+        <GoalWisdom wisdom={wisdom} minResponses={1} />
+      </div>
+      
       {/* Related Goals Navigation */}
       {relatedGoals && relatedGoals.length > 0 && (
         <div className="bg-gray-50 dark:bg-gray-800/50 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 border-b border-gray-200 dark:border-gray-700">
@@ -1182,8 +1217,11 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
           </div>
         )}
 
-        {/* Solutions Grid */}
-        {filteredAndSortedSolutions.length > 0 ? (
+        {/* Tab Content */}
+        {activeTab === 'solutions' && (
+          <>
+            {/* Solutions Grid */}
+            {filteredAndSortedSolutions.length > 0 ? (
           <div className="space-y-3">
             {filteredAndSortedSolutions.map((solution) => {
               const categoryConfig = solution.solution_category 
@@ -1206,7 +1244,11 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
               return (
                 <article 
                   key={solution.id} 
-                  className={`solution-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-5 ${cardView === 'detailed' ? 'detailed' : ''} relative cursor-pointer`}
+                  className={`solution-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border ${
+                    solution.source_type === 'ai_foundation' 
+                      ? 'border-purple-200 dark:border-purple-700 bg-purple-50/30 dark:bg-purple-900/10' 
+                      : 'border-gray-200 dark:border-gray-700'
+                  } p-4 sm:p-5 ${cardView === 'detailed' ? 'detailed' : ''} relative cursor-pointer`}
                   onClick={(e) => toggleCardView(solution.id, e)}
                   title="Click to toggle detailed view"
                 >
@@ -1245,7 +1287,10 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                       </div>
                     </div>
                     <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 flex-shrink-0">
-                      <SourceBadge sourceType={solution.source_type} />
+                      <SourceBadge 
+                        sourceType={solution.source_type} 
+                        size={solution.source_type === 'ai_foundation' ? 'md' : 'sm'}
+                      />
                       {bestRating > 0 && (
                         <div className="whitespace-nowrap">
                           {/* Check if this is a variant category */}
@@ -1790,6 +1835,18 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
             Share What Worked
           </Link>
         </div>
+          </>
+        )}
+
+        {/* Community Discussions Tab */}
+        {activeTab === 'discussions' && (
+          <div className="mt-8">
+            <CommunityDiscussions 
+              goalId={goal.id} 
+              goalTitle={goal.title} 
+            />
+          </div>
+        )}
       </main>
 
       {/* Floating Share Button */}

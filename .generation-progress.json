@@ -1,9 +1,9 @@
 {
-  "totalGoals": 200,
-  "goalsWithNoSolutions": 198,
-  "goalsWithMinimumSolutions": 2,
-  "goalsWithTargetSolutions": 0,
-  "goalsFullyComplete": 0,
-  "totalSolutionsGenerated": 6,
-  "lastUpdated": "2025-09-04T02:57:58.710Z"
+  "totalGoals": 228,
+  "goalsWithNoSolutions": 73,
+  "goalsWithMinimumSolutions": 154,
+  "goalsWithTargetSolutions": 153,
+  "goalsFullyComplete": 149,
+  "totalSolutionsGenerated": 3915,
+  "lastUpdated": "2025-09-08T03:40:00.863Z"
 }

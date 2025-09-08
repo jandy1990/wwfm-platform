@@ -82,13 +82,18 @@ export async function insertSolutionToDatabase(
     if (categoryConfig.needsVariants && solution.variants && solution.variants.length > 0) {
       // Create dosage variants
       for (const [index, variant] of solution.variants.entries()) {
-        // Create variant name, handling null amount/unit properly
+        // Create variant name, handling null amount/unit properly and database limit
         let variantName: string
         if (variant.amount && variant.unit) {
           variantName = `${variant.amount}${variant.unit} ${variant.form}`
         } else {
           // For beauty_skincare and natural_remedies, just use the form
           variantName = variant.form
+        }
+        
+        // Truncate to database field limit (50 characters)
+        if (variantName.length > 50) {
+          variantName = variantName.substring(0, 47) + '...'
         }
         
         // Check if variant exists
