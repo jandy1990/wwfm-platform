@@ -14,7 +14,7 @@ export function useFormBackup<T extends Record<string, any>>(
   }
 ) {
   const { debounceMs = 500, excludeFields = [], onRestore } = options || {};
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const hasRestoredRef = useRef(false);
 
   // Save data to sessionStorage (debounced)
@@ -28,7 +28,7 @@ export function useFormBackup<T extends Record<string, any>>(
         // Filter out excluded fields
         const dataToSave = Object.keys(formData).reduce((acc, field) => {
           if (!excludeFields.includes(field)) {
-            acc[field] = formData[field];
+            (acc as any)[field] = formData[field];
           }
           return acc;
         }, {} as T);

@@ -13,7 +13,7 @@ export interface GoalRetrospective {
   days_since_achievement: number
   counterfactual_impact?: number // 1-5 scale: how different life would be
   worth_pursuing?: boolean
-  still_maintaining?: boolean
+  benefits_lasted?: boolean
   unexpected_benefits?: string
   wisdom_note?: string
   life_domain_impacts?: {
@@ -92,9 +92,9 @@ export interface ImpactOption {
 }
 
 export const IMPACT_OPTIONS: ImpactOption[] = [
-  { value: 5, emoji: '🌟', label: 'Completely different', description: 'fundamental change' },
-  { value: 4, emoji: '✨', label: 'Noticeably different', description: 'significant impact' },
-  { value: 3, emoji: '💫', label: 'Somewhat different', description: 'moderate impact' },
-  { value: 2, emoji: '⭐', label: 'Barely different', description: 'minor impact' },
-  { value: 1, emoji: '○', label: 'No different', description: "didn't matter" }
+  { value: 5, emoji: '🌟', label: 'Completely different', description: '' },
+  { value: 4, emoji: '✨', label: 'Noticeably different', description: '' },
+  { value: 3, emoji: '💫', label: 'Somewhat different', description: '' },
+  { value: 2, emoji: '⭐', label: 'Barely different', description: '' },
+  { value: 1, emoji: '○', label: 'No difference', description: '' }
 ]

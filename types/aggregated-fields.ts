@@ -19,6 +19,7 @@ export interface AggregatedFieldsMetadata {
   last_aggregated: string
   data_source: 'user' | 'ai' | 'mixed'
   confidence: 'high' | 'medium' | 'low'
+  computed_at?: string // Legacy field for backwards compatibility
 }
 
 export interface AggregatedFields {
@@ -79,6 +80,42 @@ export interface AggregatedFields {
   would_recommend?: DistributionData
   ease_of_use?: DistributionData
   value_for_money?: DistributionData
+  
+  // Additional fields used by solution-aggregator
+  challenges?: DistributionData
+  startup_cost?: DistributionData
+  ongoing_cost?: DistributionData
+  frequency?: DistributionData
+  length_of_use?: DistributionData
+  practice_length?: DistributionData
+  session_length?: DistributionData
+  time_commitment?: DistributionData
+  wait_time?: DistributionData
+  insurance_coverage?: DistributionData
+  best_time?: DistributionData
+  previous_sleep_hours?: DistributionData
+  sustainability_reason?: DistributionData
+  social_impact?: DistributionData
+  sleep_quality_change?: DistributionData
+  specific_approach?: DistributionData
+  cost_impact?: DistributionData
+  purchase_cost_type?: DistributionData
+  cost_range?: DistributionData
+  learning_difficulty?: DistributionData
+  completion_status?: DistributionData
+  payment_frequency?: DistributionData
+  commitment_type?: DistributionData
+  accessibility_level?: DistributionData
+  leadership_style?: DistributionData
+  access_time?: DistributionData
+  provider?: DistributionData
+  minimum_requirements?: DistributionData
+  specialty?: DistributionData
+  response_time?: DistributionData
+  completed_treatment?: DistributionData
+  typical_length?: DistributionData
+  availability?: DistributionData
+  notes?: DistributionData
   
   // Metadata
   _metadata?: AggregatedFieldsMetadata

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import SwipeableRating from '@/components/organisms/solutions/SwipeableRating'
 import VariantSheet from '@/components/organisms/solutions/VariantSheet'
@@ -647,6 +647,12 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
     solution: GoalSolutionWithVariants | null;
   }>({ isOpen: false, solution: null })
   
+  // Add these new state variables for pagination functionality
+  // This limits initial display to 20 solutions with a "Load More" button for the rest
+  const [displayedSolutionsCount, setDisplayedSolutionsCount] = useState(20)
+  const SOLUTIONS_PER_PAGE = 20 // Constant for how many to load each time
+  const [discussionSort, setDiscussionSort] = useState('newest')
+  
   // Process distributions into a map for easy lookup
   const distributionMap = useMemo(() => {
     const map = new Map<string, DistributionData>();
@@ -712,6 +718,23 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
     await trackGoalRelationshipClick(null, fromGoalId, toGoalId, position)
   }
 
+  /**
+   * Determines where to insert the "People also worked on" section
+   * based on the total number of solutions available.
+   * 
+   * Logic:
+   * - For goals with few solutions (≤12): Show after all solutions
+   * - For goals with moderate solutions (13-24): Show after the 12th solution
+   * - For goals with many solutions (25+): Show after the 8th solution
+   * 
+   * This ensures the related goals are discoverable without being intrusive.
+   */
+  const getRelatedGoalsPosition = (totalSolutions: number): number => {
+    if (totalSolutions <= 12) return totalSolutions  // After all solutions
+    if (totalSolutions <= 24) return 12              // After 12th solution
+    return 8                                         // After 8th solution
+  }
+
   // Calculate filter counts and available categories
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {}
@@ -747,7 +770,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
   const getDistributionForSolutionField = (solution: GoalSolutionWithVariants, fieldName: string): DistributionData | null => {
     // First check aggregated_fields (user data in aligned format)
     if (solution.aggregated_fields) {
-      const aggregated = solution.aggregated_fields as Record<string, any>
+      const aggregated = solution.aggregated_fields as Record<string, unknown>
       
       // Check metadata for data source
       const metadata = aggregated._metadata
@@ -946,6 +969,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
       newCategories.add(category)
     }
     setSelectedCategories(newCategories)
+    setDisplayedSolutionsCount(SOLUTIONS_PER_PAGE) // Reset to first page when filtering
   }
 
   const toggleVariants = (solutionId: string) => {
@@ -1031,19 +1055,9 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                 <span className="text-2xl sm:text-3xl lg:text-4xl">{goal.arenas.icon}</span>
                 <span>{goal.title}</span>
               </h1>
-              {goal.description && (
-                <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
-                  {goal.description}
-                </p>
-              )}
+              {/* Description removed - it was just duplicating the title with different icon */}
             </div>
             <div className="flex gap-6 mt-4 sm:mt-0">
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">
-                  {solutions.length}
-                </div>
-                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Solutions</div>
-              </div>
               <div className="text-center">
                 <div className="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">
                   {totalRatings}
@@ -1063,7 +1077,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
-              What Worked
+              What Worked {solutions.length > 0 && `(${solutions.length})`}
             </button>
             <button 
               onClick={() => setActiveTab('discussions')}
@@ -1073,142 +1087,15 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
-              Community Discussion
+              Community
             </button>
           </div>
         </div>
       </div>
 
-      {/* Goal Wisdom Scores */}
-      <div className="max-w-7xl mx-auto">
-        <GoalWisdom wisdom={wisdom} minResponses={1} />
-      </div>
       
-      {/* Related Goals Navigation */}
-      {relatedGoals && relatedGoals.length > 0 && (
-        <div className="bg-gray-50 dark:bg-gray-800/50 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 border-b border-gray-200 dark:border-gray-700">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-start gap-3 sm:block">
-              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap flex-shrink-0">
-                People also worked on:
-              </span>
-              <div className="flex gap-x-4 sm:gap-y-1 text-sm overflow-x-auto sm:overflow-x-visible sm:flex-wrap no-scrollbar flex-1">
-                {relatedGoals.slice(0, showAllRelated ? undefined : 5).map((relatedGoal, index) => (
-                  <Link
-                    key={relatedGoal.id}
-                    href={`/goal/${relatedGoal.id}`}
-                    onClick={() => handleRelatedGoalClick(goal.id, relatedGoal.id, index)}
-                    className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors whitespace-nowrap"
-                  >
-                    {relatedGoal.title}
-                  </Link>
-                ))}
-                {relatedGoals.length > 5 && (
-                  <button
-                    onClick={() => setShowAllRelated(!showAllRelated)}
-                    className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  >
-                    {showAllRelated ? 'Show less' : `+ ${relatedGoals.length - 5} more`}
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Sticky Controls Bar */}
-      <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            {/* Left controls */}
-            <div className="flex items-center gap-3 sm:gap-4 flex-1">
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-400 hidden sm:inline">
-                {filteredAndSortedSolutions.length} solutions
-                {hasRatedAny && (
-                  <span className="ml-2 text-xs text-green-600 dark:text-green-400 font-medium">
-                    • Order locked
-                  </span>
-                )}
-              </span>
-              
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="text-sm border border-gray-200 dark:border-gray-700 rounded-md px-3 py-1.5 bg-white dark:bg-gray-800 flex-1 sm:flex-none sm:w-auto"
-              >
-                <option value="effectiveness">Most Effective</option>
-                <option value="quickest">Quickest Results</option>
-                <option value="cost">Lowest Cost</option>
-                <option value="newest">Most Recent</option>
-              </select>
-              
-              {availableCategories.length > 0 && (
-                <CategoryDropdown
-                  categories={availableCategories}
-                  selectedCategories={selectedCategories}
-                  onCategoryToggle={toggleCategory}
-                  counts={categoryCounts}
-                />
-              )}
-            </div>
-            
-            {/* View toggle - Desktop */}
-            <div className="hidden sm:flex justify-end">
-              <div className="flex border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden">
-                <button
-                  onClick={() => setViewMode('simple')}
-                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${
-                    viewMode === 'simple'
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-                  }`}
-                >
-                  Simple
-                </button>
-                <button
-                  onClick={() => setViewMode('detailed')}
-                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${
-                    viewMode === 'detailed'
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-                  }`}
-                >
-                  Detailed
-                </button>
-              </div>
-            </div>
-            
-            {/* Mobile icon controls */}
-            <div className="flex sm:hidden gap-2">
-              <button
-                onClick={() => {/* TODO: Open filter dropdown */}}
-                className="w-10 h-10 flex items-center justify-center border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                aria-label="Open filters"
-              >
-                <span className="text-lg">≡</span>
-              </button>
-              <button
-                onClick={() => setViewMode(viewMode === 'simple' ? 'detailed' : 'simple')}
-                className={`w-10 h-10 flex items-center justify-center border rounded-md transition-colors ${
-                  viewMode === 'detailed'
-                    ? 'bg-purple-600 text-white border-purple-600'
-                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700'
-                }`}
-                aria-label={`Switch to ${viewMode === 'simple' ? 'detailed' : 'simple'} view`}
-              >
-                <span className="text-lg">{viewMode === 'simple' ? '👁' : '👁‍🗨️'}</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Solutions Section */}
-      <main className="mt-6 space-y-4">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
-          What Worked for This Goal
-        </h2>
+      {/* Main Content */}
+      <main className="mt-6">
 
         {/* Error state */}
         {error && (
@@ -1217,540 +1104,164 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
           </div>
         )}
 
-        {/* Tab Content */}
+        {/* Tab: What Worked */}
         {activeTab === 'solutions' && (
           <>
+            {/* Wisdom Bar - Only on solutions tab */}
+            <GoalWisdom wisdom={wisdom} minResponses={1} />
+            
+            {/* Solutions Controls - Only for this tab */}
+            <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-4">
+              <div className="max-w-7xl mx-auto">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                  <div className="flex items-center gap-3 sm:gap-4 flex-1">
+                    <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                      {filteredAndSortedSolutions.length} solution{filteredAndSortedSolutions.length !== 1 ? 's' : ''}
+                    </span>
+                    
+                    <select
+                      value={sortBy}
+                      onChange={(e) => {
+                        setSortBy(e.target.value)
+                        setDisplayedSolutionsCount(SOLUTIONS_PER_PAGE)
+                      }}
+                      className="text-sm border border-gray-200 dark:border-gray-700 rounded-md px-3 py-1.5 bg-white dark:bg-gray-800"
+                    >
+                      <option value="effectiveness">Most Effective</option>
+                      <option value="quickest">Quickest Results</option>
+                      <option value="cost">Lowest Cost</option>
+                      <option value="newest">Most Recent</option>
+                    </select>
+                    
+                    {availableCategories.length > 1 && (
+                      <CategoryDropdown
+                        categories={availableCategories}
+                        selectedCategories={selectedCategories}
+                        onCategoryToggle={toggleCategory}
+                        counts={categoryCounts}
+                      />
+                    )}
+                  </div>
+                  
+                  <div className="flex items-center gap-3">
+                    <div className="hidden sm:flex border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden">
+                      <button
+                        onClick={() => setViewMode('simple')}
+                        className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+                          viewMode === 'simple'
+                            ? 'bg-purple-600 text-white'
+                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                        }`}
+                      >
+                        Simple
+                      </button>
+                      <button
+                        onClick={() => setViewMode('detailed')}
+                        className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+                          viewMode === 'detailed'
+                            ? 'bg-purple-600 text-white'
+                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                        }`}
+                      >
+                        Detailed
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Solutions List - Keep existing solution card rendering */}
             {/* Solutions Grid */}
             {filteredAndSortedSolutions.length > 0 ? (
-          <div className="space-y-3">
-            {filteredAndSortedSolutions.map((solution) => {
-              const categoryConfig = solution.solution_category 
-                ? (CATEGORY_CONFIG[solution.solution_category] || DEFAULT_CATEGORY_CONFIG)
-                : DEFAULT_CATEGORY_CONFIG
+              <div className="space-y-3">
+                {filteredAndSortedSolutions.slice(0, displayedSolutionsCount).map((solution, index) => {
+                  // Determine where to place related goals based on total solution count
+                  const relatedGoalsPosition = getRelatedGoalsPosition(filteredAndSortedSolutions.length)
+                  const categoryConfig = solution.solution_category 
+                    ? (CATEGORY_CONFIG[solution.solution_category] || DEFAULT_CATEGORY_CONFIG)
+                    : DEFAULT_CATEGORY_CONFIG
 
-              const bestRating = getBestRating(solution.variants)
-              const { count: totalReviews } = getAverageRating(solution.variants)
-              
-              const bestVariant = solution.variants.reduce((best, variant) => {
-                const currentRating = variant.effectiveness || variant.goal_links[0]?.avg_effectiveness || 0
-                const bestVariantRating = best?.effectiveness || best?.goal_links[0]?.avg_effectiveness || 0
-                return currentRating > bestVariantRating ? variant : best
-              }, solution.variants[0])
-
-              const hasVariants = VARIANT_CATEGORIES.includes(solution.solution_category || '') && solution.variants.length > 1
-              const isExpanded = expandedVariants.has(solution.id)
-              const cardView = getCardView(solution.id)
-
-              return (
-                <article 
-                  key={solution.id} 
-                  className={`solution-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border ${
-                    solution.source_type === 'ai_foundation' 
-                      ? 'border-purple-200 dark:border-purple-700 bg-purple-50/30 dark:bg-purple-900/10' 
-                      : 'border-gray-200 dark:border-gray-700'
-                  } p-4 sm:p-5 ${cardView === 'detailed' ? 'detailed' : ''} relative cursor-pointer`}
-                  onClick={(e) => toggleCardView(solution.id, e)}
-                  title="Click to toggle detailed view"
-                >
-                  {/* Mobile Swipe Hint */}
-                  <div className="swipe-hint">
-                    <span>← Swipe</span>
-                  </div>
+                  const bestRating = getBestRating(solution.variants)
+                  const { count: totalReviews } = getAverageRating(solution.variants)
                   
-                  {/* Solution Header */}
-                  <div className="flex items-start justify-between gap-3 mb-4">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start gap-3">
-                        <span className="text-xl sm:text-2xl flex-shrink-0" aria-hidden="true">
-                          {categoryConfig.icon}
-                        </span>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 break-words">
-                            {solution.title}
-                          </h3>
-                          {hasVariants && bestVariant && (
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                              Most effective: {bestVariant.variant_name}
-                              {bestVariant.effectiveness && (
-                                <span className="text-orange-600 dark:text-orange-400 ml-1">
-                                  ({bestVariant.effectiveness.toFixed(1)} ★)
-                                </span>
-                              )}
-                            </p>
-                          )}
-                          {VARIANT_CATEGORIES.includes(solution.solution_category || '') && solution.variants.length === 1 && (
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                              Available as: {solution.variants[0].variant_name}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 flex-shrink-0">
-                      <SourceBadge 
-                        sourceType={solution.source_type} 
-                        size={solution.source_type === 'ai_foundation' ? 'md' : 'sm'}
-                      />
-                      {bestRating > 0 && (
-                        <div className="whitespace-nowrap">
-                          {/* Check if this is a variant category */}
-                          {solution.solution_category && VARIANT_CATEGORIES.includes(solution.solution_category) ? (
-                            // For variant solutions, show non-interactive rating (rollup only)
-                            <RatingDisplay 
-                              rating={bestRating} 
-                              reviewCount={totalReviews} 
-                            />
-                          ) : (
-                            // For non-variant solutions, show interactive rating
-                            <SwipeableRating
-                              solution={{
-                                id: solution.id,
-                                title: solution.title,
-                                solution_category: solution.solution_category
-                              }}
-                              variant={{
-                                id: bestVariant.id,
-                                variant_name: bestVariant.variant_name
-                              }}
-                              goalId={goal.id}
-                              initialRating={bestRating}
-                              ratingCount={totalReviews}
-                              isMobile={isMobile}
-                              onRatingUpdate={(newRating, newCount) => {
-                                // Set the flag that disables sorting
-                                setHasRatedAny(true);
-                                
-                                // Update local state optimistically
-                                setSolutions(prev => prev.map(s => 
-                                  s.id === solution.id 
-                                    ? { 
-                                        ...s, 
-                                        variants: s.variants.map(v => 
-                                          v.id === bestVariant.id 
-                                            ? {
-                                                ...v,
-                                                effectiveness: newRating,
-                                                goal_links: v.goal_links.map((link, idx) => 
-                                                  idx === 0 
-                                                    ? {
-                                                        ...link,
-                                                        avg_effectiveness: newRating,
-                                                        rating_count: newCount
-                                                      }
-                                                    : link
-                                                )
-                                              }
-                                            : v
-                                        )
-                                      }
-                                    : s
-                                ))
-                              }}
-                            />
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  const bestVariant = solution.variants.reduce((best, variant) => {
+                    const currentRating = variant.effectiveness || variant.goal_links[0]?.avg_effectiveness || 0
+                    const bestVariantRating = best?.effectiveness || best?.goal_links[0]?.avg_effectiveness || 0
+                    return currentRating > bestVariantRating ? variant : best
+                  }, solution.variants[0])
 
-                  {/* Description - Show right after header */}
-                  {solution.description && (
-                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-3 mb-4">
-                      {solution.description}
-                    </p>
-                  )}
+                  const hasVariants = VARIANT_CATEGORIES.includes(solution.solution_category || '') && solution.variants.length > 1
+                  const isExpanded = expandedVariants.has(solution.id)
+                  const cardView = getCardView(solution.id)
 
-                  {/* Context label for simple view */}
-                  {cardView === 'simple' && (
-                    <p className="hidden sm:block text-sm text-gray-600 dark:text-gray-400 italic mb-3">
-                      Most users report:
-                    </p>
-                  )}
+                  // Determine if we should show related goals after this solution
+                  const shouldShowRelatedGoals = 
+                    index === relatedGoalsPosition - 1 && // We're at the position to show related goals
+                    relatedGoals && 
+                    relatedGoals.length > 0 &&
+                    !showAllRelated // Only show inline if not expanded elsewhere
 
-                  {/* Key Fields - Desktop: Grid with exactly 4 fields */}
-                  {(() => {
-                    const renderKeyFields = () => {
-                      const fieldsToShow = categoryConfig.keyFields // Always exactly 4 required fields
-                      
-                      return (
-                        <div className="hidden sm:grid sm:grid-cols-4 gap-4 mb-4 key-fields-grid">
-                          {fieldsToShow.map(fieldName => {
-                            // Try composite fields first
-                            let value = getCompositeFieldValue(solution, fieldName, bestVariant)
-                            
-                            // Fall back to regular field
-                            if (!value) {
-                              value = getFieldDisplayValue(solution, fieldName, bestVariant)
-                            }
-                            
-                            if (!value) return null
-                            
-                            const distribution = getDistributionForSolutionField(solution, fieldName)
-                            
-                            // Check if this is sustainability field for sleep/diet categories
-                            if ((fieldName === 'long_term_sustainability' || fieldName === 'still_following') && 
-                                (solution.solution_category === 'sleep' || solution.solution_category === 'diet_nutrition')) {
-                              const sustainabilityData = calculateSustainabilityData(solution)
-                              if (sustainabilityData) {
-                                return (
-                                  <div key={fieldName} className="field-container min-w-0">
-                                    <SustainabilityMetricField
-                                      label={categoryConfig.fieldLabels[fieldName] || fieldName}
-                                      data={sustainabilityData}
-                                      viewMode={cardView}
-                                      isMobile={isMobile}
-                                    />
-                                  </div>
-                                )
-                              }
-                            }
-                            
-                            // Simple view with distribution data
-                            if (distribution && cardView === 'simple') {
-                              const topValue = distribution.values[0]
-                              return (
-                                <div key={fieldName} className="field-container min-w-0">
-                                  <SimplifiedMetricField
-                                    label={categoryConfig.fieldLabels[fieldName] || fieldName}
-                                    value={topValue.value}
-                                    consensusStrength={topValue.percentage}
-                                    count={topValue.count}
-                                    totalReports={distribution.totalReports}
-                                  />
-                                </div>
-                              )
-                            }
-                            
-                            // Detailed view - check for sustainability first
-                            if ((fieldName === 'long_term_sustainability' || fieldName === 'still_following') && 
-                                (solution.solution_category === 'sleep' || solution.solution_category === 'diet_nutrition') &&
-                                cardView === 'detailed') {
-                              const sustainabilityData = calculateSustainabilityData(solution)
-                              if (sustainabilityData) {
-                                return (
-                                  <div key={fieldName} className="field-container min-w-0">
-                                    <SustainabilityMetricField
-                                      label={categoryConfig.fieldLabels[fieldName] || fieldName}
-                                      data={sustainabilityData}
-                                      viewMode={cardView}
-                                      isMobile={isMobile}
-                                    />
-                                  </div>
-                                )
-                              }
-                            }
-                            
-                            // Detailed view - keep existing behavior
-                            if (distribution && cardView === 'detailed') {
-                              return (
-                                <div key={fieldName} className="field-container min-w-0">
-                                  <NewDistributionField
-                                    label={categoryConfig.fieldLabels[fieldName] || fieldName}
-                                    distribution={distribution}
-                                    viewMode={cardView}
-                                    isMobile={isMobile}
-                                  />
-                                </div>
-                              )
-                            }
-                            
-                            // Fallback for no distribution data - keep existing
-                            if (distribution) {
-                              return (
-                                <div key={fieldName} className="field-container min-w-0">
-                                  <NewDistributionField
-                                    label={categoryConfig.fieldLabels[fieldName] || fieldName}
-                                    distribution={distribution}
-                                    viewMode="simple"
-                                    isMobile={isMobile}
-                                  />
-                                </div>
-                              )
-                            }
-                            
-                            return (
-                              <div key={fieldName} className="field-container min-w-0 space-y-1">
-                                <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                  {categoryConfig.fieldLabels[fieldName] || fieldName}
-                                </span>
-                                <div className="field-value-container text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
-                                  {value}
-                                </div>
-                              </div>
-                            )
-                          })}
-                        </div>
-                      )
-                    }
-                    
-                    return renderKeyFields()
-                  })()}
-                  
-                  {/* Context label for simple view - mobile */}
-                  {cardView === 'simple' && (
-                    <p className="sm:hidden text-sm text-gray-600 dark:text-gray-400 italic mb-3">
-                      Most users report:
-                    </p>
-                  )}
-                  
-                  {/* Mobile: 2-column grid */}
-                  {(() => {
-                    const renderMobileFields = () => {
-                      const fieldsToShow = categoryConfig.keyFields // Always exactly 4 required fields
-                      
-                      return (
-                        <div className="sm:hidden grid grid-cols-2 gap-3 mb-4">
-                          {fieldsToShow.map(fieldName => {
-                            // Try composite fields first
-                            let value = getCompositeFieldValue(solution, fieldName, bestVariant)
-                            
-                            // Fall back to regular field
-                            if (!value) {
-                              value = getFieldDisplayValue(solution, fieldName, bestVariant)
-                            }
-                            
-                            if (!value) return null
-                            
-                            const distribution = getDistributionForSolutionField(solution, fieldName)
-                            
-                            // Check if this is sustainability field for sleep/diet categories
-                            if ((fieldName === 'long_term_sustainability' || fieldName === 'still_following') && 
-                                (solution.solution_category === 'sleep' || solution.solution_category === 'diet_nutrition')) {
-                              const sustainabilityData = calculateSustainabilityData(solution)
-                              if (sustainabilityData) {
-                                return (
-                                  <div key={fieldName} className="field-container">
-                                    <SustainabilityMetricField
-                                      label={categoryConfig.fieldLabels[fieldName] || fieldName}
-                                      data={sustainabilityData}
-                                      viewMode={cardView}
-                                      isMobile={isMobile}
-                                    />
-                                  </div>
-                                )
-                              }
-                            }
-                            
-                            // Simple view with distribution data
-                            if (distribution && cardView === 'simple') {
-                              const topValue = distribution.values[0]
-                              return (
-                                <div key={fieldName} className="field-container">
-                                  <SimplifiedMetricField
-                                    label={categoryConfig.fieldLabels[fieldName] || fieldName}
-                                    value={topValue.value}
-                                    consensusStrength={topValue.percentage}
-                                    count={topValue.count}
-                                    totalReports={distribution.totalReports}
-                                  />
-                                </div>
-                              )
-                            }
-                            
-                            // Detailed view - check for sustainability first
-                            if ((fieldName === 'long_term_sustainability' || fieldName === 'still_following') && 
-                                (solution.solution_category === 'sleep' || solution.solution_category === 'diet_nutrition') &&
-                                cardView === 'detailed') {
-                              const sustainabilityData = calculateSustainabilityData(solution)
-                              if (sustainabilityData) {
-                                return (
-                                  <div key={fieldName} className="field-container">
-                                    <SustainabilityMetricField
-                                      label={categoryConfig.fieldLabels[fieldName] || fieldName}
-                                      data={sustainabilityData}
-                                      viewMode={cardView}
-                                      isMobile={isMobile}
-                                    />
-                                  </div>
-                                )
-                              }
-                            }
-                            
-                            // Detailed view - keep existing behavior
-                            if (distribution && cardView === 'detailed') {
-                              return (
-                                <div key={fieldName} className="field-container">
-                                  <NewDistributionField
-                                    label={categoryConfig.fieldLabels[fieldName] || fieldName}
-                                    distribution={distribution}
-                                    viewMode={cardView}
-                                    isMobile={isMobile}
-                                  />
-                                </div>
-                              )
-                            }
-                            
-                            // Fallback for no distribution data - keep existing
-                            if (distribution) {
-                              return (
-                                <div key={fieldName} className="field-container">
-                                  <NewDistributionField
-                                    label={categoryConfig.fieldLabels[fieldName] || fieldName}
-                                    distribution={distribution}
-                                    viewMode="simple"
-                                    isMobile={isMobile}
-                                  />
-                                </div>
-                              )
-                            }
-                            
-                            return (
-                              <div key={fieldName} className="field-container space-y-1">
-                                <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                  {categoryConfig.fieldLabels[fieldName] || fieldName}
-                                </span>
-                                <div className="text-sm font-medium text-gray-900 dark:text-gray-100 break-words">
-                                  {value}
-                                </div>
-                              </div>
-                            )
-                          })}
-                        </div>
-                      )
-                    }
-                    
-                    return renderMobileFields()
-                  })()}
-
-                  {/* Array Field Pills - Show in both simple and detailed views */}
-                  {(() => {
-                    // Only show if category has an arrayField defined
-                    if (!categoryConfig.arrayField) return null
-                    
-                    const solutionFields = solution.solution_fields as Record<string, unknown> || {}
-                    const bestVariantFields = bestVariant?.category_fields as Record<string, unknown> || {}
-                    const allFields = { ...solutionFields, ...bestVariantFields }
-                    
-                    // Get the array field value
-                    const fieldName = categoryConfig.arrayField as string
-                    const fieldValue = allFields[fieldName] || solutionFields[fieldName] || bestVariantFields[fieldName] ||
-                                      allFields[fieldName.toUpperCase()] || solutionFields[fieldName.toUpperCase()] || bestVariantFields[fieldName.toUpperCase()]
-                    
-                    if (!fieldValue || (Array.isArray(fieldValue) && fieldValue.length === 0)) return null
-                    
-                    
-                    // Determine label based on field name and category
-                    const getFieldLabel = () => {
-                      if (fieldName === 'side_effects') {
-                        if (categoryConfig.arrayField === 'side_effects' && 
-                            ['alternative_practitioners', 'medical_procedures'].includes(solution.solution_category || '')) {
-                          return solution.solution_category === 'alternative_practitioners' ? 'Risks' : 'Side Effects/Risks'
-                        }
-                        return 'Side Effects'
-                      }
-                      if (fieldName === 'challenges' || fieldName === 'challenges_experienced') {
-                        return 'Challenges'
-                      }
-                      if (fieldName === 'challenges') {
-                        return 'Challenges'
-                      }
-                      // Default: capitalize first letter
-                      return fieldName.split('_').map(word => 
-                        word.charAt(0).toUpperCase() + word.slice(1)
-                      ).join(' ')
-                    }
-                    
-                    const itemsArray = Array.isArray(fieldValue) ? fieldValue : [fieldValue]
-                    const maxDisplayLimit = cardView === 'detailed' ? 8 : (isMobile ? 2 : 3)
-                    const displayLimit = Math.min(maxDisplayLimit, itemsArray.length)
-                    const displayItems = itemsArray.slice(0, displayLimit)
-                    const remainingCount = itemsArray.length - displayLimit
-                    
-                    // Get prevalence data for this array field
-                    const prevalenceMap = getArrayFieldDistribution(solution, fieldName)
-                    
-                    return (
-                      <div className="side-effects-section">
-                        <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                          {getFieldLabel()} (top {displayLimit} of {itemsArray.length}):
-                        </div>
-                        <div className="flex flex-wrap gap-1.5 items-center">
-                          {displayItems.map((item, index) => {
-                            const itemText = item.toString()
-                            const percentage = prevalenceMap.get(itemText.toLowerCase()) || null
-                            return (
-                              <span key={index} className="side-effect-chip">
-                                {itemText}
-                                {percentage && <span className="ml-1 opacity-70">({percentage}%)</span>}
-                              </span>
-                            )
-                          })}
-                          {remainingCount > 0 && (
-                            <span className="show-more-pill">
-                              +{remainingCount} more
-                            </span>
-                          )}
-                          <button 
-                            className="add-effect-inline"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              // TODO: Implement add functionality
-                              console.log(`Add ${fieldName} functionality to be implemented`)
-                            }}
-                          >
-                            <span>+</span>
-                            <span>Add yours</span>
-                          </button>
-                        </div>
-                      </div>
-                    )
-                  })()}
-
-
-                  {/* Expandable Variants */}
-                  {hasVariants && (
-                    <>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (isMobile) {
-                            setVariantSheet({ isOpen: true, solution });
-                          } else {
-                            toggleVariants(solution.id);
-                          }
-                        }}
-                        className="view-options-button mt-3"
+                  return (
+                    <React.Fragment key={solution.id}>
+                      <article 
+                        className={`solution-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border ${
+                          solution.source_type === 'ai_foundation' 
+                            ? 'border-purple-200 dark:border-purple-700 bg-purple-50/30 dark:bg-purple-900/10' 
+                            : 'border-gray-200 dark:border-gray-700'
+                        } p-4 sm:p-5 ${cardView === 'detailed' ? 'detailed' : ''} relative cursor-pointer`}
+                        onClick={(e) => toggleCardView(solution.id, e)}
+                        title="Click to toggle detailed view"
                       >
-                        View all {solution.variants.length} options
-                        <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-                      
-                      {isExpanded && (
-                        <div className="mt-3 space-y-2">
-                          {solution.variants.map((variant) => {
-                            const goalLink = variant.goal_links[0]
-                            const rating = variant.effectiveness || goalLink?.avg_effectiveness || 0
-                            const ratingCount = goalLink?.rating_count || 0
-                            
-                            return (
-                              <div key={variant.id} className="flex items-center justify-between py-2 px-3 rounded-md bg-gray-50 dark:bg-gray-700/50">
-                                <div className="flex-1">
-                                  <span className="font-medium text-gray-900 dark:text-gray-100">
-                                    {variant.variant_name}
-                                  </span>
-                                  {cardView === 'detailed' && variant.category_fields && (
-                                    <div className="mt-1 grid grid-cols-2 gap-2 text-xs">
-                                      {categoryConfig.keyFields.map(fieldName => {
-                                        const value = getFieldDisplayValue(solution, fieldName, variant)
-                                        if (!value) return null
-                                        
-                                        return (
-                                          <div key={fieldName}>
-                                            <span className="text-gray-500 dark:text-gray-400">
-                                              {categoryConfig.fieldLabels[fieldName] || fieldName}:
-                                            </span>
-                                            <span className="ml-1 text-gray-700 dark:text-gray-300">
-                                              {value}
-                                            </span>
-                                          </div>
-                                        )
-                                      })}
-                                    </div>
-                                  )}
-                                </div>
-                                {rating > 0 && (
+                        {/* Mobile Swipe Hint */}
+                        <div className="swipe-hint">
+                          <span>← Swipe</span>
+                        </div>
+                        
+                        {/* Solution Header */}
+                        <div className="flex items-start justify-between gap-3 mb-4">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-start gap-3">
+                              <span className="text-xl sm:text-2xl flex-shrink-0" aria-hidden="true">
+                                {categoryConfig.icon}
+                              </span>
+                              <div className="flex-1 min-w-0">
+                                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 break-words">
+                                  {solution.title}
+                                </h3>
+                                {hasVariants && bestVariant && (
+                                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                    Most effective: {bestVariant.variant_name}
+                                    {bestVariant.effectiveness && (
+                                      <span className="text-orange-600 dark:text-orange-400 ml-1">
+                                        ({bestVariant.effectiveness.toFixed(1)} ★)
+                                      </span>
+                                    )}
+                                  </p>
+                                )}
+                                {VARIANT_CATEGORIES.includes(solution.solution_category || '') && solution.variants.length === 1 && (
+                                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                    Available as: {solution.variants[0].variant_name}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 flex-shrink-0">
+                            <SourceBadge 
+                              sourceType={solution.source_type} 
+                              size={solution.source_type === 'ai_foundation' ? 'md' : 'sm'}
+                            />
+                            {bestRating > 0 && (
+                              <div className="whitespace-nowrap">
+                                {/* Check if this is a variant category */}
+                                {solution.solution_category && VARIANT_CATEGORIES.includes(solution.solution_category) ? (
+                                  // For variant solutions, show non-interactive rating (rollup only)
+                                  <RatingDisplay 
+                                    rating={bestRating} 
+                                    reviewCount={totalReviews} 
+                                  />
+                                ) : (
+                                  // For non-variant solutions, show interactive rating
                                   <SwipeableRating
                                     solution={{
                                       id: solution.id,
@@ -1758,26 +1269,26 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                       solution_category: solution.solution_category
                                     }}
                                     variant={{
-                                      id: variant.id,
-                                      variant_name: variant.variant_name
+                                      id: bestVariant.id,
+                                      variant_name: bestVariant.variant_name
                                     }}
                                     goalId={goal.id}
-                                    initialRating={rating}
-                                    ratingCount={ratingCount}
+                                    initialRating={bestRating}
+                                    ratingCount={totalReviews}
                                     isMobile={isMobile}
                                     onRatingUpdate={(newRating, newCount) => {
                                       // Set the flag that disables sorting
                                       setHasRatedAny(true);
                                       
-                                      // Update variant rating in local state
+                                      // Update local state optimistically
                                       setSolutions(prev => prev.map(s => 
                                         s.id === solution.id 
-                                          ? {
-                                              ...s,
+                                          ? { 
+                                              ...s, 
                                               variants: s.variants.map(v => 
-                                                v.id === variant.id 
-                                                  ? { 
-                                                      ...v, 
+                                                v.id === bestVariant.id 
+                                                  ? {
+                                                      ...v,
                                                       effectiveness: newRating,
                                                       goal_links: v.goal_links.map((link, idx) => 
                                                         idx === 0 
@@ -1798,15 +1309,540 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                   />
                                 )}
                               </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Description - Show right after header */}
+                        {solution.description && (
+                          <p className="text-sm text-gray-600 dark:text-gray-300 mt-3 mb-4">
+                            {solution.description}
+                          </p>
+                        )}
+
+                        {/* Context label for simple view */}
+                        {cardView === 'simple' && (
+                          <p className="hidden sm:block text-sm text-gray-600 dark:text-gray-400 italic mb-3">
+                            Most users report:
+                          </p>
+                        )}
+
+                  {/* Key Fields - Desktop: Grid with exactly 4 fields */}
+                  {(() => {
+                    const renderKeyFields = () => {
+                      const fieldsToShow = categoryConfig.keyFields // Always exactly 4 required fields
+                      
+                      return (
+                        <div className="hidden sm:grid sm:grid-cols-4 gap-4 mb-4 key-fields-grid">
+                                {fieldsToShow.map(fieldName => {
+                                  // Try composite fields first
+                                  let value = getCompositeFieldValue(solution, fieldName, bestVariant)
+                                  
+                                  // Fall back to regular field
+                                  if (!value) {
+                                    value = getFieldDisplayValue(solution, fieldName, bestVariant)
+                                  }
+                                  
+                                  if (!value) return null
+                                  
+                                  const distribution = getDistributionForSolutionField(solution, fieldName)
+                            
+                            // Check if this is sustainability field for sleep/diet categories
+                                  if ((fieldName === 'long_term_sustainability' || fieldName === 'still_following') && 
+                                      (solution.solution_category === 'sleep' || solution.solution_category === 'diet_nutrition')) {
+                                    const sustainabilityData = calculateSustainabilityData(solution)
+                                    if (sustainabilityData) {
+                                      return (
+                                        <div key={fieldName} className="field-container min-w-0">
+                                          <SustainabilityMetricField
+                                            label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                            data={sustainabilityData}
+                                            viewMode={cardView}
+                                            isMobile={isMobile}
+                                          />
+                                        </div>
+                                      )
+                                    }
+                                  }
+                            
+                            // Simple view with distribution data
+                                  if (distribution && cardView === 'simple') {
+                                    const topValue = distribution.values[0]
+                                    return (
+                                      <div key={fieldName} className="field-container min-w-0">
+                                        <SimplifiedMetricField
+                                          label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                          value={topValue.value}
+                                          consensusStrength={topValue.percentage}
+                                          count={topValue.count}
+                                          totalReports={distribution.totalReports}
+                                        />
+                                      </div>
+                                    )
+                                  }
+                            
+                            // Detailed view - check for sustainability first
+                                  if ((fieldName === 'long_term_sustainability' || fieldName === 'still_following') && 
+                                      (solution.solution_category === 'sleep' || solution.solution_category === 'diet_nutrition') &&
+                                      cardView === 'detailed') {
+                                    const sustainabilityData = calculateSustainabilityData(solution)
+                                    if (sustainabilityData) {
+                                      return (
+                                        <div key={fieldName} className="field-container min-w-0">
+                                          <SustainabilityMetricField
+                                            label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                            data={sustainabilityData}
+                                            viewMode={cardView}
+                                            isMobile={isMobile}
+                                          />
+                                        </div>
+                                      )
+                                    }
+                                  }
+                            
+                            // Detailed view - keep existing behavior
+                                  if (distribution && cardView === 'detailed') {
+                                    return (
+                                      <div key={fieldName} className="field-container min-w-0">
+                                        <NewDistributionField
+                                          label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                          distribution={distribution}
+                                          viewMode={cardView}
+                                          isMobile={isMobile}
+                                        />
+                                      </div>
+                                    )
+                                  }
+                            
+                            // Fallback for no distribution data - keep existing
+                                  if (distribution) {
+                                    return (
+                                      <div key={fieldName} className="field-container min-w-0">
+                                        <NewDistributionField
+                                          label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                          distribution={distribution}
+                                          viewMode="simple"
+                                          isMobile={isMobile}
+                                        />
+                                      </div>
+                                    )
+                                  }
+                            
+                                  return (
+                                    <div key={fieldName} className="field-container min-w-0 space-y-1">
+                                      <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        {categoryConfig.fieldLabels[fieldName] || fieldName}
+                                      </span>
+                                      <div className="field-value-container text-sm font-medium text-gray-900 dark:text-gray-100 leading-relaxed">
+                                        {value}
+                                      </div>
+                                    </div>
+                                  )
+                                })}
+                              </div>
                             )
-                          })}
+                          }
+                          
+                          return renderKeyFields()
+                        })()}
+                  
+                        {/* Context label for simple view - mobile */}
+                        {cardView === 'simple' && (
+                          <p className="sm:hidden text-sm text-gray-600 dark:text-gray-400 italic mb-3">
+                            Most users report:
+                          </p>
+                        )}
+                        
+                        {/* Mobile: 2-column grid */}
+                        {(() => {
+                          const renderMobileFields = () => {
+                            const fieldsToShow = categoryConfig.keyFields // Always exactly 4 required fields
+                            
+                            return (
+                              <div className="sm:hidden grid grid-cols-2 gap-3 mb-4">
+                                {fieldsToShow.map(fieldName => {
+                                  // Try composite fields first
+                                  let value = getCompositeFieldValue(solution, fieldName, bestVariant)
+                                  
+                                  // Fall back to regular field
+                                  if (!value) {
+                                    value = getFieldDisplayValue(solution, fieldName, bestVariant)
+                                  }
+                                  
+                                  if (!value) return null
+                                  
+                                  const distribution = getDistributionForSolutionField(solution, fieldName)
+                            
+                                  // Check if this is sustainability field for sleep/diet categories
+                                  if ((fieldName === 'long_term_sustainability' || fieldName === 'still_following') && 
+                                      (solution.solution_category === 'sleep' || solution.solution_category === 'diet_nutrition')) {
+                                    const sustainabilityData = calculateSustainabilityData(solution)
+                                    if (sustainabilityData) {
+                                      return (
+                                        <div key={fieldName} className="field-container">
+                                          <SustainabilityMetricField
+                                            label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                            data={sustainabilityData}
+                                            viewMode={cardView}
+                                            isMobile={isMobile}
+                                          />
+                                        </div>
+                                      )
+                                    }
+                                  }
+                            
+                            // Simple view with distribution data
+                                  if (distribution && cardView === 'simple') {
+                                    const topValue = distribution.values[0]
+                                    return (
+                                      <div key={fieldName} className="field-container">
+                                        <SimplifiedMetricField
+                                          label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                          value={topValue.value}
+                                          consensusStrength={topValue.percentage}
+                                          count={topValue.count}
+                                          totalReports={distribution.totalReports}
+                                        />
+                                      </div>
+                                    )
+                                  }
+                            
+                            // Detailed view - check for sustainability first
+                                  if ((fieldName === 'long_term_sustainability' || fieldName === 'still_following') && 
+                                      (solution.solution_category === 'sleep' || solution.solution_category === 'diet_nutrition') &&
+                                      cardView === 'detailed') {
+                                    const sustainabilityData = calculateSustainabilityData(solution)
+                                    if (sustainabilityData) {
+                                      return (
+                                        <div key={fieldName} className="field-container">
+                                          <SustainabilityMetricField
+                                            label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                            data={sustainabilityData}
+                                            viewMode={cardView}
+                                            isMobile={isMobile}
+                                          />
+                                        </div>
+                                      )
+                                    }
+                                  }
+                            
+                            // Detailed view - keep existing behavior
+                                  if (distribution && cardView === 'detailed') {
+                                    return (
+                                      <div key={fieldName} className="field-container">
+                                        <NewDistributionField
+                                          label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                          distribution={distribution}
+                                          viewMode={cardView}
+                                          isMobile={isMobile}
+                                        />
+                                      </div>
+                                    )
+                                  }
+                            
+                            // Fallback for no distribution data - keep existing
+                                  if (distribution) {
+                                    return (
+                                      <div key={fieldName} className="field-container">
+                                        <NewDistributionField
+                                          label={categoryConfig.fieldLabels[fieldName] || fieldName}
+                                          distribution={distribution}
+                                          viewMode="simple"
+                                          isMobile={isMobile}
+                                        />
+                                      </div>
+                                    )
+                                  }
+                            
+                                  return (
+                                    <div key={fieldName} className="field-container space-y-1">
+                                      <span className="block text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        {categoryConfig.fieldLabels[fieldName] || fieldName}
+                                      </span>
+                                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100 break-words">
+                                        {value}
+                                      </div>
+                                    </div>
+                                  )
+                                })}
+                              </div>
+                            )
+                          }
+                          
+                          return renderMobileFields()
+                        })()}
+
+                        {/* Array Field Pills - Show in both simple and detailed views */}
+                        {(() => {
+                          // Only show if category has an arrayField defined
+                          if (!categoryConfig.arrayField) return null
+                          
+                          const solutionFields = solution.solution_fields as Record<string, unknown> || {}
+                          const bestVariantFields = bestVariant?.category_fields as Record<string, unknown> || {}
+                          const allFields = { ...solutionFields, ...bestVariantFields }
+                          
+                          // Get the array field value
+                          const fieldName = categoryConfig.arrayField as string
+                          const fieldValue = allFields[fieldName] || solutionFields[fieldName] || bestVariantFields[fieldName] ||
+                                            allFields[fieldName.toUpperCase()] || solutionFields[fieldName.toUpperCase()] || bestVariantFields[fieldName.toUpperCase()]
+                          
+                          if (!fieldValue || (Array.isArray(fieldValue) && fieldValue.length === 0)) return null
+                    
+                    
+                          // Determine label based on field name and category
+                          const getFieldLabel = () => {
+                            if (fieldName === 'side_effects') {
+                              if (categoryConfig.arrayField === 'side_effects' && 
+                                  ['alternative_practitioners', 'medical_procedures'].includes(solution.solution_category || '')) {
+                                return solution.solution_category === 'alternative_practitioners' ? 'Risks' : 'Side Effects/Risks'
+                              }
+                              return 'Side Effects'
+                            }
+                            if (fieldName === 'challenges' || fieldName === 'challenges_experienced') {
+                              return 'Challenges'
+                            }
+                            if (fieldName === 'challenges') {
+                              return 'Challenges'
+                            }
+                            // Default: capitalize first letter
+                            return fieldName.split('_').map(word => 
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                            ).join(' ')
+                          }
+                    
+                          const itemsArray = Array.isArray(fieldValue) ? fieldValue : [fieldValue]
+                          const maxDisplayLimit = cardView === 'detailed' ? 8 : (isMobile ? 2 : 3)
+                          const displayLimit = Math.min(maxDisplayLimit, itemsArray.length)
+                          const displayItems = itemsArray.slice(0, displayLimit)
+                          const remainingCount = itemsArray.length - displayLimit
+                          
+                          // Get prevalence data for this array field
+                          const prevalenceMap = getArrayFieldDistribution(solution, fieldName)
+                    
+                          return (
+                            <div className="side-effects-section">
+                              <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                                {getFieldLabel()} (top {displayLimit} of {itemsArray.length}):
+                              </div>
+                              <div className="flex flex-wrap gap-1.5 items-center">
+                                {displayItems.map((item, index) => {
+                                  const itemText = item.toString()
+                                  const percentage = prevalenceMap.get(itemText.toLowerCase()) || null
+                                  return (
+                                    <span key={index} className="side-effect-chip">
+                                      {itemText}
+                                      {percentage && <span className="ml-1 opacity-70">({percentage}%)</span>}
+                                    </span>
+                                  )
+                                })}
+                                {remainingCount > 0 && (
+                                  <span className="show-more-pill">
+                                    +{remainingCount} more
+                                  </span>
+                                )}
+                                <button 
+                                  className="add-effect-inline"
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    // TODO: Implement add functionality
+                                    console.log(`Add ${fieldName} functionality to be implemented`)
+                                  }}
+                                >
+                                  <span>+</span>
+                                  <span>Add yours</span>
+                                </button>
+                              </div>
+                            </div>
+                          )
+                        })()}
+
+
+                        {/* Expandable Variants */}
+                        {hasVariants && (
+                          <>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (isMobile) {
+                                  setVariantSheet({ isOpen: true, solution });
+                                } else {
+                                  toggleVariants(solution.id);
+                                }
+                              }}
+                              className="view-options-button mt-3"
+                            >
+                              View all {solution.variants.length} options
+                              <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </button>
+                      
+                            {isExpanded && (
+                              <div className="mt-3 space-y-2">
+                                {solution.variants.map((variant) => {
+                                  const goalLink = variant.goal_links[0]
+                                  const rating = variant.effectiveness || goalLink?.avg_effectiveness || 0
+                                  const ratingCount = goalLink?.rating_count || 0
+                                  
+                                  return (
+                                    <div key={variant.id} className="flex items-center justify-between py-2 px-3 rounded-md bg-gray-50 dark:bg-gray-700/50">
+                                      <div className="flex-1">
+                                        <span className="font-medium text-gray-900 dark:text-gray-100">
+                                          {variant.variant_name}
+                                        </span>
+                                        {cardView === 'detailed' && variant.category_fields && (
+                                          <div className="mt-1 grid grid-cols-2 gap-2 text-xs">
+                                            {categoryConfig.keyFields.map(fieldName => {
+                                              const value = getFieldDisplayValue(solution, fieldName, variant)
+                                              if (!value) return null
+                                              
+                                              return (
+                                                <div key={fieldName}>
+                                                  <span className="text-gray-500 dark:text-gray-400">
+                                                    {categoryConfig.fieldLabels[fieldName] || fieldName}:
+                                                  </span>
+                                                  <span className="ml-1 text-gray-700 dark:text-gray-300">
+                                                    {value}
+                                                  </span>
+                                                </div>
+                                              )
+                                            })}
+                                          </div>
+                                        )}
+                                      </div>
+                                      {rating > 0 && (
+                                        <SwipeableRating
+                                          solution={{
+                                            id: solution.id,
+                                            title: solution.title,
+                                            solution_category: solution.solution_category
+                                          }}
+                                          variant={{
+                                            id: variant.id,
+                                            variant_name: variant.variant_name
+                                          }}
+                                          goalId={goal.id}
+                                          initialRating={rating}
+                                          ratingCount={ratingCount}
+                                          isMobile={isMobile}
+                                          onRatingUpdate={(newRating, newCount) => {
+                                            // Set the flag that disables sorting
+                                            setHasRatedAny(true);
+                                            
+                                            // Update variant rating in local state
+                                            setSolutions(prev => prev.map(s => 
+                                              s.id === solution.id 
+                                                ? {
+                                                    ...s,
+                                                    variants: s.variants.map(v => 
+                                                      v.id === variant.id 
+                                                        ? { 
+                                                            ...v, 
+                                                            effectiveness: newRating,
+                                                            goal_links: v.goal_links.map((link, idx) => 
+                                                              idx === 0 
+                                                                ? {
+                                                                    ...link,
+                                                                    avg_effectiveness: newRating,
+                                                                    rating_count: newCount
+                                                                  }
+                                                                : link
+                                                            )
+                                                          }
+                                                        : v
+                                                    )
+                                                  }
+                                                : s
+                                            ))
+                                          }}
+                                        />
+                                      )}
+                                    </div>
+                                  )
+                                })}
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </article>
+
+                      {/* Smart Placement of Related Goals */}
+                      {shouldShowRelatedGoals && (
+                        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg px-4 py-3 my-4">
+                          <div className="flex items-start gap-3 sm:block">
+                            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap flex-shrink-0">
+                              People also worked on:
+                            </span>
+                            <div className="flex gap-x-4 sm:gap-y-1 text-sm overflow-x-auto sm:overflow-x-visible sm:flex-wrap no-scrollbar flex-1">
+                              {relatedGoals.slice(0, 5).map((relatedGoal, idx) => (
+                                <Link
+                                  key={relatedGoal.id}
+                                  href={`/goal/${relatedGoal.id}`}
+                                  onClick={() => handleRelatedGoalClick(goal.id, relatedGoal.id, idx)}
+                                  className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors whitespace-nowrap"
+                                >
+                                  {relatedGoal.title}
+                                </Link>
+                              ))}
+                              {relatedGoals.length > 5 && (
+                                <button
+                                  onClick={() => setShowAllRelated(true)}
+                                  className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                                >
+                                  + {relatedGoals.length - 5} more
+                                </button>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       )}
-                    </>
-                  )}
-                </article>
-              )
-            })}
+                    </React.Fragment>
+                  )
+                })}
+
+            {/* Load More Button - Shows when there are more solutions than currently displayed */}
+            {filteredAndSortedSolutions.length > displayedSolutionsCount && (
+              <div className="text-center py-6">
+                <button
+                  onClick={() => setDisplayedSolutionsCount(prev => prev + SOLUTIONS_PER_PAGE)}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  aria-label="Load more solutions"
+                >
+                  <span>Load More Solutions</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    ({filteredAndSortedSolutions.length - displayedSolutionsCount} remaining)
+                  </span>
+                </button>
+              </div>
+            )}
+
+            {/* Expanded Related Goals View - Shows all related goals when user clicks "show more" */}
+            {showAllRelated && relatedGoals && relatedGoals.length > 0 && (
+              <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 mt-6">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-semibold text-gray-700 dark:text-gray-300">All Related Goals</h3>
+                  <button
+                    onClick={() => setShowAllRelated(false)}
+                    className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                    aria-label="Show fewer related goals"
+                  >
+                    Show less
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                  {relatedGoals.map((relatedGoal, idx) => (
+                    <Link
+                      key={relatedGoal.id}
+                      href={`/goal/${relatedGoal.id}`}
+                      onClick={() => handleRelatedGoalClick(goal.id, relatedGoal.id, idx)}
+                      className="text-sm text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                    >
+                      {relatedGoal.title}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <EmptyState
@@ -1838,14 +1874,53 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
           </>
         )}
 
-        {/* Community Discussions Tab */}
+        {/* Tab: Community Discussions */}
         {activeTab === 'discussions' && (
-          <div className="mt-8">
+          <>
+            {/* Discussion Controls - Different from solutions */}
+            <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-4">
+              <div className="max-w-7xl mx-auto">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => setDiscussionSort('newest')}
+                      className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                        discussionSort === 'newest'
+                          ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                      }`}
+                    >
+                      Newest
+                    </button>
+                    <button
+                      onClick={() => setDiscussionSort('most_helpful')}
+                      className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                        discussionSort === 'most_helpful'
+                          ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                      }`}
+                    >
+                      Most Helpful
+                    </button>
+                  </div>
+                  
+                  <button
+                    onClick={() => {/* Open add discussion modal */}}
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium transition-colors"
+                  >
+                    Add Post
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Community Discussions Component */}
             <CommunityDiscussions 
               goalId={goal.id} 
-              goalTitle={goal.title} 
+              goalTitle={goal.title}
+              sortBy={discussionSort}
             />
-          </div>
+          </>
         )}
       </main>
 

@@ -168,13 +168,15 @@ export async function insertSolutionToDatabase(
         .single()
       
       if (existingLink) {
-        // Update existing link
+        // Update existing link with both solution_fields and aggregated_fields
+        const aggregatedFields = transformToAggregatedFields(solution.fields)
         const { error: updateError } = await supabase
           .from('goal_implementation_links')
           .update({
             avg_effectiveness: solution.effectiveness,
             rating_count: 1, // Marks as AI-generated
-            solution_fields: solution.fields
+            solution_fields: solution.fields,
+            aggregated_fields: aggregatedFields
           })
           .eq('id', existingLink.id)
         
@@ -182,7 +184,8 @@ export async function insertSolutionToDatabase(
           throw new Error(`Failed to update goal link: ${updateError.message}`)
         }
       } else {
-        // Create new link
+        // Create new link with both solution_fields and aggregated_fields
+        const aggregatedFields = transformToAggregatedFields(solution.fields)
         const { error: linkError } = await supabase
           .from('goal_implementation_links')
           .insert({
@@ -190,7 +193,8 @@ export async function insertSolutionToDatabase(
             implementation_id: variantId,
             avg_effectiveness: solution.effectiveness,
             rating_count: 1, // Marks as AI-generated
-            solution_fields: solution.fields
+            solution_fields: solution.fields,
+            aggregated_fields: aggregatedFields
           })
         
         if (linkError) {
@@ -259,6 +263,57 @@ export async function insertSolutionToDatabase(
   } catch (error) {
     throw error
   }
+}
+
+/**
+ * Transform solution_fields into aggregated_fields format
+ * Used to ensure AI-generated data appears correctly in UI
+ */
+function transformToAggregatedFields(fields: Record<string, any>): Record<string, any> {
+  const aggregated: any = {
+    _metadata: {
+      computed_at: new Date().toISOString(),
+      last_aggregated: new Date().toISOString(),
+      total_ratings: 1,
+      data_source: 'ai',
+      confidence: 'ai_generated'
+    }
+  }
+  
+  for (const [key, value] of Object.entries(fields)) {
+    if (value === null || value === undefined || value === '') {
+      continue // Skip empty values
+    }
+    
+    if (Array.isArray(value) && value.length > 0) {
+      // Array fields: distribute percentage equally among items
+      const percentage = Math.round(100 / value.length)
+      aggregated[key] = {
+        mode: value[0],
+        values: value.map((v: any, index: number) => ({
+          value: String(v),
+          count: 1,
+          percentage: index === value.length - 1 ? 
+            100 - (percentage * (value.length - 1)) : // Last item gets remainder
+            percentage
+        })),
+        totalReports: 1
+      }
+    } else {
+      // Single values: 100% distribution
+      aggregated[key] = {
+        mode: String(value),
+        values: [{
+          value: String(value),
+          count: 1,
+          percentage: 100
+        }],
+        totalReports: 1
+      }
+    }
+  }
+  
+  return aggregated
 }
 
 /**

@@ -24,12 +24,12 @@ interface Discussion {
 interface CommunityDiscussionsProps {
   goalId: string
   goalTitle: string
+  sortBy?: string
 }
 
-export default function CommunityDiscussions({ goalId, goalTitle }: CommunityDiscussionsProps) {
+export default function CommunityDiscussions({ goalId, goalTitle, sortBy = 'newest' }: CommunityDiscussionsProps) {
   const [discussions, setDiscussions] = useState<Discussion[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [sortBy, setSortBy] = useState<'newest' | 'helpful'>('newest')
   const [showAddForm, setShowAddForm] = useState(false)
   const [replyToId, setReplyToId] = useState<string | null>(null)
   const [editingPostId, setEditingPostId] = useState<string | null>(null)
@@ -287,85 +287,9 @@ export default function CommunityDiscussions({ goalId, goalTitle }: CommunityDis
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header with sort controls */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            Community Discussions
-          </h2>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            Real experiences and advice from people working on: {goalTitle}
-          </p>
-        </div>
-        
-        <div className="flex items-center space-x-4">
-          {/* Sort Toggle */}
-          <div className="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
-            <button
-              onClick={() => setSortBy('newest')}
-              className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                sortBy === 'newest'
-                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
-              }`}
-            >
-              Newest
-            </button>
-            <button
-              onClick={() => setSortBy('helpful')}
-              className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                sortBy === 'helpful'
-                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
-              }`}
-            >
-              Most Helpful
-            </button>
-          </div>
-
-          {/* Add Discussion Button */}
-          <button
-            onClick={() => setShowAddForm(!showAddForm)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-          >
-            {showAddForm ? 'Cancel' : 'Add Post'}
-          </button>
-        </div>
-      </div>
-
-      {/* Add Discussion Form */}
-      {showAddForm && (
-        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-          <AddDiscussionForm
-            goalId={goalId}
-            goalTitle={goalTitle}
-            parentId={replyToId}
-            onSuccess={handleNewPost}
-            onCancel={() => setShowAddForm(false)}
-          />
-        </div>
-      )}
-
-      {/* Discussions List */}
-      {discussions.length === 0 ? (
-        <div className="text-center py-12">
-          <div className="text-4xl mb-4">💬</div>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
-            Start the conversation
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Be the first to share your experience with {goalTitle.toLowerCase()}
-          </p>
-          <button
-            onClick={() => setShowAddForm(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium"
-          >
-            Share Your Experience
-          </button>
-        </div>
-      ) : (
-        <div className="space-y-6">
+    <>
+      {discussions && discussions.length > 0 ? (
+        <div className="space-y-4">
           {discussions.map((discussion) => (
             <DiscussionPost
               key={discussion.id}
@@ -384,11 +308,22 @@ export default function CommunityDiscussions({ goalId, goalTitle }: CommunityDis
               saveEdit={saveEdit}
               cancelEdit={cancelEdit}
               currentUserId={currentUserId}
+              userVotes={userVotes}
             />
           ))}
         </div>
+      ) : (
+        <div className="text-center py-12">
+          <span className="text-4xl mb-4 block">💬</span>
+          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+            Start the conversation
+          </h3>
+          <p className="text-gray-600 dark:text-gray-400">
+            Be the first to share your experience or ask a question about this goal.
+          </p>
+        </div>
       )}
-    </div>
+    </>
   )
 }
 
@@ -405,7 +340,8 @@ function DiscussionPost({
   setEditContent,
   saveEdit,
   cancelEdit,
-  currentUserId
+  currentUserId,
+  userVotes
 }: {
   discussion: Discussion
   onUpvote: (id: string, currentUpvotes: number) => void
@@ -419,9 +355,9 @@ function DiscussionPost({
   saveEdit: () => void
   cancelEdit: () => void
   currentUserId?: string
+  userVotes: Set<string>
 }) {
   const [showReplies, setShowReplies] = useState(false)
-  const [showReportMenu, setShowReportMenu] = useState(false)
   const [showActions, setShowActions] = useState(false)
 
   const formatDate = (dateString: string) => {
@@ -612,7 +548,7 @@ function DiscussionPost({
           <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-200 to-transparent dark:from-blue-800"></div>
           
           <div className="pl-8 space-y-4">
-            {discussion.replies.map((reply, index) => (
+            {discussion.replies.map((reply) => (
               <div key={reply.id} className="relative">
                 {/* Threading connector */}
                 <div className="absolute -left-8 top-4 w-6 h-0.5 bg-blue-200 dark:bg-blue-800"></div>

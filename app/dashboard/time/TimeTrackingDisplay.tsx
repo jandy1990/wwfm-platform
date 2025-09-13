@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { ArenaTimeService, type ArenaStats, type TimeSummary } from '@/lib/services/arena-time-service'
 import { ArenaTimeTracker } from '@/lib/tracking/arena-time-tracker'
 import { ArenaTimePieChart } from '@/components/charts/ArenaTimePieChart'
@@ -10,7 +10,7 @@ export function TimeTrackingDisplay() {
   const [summary, setSummary] = useState<TimeSummary | null>(null)
   const [loading, setLoading] = useState(true)
   
-  const service = new ArenaTimeService()
+  const service = useMemo(() => new ArenaTimeService(), [])
 
   useEffect(() => {
     async function loadDashboardData() {
@@ -30,7 +30,7 @@ export function TimeTrackingDisplay() {
     }
     
     loadDashboardData()
-  }, [])
+  }, [service])
 
   // Calculate percentages for each arena
   const totalSeconds = stats.reduce((sum, stat) => sum + stat.total_seconds, 0)

@@ -73,9 +73,11 @@ export async function getGoalSolutions(goalId: string): Promise<GoalSolutionWith
   // Transform the data to group by solution
   const solutionsMap = new Map();
 
-  goalLinks?.forEach(link => {
+  goalLinks?.forEach((link: any) => {
     const variant = link.solution_variants;
-    const solution = variant.solutions;
+    const solution = variant?.solutions;
+    
+    if (!solution) return; // Skip invalid entries
     
     if (!solutionsMap.has(solution.id)) {
       solutionsMap.set(solution.id, {
@@ -86,15 +88,18 @@ export async function getGoalSolutions(goalId: string): Promise<GoalSolutionWith
       });
     }
     
-    solutionsMap.get(solution.id).variants.push({
-      ...variant,
-      effectiveness: link.avg_effectiveness,
-      rating_count: link.rating_count,
-      goal_links: [{
-        avg_effectiveness: link.avg_effectiveness,
-        rating_count: link.rating_count
-      }]
-    });
+    const solutionData = solutionsMap.get(solution.id);
+    if (solutionData) {
+      solutionData.variants.push({
+        ...variant,
+        effectiveness: link.avg_effectiveness,
+        rating_count: link.rating_count,
+        goal_links: [{
+          avg_effectiveness: link.avg_effectiveness,
+          rating_count: link.rating_count
+        }]
+      });
+    }
   });
 
   const solutions = Array.from(solutionsMap.values())

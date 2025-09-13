@@ -1,0 +1,10 @@
+{
+  "deletedAt": "2025-09-10T00:35:41.973Z",
+  "totalMapped": 130,
+  "successfullyDeleted": 130,
+  "errors": 0,
+  "emptyLinksDeleted": 66,
+  "templateLinksDeleted": 64,
+  "purpose": "Clear problematic links before regeneration",
+  "nextStep": "Run AI generator on affected goals to restore proper links"
+}

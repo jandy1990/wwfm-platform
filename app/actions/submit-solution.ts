@@ -291,7 +291,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
       } else {
         // Create new variant
         console.log('[submitSolution] Creating new variant with name:', variantName)
-        const variantData: Record<string, any> = {
+        const variantData: Record<string, unknown> = {
           solution_id: solutionId,
           variant_name: variantName,
           is_default: true, // First variant is default

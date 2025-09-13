@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { submitRetrospective } from '@/app/actions/retrospectives'
 import { IMPACT_OPTIONS } from '@/types/retrospectives'
 import { formatDistanceToNow } from 'date-fns'
+import { FormSectionHeader } from '@/components/organisms/solutions/forms/shared'
+import { Check, Loader2 } from 'lucide-react'
 
 interface Props {
   scheduleId: string
@@ -24,20 +26,38 @@ export default function RetrospectiveForm({
   const router = useRouter()
   const [impact, setImpact] = useState<number | null>(null)
   const [unexpectedBenefits, setUnexpectedBenefits] = useState('')
-  const [stillMaintaining, setStillMaintaining] = useState<boolean | null>(null)
+  const [benefitsLasted, setBenefitsLasted] = useState<boolean | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
-  const timeAgo = formatDistanceToNow(new Date(achievementDate), { addSuffix: true })
+  const timeAgo = (() => {
+    try {
+      const date = new Date(achievementDate)
+      if (isNaN(date.getTime())) {
+        return '6 months ago'
+      }
+      return formatDistanceToNow(date, { addSuffix: true })
+    } catch {
+      return '6 months ago'
+    }
+  })()
 
   const handleSubmit = async () => {
     if (impact === null) return
 
     setSubmitting(true)
     try {
+      // Handle test mode - if scheduleId is a test ID, just show success
+      if (scheduleId === 'test-schedule-id') {
+        await new Promise(resolve => setTimeout(resolve, 1000)) // Simulate API delay
+        alert('Test submission successful! Selected impact: ' + impact + (benefitsLasted !== null ? ', Benefits lasted: ' + benefitsLasted : ''))
+        setSubmitting(false)
+        return
+      }
+
       await submitRetrospective(scheduleId, {
         counterfactual_impact: impact,
         worth_pursuing: impact >= 3,
-        still_maintaining: stillMaintaining ?? undefined,
+        benefits_lasted: benefitsLasted ?? undefined,
         unexpected_benefits: unexpectedBenefits || undefined
       })
 
@@ -52,158 +72,162 @@ export default function RetrospectiveForm({
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Header */}
       <div className="text-center">
-        <span className="inline-block px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium mb-4">
-          6-Month Reflection
-        </span>
-        <h1 className="text-3xl font-bold mb-2">How valuable was this achievement?</h1>
-        <p className="text-gray-600 mb-4">
-          You achieved this {timeAgo}
-        </p>
+        <h1 className="text-xl font-semibold mb-4">Six-Month Reflection</h1>
       </div>
 
       {/* Achievement Summary */}
-      <div className="bg-gray-50 rounded-xl p-6">
+      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
         <div className="space-y-3">
           <div>
-            <p className="text-sm text-gray-500 mb-1">Goal achieved:</p>
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Goal achieved:</p>
             <p className="font-semibold text-lg">{goalTitle}</p>
-            {goalDescription && (
-              <p className="text-sm text-gray-600 mt-1">{goalDescription}</p>
-            )}
           </div>
-          <div className="pt-3 border-t">
-            <p className="text-sm text-gray-500 mb-1">Method used:</p>
+          <div className="pt-3 border-t border-blue-200 dark:border-blue-800">
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Method used:</p>
             <p className="font-medium">{solutionTitle}</p>
           </div>
         </div>
       </div>
 
       {/* Main Question - About the GOAL's value */}
-      <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-6">
-        <h2 className="text-xl font-semibold mb-2">
-          The Key Question
-        </h2>
-        <p className="text-gray-700 mb-4">
-          If you hadn't achieved "{goalTitle}", how different would your life be today?
-        </p>
+      <div className="space-y-6">
+        <FormSectionHeader 
+          icon="🎯" 
+          title="Enduring Impact"
+          bgColor="bg-purple-100 dark:bg-purple-900"
+        />
         
-        <div className="space-y-3">
-          {IMPACT_OPTIONS.map((option) => (
-            <button
-              key={option.value}
-              onClick={() => setImpact(option.value)}
-              className={`
-                w-full text-left p-4 rounded-lg border-2 transition-all
-                ${impact === option.value 
-                  ? 'border-blue-500 bg-blue-50 shadow-md' 
-                  : 'border-gray-200 bg-white hover:border-gray-300'
-                }
-              `}
-            >
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">{option.emoji}</span>
-                <div className="flex-1">
-                  <div className="font-semibold">{option.label}</div>
-                  <div className="text-sm text-gray-600">{option.description}</div>
+        <div className="space-y-4">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            If you hadn't achieved <span className="text-blue-600 dark:text-blue-400">"{goalTitle}"</span>, how different would your life be today?
+          </p>
+        
+          <div className="space-y-3">
+            {IMPACT_OPTIONS.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => setImpact(option.value)}
+                className={`
+                  w-full text-left p-4 rounded-lg border-2 transition-all transform hover:scale-[1.02]
+                  ${impact === option.value 
+                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-lg scale-[1.02]' 
+                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                  }
+                `}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">{option.emoji}</span>
+                  <div className="flex-1">
+                    <div className="font-semibold text-gray-900 dark:text-white">{option.label}</div>
+                  </div>
+                  {impact === option.value && (
+                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center animate-bounce-in">
+                      <Check className="w-4 h-4 text-white" />
+                    </div>
+                  )}
                 </div>
-                {impact === option.value && (
-                  <svg className="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
-                  </svg>
-                )}
-              </div>
-            </button>
-          ))}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Still Maintaining - About the SOLUTION's durability */}
-      <div className="bg-white border border-gray-200 rounded-xl p-6">
-        <h3 className="text-lg font-semibold mb-2">
-          About the method
-        </h3>
-        <p className="text-gray-600 mb-4">
-          Are you still maintaining what you achieved using {solutionTitle}?
-        </p>
-        <div className="grid grid-cols-2 gap-3">
-          <button
-            onClick={() => setStillMaintaining(true)}
-            className={`
-              px-4 py-3 rounded-lg border-2 transition-all text-center
-              ${stillMaintaining === true 
-                ? 'border-green-500 bg-green-50 text-green-700' 
-                : 'border-gray-200 bg-white hover:border-gray-300'
-              }
-            `}
-          >
-            <div className="text-xl mb-1">💪</div>
-            <div className="font-medium">Yes, still going</div>
-            <div className="text-sm mt-1">It's part of my life now</div>
-          </button>
-          <button
-            onClick={() => setStillMaintaining(false)}
-            className={`
-              px-4 py-3 rounded-lg border-2 transition-all text-center
-              ${stillMaintaining === false 
-                ? 'border-orange-500 bg-orange-50 text-orange-700' 
-                : 'border-gray-200 bg-white hover:border-gray-300'
-              }
-            `}
-          >
-            <div className="text-xl mb-1">🔄</div>
-            <div className="font-medium">No, it didn't stick</div>
-            <div className="text-sm mt-1">Back to square one</div>
-          </button>
+      <div className="space-y-6">
+        <FormSectionHeader 
+          icon="🔄" 
+          title="Lasting Impact"
+          bgColor="bg-green-100 dark:bg-green-900"
+        />
+        
+        <div className="space-y-4">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Did the benefits from <span className="text-blue-600 dark:text-blue-400">"{solutionTitle}"</span> last over time?
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={() => setBenefitsLasted(true)}
+              className={`
+                p-4 rounded-lg border-2 transition-all transform hover:scale-[1.02] text-center
+                ${benefitsLasted === true
+                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-lg scale-[1.02]'
+                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                }
+              `}
+            >
+              <div className="text-2xl mb-2">✅</div>
+              <div className="font-semibold text-gray-900 dark:text-white">Yes, benefits lasted</div>
+            </button>
+            <button
+              onClick={() => setBenefitsLasted(false)}
+              className={`
+                p-4 rounded-lg border-2 transition-all transform hover:scale-[1.02] text-center
+                ${benefitsLasted === false
+                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-lg scale-[1.02]'
+                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                }
+              `}
+            >
+              <div className="text-2xl mb-2">❌</div>
+              <div className="font-semibold text-gray-900 dark:text-white">No, didn't last</div>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Unexpected Benefits */}
-      <div>
-        <h3 className="text-lg font-semibold mb-3">
-          Any unexpected benefits? <span className="text-gray-500 font-normal text-sm">(optional)</span>
-        </h3>
-        <textarea
-          value={unexpectedBenefits}
-          onChange={(e) => setUnexpectedBenefits(e.target.value)}
-          placeholder="e.g., 'Confidence boost helped at work' or 'Better sleep was a surprise'"
-          className="w-full p-4 border border-gray-300 rounded-lg resize-none h-24 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          maxLength={500}
+      {/* Unexpected Benefits (Optional) */}
+      <div className="space-y-6">
+        <FormSectionHeader 
+          icon="✨" 
+          title="Unexpected Benefits (Optional)"
+          bgColor="bg-amber-100 dark:bg-amber-900"
         />
-        <p className="text-xs text-gray-500 mt-1">
-          {unexpectedBenefits.length}/500 characters
-        </p>
+        
+        <div className="space-y-4">
+          <label htmlFor="unexpected_benefits" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Any unexpected positive changes from achieving this goal?
+          </label>
+          <textarea
+            id="unexpected_benefits"
+            value={unexpectedBenefits}
+            onChange={(e) => setUnexpectedBenefits(e.target.value)}
+            placeholder="e.g., Better confidence, improved relationships, new opportunities..."
+            rows={3}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                     focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                     bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                     resize-none"
+          />
+        </div>
       </div>
 
-      {/* Submit */}
-      <div className="flex gap-3 pt-4">
+      {/* Submit Button */}
+      <div className="pt-4">
         <button
           onClick={handleSubmit}
           disabled={impact === null || submitting}
           className={`
-            flex-1 py-3 px-6 rounded-lg font-semibold transition-all
-            ${impact === null || submitting
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-              : 'bg-blue-600 text-white hover:bg-blue-700 shadow-md'
+            w-full py-3 px-6 rounded-lg font-medium transition-all
+            ${impact === null 
+              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              : 'bg-purple-600 hover:bg-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02]'
             }
+            ${submitting ? 'opacity-75 cursor-not-allowed' : ''}
           `}
         >
-          {submitting ? 'Submitting...' : 'Submit Reflection'}
-        </button>
-        <button
-          onClick={() => router.push('/mailbox')}
-          className="px-6 py-3 text-gray-600 hover:text-gray-800 transition-colors"
-        >
-          Cancel
+          {submitting ? (
+            <div className="flex items-center justify-center gap-2">
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span>Submitting...</span>
+            </div>
+          ) : (
+            'Submit Reflection'
+          )}
         </button>
       </div>
-
-      {/* Helper text */}
-      <p className="text-center text-sm text-gray-500">
-        Your reflection helps others understand the true value of this goal
-      </p>
     </div>
   )
 }

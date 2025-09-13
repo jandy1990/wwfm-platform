@@ -161,7 +161,7 @@ export async function submitRetrospective(
   data: {
     counterfactual_impact: number
     worth_pursuing?: boolean
-    still_maintaining?: boolean
+    benefits_lasted?: boolean
     unexpected_benefits?: string
     wisdom_note?: string
   }
@@ -196,7 +196,7 @@ export async function submitRetrospective(
       evaluated_date: new Date().toISOString(),
       counterfactual_impact: data.counterfactual_impact,
       worth_pursuing: data.worth_pursuing ?? (data.counterfactual_impact >= 3),
-      still_maintaining: data.still_maintaining,
+      benefits_lasted: data.benefits_lasted,
       unexpected_benefits: data.unexpected_benefits,
       wisdom_note: data.wisdom_note,
       response_source: 'in_app'
@@ -247,8 +247,8 @@ export async function submitRetrospective(
       })
   }
 
-  // Update maintenance rate at the link level
-  if (data.still_maintaining !== undefined) {
+  // Update lasting benefit rate at the link level
+  if (data.benefits_lasted !== undefined) {
     // Get the variant ID for this solution
     const { data: variant } = await supabase
       .from('solution_variants')
@@ -261,26 +261,26 @@ export async function submitRetrospective(
       // Get current maintenance stats
       const { data: link } = await supabase
         .from('goal_implementation_links')
-        .select('maintenance_rate, maintenance_count')
+        .select('lasting_benefit_rate, lasting_benefit_count')
         .eq('goal_id', schedule.goal_id)
         .eq('implementation_id', variant.id)
         .single()
       
       if (link) {
         // Calculate new maintenance rate
-        const currentCount = link.maintenance_count || 0
-        const currentRate = link.maintenance_rate || 0
-        const currentMaintaining = Math.round((currentRate / 100) * currentCount)
+        const currentCount = link.lasting_benefit_count || 0
+        const currentRate = link.lasting_benefit_rate || 0
+        const currentWithBenefits = Math.round((currentRate / 100) * currentCount)
         const newCount = currentCount + 1
-        const newMaintaining = currentMaintaining + (data.still_maintaining ? 1 : 0)
-        const newRate = (newMaintaining / newCount) * 100
+        const newWithBenefits = currentWithBenefits + (data.benefits_lasted ? 1 : 0)
+        const newRate = (newWithBenefits / newCount) * 100
         
         // Update the link
         await supabase
           .from('goal_implementation_links')
           .update({
-            maintenance_rate: newRate,
-            maintenance_count: newCount
+            lasting_benefit_rate: newRate,
+            lasting_benefit_count: newCount
           })
           .eq('goal_id', schedule.goal_id)
           .eq('implementation_id', variant.id)

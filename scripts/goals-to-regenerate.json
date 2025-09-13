@@ -1,0 +1,1298 @@
+[
+  {
+    "goalId": "34a3de93-f47c-4167-8ae3-e3db3a3f40d6",
+    "goalTitle": "Host confidently",
+    "goalDescription": "🎉 Host confidently",
+    "goalArenaName": "House & Home",
+    "goalCategoryName": "Hosting & Hospitality",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "App: Sleep Cycle",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4
+      },
+      {
+        "solutionTitle": "Headspace Anxiety Pack",
+        "solutionCategory": "meditation_mindfulness",
+        "effectiveness": 4.5
+      },
+      {
+        "solutionTitle": "Progressive Muscle Relaxation (PMR) Technique",
+        "solutionCategory": "natural_remedies",
+        "effectiveness": 4.1
+      }
+    ]
+  },
+  {
+    "goalId": "f053571e-8118-44a4-a5c2-c3cd49a08a69",
+    "goalTitle": "Look fit in clothes",
+    "goalDescription": "👕 Look fit in clothes",
+    "goalArenaName": "Beauty & Wellness",
+    "goalCategoryName": "Body & Fitness Appearance",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "App: Sleep Cycle",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.2
+      },
+      {
+        "solutionTitle": "Intermittent Fasting (e.g., 16/8 method)",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 4.3
+      },
+      {
+        "solutionTitle": "Progressive Muscle Relaxation (PMR) Technique",
+        "solutionCategory": "natural_remedies",
+        "effectiveness": 3.9
+      }
+    ]
+  },
+  {
+    "goalId": "28a9df62-1511-4d0a-aebc-3b8d303f33d4",
+    "goalTitle": "Leave toxic situation",
+    "goalDescription": "Safely exit harmful circumstances",
+    "goalArenaName": "Life Direction",
+    "goalCategoryName": "Taking Control",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "CBT-I (Cognitive Behavioral Therapy for Insomnia) Protocol",
+        "solutionCategory": "habits_routines",
+        "effectiveness": 4.6
+      },
+      {
+        "solutionTitle": "Headspace Anxiety Pack",
+        "solutionCategory": "meditation_mindfulness",
+        "effectiveness": 4
+      }
+    ]
+  },
+  {
+    "goalId": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "goalTitle": "Calm my anxiety",
+    "goalDescription": "🌊 Calm my anxiety",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Anxiety & Worry",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Acupuncture (Test)",
+        "solutionCategory": "alternative_practitioners",
+        "effectiveness": 0
+      },
+      {
+        "solutionTitle": "Crisis Hotline (Test)",
+        "solutionCategory": "crisis_resources",
+        "effectiveness": 0
+      },
+      {
+        "solutionTitle": "Financial Advisor (Test)",
+        "solutionCategory": "professional_services",
+        "effectiveness": 0
+      },
+      {
+        "solutionTitle": "Life Coach (Test)",
+        "solutionCategory": "coaches_mentors",
+        "effectiveness": 0
+      },
+      {
+        "solutionTitle": "Physical Therapy (Test)",
+        "solutionCategory": "medical_procedures",
+        "effectiveness": 0
+      },
+      {
+        "solutionTitle": "Psychiatrist (Test)",
+        "solutionCategory": "doctors_specialists",
+        "effectiveness": 0
+      }
+    ]
+  },
+  {
+    "goalId": "dcb86734-1bbc-4ab0-8ffb-b82d75fdcd64",
+    "goalTitle": "Manage chronic pain",
+    "goalDescription": "💊 Manage chronic pain",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Health Conditions",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Curcumin (from Turmeric)",
+        "solutionCategory": "natural_remedies",
+        "effectiveness": 3.7
+      },
+      {
+        "solutionTitle": "Headspace Guided Meditations",
+        "solutionCategory": "meditation_mindfulness",
+        "effectiveness": 4.1
+      }
+    ]
+  },
+  {
+    "goalId": "b279c24b-2032-425d-989e-105bd59240e1",
+    "goalTitle": "Keep conversations going",
+    "goalDescription": "💬 Keep conversations going",
+    "goalArenaName": "Relationships",
+    "goalCategoryName": "Dating & Romance",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Daily Stoic Journal",
+        "solutionCategory": "products_devices",
+        "effectiveness": 4.1
+      }
+    ]
+  },
+  {
+    "goalId": "f54b624a-33d1-4ad2-8de5-15b6d458e2bc",
+    "goalTitle": "Date after divorce",
+    "goalDescription": "Start dating again after marriage ends",
+    "goalArenaName": "Relationships",
+    "goalCategoryName": "Dating & Romance",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Mindful Self-Compassion (MSC) Program",
+        "solutionCategory": "books_courses",
+        "effectiveness": 4.5
+      }
+    ]
+  },
+  {
+    "goalId": "38fc0df5-6a7a-4ebd-9bb9-79a297562886",
+    "goalTitle": "Build muscle mass",
+    "goalDescription": "💪 Build muscle mass",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Weight & Body",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "StrongLifts 5x5 Program",
+        "solutionCategory": "books_courses",
+        "effectiveness": 4.4
+      }
+    ]
+  },
+  {
+    "goalId": "f5dd1ba0-7141-4e74-a036-42ea76c01f3a",
+    "goalTitle": "Improve emotional regulation",
+    "goalDescription": null,
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Emotional Growth",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Emotional Freedom Techniques (EFT) Tapping",
+        "solutionCategory": "alternative_practitioners",
+        "effectiveness": 3.6
+      },
+      {
+        "solutionTitle": "Headspace Sleepcasts",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4
+      }
+    ]
+  },
+  {
+    "goalId": "ae0082f6-9e1f-47f4-be07-635a4775a10f",
+    "goalTitle": "Build freelance career",
+    "goalDescription": "💼 Build freelance career",
+    "goalArenaName": "Work & Career",
+    "goalCategoryName": "Side Hustles",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Atomic Habits by James Clear",
+        "solutionCategory": "books_courses",
+        "effectiveness": 4.7
+      },
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.2
+      }
+    ]
+  },
+  {
+    "goalId": "1187609c-fca9-4793-8ca5-3fc34ecfaf78",
+    "goalTitle": "Make guests comfortable",
+    "goalDescription": "🏠 Make guests comfortable",
+    "goalArenaName": "House & Home",
+    "goalCategoryName": "Hosting & Hospitality",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Headspace Meditation App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.5
+      }
+    ]
+  },
+  {
+    "goalId": "bbe1b334-f430-4722-b994-1916341d3e1a",
+    "goalTitle": "Manage eczema/psoriasis",
+    "goalDescription": "Control and soothe chronic skin conditions",
+    "goalArenaName": "Beauty & Wellness",
+    "goalCategoryName": "Appearance & Skin",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Headspace Meditation App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4
+      }
+    ]
+  },
+  {
+    "goalId": "cea54b7e-3d17-47f4-964a-e8e4cd06d116",
+    "goalTitle": "Have a flatter stomach",
+    "goalDescription": "🎯 Have a flatter stomach",
+    "goalArenaName": "Beauty & Wellness",
+    "goalCategoryName": "Body & Fitness Appearance",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "App: Sleep Cycle",
+        "solutionCategory": "apps_software",
+        "effectiveness": 3.7
+      },
+      {
+        "solutionTitle": "Headspace Sleepcasts",
+        "solutionCategory": "apps_software",
+        "effectiveness": 3.8
+      },
+      {
+        "solutionTitle": "Intermittent Fasting (16/8 Method)",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 4.3
+      },
+      {
+        "solutionTitle": "Intermittent Fasting (e.g., 16/8 method)",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 4
+      },
+      {
+        "solutionTitle": "Mindful Eating Practices",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 4
+      }
+    ]
+  },
+  {
+    "goalId": "a660050e-780c-44c8-be6a-1cfdfeaaf82d",
+    "goalTitle": "Land dream job",
+    "goalDescription": "🎯 Land dream job",
+    "goalArenaName": "Work & Career",
+    "goalCategoryName": "Job Hunting",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Indeed Career Advice",
+        "solutionCategory": "apps_software",
+        "effectiveness": 3.9
+      },
+      {
+        "solutionTitle": "Networking Events (Industry Specific)",
+        "solutionCategory": "groups_communities",
+        "effectiveness": 4.3
+      }
+    ]
+  },
+  {
+    "goalId": "d6ac7810-8b70-4c72-b23d-b33da6eb3fb5",
+    "goalTitle": "Manage frustration without outbursts",
+    "goalDescription": "💢 Handle frustration better",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Anger & Frustration",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Dialectical Behavior Therapy (DBT) Skills Training",
+        "solutionCategory": "books_courses",
+        "effectiveness": 4.7
+      },
+      {
+        "solutionTitle": "Journaling for Emotional Processing",
+        "solutionCategory": "hobbies_activities",
+        "effectiveness": 4
+      }
+    ]
+  },
+  {
+    "goalId": "ed1f08b5-1e65-447c-a3af-e4f6e594a7ab",
+    "goalTitle": "Handle social rejection",
+    "goalDescription": "Cope with rejection and maintain confidence",
+    "goalArenaName": "Socialising",
+    "goalCategoryName": "Social Confidence",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Acceptance and Commitment Therapy (ACT) Techniques",
+        "solutionCategory": "books_courses",
+        "effectiveness": 4.2
+      },
+      {
+        "solutionTitle": "Assertiveness Training Workshops",
+        "solutionCategory": "books_courses",
+        "effectiveness": 4.1
+      },
+      {
+        "solutionTitle": "Dialectical Behavior Therapy (DBT) Skills Training",
+        "solutionCategory": "books_courses",
+        "effectiveness": 4.7
+      }
+    ]
+  },
+  {
+    "goalId": "2f8b2a3e-ec14-4ac3-9fd4-faf9effe970a",
+    "goalTitle": "Handle job uncertainty",
+    "goalDescription": "🔄 Handle job uncertainty",
+    "goalArenaName": "Work & Career",
+    "goalCategoryName": "Job Security",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Couch to 5K (C25K) Running Program",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.3
+      },
+      {
+        "solutionTitle": "Couch to 5K Running Program",
+        "solutionCategory": "exercise_movement",
+        "effectiveness": 4.3
+      }
+    ]
+  },
+  {
+    "goalId": "18b9a15c-0da1-4ad4-b122-7c32de779d6e",
+    "goalTitle": "Find exercise I enjoy",
+    "goalDescription": "🚴 Find exercise I enjoy",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Exercise & Fitness",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Calm Meditation App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.1
+      },
+      {
+        "solutionTitle": "Headspace Meditation App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.2
+      },
+      {
+        "solutionTitle": "Toastmasters International",
+        "solutionCategory": "groups_communities",
+        "effectiveness": 4.3
+      }
+    ]
+  },
+  {
+    "goalId": "965430b3-6caf-489a-8be3-fc7930951198",
+    "goalTitle": "Heal from heartbreak",
+    "goalDescription": "💔 Heal from heartbreak",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Grief & Healing",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "App: Sleep Cycle",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4
+      },
+      {
+        "solutionTitle": "Mindful Eating Practice",
+        "solutionCategory": "habits_routines",
+        "effectiveness": 3.7
+      }
+    ]
+  },
+  {
+    "goalId": "979cd4a1-ca35-4e20-aa7a-baf390264a6f",
+    "goalTitle": "Get to ideal weight",
+    "goalDescription": "🎯 Get to ideal weight",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Weight & Body",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Headspace Meditation App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4
+      },
+      {
+        "solutionTitle": "Intermittent Fasting (e.g., 16/8 method)",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 4.1
+      },
+      {
+        "solutionTitle": "Mindful Eating Practice",
+        "solutionCategory": "habits_routines",
+        "effectiveness": 4.1
+      }
+    ]
+  },
+  {
+    "goalId": "23f16afa-0166-44c5-94ce-00797409ed92",
+    "goalTitle": "Get toned body",
+    "goalDescription": "💪 Get toned body",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Exercise & Fitness",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Headspace Meditation App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 3.9
+      },
+      {
+        "solutionTitle": "Intermittent Fasting (e.g., 16/8 method)",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 4.1
+      }
+    ]
+  },
+  {
+    "goalId": "c833eca2-b877-46fc-9728-102e2c282904",
+    "goalTitle": "Fade scars and marks",
+    "goalDescription": "🩹 Fade scars and marks",
+    "goalArenaName": "Beauty & Wellness",
+    "goalCategoryName": "Appearance & Skin",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Kojic Acid Soap",
+        "solutionCategory": "natural_remedies",
+        "effectiveness": 3.8
+      }
+    ]
+  },
+  {
+    "goalId": "99981e39-0c39-4806-867d-62d36b2230ec",
+    "goalTitle": "Follow through on commitments",
+    "goalDescription": "🎯 Follow through on commitments",
+    "goalArenaName": "Personal Growth",
+    "goalCategoryName": "Character & Discipline",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Forest App - Stay Focused",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.2
+      },
+      {
+        "solutionTitle": "Mindful Self-Compassion (MSC) Program",
+        "solutionCategory": "books_courses",
+        "effectiveness": 4.4
+      }
+    ]
+  },
+  {
+    "goalId": "c826834a-bf7e-45d4-9888-7526b8d6cba2",
+    "goalTitle": "Get over dating anxiety",
+    "goalDescription": "🦋 Get over dating anxiety",
+    "goalArenaName": "Relationships",
+    "goalCategoryName": "Dating & Romance",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Headspace Anxiety Pack",
+        "solutionCategory": "meditation_mindfulness",
+        "effectiveness": 4.3
+      },
+      {
+        "solutionTitle": "Toastmasters International",
+        "solutionCategory": "groups_communities",
+        "effectiveness": 4.1
+      }
+    ]
+  },
+  {
+    "goalId": "2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1",
+    "goalTitle": "Build emotional intelligence",
+    "goalDescription": "Develop EQ to better understand and manage emotions",
+    "goalArenaName": "Personal Growth",
+    "goalCategoryName": "Self-Improvement",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Emotional Freedom Techniques (EFT) Tapping",
+        "solutionCategory": "alternative_practitioners",
+        "effectiveness": 3.8
+      }
+    ]
+  },
+  {
+    "goalId": "58a68e71-19ae-40c0-92c3-5844870c410b",
+    "goalTitle": "Control compulsive shopping",
+    "goalDescription": "🛒 Control compulsive shopping",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Breaking Destructive Patterns",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Dialectical Behavior Therapy (DBT) Skills Training",
+        "solutionCategory": "books_courses",
+        "effectiveness": 4.5
+      },
+      {
+        "solutionTitle": "Emotional Freedom Techniques (EFT) Tapping",
+        "solutionCategory": "alternative_practitioners",
+        "effectiveness": 3.8
+      },
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.3
+      }
+    ]
+  },
+  {
+    "goalId": "cf23e088-e507-4160-a5bb-92152f445e78",
+    "goalTitle": "Find causes I care about",
+    "goalDescription": "🎯 Find causes I care about",
+    "goalArenaName": "Community",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Duolingo Language Learning App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4
+      },
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.5
+      }
+    ]
+  },
+  {
+    "goalId": "23047783-3dc3-42f6-8b40-c1dd37a4693e",
+    "goalTitle": "Complete daily priorities",
+    "goalDescription": "🎯 Be more productive",
+    "goalArenaName": "Personal Growth",
+    "goalCategoryName": "Time & Productivity",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.5
+      },
+      {
+        "solutionTitle": "Intermittent Fasting (16/8 Method)",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 4
+      },
+      {
+        "solutionTitle": "Magnesium Glycinate Supplement",
+        "solutionCategory": "supplements_vitamins",
+        "effectiveness": 3.9
+      }
+    ]
+  },
+  {
+    "goalId": "dd761c23-9b37-4f60-b9bc-7f1a27eb9cdb",
+    "goalTitle": "Cope with PTSD",
+    "goalDescription": "Manage post-traumatic stress symptoms",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Breaking Destructive Patterns",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Magnesium Glycinate Supplement",
+        "solutionCategory": "supplements_vitamins",
+        "effectiveness": 3.6
+      }
+    ]
+  },
+  {
+    "goalId": "f26f7bc7-4caf-4e30-8e2a-5046f1608b5a",
+    "goalTitle": "Break porn addiction",
+    "goalDescription": "📱 Break porn addiction",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Breaking Destructive Patterns",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Intermittent Fasting (16/8 Method)",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 3.6
+      },
+      {
+        "solutionTitle": "Mindful Self-Compassion (MSC) Program",
+        "solutionCategory": "books_courses",
+        "effectiveness": 4.1
+      }
+    ]
+  },
+  {
+    "goalId": "0ba6a398-8a4b-4b08-b43c-5ae04f0ec608",
+    "goalTitle": "Control gaming addiction",
+    "goalDescription": "🎮 Control gaming addiction",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Breaking Destructive Patterns",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Cognitive Behavioral Therapy (CBT) with a Licensed Therapist",
+        "solutionCategory": "therapists_counselors",
+        "effectiveness": 4.5
+      },
+      {
+        "solutionTitle": "Focusmate Virtual Co-working",
+        "solutionCategory": "groups_communities",
+        "effectiveness": 3.8
+      },
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.2
+      }
+    ]
+  },
+  {
+    "goalId": "2177f4dc-41df-492d-8a7f-9c4827d689bd",
+    "goalTitle": "Build self-discipline",
+    "goalDescription": "🎯 Build self-discipline",
+    "goalArenaName": "Personal Growth",
+    "goalCategoryName": "Character & Discipline",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "App: Sleep Cycle",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.1
+      },
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.3
+      },
+      {
+        "solutionTitle": "MyFitnessPal Calorie Tracking",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.3
+      }
+    ]
+  },
+  {
+    "goalId": "91db190f-4fd5-4091-ab9d-3a88c73bb233",
+    "goalTitle": "Control my temper",
+    "goalDescription": "🔥 Control my temper",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Anger & Frustration",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Progressive Muscle Relaxation (PMR)",
+        "solutionCategory": "natural_remedies",
+        "effectiveness": 4.1
+      }
+    ]
+  },
+  {
+    "goalId": "b54f0730-006a-4c77-90c0-9625d98effba",
+    "goalTitle": "Channel anger productively",
+    "goalDescription": "⚡ Channel anger productively",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Anger & Frustration",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Acupuncture",
+        "solutionCategory": "alternative_practitioners",
+        "effectiveness": 3.5
+      },
+      {
+        "solutionTitle": "Progressive Muscle Relaxation (PMR)",
+        "solutionCategory": "natural_remedies",
+        "effectiveness": 4.2
+      }
+    ]
+  },
+  {
+    "goalId": "acacf4ec-79b9-41eb-996e-599d21fc8df9",
+    "goalTitle": "Build confidence",
+    "goalDescription": "🌟 Build confidence",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Emotional Growth",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.3
+      },
+      {
+        "solutionTitle": "Progressive Muscle Relaxation (PMR)",
+        "solutionCategory": "natural_remedies",
+        "effectiveness": 4
+      }
+    ]
+  },
+  {
+    "goalId": "2b5d7aca-f22a-4c4e-a17f-52f0436daf02",
+    "goalTitle": "Build mutual aid network",
+    "goalDescription": "Create community support systems for neighbors",
+    "goalArenaName": "Community",
+    "goalCategoryName": "Building Community",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Community Emergency Response Team (CERT) Training",
+        "solutionCategory": "professional_services",
+        "effectiveness": 4.7
+      }
+    ]
+  },
+  {
+    "goalId": "111adb63-1916-48d4-9599-4b074c10f894",
+    "goalTitle": "Have healthier hair",
+    "goalDescription": "💆 Have healthier hair",
+    "goalArenaName": "Beauty & Wellness",
+    "goalCategoryName": "Hair & Grooming",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "App: Sleep Cycle",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4
+      },
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.2
+      },
+      {
+        "solutionTitle": "Olaplex No. 3 Hair Perfector",
+        "solutionCategory": "beauty_skincare",
+        "effectiveness": 4.5
+      }
+    ]
+  },
+  {
+    "goalId": "c017b79a-30c7-4f72-90f2-4aff05eea0f9",
+    "goalTitle": "Control OCD behaviors",
+    "goalDescription": "Manage obsessive-compulsive patterns",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Breaking Destructive Patterns",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Cognitive Behavioral Therapy (CBT) with a Licensed Therapist",
+        "solutionCategory": "therapists_counselors",
+        "effectiveness": 4.4
+      },
+      {
+        "solutionTitle": "Deep Breathing Exercises",
+        "solutionCategory": "meditation_mindfulness",
+        "effectiveness": 3.5
+      }
+    ]
+  },
+  {
+    "goalId": "9c5ecdf7-b473-489b-9c98-866a03417710",
+    "goalTitle": "Learn new skills",
+    "goalDescription": "🧠 Learn new skills",
+    "goalArenaName": "Personal Growth",
+    "goalCategoryName": "Learning & Development",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Forest App - Stay Focused",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.1
+      }
+    ]
+  },
+  {
+    "goalId": "51daef31-1271-4128-ad38-11c686598e07",
+    "goalTitle": "Grow thicker hair",
+    "goalDescription": "🦁 Grow thicker hair",
+    "goalArenaName": "Beauty & Wellness",
+    "goalCategoryName": "Hair & Grooming",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "MyFitnessPal (App)",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4
+      }
+    ]
+  },
+  {
+    "goalId": "bc0e64fb-56e1-4b30-a9e8-3b80e90f650f",
+    "goalTitle": "Improve heart health",
+    "goalDescription": "🫀 Improve heart health",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Health Conditions",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "MyFitnessPal (App)",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.2
+      }
+    ]
+  },
+  {
+    "goalId": "db8a2938-5fe7-48b4-bb95-5b97747f91d7",
+    "goalTitle": "Manage IBS and gut issues",
+    "goalDescription": "Find effective ways to manage irritable bowel syndrome and digestive health problems",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Health Conditions",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Low-FODMAP Diet",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 4.5
+      }
+    ]
+  },
+  {
+    "goalId": "49a8e45d-6732-4738-a705-5b9f35e3a184",
+    "goalTitle": "Get more dating matches",
+    "goalDescription": "📱 Get more dating matches",
+    "goalArenaName": "Relationships",
+    "goalCategoryName": "Dating & Romance",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "App: Sleep Cycle",
+        "solutionCategory": "apps_software",
+        "effectiveness": 3.9
+      },
+      {
+        "solutionTitle": "L-Theanine Supplement",
+        "solutionCategory": "supplements_vitamins",
+        "effectiveness": 3.8
+      }
+    ]
+  },
+  {
+    "goalId": "13a6540f-d793-4007-ba52-b964e35e89ee",
+    "goalTitle": "Manage autoimmune conditions",
+    "goalDescription": "Cope with and control autoimmune disorders",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Health Conditions",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Cerave Moisturizing Cream",
+        "solutionCategory": "beauty_skincare",
+        "effectiveness": 4
+      }
+    ]
+  },
+  {
+    "goalId": "d8855dce-d45b-4212-8ae5-19e12ec4ebb3",
+    "goalTitle": "Fix dry skin",
+    "goalDescription": "🏜️ Fix dry skin",
+    "goalArenaName": "Beauty & Wellness",
+    "goalCategoryName": "Appearance & Skin",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Cerave Moisturizing Cream",
+        "solutionCategory": "beauty_skincare",
+        "effectiveness": 4.7
+      }
+    ]
+  },
+  {
+    "goalId": "723f006e-10fa-4c09-9270-927915a46037",
+    "goalTitle": "Get stronger",
+    "goalDescription": "🏋️ Get stronger",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Exercise & Fitness",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Intermittent Fasting (e.g., 16/8 method)",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 3.8
+      }
+    ]
+  },
+  {
+    "goalId": "1a9d7daf-5e18-4ea2-bfae-6b439ebdef2c",
+    "goalTitle": "Control acid reflux",
+    "goalDescription": "Reduce or eliminate GERD symptoms and acid reflux episodes",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Health Conditions",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Acupuncture",
+        "solutionCategory": "alternative_practitioners",
+        "effectiveness": 3.2
+      },
+      {
+        "solutionTitle": "Cognitive Behavioral Therapy (CBT) with a Licensed Therapist",
+        "solutionCategory": "therapists_counselors",
+        "effectiveness": 3.8
+      },
+      {
+        "solutionTitle": "Mindful Eating Practices",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 3.9
+      }
+    ]
+  },
+  {
+    "goalId": "25988abd-7991-4b30-9bf1-9af3e43ebfd3",
+    "goalTitle": "Control sugar cravings",
+    "goalDescription": "🍰 Stop sugar cravings",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Food & Nutrition",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Acupuncture",
+        "solutionCategory": "alternative_practitioners",
+        "effectiveness": 3.5
+      },
+      {
+        "solutionTitle": "Cognitive Behavioral Therapy (CBT) with a Licensed Therapist",
+        "solutionCategory": "therapists_counselors",
+        "effectiveness": 4.4
+      }
+    ]
+  },
+  {
+    "goalId": "98195b10-f901-4fa5-9ec1-a42b293eaed3",
+    "goalTitle": "Manage depression symptoms",
+    "goalDescription": "💪 Overcome depression",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Sadness & Depression",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Dialectical Behavior Therapy (DBT) Skills Training",
+        "solutionCategory": "books_courses",
+        "effectiveness": 4.4
+      }
+    ]
+  },
+  {
+    "goalId": "a2f36f44-eef3-4ecb-8558-18015468c04a",
+    "goalTitle": "Lower blood pressure",
+    "goalDescription": "🩸 Lower blood pressure",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Health Conditions",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4
+      },
+      {
+        "solutionTitle": "Mindful Eating Practices",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 3.5
+      }
+    ]
+  },
+  {
+    "goalId": "4dbf47c6-8077-4441-a536-9d459c2436b2",
+    "goalTitle": "Deal with body odor",
+    "goalDescription": "Manage and eliminate body odor concerns",
+    "goalArenaName": "Beauty & Wellness",
+    "goalCategoryName": "Wellness & Self-Care",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Acupuncture",
+        "solutionCategory": "alternative_practitioners",
+        "effectiveness": 3.4
+      },
+      {
+        "solutionTitle": "Couch to 5K Running Program",
+        "solutionCategory": "exercise_movement",
+        "effectiveness": 4.1
+      },
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 3.6
+      }
+    ]
+  },
+  {
+    "goalId": "bfdedb5e-b7d1-4dc8-b2ff-30cda27d6eb8",
+    "goalTitle": "Manage ADHD symptoms",
+    "goalDescription": "Control attention deficit and hyperactivity challenges",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Breaking Destructive Patterns",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.3
+      }
+    ]
+  },
+  {
+    "goalId": "8747b8d3-96ff-42cf-8b9f-70a3c27a90c7",
+    "goalTitle": "Manage fibromyalgia",
+    "goalDescription": "Cope with widespread pain and other fibromyalgia symptoms",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Health Conditions",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 3.9
+      }
+    ]
+  },
+  {
+    "goalId": "5c398aef-3019-4d41-a5cb-9dedaacda4ab",
+    "goalTitle": "Lose weight sustainably",
+    "goalDescription": "🏃 Lose weight sustainably",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Weight & Body",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "App: Sleep Cycle",
+        "solutionCategory": "apps_software",
+        "effectiveness": 3.8
+      },
+      {
+        "solutionTitle": "Intermittent Fasting (16/8 Method)",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 4.1
+      }
+    ]
+  },
+  {
+    "goalId": "f609b584-d74f-4b42-94a0-db56d1f32d3a",
+    "goalTitle": "Gain healthy weight",
+    "goalDescription": "💪 Gain healthy weight",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Weight & Body",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Mindful Eating Practices",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 3.7
+      }
+    ]
+  },
+  {
+    "goalId": "3a8eae50-6c90-4fce-b069-156862871cfe",
+    "goalTitle": "Manage chronic fatigue",
+    "goalDescription": "Overcome chronic fatigue syndrome and restore energy levels",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Health Conditions",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Mindful Eating Practices",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 3.5
+      }
+    ]
+  },
+  {
+    "goalId": "ca9d28b4-ad04-4a0c-9cbd-5bdf9699968f",
+    "goalTitle": "Manage PCOS",
+    "goalDescription": "Control polycystic ovary syndrome symptoms and complications",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Health Conditions",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Mindful Eating Practices",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 3.9
+      }
+    ]
+  },
+  {
+    "goalId": "659e0530-f38f-4472-9320-1082337de090",
+    "goalTitle": "Control my drinking",
+    "goalDescription": "🍺 Control my drinking",
+    "goalArenaName": "Feeling & Emotion",
+    "goalCategoryName": "Breaking Destructive Patterns",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Cognitive Behavioral Therapy (CBT) with a Licensed Therapist",
+        "solutionCategory": "therapists_counselors",
+        "effectiveness": 4.7
+      }
+    ]
+  },
+  {
+    "goalId": "4474e00e-d59a-42c9-ac5c-7bda99d6578a",
+    "goalTitle": "Change careers successfully",
+    "goalDescription": "🎯 Change careers successfully",
+    "goalArenaName": "Work & Career",
+    "goalCategoryName": "Career Changes",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Cognitive Behavioral Therapy (CBT) with a Licensed Therapist",
+        "solutionCategory": "therapists_counselors",
+        "effectiveness": 4.5
+      },
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.2
+      }
+    ]
+  },
+  {
+    "goalId": "a7c0d79e-4b60-4fb6-89c8-7dbdaff8fb56",
+    "goalTitle": "Beat afternoon slump",
+    "goalDescription": "🔋 Beat afternoon slump",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Sleep & Energy",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Acupuncture",
+        "solutionCategory": "alternative_practitioners",
+        "effectiveness": 3.8
+      },
+      {
+        "solutionTitle": "Cognitive Behavioral Therapy (CBT) with a Licensed Therapist",
+        "solutionCategory": "therapists_counselors",
+        "effectiveness": 4.5
+      }
+    ]
+  },
+  {
+    "goalId": "7338e1ae-8bdf-4b9f-bdf5-eb5021aad086",
+    "goalTitle": "Change negative self-talk",
+    "goalDescription": "🔄 Change negative self-talk",
+    "goalArenaName": "Personal Growth",
+    "goalCategoryName": "Mindset & Beliefs",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Cognitive Behavioral Therapy (CBT) with a Licensed Therapist",
+        "solutionCategory": "therapists_counselors",
+        "effectiveness": 4.8
+      }
+    ]
+  },
+  {
+    "goalId": "c06ce272-50b1-424d-ac13-fade70b170b6",
+    "goalTitle": "Deal with excessive sweating",
+    "goalDescription": "Manage hyperhidrosis and excessive perspiration",
+    "goalArenaName": "Beauty & Wellness",
+    "goalCategoryName": "Wellness & Self-Care",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Cognitive Behavioral Therapy (CBT) with a Licensed Therapist",
+        "solutionCategory": "therapists_counselors",
+        "effectiveness": 4.3
+      }
+    ]
+  },
+  {
+    "goalId": "e9569309-a911-4045-a416-a74827827c7c",
+    "goalTitle": "Create good habits",
+    "goalDescription": "🌱 Create good habits",
+    "goalArenaName": "Personal Growth",
+    "goalCategoryName": "Self-Improvement",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Couch to 5K Running Program",
+        "solutionCategory": "exercise_movement",
+        "effectiveness": 4.6
+      },
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.5
+      }
+    ]
+  },
+  {
+    "goalId": "8b644463-adfa-4315-9d86-fb03b1b92237",
+    "goalTitle": "Be part of solutions",
+    "goalDescription": "💪 Be part of solutions",
+    "goalArenaName": "Community",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.2
+      }
+    ]
+  },
+  {
+    "goalId": "0bf738fe-dbe9-4131-82d3-42c39b600296",
+    "goalTitle": "Build home workout habit",
+    "goalDescription": "🏋️ Build home workout habit",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Exercise & Fitness",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Couch to 5K Running Program",
+        "solutionCategory": "exercise_movement",
+        "effectiveness": 4.3
+      },
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.3
+      }
+    ]
+  },
+  {
+    "goalId": "a72b9494-5508-4ded-8c6c-94dc96910009",
+    "goalTitle": "Bounce back from firing",
+    "goalDescription": "💪 Bounce back from firing",
+    "goalArenaName": "Work & Career",
+    "goalCategoryName": "Job Security",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.3
+      }
+    ]
+  },
+  {
+    "goalId": "68099253-5b89-48cf-a8dd-08f5118b9c19",
+    "goalTitle": "Break bad habits",
+    "goalDescription": "🔄 Break bad habits",
+    "goalArenaName": "Personal Growth",
+    "goalCategoryName": "Self-Improvement",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Couch to 5K Running Program",
+        "solutionCategory": "exercise_movement",
+        "effectiveness": 4.4
+      },
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4.2
+      }
+    ]
+  },
+  {
+    "goalId": "0bf5187f-21cd-4e73-a349-dc1f46dbabef",
+    "goalTitle": "Control allergies",
+    "goalDescription": "Manage environmental and food allergies effectively",
+    "goalArenaName": "Physical Health",
+    "goalCategoryName": "Health Conditions",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Headspace App",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4
+      }
+    ]
+  },
+  {
+    "goalId": "4b721437-85db-4ca5-8a4c-e1a54affad85",
+    "goalTitle": "Clear up acne",
+    "goalDescription": "🎯 Clear up acne",
+    "goalArenaName": "Beauty & Wellness",
+    "goalCategoryName": "Appearance & Skin",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Intermittent Fasting (16/8 Method)",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 3.3
+      }
+    ]
+  },
+  {
+    "goalId": "ef3ff425-3d80-4689-b9a9-c542d580254d",
+    "goalTitle": "Control oily skin",
+    "goalDescription": "💧 Control oily skin",
+    "goalArenaName": "Beauty & Wellness",
+    "goalCategoryName": "Appearance & Skin",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Intermittent Fasting (16/8 Method)",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 3.6
+      }
+    ]
+  },
+  {
+    "goalId": "ac62f0f5-eacf-41b3-950b-0e7ff9dd80d0",
+    "goalTitle": "Build muscle definition",
+    "goalDescription": "💪 Build muscle definition",
+    "goalArenaName": "Beauty & Wellness",
+    "goalCategoryName": "Body & Fitness Appearance",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "Intermittent Fasting (16/8 Method)",
+        "solutionCategory": "diet_nutrition",
+        "effectiveness": 3.8
+      }
+    ]
+  },
+  {
+    "goalId": "bf74d2f1-3c7e-43b4-bf93-748afec276e9",
+    "goalTitle": "Look put together",
+    "goalDescription": "✨ Look put together",
+    "goalArenaName": "Beauty & Wellness",
+    "goalCategoryName": "Style & Presentation",
+    "affectedSolutions": [
+      {
+        "solutionTitle": "App: Sleep Cycle",
+        "solutionCategory": "apps_software",
+        "effectiveness": 4
+      }
+    ]
+  }
+]

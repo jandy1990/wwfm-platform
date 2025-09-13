@@ -1,0 +1,51 @@
+{
+  "totalAffectedLinks": 130,
+  "emptyLinks": 66,
+  "templateInjectedLinks": 64,
+  "uniqueGoalSolutionPairs": 130,
+  "uniqueGoalsAffected": 72,
+  "mostAffectedSolutions": [
+    [
+      "Headspace App",
+      19
+    ],
+    [
+      "Cognitive Behavioral Therapy (CBT) with a Licensed Therapist",
+      9
+    ],
+    [
+      "App: Sleep Cycle",
+      9
+    ],
+    [
+      "Intermittent Fasting (16/8 Method)",
+      7
+    ],
+    [
+      "Mindful Eating Practices",
+      6
+    ],
+    [
+      "Headspace Meditation App",
+      5
+    ],
+    [
+      "Intermittent Fasting (e.g., 16/8 method)",
+      5
+    ],
+    [
+      "Acupuncture",
+      5
+    ],
+    [
+      "Couch to 5K Running Program",
+      5
+    ],
+    [
+      "Dialectical Behavior Therapy (DBT) Skills Training",
+      4
+    ]
+  ],
+  "createdAt": "2025-09-10T00:33:57.565Z",
+  "purpose": "Pre-deletion mapping to ensure all goal-solution relationships are restored after regeneration"
+}

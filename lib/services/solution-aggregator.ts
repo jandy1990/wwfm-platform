@@ -48,6 +48,7 @@ export class SolutionAggregator {
     const aggregated: AggregatedFields = {
       _metadata: {
         computed_at: new Date().toISOString(),
+        last_aggregated: new Date().toISOString(),
         total_ratings: ratings.length,
         data_source: hasAI && userRatings > 0 ? 'mixed' : hasAI ? 'ai' : 'user',
         confidence: userRatings >= 10 ? 'high' : userRatings >= 3 ? 'medium' : 'low'
@@ -89,7 +90,6 @@ export class SolutionAggregator {
     // DosageForm fields (using new naming convention)
     aggregated.dosage_amount = this.aggregateValueField(ratings, 'dosage_amount')
     aggregated.dosage_unit = this.aggregateValueField(ratings, 'dosage_unit')
-    aggregated.skincare_frequency = this.aggregateValueField(ratings, 'skincare_frequency')
     
     // AppForm fields
     aggregated.usage_frequency = this.aggregateValueField(ratings, 'usage_frequency')
