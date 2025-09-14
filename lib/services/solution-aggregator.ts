@@ -277,13 +277,25 @@ export class SolutionAggregator {
     implementationId: string
   ): Promise<void> {
     const supabase = await createServerSupabaseClient()
-    
+
     console.log(`[Aggregator] Starting aggregation for goal=${goalId}, implementation=${implementationId}`)
-    
+
+    // PROTECTION: Check if this is an AI solution - never overwrite AI data
+    const { data: solutionCheck } = await supabase
+      .from('solution_variants')
+      .select('solutions!inner(source_type)')
+      .eq('id', implementationId)
+      .single()
+
+    if (solutionCheck?.solutions?.source_type === 'ai_foundation') {
+      console.log(`[Aggregator] SKIPPED - This is an AI solution, preserving pre-built distribution data`)
+      return
+    }
+
     // Compute new aggregates
     const aggregated = await this.computeAggregates(goalId, implementationId)
     console.log(`[Aggregator] Computed aggregates:`, Object.keys(aggregated))
-    
+
     // First check if the link exists
     const { data: existingLink, error: checkError } = await supabase
       .from('goal_implementation_links')

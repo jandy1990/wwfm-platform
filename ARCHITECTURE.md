@@ -10,7 +10,7 @@ WWFM (What Works For Me) is a platform for crowdsourcing effective solutions to 
 
 ### Core Concepts
 
-1. **Goals**: Specific life challenges users want to solve (652 total)
+1. **Goals**: Specific life challenges users want to solve (228 active, curated from 652 original)
 2. **Solutions**: Specific implementable approaches (e.g., "Headspace app", "Vitamin D3")
    - "Generic" means cross-applicable to multiple goals, NOT vague/non-specific
    - Must be actionable: something you can actually do/buy/join

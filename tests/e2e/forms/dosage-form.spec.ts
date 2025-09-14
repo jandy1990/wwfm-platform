@@ -34,7 +34,8 @@ test.describe('DosageForm - Additional Tests', () => {
     await continueBtn.click()
     await page.waitForTimeout(1000)
     
-    // Try to enter invalid dosage amount
+    // Wait for the dosage form to load and try to enter invalid dosage amount
+    await page.waitForSelector('input[name="dosage_amount"]', { timeout: 10000 })
     await page.fill('input[name="dosage_amount"]', '-5')
     
     // Try to continue/submit - should show validation

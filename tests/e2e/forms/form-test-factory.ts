@@ -278,11 +278,11 @@ export function createFormTest(config: FormTestConfig) {
           
           // Verify variant
           expect(result.variant).toBeDefined()
-          if (config.hasVariants && category !== 'beauty_skincare') {
-            // Dosage categories (except beauty_skincare) have real variants
+          if (config.hasVariants && ['medications', 'supplements_vitamins', 'natural_remedies'].includes(category)) {
+            // True dosage categories have real dosage variants
             expect(result.variant.variant_name).not.toBe('Standard')
           } else {
-            // All other categories use Standard variant
+            // All other categories (including beauty_skincare) use Standard variant
             expect(result.variant.variant_name).toBe('Standard')
           }
           
@@ -468,14 +468,17 @@ export function createFormTest(config: FormTestConfig) {
           // Most forms are multi-step, so we'll just check if we can navigate
           
           // Navigate back if multi-step
-          const backButton = page.locator('button:has-text("Back")')
+          const backButton = page.locator('button:has-text("← Back")').first()
           if (await backButton.isVisible()) {
             await backButton.click()
             
             // For our multi-step forms, we don't have a solution_category field
             // Instead check that we're still on the form (not back at search)
-            const isStillOnForm = await page.locator('button:has-text("Continue"), button:has-text("Submit")').isVisible()
-            expect(isStillOnForm).toBe(true)
+            const continueButton = page.locator('button:has-text("Continue")').first()
+            const submitButton = page.locator('button:has-text("Submit")').first()
+            const hasContinue = await continueButton.isVisible()
+            const hasSubmit = await submitButton.isVisible()
+            expect(hasContinue || hasSubmit).toBe(true)
           }
         })
       })

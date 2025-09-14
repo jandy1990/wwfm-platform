@@ -215,25 +215,39 @@ export function mapTimeCommitmentToDropdown(value: string, options: string[]): s
  *   "twice a day" → "twice daily"
  *   "every day" → "Daily"
  *   "3 times per week" → "Few times a week"
+ *   "Twice daily (AM & PM)" → "Twice daily"
+ *   "every other day" → "Every other day"
  */
 export function mapFrequencyToDropdown(value: string, options: string[]): string {
-  const lowerValue = value.toLowerCase()
-  
-  // Handle daily variations
-  if (lowerValue.includes('every day') || lowerValue.includes('daily')) {
+  const lowerValue = value.toLowerCase().replace(/[()]/g, '').trim()
+
+  // Handle special edge cases first
+  if (lowerValue.includes('every other day') || lowerValue.includes('alternating days')) {
+    return options.find(opt => opt.toLowerCase().includes('every other day')) ||
+           options.find(opt => opt.toLowerCase().includes('alternate')) || options[0]
+  }
+
+  if (lowerValue.includes('varies') || lowerValue.includes('variable') || lowerValue.includes('as directed')) {
+    return options.find(opt => opt.toLowerCase().includes('as needed')) ||
+           options.find(opt => opt.toLowerCase().includes('variable')) ||
+           options.find(opt => opt.toLowerCase().includes('varies')) || options[0]
+  }
+
+  // Handle daily variations - now with AM/PM pattern recognition
+  if (lowerValue.includes('every day') || lowerValue.includes('daily') || lowerValue.includes('am') || lowerValue.includes('pm')) {
     // Check for multiple times daily
-    if (lowerValue.includes('twice') || lowerValue.includes('2')) {
-      return options.find(opt => opt.toLowerCase().includes('twice daily')) || 
+    if (lowerValue.includes('twice') || lowerValue.includes('2') || (lowerValue.includes('am') && lowerValue.includes('pm'))) {
+      return options.find(opt => opt.toLowerCase().includes('twice daily')) ||
              options.find(opt => opt.toLowerCase() === 'daily') || options[0]
     }
     if (lowerValue.includes('three') || lowerValue.includes('3')) {
-      return options.find(opt => opt.toLowerCase().includes('three times daily')) || 
+      return options.find(opt => opt.toLowerCase().includes('three times daily')) ||
              options.find(opt => opt.toLowerCase() === 'daily') || options[0]
     }
-    return options.find(opt => opt.toLowerCase() === 'daily') || 
+    return options.find(opt => opt.toLowerCase() === 'daily') ||
            options.find(opt => opt.toLowerCase() === 'once daily') || options[0]
   }
-  
+
   // Handle weekly variations
   if (lowerValue.includes('week')) {
     // Handle "X times per week" pattern more precisely
@@ -242,10 +256,10 @@ export function mapFrequencyToDropdown(value: string, options: string[]): string
       const minTimes = parseInt(timesMatch[1])
       const maxTimes = timesMatch[2] ? parseInt(timesMatch[2]) : minTimes
       const avgTimes = (minTimes + maxTimes) / 2
-      
+
       // Map to the most appropriate weekly frequency
       if (avgTimes === 1) {
-        return options.find(opt => opt.toLowerCase() === 'weekly') || 
+        return options.find(opt => opt.toLowerCase() === 'weekly') ||
                options.find(opt => opt.toLowerCase() === 'once weekly') || options[0]
       } else if (avgTimes <= 3) {
         return options.find(opt => opt.toLowerCase().includes('few times a week')) ||
@@ -263,23 +277,23 @@ export function mapFrequencyToDropdown(value: string, options: string[]): string
                options.find(opt => opt.toLowerCase() === 'once daily') || options[0]
       }
     }
-    
+
     // Handle other weekly patterns
     if (lowerValue.includes('once')) {
       return options.find(opt => opt.toLowerCase() === 'weekly') || options[0]
     }
   }
-  
+
   // Handle monthly
   if (lowerValue.includes('month')) {
     return options.find(opt => opt.toLowerCase() === 'monthly') || options[0]
   }
-  
+
   // Handle as needed
   if (lowerValue.includes('as needed') || lowerValue.includes('when needed')) {
     return options.find(opt => opt.toLowerCase().includes('as needed')) || options[0]
   }
-  
+
   // Fallback: try to find any partial match
   const words = lowerValue.split(' ')
   for (const option of options) {
@@ -288,8 +302,96 @@ export function mapFrequencyToDropdown(value: string, options: string[]): string
       return option
     }
   }
-  
+
   return options[0]
+}
+
+/**
+ * Map diet/nutrition specific fields with enhanced logic
+ */
+export function mapDietNutritionFields(fieldName: string, value: string, options: string[]): string {
+  const lowerValue = value.toLowerCase()
+
+  if (fieldName === 'still_following') {
+    // Handle the 490 problematic cases in diet_nutrition
+    if (lowerValue.includes('yes') || lowerValue.includes('continuing') || lowerValue.includes('maintain')) {
+      return options.find(opt => opt.toLowerCase() === 'yes') || options[0]
+    }
+    if (lowerValue.includes('no') || lowerValue.includes('stopped') || lowerValue.includes('discontinued')) {
+      return options.find(opt => opt.toLowerCase() === 'no') || options[0]
+    }
+    if (lowerValue.includes('modified') || lowerValue.includes('adapted') || lowerValue.includes('changed')) {
+      return options.find(opt => opt.toLowerCase().includes('modified')) ||
+             options.find(opt => opt.toLowerCase().includes('partially')) || options[0]
+    }
+  }
+
+  return fuzzyMatchDropdown(value, options)
+}
+
+/**
+ * Map beauty/skincare specific fields with enhanced logic
+ */
+export function mapBeautySkincareFields(fieldName: string, value: string, options: string[]): string {
+  const lowerValue = value.toLowerCase().replace(/[()&]/g, '').trim()
+
+  if (fieldName === 'skincare_frequency') {
+    // Handle the 775 problematic cases like "Twice daily (AM & PM)"
+    if (lowerValue.includes('twice') && (lowerValue.includes('am') || lowerValue.includes('pm'))) {
+      return options.find(opt => opt.toLowerCase().includes('twice daily')) || options[0]
+    }
+    if (lowerValue.includes('morning') && lowerValue.includes('evening')) {
+      return options.find(opt => opt.toLowerCase().includes('twice daily')) || options[0]
+    }
+    if (lowerValue.includes('once') || lowerValue.includes('single application')) {
+      return options.find(opt => opt.toLowerCase().includes('once daily')) ||
+             options.find(opt => opt.toLowerCase().includes('daily')) || options[0]
+    }
+
+    // Use the general frequency mapping for other patterns
+    return mapFrequencyToDropdown(value, options)
+  }
+
+  return fuzzyMatchDropdown(value, options)
+}
+
+/**
+ * Map supplement/medication specific fields with enhanced logic
+ */
+export function mapSupplementMedicationFields(fieldName: string, value: string, options: string[]): string {
+  const lowerValue = value.toLowerCase()
+
+  if (fieldName === 'side_effects') {
+    // Handle the 346 problematic cases in supplements
+    // Extract key side effects from descriptive text
+    const sideEffectMap = {
+      'stomach': 'Stomach upset',
+      'nausea': 'Nausea',
+      'headache': 'Headaches',
+      'dizziness': 'Dizziness',
+      'fatigue': 'Fatigue',
+      'skin': 'Skin irritation',
+      'allergic': 'Allergic reactions',
+      'drowsiness': 'Drowsiness',
+      'insomnia': 'Sleep issues',
+      'digestive': 'Digestive issues'
+    }
+
+    for (const [keyword, sideEffect] of Object.entries(sideEffectMap)) {
+      if (lowerValue.includes(keyword)) {
+        const match = options.find(opt => opt.toLowerCase().includes(sideEffect.toLowerCase()))
+        if (match) return match
+      }
+    }
+
+    // Default to "None" if no specific side effect found and "none" is mentioned
+    if (lowerValue.includes('none') || lowerValue.includes('minimal')) {
+      return options.find(opt => opt.toLowerCase().includes('none')) ||
+             options.find(opt => opt.toLowerCase().includes('minimal')) || options[0]
+    }
+  }
+
+  return fuzzyMatchDropdown(value, options)
 }
 
 /**
@@ -302,36 +404,58 @@ export function mapToDropdownValue(
 ): string {
   // Get the allowed options for this field
   const options = getDropdownOptionsForField(category, fieldName)
-  
+
   // If no dropdown options, return as-is (free text field)
   if (!options || options.length === 0) {
     return naturalValue
   }
-  
+
   // First check for exact match (case-insensitive)
-  const exactMatch = options.find(opt => 
+  const exactMatch = options.find(opt =>
     opt.toLowerCase() === naturalValue.toLowerCase()
   )
   if (exactMatch) return exactMatch
-  
+
+  // Apply category-specific enhanced mappings first
+  if (category === 'diet_nutrition') {
+    const dietResult = mapDietNutritionFields(fieldName, naturalValue, options)
+    if (dietResult !== options[0] || naturalValue.toLowerCase() === dietResult.toLowerCase()) {
+      return dietResult
+    }
+  }
+
+  if (category === 'beauty_skincare') {
+    const beautyResult = mapBeautySkincareFields(fieldName, naturalValue, options)
+    if (beautyResult !== options[0] || naturalValue.toLowerCase() === beautyResult.toLowerCase()) {
+      return beautyResult
+    }
+  }
+
+  if (category === 'supplements_vitamins' || category === 'medications' || category === 'natural_remedies') {
+    const supplementResult = mapSupplementMedicationFields(fieldName, naturalValue, options)
+    if (supplementResult !== options[0] || naturalValue.toLowerCase() === supplementResult.toLowerCase()) {
+      return supplementResult
+    }
+  }
+
   // Apply intelligent mapping based on field type
   if (fieldName.includes('cost') || fieldName.includes('price')) {
     return mapCostToDropdown(naturalValue, options)
   }
-  
+
   if (fieldName.includes('time_to_results') || fieldName.includes('duration')) {
     return mapTimeToDropdown(naturalValue, options)
   }
-  
+
   // Handle time_commitment separately - it's about daily/weekly time investment
   if (fieldName === 'time_commitment') {
     return mapTimeCommitmentToDropdown(naturalValue, options)
   }
-  
+
   if (fieldName.includes('frequency')) {
     return mapFrequencyToDropdown(naturalValue, options)
   }
-  
+
   // For other fields, try fuzzy matching
   return fuzzyMatchDropdown(naturalValue, options)
 }

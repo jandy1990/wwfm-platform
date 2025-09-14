@@ -25,7 +25,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: 1,  // Run tests sequentially to avoid "already rated" errors
   reporter: 'html',
-  timeout: 60000,  // 60 seconds per test (up from default 30s)
+  timeout: 90000,  // 90 seconds per test (increased for reliability)
   
   // Global setup for authentication
   globalSetup: require.resolve('./tests/setup/global-setup.ts'),

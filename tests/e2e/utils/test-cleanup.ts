@@ -135,7 +135,52 @@ export async function clearTestRatingsForSolution(
   
   const variantIds = variants.map(v => v.id)
   console.log(`Found ${variantIds.length} variants to clean for "${solutionTitle}"`)
-  
+
+  // First, find all ratings that need to be deleted
+  const { data: ratingsToDelete } = await supabase
+    .from('ratings')
+    .select('id')
+    .eq('goal_id', goalId)
+    .in('implementation_id', variantIds)
+
+  let deletedRetrospectives = 0
+  if (ratingsToDelete && ratingsToDelete.length > 0) {
+    const ratingIds = ratingsToDelete.map(r => r.id)
+
+    // Delete retrospective_schedules first (they reference ratings)
+    const { data: deletedSchedulesData, error: schedulesError } = await supabase
+      .from('retrospective_schedules')
+      .delete()
+      .in('rating_id', ratingIds)
+      .select()
+
+    let deletedSchedules = 0
+    if (schedulesError) {
+      console.error('Error deleting retrospective_schedules:', schedulesError.message)
+    } else {
+      deletedSchedules = deletedSchedulesData?.length || 0
+      if (deletedSchedules > 0) {
+        console.log(`✅ Deleted ${deletedSchedules} retrospective_schedules`)
+      }
+    }
+
+    // Delete goal_retrospectives (they also reference ratings)
+    const { data: deletedRetroData, error: retroError } = await supabase
+      .from('goal_retrospectives')
+      .delete()
+      .in('rating_id', ratingIds)
+      .select()
+
+    if (retroError) {
+      console.error('Error deleting goal_retrospectives:', retroError.message)
+    } else {
+      deletedRetrospectives = deletedRetroData?.length || 0
+      if (deletedRetrospectives > 0) {
+        console.log(`✅ Deleted ${deletedRetrospectives} goal_retrospectives`)
+      }
+    }
+  }
+
   // Delete goal_implementation_links - get count of deleted rows
   const { data: deletedLinks, error: linkError } = await supabase
     .from('goal_implementation_links')
@@ -143,11 +188,11 @@ export async function clearTestRatingsForSolution(
     .eq('goal_id', goalId)
     .in('implementation_id', variantIds)
     .select()
-  
+
   if (linkError) {
     console.error('Error deleting goal_implementation_links:', linkError.message)
   }
-  
+
   // Delete ratings - using implementation_id field (not solution_variant_id)
   const { data: deletedRatings, error: ratingError } = await supabase
     .from('ratings')

@@ -4,6 +4,10 @@
 - [Current State and Next Steps](./CURRENT_STATE_AND_NEXT_STEPS.md) - Latest project status and priorities
 - [Project Roadmap](./PROJECT_STATUS_JANUARY_2025.md) - Development roadmap and milestones
 
+## 🎯 Strategic Decisions
+- [Architecture Decision Records](./decisions/README.md) - Important architectural and strategic decisions
+- [Goal Curation Decision](./decisions/goal-curation-2025.md) - Why we reduced from 781 to 228 goals
+
 ## 🔧 Technical References
 - [Database Schema](./database/schema.md) - Complete database structure and relationships
 - [Solution Fields Matrix](./WWFM%20Solution%20Fields%20Matrix%20-%20Code-Aligned.md) - Field mappings across all forms
@@ -40,4 +44,4 @@ Historical documentation, resolved issues, and superseded guides are stored in [
 - Include creation/update dates in documents
 - Link between related documents
 
-Last Updated: 2025-08-21
+Last Updated: 2025-09-14
