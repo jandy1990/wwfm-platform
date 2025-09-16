@@ -176,7 +176,8 @@ async function fetchAIDistributions(): Promise<SolutionDistributions[]> {
 }
 
 /**
- * Get the variant IDs for AI solutions (in batches)
+ * Get ALL variant IDs for AI solutions and create solution-goal-variant combinations
+ * This fixes the bug where only one variant per solution was processed
  */
 async function enrichWithVariantIds(solutionDistributions: SolutionDistributions[]): Promise<SolutionDistributions[]> {
   console.log('🔗 Getting variant IDs for AI solutions...')
@@ -185,9 +186,9 @@ async function enrichWithVariantIds(solutionDistributions: SolutionDistributions
   const solutionIds = [...new Set(solutionDistributions.map(sd => sd.solution_id))]
   console.log(`🔍 Found ${solutionIds.length} unique solution IDs`)
 
-  // Fetch variants in batches to avoid URI too large error
+  // Fetch ALL variants for each solution (not just one per solution)
   const batchSize = 100
-  const variantMap = new Map<string, string>()
+  const allVariants: { id: string; solution_id: string }[] = []
   let totalFetched = 0
 
   for (let i = 0; i < solutionIds.length; i += batchSize) {
@@ -202,23 +203,32 @@ async function enrichWithVariantIds(solutionDistributions: SolutionDistributions
       throw new Error(`Failed to fetch variants: ${error.message}`)
     }
 
-    // Add to mapping
-    variants.forEach(variant => {
-      variantMap.set(variant.solution_id, variant.id)
-    })
-
+    allVariants.push(...variants)
     totalFetched += variants.length
     console.log(`📦 Fetched ${totalFetched} variants...`)
   }
 
-  // Enrich the data
-  const enriched = solutionDistributions.map(sd => ({
-    ...sd,
-    variant_id: variantMap.get(sd.solution_id) || ''
-  })).filter(sd => sd.variant_id) // Only keep those with valid variant IDs
+  // Create a solution-goal-variant combination for EACH variant
+  // This ensures all variants are processed, not just one per solution
+  const enrichedCombinations: SolutionDistributions[] = []
 
-  console.log(`✅ Enriched ${enriched.length} solution distributions with variant IDs`)
-  return enriched
+  for (const sd of solutionDistributions) {
+    // Find ALL variants for this solution
+    const solutionVariants = allVariants.filter(v => v.solution_id === sd.solution_id)
+
+    // Create a separate entry for each variant
+    for (const variant of solutionVariants) {
+      enrichedCombinations.push({
+        ...sd,
+        variant_id: variant.id
+      })
+    }
+  }
+
+  console.log(`✅ Created ${enrichedCombinations.length} solution-goal-variant combinations`)
+  console.log(`📊 Original solution-goal combinations: ${solutionDistributions.length}`)
+  console.log(`📊 Total variants found: ${allVariants.length}`)
+  return enrichedCombinations
 }
 
 /**

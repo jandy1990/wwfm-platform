@@ -221,9 +221,38 @@ export function mapTimeCommitmentToDropdown(value: string, options: string[]): s
 export function mapFrequencyToDropdown(value: string, options: string[]): string {
   const lowerValue = value.toLowerCase().replace(/[()]/g, '').trim()
 
-  // Handle special edge cases first
+  // Handle exact lowercase issues found in the data first
+  // Map to the EXACT values that exist in dropdown options
+  if (lowerValue === 'once daily') {
+    return options.find(opt => opt === 'once daily') ||
+           options.find(opt => opt === 'Daily') ||
+           options.find(opt => opt.toLowerCase() === 'daily') || options[0]
+  }
+
+  if (lowerValue === 'twice daily') {
+    return options.find(opt => opt === 'twice daily') ||
+           options.find(opt => opt === 'Twice daily') ||
+           options.find(opt => opt.toLowerCase().includes('twice daily')) || options[0]
+  }
+
+  if (lowerValue === 'every other day') {
+    return options.find(opt => opt === 'every other day') ||
+           options.find(opt => opt === 'Every other day') ||
+           options.find(opt => opt.toLowerCase().includes('every other day')) ||
+           options.find(opt => opt.toLowerCase().includes('alternate')) || options[0]
+  }
+
+  if (lowerValue === 'every few days') {
+    return options.find(opt => opt === 'every few days') ||
+           options.find(opt => opt === 'Every few days') ||
+           options.find(opt => opt.toLowerCase().includes('every few days')) || options[0]
+  }
+
+  // Handle special edge cases
   if (lowerValue.includes('every other day') || lowerValue.includes('alternating days')) {
-    return options.find(opt => opt.toLowerCase().includes('every other day')) ||
+    return options.find(opt => opt === 'every other day') ||
+           options.find(opt => opt === 'Every other day') ||
+           options.find(opt => opt.toLowerCase().includes('every other day')) ||
            options.find(opt => opt.toLowerCase().includes('alternate')) || options[0]
   }
 
@@ -237,14 +266,20 @@ export function mapFrequencyToDropdown(value: string, options: string[]): string
   if (lowerValue.includes('every day') || lowerValue.includes('daily') || lowerValue.includes('am') || lowerValue.includes('pm')) {
     // Check for multiple times daily
     if (lowerValue.includes('twice') || lowerValue.includes('2') || (lowerValue.includes('am') && lowerValue.includes('pm'))) {
-      return options.find(opt => opt.toLowerCase().includes('twice daily')) ||
+      return options.find(opt => opt === 'twice daily') ||
+             options.find(opt => opt.toLowerCase().includes('twice daily')) ||
+             options.find(opt => opt === 'Daily') ||
              options.find(opt => opt.toLowerCase() === 'daily') || options[0]
     }
     if (lowerValue.includes('three') || lowerValue.includes('3')) {
-      return options.find(opt => opt.toLowerCase().includes('three times daily')) ||
+      return options.find(opt => opt === 'three times daily') ||
+             options.find(opt => opt.toLowerCase().includes('three times daily')) ||
+             options.find(opt => opt === 'Daily') ||
              options.find(opt => opt.toLowerCase() === 'daily') || options[0]
     }
-    return options.find(opt => opt.toLowerCase() === 'daily') ||
+    return options.find(opt => opt === 'once daily') ||
+           options.find(opt => opt === 'Daily') ||
+           options.find(opt => opt.toLowerCase() === 'daily') ||
            options.find(opt => opt.toLowerCase() === 'once daily') || options[0]
   }
 
