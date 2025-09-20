@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/database/client'
 import type { Database } from '@/types/database.types'
 
 interface TimeEntry {

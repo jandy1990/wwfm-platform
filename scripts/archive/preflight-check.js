@@ -70,7 +70,7 @@ if (fs.existsSync(formsDir)) {
 }
 
 // 5. Check package.json scripts
-const packageJson = require('../package.json');
+const packageJson = require('../../package.json');
 const hasTestScripts = packageJson.scripts && packageJson.scripts['test:forms'];
 if (hasTestScripts) {
   console.log('✅ Test scripts configured in package.json');

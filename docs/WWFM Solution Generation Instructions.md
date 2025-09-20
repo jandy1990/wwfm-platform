@@ -34,7 +34,7 @@ Located in `/Users/jackandrews/Desktop/wwfm-platform/`:
 
 ```typescript
 // Create this file with:
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/database/client'
 
 interface SolutionProfile {
   mechanisms: string[]        // How it works

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/database/client'
 import { User } from '@supabase/supabase-js'
 
 export default function Header() {

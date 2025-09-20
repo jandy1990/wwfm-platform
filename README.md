@@ -105,7 +105,7 @@ wwfm-platform/
 │   │   └── forms/        # 9 form templates (ALL IMPLEMENTED)
 │   └── ui/               # Reusable UI components
 ├── lib/                   # Utilities and services
-│   ├── supabase/         # Database clients
+│   ├── database/         # Database clients (Supabase)
 │   └── solutions/        # Search & categorization logic
 ├── tests/                 # E2E tests with Playwright
 │   └── e2e/forms/        # Form submission tests

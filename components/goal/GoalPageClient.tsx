@@ -1111,7 +1111,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
             <GoalWisdom wisdom={wisdom} minResponses={1} />
             
             {/* Solutions Controls - Only for this tab */}
-            <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-4">
+            <div className="mt-4 sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-4">
               <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div className="flex items-center gap-3 sm:gap-4 flex-1">
@@ -1878,7 +1878,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
         {activeTab === 'discussions' && (
           <>
             {/* Discussion Controls - Different from solutions */}
-            <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-4">
+            <div className="mt-4 sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-4">
               <div className="max-w-7xl mx-auto">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">

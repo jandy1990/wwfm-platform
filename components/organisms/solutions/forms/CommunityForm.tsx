@@ -7,7 +7,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { Skeleton } from '@/components/atoms/skeleton';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';

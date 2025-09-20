@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 // import { supabase } from '@/lib/database/client'; // Removed: unused after migrating to server actions
 import { ChevronLeft, Check } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';

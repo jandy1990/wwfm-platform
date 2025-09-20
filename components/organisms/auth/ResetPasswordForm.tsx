@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase/client';
+import { supabase } from '@/lib/database/client';
 import FormField from '@/components/molecules/FormField';
 import { Button } from '@/components/atoms/button';
 import Link from 'next/link';

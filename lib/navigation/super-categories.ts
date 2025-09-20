@@ -135,7 +135,7 @@ export const SUPER_CATEGORIES: SuperCategory[] = [
     name: 'Home & Lifestyle',
     description: 'Home management, hosting, and sustainable living',
     icon: '🏠',
-    color: 'green',
+    color: 'orange',
     categories: [
       'Home Economics',              // 5 goals
       'Hosting & Hospitality',       // 3 goals
@@ -198,49 +198,84 @@ export function groupCategoriesBySuperCategory(
 }
 
 /**
+ * Determines if a super-category should skip the category layer and go directly to goals
+ */
+export function shouldSkipCategoryLayer(group: CategoryGroup): boolean {
+  const { totalGoals, categories } = group
+
+  // Rule 1: Skip if total goals <= 15
+  if (totalGoals <= 15) {
+    return true
+  }
+
+  // Rule 2: Skip if ≥70% of categories have ≤3 goals each
+  const smallCategories = categories.filter(cat => cat.goalCount <= 3)
+  const fragmentationRatio = smallCategories.length / categories.length
+  if (fragmentationRatio >= 0.7) {
+    return true
+  }
+
+  // Rule 3: Skip if only 1-2 meaningful categories (others have ≤2 goals)
+  const meaningfulCategories = categories.filter(cat => cat.goalCount >= 3)
+  if (meaningfulCategories.length <= 2 && categories.length > 3) {
+    return true
+  }
+
+  // Otherwise, keep category layer
+  return false
+}
+
+/**
  * Color variants for Tailwind classes
  */
 export const SUPER_CATEGORY_COLORS = {
   emerald: {
-    bg: 'bg-emerald-50',
-    border: 'border-emerald-200',
-    text: 'text-emerald-700',
+    bg: 'bg-emerald-50/50',
+    border: 'border-emerald-100',
+    text: 'text-emerald-600',
     icon: 'text-emerald-500',
-    hover: 'hover:bg-emerald-100'
+    hover: 'hover:bg-emerald-50'
   },
   purple: {
-    bg: 'bg-purple-50',
-    border: 'border-purple-200', 
-    text: 'text-purple-700',
+    bg: 'bg-purple-50/50',
+    border: 'border-purple-100',
+    text: 'text-purple-600',
     icon: 'text-purple-500',
-    hover: 'hover:bg-purple-100'
+    hover: 'hover:bg-purple-50'
   },
   blue: {
-    bg: 'bg-blue-50',
-    border: 'border-blue-200',
-    text: 'text-blue-700', 
+    bg: 'bg-blue-50/50',
+    border: 'border-blue-100',
+    text: 'text-blue-600',
     icon: 'text-blue-500',
-    hover: 'hover:bg-blue-100'
+    hover: 'hover:bg-blue-50'
   },
   rose: {
-    bg: 'bg-rose-50',
-    border: 'border-rose-200',
-    text: 'text-rose-700',
-    icon: 'text-rose-500', 
-    hover: 'hover:bg-rose-100'
+    bg: 'bg-rose-50/50',
+    border: 'border-rose-100',
+    text: 'text-rose-600',
+    icon: 'text-rose-500',
+    hover: 'hover:bg-rose-50'
   },
   amber: {
-    bg: 'bg-amber-50',
-    border: 'border-amber-200',
-    text: 'text-amber-700',
+    bg: 'bg-amber-50/50',
+    border: 'border-amber-100',
+    text: 'text-amber-600',
     icon: 'text-amber-500',
-    hover: 'hover:bg-amber-100'
+    hover: 'hover:bg-amber-50'
   },
   green: {
-    bg: 'bg-green-50',
-    border: 'border-green-200',
-    text: 'text-green-700',
+    bg: 'bg-green-50/50',
+    border: 'border-green-100',
+    text: 'text-green-600',
     icon: 'text-green-500',
-    hover: 'hover:bg-green-100'
+    hover: 'hover:bg-green-50'
+  },
+  orange: {
+    bg: 'bg-orange-50/50',
+    border: 'border-orange-100',
+    text: 'text-orange-600',
+    icon: 'text-orange-500',
+    hover: 'hover:bg-orange-50'
   }
 }

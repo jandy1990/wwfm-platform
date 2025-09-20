@@ -93,15 +93,15 @@ export default function SwipeableRating({
 
       {/* Default rating display */}
       {!showRating ? (
-        <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
-          <span className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+        <div className="flex items-center gap-2">
+          <span className="text-base font-semibold text-gray-900 dark:text-gray-100">
             {initialRating.toFixed(1)}
           </span>
           <div className="flex text-yellow-400">
             {[...Array(5)].map((_, i) => (
               <svg
                 key={i}
-                className={`w-4 h-4 ${i < Math.round(initialRating) ? 'fill-current' : ''}`}
+                className={`w-5 h-5 ${i < Math.round(initialRating) ? 'fill-current' : ''}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

@@ -1,11 +1,11 @@
 'use server';
 
-import { createServerClient } from '@/lib/supabase/server';
+import { createServerSupabaseClient } from '@/lib/database/server';
 import { FeedbackData } from '@/types/feedback';
 
 export async function submitFeedback(data: FeedbackData) {
   try {
-    const supabase = await createServerClient();
+    const supabase = await createServerSupabaseClient();
     
     // Get user if authenticated (optional)
     const { data: { user } } = await supabase.auth.getUser();

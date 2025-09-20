@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/database/client';
 import { Star } from 'lucide-react';
 
 interface InteractiveRatingProps {
@@ -197,18 +197,18 @@ export default function InteractiveRating({
       }}
     >
       {/* Default rating display */}
-      <div className="rating-content">
-        <span className="text-xl font-semibold text-gray-900 dark:text-gray-100">{initialRating.toFixed(1)}</span>
+      <div className="rating-content flex items-center gap-2">
+        <span className="text-base font-semibold text-gray-900 dark:text-gray-100">{initialRating.toFixed(1)}</span>
         <div className="flex text-yellow-400">
           {[...Array(5)].map((_, i) => (
             <Star
               key={i}
-              className={`w-4 h-4 ${i < Math.round(initialRating) ? 'fill-current' : ''}`}
+              className={`w-5 h-5 ${i < Math.round(initialRating) ? 'fill-current' : ''}`}
             />
           ))}
         </div>
         <span className="text-sm text-gray-500 dark:text-gray-400 border-l border-gray-300 dark:border-gray-600 pl-2">
-          {ratingCount} {ratingCount === 1 ? 'rating' : 'ratings'}
+          {ratingCount}
         </span>
       </div>
 

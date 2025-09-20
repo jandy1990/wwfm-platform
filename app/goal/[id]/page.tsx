@@ -8,6 +8,7 @@ import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrum
 import GoalPageClient from '@/components/goal/GoalPageClient'
 import { getRelatedGoals } from '@/lib/solutions/related-goals'
 import { GoalPageTracker } from '@/components/tracking/GoalPageTracker'
+import { GoalViewTracker } from '@/components/tracking/GoalViewTracker'
 import { getGoalWisdomScore } from '@/app/actions/retrospectives'
 
 type Goal = {
@@ -162,6 +163,7 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <GoalPageTracker arenaName={arenaName} arenaId={arenaId} />
+      <GoalViewTracker goalId={goal?.id || ''} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-4">

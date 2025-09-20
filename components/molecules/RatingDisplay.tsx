@@ -125,14 +125,14 @@ export default function RatingDisplay({
 
   // Standard rating display
   return (
-    <div className={`flex items-center space-x-2 ${className}`}>
-      {renderStars(normalizedRating)}
-      <span className={`font-medium ${config.text} text-gray-900 dark:text-gray-100`}>
-        {normalizedRating.toFixed(1)}/5.0
+    <div className={`flex items-center gap-2 ${className}`}>
+      <span className={`font-semibold ${config.text} text-gray-900 dark:text-gray-100`}>
+        {normalizedRating.toFixed(1)}
       </span>
+      {renderStars(normalizedRating)}
       {showReviewCount && reviewCount !== undefined && (
-        <span className={`${config.text} text-gray-500 dark:text-gray-400`}>
-          ({reviewCount} review{reviewCount !== 1 ? 's' : ''})
+        <span className={`${config.text} text-gray-500 dark:text-gray-400 border-l border-gray-300 dark:border-gray-600 pl-2`}>
+          {reviewCount}
         </span>
       )}
     </div>

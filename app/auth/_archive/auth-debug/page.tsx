@@ -1,5 +1,5 @@
 // app/auth-debug/page.tsx
-import { createServerSupabaseClient } from '@/lib/supabase/server'
+import { createServerSupabaseClient } from '@/lib/database/server'
 import { cookies } from 'next/headers'
 
 export default async function AuthDebugPage() {

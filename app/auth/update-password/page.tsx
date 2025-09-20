@@ -4,7 +4,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase/client'
+import { supabase } from '@/lib/database/client'
 import AuthForm from '@/components/organisms/auth/AuthForm'
 
 export default function UpdatePasswordPage() {

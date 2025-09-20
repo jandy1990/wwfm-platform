@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/database/client';
 import AuthForm from './AuthForm';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';

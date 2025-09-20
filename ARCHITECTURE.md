@@ -228,10 +228,10 @@ const results = await supabase.rpc('search_solutions_fuzzy', {
 
 ```typescript
 // Server-side auth check
-import { createServerClient } from '@/lib/supabase/server';
+import { createServerSupabaseClient } from '@/lib/database/server';
 
 export default async function ProtectedPage() {
-  const supabase = createServerClient();
+  const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
   
   if (!user) redirect('/login');
