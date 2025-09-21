@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { supabase } from '@/lib/database/client';
 import { Star } from 'lucide-react';
+import { TransitionAnimation } from '@/components/molecules/TransitionAnimation';
+import { PreTransitionWarning } from '@/components/molecules/PreTransitionWarning';
 
 interface InteractiveRatingProps {
   solution: {
@@ -35,6 +37,14 @@ export default function InteractiveRating({
   console.log('InteractiveRating state - isHovering:', isHovering);
   const [hasRated, setHasRated] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showTransition, setShowTransition] = useState(false);
+  const [transitionData, setTransitionData] = useState<{from: number; to: number} | null>(null);
+  const [transitionInfo, setTransitionInfo] = useState<{
+    humanCount: number;
+    threshold: number;
+    dataDisplayMode: 'ai' | 'human';
+  } | null>(null);
+  const [showPreTransitionWarning, setShowPreTransitionWarning] = useState(false);
   
   // 🔧 FIX: Use a unique key to identify this rating instance
   const ratingKey = `${solution.id}-${variant.id}-${goalId}`;
@@ -48,6 +58,32 @@ export default function InteractiveRating({
   
   // Force re-render when success state changes
   const [, forceUpdate] = useState({});
+
+  // Load transition info on mount
+  useEffect(() => {
+    const loadTransitionInfo = async () => {
+      try {
+        const { data: goalLink } = await supabase
+          .from('goal_implementation_links')
+          .select('human_rating_count, transition_threshold, data_display_mode')
+          .eq('goal_id', goalId)
+          .eq('implementation_id', variant.id)
+          .single();
+
+        if (goalLink) {
+          setTransitionInfo({
+            humanCount: goalLink.human_rating_count || 0,
+            threshold: goalLink.transition_threshold || 3,
+            dataDisplayMode: goalLink.data_display_mode || 'ai'
+          });
+        }
+      } catch (error) {
+        console.error('Failed to load transition info:', error);
+      }
+    };
+
+    loadTransitionInfo();
+  }, [goalId, variant.id]);
   
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -162,6 +198,26 @@ export default function InteractiveRating({
           onRatingUpdate(newAverage, newCount);
         }
 
+        // Check for AI to human transition after successful rating
+        try {
+          console.log('🔄 Checking for AI to human transition...');
+          const { data: transitionResult } = await supabase.rpc('check_and_execute_transition', {
+            p_goal_id: goalId,
+            p_implementation_id: variant.id
+          });
+
+          if (transitionResult) {
+            console.log('🎉 TRANSITION OCCURRED - Showing animation');
+            setTransitionData({
+              from: initialRating,
+              to: newAverage
+            });
+            setShowTransition(true);
+          }
+        } catch (transitionError) {
+          console.error('Transition check failed (non-fatal):', transitionError);
+        }
+
         // Clear any existing timeout
         if (successStateRef.current.timeoutId) {
           clearTimeout(successStateRef.current.timeoutId);
@@ -218,8 +274,19 @@ export default function InteractiveRating({
           <button
             key={star}
             type="button"
-            onMouseEnter={() => setHoveredStar(star)}
-            onMouseLeave={() => setHoveredStar(0)}
+            onMouseEnter={() => {
+              setHoveredStar(star);
+              // Check if this rating would trigger a transition
+              if (transitionInfo &&
+                  transitionInfo.dataDisplayMode === 'ai' &&
+                  transitionInfo.humanCount === transitionInfo.threshold - 1) {
+                setShowPreTransitionWarning(true);
+              }
+            }}
+            onMouseLeave={() => {
+              setHoveredStar(0);
+              setShowPreTransitionWarning(false);
+            }}
             onClick={(e) => {
               console.log('=== Star clicked ===');
               console.log('Star number:', star);
@@ -248,6 +315,28 @@ export default function InteractiveRating({
           </svg>
           <span className="ml-2 font-medium text-green-600 dark:text-green-400">Thanks!</span>
         </div>
+      )}
+
+      {/* Pre-transition Warning */}
+      {showPreTransitionWarning && transitionInfo && (
+        <div className="absolute -top-24 left-0 right-0 z-20">
+          <PreTransitionWarning
+            currentAI={Math.round(initialRating)}
+            projectedHuman={Math.round(hoveredStar)}
+          />
+        </div>
+      )}
+
+      {/* Transition Animation */}
+      {showTransition && transitionData && (
+        <TransitionAnimation
+          from={Math.round(transitionData.from)}
+          to={Math.round(transitionData.to)}
+          onComplete={() => {
+            setShowTransition(false);
+            setTransitionData(null);
+          }}
+        />
       )}
     </div>
   );

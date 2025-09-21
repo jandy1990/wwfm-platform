@@ -30,27 +30,27 @@ export class SolutionAggregator {
   ): Promise<AggregatedFields> {
     const supabase = await createServerSupabaseClient()
     
-    // Fetch all ratings with solution_fields for this combo
+    // Fetch only HUMAN ratings with solution_fields for this combo
     const { data: ratings, error } = await supabase
       .from('ratings')
-      .select('solution_fields, user_id')
+      .select('solution_fields, user_id, data_source')
       .eq('goal_id', goalId)
       .eq('implementation_id', implementationId)
+      .eq('data_source', 'human')  // Only human ratings for aggregation
     
     if (error || !ratings || ratings.length === 0) {
       return {}
     }
     
-    // Determine data source and confidence
-    const hasAI = ratings.some(r => r.user_id === 'ai_foundation')
-    const userRatings = ratings.filter(r => r.user_id !== 'ai_foundation').length
-    
+    // Since we only fetch human ratings, all data is from users
+    const userRatings = ratings.length
+
     const aggregated: AggregatedFields = {
       _metadata: {
         computed_at: new Date().toISOString(),
         last_aggregated: new Date().toISOString(),
-        total_ratings: ratings.length,
-        data_source: hasAI && userRatings > 0 ? 'mixed' : hasAI ? 'ai' : 'user',
+        total_ratings: userRatings,
+        data_source: 'user',  // Only human ratings in this aggregation
         confidence: userRatings >= 10 ? 'high' : userRatings >= 3 ? 'medium' : 'low'
       }
     }
@@ -280,15 +280,16 @@ export class SolutionAggregator {
 
     console.log(`[Aggregator] Starting aggregation for goal=${goalId}, implementation=${implementationId}`)
 
-    // PROTECTION: Check if this is an AI solution - never overwrite AI data
-    const { data: solutionCheck } = await supabase
-      .from('solution_variants')
-      .select('solutions!inner(source_type)')
-      .eq('id', implementationId)
+    // PROTECTION: Check display mode - don't overwrite AI data until transition
+    const { data: linkCheck } = await supabase
+      .from('goal_implementation_links')
+      .select('data_display_mode, ai_snapshot')
+      .eq('goal_id', goalId)
+      .eq('implementation_id', implementationId)
       .single()
 
-    if (solutionCheck?.solutions?.source_type === 'ai_foundation') {
-      console.log(`[Aggregator] SKIPPED - This is an AI solution, preserving pre-built distribution data`)
+    if (linkCheck?.data_display_mode === 'ai' && linkCheck?.ai_snapshot) {
+      console.log(`[Aggregator] SKIPPED - Still displaying AI data, preserving until transition`)
       return
     }
 

@@ -43,7 +43,17 @@
     "quality:dashboard": "tsx scripts/ai-solution-generator/quality-pipeline.ts dashboard",
     "quality:test": "tsx scripts/ai-solution-generator/quality-pipeline.ts test",
     "quality:test-100": "tsx scripts/ai-solution-generator/quality-test-100.ts",
-    "quality:migrate": "tsx scripts/ai-solution-generator/quality-pipeline.ts migrate"
+    "quality:migrate": "tsx scripts/ai-solution-generator/quality-pipeline.ts migrate",
+    "expand:solution": "tsx scripts/ai-solution-generator/solution-goal-expander.ts",
+    "expand:dry-run": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --dry-run",
+    "expand:category": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --category",
+    "expand:strict": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --strict-mode",
+    "expand:test": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --dry-run --limit 2 --max-goals 2",
+    "expand:books": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --category books_courses --strict-mode false --limit 100",
+    "expand:apps": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --category apps_software --strict-mode false --limit 100",
+    "expand:habits": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --category habits_routines --strict-mode false --limit 100",
+    "expand:products": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --category products_devices --strict-mode false --limit 100",
+    "expand:exercise": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --category exercise_movement --strict-mode false --limit 80"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.30.1",

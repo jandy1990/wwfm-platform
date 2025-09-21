@@ -96,6 +96,9 @@ export interface SubmitSolutionResult {
   variantId?: string
   ratingId?: string
   otherRatingsCount?: number
+  transitioned?: boolean
+  transitionMessage?: string
+  projectedEffectiveness?: number  // Immediate human effectiveness for UI
 }
 
 // Categories that use dosage variants (beauty_skincare uses Standard)
@@ -559,14 +562,54 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
         console.log('[submitSolution] Scheduled 6-month retrospective for', sixMonthsFromNow.toISOString().split('T')[0])
       }
     }
-    
+
+    // 8.75 Check if this rating triggers a transition to human data
+    let transitioned = false
+    let transitionMessage = ''
+    let projectedEffectiveness: number | undefined
+
+    try {
+      console.log('[submitSolution] Checking for AI to human transition')
+      const { data: transitionResult } = await supabase.rpc('check_and_execute_transition', {
+        p_goal_id: formData.goalId,
+        p_implementation_id: variantId
+      })
+
+      if (transitionResult) {
+        transitioned = true
+        transitionMessage = '🎉 You unlocked community verification for this solution!'
+        console.log('[submitSolution] TRANSITION OCCURRED - AI to human data switch completed')
+
+        // Calculate immediate human effectiveness to prevent lag window
+        const { data: humanRatings } = await supabase
+          .from('ratings')
+          .select('overall_effectiveness')
+          .eq('goal_id', formData.goalId)
+          .eq('solution_variant_id', variantId)
+          .eq('data_source', 'human')
+          .not('overall_effectiveness', 'is', null)
+
+        if (humanRatings && humanRatings.length > 0) {
+          const total = humanRatings.reduce((sum, rating) => sum + (rating.overall_effectiveness || 0), 0)
+          projectedEffectiveness = total / humanRatings.length
+          console.log(`[submitSolution] Calculated immediate human effectiveness: ${projectedEffectiveness} from ${humanRatings.length} human ratings`)
+        }
+      }
+    } catch (transitionError) {
+      console.error('[submitSolution] Transition check failed (non-fatal):', transitionError)
+      // Don't fail the submission over transition issues
+    }
+
     // 9. Return success result
     const result = {
       success: true,
       solutionId: solutionId!,
       variantId: variantId!,
       ratingId: newRating?.id,
-      otherRatingsCount: otherRatingsCount || 0
+      otherRatingsCount: otherRatingsCount || 0,
+      transitioned,
+      transitionMessage: transitioned ? transitionMessage : undefined,
+      projectedEffectiveness
     };
     
     console.log('[submitSolution] SUCCESS - Rating created:', newRating?.id, 'for solution:', solutionId);

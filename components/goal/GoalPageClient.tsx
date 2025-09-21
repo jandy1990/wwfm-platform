@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
+import { getSolutionUrl } from '@/lib/utils/slugify'
 import SwipeableRating from '@/components/organisms/solutions/SwipeableRating'
 import VariantSheet from '@/components/organisms/solutions/VariantSheet'
 import { NewDistributionField, DistributionData } from '@/components/molecules/NewDistributionField'
@@ -11,6 +12,7 @@ import { GoalSolutionWithVariants } from '@/lib/solutions/goal-solutions'
 import RatingDisplay, { getBestRating, getAverageRating } from '@/components/molecules/RatingDisplay'
 import EmptyState from '@/components/molecules/EmptyState'
 import SourceBadge from '@/components/atoms/SourceBadge'
+import { DataSourceBadge } from '@/components/molecules/DataSourceBadge'
 import { RelatedGoal } from '@/lib/solutions/related-goals'
 import { trackGoalRelationshipClick } from '@/lib/solutions/related-goals'
 import CommunityDiscussions from './CommunityDiscussions'
@@ -773,13 +775,13 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
       const aggregated = solution.aggregated_fields as Record<string, unknown>
       
       // Check metadata for data source
-      const metadata = aggregated._metadata
+      const metadata = aggregated._metadata as Record<string, unknown> | undefined
       const dataSource = metadata?.data_source || 'user'
-      
+
       if (aggregated[fieldName]) {
         // Check if it's already in DistributionData format from our aggregator
         const fieldValue = aggregated[fieldName]
-        if (typeof fieldValue === 'object' && fieldValue.mode !== undefined && fieldValue.values !== undefined) {
+        if (typeof fieldValue === 'object' && fieldValue !== null && 'mode' in fieldValue && 'values' in fieldValue) {
           const distribution = fieldValue as DistributionData
           distribution.dataSource = dataSource
           return distribution
@@ -794,7 +796,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
       for (const mappedField of mappedFields) {
         if (aggregated[mappedField]) {
           const fieldValue = aggregated[mappedField]
-          if (typeof fieldValue === 'object' && fieldValue.mode !== undefined && fieldValue.values !== undefined) {
+          if (typeof fieldValue === 'object' && fieldValue !== null && 'mode' in fieldValue && 'values' in fieldValue) {
             const distribution = fieldValue as DistributionData
             distribution.dataSource = dataSource
             return distribution
@@ -1225,8 +1227,14 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                 {categoryConfig.icon}
                               </span>
                               <div className="flex-1 min-w-0">
-                                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 break-words">
-                                  {solution.title}
+                                <h3 className="text-lg sm:text-xl font-semibold break-words">
+                                  <Link
+                                    href={getSolutionUrl(solution.title, solution.id)}
+                                    className="text-gray-900 dark:text-gray-100 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                                    onClick={(e) => e.stopPropagation()} // Prevents card toggle
+                                  >
+                                    {solution.title}
+                                  </Link>
                                 </h3>
                                 {hasVariants && bestVariant && (
                                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
@@ -1247,10 +1255,13 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                             </div>
                           </div>
                           <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 flex-shrink-0">
-                            <SourceBadge 
-                              sourceType={solution.source_type} 
-                              size={solution.source_type === 'ai_foundation' ? 'md' : 'sm'}
-                            />
+                            {bestVariant?.goal_links?.[0] && (
+                              <DataSourceBadge
+                                mode={bestVariant.goal_links[0].data_display_mode || 'ai'}
+                                humanCount={bestVariant.goal_links[0].human_rating_count || 0}
+                                threshold={bestVariant.goal_links[0].transition_threshold || 3}
+                              />
+                            )}
                             {bestRating > 0 && (
                               <div className="whitespace-nowrap">
                                 {/* Check if this is a variant category */}
@@ -1710,8 +1721,16 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                           </div>
                                         )}
                                       </div>
-                                      {rating > 0 && (
-                                        <SwipeableRating
+                                      <div className="flex flex-col items-end gap-1">
+                                        {goalLink && (
+                                          <DataSourceBadge
+                                            mode={goalLink.data_display_mode || 'ai'}
+                                            humanCount={goalLink.human_rating_count || 0}
+                                            threshold={goalLink.transition_threshold || 3}
+                                          />
+                                        )}
+                                        {rating > 0 && (
+                                          <SwipeableRating
                                           solution={{
                                             id: solution.id,
                                             title: solution.title,
@@ -1756,7 +1775,8 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                             ))
                                           }}
                                         />
-                                      )}
+                                        )}
+                                      </div>
                                     </div>
                                   )
                                 })}

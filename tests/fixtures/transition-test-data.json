@@ -1,0 +1,33 @@
+{
+  "scenarios": [
+    {
+      "name": "Fresh AI Solution (0 ratings)",
+      "goalId": "00c29c5e-4dd3-4462-890a-d8d04d1196b1",
+      "variantId": "03f12c0e-b669-464f-89fc-823b74ffc3d1",
+      "expectedHumanCount": 0,
+      "expectedMode": "ai"
+    },
+    {
+      "name": "Pre-transition State (2 ratings)",
+      "goalId": "00c29c5e-4dd3-4462-890a-d8d04d1196b1",
+      "variantId": "0a92de1b-39a7-4dea-820d-23e68a76f751",
+      "expectedHumanCount": 2,
+      "expectedMode": "ai"
+    },
+    {
+      "name": "At Threshold (3 ratings) - Should Transition",
+      "goalId": "00c29c5e-4dd3-4462-890a-d8d04d1196b1",
+      "variantId": "0ff5c957-1ecb-47a1-9189-321f2cdd39a9",
+      "expectedHumanCount": 3,
+      "expectedMode": "human"
+    },
+    {
+      "name": "Already Transitioned (5 ratings)",
+      "goalId": "00c29c5e-4dd3-4462-890a-d8d04d1196b1",
+      "variantId": "278f94b0-644f-42e1-99fe-bc785c5faeb0",
+      "expectedHumanCount": 5,
+      "expectedMode": "human"
+    }
+  ],
+  "testUserId": "e22feb1a-e617-4c8d-9747-0fb958068e1d"
+}
