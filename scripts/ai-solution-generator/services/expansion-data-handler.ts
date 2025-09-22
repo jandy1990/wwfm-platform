@@ -38,6 +38,7 @@ export class ExpansionDataHandler {
    * Get solution variant information needed for creating links
    */
   async getSolutionVariantInfo(solutionId: string): Promise<SolutionVariantInfo | null> {
+    // First try to get existing variant
     const { data, error } = await this.supabase
       .from('solution_variants')
       .select(`
@@ -52,25 +53,22 @@ export class ExpansionDataHandler {
       .limit(1)
       .single()
 
-    if (error) {
-      console.error(`Error fetching variant for solution ${solutionId}:`, error)
-      return null
+    // If variant exists, return it
+    if (!error && data && data.solutions) {
+      return {
+        variant_id: data.id,
+        solution_id: data.solution_id,
+        solution_title: data.solutions.title,
+        solution_category: data.solutions.solution_category,
+        amount: data.amount,
+        unit: data.unit,
+        form: data.form
+      }
     }
 
-    if (!data || !data.solutions) {
-      console.error(`No variant found for solution ${solutionId}`)
-      return null
-    }
-
-    return {
-      variant_id: data.id,
-      solution_id: data.solution_id,
-      solution_title: data.solutions.title,
-      solution_category: data.solutions.solution_category,
-      amount: data.amount,
-      unit: data.unit,
-      form: data.form
-    }
+    // If no variant exists, return null (solutions without variants can't be expanded)
+    console.log(chalk.yellow(`⚠️  No variant found for solution ${solutionId} - skipping expansion`))
+    return null
   }
 
   /**
@@ -343,6 +341,62 @@ export class ExpansionDataHandler {
       console.error(chalk.red(`   Error in insertGoalLink: ${error}`))
       return false
     }
+  }
+
+  /**
+   * Create goal links from passed connections (simplified interface for quality-first expansion)
+   */
+  async createGoalLinks(
+    solutionId: string,
+    passedConnections: Array<{
+      goal_id: string
+      effectiveness: number
+      effectiveness_rationale?: string
+      goal_specific_adaptation?: string
+      fields?: Record<string, any>
+    }>,
+    approvedCandidates?: Array<{ id: string; title: string }>
+  ): Promise<ExpandedGoalLink[]> {
+    console.log(chalk.cyan(`\n📥 Creating ${passedConnections.length} goal implementation links...`))
+
+    // Get solution variant info
+    const variantInfo = await this.getSolutionVariantInfo(solutionId)
+    if (!variantInfo) {
+      console.error(chalk.red(`❌ Could not find variant for solution ${solutionId}`))
+      return []
+    }
+
+    const expandedLinks: ExpandedGoalLink[] = []
+
+    for (const connection of passedConnections) {
+      try {
+        // Find goal title from Gemini response
+        const goalCandidate = approvedCandidates?.find(candidate => candidate.id === connection.goal_id)
+        const goalTitle = goalCandidate?.title || 'Unknown Goal'
+
+        const expandedLink = await this.prepareGoalLinkData(
+          variantInfo,
+          connection.goal_id,
+          connection.effectiveness,
+          connection.effectiveness_rationale || '',
+          connection.goal_specific_adaptation || '',
+          connection.fields || {},
+          goalTitle
+        )
+
+        if (expandedLink) {
+          expandedLinks.push(expandedLink)
+        }
+      } catch (error) {
+        console.error(chalk.red(`❌ Failed to prepare goal link for ${connection.goal_id}: ${error}`))
+      }
+    }
+
+    // Insert the links
+    const results = await this.batchInsertGoalLinks(expandedLinks)
+    console.log(chalk.green(`📊 Successfully created ${results.successful} new connections`))
+
+    return expandedLinks.slice(0, results.successful)
   }
 
   /**

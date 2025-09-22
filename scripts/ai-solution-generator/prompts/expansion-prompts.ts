@@ -17,6 +17,7 @@ export interface SolutionData {
 }
 
 export interface TargetGoal {
+  id: string
   title: string
   description: string
   arena: string
@@ -76,7 +77,8 @@ If ALL answers are "No", return { "credible": false }
 TARGET GOALS TO EVALUATE:
 ========================
 ${targetGoals.map((goal, index) => `
-${index + 1}. Goal: "${goal.title}"
+${index + 1}. Goal ID: ${goal.id}
+   Goal: "${goal.title}"
    Description: ${goal.description}
    Arena: ${goal.arena}
    Category: ${goal.category}
@@ -86,11 +88,15 @@ ${fieldRequirements}
 
 RESPONSE FORMAT:
 ===============
-Return a JSON array with one object per goal. For each goal, either:
+Return a JSON array with one object per goal.
+
+CRITICAL: Use the exact Goal ID UUID provided above, NOT the goal title!
+
+For each goal, either:
 
 CREDIBLE CONNECTION:
 {
-  "goal_id": "${targetGoals[0]?.title || 'goal_title'}",
+  "goal_id": "${targetGoals[0]?.id || 'goal_uuid'}",
   "credible": true,
   "effectiveness": 4.2,
   "effectiveness_rationale": "Specific evidence why this effectiveness rating",
@@ -103,7 +109,7 @@ CREDIBLE CONNECTION:
 
 NOT CREDIBLE:
 {
-  "goal_id": "${targetGoals[0]?.title || 'goal_title'}",
+  "goal_id": "${targetGoals[0]?.id || 'goal_uuid'}",
   "credible": false,
   "reason": "Specific reason why this connection lacks credibility"
 }

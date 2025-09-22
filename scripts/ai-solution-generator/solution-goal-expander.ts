@@ -34,7 +34,7 @@ const program = new Command()
   .option('--limit <number>', 'Maximum solutions to process', '200')
   .option('--max-goals <number>', 'Maximum goals per solution', '5')
   .option('--min-effectiveness <number>', 'Minimum effectiveness for new connections', '4.0')
-  .option('--laugh-test', 'Enable laugh test validation (always enabled)', 'true')
+  .option('--laugh-test', 'Enable laugh test validation (ALWAYS enabled - primary quality gate)', 'true')
   .option('--laugh-threshold <number>', 'Laugh test score threshold (0-100)', '70')
   .parse()
 
@@ -312,7 +312,7 @@ async function generateExpansionData(
 
     console.log(chalk.green(`   ✅ Generated ${credibleResults.length} credible connections`))
 
-    // Apply laugh test validation (always enabled)
+    // Apply laugh test validation (ALWAYS enabled - primary quality gate)
     if (credibleResults.length > 0) {
       const laughThreshold = parseInt(options.laughThreshold) || 70
 

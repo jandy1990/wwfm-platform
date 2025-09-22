@@ -53,7 +53,12 @@
     "expand:apps": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --category apps_software --strict-mode false --limit 100",
     "expand:habits": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --category habits_routines --strict-mode false --limit 100",
     "expand:products": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --category products_devices --strict-mode false --limit 100",
-    "expand:exercise": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --category exercise_movement --strict-mode false --limit 80"
+    "expand:exercise": "tsx scripts/ai-solution-generator/solution-goal-expander.ts --category exercise_movement --strict-mode false --limit 80",
+    "expand:quality": "tsx scripts/ai-solution-generator/solution-goal-expander-quality.ts",
+    "monitor:expansion": "tsx scripts/ai-solution-generator/monitor-expansion.ts",
+    "expand:quality:sleep": "tsx scripts/ai-solution-generator/solution-goal-expander-quality.ts --category sleep --mode auto --batch-size 10",
+    "expand:quality:books": "tsx scripts/ai-solution-generator/solution-goal-expander-quality.ts --category books_courses --mode zero --batch-size 20",
+    "expand:quality:apps": "tsx scripts/ai-solution-generator/solution-goal-expander-quality.ts --category apps_software --mode zero --batch-size 15"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.30.1",

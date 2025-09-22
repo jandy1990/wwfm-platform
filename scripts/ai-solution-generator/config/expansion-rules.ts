@@ -26,255 +26,240 @@ export interface ExpansionRule {
 }
 
 export const EXPANSION_RULES: Record<string, ExpansionRule> = {
-  // EXERCISE & MOVEMENT - Broader impact including mental health benefits
+  // EXERCISE & MOVEMENT - Laugh test will handle quality validation
   exercise_movement: {
-    allowed_goal_patterns: [
-      'muscle', 'strength', 'fitness', 'weight', 'endurance', 'tone', 'build',
-      'lift', 'run', 'athletic', 'body', 'physical', 'cardio', 'flexibility',
-      'balance', 'coordination', 'stamina', 'pull.*up', 'push.*up', 'confidence',
-      'stress', 'anxiety', 'mood', 'energy', 'discipline', 'habit', 'routine'
-    ],
-    forbidden_goal_patterns: [
-      'save.*money', 'start.*business', 'learn.*instrument', 'learn.*pottery'
-    ],
-    allowed_arenas: ['Physical Health', 'Beauty & Wellness', 'Feeling & Emotion', 'Personal Growth'],
-    allowed_goal_categories: [
-      'Exercise & Fitness', 'Weight & Body', 'Body & Fitness Appearance',
-      'Physical Performance', 'Mental Health', 'Stress Management', 'Character & Discipline',
-      'Self-Improvement', 'Energy & Vitality'
-    ],
+    allowed_goal_patterns: ['.*'], // Allow all patterns, laugh test validates
+    forbidden_goal_patterns: [], // Remove restrictions, laugh test handles this
+    allowed_arenas: [], // Remove arena restrictions
+    allowed_goal_categories: [], // Remove category restrictions
     min_effectiveness: 3.5,
     max_expansions: 15
   },
 
-  // MEDITATION & MINDFULNESS - Expanded mental/emotional/performance results
+  // MEDITATION & MINDFULNESS - Laugh test will handle quality validation
   meditation_mindfulness: {
-    allowed_goal_patterns: [
-      'stress', 'anxiety', 'calm', 'relax', 'focus', 'mindful', 'peace',
-      'meditation', 'breathe', 'mental', 'emotional', 'mood', 'worry',
-      'overwhelm', 'mindset', 'present', 'awareness', 'clarity', 'sleep',
-      'concentration', 'productivity', 'performance', 'discipline', 'habit'
-    ],
-    forbidden_goal_patterns: [
-      'save.*money', 'start.*business', 'learn.*instrument', 'physical.*injury'
-    ],
-    allowed_arenas: ['Feeling & Emotion', 'Personal Growth', 'Relationships', 'Work & Career', 'Physical Health'],
-    allowed_goal_categories: [
-      'Mental Health', 'Emotional Growth', 'Stress Management', 'Self-Improvement',
-      'Sleep & Energy', 'Productivity', 'Character & Discipline', 'Mindset & Beliefs'
-    ],
+    allowed_goal_patterns: ['.*'], // Allow all patterns, laugh test validates
+    forbidden_goal_patterns: [], // Remove restrictions, laugh test handles this
+    allowed_arenas: [], // Remove arena restrictions
+    allowed_goal_categories: [], // Remove category restrictions
     min_effectiveness: 3.5,
     max_expansions: 15
   },
 
-  // HABITS & ROUTINES - Universal life improvement patterns
+  // HABITS & ROUTINES - Laugh test will handle quality validation
   habits_routines: {
-    allowed_goal_patterns: [
-      'habit', 'routine', 'consistent', 'daily', 'practice', 'regular',
-      'discipline', 'schedule', 'organization', 'productivity', 'time',
-      'morning', 'evening', 'system', 'process', 'structure', 'exercise',
-      'training', 'workout', 'fitness', 'pull.*up', 'run', 'bike', 'swim',
-      'improve', 'develop', 'build', 'create', 'maintain', 'manage'
-    ],
-    forbidden_goal_patterns: [
-      'surgery', 'medical.*procedure'
-    ],
-    allowed_arenas: ['Personal Growth', 'Work & Career', 'Physical Health', 'Technology & Modern Life',
-                     'Feeling & Emotion', 'Beauty & Wellness', 'Finances', 'House & Home'],
-    allowed_goal_categories: [
-      'Habits & Routine', 'Productivity', 'Self-Improvement', 'Time Management',
-      'Exercise & Fitness', 'Character & Discipline', 'Learning & Development',
-      'Stress Management', 'Financial Security', 'Health & Wellness'
-    ],
+    allowed_goal_patterns: ['.*'], // Allow all patterns, laugh test validates
+    forbidden_goal_patterns: [], // Remove restrictions, laugh test handles this
+    allowed_arenas: [], // Remove arena restrictions
+    allowed_goal_categories: [], // Remove category restrictions
     min_effectiveness: 3.5,
     max_expansions: 20
   },
 
-  // DIET & NUTRITION - Broader health and wellness impact
+  // DIET & NUTRITION - Laugh test will handle quality validation
   diet_nutrition: {
-    allowed_goal_patterns: [
-      'weight', 'eat', 'diet', 'nutrition', 'food', 'meal', 'healthy',
-      'energy', 'digestive', 'gut', 'cholesterol', 'blood.*pressure',
-      'sugar', 'diabetes', 'metabolic', 'appetite', 'crave', 'mood',
-      'skin', 'appearance', 'performance', 'focus', 'brain'
-    ],
-    forbidden_goal_patterns: [
-      'surgery', 'medical.*procedure'
-    ],
-    allowed_arenas: ['Physical Health', 'Beauty & Wellness', 'Feeling & Emotion', 'Personal Growth'],
-    allowed_goal_categories: [
-      'Diet & Nutrition', 'Weight & Body', 'Health & Wellness',
-      'Digestive Health', 'Energy & Vitality', 'Appearance & Skin',
-      'Mental Health', 'Exercise & Fitness'
-    ],
+    allowed_goal_patterns: ['.*'], // Allow all patterns, laugh test validates
+    forbidden_goal_patterns: [], // Remove restrictions, laugh test handles this
+    allowed_arenas: [], // Remove arena restrictions
+    allowed_goal_categories: [], // Remove category restrictions
     min_effectiveness: 3.5,
     max_expansions: 15
   },
 
-  // MEDICATIONS - Medical treatments with potential broader wellness impact
+  // MEDICATIONS - Laugh test will handle quality validation
   medications: {
-    allowed_goal_patterns: [
-      'pain', 'condition', 'symptom', 'medical', 'health', 'treatment',
-      'disorder', 'disease', 'manage', 'control', 'reduce', 'prevent',
-      'blood.*pressure', 'cholesterol', 'diabetes', 'arthritis', 'migraine',
-      'acne', 'skin', 'breakout', 'clear', 'rosacea', 'eczema', 'psoriasis',
-      'anxiety', 'depression', 'mood', 'sleep', 'energy'
-    ],
-    forbidden_goal_patterns: [
-      '^learn.*instrument', '^learn.*pottery', '^start.*business'
-    ],
-    allowed_arenas: ['Physical Health', 'Beauty & Wellness', 'Feeling & Emotion'],
-    allowed_goal_categories: [
-      'Health Conditions', 'Appearance & Skin', 'Wellness & Self-Care',
-      'Mental Health', 'Sleep & Energy', 'Anxiety & Worry', 'Sadness & Depression'
-    ],
+    allowed_goal_patterns: ['.*'], // Allow all patterns, laugh test validates
+    forbidden_goal_patterns: [], // Remove restrictions, laugh test handles this
+    allowed_arenas: [], // Remove arena restrictions
+    allowed_goal_categories: [], // Remove category restrictions
     min_effectiveness: 3.8,
     max_expansions: 10
   },
 
-  // SUPPLEMENTS & VITAMINS - Health optimization
+  // SUPPLEMENTS & VITAMINS - Laugh test will handle quality validation
   supplements_vitamins: {
-    allowed_goal_patterns: [
-      'health', 'energy', 'immune', 'deficiency', 'vitamin', 'mineral',
-      'wellness', 'optimize', 'support', 'boost', 'enhance', 'improve',
-      'bone', 'heart', 'brain', 'mood', 'sleep', 'recovery'
-    ],
-    forbidden_goal_patterns: [
-      'career.*advance', 'make.*money', 'save.*money', 'relationship',
-      'social.*skills', 'public.*speaking', 'learn.*instrument'
-    ],
-    allowed_arenas: ['Physical Health', 'Beauty & Wellness'],
-    allowed_goal_categories: [
-      'Health & Wellness', 'Nutrition', 'Energy & Vitality',
-      'Immune Support', 'Anti-Aging'
-    ],
+    allowed_goal_patterns: ['.*'], // Allow all patterns, laugh test validates
+    forbidden_goal_patterns: [], // Remove restrictions, laugh test handles this
+    allowed_arenas: [], // Remove arena restrictions
+    allowed_goal_categories: [], // Remove category restrictions
     min_effectiveness: 3.5,
-    max_expansions: 5
+    max_expansions: 8
   },
 
-  // NATURAL REMEDIES - Natural health solutions
+  // NATURAL REMEDIES - Laugh test will handle quality validation
   natural_remedies: {
-    allowed_goal_patterns: [
-      'natural', 'herbal', 'remedy', 'alternative', 'holistic', 'wellness',
-      'heal', 'soothe', 'calm', 'relieve', 'support', 'balance',
-      'inflammation', 'pain', 'stress', 'sleep', 'digestive'
-    ],
-    forbidden_goal_patterns: [
-      'career', 'money', 'financial', 'business', 'academic', 'learn',
-      'study', 'athletic.*performance', 'muscle.*building'
-    ],
-    allowed_arenas: ['Physical Health', 'Beauty & Wellness', 'Feeling & Emotion'],
-    allowed_goal_categories: [
-      'Natural Health', 'Alternative Medicine', 'Health & Wellness',
-      'Pain Relief', 'Stress Management'
-    ],
+    allowed_goal_patterns: ['.*'], // Allow all patterns, laugh test validates
+    forbidden_goal_patterns: [], // Remove restrictions, laugh test handles this
+    allowed_arenas: [], // Remove arena restrictions
+    allowed_goal_categories: [], // Remove category restrictions
     min_effectiveness: 3.5,
-    max_expansions: 4
+    max_expansions: 8
   },
 
-  // SLEEP - Sleep and recovery focused
+  // SLEEP - Laugh test will handle quality validation
   sleep: {
-    allowed_goal_patterns: [
-      'sleep', 'rest', 'tired', 'fatigue', 'insomnia', 'bedtime',
-      'wake', 'dream', 'recovery', 'energy', 'alert', 'circadian'
-    ],
-    forbidden_goal_patterns: [
-      'muscle.*building', 'weight.*loss', 'career', 'money', 'relationship',
-      'learn', 'study', 'business', 'financial'
-    ],
-    allowed_arenas: ['Physical Health', 'Feeling & Emotion'],
-    allowed_goal_categories: [
-      'Sleep Health', 'Energy & Vitality', 'Recovery',
-      'Health & Wellness'
-    ],
+    allowed_goal_patterns: ['.*'], // Allow all patterns, laugh test validates
+    forbidden_goal_patterns: [], // Remove restrictions, laugh test handles this
+    allowed_arenas: [], // Remove arena restrictions
+    allowed_goal_categories: [], // Remove category restrictions
     min_effectiveness: 4.0,
-    max_expansions: 3
+    max_expansions: 8
   },
 
-  // APPS & SOFTWARE - Digital tools for life optimization across domains
+  // APPS & SOFTWARE - Laugh test will handle quality validation
   apps_software: {
-    allowed_goal_patterns: [
-      'track', 'monitor', 'organize', 'manage', 'plan', 'schedule',
-      'productive', 'efficient', 'digital', 'online', 'mobile',
-      'app', 'software', 'tool', 'system', 'platform', 'learn', 'code',
-      'improve', 'control', 'build', 'create', 'habit', 'routine'
-    ],
-    forbidden_goal_patterns: [
-      'surgery', 'medical.*procedure'
-    ],
-    allowed_arenas: ['Work & Career', 'Personal Growth', 'Physical Health', 'Technology & Modern Life',
-                     'Feeling & Emotion', 'Beauty & Wellness', 'Finances', 'House & Home'],
-    allowed_goal_categories: [
-      'Productivity', 'Digital Tools', 'Organization', 'Tracking',
-      'Technology', 'Self-Improvement', 'Learning & Development',
-      'Financial Security', 'Health & Wellness', 'Time Management', 'Habits & Routine'
-    ],
+    allowed_goal_patterns: ['.*'], // Allow all patterns, laugh test validates
+    forbidden_goal_patterns: [], // Remove restrictions, laugh test handles this
+    allowed_arenas: [], // Remove arena restrictions
+    allowed_goal_categories: [], // Remove category restrictions
     min_effectiveness: 3.5,
     max_expansions: 15
   },
 
-  // BOOKS & COURSES - Universal knowledge application across all life domains
+  // BOOKS & COURSES - Laugh test will handle quality validation
   books_courses: {
-    allowed_goal_patterns: [
-      'learn', 'study', 'knowledge', 'skill', 'education', 'training',
-      'develop', 'improve', 'understand', 'master', 'course', 'book',
-      'read', 'teach', 'guide', 'instruction', 'method', 'build', 'create',
-      'manage', 'control', 'handle', 'overcome', 'achieve', 'practice'
-    ],
-    forbidden_goal_patterns: [
-      'surgery', 'medical.*procedure'
-    ],
-    allowed_arenas: ['Personal Growth', 'Work & Career', 'Relationships', 'Feeling & Emotion',
-                     'Physical Health', 'Beauty & Wellness', 'Finances', 'Technology & Modern Life',
-                     'House & Home', 'Creativity', 'Community', 'Socialising', 'Life Direction'],
-    allowed_goal_categories: [
-      'Education', 'Skill Development', 'Self-Improvement', 'Learning',
-      'Professional Development', 'Personal Development', 'Mental Health',
-      'Stress Management', 'Character & Discipline', 'Mindset & Beliefs',
-      'Productivity', 'Financial Security', 'Communication Skills',
-      'Exercise & Fitness', 'Weight & Body', 'Anxiety & Worry', 'Sadness & Depression',
-      'Emotional Growth', 'Career Changes', 'Job Hunting', 'Time Management',
-      'Building Wealth', 'Money Management', 'Social Confidence', 'Dating & Romance',
-      'Breaking Destructive Patterns', 'Visual Arts', 'Writing & Words', 'Music & Performance'
-    ],
+    allowed_goal_patterns: ['.*'], // Allow all patterns, laugh test validates
+    forbidden_goal_patterns: [], // Remove restrictions, laugh test handles this
+    allowed_arenas: [], // Remove arena restrictions
+    allowed_goal_categories: [], // Remove category restrictions
     min_effectiveness: 3.5,
     max_expansions: 20
   },
 
-  // DOCTORS & SPECIALISTS - Medical/health conditions only
+  // DOCTORS & SPECIALISTS - Laugh test will handle quality validation
   doctors_specialists: {
-    allowed_goal_patterns: [
-      'health', 'medical', 'pain', 'chronic', 'disease', 'condition',
-      'symptoms', 'diagnosis', 'treatment', 'therapy', 'mental health',
-      'physical', 'wellness', 'manage', 'control', 'reduce', 'improve',
-      'depression', 'anxiety', 'blood pressure', 'diabetes', 'arthritis',
-      'autoimmune', 'fibromyalgia', 'thyroid', 'PCOS', 'IBS', 'ADHD',
-      'autism', 'PTSD', 'OCD', 'eating disorder', 'addiction', 'reflux',
-      'skin', 'acne', 'rosacea', 'eczema', 'psoriasis', 'hair', 'nails',
-      'sweating', 'odor', 'age spots', 'wrinkles', 'breakouts', 'glowing'
-    ],
-    forbidden_goal_patterns: [
-      '^learn.*instrument', '^learn.*pottery', '^learn.*draw', '^learn.*paint',
-      '^change.*career', '^save.*money', '^update.*wardrobe', '^dating.*',
-      '^network.*effectively', '^master.*photography', '^write.*music', '^start.*business'
-    ],
-    allowed_arenas: ['Physical Health', 'Feeling & Emotion', 'Beauty & Wellness', 'Finances'],
-    allowed_goal_categories: [
-      'Health Conditions', 'Anxiety & Worry', 'Sadness & Depression',
-      'Breaking Destructive Patterns', 'Wellness & Self-Care',
-      'Rest & Recovery', 'Emotional Growth', 'Appearance & Skin',
-      'Hair & Grooming', 'Sleep & Energy', 'Movement & Mobility',
-      'Weight & Body', 'Food & Nutrition', 'Exercise & Fitness',
-      'Financial Security'  // For insurance/healthcare cost goals
-    ],
+    allowed_goal_patterns: ['.*'], // Allow all patterns, laugh test validates
+    forbidden_goal_patterns: [], // Remove restrictions, laugh test handles this
+    allowed_arenas: [], // Remove arena restrictions
+    allowed_goal_categories: [], // Remove category restrictions
+    min_effectiveness: 4.0,
+    max_expansions: 12
+  },
+
+  // PRODUCTS & DEVICES - Laugh test will handle quality validation
+  products_devices: {
+    allowed_goal_patterns: ['.*'],
+    forbidden_goal_patterns: [],
+    allowed_arenas: [],
+    allowed_goal_categories: [],
+    min_effectiveness: 3.5,
+    max_expansions: 10
+  },
+
+  // BEAUTY & SKINCARE - Laugh test will handle quality validation
+  beauty_skincare: {
+    allowed_goal_patterns: ['.*'],
+    forbidden_goal_patterns: [],
+    allowed_arenas: [],
+    allowed_goal_categories: [],
+    min_effectiveness: 3.5,
+    max_expansions: 8
+  },
+
+  // PROFESSIONAL SERVICES - Laugh test will handle quality validation
+  professional_services: {
+    allowed_goal_patterns: ['.*'],
+    forbidden_goal_patterns: [],
+    allowed_arenas: [],
+    allowed_goal_categories: [],
+    min_effectiveness: 3.8,
+    max_expansions: 10
+  },
+
+  // GROUPS & COMMUNITIES - Laugh test will handle quality validation
+  groups_communities: {
+    allowed_goal_patterns: ['.*'],
+    forbidden_goal_patterns: [],
+    allowed_arenas: [],
+    allowed_goal_categories: [],
+    min_effectiveness: 3.5,
+    max_expansions: 8
+  },
+
+  // FINANCIAL PRODUCTS - Laugh test will handle quality validation
+  financial_products: {
+    allowed_goal_patterns: ['.*'],
+    forbidden_goal_patterns: [],
+    allowed_arenas: [],
+    allowed_goal_categories: [],
+    min_effectiveness: 3.8,
+    max_expansions: 6
+  },
+
+  // SUPPORT GROUPS - Laugh test will handle quality validation
+  support_groups: {
+    allowed_goal_patterns: ['.*'],
+    forbidden_goal_patterns: [],
+    allowed_arenas: [],
+    allowed_goal_categories: [],
+    min_effectiveness: 3.8,
+    max_expansions: 8
+  },
+
+  // HOBBIES & ACTIVITIES - Laugh test will handle quality validation
+  hobbies_activities: {
+    allowed_goal_patterns: ['.*'],
+    forbidden_goal_patterns: [],
+    allowed_arenas: [],
+    allowed_goal_categories: [],
+    min_effectiveness: 3.5,
+    max_expansions: 12
+  },
+
+  // COACHES & MENTORS - Laugh test will handle quality validation
+  coaches_mentors: {
+    allowed_goal_patterns: ['.*'],
+    forbidden_goal_patterns: [],
+    allowed_arenas: [],
+    allowed_goal_categories: [],
+    min_effectiveness: 3.8,
+    max_expansions: 10
+  },
+
+  // MEDICAL PROCEDURES - Laugh test will handle quality validation
+  medical_procedures: {
+    allowed_goal_patterns: ['.*'],
+    forbidden_goal_patterns: [],
+    allowed_arenas: [],
+    allowed_goal_categories: [],
+    min_effectiveness: 4.0,
+    max_expansions: 6
+  },
+
+  // ALTERNATIVE PRACTITIONERS - Laugh test will handle quality validation
+  alternative_practitioners: {
+    allowed_goal_patterns: ['.*'],
+    forbidden_goal_patterns: [],
+    allowed_arenas: [],
+    allowed_goal_categories: [],
+    min_effectiveness: 3.5,
+    max_expansions: 8
+  },
+
+  // THERAPISTS & COUNSELORS - Laugh test will handle quality validation
+  therapists_counselors: {
+    allowed_goal_patterns: ['.*'],
+    forbidden_goal_patterns: [],
+    allowed_arenas: [],
+    allowed_goal_categories: [],
     min_effectiveness: 4.0,
     max_expansions: 10
+  },
+
+  // CRISIS RESOURCES - Laugh test will handle quality validation
+  crisis_resources: {
+    allowed_goal_patterns: ['.*'],
+    forbidden_goal_patterns: [],
+    allowed_arenas: [],
+    allowed_goal_categories: [],
+    min_effectiveness: 4.0,
+    max_expansions: 6
   }
 }
 
 /**
  * Check if a solution-goal connection is credible based on expansion rules
- * NOTE: With laugh test validator, these rules are much more permissive
+ * NOTE: Laugh test validator is now the primary quality gatekeeper
  */
 export function isCredibleConnection(
   solutionCategory: string,
@@ -289,7 +274,7 @@ export function isCredibleConnection(
     return { credible: false, reason: `No expansion rules defined for category: ${solutionCategory}` }
   }
 
-  // Check effectiveness threshold
+  // Check effectiveness threshold (only remaining validation)
   if (projectedEffectiveness < rule.min_effectiveness) {
     return {
       credible: false,
@@ -297,31 +282,8 @@ export function isCredibleConnection(
     }
   }
 
-  // Check forbidden patterns first (immediate disqualification)
-  const goalTitleLower = goalTitle.toLowerCase()
-  for (const forbiddenPattern of rule.forbidden_goal_patterns) {
-    if (goalTitleLower.match(new RegExp(forbiddenPattern, 'i'))) {
-      return {
-        credible: false,
-        reason: `Goal matches forbidden pattern: ${forbiddenPattern}`
-      }
-    }
-  }
-
-  // RELAXED VALIDATION: Skip arena and category checks, rely on laugh test
-  // The laugh test validator will catch spurious connections
-
-  // Check allowed patterns (at least one must match)
-  const hasAllowedPattern = rule.allowed_goal_patterns.some(pattern =>
-    goalTitleLower.match(new RegExp(pattern, 'i'))
-  )
-
-  if (!hasAllowedPattern) {
-    return {
-      credible: false,
-      reason: `Goal title doesn't match any allowed patterns`
-    }
-  }
+  // LAUGH TEST RELIANCE: All pattern, arena, and category validation removed
+  // The laugh test validator (70/100 threshold) handles quality control
 
   return { credible: true }
 }

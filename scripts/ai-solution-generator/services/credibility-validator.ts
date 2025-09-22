@@ -75,16 +75,26 @@ export class CredibilityValidator {
 
     console.log(chalk.cyan(`\n🔍 Finding credible candidates for: ${solution.title}`))
     console.log(chalk.gray(`   Category: ${solution.solution_category}`))
-    console.log(chalk.gray(`   Current goals: ${solution.current_goals.length}`))
+    console.log(chalk.gray(`   Current goals: ${(solution.current_goals || []).length}`))
     console.log(chalk.gray(`   Max new candidates: ${maxCandidates}`))
     console.log(chalk.gray(`   Batch size: ${batchSize}`))
 
     // Get all goals in relevant arenas for this solution category
     const potentialGoals = await this.getPotentialGoals(solution)
+    if (!potentialGoals || !Array.isArray(potentialGoals)) {
+      console.error(chalk.red(`❌ Failed to fetch potential goals for ${solution.title}`))
+      return {
+        solution,
+        candidates: [],
+        approved_count: 0,
+        rejected_count: 0,
+        already_connected_count: 0
+      }
+    }
     console.log(chalk.gray(`   Potential goals found: ${potentialGoals.length}`))
 
     // Filter out already connected goals
-    const connectedGoalIds = new Set(solution.current_goals.map(g => g.id))
+    const connectedGoalIds = new Set((solution.current_goals || []).map(g => g.id))
     const unconnectedGoals = potentialGoals.filter(goal => !connectedGoalIds.has(goal.id))
 
     console.log(chalk.gray(`   Unconnected goals: ${unconnectedGoals.length}`))
@@ -389,13 +399,50 @@ export class CredibilityValidator {
    * Prioritize goals by relevance to optimize batching
    */
   private prioritizeGoalsByRelevance(solution: SolutionData, goals: GoalData[]): GoalData[] {
-    const solutionKeywords = this.extractKeywords(solution.title + ' ' + solution.description)
+    if (!goals || !Array.isArray(goals)) {
+      console.warn(chalk.yellow(`⚠️  Invalid goals array for ${solution.title}`))
+      return []
+    }
 
-    return goals
+    // Filter out problematic goals first
+    const filteredGoals = goals.filter(goal => {
+      // Remove TEST goals entirely
+      if (goal.title.includes('TEST') || goal.title.includes('test')) {
+        return false
+      }
+
+      // Remove overused generic goals that rarely make sense
+      const genericGoals = [
+        'Develop morning routine',
+        'Improve emotional regulation'
+      ]
+
+      if (genericGoals.some(generic => goal.title === generic)) {
+        // Only allow these for solutions that explicitly mention them
+        const solutionText = (solution.title + ' ' + solution.description).toLowerCase()
+        const goalText = goal.title.toLowerCase()
+
+        if (goalText.includes('morning') && !solutionText.includes('morning') && !solutionText.includes('routine')) {
+          return false
+        }
+
+        if (goalText.includes('emotional') && !solutionText.includes('emotion') && !solutionText.includes('feeling')) {
+          return false
+        }
+      }
+
+      return true
+    })
+
+    const solutionKeywords = this.extractKeywords(solution.title + ' ' + solution.description)
+    const solutionDomain = this.detectSolutionDomain(solution)
+
+    return filteredGoals
       .map(goal => ({
         goal,
-        relevanceScore: this.calculateQuickRelevanceScore(solutionKeywords, goal)
+        relevanceScore: this.calculateQuickRelevanceScore(solutionKeywords, goal, solutionDomain)
       }))
+      .filter(item => item.relevanceScore >= 0.1) // Minimum relevance threshold
       .sort((a, b) => b.relevanceScore - a.relevanceScore)
       .map(item => item.goal)
   }
@@ -414,7 +461,7 @@ export class CredibilityValidator {
   /**
    * Quick relevance scoring for prioritization (lighter than full validation)
    */
-  private calculateQuickRelevanceScore(solutionKeywords: string[], goal: GoalData): number {
+  private calculateQuickRelevanceScore(solutionKeywords: string[], goal: GoalData, solutionDomain?: string): number {
     const goalKeywords = this.extractKeywords(goal.title + ' ' + goal.description)
 
     // Keyword overlap
@@ -426,11 +473,150 @@ export class CredibilityValidator {
     const titleOverlap = solutionKeywords.filter(word => titleKeywords.includes(word))
     const titleScore = titleOverlap.length / Math.max(solutionKeywords.length, titleKeywords.length)
 
+    // Domain matching bonus (new)
+    let domainBonus = 0
+    if (solutionDomain) {
+      domainBonus = this.calculateDomainMatch(solutionDomain, goal)
+    }
+
     // Arena bonus (some arenas are more cross-applicable)
     const crossApplicableArenas = ['Personal Growth', 'Feeling & Emotion', 'Work & Career']
-    const arenaBonus = crossApplicableArenas.includes(goal.arena) ? 0.2 : 0
+    const arenaBonus = crossApplicableArenas.includes(goal.arena) ? 0.1 : 0
 
-    return (overlapScore * 0.4) + (titleScore * 0.6) + arenaBonus
+    return (overlapScore * 0.3) + (titleScore * 0.4) + (domainBonus * 0.3) + arenaBonus
+  }
+
+  /**
+   * Detect the domain/category of a solution for better goal matching
+   */
+  private detectSolutionDomain(solution: SolutionData): string {
+    const text = (solution.title + ' ' + solution.description).toLowerCase()
+    const category = solution.category?.toLowerCase() || ''
+
+    // Fitness & Exercise
+    if (text.includes('workout') || text.includes('exercise') || text.includes('fitness') ||
+        text.includes('gym') || text.includes('training') || text.includes('strength') ||
+        category.includes('exercise') || category.includes('movement')) {
+      return 'fitness'
+    }
+
+    // Career & Professional
+    if (text.includes('job') || text.includes('career') || text.includes('interview') ||
+        text.includes('resume') || text.includes('work') || text.includes('professional') ||
+        text.includes('networking') || category.includes('career')) {
+      return 'career'
+    }
+
+    // Learning & Skills
+    if (text.includes('learn') || text.includes('course') || text.includes('tutorial') ||
+        text.includes('skill') || text.includes('training') || text.includes('education') ||
+        category.includes('courses') || category.includes('books')) {
+      return 'learning'
+    }
+
+    // Health & Wellness
+    if (text.includes('health') || text.includes('medicine') || text.includes('therapy') ||
+        text.includes('treatment') || text.includes('healing') ||
+        category.includes('medical') || category.includes('natural_remedies')) {
+      return 'health'
+    }
+
+    // Mental Health & Emotions
+    if (text.includes('anxiety') || text.includes('depression') || text.includes('stress') ||
+        text.includes('mindfulness') || text.includes('meditation') || text.includes('therapy') ||
+        text.includes('emotional') || text.includes('mental health')) {
+      return 'mental_health'
+    }
+
+    // Productivity & Organization
+    if (text.includes('productivity') || text.includes('organize') || text.includes('task') ||
+        text.includes('time management') || text.includes('planning') ||
+        category.includes('apps_software')) {
+      return 'productivity'
+    }
+
+    // Diet & Nutrition
+    if (text.includes('diet') || text.includes('nutrition') || text.includes('food') ||
+        text.includes('eating') || text.includes('weight') ||
+        category.includes('diet_nutrition')) {
+      return 'nutrition'
+    }
+
+    // Addiction & Habits
+    if (text.includes('quit') || text.includes('stop') || text.includes('addiction') ||
+        text.includes('habit') || text.includes('drinking') || text.includes('smoking')) {
+      return 'addiction'
+    }
+
+    return 'general'
+  }
+
+  /**
+   * Calculate how well a goal matches a solution's domain
+   */
+  private calculateDomainMatch(solutionDomain: string, goal: GoalData): number {
+    const goalText = (goal.title + ' ' + goal.description).toLowerCase()
+    const goalArena = goal.arena?.toLowerCase() || ''
+
+    switch (solutionDomain) {
+      case 'fitness':
+        if (goalText.includes('exercise') || goalText.includes('fitness') || goalText.includes('strength') ||
+            goalText.includes('workout') || goalText.includes('physical') || goalArena.includes('health')) {
+          return 0.8
+        }
+        break
+
+      case 'career':
+        if (goalText.includes('job') || goalText.includes('career') || goalText.includes('work') ||
+            goalText.includes('interview') || goalText.includes('professional') || goalArena.includes('career')) {
+          return 0.8
+        }
+        break
+
+      case 'learning':
+        if (goalText.includes('learn') || goalText.includes('skill') || goalText.includes('study') ||
+            goalText.includes('master') || goalText.includes('practice') || goalArena.includes('growth')) {
+          return 0.8
+        }
+        break
+
+      case 'health':
+        if (goalText.includes('health') || goalText.includes('heal') || goalText.includes('pain') ||
+            goalText.includes('medical') || goalText.includes('condition') || goalArena.includes('health')) {
+          return 0.8
+        }
+        break
+
+      case 'mental_health':
+        if (goalText.includes('anxiety') || goalText.includes('stress') || goalText.includes('calm') ||
+            goalText.includes('mindful') || goalText.includes('emotional') || goalArena.includes('emotion')) {
+          return 0.8
+        }
+        break
+
+      case 'productivity':
+        if (goalText.includes('organize') || goalText.includes('routine') || goalText.includes('productive') ||
+            goalText.includes('focus') || goalText.includes('time') || goalArena.includes('productivity')) {
+          return 0.8
+        }
+        break
+
+      case 'nutrition':
+        if (goalText.includes('weight') || goalText.includes('eat') || goalText.includes('diet') ||
+            goalText.includes('food') || goalText.includes('nutrition') || goalArena.includes('health')) {
+          return 0.8
+        }
+        break
+
+      case 'addiction':
+        if (goalText.includes('quit') || goalText.includes('stop') || goalText.includes('addiction') ||
+            goalText.includes('drinking') || goalText.includes('smoking') || goalText.includes('habit')) {
+          return 0.8
+        }
+        break
+    }
+
+    return 0 // No domain match
   }
 
   /**

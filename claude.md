@@ -144,4 +144,35 @@ For connection details and keys, see:
 
 **UI Enhancements**: Solution cards now show "X of Y users" counts and data source indicators (AI vs User) for transparency.
 
+## 🔧 Data Quality Architecture (January 2025)
+
+### Two-Table Approach
+WWFM maintains clear separation between AI and human data:
+- **solution_fields**: AI-generated data in DistributionData format
+- **aggregated_fields**: Human-aggregated data only
+- **No mixing**: AI and human data remain completely separate
+- **Transition system**: Automatic switch at 3 human ratings
+
+### AI Data Format
+AI-generated data stored with explicit markers:
+```json
+{
+  "side_effects": {
+    "mode": "Nausea",
+    "values": [
+      {"value": "Nausea", "count": 40, "percentage": 40, "source": "research"},
+      {"value": "Headache", "count": 25, "percentage": 25, "source": "studies"}
+    ],
+    "totalReports": 100,  // Standardized virtual base for AI data
+    "dataSource": "ai_research"
+  }
+}
+```
+
+### Key Principles
+- **Transparency**: Always clear about data source (AI vs human)
+- **No fake user counts**: AI percentages based on research, not fake users
+- **Seamless transition**: System naturally replaces AI with human data
+- **Data integrity**: Never contaminate human aggregations with AI estimates
+
 Remember: WWFM helps real people find solutions to life challenges. Every feature should make it easier to discover what works or share what worked for you.
