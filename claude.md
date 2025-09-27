@@ -144,14 +144,14 @@ For connection details and keys, see:
 
 **UI Enhancements**: Solution cards now show "X of Y users" counts and data source indicators (AI vs User) for transparency.
 
-## 🔧 Data Quality Architecture (January 2025)
+## 🔧 Data Quality Architecture (Updated: September 2025)
 
-### Two-Table Approach
-WWFM maintains clear separation between AI and human data:
-- **solution_fields**: AI-generated data in DistributionData format
-- **aggregated_fields**: Human-aggregated data only
-- **No mixing**: AI and human data remain completely separate
-- **Transition system**: Automatic switch at 3 human ratings
+### Two-Field Approach (Distribution Display Architecture)
+WWFM uses two JSONB fields in goal_implementation_links for distribution data:
+- **solution_fields**: AI-generated DistributionData (rich 4-8 option distributions)
+- **aggregated_fields**: Display-ready DistributionData (human-aggregated OR AI data for frontend)
+- **Frontend reads ONLY from aggregated_fields** (no fallback to solution_fields)
+- **Both use DistributionData format**: mode, values array, percentages, sources for rich displays
 
 ### AI Data Format
 AI-generated data stored with explicit markers:
@@ -169,10 +169,253 @@ AI-generated data stored with explicit markers:
 }
 ```
 
+### ⚠️ CRITICAL: Data Transformation Rules (September 2025)
+
+After a critical data quality failure, these rules are NON-NEGOTIABLE:
+
+#### ✅ CORRECT Approach: Source Label Fixes Only
+```typescript
+// SAFE - Only fix source labels, preserve ALL data
+function fixSourceLabelsOnly(field: DistributionData) {
+  return {
+    ...field,  // Keep mode, values, percentages unchanged
+    values: field.values.map(v => ({
+      ...v,  // Keep value, count, percentage
+      source: v.source === 'equal_fallback' ? 'research' :
+              v.source === 'smart_fallback' ? 'studies' : v.source
+    }))
+  }
+}
+```
+
+#### ❌ FORBIDDEN Approach: AI Generation
+```typescript
+// DANGEROUS - NEVER DO THIS
+const prompt = `provide realistic percentage distributions for ${fieldName}...`
+const aiResponse = await model.generateContent(prompt)
+```
+
+#### Field Preservation Pattern (MANDATORY)
+```typescript
+// ✅ ALWAYS use this pattern
+const updated = { ...existingFields, ...newFields }
+
+// WITH validation
+if (Object.keys(updated).length < Object.keys(existing).length) {
+  throw new Error('Field loss detected!')
+}
+
+// ❌ NEVER do this
+const updated = newFields  // Loses existing fields
+```
+
 ### Key Principles
-- **Transparency**: Always clear about data source (AI vs human)
-- **No fake user counts**: AI percentages based on research, not fake users
-- **Seamless transition**: System naturally replaces AI with human data
-- **Data integrity**: Never contaminate human aggregations with AI estimates
+- **Data variety preservation**: Never collapse rich distributions (5-8 options)
+- **Form validation**: All values must match exact dropdown options
+- **No AI generation**: Never ask AI to create new distributions
+- **Source labels only**: Only change metadata, never actual data
+- **Backup first**: Always ensure ai_snapshot is populated before changes
+- **Test first**: Single goal validation before broad rollout
+
+### Safe Scripts Reference
+- **Recovery**: `scripts/recovery/restore-from-ai-snapshot.ts`
+- **Source fixes**: `scripts/safe/fix-source-labels-only.ts`
+- **Validation**: Check against `FORM_DROPDOWN_OPTIONS_REFERENCE.md`
+- **Archived dangerous**: `scripts/archive/dangerous-transformation-failure-20250924/`
 
 Remember: WWFM helps real people find solutions to life challenges. Every feature should make it easier to discover what works or share what worked for you.
+
+## ⚠️ CRITICAL: Field Preservation Pattern (MANDATORY)
+
+### NEVER LOSE FIELDS - Use This Pattern Everywhere
+
+```typescript
+// ❌ WRONG - loses fields
+function updateSolutionFields(fields: any) {
+  const transformedFields = transformData(fields)
+  return transformedFields  // DANGER: Lost original fields
+}
+
+// ✅ RIGHT - preserves fields
+function updateSolutionFields(fields: any) {
+  const transformedFields = transformData(fields)
+  return { ...fields, ...transformedFields }  // SAFE: Keeps everything
+}
+
+// ✅ WITH validation (BEST)
+function updateSolutionFields(fields: any) {
+  const transformedFields = transformData(fields)
+  const updated = { ...fields, ...transformedFields }
+
+  // Validate no field loss
+  if (Object.keys(updated).length < Object.keys(fields).length) {
+    throw new Error(`Field loss detected: ${Object.keys(fields).length} -> ${Object.keys(updated).length}`)
+  }
+
+  return updated
+}
+```
+
+### Data Requirements (NON-NEGOTIABLE)
+ALL solution data MUST reflect AI training data patterns:
+- ✅ Medical literature, clinical studies (AI training sources)
+- ✅ User research, surveys (AI training sources)
+- ✅ Evidence-based distributions from research
+- ❌ Equal mathematical splits (mechanistic)
+- ❌ Random percentages (not from training data)
+- ❌ Smart fallbacks or algorithmic distributions
+
+### Archived Dangerous Scripts - DO NOT USE
+- `scripts/archive/dangerous-field-loss-20250924/*` - These scripts cause data loss
+- Use `scripts/safe/*` and `scripts/recovery/*` instead
+
+### Safe Script Examples
+- `scripts/safe/add-synthesized-fields.ts` - Adds fields with preservation
+- `scripts/recovery/recover-from-snapshot.ts` - Recovers without data loss
+
+## 🚨 CRITICAL: Field Generation System Issues (September 2025)
+
+After discovering multiple systematic issues in the field generation system during anxiety goal investigation:
+
+### CORE PRINCIPLE: Regenerate Degraded Data, Not Just Missing Data
+The script now identifies and regenerates fields with trash/degraded data quality:
+
+1. **Quality Detection Indicators**:
+   - Missing or empty fields
+   - <4 distribution options (degraded diversity)
+   - Fallback sources (smart_fallback, equal_fallback)
+   - Wrong case/format (weekly vs Weekly)
+   - Invalid dropdown values
+   - Equal percentage distributions (mechanistic data)
+
+2. **Category-Based Regeneration**:
+   - Only regenerates fields REQUIRED for each category (per GoalPageClient.tsx)
+   - Preserves good quality existing data
+   - Uses evidence-based patterns with 5-8 options
+
+### MANDATORY Quality Checks:
+1. **Field Names**: Must match GoalPageClient.tsx keyFields exactly
+2. **Dropdown Values**: Must match actual form dropdowns exactly
+3. **Goal-Specific Filtering**: Always filter by goal_id
+4. **Data Quality Assessment**: Check existing data quality before regeneration
+5. **Evidence-Based Patterns**: Use research-based distributions (not mechanistic)
+
+### ⚠️ CRITICAL: Category-Specific Field Requirements (SOURCE: GoalPageClient.tsx)
+**STOP GENERATING WRONG FIELDS** - Each category has DIFFERENT required fields!
+
+#### SESSION-BASED Categories (need session_frequency + session_length):
+- **therapists_counselors**: session_frequency, session_length, cost, time_to_results
+- **coaches_mentors**: session_frequency, session_length, cost, time_to_results
+- **alternative_practitioners**: session_frequency, session_length, cost, time_to_results
+
+#### MEDICAL Categories (need session_frequency + wait_time, NOT session_length):
+- **doctors_specialists**: session_frequency, wait_time, cost, time_to_results
+- **medical_procedures**: session_frequency, wait_time, cost, time_to_results
+- **crisis_resources**: response_time, cost, time_to_results (NO session fields)
+
+#### PRACTICE Categories:
+- **meditation_mindfulness**: practice_length, frequency, time_to_results (NO session_length!)
+- **exercise_movement**: frequency, cost, time_to_results (NO session_length, NO practice_length!)
+- **habits_routines**: time_commitment, cost, time_to_results (NO session fields!)
+
+#### DOSAGE Categories (need frequency + length_of_use):
+- **medications**: frequency, length_of_use, cost, time_to_results, side_effects
+- **supplements_vitamins**: frequency, length_of_use, cost, time_to_results, side_effects
+- **natural_remedies**: frequency, length_of_use, cost, time_to_results, side_effects
+- **beauty_skincare**: skincare_frequency (NOT frequency!), length_of_use, cost, time_to_results, side_effects
+
+#### OTHER Categories:
+- **books_courses**: format, learning_difficulty, cost, time_to_results (NO session fields!)
+- **apps_software**: usage_frequency, subscription_type, cost, time_to_results
+- **diet_nutrition**: weekly_prep_time, still_following, cost, time_to_results
+- **sleep**: previous_sleep_hours, still_following, cost, time_to_results
+- **products_devices**: ease_of_use, product_type, cost, time_to_results
+- **hobbies_activities**: time_commitment, frequency, cost, time_to_results
+- **groups_communities**: meeting_frequency, group_size, cost, time_to_results
+- **financial_products**: financial_benefit, access_time, cost, time_to_results
+
+### Quality Assessment Pattern (MANDATORY):
+```typescript
+// 1. FIRST CHECK IF FIELD IS REQUIRED FOR THIS CATEGORY
+function shouldFieldExistForCategory(fieldName: string, category: string): boolean {
+  const categoryConfig = CATEGORY_CONFIG[category]; // from GoalPageClient.tsx
+  if (!categoryConfig) return false;
+  return categoryConfig.keyFields.includes(fieldName);
+}
+
+// 2. Check data quality ONLY for required fields
+function needsFieldRegeneration(fieldData: any, fieldName: string, category: string): boolean {
+  // DON'T regenerate fields that shouldn't exist for this category!
+  if (!shouldFieldExistForCategory(fieldName, category)) return false;
+
+  // Missing or empty
+  if (!fieldData || Object.keys(fieldData).length === 0) return true;
+
+  // String fields need to be converted to DistributionData format
+  if (typeof fieldData === 'string') return true;
+
+  // Single value at 100% looks weird
+  if (fieldData.values?.length === 1) return true;
+
+  // Too few options (degraded quality)
+  if (fieldData.values?.length < 4) return true;
+
+  // Fallback sources (trash data)
+  if (fieldData.values?.some(v => v.source?.includes('fallback'))) return true;
+
+  // Wrong case/format
+  if (fieldName === 'session_frequency' &&
+      fieldData.values?.some(v => v.value === 'weekly')) return true;
+
+  // Invalid dropdown values
+  if (!validateDropdownValues(fieldName, fieldData.values)) return true;
+
+  return false;
+}
+
+// 3. Only regenerate category-required fields
+const requiredFields = CATEGORY_CONFIGS[category].keyFields;
+const fieldsToRegenerate = requiredFields.filter(field =>
+  needsFieldRegeneration(existingFields[field], field, category) // Pass category!
+);
+```
+
+### Quality Standards After Regeneration:
+- **5+ Options**: All regenerated fields have 5-8 distribution options
+- **Research Sources**: All sources are "research" or "studies" (not fallback)
+- **Valid Dropdown Values**: All values work in actual form dropdowns
+- **Evidence-Based Distributions**: Realistic percentages from research patterns
+
+### Reference Documents:
+- **`complete-field-analysis.md`** - AUTHORITATIVE category-field mapping (prevents wrong field generation)
+- `FORM_DROPDOWN_OPTIONS_REFERENCE.md` - Exact dropdown value formats
+- `HANDOVER.md` - Current task status and execution instructions
+
+### 🚨 CRITICAL: Known Generation System Issues (September 2025)
+
+**MAJOR BUG**: Line 905 in `generate-validated-fields.ts` SKIPS time_to_results field:
+```typescript
+if (fieldName === 'time_to_results') continue  // THIS IS WRONG!
+```
+
+**Multiple Systematic Issues Identified**:
+1. **Inconsistent field generation** within same categories
+2. **Single-value 100% distributions** instead of rich data
+3. **Missing fields entirely** for some solutions
+4. **String values not converting** to DistributionData format
+5. **time_to_results field skipped** causing [Object Object] errors
+
+**Next Claude Instance Must**: Investigate root causes and fix generation system going forward.
+
+### CRITICAL REMINDER: Frontend Data Source
+⚠️ **Frontend reads ONLY from `aggregated_fields`** - Never from `solution_fields`
+- All quality scripts MUST check `aggregated_fields` for data quality assessment
+- All regeneration scripts MUST write to `aggregated_fields` for frontend display
+- Emergency data copy: Use `scripts/copy-solution-to-aggregated-fields.ts`
+
+### CRITICAL REMINDER: Category-Specific Fields
+⚠️ **Different categories need DIFFERENT fields** - See `complete-field-analysis.md`
+- exercise_movement: frequency, cost (NO session_length!)
+- books_courses: format, learning_difficulty, cost (NO session_length!)
+- therapists_counselors: session_frequency, session_length, cost
+- STOP generating universal field sets for all solutions!

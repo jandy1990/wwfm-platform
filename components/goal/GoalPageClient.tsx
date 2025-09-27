@@ -40,16 +40,6 @@ type Goal = {
 interface GoalPageClientProps {
   goal: Goal
   initialSolutions: GoalSolutionWithVariants[]
-  distributions: Array<{
-    id: string
-    solution_id: string
-    goal_id: string
-    field_name: string
-    distributions: Array<{
-      name: string
-      percentage: number
-    }>
-  }>
   wisdom?: GoalWisdomScore | null
   error?: string | null
   relatedGoals?: RelatedGoal[]
@@ -498,18 +488,28 @@ const getFieldDisplayValue = (solution: GoalSolutionWithVariants, fieldName: str
   if (variant && variant.category_fields) {
     const variantFields = variant.category_fields as Record<string, unknown>
     if (variantFields[fieldName]) {
-      return variantFields[fieldName].toString()
+      const value = variantFields[fieldName]
+      // Handle objects by checking for DistributionData format
+      if (typeof value === 'object' && value !== null && 'mode' in value) {
+        return (value as any).mode // Return the mode value from DistributionData
+      }
+      if (Array.isArray(value)) return null // Arrays handled elsewhere
+      return value.toString()
     }
   }
-  
+
   // Then check solution_fields
   const solutionFields = solution.solution_fields as Record<string, unknown> || {}
   if (solutionFields[fieldName]) {
     const value = solutionFields[fieldName]
+    // Handle objects by checking for DistributionData format
+    if (typeof value === 'object' && value !== null && 'mode' in value) {
+      return (value as any).mode // Return the mode value from DistributionData
+    }
     if (Array.isArray(value)) return null // Arrays handled elsewhere
     return value.toString()
   }
-  
+
   return null
 }
 
@@ -632,7 +632,7 @@ const CategoryDropdown = ({
   )
 }
 
-export default function GoalPageClient({ goal, initialSolutions, distributions, wisdom, error, relatedGoals = [] }: GoalPageClientProps) {
+export default function GoalPageClient({ goal, initialSolutions, wisdom, error, relatedGoals = [] }: GoalPageClientProps) {
   const [sortBy, setSortBy] = useState('effectiveness')
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set())
   const [viewMode, setViewMode] = useState<'simple' | 'detailed'>('simple')
@@ -655,36 +655,6 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
   const SOLUTIONS_PER_PAGE = 20 // Constant for how many to load each time
   const [discussionSort, setDiscussionSort] = useState('newest')
   
-  // Process distributions into a map for easy lookup
-  const distributionMap = useMemo(() => {
-    const map = new Map<string, DistributionData>();
-    
-    distributions.forEach(dist => {
-      if (dist.distributions && Array.isArray(dist.distributions)) {
-        const key = `${dist.solution_id}-${dist.field_name}`;
-        
-        // Convert to DistributionData format
-        const values = dist.distributions.map(item => ({
-          value: item.name,
-          count: Math.round(item.percentage), // Using percentage as count for now
-          percentage: item.percentage
-        }));
-        
-        // Find the mode (highest percentage)
-        const mode = values.reduce((prev, current) => 
-          current.percentage > prev.percentage ? current : prev
-        ).value;
-        
-        map.set(key, {
-          mode,
-          values,
-          totalReports: 100 // Default for now
-        });
-      }
-    });
-    
-    return map;
-  }, [distributions]);
   
   // Check if user has seen the contribution hint banner
   useEffect(() => {
@@ -807,28 +777,6 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
       }
     }
     
-    // Fall back to AI distributions if no user data
-    const directKey = `${solution.id}-${fieldName}`;
-    const directResult = distributionMap.get(directKey);
-    if (directResult) {
-      directResult.dataSource = 'ai' // Mark as AI data
-      return directResult
-    }
-    
-    // If no direct match, try field mappings for AI data
-    const mappedFields = FIELD_MAPPINGS[fieldName] || [];
-    for (const mappedField of mappedFields) {
-      const mappedKey = `${solution.id}-${mappedField}`;
-      const mappedResult = distributionMap.get(mappedKey);
-      if (mappedResult) {
-        // Debug logging
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`AI distribution found via mapping: ${fieldName} -> ${mappedField}`);
-        }
-        mappedResult.dataSource = 'ai' // Mark as AI data
-        return mappedResult;
-      }
-    }
     
     // Debug logging for missing distributions
     if (process.env.NODE_ENV === 'development' && solution.solution_category) {
@@ -848,7 +796,10 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
     
     if (stillFollowingDist && stillFollowingDist.values.length > 0) {
       // Calculate percentage from distribution
-      const yesValue = stillFollowingDist.values.find(v => v.value.toLowerCase() === 'yes' || v.value.toLowerCase() === 'true')
+      const yesValue = stillFollowingDist.values.find(v => {
+        // Ensure v.value is a string before calling toLowerCase
+        return typeof v.value === 'string' && (v.value.toLowerCase() === 'yes' || v.value.toLowerCase() === 'true')
+      })
       const stillFollowingPercentage = yesValue ? yesValue.percentage : 0
       
       // Get reasons distribution if available
@@ -902,24 +853,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
     return null
   }
 
-  // Helper to get prevalence map for array field items
-  const getArrayFieldDistribution = (solution: GoalSolutionWithVariants, fieldName: string): Map<string, number> => {
-    const distributionKey = `${solution.id}-${fieldName}`;
-    const distribution = distributionMap.get(distributionKey);
-    
-    console.log(`Looking for distribution: ${distributionKey}`, distribution);
-    
-    const itemPrevalenceMap = new Map<string, number>();
-    
-    if (distribution && distribution.values) {
-      distribution.values.forEach(item => {
-        // Store with lowercase key for case-insensitive matching
-        itemPrevalenceMap.set(item.value.toLowerCase(), item.percentage);
-      });
-    }
-    
-    return itemPrevalenceMap;
-  };
+;
 
   // Filter and sort solutions
   const filteredAndSortedSolutions = useMemo(() => {
@@ -1621,14 +1555,41 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                             ).join(' ')
                           }
                     
-                          const itemsArray = Array.isArray(fieldValue) ? fieldValue : [fieldValue]
+                          // Handle both old array format and new DistributionData format
+                          let itemsArray: string[] = []
+
+                          if (Array.isArray(fieldValue)) {
+                            // Old array format - convert to strings
+                            itemsArray = fieldValue.map(item => String(item))
+                          } else if (fieldValue && typeof fieldValue === 'object' && 'values' in fieldValue) {
+                            // New DistributionData format - extract values
+                            const distributionData = fieldValue as DistributionData
+                            itemsArray = distributionData.values.map(item => item.value)
+                          } else if (fieldValue) {
+                            // Single value
+                            itemsArray = [String(fieldValue)]
+                          }
+
                           const maxDisplayLimit = cardView === 'detailed' ? 8 : (isMobile ? 2 : 3)
                           const displayLimit = Math.min(maxDisplayLimit, itemsArray.length)
                           const displayItems = itemsArray.slice(0, displayLimit)
                           const remainingCount = itemsArray.length - displayLimit
                           
                           // Get prevalence data for this array field
-                          const prevalenceMap = getArrayFieldDistribution(solution, fieldName)
+                          const prevalenceMap = new Map<string, number>()
+
+                          // If we have DistributionData format, use those percentages directly
+                          if (fieldValue && typeof fieldValue === 'object' && 'values' in fieldValue && !Array.isArray(fieldValue)) {
+                            const distributionData = fieldValue as DistributionData
+                            // Add safety check for values array
+                            if (Array.isArray(distributionData.values)) {
+                              distributionData.values.forEach(item => {
+                                prevalenceMap.set(item.value.toLowerCase(), item.percentage)
+                              })
+                            } else {
+                              console.warn('DistributionData.values is not an array:', distributionData)
+                            }
+                          }
                     
                           return (
                             <div className="side-effects-section">

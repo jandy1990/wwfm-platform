@@ -75,16 +75,6 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
   let solutions: GoalSolutionWithVariants[] = []
   let relatedGoals: Awaited<ReturnType<typeof getRelatedGoals>> = []
   let wisdom: Awaited<ReturnType<typeof getGoalWisdomScore>> = null
-  let distributions: Array<{
-    id: string
-    solution_id: string
-    goal_id: string
-    field_name: string
-    distributions: Array<{
-      name: string
-      percentage: number
-    }>
-  }> = []
   let error: string | null = null
 
   try {
@@ -103,24 +93,6 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
       error = 'Unable to load solutions at this time'
     }
 
-    // Get distributions from ai_field_distributions table
-    try {
-      const supabase = await createServerSupabaseClient()
-      const { data: distData, error: distError } = await supabase
-        .from('ai_field_distributions')
-        .select('*')
-        .eq('goal_id', resolvedParams.id)
-
-      if (distError) {
-        console.error('Error fetching distributions:', distError)
-      } else {
-        distributions = distData || []
-        console.log(`Fetched ${distributions.length} distribution records for goal ${resolvedParams.id}`)
-      }
-    } catch (distError) {
-      console.error('Error fetching distributions:', distError)
-      // Don't set error for this - distributions are enhancement, not critical
-    }
 
     // Get related goals
     try {
@@ -177,10 +149,9 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
         </nav>
 
         {/* Goal Page Client Content - This now handles ALL the display */}
-        <GoalPageClient 
+        <GoalPageClient
           goal={goal}
           initialSolutions={solutions}
-          distributions={distributions}
           wisdom={wisdom}
           error={error}
           relatedGoals={relatedGoals}

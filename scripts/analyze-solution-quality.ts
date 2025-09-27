@@ -234,9 +234,25 @@ async function analyzeDistributionFormat(data: any, fieldName: string): Promise<
 }
 
 async function analyzeSolution(link: any): Promise<SolutionAnalysis> {
-  const solution = link.solutions
+  const solution = link.solution_variants?.solutions
   const issues: QualityIssue[] = []
-  
+
+  if (!solution) {
+    return {
+      solution_id: 'unknown',
+      solution_title: 'Unknown Solution',
+      category: 'unknown',
+      goal_id: link.goal_id,
+      issues: [{
+        field: 'solution',
+        issue: 'Missing solution data',
+        severity: 'critical',
+        impact: 'Solution data not found'
+      }],
+      display_impact: 'blank'
+    }
+  }
+
   const categoryConfig = CATEGORY_CONFIG[solution.solution_category]
   if (!categoryConfig) {
     console.warn(`Unknown category: ${solution.solution_category}`)
@@ -431,7 +447,7 @@ async function main() {
     console.log(chalk.yellow(`   Partial display: ${stats.partial} (${Math.round(stats.partial/stats.total*100)}%)`))
     console.log(chalk.green(`   Full display: ${stats.full} (${Math.round(stats.full/stats.total*100)}%)`))
     console.log(chalk.red(`   Critical issues: ${stats.criticalIssues}`))
-    console.log(chalk.orange(`   High issues: ${stats.highIssues}`))
+    console.log(chalk.yellow(`   High issues: ${stats.highIssues}`))
 
     // Show worst offenders
     const worstSolutions = analyses
@@ -459,7 +475,7 @@ async function main() {
           console.log(chalk.red(`   Critical: ${criticalIssues.map(i => i.type).join(', ')}`))
         }
         if (highIssues.length > 0) {
-          console.log(chalk.orange(`   High: ${highIssues.map(i => i.field || i.type).join(', ')}`))
+          console.log(chalk.yellow(`   High: ${highIssues.map(i => i.field || i.type).join(', ')}`))
         }
       }
     }

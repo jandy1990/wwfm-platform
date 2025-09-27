@@ -1,0 +1,1381 @@
+{
+  "timestamp": "2025-09-24T02:59:26.465Z",
+  "totalCategories": 23,
+  "totalSolutions": 5471,
+  "totalFieldsAnalyzed": 31,
+  "fieldStats": [
+    {
+      "fieldName": "session_length",
+      "totalMissing": 265,
+      "totalApplicable": 265,
+      "percentageMissing": 100,
+      "categoriesUsingField": [
+        "alternative_practitioners",
+        "coaches_mentors",
+        "therapists_counselors"
+      ]
+    },
+    {
+      "fieldName": "notes",
+      "totalMissing": 5471,
+      "totalApplicable": 5471,
+      "percentageMissing": 100,
+      "categoriesUsingField": [
+        "alternative_practitioners",
+        "apps_software",
+        "beauty_skincare",
+        "books_courses",
+        "coaches_mentors",
+        "crisis_resources",
+        "diet_nutrition",
+        "doctors_specialists",
+        "exercise_movement",
+        "financial_products",
+        "groups_communities",
+        "habits_routines",
+        "hobbies_activities",
+        "medical_procedures",
+        "medications",
+        "meditation_mindfulness",
+        "natural_remedies",
+        "products_devices",
+        "professional_services",
+        "sleep",
+        "supplements_vitamins",
+        "support_groups",
+        "therapists_counselors"
+      ]
+    },
+    {
+      "fieldName": "learning_difficulty",
+      "totalMissing": 833,
+      "totalApplicable": 833,
+      "percentageMissing": 100,
+      "categoriesUsingField": [
+        "books_courses"
+      ]
+    },
+    {
+      "fieldName": "group_size",
+      "totalMissing": 152,
+      "totalApplicable": 152,
+      "percentageMissing": 100,
+      "categoriesUsingField": [
+        "groups_communities"
+      ]
+    },
+    {
+      "fieldName": "practice_length",
+      "totalMissing": 160,
+      "totalApplicable": 160,
+      "percentageMissing": 100,
+      "categoriesUsingField": [
+        "meditation_mindfulness"
+      ]
+    },
+    {
+      "fieldName": "startup_cost",
+      "totalMissing": 4444,
+      "totalApplicable": 5471,
+      "percentageMissing": 81,
+      "categoriesUsingField": [
+        "alternative_practitioners",
+        "apps_software",
+        "beauty_skincare",
+        "books_courses",
+        "coaches_mentors",
+        "crisis_resources",
+        "diet_nutrition",
+        "doctors_specialists",
+        "exercise_movement",
+        "financial_products",
+        "groups_communities",
+        "habits_routines",
+        "hobbies_activities",
+        "medical_procedures",
+        "medications",
+        "meditation_mindfulness",
+        "natural_remedies",
+        "products_devices",
+        "professional_services",
+        "sleep",
+        "supplements_vitamins",
+        "support_groups",
+        "therapists_counselors"
+      ]
+    },
+    {
+      "fieldName": "ongoing_cost",
+      "totalMissing": 4444,
+      "totalApplicable": 5471,
+      "percentageMissing": 81,
+      "categoriesUsingField": [
+        "alternative_practitioners",
+        "apps_software",
+        "beauty_skincare",
+        "books_courses",
+        "coaches_mentors",
+        "crisis_resources",
+        "diet_nutrition",
+        "doctors_specialists",
+        "exercise_movement",
+        "financial_products",
+        "groups_communities",
+        "habits_routines",
+        "hobbies_activities",
+        "medical_procedures",
+        "medications",
+        "meditation_mindfulness",
+        "natural_remedies",
+        "products_devices",
+        "professional_services",
+        "sleep",
+        "supplements_vitamins",
+        "support_groups",
+        "therapists_counselors"
+      ]
+    },
+    {
+      "fieldName": "side_effects",
+      "totalMissing": 637,
+      "totalApplicable": 1336,
+      "percentageMissing": 48,
+      "categoriesUsingField": [
+        "alternative_practitioners",
+        "beauty_skincare",
+        "medical_procedures",
+        "medications",
+        "natural_remedies",
+        "supplements_vitamins"
+      ]
+    },
+    {
+      "fieldName": "wait_time",
+      "totalMissing": 65,
+      "totalApplicable": 135,
+      "percentageMissing": 48,
+      "categoriesUsingField": [
+        "doctors_specialists",
+        "medical_procedures"
+      ]
+    },
+    {
+      "fieldName": "session_frequency",
+      "totalMissing": 200,
+      "totalApplicable": 462,
+      "percentageMissing": 43,
+      "categoriesUsingField": [
+        "alternative_practitioners",
+        "coaches_mentors",
+        "medical_procedures",
+        "professional_services",
+        "therapists_counselors"
+      ]
+    },
+    {
+      "fieldName": "frequency",
+      "totalMissing": 338,
+      "totalApplicable": 1553,
+      "percentageMissing": 22,
+      "categoriesUsingField": [
+        "exercise_movement",
+        "hobbies_activities",
+        "medications",
+        "meditation_mindfulness",
+        "natural_remedies",
+        "supplements_vitamins"
+      ]
+    },
+    {
+      "fieldName": "challenges",
+      "totalMissing": 881,
+      "totalApplicable": 4102,
+      "percentageMissing": 21,
+      "categoriesUsingField": [
+        "apps_software",
+        "books_courses",
+        "coaches_mentors",
+        "diet_nutrition",
+        "doctors_specialists",
+        "exercise_movement",
+        "financial_products",
+        "groups_communities",
+        "habits_routines",
+        "hobbies_activities",
+        "meditation_mindfulness",
+        "products_devices",
+        "professional_services",
+        "sleep",
+        "support_groups",
+        "therapists_counselors"
+      ]
+    },
+    {
+      "fieldName": "length_of_use",
+      "totalMissing": 184,
+      "totalApplicable": 1225,
+      "percentageMissing": 15,
+      "categoriesUsingField": [
+        "beauty_skincare",
+        "medications",
+        "natural_remedies",
+        "supplements_vitamins"
+      ]
+    },
+    {
+      "fieldName": "insurance_coverage",
+      "totalMissing": 11,
+      "totalApplicable": 81,
+      "percentageMissing": 14,
+      "categoriesUsingField": [
+        "doctors_specialists"
+      ]
+    },
+    {
+      "fieldName": "cost",
+      "totalMissing": 692,
+      "totalApplicable": 5216,
+      "percentageMissing": 13,
+      "categoriesUsingField": [
+        "alternative_practitioners",
+        "apps_software",
+        "beauty_skincare",
+        "books_courses",
+        "coaches_mentors",
+        "crisis_resources",
+        "diet_nutrition",
+        "doctors_specialists",
+        "exercise_movement",
+        "groups_communities",
+        "habits_routines",
+        "hobbies_activities",
+        "medical_procedures",
+        "medications",
+        "natural_remedies",
+        "products_devices",
+        "professional_services",
+        "sleep",
+        "supplements_vitamins",
+        "support_groups",
+        "therapists_counselors"
+      ]
+    },
+    {
+      "fieldName": "time_commitment",
+      "totalMissing": 57,
+      "totalApplicable": 599,
+      "percentageMissing": 10,
+      "categoriesUsingField": [
+        "habits_routines",
+        "hobbies_activities"
+      ]
+    },
+    {
+      "fieldName": "format",
+      "totalMissing": 84,
+      "totalApplicable": 911,
+      "percentageMissing": 9,
+      "categoriesUsingField": [
+        "books_courses",
+        "support_groups"
+      ]
+    },
+    {
+      "fieldName": "time_to_results",
+      "totalMissing": 462,
+      "totalApplicable": 5471,
+      "percentageMissing": 8,
+      "categoriesUsingField": [
+        "alternative_practitioners",
+        "apps_software",
+        "beauty_skincare",
+        "books_courses",
+        "coaches_mentors",
+        "crisis_resources",
+        "diet_nutrition",
+        "doctors_specialists",
+        "exercise_movement",
+        "financial_products",
+        "groups_communities",
+        "habits_routines",
+        "hobbies_activities",
+        "medical_procedures",
+        "medications",
+        "meditation_mindfulness",
+        "natural_remedies",
+        "products_devices",
+        "professional_services",
+        "sleep",
+        "supplements_vitamins",
+        "support_groups",
+        "therapists_counselors"
+      ]
+    },
+    {
+      "fieldName": "usage_frequency",
+      "totalMissing": 65,
+      "totalApplicable": 794,
+      "percentageMissing": 8,
+      "categoriesUsingField": [
+        "apps_software"
+      ]
+    },
+    {
+      "fieldName": "subscription_type",
+      "totalMissing": 65,
+      "totalApplicable": 794,
+      "percentageMissing": 8,
+      "categoriesUsingField": [
+        "apps_software"
+      ]
+    },
+    {
+      "fieldName": "response_time",
+      "totalMissing": 1,
+      "totalApplicable": 33,
+      "percentageMissing": 3,
+      "categoriesUsingField": [
+        "crisis_resources"
+      ]
+    },
+    {
+      "fieldName": "weekly_prep_time",
+      "totalMissing": 5,
+      "totalApplicable": 194,
+      "percentageMissing": 3,
+      "categoriesUsingField": [
+        "diet_nutrition"
+      ]
+    },
+    {
+      "fieldName": "still_following",
+      "totalMissing": 6,
+      "totalApplicable": 260,
+      "percentageMissing": 2,
+      "categoriesUsingField": [
+        "diet_nutrition",
+        "sleep"
+      ]
+    },
+    {
+      "fieldName": "previous_sleep_hours",
+      "totalMissing": 1,
+      "totalApplicable": 66,
+      "percentageMissing": 2,
+      "categoriesUsingField": [
+        "sleep"
+      ]
+    },
+    {
+      "fieldName": "skincare_frequency",
+      "totalMissing": 4,
+      "totalApplicable": 267,
+      "percentageMissing": 1,
+      "categoriesUsingField": [
+        "beauty_skincare"
+      ]
+    },
+    {
+      "fieldName": "financial_benefit",
+      "totalMissing": 1,
+      "totalApplicable": 95,
+      "percentageMissing": 1,
+      "categoriesUsingField": [
+        "financial_products"
+      ]
+    },
+    {
+      "fieldName": "access_time",
+      "totalMissing": 1,
+      "totalApplicable": 95,
+      "percentageMissing": 1,
+      "categoriesUsingField": [
+        "financial_products"
+      ]
+    },
+    {
+      "fieldName": "meeting_frequency",
+      "totalMissing": 2,
+      "totalApplicable": 230,
+      "percentageMissing": 1,
+      "categoriesUsingField": [
+        "groups_communities",
+        "support_groups"
+      ]
+    },
+    {
+      "fieldName": "ease_of_use",
+      "totalMissing": 4,
+      "totalApplicable": 322,
+      "percentageMissing": 1,
+      "categoriesUsingField": [
+        "products_devices"
+      ]
+    },
+    {
+      "fieldName": "product_type",
+      "totalMissing": 4,
+      "totalApplicable": 322,
+      "percentageMissing": 1,
+      "categoriesUsingField": [
+        "products_devices"
+      ]
+    },
+    {
+      "fieldName": "specialty",
+      "totalMissing": 1,
+      "totalApplicable": 143,
+      "percentageMissing": 1,
+      "categoriesUsingField": [
+        "professional_services"
+      ]
+    }
+  ],
+  "categoryResults": [
+    {
+      "category": "alternative_practitioners",
+      "totalSolutions": 57,
+      "allRequiredFields": [
+        "time_to_results",
+        "session_frequency",
+        "session_length",
+        "cost",
+        "side_effects",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 1,
+        "session_frequency": 1,
+        "session_length": 57,
+        "cost": 1,
+        "side_effects": 10,
+        "startup_cost": 57,
+        "ongoing_cost": 57,
+        "notes": 57
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 2,
+        "session_frequency": 2,
+        "session_length": 100,
+        "cost": 2,
+        "side_effects": 18,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "session_length",
+        "side_effects",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "apps_software",
+      "totalSolutions": 794,
+      "allRequiredFields": [
+        "time_to_results",
+        "usage_frequency",
+        "subscription_type",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 15,
+        "usage_frequency": 65,
+        "subscription_type": 65,
+        "cost": 14,
+        "challenges": 118,
+        "startup_cost": 749,
+        "ongoing_cost": 749,
+        "notes": 794
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 2,
+        "usage_frequency": 8,
+        "subscription_type": 8,
+        "cost": 2,
+        "challenges": 15,
+        "startup_cost": 94,
+        "ongoing_cost": 94,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "beauty_skincare",
+      "totalSolutions": 267,
+      "allRequiredFields": [
+        "time_to_results",
+        "skincare_frequency",
+        "length_of_use",
+        "cost",
+        "side_effects",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 4,
+        "skincare_frequency": 4,
+        "length_of_use": 4,
+        "cost": 4,
+        "side_effects": 144,
+        "startup_cost": 267,
+        "ongoing_cost": 267,
+        "notes": 267
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 1,
+        "skincare_frequency": 1,
+        "length_of_use": 1,
+        "cost": 1,
+        "side_effects": 54,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "side_effects",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "books_courses",
+      "totalSolutions": 833,
+      "allRequiredFields": [
+        "time_to_results",
+        "format",
+        "learning_difficulty",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 83,
+        "format": 83,
+        "learning_difficulty": 833,
+        "cost": 83,
+        "challenges": 249,
+        "startup_cost": 833,
+        "ongoing_cost": 833,
+        "notes": 833
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 10,
+        "format": 10,
+        "learning_difficulty": 100,
+        "cost": 10,
+        "challenges": 30,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "learning_difficulty",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "coaches_mentors",
+      "totalSolutions": 65,
+      "allRequiredFields": [
+        "time_to_results",
+        "session_frequency",
+        "session_length",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 1,
+        "session_frequency": 1,
+        "session_length": 65,
+        "cost": 1,
+        "challenges": 14,
+        "startup_cost": 65,
+        "ongoing_cost": 65,
+        "notes": 65
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 2,
+        "session_frequency": 2,
+        "session_length": 100,
+        "cost": 2,
+        "challenges": 22,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "session_length",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "crisis_resources",
+      "totalSolutions": 33,
+      "allRequiredFields": [
+        "time_to_results",
+        "response_time",
+        "cost",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 1,
+        "response_time": 1,
+        "cost": 1,
+        "startup_cost": 33,
+        "ongoing_cost": 33,
+        "notes": 33
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 3,
+        "response_time": 3,
+        "cost": 3,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "diet_nutrition",
+      "totalSolutions": 194,
+      "allRequiredFields": [
+        "time_to_results",
+        "weekly_prep_time",
+        "still_following",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 1,
+        "weekly_prep_time": 5,
+        "still_following": 5,
+        "cost": 190,
+        "challenges": 41,
+        "startup_cost": 190,
+        "ongoing_cost": 190,
+        "notes": 194
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 1,
+        "weekly_prep_time": 3,
+        "still_following": 3,
+        "cost": 98,
+        "challenges": 21,
+        "startup_cost": 98,
+        "ongoing_cost": 98,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "doctors_specialists",
+      "totalSolutions": 81,
+      "allRequiredFields": [
+        "time_to_results",
+        "wait_time",
+        "insurance_coverage",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 11,
+        "wait_time": 11,
+        "insurance_coverage": 11,
+        "cost": 11,
+        "challenges": 28,
+        "startup_cost": 81,
+        "ongoing_cost": 81,
+        "notes": 81
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 14,
+        "wait_time": 14,
+        "insurance_coverage": 14,
+        "cost": 14,
+        "challenges": 35,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "time_to_results",
+        "wait_time",
+        "insurance_coverage",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "exercise_movement",
+      "totalSolutions": 377,
+      "allRequiredFields": [
+        "time_to_results",
+        "frequency",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 81,
+        "frequency": 81,
+        "cost": 81,
+        "challenges": 105,
+        "startup_cost": 81,
+        "ongoing_cost": 81,
+        "notes": 377
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 21,
+        "frequency": 21,
+        "cost": 21,
+        "challenges": 28,
+        "startup_cost": 21,
+        "ongoing_cost": 21,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "time_to_results",
+        "frequency",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "financial_products",
+      "totalSolutions": 95,
+      "allRequiredFields": [
+        "time_to_results",
+        "financial_benefit",
+        "access_time",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 1,
+        "financial_benefit": 1,
+        "access_time": 1,
+        "challenges": 4,
+        "startup_cost": 95,
+        "ongoing_cost": 95,
+        "notes": 95
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 1,
+        "financial_benefit": 1,
+        "access_time": 1,
+        "challenges": 4,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "groups_communities",
+      "totalSolutions": 152,
+      "allRequiredFields": [
+        "time_to_results",
+        "meeting_frequency",
+        "group_size",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 0,
+        "meeting_frequency": 1,
+        "group_size": 152,
+        "cost": 0,
+        "challenges": 23,
+        "startup_cost": 151,
+        "ongoing_cost": 151,
+        "notes": 152
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 0,
+        "meeting_frequency": 1,
+        "group_size": 100,
+        "cost": 0,
+        "challenges": 15,
+        "startup_cost": 99,
+        "ongoing_cost": 99,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "group_size",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "habits_routines",
+      "totalSolutions": 541,
+      "allRequiredFields": [
+        "time_to_results",
+        "time_commitment",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 54,
+        "time_commitment": 56,
+        "cost": 54,
+        "challenges": 109,
+        "startup_cost": 55,
+        "ongoing_cost": 55,
+        "notes": 541
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 10,
+        "time_commitment": 10,
+        "cost": 10,
+        "challenges": 20,
+        "startup_cost": 10,
+        "ongoing_cost": 10,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "challenges",
+        "notes"
+      ]
+    },
+    {
+      "category": "hobbies_activities",
+      "totalSolutions": 58,
+      "allRequiredFields": [
+        "time_to_results",
+        "time_commitment",
+        "frequency",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 1,
+        "time_commitment": 1,
+        "frequency": 58,
+        "cost": 1,
+        "challenges": 15,
+        "startup_cost": 1,
+        "ongoing_cost": 1,
+        "notes": 58
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 2,
+        "time_commitment": 2,
+        "frequency": 100,
+        "cost": 2,
+        "challenges": 26,
+        "startup_cost": 2,
+        "ongoing_cost": 2,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "frequency",
+        "challenges",
+        "notes"
+      ]
+    },
+    {
+      "category": "medical_procedures",
+      "totalSolutions": 54,
+      "allRequiredFields": [
+        "time_to_results",
+        "session_frequency",
+        "wait_time",
+        "cost",
+        "side_effects",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 1,
+        "session_frequency": 54,
+        "wait_time": 54,
+        "cost": 1,
+        "side_effects": 27,
+        "startup_cost": 54,
+        "ongoing_cost": 54,
+        "notes": 54
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 2,
+        "session_frequency": 100,
+        "wait_time": 100,
+        "cost": 2,
+        "side_effects": 50,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "session_frequency",
+        "wait_time",
+        "side_effects",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "medications",
+      "totalSolutions": 370,
+      "allRequiredFields": [
+        "time_to_results",
+        "frequency",
+        "length_of_use",
+        "cost",
+        "side_effects",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 2,
+        "frequency": 2,
+        "length_of_use": 2,
+        "cost": 2,
+        "side_effects": 127,
+        "startup_cost": 370,
+        "ongoing_cost": 370,
+        "notes": 370
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 1,
+        "frequency": 1,
+        "length_of_use": 1,
+        "cost": 1,
+        "side_effects": 34,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "side_effects",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "meditation_mindfulness",
+      "totalSolutions": 160,
+      "allRequiredFields": [
+        "time_to_results",
+        "practice_length",
+        "frequency",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 22,
+        "practice_length": 160,
+        "frequency": 22,
+        "challenges": 42,
+        "startup_cost": 22,
+        "ongoing_cost": 22,
+        "notes": 160
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 14,
+        "practice_length": 100,
+        "frequency": 14,
+        "challenges": 26,
+        "startup_cost": 14,
+        "ongoing_cost": 14,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "time_to_results",
+        "practice_length",
+        "frequency",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "natural_remedies",
+      "totalSolutions": 160,
+      "allRequiredFields": [
+        "time_to_results",
+        "frequency",
+        "length_of_use",
+        "cost",
+        "side_effects",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 16,
+        "frequency": 16,
+        "length_of_use": 19,
+        "cost": 16,
+        "side_effects": 59,
+        "startup_cost": 160,
+        "ongoing_cost": 160,
+        "notes": 160
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 10,
+        "frequency": 10,
+        "length_of_use": 12,
+        "cost": 10,
+        "side_effects": 37,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "length_of_use",
+        "side_effects",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "products_devices",
+      "totalSolutions": 322,
+      "allRequiredFields": [
+        "time_to_results",
+        "ease_of_use",
+        "product_type",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 4,
+        "ease_of_use": 4,
+        "product_type": 4,
+        "cost": 4,
+        "challenges": 70,
+        "startup_cost": 322,
+        "ongoing_cost": 322,
+        "notes": 322
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 1,
+        "ease_of_use": 1,
+        "product_type": 1,
+        "cost": 1,
+        "challenges": 22,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "professional_services",
+      "totalSolutions": 143,
+      "allRequiredFields": [
+        "time_to_results",
+        "session_frequency",
+        "specialty",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 1,
+        "session_frequency": 143,
+        "specialty": 1,
+        "cost": 1,
+        "challenges": 21,
+        "startup_cost": 143,
+        "ongoing_cost": 143,
+        "notes": 143
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 1,
+        "session_frequency": 100,
+        "specialty": 1,
+        "cost": 1,
+        "challenges": 15,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "session_frequency",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "sleep",
+      "totalSolutions": 66,
+      "allRequiredFields": [
+        "time_to_results",
+        "previous_sleep_hours",
+        "still_following",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 1,
+        "previous_sleep_hours": 1,
+        "still_following": 1,
+        "cost": 66,
+        "challenges": 14,
+        "startup_cost": 66,
+        "ongoing_cost": 66,
+        "notes": 66
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 2,
+        "previous_sleep_hours": 2,
+        "still_following": 2,
+        "cost": 100,
+        "challenges": 21,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "supplements_vitamins",
+      "totalSolutions": 428,
+      "allRequiredFields": [
+        "time_to_results",
+        "frequency",
+        "length_of_use",
+        "cost",
+        "side_effects",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 159,
+        "frequency": 159,
+        "length_of_use": 159,
+        "cost": 159,
+        "side_effects": 270,
+        "startup_cost": 428,
+        "ongoing_cost": 428,
+        "notes": 428
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 37,
+        "frequency": 37,
+        "length_of_use": 37,
+        "cost": 37,
+        "side_effects": 63,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "time_to_results",
+        "frequency",
+        "length_of_use",
+        "cost",
+        "side_effects",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "support_groups",
+      "totalSolutions": 78,
+      "allRequiredFields": [
+        "time_to_results",
+        "meeting_frequency",
+        "format",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 1,
+        "meeting_frequency": 1,
+        "format": 1,
+        "cost": 1,
+        "challenges": 15,
+        "startup_cost": 78,
+        "ongoing_cost": 78,
+        "notes": 78
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 1,
+        "meeting_frequency": 1,
+        "format": 1,
+        "cost": 1,
+        "challenges": 19,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    },
+    {
+      "category": "therapists_counselors",
+      "totalSolutions": 143,
+      "allRequiredFields": [
+        "time_to_results",
+        "session_frequency",
+        "session_length",
+        "cost",
+        "challenges",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ],
+      "missingFieldCounts": {
+        "time_to_results": 1,
+        "session_frequency": 1,
+        "session_length": 143,
+        "cost": 1,
+        "challenges": 13,
+        "startup_cost": 143,
+        "ongoing_cost": 143,
+        "notes": 143
+      },
+      "missingFieldPercentages": {
+        "time_to_results": 1,
+        "session_frequency": 1,
+        "session_length": 100,
+        "cost": 1,
+        "challenges": 9,
+        "startup_cost": 100,
+        "ongoing_cost": 100,
+        "notes": 100
+      },
+      "criticalMissing": [
+        "session_length",
+        "startup_cost",
+        "ongoing_cost",
+        "notes"
+      ]
+    }
+  ],
+  "priorityLevels": {
+    "critical": [
+      "session_length",
+      "notes",
+      "learning_difficulty",
+      "group_size",
+      "practice_length"
+    ],
+    "high": [
+      "startup_cost",
+      "ongoing_cost"
+    ],
+    "medium": [
+      "side_effects",
+      "wait_time",
+      "session_frequency",
+      "frequency",
+      "challenges",
+      "length_of_use",
+      "insurance_coverage",
+      "cost",
+      "time_commitment"
+    ]
+  }
+}
