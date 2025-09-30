@@ -117,6 +117,16 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
       effectiveness: formData.effectiveness,
       solutionFields: formData.solutionFields
     })
+
+    const { isValid: fieldsValid, errors: fieldErrors, normalizedFields } =
+      validateAndNormalizeSolutionFields(formData.category, formData.solutionFields)
+
+    if (!fieldsValid) {
+      console.warn('[submitSolution] Field validation failed:', fieldErrors)
+      return { success: false, error: `Invalid field data: ${fieldErrors.join('; ')}` }
+    }
+
+    const normalizedSolutionFields = normalizedFields
     
     const supabase = await createServerSupabaseClient()
     
@@ -335,11 +345,12 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
         solution_id: solutionId,
         effectiveness_score: formData.effectiveness,
         is_quick_rating: false,
-        duration_used: formData.solutionFields.length_of_use || null,
-        side_effects: formData.solutionFields.side_effects ? 
-          formData.solutionFields.side_effects.join(', ') : null,
+        duration_used: normalizedSolutionFields.length_of_use || null,
+        side_effects: Array.isArray(normalizedSolutionFields.side_effects)
+          ? normalizedSolutionFields.side_effects.join(', ')
+          : null,
         completion_percentage: 100,
-        solution_fields: formData.solutionFields // Store individual user's fields here
+        solution_fields: normalizedSolutionFields // Store individual user's fields here
       })
       .select()
       .single()
@@ -517,7 +528,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           .from('ratings')
           .update({ 
             solution_fields: {
-              ...formData.solutionFields,
+              ...normalizedSolutionFields,
               failed_solutions_text: textOnlyFailed
             }
           })
