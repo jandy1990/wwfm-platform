@@ -36,6 +36,8 @@ const program = new Command()
   .option('--reset-usage', 'Reset daily usage tracking')
   .option('--smart-select', 'Use intelligent goal selection based on coverage')
   .option('--strategy <strategy>', 'Selection strategy: breadth_first, depth_first, arena_based, priority_based', 'breadth_first')
+  .option('--force-write', 'Force updates even when normalized data matches existing records')
+  .option('--dirty-only', 'Only update existing links flagged as needing aggregation')
   .parse()
 
 const options = program.opts()
@@ -50,7 +52,7 @@ const supabase = createClient(
 if (!process.env.GEMINI_API_KEY) {
   console.error(chalk.red('❌ Error: GEMINI_API_KEY not found in environment variables'))
   console.log(chalk.yellow('Please add GEMINI_API_KEY to your .env.local file'))
-  console.log(chalk.gray('Using free Gemini API key: AIzaSyAeHrw-JAKpenIJO6Z7uIxza9WvjnSlYA0'))
+  console.log(chalk.gray('Example: GEMINI_API_KEY=<your_gemini_api_key>'))
   process.exit(1)
 }
 
@@ -58,7 +60,7 @@ if (!process.env.GEMINI_API_KEY) {
 if (process.env.ANTHROPIC_API_KEY && !process.env.GEMINI_API_KEY) {
   console.log(chalk.yellow('⚠️  Found ANTHROPIC_API_KEY but missing GEMINI_API_KEY'))
   console.log(chalk.yellow('The generator has been migrated to use Gemini (free) instead of Claude ($137/run)'))
-  console.log(chalk.yellow('Add this to your .env.local: GEMINI_API_KEY=AIzaSyAeHrw-JAKpenIJO6Z7uIxza9WvjnSlYA0'))
+  console.log(chalk.yellow('Add this to your .env.local: GEMINI_API_KEY=<your_gemini_api_key>'))
 }
 
 async function main() {
@@ -178,7 +180,9 @@ async function main() {
             supabase,
             {
               dryRun: options.dryRun,
-              limit: limit
+              limit: limit,
+              forceWrite: Boolean(options.forceWrite),
+              dirtyOnly: Boolean(options.dirtyOnly)
             }
           )
           

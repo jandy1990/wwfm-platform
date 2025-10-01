@@ -28,7 +28,7 @@ const supabase = createClient(
 if (!process.env.ANTHROPIC_API_KEY) {
   console.error(chalk.red('❌ ANTHROPIC_API_KEY not found in .env.local'))
   console.log(chalk.yellow('Add it to your .env.local file:'))
-  console.log(chalk.gray('ANTHROPIC_API_KEY=sk-ant-api03-xxxxx'))
+  console.log(chalk.gray('ANTHROPIC_API_KEY=<your_anthropic_api_key>'))
   process.exit(1)
 }
 

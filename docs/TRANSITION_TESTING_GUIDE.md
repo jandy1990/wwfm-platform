@@ -11,8 +11,8 @@ This guide covers the comprehensive testing program for the AI-to-Human Data Tra
 
 Creates controlled test scenarios:
 - Fresh AI solutions (0 human ratings)
-- Pre-transition solutions (2/3 ratings)
-- At-threshold solutions (3+ ratings)
+- Pre-transition solutions (9/10 ratings)
+- At-threshold solutions (10 ratings)
 - Already transitioned solutions (human mode)
 
 ```bash
@@ -70,17 +70,17 @@ npx tsx scripts/test-transition-load.ts
 - **Test**: Badge display, tooltip messages
 
 ### Scenario B: Pre-Transition State
-- **State**: 2 human ratings (threshold = 3)
-- **Expected**: "AI-Generated 🤖 (2/3)" progress
+- **State**: 9 human ratings (threshold = 10)
+- **Expected**: "AI-Generated 🤖 (9/10)" progress
 - **Test**: Pre-transition warning on hover
 
 ### Scenario C: Transition Trigger
-- **State**: Adding 3rd rating
+- **State**: Adding 10th rating
 - **Expected**: Transition animation, mode switch
 - **Test**: Animation display, data consistency
 
 ### Scenario D: Post-Transition
-- **State**: 3+ human ratings
+- **State**: 10+ human ratings
 - **Expected**: "Community Verified ✓ (X users)"
 - **Test**: Human mode display, preserved data
 
@@ -176,7 +176,7 @@ npx tsx scripts/test-transition-seeding.ts
 
 #### Transition Not Triggering
 - Verify `check_and_execute_transition` function exists in Supabase
-- Check human_rating_count reaches threshold (3)
+- Check human_rating_count reaches threshold (10)
 - Confirm data_display_mode is 'ai' before transition
 
 #### Performance Issues

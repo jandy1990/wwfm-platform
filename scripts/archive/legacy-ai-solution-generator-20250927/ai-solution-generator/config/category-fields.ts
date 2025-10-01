@@ -198,8 +198,13 @@ export function validateFields(category: string, fields: Record<string, any>): s
   // Check array field
   if (config.arrayField && !fields[config.arrayField]) {
     errors.push(`Missing array field: ${config.arrayField}`)
+  } else if (config.arrayField) {
+    const arrayValue = fields[config.arrayField]
+    if (!Array.isArray(arrayValue) || arrayValue.length === 0) {
+      errors.push(`Missing array field: ${config.arrayField}`)
+    }
   }
-  
+
   // Note: Dropdown value validation is now handled in master-prompts.ts
   // via validateDropdownValues function
   

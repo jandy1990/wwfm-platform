@@ -11,6 +11,7 @@ import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface CommunityFormProps {
   goalId: string;
@@ -180,36 +181,14 @@ export function CommunityForm({
   
   useEffect(() => {
     const fetchOptions = async () => {
-      // Fallback challenge options for categories
-      const fallbackChallenges: Record<string, string[]> = {
-        support_groups: [
-          'Inconsistent attendance',
-          'Group dynamics issues',
-          'Not enough structure',
-          'Too much structure',
-          'Facilitator quality varies',
-          'Hard to share openly',
-          'Triggering content from others',
-          'Time conflicts',
-          'Cliques or exclusion',
-          'Not the right fit',
-          'None'
-        ],
-        groups_communities: [
-          'Hard to break in socially',
-          'Activity level inconsistent',
-          'Leadership issues',
-          'Drama or conflicts',
-          'Time commitment too high',
-          'Location/meeting challenges',
-          'Cost of activities',
-          'Age/demographic mismatch',
-          'Too competitive/not competitive enough',
-          'Communication gaps',
-          'None'
-        ]
-      };
-      
+      const fallbackKey =
+        category === 'support_groups'
+          ? 'support_group_challenges'
+          : category === 'groups_communities'
+            ? 'community_challenges'
+            : undefined;
+      const fallbackOptions = fallbackKey ? DROPDOWN_OPTIONS[fallbackKey] : undefined;
+
       const { data, error } = await supabaseClient
         .from('challenge_options')
         .select('label')
@@ -219,9 +198,9 @@ export function CommunityForm({
       
       if (!error && data && data.length > 0) {
         setChallengeOptions(data.map(item => item.label));
-      } else if (fallbackChallenges[category]) {
+      } else if (fallbackOptions) {
         // Use fallback if no data in DB
-        setChallengeOptions(fallbackChallenges[category]);
+        setChallengeOptions(fallbackOptions);
       }
       setLoading(false);
     };
@@ -312,16 +291,20 @@ export function CommunityForm({
         solutionFields.cost = costRange;
         solutionFields.cost_type = costType;
       }
+
+      if (timeToResults) {
+        solutionFields.time_to_results = timeToResults;
+      }
       
       // Add other fields only if they have values
       if (meetingFrequency) solutionFields.meeting_frequency = meetingFrequency;
       if (format) solutionFields.format = format;
       if (groupSize) solutionFields.group_size = groupSize;
       
-      // Array field (challenges) - only add if not empty
-      const filteredChallenges = selectedChallenges.filter(c => c !== 'None');
-      if (filteredChallenges.length > 0) {
-        solutionFields.challenges = filteredChallenges;
+      // Always include challenges field (required field)
+      // "None" is a valid value meaning no challenges experienced
+      if (selectedChallenges.length > 0) {
+        solutionFields.challenges = selectedChallenges;
       }
       
       // Optional fields from success screen

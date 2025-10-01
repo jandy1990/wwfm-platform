@@ -9,6 +9,7 @@ import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface HobbyFormProps {
   goalId: string;
@@ -148,21 +149,7 @@ export function HobbyForm({
   }, [currentStep, highestStepReached]);
 
   // Hobby-specific challenge options
-  const challengeOptions = [
-    'None',
-    'Too expensive to start',
-    'Steep learning curve',
-    'Hard to find time',
-    'Equipment/space requirements',
-    'Need others to participate',
-    'Not seeing progress',
-    'Lost motivation after initial excitement',
-    'Weather dependent',
-    'Physical limitations',
-    'Information overload',
-    'Perfectionism getting in the way',
-    'Hard to find good instruction'
-  ];
+  const challengeOptions = DROPDOWN_OPTIONS.hobby_challenges ?? ['None'];
 
   const handleChallengeToggle = (challenge: string) => {
     if (challenge === 'None') {

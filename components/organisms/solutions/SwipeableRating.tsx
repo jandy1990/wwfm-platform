@@ -15,7 +15,11 @@ interface SwipeableRatingProps {
   goalId: string;
   initialRating: number;
   ratingCount: number;
-  onRatingUpdate?: (newRating: number, newCount: number) => void;
+  onRatingUpdate?: (
+    newRating: number,
+    newCount: number,
+    meta?: { humanCount: number; dataDisplayMode: 'ai' | 'human' }
+  ) => void;
   isMobile?: boolean;
 }
 

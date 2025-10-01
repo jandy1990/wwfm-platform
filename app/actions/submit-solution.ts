@@ -2,6 +2,7 @@
 
 import { createServerSupabaseClient } from '@/lib/database/server'
 import { solutionAggregator } from '@/lib/services/solution-aggregator'
+import { validateAndNormalizeSolutionFields } from '@/lib/solutions/solution-field-validator'
 
 // Types for the submission data
 interface VariantData {
@@ -67,6 +68,8 @@ interface SolutionFields {
   form_factor?: string
   other_info?: string
   failed_solutions_text?: Array<{ name: string; rating: number }>
+
+  [key: string]: unknown
 }
 
 export interface SubmitSolutionData {
@@ -402,12 +405,12 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           // (The aggregator doesn't update these legacy fields, only aggregated_fields)
           const { data: ratingsCount } = await supabase
             .from('ratings')
-            .select('effectiveness', { count: 'exact' })
+            .select('effectiveness_score', { count: 'exact' })
             .eq('goal_id', formData.goalId)
             .eq('implementation_id', variantId)
           
           if (ratingsCount && ratingsCount.length > 0) {
-            const totalEffectiveness = ratingsCount.reduce((sum, r) => sum + (r.effectiveness || 0), 0)
+            const totalEffectiveness = ratingsCount.reduce((sum, r) => sum + (r.effectiveness_score || 0), 0)
             const avgEffectiveness = totalEffectiveness / ratingsCount.length
             
             await supabase
@@ -594,14 +597,14 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
         // Calculate immediate human effectiveness to prevent lag window
         const { data: humanRatings } = await supabase
           .from('ratings')
-          .select('overall_effectiveness')
+          .select('effectiveness_score')
           .eq('goal_id', formData.goalId)
-          .eq('solution_variant_id', variantId)
+          .eq('implementation_id', variantId)
           .eq('data_source', 'human')
-          .not('overall_effectiveness', 'is', null)
+          .not('effectiveness_score', 'is', null)
 
         if (humanRatings && humanRatings.length > 0) {
-          const total = humanRatings.reduce((sum, rating) => sum + (rating.overall_effectiveness || 0), 0)
+          const total = humanRatings.reduce((sum, rating) => sum + (rating.effectiveness_score || 0), 0)
           projectedEffectiveness = total / humanRatings.length
           console.log(`[submitSolution] Calculated immediate human effectiveness: ${projectedEffectiveness} from ${humanRatings.length} human ratings`)
         }

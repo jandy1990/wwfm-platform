@@ -34,6 +34,8 @@ export interface GoalSolutionWithVariants extends SolutionV2 {
   }[]
 }
 
+const DEFAULT_TRANSITION_THRESHOLD = 10
+
 export async function getGoalSolutions(goalId: string): Promise<GoalSolutionWithVariants[]> {
   const supabase = await createServerSupabaseClient()
 
@@ -116,7 +118,7 @@ export async function getGoalSolutions(goalId: string): Promise<GoalSolutionWith
           // AI to Human Transition fields
           human_rating_count: link.human_rating_count || 0,
           data_display_mode: link.data_display_mode || 'ai',
-          transition_threshold: link.transition_threshold || 3,
+          transition_threshold: link.transition_threshold || DEFAULT_TRANSITION_THRESHOLD,
           ai_snapshot: link.ai_snapshot,
           transitioned_at: link.transitioned_at
         }]

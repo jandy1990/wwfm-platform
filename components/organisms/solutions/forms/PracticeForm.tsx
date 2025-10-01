@@ -1,7 +1,7 @@
 // components/solutions/forms/PracticeForm.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 // import { supabase } from '@/lib/database/client'; // Removed: unused after migrating to server actions
 import { ChevronLeft, Check, X, Plus } from 'lucide-react';
@@ -10,6 +10,7 @@ import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface PracticeFormProps {
   goalId: string;
@@ -164,64 +165,17 @@ export function PracticeForm({
 
 
   // Category-specific challenge options
-  const getChallengeOptions = () => {
-    switch (category) {
-      case 'meditation_mindfulness':
-        return [
-          'None',
-          'Difficulty concentrating',
-          'Restlessness',
-          'Emotional overwhelm',
-          'Physical discomfort',
-          'Anxiety increased',
-          'Boredom',
-          'Difficulty staying awake',
-          'Intrusive thoughts',
-          'Noisy environment',
-          'Pet/child interruptions',
-          'Time management issues',
-          'Initially worse before better'
-        ];
-      case 'exercise_movement':
-        return [
-          'None',
-          'Physical limitations',
-          'Time constraints',
-          'Weather dependent',
-          'Gym intimidation',
-          'Lack of motivation',
-          'Injury/soreness',
-          'Equipment costs',
-          'Finding good instruction',
-          'Progress plateaus',
-          'Schedule conflicts',
-          'Energy levels',
-          'Initially worse before better'
-        ];
-      case 'habits_routines':
-        return [
-          'None',
-          'Forgot to do it',
-          'Lost motivation after initial enthusiasm',
-          'Takes too much time',
-          'Hard to do when tired',
-          'Broke the chain and gave up',
-          'Results too slow',
-          'Life got in the way',
-          'Felt silly or self-conscious',
-          'Too ambitious at start',
-          'No immediate reward',
-          'Competing priorities',
-          'Didn\'t track progress',
-          'All-or-nothing thinking',
-          'Initially made things worse'
-        ];
-      default:
-        return ['None'];
-    }
-  };
+  const challengeOptions = useMemo(() => {
+    const challengeKeyMap: Record<string, keyof typeof DROPDOWN_OPTIONS> = {
+      meditation_mindfulness: 'meditation_challenges',
+      exercise_movement: 'exercise_challenges',
+      habits_routines: 'habits_challenges'
+    };
 
-  const challengeOptions = getChallengeOptions();
+    const key = challengeKeyMap[category as keyof typeof challengeKeyMap];
+    const options = key ? DROPDOWN_OPTIONS[key] : undefined;
+    return options ?? ['None'];
+  }, [category]);
 
   const handleChallengeToggle = (challenge: string) => {
     if (challenge === 'None') {
@@ -312,8 +266,8 @@ export function PracticeForm({
           time_commitment: timeCommitment
         }),
         
-        // Array fields (remove 'None' from challenges)
-        challenges: challenges.filter(c => c !== 'None')
+        // Array fields - "None" is a valid value for challenges
+        challenges: challenges
         
         // NOTE: bestTime, location, and notes are handled in success screen only
       };

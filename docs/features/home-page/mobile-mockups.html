@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WWFM Home Page - Mobile Designs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .mobile-frame {
+            width: 375px;
+            height: 812px;
+            margin: 20px auto;
+            border: 8px solid #333;
+            border-radius: 36px;
+            overflow-y: auto;
+            background: white;
+            position: relative;
+        }
+        .mobile-frame::-webkit-scrollbar {
+            width: 0;
+        }
+        .notch {
+            width: 150px;
+            height: 30px;
+            background: #333;
+            margin: 0 auto;
+            border-radius: 0 0 20px 20px;
+        }
+    </style>
+    <script>
+        function showMobileDesign(num) {
+            document.querySelectorAll('.mobile-design').forEach(d => d.classList.add('hidden'));
+            document.getElementById('mobile' + num).classList.remove('hidden');
+            document.querySelectorAll('.mobile-btn').forEach(b => {
+                b.classList.remove('bg-blue-600', 'text-white');
+                b.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            document.getElementById('mbtn' + num).classList.remove('bg-gray-200', 'text-gray-700');
+            document.getElementById('mbtn' + num).classList.add('bg-blue-600', 'text-white');
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+    <!-- Design Selector -->
+    <div class="text-center py-4">
+        <h1 class="text-2xl font-bold mb-4">WWFM Mobile Home Page Designs</h1>
+        <div class="flex justify-center gap-2">
+            <button id="mbtn1" onclick="showMobileDesign(1)" class="mobile-btn px-4 py-2 rounded-lg bg-blue-600 text-white">Activity Feed</button>
+            <button id="mbtn2" onclick="showMobileDesign(2)" class="mobile-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700">Search First</button>
+            <button id="mbtn3" onclick="showMobileDesign(3)" class="mobile-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700">Quick Access</button>
+        </div>
+    </div>
+
+    <!-- Mobile Design 1: Activity Feed Focus -->
+    <div id="mobile1" class="mobile-design">
+        <div class="mobile-frame">
+            <div class="notch"></div>
+            <div class="h-full overflow-y-auto bg-gray-50">
+                <!-- Header with Search -->
+                <div class="bg-white px-4 py-3 sticky top-0 z-10 border-b">
+                    <div class="flex items-center justify-between mb-3">
+                        <h1 class="text-lg font-bold">WWFM</h1>
+                        <button class="p-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- Search Bar -->
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            placeholder="What's your challenge?"
+                            class="w-full px-4 py-2 bg-gray-100 rounded-full text-sm"
+                        />
+                        <svg class="w-4 h-4 absolute right-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Live Activity Pills -->
+                <div class="px-4 py-3 bg-blue-50">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        <span class="text-xs text-gray-600">142 people active now</span>
+                    </div>
+                </div>
+
+                <!-- Hero Stats -->
+                <div class="grid grid-cols-3 gap-2 px-4 py-4 bg-white">
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-blue-600">3.8k</div>
+                        <div class="text-xs text-gray-500">Solutions</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-green-600">227</div>
+                        <div class="text-xs text-gray-500">Goals</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-purple-600">4.15★</div>
+                        <div class="text-xs text-gray-500">Avg Rating</div>
+                    </div>
+                </div>
+
+                <!-- Activity Feed -->
+                <div class="px-4 py-4">
+                    <h2 class="font-semibold text-gray-900 mb-3">Recent Activity</h2>
+                    
+                    <!-- Activity Items -->
+                    <div class="space-y-3">
+                        <div class="bg-white rounded-lg p-3 shadow-sm">
+                            <div class="flex gap-3">
+                                <span class="text-xl">⭐</span>
+                                <div class="flex-1">
+                                    <p class="text-sm">
+                                        <span class="font-medium">CBT Therapy</span> rated 5★ for 
+                                        <span class="text-blue-600">"Reduce anxiety"</span>
+                                    </p>
+                                    <p class="text-xs text-gray-500 mt-1">2 min ago</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-3 shadow-sm">
+                            <div class="flex gap-3">
+                                <span class="text-xl">💬</span>
+                                <div class="flex-1">
+                                    <p class="text-sm">New insight on <span class="text-blue-600">"Sleep better"</span></p>
+                                    <p class="text-xs text-gray-600 mt-1 italic">
+                                        "Melatonin + consistent routine = game changer"
+                                    </p>
+                                    <p class="text-xs text-gray-500 mt-1">5 min ago • 8 helpful</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-3 shadow-sm">
+                            <div class="flex gap-3">
+                                <span class="text-xl">✨</span>
+                                <div class="flex-1">
+                                    <p class="text-sm">
+                                        New: <span class="font-medium">Forest App</span> for 
+                                        <span class="text-blue-600">"Improve focus"</span>
+                                    </p>
+                                    <p class="text-xs text-gray-500 mt-1">12 min ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending Goals -->
+                <div class="px-4 py-4">
+                    <h2 class="font-semibold text-gray-900 mb-3">Trending This Week</h2>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-white rounded-lg p-3">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-2xl">🧠</span>
+                                <span class="text-xs px-1.5 py-0.5 bg-green-100 text-green-600 rounded">↑23%</span>
+                            </div>
+                            <h3 class="font-medium text-sm">Reduce anxiety</h3>
+                            <p class="text-xs text-gray-500 mt-1">45 solutions</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-3">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-2xl">😴</span>
+                                <span class="text-xs px-1.5 py-0.5 bg-green-100 text-green-600 rounded">↑18%</span>
+                            </div>
+                            <h3 class="font-medium text-sm">Sleep better</h3>
+                            <p class="text-xs text-gray-500 mt-1">38 solutions</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-3">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-2xl">🎯</span>
+                                <span class="text-xs px-1.5 py-0.5 bg-green-100 text-green-600 rounded">↑15%</span>
+                            </div>
+                            <h3 class="font-medium text-sm">Stop procrastinating</h3>
+                            <p class="text-xs text-gray-500 mt-1">32 solutions</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-3">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-2xl">💪</span>
+                                <span class="text-xs px-1.5 py-0.5 bg-green-100 text-green-600 rounded">↑12%</span>
+                            </div>
+                            <h3 class="font-medium text-sm">Build confidence</h3>
+                            <p class="text-xs text-gray-500 mt-1">28 solutions</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Browse Button -->
+                <div class="px-4 py-4">
+                    <button class="w-full py-3 bg-blue-600 text-white rounded-lg font-medium">
+                        Browse All Life Areas →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Design 2: Search First -->
+    <div id="mobile2" class="mobile-design hidden">
+        <div class="mobile-frame">
+            <div class="notch"></div>
+            <div class="h-full overflow-y-auto bg-white">
+                <!-- Hero Section -->
+                <div class="bg-gradient-to-b from-blue-600 to-blue-700 text-white px-4 py-8">
+                    <h1 class="text-2xl font-bold mb-2 text-center">
+                        What challenge are you facing?
+                    </h1>
+                    <p class="text-sm opacity-90 text-center mb-6">
+                        3,873 proven solutions from real people
+                    </p>
+                    
+                    <!-- Large Search Input -->
+                    <div class="bg-white rounded-lg p-1">
+                        <input 
+                            type="text" 
+                            placeholder="Type your challenge..."
+                            class="w-full px-4 py-3 text-gray-900 placeholder-gray-400 text-base"
+                        />
+                    </div>
+                    
+                    <!-- Quick Suggestions -->
+                    <div class="flex flex-wrap gap-2 mt-4 justify-center">
+                        <button class="px-3 py-1 bg-white/20 rounded-full text-xs">anxiety</button>
+                        <button class="px-3 py-1 bg-white/20 rounded-full text-xs">sleep</button>
+                        <button class="px-3 py-1 bg-white/20 rounded-full text-xs">focus</button>
+                        <button class="px-3 py-1 bg-white/20 rounded-full text-xs">confidence</button>
+                    </div>
+                </div>
+
+                <!-- Success Stories -->
+                <div class="px-4 py-6">
+                    <h2 class="font-semibold text-gray-900 mb-4">Success Stories</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-blue-500 pl-3">
+                            <p class="text-sm text-gray-700 mb-2">
+                                "CBT therapy changed my life. The techniques actually work within minutes for panic attacks."
+                            </p>
+                            <div class="flex items-center gap-2 text-xs text-gray-500">
+                                <span>🧠 Reduce anxiety</span>
+                                <span>• 42 helpful</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border-l-4 border-green-500 pl-3">
+                            <p class="text-sm text-gray-700 mb-2">
+                                "3mg melatonin + bedtime routine = 7-8 hours consistently. Game changer."
+                            </p>
+                            <div class="flex items-center gap-2 text-xs text-gray-500">
+                                <span>😴 Sleep better</span>
+                                <span>• 38 helpful</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border-l-4 border-purple-500 pl-3">
+                            <p class="text-sm text-gray-700 mb-2">
+                                "Pomodoro + Forest app = finally beating procrastination after years of struggling."
+                            </p>
+                            <div class="flex items-center gap-2 text-xs text-gray-500">
+                                <span>🎯 Stop procrastinating</span>
+                                <span>• 31 helpful</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Browse Categories -->
+                <div class="px-4 py-6 bg-gray-50">
+                    <h2 class="font-semibold text-gray-900 mb-4">Browse by Area</h2>
+                    
+                    <div class="grid grid-cols-3 gap-3">
+                        <button class="bg-white rounded-lg p-3 text-center">
+                            <span class="text-2xl block mb-1">🧠</span>
+                            <span class="text-xs">Mental Health</span>
+                        </button>
+                        <button class="bg-white rounded-lg p-3 text-center">
+                            <span class="text-2xl block mb-1">💼</span>
+                            <span class="text-xs">Career</span>
+                        </button>
+                        <button class="bg-white rounded-lg p-3 text-center">
+                            <span class="text-2xl block mb-1">❤️</span>
+                            <span class="text-xs">Relationships</span>
+                        </button>
+                        <button class="bg-white rounded-lg p-3 text-center">
+                            <span class="text-2xl block mb-1">💪</span>
+                            <span class="text-xs">Health</span>
+                        </button>
+                        <button class="bg-white rounded-lg p-3 text-center">
+                            <span class="text-2xl block mb-1">💰</span>
+                            <span class="text-xs">Finance</span>
+                        </button>
+                        <button class="bg-white rounded-lg p-3 text-center">
+                            <span class="text-2xl block mb-1">📚</span>
+                            <span class="text-xs">Learning</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Design 3: Quick Access -->
+    <div id="mobile3" class="mobile-design hidden">
+        <div class="mobile-frame">
+            <div class="notch"></div>
+            <div class="h-full overflow-y-auto bg-gray-50">
+                <!-- Minimal Header -->
+                <div class="bg-white px-4 py-3 border-b">
+                    <div class="flex items-center justify-between">
+                        <h1 class="text-lg font-bold">WWFM</h1>
+                        <div class="flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                            <span class="text-xs text-gray-500">142 active</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Win Section -->
+                <div class="bg-gradient-to-r from-green-50 to-blue-50 px-4 py-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="font-semibold text-gray-900">⚡ Quick Wins</h2>
+                        <span class="text-xs text-gray-500">< 2 weeks to results</span>
+                    </div>
+                    
+                    <div class="flex gap-2 overflow-x-auto pb-2">
+                        <div class="bg-white rounded-lg p-3 flex-shrink-0" style="width: 140px;">
+                            <div class="flex justify-between mb-1">
+                                <span class="text-xl">😴</span>
+                                <span class="text-xs bg-green-100 text-green-700 px-1 rounded">92%</span>
+                            </div>
+                            <h3 class="text-sm font-medium">Fall asleep</h3>
+                            <p class="text-xs text-gray-500 mt-1">3-7 days • 4.3★</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 flex-shrink-0" style="width: 140px;">
+                            <div class="flex justify-between mb-1">
+                                <span class="text-xl">⚡</span>
+                                <span class="text-xs bg-green-100 text-green-700 px-1 rounded">88%</span>
+                            </div>
+                            <h3 class="text-sm font-medium">More energy</h3>
+                            <p class="text-xs text-gray-500 mt-1">1 week • 4.1★</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 flex-shrink-0" style="width: 140px;">
+                            <div class="flex justify-between mb-1">
+                                <span class="text-xl">🧘</span>
+                                <span class="text-xs bg-green-100 text-green-700 px-1 rounded">90%</span>
+                            </div>
+                            <h3 class="text-sm font-medium">Less stress</h3>
+                            <p class="text-xs text-gray-500 mt-1">Immediate • 4.2★</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="px-4 py-4 bg-white">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            placeholder="Search any challenge..."
+                            class="w-full px-4 py-3 bg-gray-50 rounded-lg text-sm"
+                        />
+                        <button class="absolute right-2 top-2 px-3 py-1 bg-blue-600 text-white rounded text-sm">
+                            Go
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Popular Goals Grid -->
+                <div class="px-4 py-4">
+                    <h2 class="font-semibold text-gray-900 mb-3">Most Popular</h2>
+                    
+                    <div class="space-y-3">
+                        <button class="w-full bg-white rounded-lg p-3 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">🧠</span>
+                                <div class="text-left">
+                                    <h3 class="font-medium text-sm">Reduce anxiety</h3>
+                                    <p class="text-xs text-gray-500">45 solutions • 4.2★</p>
+                                </div>
+                            </div>
+                            <div class="text-xs text-gray-400">→</div>
+                        </button>
+                        
+                        <button class="w-full bg-white rounded-lg p-3 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">😴</span>
+                                <div class="text-left">
+                                    <h3 class="font-medium text-sm">Sleep better</h3>
+                                    <p class="text-xs text-gray-500">38 solutions • 4.0★</p>
+                                </div>
+                            </div>
+                            <div class="text-xs text-gray-400">→</div>
+                        </button>
+                        
+                        <button class="w-full bg-white rounded-lg p-3 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">🎯</span>
+                                <div class="text-left">
+                                    <h3 class="font-medium text-sm">Stop procrastinating</h3>
+                                    <p class="text-xs text-gray-500">32 solutions • 3.9★</p>
+                                </div>
+                            </div>
+                            <div class="text-xs text-gray-400">→</div>
+                        </button>
+                        
+                        <button class="w-full bg-white rounded-lg p-3 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">💪</span>
+                                <div class="text-left">
+                                    <h3 class="font-medium text-sm">Build confidence</h3>
+                                    <p class="text-xs text-gray-500">28 solutions • 4.1★</p>
+                                </div>
+                            </div>
+                            <div class="text-xs text-gray-400">→</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Share CTA -->
+                <div class="px-4 py-4">
+                    <div class="bg-blue-600 text-white rounded-lg p-4 text-center">
+                        <h3 class="font-semibold mb-1">Solved a challenge?</h3>
+                        <p class="text-sm opacity-90 mb-3">Your experience could help thousands</p>
+                        <button class="bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-medium">
+                            Share What Worked
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Note -->
+    <div class="text-center py-4 text-sm text-gray-600">
+        <p>These designs are optimized for mobile (375px width)</p>
+        <p class="mt-2">View the main mockups file for desktop versions</p>
+    </div>
+</body>
+</html>

@@ -227,9 +227,12 @@ test.describe('CommunityForm - Complete E2E Tests', () => {
     await continueBtn1.click()
     await page.waitForTimeout(1500)
     
-    // Step 2: Challenges
+    // Step 2: Challenges (REQUIRED - "None" is a valid option)
     console.log('Step 2: Selecting challenges')
-    await page.click('label:has-text("None")')
+    // Select "None" as a valid challenge option
+    const noneLabel = await page.locator('label:has-text("None")').first()
+    await noneLabel.click({ force: true })
+    console.log('Selected challenge: None')
     await page.waitForTimeout(500)
     
     // Click Continue to Step 3

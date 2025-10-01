@@ -5,7 +5,10 @@
  * Cleans all test data while preserving fixtures
  */
 
-require('dotenv').config({ path: '.env.local' });
+const dotenv = require('dotenv');
+
+dotenv.config({ path: '.env.local' });
+dotenv.config({ path: '.env.test.local', override: true });
 const { createClient } = require('@supabase/supabase-js');
 
 // Initialize Supabase admin client
@@ -14,7 +17,8 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
 const TEST_GOAL_ID = process.env.TEST_GOAL_ID || '56e2801e-0d78-4abd-a795-869e5b780ae7';
 
 if (!supabaseUrl || !supabaseServiceKey) {
-  console.error('❌ Missing SUPABASE_SERVICE_KEY in environment');
+  console.error('❌ Missing Supabase admin credentials (SUPABASE_SERVICE_KEY)');
+  console.error('   Ensure .env.test.local (or .env.local) is configured before running reset scripts.');
   process.exit(1);
 }
 
@@ -36,8 +40,14 @@ async function resetTestData() {
       .select('id, title')
       .eq('source_type', 'test_fixture')
       .like('title', '%(Test)%');
-    
-    if (fixtureError) throw fixtureError;
+
+    if (fixtureError) {
+      if (fixtureError.code === '42P01' || /relation .*does not exist/i.test(fixtureError.message || '')) {
+        console.log('   ⚠️  Solutions table not found in database - nothing to reset yet.');
+        return;
+      }
+      throw fixtureError;
+    }
     console.log(`   Found ${fixtures?.length || 0} test fixtures`);
     
     if (!fixtures || fixtures.length === 0) {
@@ -51,8 +61,14 @@ async function resetTestData() {
       .from('solution_variants')
       .select('id')
       .in('solution_id', solutionIds);
-    
-    if (variantError) throw variantError;
+
+    if (variantError) {
+      if (variantError.code === '42P01' || /relation .*does not exist/i.test(variantError.message || '')) {
+        console.log('   ⚠️  Solution variants table not found - skipping cleanup.');
+        return;
+      }
+      throw variantError;
+    }
     const variantIds = variants?.map(v => v.id) || [];
     console.log(`   Found ${variantIds.length} variants`);
     

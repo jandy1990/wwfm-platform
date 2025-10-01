@@ -18,11 +18,17 @@ interface InteractiveRatingProps {
   goalId: string;
   initialRating: number;
   ratingCount: number;
-  onRatingUpdate?: (newRating: number, newCount: number) => void;
+  onRatingUpdate?: (
+    newRating: number,
+    newCount: number,
+    meta?: { humanCount: number; dataDisplayMode: 'ai' | 'human' }
+  ) => void;
 }
 
 // Categories that require variant-specific ratings
 const VARIANT_CATEGORIES = ['medications', 'supplements_vitamins', 'natural_remedies', 'beauty_skincare'];
+
+const DEFAULT_TRANSITION_THRESHOLD = 10;
 
 export default function InteractiveRating({ 
   solution, 
@@ -73,7 +79,7 @@ export default function InteractiveRating({
         if (goalLink) {
           setTransitionInfo({
             humanCount: goalLink.human_rating_count || 0,
-            threshold: goalLink.transition_threshold || 3,
+            threshold: goalLink.transition_threshold || DEFAULT_TRANSITION_THRESHOLD,
             dataDisplayMode: goalLink.data_display_mode || 'ai'
           });
         }
@@ -187,16 +193,15 @@ export default function InteractiveRating({
         successStateRef.current.hasRated = true;
         setHasRated(true); // Also set local state for immediate UI update
         
-        // Update parent component if callback provided
-        if (onRatingUpdate) {
-          const newCount = isResubmit ? ratingCount : ratingCount + 1; // 🔧 Don't increment count for re-ratings
-          const newAverage = isResubmit 
-            ? ((initialRating * ratingCount) - initialRating + rating) / ratingCount // Replace old rating
-            : ((initialRating * ratingCount) + rating) / newCount; // Add new rating
-          
-          console.log('📊 Callback details:', { isResubmit, oldAvg: initialRating, newAvg: newAverage, oldCount: ratingCount, newCount });
-          onRatingUpdate(newAverage, newCount);
-        }
+        const baseHumanCount = transitionInfo?.humanCount ?? 0;
+        const newCount = isResubmit ? ratingCount : ratingCount + 1; // 🔧 Don't increment count for re-ratings
+        const newAverage = isResubmit 
+          ? ((initialRating * ratingCount) - initialRating + rating) / ratingCount // Replace old rating
+          : ((initialRating * ratingCount) + rating) / newCount; // Add new rating
+        const newHumanCount = baseHumanCount + (isResubmit ? 0 : 1);
+        let newDisplayMode: 'ai' | 'human' = transitionInfo?.dataDisplayMode || 'ai';
+
+        console.log('📊 Callback details:', { isResubmit, oldAvg: initialRating, newAvg: newAverage, oldCount: ratingCount, newCount });
 
         // Check for AI to human transition after successful rating
         try {
@@ -213,9 +218,37 @@ export default function InteractiveRating({
               to: newAverage
             });
             setShowTransition(true);
+            newDisplayMode = 'human';
+          }
+
+        const updatedTransitionInfo = {
+          humanCount: newHumanCount,
+          threshold: transitionInfo?.threshold || DEFAULT_TRANSITION_THRESHOLD,
+          dataDisplayMode: newDisplayMode
+        };
+          setTransitionInfo(updatedTransitionInfo);
+          setShowPreTransitionWarning(false);
+
+          if (onRatingUpdate) {
+            onRatingUpdate(newAverage, newCount, {
+              humanCount: updatedTransitionInfo.humanCount,
+              dataDisplayMode: updatedTransitionInfo.dataDisplayMode
+            });
           }
         } catch (transitionError) {
           console.error('Transition check failed (non-fatal):', transitionError);
+          if (onRatingUpdate) {
+            onRatingUpdate(newAverage, newCount, {
+              humanCount: newHumanCount,
+              dataDisplayMode: newDisplayMode
+            });
+          }
+          setTransitionInfo(prev => ({
+            humanCount: newHumanCount,
+            threshold: prev?.threshold || DEFAULT_TRANSITION_THRESHOLD,
+            dataDisplayMode: newDisplayMode
+          }));
+          setShowPreTransitionWarning(false);
         }
 
         // Clear any existing timeout

@@ -1,0 +1,17 @@
+project_id = "wwfm-platform-local"
+
+[api]
+port = 54321
+schemas = ["public", "extensions"]
+extra_search_path = ["extensions"]
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[studio]
+port = 54323
+
+[inbucket]
+port = 54324

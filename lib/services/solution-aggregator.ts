@@ -61,9 +61,10 @@ export class SolutionAggregator {
     
     // Aggregate cost fields
     aggregated.cost = this.aggregateValueField(ratings, 'cost')
+    aggregated.cost_type = this.aggregateValueField(ratings, 'cost_type')
     aggregated.startup_cost = this.aggregateValueField(ratings, 'startup_cost')
     aggregated.ongoing_cost = this.aggregateValueField(ratings, 'ongoing_cost')
-    
+
     // Aggregate brand
     aggregated.brand = this.aggregateValueField(ratings, 'brand')
     
@@ -72,6 +73,7 @@ export class SolutionAggregator {
     
     // Aggregate frequency fields
     aggregated.frequency = this.aggregateValueField(ratings, 'frequency')
+    aggregated.skincare_frequency = this.aggregateValueField(ratings, 'skincare_frequency')
     aggregated.session_frequency = this.aggregateValueField(ratings, 'session_frequency')
     
     // Aggregate length fields
@@ -168,26 +170,28 @@ export class SolutionAggregator {
     }
     
     if (Object.keys(valueCounts).length === 0) return undefined
-    
+
     // Convert to DistributionValue array
     const values: DistributionValue[] = Object.entries(valueCounts)
       .map(([value, count]) => ({
         value,
         count,
-        percentage: Math.round((count / ratingsWithField) * 100)
+        percentage: Math.round((count / ratingsWithField) * 100),
+        source: 'user_submission'
       }))
       .sort((a, b) => b.count - a.count) // Sort by frequency
-    
+
     // Find mode (most common value)
     const mode = values[0].value
-    
+
     return {
       mode,
       values,
-      totalReports: ratingsWithField
+      totalReports: ratingsWithField,
+      dataSource: 'user_submission'
     }
   }
-  
+
   /**
    * Aggregate single-value fields into DistributionData format
    */
@@ -208,26 +212,28 @@ export class SolutionAggregator {
     }
     
     if (Object.keys(valueCounts).length === 0) return undefined
-    
+
     // Convert to DistributionValue array
     const values: DistributionValue[] = Object.entries(valueCounts)
       .map(([value, count]) => ({
         value,
         count,
-        percentage: Math.round((count / ratingsWithField) * 100)
+        percentage: Math.round((count / ratingsWithField) * 100),
+        source: 'user_submission'
       }))
       .sort((a, b) => b.count - a.count) // Sort by frequency
-    
+
     // Find mode (most common value)
     const mode = values[0].value
-    
+
     return {
       mode,
       values,
-      totalReports: ratingsWithField
+      totalReports: ratingsWithField,
+      dataSource: 'user_submission'
     }
   }
-  
+
   /**
    * Aggregate boolean fields into DistributionData format
    */
@@ -248,24 +254,26 @@ export class SolutionAggregator {
     }
     
     if (ratingsWithField === 0) return undefined
-    
+
     // Convert to DistributionValue array
     const values: DistributionValue[] = Object.entries(valueCounts)
       .filter(([_, count]) => count > 0)
       .map(([value, count]) => ({
         value,
         count,
-        percentage: Math.round((count / ratingsWithField) * 100)
+        percentage: Math.round((count / ratingsWithField) * 100),
+        source: 'user_submission'
       }))
       .sort((a, b) => b.count - a.count)
-    
+
     // Find mode (most common value)
     const mode = values[0]?.value || 'false'
-    
+
     return {
       mode,
       values,
-      totalReports: ratingsWithField
+      totalReports: ratingsWithField,
+      dataSource: 'user_submission'
     }
   }
   
@@ -295,6 +303,19 @@ export class SolutionAggregator {
 
     // Compute new aggregates
     const aggregated = await this.computeAggregates(goalId, implementationId)
+    if (Object.keys(aggregated).length === 0) {
+      console.log('[Aggregator] No human ratings available; skipping aggregation update to preserve existing data')
+      await supabase
+        .from('goal_implementation_links')
+        .update({
+          needs_aggregation: false,
+          updated_at: new Date().toISOString()
+        })
+        .eq('goal_id', goalId)
+        .eq('implementation_id', implementationId)
+      return
+    }
+
     console.log(`[Aggregator] Computed aggregates:`, Object.keys(aggregated))
 
     // First check if the link exists
@@ -317,7 +338,8 @@ export class SolutionAggregator {
         .from('goal_implementation_links')
         .update({ 
           aggregated_fields: aggregated,
-          updated_at: new Date().toISOString()
+          updated_at: new Date().toISOString(),
+          needs_aggregation: false
         })
         .eq('goal_id', goalId)
         .eq('implementation_id', implementationId)
@@ -337,7 +359,8 @@ export class SolutionAggregator {
           implementation_id: implementationId,
           aggregated_fields: aggregated,
           avg_effectiveness: 0, // Will be updated by triggers
-          rating_count: 1
+          rating_count: 1,
+          needs_aggregation: false
         })
       
       if (insertError) {

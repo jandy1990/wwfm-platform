@@ -55,7 +55,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/browse" className="flex items-center space-x-2 group">
+          <Link href="/" className="flex items-center space-x-2 group">
             <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100">WWFM</span>
             <span className="relative">
               <span className="text-2xl">🏔️</span>

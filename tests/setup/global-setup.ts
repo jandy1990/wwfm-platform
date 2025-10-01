@@ -16,15 +16,50 @@ async function globalSetup(config: FullConfig) {
     const baseURL = config.projects[0].use.baseURL || 'http://localhost:3000'
     console.log(`🌐 Using baseURL: ${baseURL}`)
     
-    // Navigate to sign in page
-    await page.goto(`${baseURL}/auth/signin`)
-    
+    // Navigate to sign in page (first boot can take time, especially after restores)
+    const maxAttempts = 5
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        await page.goto(`${baseURL}/auth/signin`, {
+          waitUntil: 'networkidle',  // Wait for React hydration
+          timeout: 60_000
+        })
+
+        // Wait for React hydration to complete
+        await page.waitForFunction(() => {
+          const form = document.querySelector('form')
+          const email = document.querySelector('#email') as HTMLInputElement
+          return form && email && !email.disabled
+        }, { timeout: 10000 })
+
+        console.log('✅ Sign-in page ready and hydrated')
+        break
+      } catch (error) {
+        if (attempt === maxAttempts) throw error
+        console.warn(`⚠️ Sign-in page not ready (attempt ${attempt}/${maxAttempts}). Retrying in 5s...`)
+        await page.waitForTimeout(5000)
+      }
+    }
+
     // Wait for the form to be ready
-    await page.waitForSelector('#email', { timeout: 10000 })
-    
+    await page.waitForSelector('#email', { timeout: 30000 })
+
     // Fill in credentials using the correct selectors
     await page.fill('#email', TEST_USER_EMAIL)
     await page.fill('#password', TEST_USER_PASSWORD)
+
+    // Verify React state has updated (force blur to trigger onChange)
+    await page.locator('#email').blur()
+    await page.locator('#password').blur()
+    await page.waitForTimeout(500)  // Let React state propagate
+
+    // Verify values are present before submitting
+    await page.evaluate((email) => {
+      const emailInput = document.querySelector('#email') as HTMLInputElement
+      if (!emailInput || emailInput.value !== email) {
+        throw new Error('Email input value does not match - React state not synced')
+      }
+    }, TEST_USER_EMAIL)
     
     // Submit form
     await page.click('button[type="submit"]')

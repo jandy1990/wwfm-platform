@@ -37,6 +37,8 @@ const program = new Command()
   .option('--coverage-target <number>', 'Category completion target (0-100)', '95')
   .option('--max-goals <number>', 'Maximum goals per solution', '5')
   .option('--laugh-threshold <number>', 'Laugh test score threshold (0-100)', '70')
+  .option('--force-write', 'Force updates even when data is unchanged')
+  .option('--dirty-only', 'Process only links flagged as needing aggregation/cleanup')
   .option('--dry-run', 'Preview without making database changes')
   .parse()
 
@@ -62,7 +64,10 @@ if (!process.env.GEMINI_API_KEY) {
 
 const gemini = new GeminiClient(process.env.GEMINI_API_KEY!)
 const validator = new CredibilityValidator(supabase)
-const dataHandler = new ExpansionDataHandler(supabase)
+const dataHandler = new ExpansionDataHandler(supabase, {
+  forceWrite: Boolean(options.forceWrite),
+  dirtyOnly: Boolean(options.dirtyOnly)
+})
 const laughTestValidator = new LaughTestValidator(gemini)
 const progressTracker = new ProgressTracker()
 

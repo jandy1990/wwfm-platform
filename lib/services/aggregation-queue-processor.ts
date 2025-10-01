@@ -55,7 +55,13 @@ export class AggregationQueueProcessor {
       console.log(`[Queue] Processing ${jobs.length} jobs`)
 
       // Process jobs concurrently
-      const promises = jobs.map(job => this.processJob(job.goal_id, job.implementation_id))
+      const promises = jobs.map(job =>
+        this.processJob(
+          job.goal_id,
+          job.implementation_id,
+          job.attempts ?? 0
+        )
+      )
       const results = await Promise.allSettled(promises)
 
       // Count results
@@ -83,14 +89,14 @@ export class AggregationQueueProcessor {
   /**
    * Process a single aggregation job
    */
-  private async processJob(goalId: string, implementationId: string): Promise<void> {
+  private async processJob(goalId: string, implementationId: string, currentAttempts: number): Promise<void> {
     const supabase = await createServerSupabaseClient()
 
     try {
       // Mark as processing
       const { error: markError } = await supabase
         .from('aggregation_queue')
-        .update({ processing: true })
+        .update({ processing: true, last_error: null })
         .eq('goal_id', goalId)
         .eq('implementation_id', implementationId)
 
@@ -124,7 +130,7 @@ export class AggregationQueueProcessor {
         .from('aggregation_queue')
         .update({
           processing: false,
-          attempts: supabase.raw('attempts + 1'),
+          attempts: currentAttempts + 1,
           last_error: String(error)
         })
         .eq('goal_id', goalId)
@@ -196,7 +202,15 @@ export class AggregationQueueProcessor {
    */
   async forceProcessJob(goalId: string, implementationId: string): Promise<boolean> {
     try {
-      await this.processJob(goalId, implementationId)
+      const supabase = await createServerSupabaseClient()
+      const { data: jobRecord } = await supabase
+        .from('aggregation_queue')
+        .select('attempts')
+        .eq('goal_id', goalId)
+        .eq('implementation_id', implementationId)
+        .single()
+
+      await this.processJob(goalId, implementationId, jobRecord?.attempts ?? 0)
       return true
     } catch (error) {
       console.error(`[Queue] Force process failed:`, error)

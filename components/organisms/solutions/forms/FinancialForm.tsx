@@ -9,6 +9,7 @@ import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface FinancialFormProps {
   goalId: string;
@@ -167,24 +168,9 @@ export function FinancialForm({
     const fetchOptions = async () => {
       // Initialize Supabase client
       const supabaseClient = createClientComponentClient();
-      
-      // Fallback challenge options for financial products
-      const fallbackChallenges: string[] = [
-        'Credit score too low',
-        'Income requirements not met',
-        'Complex application process',
-        'High minimum balance',
-        'Documentation requirements',
-        'Geographic restrictions',
-        'Age restrictions',
-        'Citizenship/residency requirements',
-        'Hidden fees discovered',
-        'Poor customer service',
-        'Technical issues with platform',
-        'None',
-        'Other'
-      ];
-      
+
+      const fallbackOptions = DROPDOWN_OPTIONS.financial_challenges;
+
       const { data, error } = await supabaseClient
         .from('challenge_options')
         .select('label')
@@ -194,9 +180,9 @@ export function FinancialForm({
       
       if (!error && data && data.length > 0) {
         setChallengeOptions(data.map((item: { label: string }) => item.label));
-      } else {
+      } else if (fallbackOptions) {
         // Use fallback if no data in DB
-        setChallengeOptions(fallbackChallenges);
+        setChallengeOptions(fallbackOptions);
       }
       setLoading(false);
     };
@@ -284,9 +270,10 @@ export function FinancialForm({
         financial_benefit: financialBenefit,
         access_time: accessTime,
         time_to_results: timeToImpact,
-        
-        // Array field (challenges) - exclude 'None' and 'Other'
-        challenges: selectedChallenges.filter(c => c !== 'None' && c !== 'Other'),
+
+        // Array field (challenges) - required field, "None" is valid
+        // Filter out "Other" since it triggers custom input
+        challenges: selectedChallenges.filter(c => c !== 'Other'),
         
         // REMOVED from initial submission - optional fields handled in success screen only
       };

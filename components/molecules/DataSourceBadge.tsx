@@ -11,7 +11,7 @@ interface DataSourceBadgeProps {
 export function DataSourceBadge({
   mode,
   humanCount,
-  threshold = 3,  // Start with lower threshold for momentum
+  threshold = 10,  // Updated default threshold for AI → human transition
   className
 }: DataSourceBadgeProps) {
   const [showTooltip, setShowTooltip] = useState(false);

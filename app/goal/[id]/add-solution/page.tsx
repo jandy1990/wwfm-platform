@@ -27,12 +27,29 @@ export default async function AddSolutionPage({ params }: PageProps) {
     redirect(`/auth/signin?redirectTo=/goal/${resolvedParams.id}/add-solution`)
   }
 
-  // Fetch the goal details
-  const { data: goal, error } = await supabase
+  // Fetch the goal details (avoid relying on implicit FK metadata)
+  const { data: goalRow, error: goalError } = await supabase
     .from('goals')
-    .select(`
-      *,
-      categories (
+    .select('*')
+    .eq('id', resolvedParams.id)
+    .single()
+
+  if (goalError || !goalRow) {
+    notFound()
+  }
+
+  let categoryWithArena: {
+    name: string
+    slug: string
+    arena_id: string
+    arenas: { id: string; name: string; slug: string }
+  } | null = null
+
+  if (goalRow.category_id) {
+    const { data: category, error: categoryError } = await supabase
+      .from('categories')
+      .select(`
+        id,
         name,
         slug,
         arena_id,
@@ -41,18 +58,30 @@ export default async function AddSolutionPage({ params }: PageProps) {
           name,
           slug
         )
-      )
-    `)
-    .eq('id', resolvedParams.id)
-    .single()
+      `)
+      .eq('id', goalRow.category_id)
+      .single()
 
-  if (error || !goal) {
-    notFound()
+    if (!categoryError && category) {
+      categoryWithArena = {
+        name: category.name,
+        slug: category.slug,
+        arena_id: category.arena_id,
+        arenas: category.arenas
+      }
+    }
+  }
+
+  const goal = {
+    ...goalRow,
+    categories: categoryWithArena
   }
 
   return (
     <>
-      <GoalPageTracker arenaName={goal.categories.arenas.name} arenaId={goal.categories.arenas.id} />
+      {goal.categories?.arenas && (
+        <GoalPageTracker arenaName={goal.categories.arenas.name} arenaId={goal.categories.arenas.id} />
+      )}
       <SolutionFormWithAutoCategory 
         goalId={resolvedParams.id}
         goalTitle={goal.title}  // Add this line to pass the goal title

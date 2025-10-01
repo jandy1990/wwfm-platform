@@ -2,7 +2,7 @@
 
 > **⚠️ THIS IS THE AUTHORITATIVE TESTING GUIDE**  
 > All other testing documentation should reference this document.  
-> Last updated: January 26, 2025 (Post-consolidation)
+> Last updated: October 2, 2025 (Disposable Supabase refresh)
 
 ## 📚 Active Documentation
 - **This Guide**: Complete testing reference
@@ -13,11 +13,38 @@
 ## 🚀 Quick Start (2 minutes)
 
 ```bash
-# Just run this - it handles everything:
-npm run test:forms
+# Disposable Supabase + Chromium suite
+npm run test:forms:local
 
-# That's it! Tests will run with automatic setup and cleanup.
+# That's it! The script starts Supabase, seeds fixtures, runs tests, then stops Supabase.
 ```
+
+> Requires the Supabase CLI and Docker to be installed locally.
+
+### Prepare the database before the first run
+
+The local Supabase container starts empty. Restore a production dump (schema + reference data) once before running the tests:
+
+```bash
+# Start Supabase locally if it is not running yet
+npm run test:db:start
+
+# Restore a plain SQL dump
+psql \
+  -h 127.0.0.1 -p 54322 -U postgres -d postgres \
+  -f ~/Downloads/wwfm-backup.sql
+
+# Or restore a pg_dump archive
+pg_restore \
+  --clean --if-exists --no-owner \
+  -h 127.0.0.1 -p 54322 -U postgres -d postgres \
+  ~/Downloads/wwfm-backup.backup
+
+# When finished
+npm run test:db:stop
+```
+
+Use password `postgres` unless you changed it. The restored data is persisted by Docker; repeat this only if you wipe the volumes.
 
 **If tests fail**, see [Troubleshooting](#troubleshooting) or continue reading for details.
 
@@ -122,20 +149,27 @@ WHERE source_type = 'test_fixture';
 ### Basic Commands
 
 ```bash
-# Run all tests (recommended)
+# Full Chromium suite against disposable Supabase (recommended)
+npm run test:forms:local
+
+# Legacy all-project suite (requires Supabase already running)
 npm run test:forms
 
-# Run specific form tests
+# Run a specific form or spec
 npm run test:forms -- app-form-complete
 
-# Run with UI to see what's happening
+# Interactive and debug modes
 npm run test:forms:ui
-
-# Debug mode with breakpoints
 npm run test:forms:debug
 
 # Run specific test by name
 npx playwright test -g "should submit app solution"
+
+# Manage disposable Supabase manually
+npm run test:db:start
+npm run test:db:seed
+npm run test:db:status
+npm run test:db:stop
 ```
 
 ### What Happens When Tests Run
@@ -275,7 +309,7 @@ WHERE source_type = 'test_fixture';
 **Fix**:
 ```bash
 # Run cleanup before tests
-npm run test:setup
+npm run test:db:seed
 ```
 
 ### Error: "New row violates RLS policy"
@@ -293,6 +327,7 @@ npm run test:setup
 2. Wrong port → Tests expect localhost:3000
 3. Dropdown not closing → Click outside after selection
 4. Form structure changed → Update selectors
+5. Next.js still compiling and serving the 404 placeholder → wait for the message `This page could not be found.` to disappear (tests now wait up to 60 s automatically)
 
 ### Tests pass locally but fail in CI
 
@@ -398,7 +433,7 @@ The following docs are outdated. Use this guide instead:
 
 ```bash
 # Setup
-npm run test:setup          # One-time setup
+npm run test:db:seed          # One-time setup
 
 # Running Tests  
 npm run test:forms          # Run all tests

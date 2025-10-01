@@ -15,49 +15,129 @@ import { DROPDOWN_OPTIONS, getDropdownOptionsForField } from '../config/dropdown
  *   "free" → "Free"
  */
 export function mapCostToDropdown(value: string, options: string[]): string {
+  const cleaned = normalizeNumericString(value)
+  const lower = cleaned.toLowerCase()
+
   // Handle free/no cost
-  if (value.toLowerCase().includes('free') || value === '0' || value === '$0') {
+  if (lower.includes('free') || cleaned === '0' || cleaned === '$0' || cleaned === '$0.00') {
     return options.find(opt => opt.toLowerCase().includes('free')) || options[0]
   }
-  
-  // Extract numeric value
-  const match = value.match(/\$?(\d+(?:\.\d+)?)/);
-  if (!match) return options[0] // Fallback to first option
-  
-  const amount = parseFloat(match[1])
-  
-  // Determine if monthly, yearly, or one-time
-  const isMonthly = value.toLowerCase().includes('month') || value.includes('/mo')
-  const isYearly = value.toLowerCase().includes('year') || value.includes('/yr')
-  
-  // Find the appropriate range
-  for (const option of options) {
-    // Parse the range from the option
-    if (option.includes('Under')) {
-      const underMatch = option.match(/Under \$?(\d+)/)
-      if (underMatch) {
-        const threshold = parseFloat(underMatch[1])
-        if (amount < threshold) return option
+
+  const rangeMatch = cleaned.match(/\$?(\d+(?:\.\d+)?)\s*[-–]\s*\$?(\d+(?:\.\d+)?)/)
+  if (rangeMatch) {
+    const min = parseFloat(rangeMatch[1])
+    const max = parseFloat(rangeMatch[2])
+    for (const option of options) {
+      const optLower = option.toLowerCase()
+      const optRange = option.match(/\$?(\d+(?:\.\d+)?)-\$?(\d+(?:\.\d+)?)/)
+      if (optLower.includes('under')) {
+        const underMatch = option.match(/Under \$?(\d+(?:\.\d+)?)/)
+        if (underMatch && max < parseFloat(underMatch[1])) return option
       }
-    } else if (option.includes('Over')) {
-      const overMatch = option.match(/Over \$?(\d+)/)
-      if (overMatch) {
-        const threshold = parseFloat(overMatch[1])
-        if (amount > threshold) return option
+      if (optLower.includes('over')) {
+        const overMatch = option.match(/Over \$?(\d+(?:\.\d+)?)/)
+        if (overMatch && min > parseFloat(overMatch[1])) return option
       }
-    } else if (option.includes('-')) {
-      // Handle ranges like "$10-25/month"
-      const rangeMatch = option.match(/\$?(\d+(?:\.\d+)?)-\$?(\d+(?:\.\d+)?)/)
-      if (rangeMatch) {
-        const min = parseFloat(rangeMatch[1])
-        const max = parseFloat(rangeMatch[2])
-        if (amount >= min && amount <= max) return option
+      if (optRange) {
+        const optMin = parseFloat(optRange[1])
+        const optMax = parseFloat(optRange[2])
+        if ((min >= optMin && min <= optMax) || (max >= optMin && max <= optMax) || (min <= optMin && max >= optMax)) {
+          return option
+        }
       }
     }
+    const midpoint = (min + max) / 2
+    return findClosestCostOption(midpoint, options)
   }
-  
-  // If no range found, find closest
+
+  // Extract numeric value
+  const match = cleaned.match(/\$?(\d+(?:\.\d+)?)/)
+  if (!match) return options[0]
+
+  const amount = parseFloat(match[1])
+  for (const option of options) {
+    const optLower = option.toLowerCase()
+    if (optLower.includes('under')) {
+      const underMatch = option.match(/Under \$?(\d+(?:\.\d+)?)/)
+      if (underMatch && amount < parseFloat(underMatch[1])) return option
+    }
+    if (optLower.includes('over')) {
+      const overMatch = option.match(/Over \$?(\d+(?:\.\d+)?)/)
+      if (overMatch && amount > parseFloat(overMatch[1])) return option
+    }
+    const optRange = option.match(/\$?(\d+(?:\.\d+)?)-\$?(\d+(?:\.\d+)?)/)
+    if (optRange) {
+      const optMin = parseFloat(optRange[1])
+      const optMax = parseFloat(optRange[2])
+      if (amount >= optMin && amount <= optMax) return option
+    }
+  }
+
   return findClosestCostOption(amount, options)
+}
+
+function normalizeNumericString(value: string): string {
+  return value
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\s+-\s+/g, '-')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+}
+
+function normalizeFieldString(fieldName: string, rawValue: string): string {
+  const trimmed = normalizeNumericString(rawValue)
+  const lower = trimmed.toLowerCase()
+
+  if (!trimmed) return trimmed
+
+  if (fieldName === 'subscription_type') {
+    if (lower.includes('annual') || lower.includes('year')) return 'Annual subscription'
+    if (lower.includes('one-time') || lower.includes('one time') || lower.includes('lifetime')) {
+      return 'One-time purchase'
+    }
+    if (lower.includes('free') || lower.includes('trial')) return 'Free version'
+    return 'Monthly subscription'
+  }
+
+  if (fieldName === 'length_of_use') {
+    if (lower.includes('short')) return 'Less than 1 month'
+    if (lower.includes('long') || lower.includes('ongoing') || lower.includes('indefinite')) {
+      if (lower.includes('as needed')) return 'As needed'
+      if (lower.includes('long-term') || lower.includes('long term')) return 'Over 2 years'
+      return 'Still using'
+    }
+    if (lower.includes('as needed')) return 'As needed'
+  }
+
+  if (fieldName === 'format') {
+    if (lower.includes('hybrid') || (lower.includes('both') && (lower.includes('online') || lower.includes('in-person')))) {
+      return 'Hybrid (both)'
+    }
+    if (lower.includes('virtual') || lower.includes('online') || lower.includes('video') || lower.includes('messaging') || lower.includes('digital')) {
+      return 'Virtual/Online'
+    }
+    if (lower.includes('text') || lower.includes('chat')) {
+      return 'Text/Chat'
+    }
+    if (lower.includes('phone')) {
+      return 'Phone'
+    }
+    if (lower.includes('in-person') || lower.includes('office') || lower.includes('clinic')) {
+      return 'In-person'
+    }
+  }
+
+  if (fieldName === 'response_time') {
+    if (lower.includes('immediate')) return 'Immediate'
+    if (lower.includes('5 minute')) return 'Within 5 minutes'
+    if (lower.includes('30 minute') || lower.includes('half hour')) return 'Within 30 minutes'
+    if (lower.includes('hour')) return 'Within hours'
+    if (lower.includes('24 hour') || lower.includes('day')) return 'Within 24 hours'
+    if (lower.includes('couple of days') || lower.includes('few days')) return 'Within a couple of days'
+    if (lower.includes('week') || lower.includes('longer')) return 'More than a couple of days'
+  }
+
+  return trimmed
 }
 
 /**
@@ -94,15 +174,48 @@ function findClosestCostOption(amount: number, options: string[]): string {
  *   "about a month" → "1-2 months"
  */
 export function mapTimeToDropdown(value: string, options: string[]): string {
-  const lowerValue = value.toLowerCase()
-  
+  const cleaned = normalizeNumericString(value)
+  const prepared = cleaned.replace(/\bto\b/gi, '-')
+  const lowerValue = prepared.toLowerCase()
+
   // Direct matches
   if (lowerValue.includes('immediate')) {
     return options.find(opt => opt.toLowerCase().includes('immediate')) || options[0]
   }
-  
+
+  if (lowerValue.includes('instant')) {
+    return options.find(opt => opt.toLowerCase().includes('immediate')) || options[0]
+  }
+
+  if (lowerValue.includes('minute')) {
+    const minuteOption = options.find(opt => opt.toLowerCase().includes('minute'))
+    if (minuteOption) return minuteOption
+    return options.find(opt => opt.toLowerCase().includes('immediate')) || options[0]
+  }
+
+  if (lowerValue.includes('hour')) {
+    const hourOption = options.find(opt => opt.toLowerCase().includes('hour'))
+    if (hourOption) return hourOption
+    return options.find(opt => opt.toLowerCase().includes('immediate')) || options[0]
+  }
+
+  if (lowerValue.includes('couple of days') || lowerValue.includes('few days')) {
+    return options.find(opt => opt.toLowerCase().includes('couple of days')) ||
+      options.find(opt => opt.toLowerCase().includes('days')) ||
+      options.find(opt => opt.toLowerCase().includes('immediate')) || options[0]
+  }
+
   // Extract numeric value and unit
-  const match = value.match(/(\d+(?:\.\d+)?)\s*(day|week|month|year|hour)/i)
+  const rangeMatch = prepared.match(/(\d+(?:\.\d+)?)\s*[-–]\s*(\d+(?:\.\d+)?)\s*(day|days|week|weeks|month|months|year|years|hour|hours)/i)
+  if (rangeMatch) {
+    const min = parseFloat(rangeMatch[1])
+    const max = parseFloat(rangeMatch[2])
+    const unit = rangeMatch[3].toLowerCase()
+    const avg = (min + max) / 2
+    return mapTimeToDropdown(`${avg} ${unit}`, options)
+  }
+
+  const match = prepared.match(/(\d+(?:\.\d+)?)\s*(day|days|week|weeks|month|months|year|years|hour|hours)/i)
   if (!match) {
     // Try to find a fuzzy match
     return options.find(opt => 
@@ -219,7 +332,9 @@ export function mapTimeCommitmentToDropdown(value: string, options: string[]): s
  *   "every other day" → "Every other day"
  */
 export function mapFrequencyToDropdown(value: string, options: string[]): string {
-  const lowerValue = value.toLowerCase().replace(/[()]/g, '').trim()
+  const cleaned = normalizeNumericString(value).replace(/[()]/g, '').trim()
+  const lowerValue = cleaned.toLowerCase()
+  const numbers = lowerValue.match(/\d+/g)?.map(n => parseInt(n, 10)) || []
 
   // Handle exact lowercase issues found in the data first
   // Map to the EXACT values that exist in dropdown options
@@ -263,24 +378,23 @@ export function mapFrequencyToDropdown(value: string, options: string[]): string
   }
 
   // Handle daily variations - now with AM/PM pattern recognition
-  if (lowerValue.includes('every day') || lowerValue.includes('daily') || lowerValue.includes('am') || lowerValue.includes('pm')) {
-    // Check for multiple times daily
-    if (lowerValue.includes('twice') || lowerValue.includes('2') || (lowerValue.includes('am') && lowerValue.includes('pm'))) {
-      return options.find(opt => opt === 'twice daily') ||
-             options.find(opt => opt.toLowerCase().includes('twice daily')) ||
-             options.find(opt => opt === 'Daily') ||
-             options.find(opt => opt.toLowerCase() === 'daily') || options[0]
+  if (lowerValue.includes('every day') || lowerValue.includes('daily') || lowerValue.includes('per day') || lowerValue.includes('am') || lowerValue.includes('pm')) {
+    const multipleDaily = options.find(opt => opt.toLowerCase().includes('multiple times daily'))
+    if (numbers.some(n => n >= 3) || (lowerValue.includes('am') && lowerValue.includes('pm'))) {
+      const threeDaily = options.find(opt => opt.toLowerCase().includes('three times daily'))
+      if (threeDaily) return threeDaily
+      if (multipleDaily) return multipleDaily
     }
-    if (lowerValue.includes('three') || lowerValue.includes('3')) {
-      return options.find(opt => opt === 'three times daily') ||
-             options.find(opt => opt.toLowerCase().includes('three times daily')) ||
-             options.find(opt => opt === 'Daily') ||
-             options.find(opt => opt.toLowerCase() === 'daily') || options[0]
+    if (numbers.some(n => n >= 2) || lowerValue.includes('twice')) {
+      const twiceDaily = options.find(opt => opt.toLowerCase().includes('twice daily'))
+      if (twiceDaily) return twiceDaily
+      if (multipleDaily) return multipleDaily
     }
-    return options.find(opt => opt === 'once daily') ||
-           options.find(opt => opt === 'Daily') ||
-           options.find(opt => opt.toLowerCase() === 'daily') ||
-           options.find(opt => opt.toLowerCase() === 'once daily') || options[0]
+    const dailyOption = options.find(opt => opt.toLowerCase() === 'daily') ||
+      options.find(opt => opt.toLowerCase() === 'once daily') ||
+      options.find(opt => opt.toLowerCase().includes('daily'))
+    if (dailyOption) return dailyOption
+    return options[0]
   }
 
   // Handle weekly variations
@@ -291,6 +405,16 @@ export function mapFrequencyToDropdown(value: string, options: string[]): string
       const minTimes = parseInt(timesMatch[1])
       const maxTimes = timesMatch[2] ? parseInt(timesMatch[2]) : minTimes
       const avgTimes = (minTimes + maxTimes) / 2
+
+      const multipleWeeklyOption = options.find(opt => opt.toLowerCase().includes('multiple times per week'))
+      if (avgTimes > 1 && multipleWeeklyOption) {
+        return multipleWeeklyOption
+      }
+
+      const fewWeeklyOption = options.find(opt => opt.toLowerCase().includes('few times a week'))
+      if (avgTimes > 1 && fewWeeklyOption) {
+        return fewWeeklyOption
+      }
 
       // Map to the most appropriate weekly frequency
       if (avgTimes === 1) {
@@ -533,21 +657,55 @@ export function mapAllFieldsToDropdowns(
   category: string
 ): Record<string, any> {
   const mappedFields: Record<string, any> = {}
-  
+
   for (const [fieldName, value] of Object.entries(fields)) {
-    // Skip array fields (handle separately)
     if (Array.isArray(value)) {
-      mappedFields[fieldName] = value
+      mappedFields[fieldName] = normalizeArrayField(fieldName, value, category)
       continue
     }
-    
-    // Map string values to dropdown options
+
     if (typeof value === 'string') {
-      mappedFields[fieldName] = mapToDropdownValue(fieldName, value, category)
-    } else {
-      mappedFields[fieldName] = value
+      const normalized = normalizeFieldString(fieldName, value)
+      mappedFields[fieldName] = mapToDropdownValue(fieldName, normalized, category)
+      continue
     }
+
+    // Preserve non-string/array values (numbers, objects) as-is
+    mappedFields[fieldName] = value
   }
-  
+
   return mappedFields
+}
+
+/**
+ * Normalize array-based fields by mapping values to dropdowns and removing duplicates.
+ */
+function normalizeArrayField(
+  fieldName: string,
+  rawValues: any[],
+  category: string
+): string[] {
+  if (!rawValues || rawValues.length === 0) {
+    return []
+  }
+
+  const normalized: string[] = []
+  const seen = new Set<string>()
+
+  for (const raw of rawValues) {
+    if (raw === null || raw === undefined) continue
+
+    const valueAsString = String(raw).trim()
+    if (!valueAsString) continue
+
+    const mappedValue = mapToDropdownValue(fieldName, valueAsString, category)
+    const dedupeKey = mappedValue.toLowerCase()
+
+    if (seen.has(dedupeKey)) continue
+
+    seen.add(dedupeKey)
+    normalized.push(mappedValue)
+  }
+
+  return normalized
 }

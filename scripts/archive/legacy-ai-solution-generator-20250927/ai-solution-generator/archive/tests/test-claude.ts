@@ -13,12 +13,13 @@ import { checkSpecificity } from './validate-specificity-standalone';
 // Load environment variables
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
-// Uncomment the API key
-const apiKey = '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';
+const apiKey = process.env.ANTHROPIC_API_KEY;
 
-const anthropic = new Anthropic({
-  apiKey: apiKey
-});
+if (!apiKey) {
+  throw new Error('Missing ANTHROPIC_API_KEY environment variable.');
+}
+
+const anthropic = new Anthropic({ apiKey });
 
 async function testClaudeWithApproachableGoal() {
   console.log('🧪 Testing Claude with elegant prompt for "Be more approachable"\n');

@@ -4,19 +4,20 @@
 
 ## Quick Start (Pre-Launch Testing)
 
-Since we're pre-launch with no real users, we keep testing simple and reliable:
+We now run Chromium tests against a disposable Supabase stack so each run starts from a blank slate.
 
 ### The One Command You Need:
 ```bash
-/
+npm run test:forms:local
 ```
-This automatically cleans data and runs all desktop tests. That's it!
 
-### Why This Works:
-- **Automatic cleanup** - Every test run starts fresh (no "already rated" errors)
-- **Sequential execution** - Tests run one at a time (no conflicts)
-- **Desktop-only by default** - Faster and more reliable for development
-- **Simple** - No complex infrastructure needed pre-launch
+This command:
+- 🚀 boots a local Supabase instance via the CLI
+- 🧹 wipes/seed fixtures through the existing setup scripts
+- 🧪 executes all Chromium Playwright tests sequentially
+- 🛑 tears the Supabase containers down at the end
+
+> **Note:** install the [Supabase CLI](https://supabase.com/docs/guides/cli/start) (and Docker) before running the command.
 
 ## Full Setup Guide (If Needed)
 
@@ -29,54 +30,42 @@ npm install
 
 # Install Playwright browsers (only needed once)
 npx playwright install
+
+# Install the Supabase CLI (macOS example)
+brew install supabase/tap/supabase
+# See https://supabase.com/docs/guides/cli/start for other platforms
+ 
+# Install PostgreSQL client tools for psql / pg_restore
+brew install libpq
+brew link --force libpq
 ```
 
-### Step 2: Setup Test Environment
+### Step 2: Start + Seed Local Test Data
 ```bash
-# This single command sets up EVERYTHING you need:
-npm run test:setup
+# Bring up Supabase, provision fixtures, run Chromium tests, then shut everything down
+npm run test:forms:local
 ```
 
-This command will:
-- ✅ Create/verify test user account (test@wwfm-platform.com)
-- ✅ **Clean up previous test ratings** (prevents "already rated" errors)
-- ✅ Create 23 test fixtures with **(Test) suffix** (e.g., "Headspace (Test)")
-- ✅ **Create variants** for each fixture (e.g., "20mg tablet" for medications)
-- ✅ **Link all fixtures to test goal** (CRITICAL - without this, search won't find them!)
-- ✅ Mark all fixtures as approved (required for them to appear in search)
-- ✅ Verify everything is ready
+The command is idempotent - run it whenever you need a clean slate. It also writes `.env.test.local` from the Supabase CLI output so you do not need to copy keys manually.
 
-**Expected output:**
-```
-🚀 WWFM Complete Test Setup
+> First run? Restore the schema before seeding. Start the stack (`npm run test:db:start`) and use `psql`/`pg_restore` to load a backup into `postgres://postgres:postgres@127.0.0.1:54322/postgres`. The data persists across runs.
 
-📋 Step 1: Checking test user...
-   ✅ Test user exists
-📋 Step 2: Cleaning up old test ratings...
-   ✅ Cleaned up old ratings
-📋 Step 3: Setting up test fixtures...
-   ✅ Test fixtures created
-📋 Step 4: Verifying setup...
-   ✅ All 23 test fixtures verified
-   ✅ 23 fixtures linked to test goal
+> Make sure no manual `npm run dev` process is already bound to port 3000. The Playwright webServer launches its own Next.js instance and will automatically reuse an existing server when available.
 
-✅ Test setup complete! You can now run tests with:
-   npm run test:forms
-```
-
-### Step 3: Run Tests
+### Step 3: Optional Helpers
 ```bash
-# Run all tests
-npm run test:forms
+# Start Supabase only (useful when debugging)
+npm run test:db:start
 
-# OR run tests with visual browser (helpful for debugging)
-npm run test:forms:headed
+# Reset/seed fixtures without launching Playwright
+npm run test:db:seed
 
-# OR run tests in interactive UI mode
-npm run test:forms:ui
+# Stop containers (run if a test run aborts before cleanup)
+npm run test:db:stop
+
+# Run Supabase integration checks once Supabase is running
+npm run test:integration
 ```
-
-**That's it!** The tests should now run successfully.
 
 ---
 
@@ -123,39 +112,46 @@ npm run test:forms:chromium
 
 ### Before Major Releases:
 ```bash
-# Run everything including mobile (also includes automatic cleanup)
-npm run test:forms
+# Full Chromium pass against disposable Supabase (includes cleanup)
+npm run test:forms:local
+
+# Optional: run the legacy combined suite (requires Supabase already running)
+# npm run test:forms
 ```
 
 ## All Available Commands
 
 ```bash
-# Quick test (RECOMMENDED - cleanup + desktop tests)
+# Quick smoke test (re-uses whatever Supabase you have running)
 npm run test:quick
 
-# Full test suite (cleanup + all tests)
+# Full Chromium suite against disposable Supabase
+npm run test:forms:local
+
+# Legacy full suite (Chromium + mobile) - requires Supabase already running
 npm run test:forms
 
-# Desktop only (cleanup + chromium tests)
+# Desktop only (Chromium)
 npm run test:forms:chromium
 
-# Mobile only (cleanup + mobile tests)
+# Mobile only (Chromium Mobile project)
 npm run test:forms:mobile
 
-# Interactive UI mode
+# Interactive UI / headed modes
 npm run test:forms:ui
-
-# Debug mode
 npm run test:forms:debug
 
-# View test report
+# View Playwright report
 npm run test:forms:report
 
-# Manual setup (usually not needed - automatic in test commands)
-npm run test:setup
+# Manage disposable Supabase manually
+npm run test:db:start
+npm run test:db:seed
+npm run test:db:status
+npm run test:db:stop
 ```
 
-**Note:** All test commands now automatically run cleanup first, so you never need to worry about "already rated" errors!
+**Note:** `npm run test:forms:local` and `npm run test:db:seed` handle cleanup automatically. If you call the legacy Playwright commands directly, run the seed step first to avoid "already rated" errors.
 
 ## Troubleshooting
 
@@ -166,11 +162,11 @@ npm run test:setup
 - Fixtures aren't approved
 - Fixtures don't have variants
 
-**Solution:** Run `npm run test:setup` to recreate everything properly
+**Solution:** Run `npm run test:db:seed` to recreate everything properly
 
 ### Tests fail with "You've already rated this solution"
 **Cause:** Previous test runs left ratings in database
-**Solution:** Run `npm run test:setup` (it cleans up old ratings)
+**Solution:** Run `npm run test:db:seed` (it cleans up old ratings)
 
 ### Tests timeout or hang
 **Possible causes:**
@@ -179,7 +175,7 @@ npm run test:setup
 3. Database connection issues → Check your `.env.local` file
 
 ### "Test user not found" error
-**Solution:** Run `npm run test:setup` to create the test user
+**Solution:** Run `npm run test:db:seed` to create the test user
 
 ### Tests pass locally but fail in CI
 **Check:**
@@ -189,10 +185,11 @@ npm run test:setup
 
 ## Environment Requirements
 
-Your `.env.local` file needs these variables:
+Your `.env.test.local` (auto-generated) or `.env.local` file needs these variables:
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_KEY=your_service_role_key
 ```
 
 The tests will:
@@ -205,7 +202,7 @@ The tests will:
 Understanding what the setup does helps diagnose issues:
 
 | Setup Step | What Happens | What Goes Wrong Without It |
-|------------|--------------|---------------------------|
+|------|-------|--------------|
 | **Clean ratings** | Deletes previous test ratings | "You've already rated this solution" errors |
 | **Create fixtures with (Test) suffix** | Creates 23 fake solutions | No test data to work with |
 | **Create variants** | Adds "20mg tablet", "Standard", etc. | Forms can't save without variants |
@@ -237,7 +234,7 @@ Test fixtures are fake solutions used for testing. **All have "(Test)" suffix** 
 4. **Must be linked to test goal** - Via `goal_implementation_links` table
 5. **Previous ratings must be cleaned** - Or you'll get "already rated" errors
 
-All of this is handled automatically by `npm run test:setup`!
+All of this is handled automatically by `npm run test:db:seed`!
 
 ### What Gets Tested
 Each form test verifies:
@@ -255,10 +252,10 @@ Each form test verifies:
 npx playwright test tests/e2e/forms/app-form.spec.ts
 
 # Test by pattern
-npx playwright test --grep "DosageForm"
+npx playwright test -grep "DosageForm"
 
 # Specific browser
-npx playwright test --project=chromium
+npx playwright test -project=chromium
 ```
 
 ### Debugging
@@ -270,14 +267,14 @@ npm run test:forms:debug
 npm run test:forms:headed
 
 # Generate trace for failed tests
-npx playwright test --trace on
+npx playwright test -trace on
 ```
 
 ### Manual Database Setup
 If automated setup fails, you can manually set up the database:
 
 1. Run SQL in Supabase dashboard: `tests/setup/manual-setup.sql`
-2. Then run: `npm run test:setup`
+2. Then run: `npm run test:db:seed`
 
 ## File Structure
 ```
@@ -296,7 +293,7 @@ tests/
 
 ## Need Help?
 
-1. **First step for any issue:** Run `npm run test:setup`
+1. **First step for any issue:** Run `npm run test:db:seed`
 2. **Check prerequisites:** Is dev server running? (`npm run dev`)
 3. **Review test output:** Tests log detailed progress
 4. **Use debug mode:** `npm run test:forms:debug` to step through
@@ -313,4 +310,4 @@ When adding new tests:
 
 ---
 
-**Remember:** When in doubt, run `npm run test:setup` - it fixes most issues!
+**Remember:** When in doubt, run `npm run test:db:seed` - it fixes most issues!

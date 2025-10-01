@@ -48,6 +48,8 @@ interface GoalPageClientProps {
 // Categories that have variants
 const VARIANT_CATEGORIES = ['medications', 'supplements_vitamins', 'natural_remedies', 'beauty_skincare']
 
+const DEFAULT_TRANSITION_THRESHOLD = 10
+
 // Category configuration with icons, colors, and key fields
 const CATEGORY_CONFIG: Record<string, {
   icon: string
@@ -122,11 +124,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['time_to_results', 'practice_length', 'frequency'],
+    keyFields: ['time_to_results', 'practice_length', 'frequency', 'cost'],
     fieldLabels: {
-      frequency: 'Frequency',
       time_to_results: 'Time to Results',
-      practice_length: 'Practice Length'
+      practice_length: 'Practice Length',
+      frequency: 'Frequency',
+      cost: 'Cost'
     },
     arrayField: 'challenges'
   },
@@ -135,11 +138,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['time_to_results', 'frequency', 'cost'],
+    keyFields: ['time_to_results', 'frequency', 'duration', 'cost'],
     fieldLabels: {
-      cost: 'Cost',
       time_to_results: 'Time to Results',
-      frequency: 'Frequency'
+      frequency: 'Frequency',
+      duration: 'Duration',
+      cost: 'Cost'
     },
     arrayField: 'challenges'
   },
@@ -148,11 +152,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-orange-700',
     borderColor: 'border-orange-200',
     bgColor: 'bg-orange-50',
-    keyFields: ['time_to_results', 'time_commitment', 'cost'],
+    keyFields: ['time_to_results', 'time_commitment', 'frequency', 'cost'],
     fieldLabels: {
-      cost: 'Cost',
       time_to_results: 'Time to Results',
-      time_commitment: 'Time Commitment'
+      time_commitment: 'Time Commitment',
+      frequency: 'Frequency',
+      cost: 'Cost'
     },
     arrayField: 'challenges'
   },
@@ -247,13 +252,14 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['time_to_results', 'response_time', 'cost'],
+    keyFields: ['time_to_results', 'response_time', 'format', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      response_time: 'Response Time'
+      response_time: 'Response Time',
+      format: 'Format'
     },
-    arrayField: null
+    arrayField: 'challenges'
   },
 
   // LIFESTYLE FORMS (2 categories)
@@ -384,11 +390,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['time_to_results', 'financial_benefit', 'access_time'],
+    keyFields: ['time_to_results', 'financial_benefit', 'access_time', 'cost_type'],
     fieldLabels: {
-      financial_benefit: 'Financial Benefit',
       time_to_results: 'Time to Impact',
-      access_time: 'Access Time'
+      financial_benefit: 'Financial Benefit',
+      access_time: 'Access Time',
+      cost_type: 'Cost Type'
     },
     arrayField: 'challenges'
   }
@@ -1193,7 +1200,7 @@ export default function GoalPageClient({ goal, initialSolutions, wisdom, error, 
                               <DataSourceBadge
                                 mode={bestVariant.goal_links[0].data_display_mode || 'ai'}
                                 humanCount={bestVariant.goal_links[0].human_rating_count || 0}
-                                threshold={bestVariant.goal_links[0].transition_threshold || 3}
+                                threshold={bestVariant.goal_links[0].transition_threshold || DEFAULT_TRANSITION_THRESHOLD}
                               />
                             )}
                             {bestRating > 0 && (
@@ -1221,7 +1228,7 @@ export default function GoalPageClient({ goal, initialSolutions, wisdom, error, 
                                     initialRating={bestRating}
                                     ratingCount={totalReviews}
                                     isMobile={isMobile}
-                                    onRatingUpdate={(newRating, newCount) => {
+                                    onRatingUpdate={(newRating, newCount, meta) => {
                                       // Set the flag that disables sorting
                                       setHasRatedAny(true);
                                       
@@ -1240,7 +1247,9 @@ export default function GoalPageClient({ goal, initialSolutions, wisdom, error, 
                                                           ? {
                                                               ...link,
                                                               avg_effectiveness: newRating,
-                                                              rating_count: newCount
+                                                              rating_count: newCount,
+                                                              human_rating_count: meta?.humanCount ?? link.human_rating_count,
+                                                              data_display_mode: meta?.dataDisplayMode ?? link.data_display_mode
                                                             }
                                                           : link
                                                       )
@@ -1684,11 +1693,11 @@ export default function GoalPageClient({ goal, initialSolutions, wisdom, error, 
                                       </div>
                                       <div className="flex flex-col items-end gap-1">
                                         {goalLink && (
-                                          <DataSourceBadge
-                                            mode={goalLink.data_display_mode || 'ai'}
-                                            humanCount={goalLink.human_rating_count || 0}
-                                            threshold={goalLink.transition_threshold || 3}
-                                          />
+                                        <DataSourceBadge
+                                          mode={goalLink.data_display_mode || 'ai'}
+                                          humanCount={goalLink.human_rating_count || 0}
+                                          threshold={goalLink.transition_threshold || DEFAULT_TRANSITION_THRESHOLD}
+                                        />
                                         )}
                                         {rating > 0 && (
                                           <SwipeableRating
@@ -1705,7 +1714,7 @@ export default function GoalPageClient({ goal, initialSolutions, wisdom, error, 
                                           initialRating={rating}
                                           ratingCount={ratingCount}
                                           isMobile={isMobile}
-                                          onRatingUpdate={(newRating, newCount) => {
+                                          onRatingUpdate={(newRating, newCount, meta) => {
                                             // Set the flag that disables sorting
                                             setHasRatedAny(true);
                                             
@@ -1724,9 +1733,11 @@ export default function GoalPageClient({ goal, initialSolutions, wisdom, error, 
                                                                 ? {
                                                                     ...link,
                                                                     avg_effectiveness: newRating,
-                                                                    rating_count: newCount
+                                                                    rating_count: newCount,
+                                                                    human_rating_count: meta?.humanCount ?? link.human_rating_count,
+                                                                    data_display_mode: meta?.dataDisplayMode ?? link.data_display_mode
                                                                   }
-                                                                : link
+                                                              : link
                                                             )
                                                           }
                                                         : v

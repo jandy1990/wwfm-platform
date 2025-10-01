@@ -491,7 +491,7 @@ export class CredibilityValidator {
    */
   private detectSolutionDomain(solution: SolutionData): string {
     const text = (solution.title + ' ' + solution.description).toLowerCase()
-    const category = solution.category?.toLowerCase() || ''
+    const category = solution.solution_category?.toLowerCase() || ''
 
     // Fitness & Exercise
     if (text.includes('workout') || text.includes('exercise') || text.includes('fitness') ||

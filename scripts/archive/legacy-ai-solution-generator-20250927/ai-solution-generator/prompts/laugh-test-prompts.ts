@@ -5,6 +5,8 @@
  * connections that are technically valid but fail basic intuition.
  */
 
+import { sanitizeTextForPrompt } from '../utils/prompt-sanitizer'
+
 export interface LaughTestCandidate {
   solution_title: string
   solution_category: string
@@ -19,6 +21,16 @@ export interface LaughTestCandidate {
  * Generate laugh test validation prompt for a batch of connections
  */
 export function createLaughTestPrompt(candidates: LaughTestCandidate[]): string {
+  const sanitisedCandidates = candidates.map(candidate => ({
+    solution_title: sanitizeTextForPrompt(candidate.solution_title, { maxLength: 180 }),
+    solution_category: sanitizeTextForPrompt(candidate.solution_category, { maxLength: 120 }),
+    goal_title: sanitizeTextForPrompt(candidate.goal_title, { maxLength: 180 }),
+    goal_arena: sanitizeTextForPrompt(candidate.goal_arena, { maxLength: 120 }),
+    goal_category: sanitizeTextForPrompt(candidate.goal_category, { maxLength: 120 }),
+    effectiveness: candidate.effectiveness,
+    rationale: sanitizeTextForPrompt(candidate.rationale, { maxLength: 600 })
+  }))
+
   return `
 LAUGH TEST: SOLUTION-GOAL CONNECTION VALIDATOR
 ============================================
@@ -72,7 +84,7 @@ SPECIAL CONSIDERATIONS:
 
 CONNECTIONS TO EVALUATE:
 =======================
-${candidates.map((candidate, index) => `
+${sanitisedCandidates.map((candidate, index) => `
 ${index + 1}. SOLUTION: "${candidate.solution_title}" (${candidate.solution_category})
    GOAL: "${candidate.goal_title}" (${candidate.goal_arena})
    EFFECTIVENESS: ${candidate.effectiveness}/5
@@ -86,8 +98,8 @@ Return a JSON array with one object per connection:
 [
   {
     "connection_id": 1,
-    "solution": "${candidates[0]?.solution_title || 'Example Solution'}",
-    "goal": "${candidates[0]?.goal_title || 'Example Goal'}",
+    "solution": "${sanitisedCandidates[0]?.solution_title || 'Example Solution'}",
+    "goal": "${sanitisedCandidates[0]?.goal_title || 'Example Goal'}",
     "overall_score": 75,
     "breakdown": {
       "direct_causality": 25,
@@ -134,13 +146,18 @@ export function createSingleConnectionLaughTestPrompt(
   rationale: string,
   category: string
 ): string {
+  const sanitisedSolution = sanitizeTextForPrompt(solution, { maxLength: 180 })
+  const sanitisedGoal = sanitizeTextForPrompt(goal, { maxLength: 200 })
+  const sanitisedRationale = sanitizeTextForPrompt(rationale, { maxLength: 600, preserveNewlines: true })
+  const sanitisedCategory = sanitizeTextForPrompt(category, { maxLength: 120 })
+
   return `
 DETAILED LAUGH TEST ANALYSIS
 ============================
 
-SOLUTION: "${solution}" (${category})
-GOAL: "${goal}"
-RATIONALE: "${rationale}"
+SOLUTION: "${sanitisedSolution}" (${sanitisedCategory})
+GOAL: "${sanitisedGoal}"
+RATIONALE: "${sanitisedRationale}"
 
 TASK: Perform a detailed "laugh test" analysis of this connection.
 

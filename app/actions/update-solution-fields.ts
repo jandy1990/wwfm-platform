@@ -2,6 +2,7 @@
 
 import { createServerSupabaseClient } from '@/lib/database/server'
 import { solutionAggregator } from '@/lib/services/solution-aggregator'
+import { validateAndNormalizeSolutionFields } from '@/lib/solutions/solution-field-validator'
 
 interface UpdateSolutionFieldsData {
   ratingId?: string
@@ -18,6 +19,34 @@ interface UpdateSolutionFieldsData {
 export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
   try {
     const supabase = await createServerSupabaseClient()
+
+    const { data: variantCategory, error: variantError } = await supabase
+      .from('solution_variants')
+      .select('solutions!inner(solution_category)')
+      .eq('id', data.implementationId)
+      .single()
+
+    if (variantError || !variantCategory?.solutions?.solution_category) {
+      console.error('Unable to determine category for implementation:', variantError)
+      return { success: false, error: 'Unable to validate solution fields' }
+    }
+
+    const category = variantCategory.solutions.solution_category as string
+
+    const { isValid, errors, normalizedFields } = validateAndNormalizeSolutionFields(
+      category,
+      data.additionalFields,
+      { allowPartial: true }
+    )
+
+    if (!isValid) {
+      console.warn('updateSolutionFields validation failed:', errors)
+      return { success: false, error: `Invalid field data: ${errors.join('; ')}` }
+    }
+
+    if (Object.keys(normalizedFields).length === 0) {
+      return { success: true }
+    }
     
     // Verify user owns this rating or create a new one if no ratingId
     if (data.ratingId) {
@@ -40,7 +69,7 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
       // Merge new fields with existing ones
       const updatedFields = {
         ...(rating.solution_fields || {}),
-        ...data.additionalFields
+        ...normalizedFields
       }
       
       // Update the rating with merged fields
@@ -76,7 +105,7 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
       // Merge new fields with existing ones
       const updatedFields = {
         ...(existingRating.solution_fields || {}),
-        ...data.additionalFields
+        ...normalizedFields
       }
       
       // Update the rating
@@ -106,8 +135,8 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
     }
     
     // If user provided notes, create a discussion post
-    if (data.additionalFields.notes && typeof data.additionalFields.notes === 'string') {
-      const notesContent = data.additionalFields.notes.trim()
+    if (normalizedFields.notes && typeof normalizedFields.notes === 'string') {
+      const notesContent = normalizedFields.notes.trim()
       if (notesContent.length >= 10) { // Minimum length for discussion posts
         try {
           await supabase

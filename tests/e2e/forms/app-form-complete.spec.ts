@@ -116,7 +116,7 @@ test.describe('AppForm - Complete E2E Tests', () => {
     const costSelect = page.locator('select:visible').nth(3)
     await costSelect.waitFor({ state: 'visible', timeout: 5000 })
     await costSelect.selectOption('$10-$19.99/month')
-    console.log('Selected cost')
+    console.log('Selected cost: $10-$19.99/month')
     
     // Click Continue to Step 2
     await page.waitForTimeout(1000)

@@ -9,6 +9,11 @@ import { SupabaseClient } from '@supabase/supabase-js'
 import { CategoryFieldConfig } from '../config/category-fields'
 import chalk from 'chalk'
 
+interface InsertOptions {
+  forceWrite?: boolean
+  dirtyOnly?: boolean
+}
+
 export interface Solution {
   title: string
   description: string
@@ -38,8 +43,10 @@ export async function insertSolutionToDatabase(
   solution: Solution,
   distributions: Record<string, any>,
   supabase: SupabaseClient,
-  categoryConfig: CategoryFieldConfig
+  categoryConfig: CategoryFieldConfig,
+  options: InsertOptions = {}
 ): Promise<void> {
+  const { forceWrite = false, dirtyOnly = false } = options
   try {
     // Step 1: Check if solution already exists
     const { data: existingSolution } = await supabase
@@ -158,34 +165,48 @@ export async function insertSolutionToDatabase(
     }
     
     // Step 3: Create goal implementation links for each variant
+    const normalizedAggregatedFields = transformToAggregatedFields(solution.fields, solution.category)
+
     for (const variantId of variantIds) {
       // Check if link already exists
       const { data: existingLink } = await supabase
         .from('goal_implementation_links')
-        .select('id')
+        .select('id, solution_fields, aggregated_fields, needs_aggregation')
         .eq('goal_id', goal.id)
         .eq('implementation_id', variantId)
         .single()
       
       if (existingLink) {
-        // Update existing link with both solution_fields and aggregated_fields
-        const aggregatedFields = transformToAggregatedFields(solution.fields)
+        if (dirtyOnly && !existingLink.needs_aggregation) {
+          console.log(chalk.gray(`      ⏭️  Skipped ${solution.title} – link not flagged for cleanup`))
+          continue
+        }
+
+        const fieldsEqual = isDeepEqual(existingLink.solution_fields, solution.fields)
+        const aggregatedEqual = isDeepEqual(existingLink.aggregated_fields, normalizedAggregatedFields)
+
+        if (fieldsEqual && aggregatedEqual && !forceWrite) {
+          console.log(chalk.gray(`      ⏭️  Skipped ${solution.title} – no changes detected`))
+          continue
+        }
+
         const { error: updateError } = await supabase
           .from('goal_implementation_links')
           .update({
             avg_effectiveness: solution.effectiveness,
             rating_count: 1, // Marks as AI-generated
             solution_fields: solution.fields,
-            aggregated_fields: aggregatedFields
+            aggregated_fields: normalizedAggregatedFields,
+            needs_aggregation: false,
+            updated_at: new Date().toISOString()
           })
           .eq('id', existingLink.id)
-        
+
         if (updateError) {
           throw new Error(`Failed to update goal link: ${updateError.message}`)
         }
       } else {
         // Create new link with both solution_fields and aggregated_fields
-        const aggregatedFields = transformToAggregatedFields(solution.fields)
         const { error: linkError } = await supabase
           .from('goal_implementation_links')
           .insert({
@@ -194,7 +215,8 @@ export async function insertSolutionToDatabase(
             avg_effectiveness: solution.effectiveness,
             rating_count: 1, // Marks as AI-generated
             solution_fields: solution.fields,
-            aggregated_fields: aggregatedFields
+            aggregated_fields: normalizedAggregatedFields,
+            needs_aggregation: false
           })
         
         if (linkError) {
@@ -269,7 +291,7 @@ export async function insertSolutionToDatabase(
  * Transform solution_fields into aggregated_fields format
  * Used to ensure AI-generated data appears correctly in UI
  */
-function transformToAggregatedFields(fields: Record<string, any>): Record<string, any> {
+function transformToAggregatedFields(fields: Record<string, any>, category?: string): Record<string, any> {
   const aggregated: any = {
     _metadata: {
       computed_at: new Date().toISOString(),
@@ -284,36 +306,78 @@ function transformToAggregatedFields(fields: Record<string, any>): Record<string
     if (value === null || value === undefined || value === '') {
       continue // Skip empty values
     }
-    
-    if (Array.isArray(value) && value.length > 0) {
-      // Array fields: distribute percentage equally among items
-      const percentage = Math.round(100 / value.length)
+
+    if (Array.isArray(value)) {
+      const uniqueValues: string[] = []
+      const seen = new Set<string>()
+
+      for (const raw of value) {
+        if (raw === null || raw === undefined) continue
+        const normalized = String(raw).trim()
+        if (!normalized) continue
+
+        const lower = normalized.toLowerCase()
+        if (seen.has(lower)) continue
+
+        seen.add(lower)
+        uniqueValues.push(normalized)
+      }
+
+      if (uniqueValues.length === 0) continue
+
+      const evenShare = Math.floor(100 / uniqueValues.length)
+      const valuesWithShare = uniqueValues.map((entry, index) => ({
+        value: entry,
+        count: 1,
+        percentage: index === uniqueValues.length - 1
+          ? 100 - evenShare * (uniqueValues.length - 1)
+          : evenShare
+      }))
+
       aggregated[key] = {
-        mode: value[0],
-        values: value.map((v: any, index: number) => ({
-          value: String(v),
-          count: 1,
-          percentage: index === value.length - 1 ? 
-            100 - (percentage * (value.length - 1)) : // Last item gets remainder
-            percentage
-        })),
+        mode: uniqueValues[0],
+        values: valuesWithShare,
         totalReports: 1
       }
-    } else {
-      // Single values: 100% distribution
-      aggregated[key] = {
-        mode: String(value),
-        values: [{
-          value: String(value),
-          count: 1,
-          percentage: 100
-        }],
-        totalReports: 1
-      }
+      continue
+    }
+
+    const primaryValue = String(value).trim()
+    if (!primaryValue) continue
+
+    aggregated[key] = {
+      mode: primaryValue,
+      values: [{
+        value: primaryValue,
+        count: 1,
+        percentage: 100
+      }],
+      totalReports: 1
     }
   }
-  
+
   return aggregated
+}
+
+function isDeepEqual(a: any, b: any): boolean {
+  return JSON.stringify(normalizeForComparison(a)) === JSON.stringify(normalizeForComparison(b))
+}
+
+function normalizeForComparison(value: any): any {
+  if (Array.isArray(value)) {
+    return value.map(normalizeForComparison)
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.keys(value)
+      .sort()
+      .reduce<Record<string, any>>((acc, key) => {
+        acc[key] = normalizeForComparison(value[key])
+        return acc
+      }, {})
+  }
+
+  return value
 }
 
 /**

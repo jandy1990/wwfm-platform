@@ -5,8 +5,8 @@
  * with strict credibility requirements to prevent nonsensical connections.
  */
 
-import { CATEGORY_FIELDS } from '../config/category-fields'
 import { buildFieldRequirementsForCategory } from './master-prompts'
+import { clampFieldRequirements, sanitizeTextForPrompt } from '../utils/prompt-sanitizer'
 
 export interface SolutionData {
   title: string
@@ -37,83 +37,44 @@ export function createSolutionToGoalPrompt(
 ): string {
   const { strictMode = true, minEffectiveness = 4.0 } = options
 
-  const fieldRequirements = buildFieldRequirementsForCategory(solution.category)
+  const fieldRequirements = clampFieldRequirements(
+    buildFieldRequirementsForCategory(solution.category)
+  )
 
-  return `
-SOLUTION-TO-GOAL EXPANSION ANALYSIS
-==================================
+  const MAX_PROMPT_SIZE = 20000
 
-You are expanding an existing proven solution to evaluate its credibility for new goals.
+  const buildPrompt = (
+    solutionDescriptionLimit: number,
+    goalDescriptionLimit: number,
+    currentGoalLimit: number,
+    includeExamples: boolean
+  ): { prompt: string; length: number } => {
+    const sanitisedSolution = {
+      title: sanitizeTextForPrompt(solution.title, { maxLength: 180 }),
+      category: sanitizeTextForPrompt(solution.category, { maxLength: 120 }),
+      description: sanitizeTextForPrompt(solution.description, {
+        maxLength: solutionDescriptionLimit,
+        preserveNewlines: true
+      }),
+      effectiveness: solution.effectiveness,
+      current_goal: sanitizeTextForPrompt(solution.current_goal, {
+        maxLength: currentGoalLimit
+      })
+    }
 
-EXISTING SOLUTION:
-Title: "${solution.title}"
-Category: ${solution.category}
-Description: ${solution.description}
-Current Effectiveness: ${solution.effectiveness}/5.0
-Currently Helps With: "${solution.current_goal}"
+    const sanitisedGoals = targetGoals.map(goal => ({
+      id: goal.id,
+      title: sanitizeTextForPrompt(goal.title, { maxLength: 160 }),
+      description: sanitizeTextForPrompt(goal.description, {
+        maxLength: goalDescriptionLimit,
+        preserveNewlines: true
+      }),
+      arena: sanitizeTextForPrompt(goal.arena, { maxLength: 120 }),
+      category: sanitizeTextForPrompt(goal.category, { maxLength: 120 })
+    }))
 
-CRITICAL CREDIBILITY REQUIREMENTS:
-=================================
-1. MEDICAL/EXPERT CREDIBILITY: A domain expert (doctor, trainer, therapist) would recommend this
-2. EVIDENCE-BASED: The connection must be supported by research or established practice
-3. LEGITIMATE PRACTICE: The connection reflects real-world professional practice
-4. MINIMUM EFFECTIVENESS: Only suggest connections with effectiveness >= ${Math.max(3.5, minEffectiveness - 0.5)}
-
-SPECIAL NOTE FOR MEDICAL SPECIALISTS:
-- Medical connections can be indirect (e.g., gut health → skin health)
-- Consider referral patterns (dermatologists refer to gastroenterologists)
-- Trust established medical knowledge (gut-skin axis, hormone-mood connections)
-
-CREDIBILITY TEST QUESTIONS:
-==========================
-For each goal, ask yourself:
-- "Would a relevant expert recommend '${solution.title}' for this specific goal?"
-- "Is there DIRECT causality between this solution and achieving this goal?"
-- "Can I find research or established practice supporting this connection?"
-- "Would users find this recommendation obvious and helpful?"
-
-If ALL answers are "No", return { "credible": false }
-
-TARGET GOALS TO EVALUATE:
-========================
-${targetGoals.map((goal, index) => `
-${index + 1}. Goal ID: ${goal.id}
-   Goal: "${goal.title}"
-   Description: ${goal.description}
-   Arena: ${goal.arena}
-   Category: ${goal.category}
-`).join('')}
-
-${fieldRequirements}
-
-RESPONSE FORMAT:
-===============
-Return a JSON array with one object per goal.
-
-CRITICAL: Use the exact Goal ID UUID provided above, NOT the goal title!
-
-For each goal, either:
-
-CREDIBLE CONNECTION:
-{
-  "goal_id": "${targetGoals[0]?.id || 'goal_uuid'}",
-  "credible": true,
-  "effectiveness": 4.2,
-  "effectiveness_rationale": "Specific evidence why this effectiveness rating",
-  "goal_specific_adaptation": "How this solution specifically helps with this goal",
-  "fields": {
-    // MUST include EXACTLY the fields specified for category: ${solution.category}
-    // Adapt field values to be goal-specific where relevant
-  }
-}
-
-NOT CREDIBLE:
-{
-  "goal_id": "${targetGoals[0]?.id || 'goal_uuid'}",
-  "credible": false,
-  "reason": "Specific reason why this connection lacks credibility"
-}
-
+    const examplesSection = includeExamples
+      ? `
 EXAMPLE GOOD CONNECTIONS:
 - "Heavy Resistance Training" → "Build muscle mass"
   ✅ Direct causality (resistance training causes muscle hypertrophy)
@@ -139,12 +100,136 @@ EXAMPLE BAD CONNECTION:
   ❌ No expert would recommend this
   ❌ No evidence base
   ❌ Users would find this nonsensical
+`
+      : ''
+
+    const promptBody = `
+SOLUTION-TO-GOAL EXPANSION ANALYSIS
+==================================
+
+You are expanding an existing proven solution to evaluate its credibility for new goals.
+
+EXISTING SOLUTION:
+Title: "${sanitisedSolution.title}"
+Category: ${sanitisedSolution.category}
+Description: ${sanitisedSolution.description}
+Current Effectiveness: ${sanitisedSolution.effectiveness}/5.0
+Currently Helps With: "${sanitisedSolution.current_goal}"
+
+CRITICAL CREDIBILITY REQUIREMENTS:
+=================================
+1. MEDICAL/EXPERT CREDIBILITY: A domain expert (doctor, trainer, therapist) would recommend this
+2. EVIDENCE-BASED: The connection must be supported by research or established practice
+3. LEGITIMATE PRACTICE: The connection reflects real-world professional practice
+4. MINIMUM EFFECTIVENESS: Only suggest connections with effectiveness >= ${Math.max(3.5, minEffectiveness - 0.5)}
+
+SPECIAL NOTE FOR MEDICAL SPECIALISTS:
+- Medical connections can be indirect (e.g., gut health → skin health)
+- Consider referral patterns (dermatologists refer to gastroenterologists)
+- Trust established medical knowledge (gut-skin axis, hormone-mood connections)
+
+CREDIBILITY TEST QUESTIONS:
+==========================
+For each goal, ask yourself:
+- "Would a relevant expert recommend '${sanitisedSolution.title}' for this specific goal?"
+- "Is there DIRECT causality between this solution and achieving this goal?"
+- "Can I find research or established practice supporting this connection?"
+- "Would users find this recommendation obvious and helpful?"
+
+If ALL answers are "No", return { "credible": false }
+
+TARGET GOALS TO EVALUATE:
+========================
+${sanitisedGoals.map((goal, index) => `
+${index + 1}. Goal ID: ${goal.id}
+   Goal: "${goal.title}"
+   Description: ${goal.description}
+   Arena: ${goal.arena}
+   Category: ${goal.category}
+`).join('')}
+
+${fieldRequirements}
+
+RESPONSE FORMAT:
+===============
+Return a JSON array with one object per goal.
+
+CRITICAL: Use the exact Goal ID UUID provided above, NOT the goal title!
+
+For each goal, either:
+
+CREDIBLE CONNECTION:
+{
+  "goal_id": "${sanitisedGoals[0]?.id || 'goal_uuid'}",
+  "credible": true,
+  "effectiveness": 4.2,
+  "effectiveness_rationale": "Specific evidence why this effectiveness rating",
+  "goal_specific_adaptation": "How this solution specifically helps with this goal",
+  "fields": {
+    // MUST include EXACTLY the fields specified for category: ${sanitisedSolution.category}
+    // Adapt field values to be goal-specific where relevant
+  }
+}
+
+NOT CREDIBLE:
+{
+  "goal_id": "${sanitisedGoals[0]?.id || 'goal_uuid'}",
+  "credible": false,
+  "reason": "Specific reason why this connection lacks credibility"
+}
+
+
+${examplesSection}
 
 STRICT MODE: ${strictMode ? 'ENABLED - Be conservative but fair.' : 'DISABLED - Be more permissive with connections.'}
 
 For each goal, provide thorough analysis. Focus on legitimate expert recommendations and evidence-based connections.
 
 Return ONLY the JSON array, no markdown formatting.`
+
+    return { prompt: promptBody, length: promptBody.length }
+  }
+
+  const solutionLimits = [1600, 1200, 800, 500]
+  const goalLimits = [1200, 800, 500, 320]
+  const currentGoalLimits = [600, 400, 250]
+
+  for (const solutionLimit of solutionLimits) {
+    for (const goalLimit of goalLimits) {
+      for (const currentGoalLimit of currentGoalLimits) {
+        const { prompt, length } = buildPrompt(
+          solutionLimit,
+          goalLimit,
+          currentGoalLimit,
+          true
+        )
+        if (length <= MAX_PROMPT_SIZE) {
+          return prompt
+        }
+      }
+    }
+  }
+
+  for (const solutionLimit of solutionLimits) {
+    for (const goalLimit of goalLimits) {
+      for (const currentGoalLimit of currentGoalLimits) {
+        const { prompt, length } = buildPrompt(
+          solutionLimit,
+          goalLimit,
+          currentGoalLimit,
+          false
+        )
+        if (length <= MAX_PROMPT_SIZE) {
+          return prompt
+        }
+      }
+    }
+  }
+
+  const { prompt } = buildPrompt(500, 280, 200, false)
+  return prompt.length > MAX_PROMPT_SIZE
+    ? `${prompt.slice(0, MAX_PROMPT_SIZE - 3)}...`
+    : prompt
 }
 
 /**
@@ -155,13 +240,17 @@ export function createFieldAdaptationPrompt(
   goal: TargetGoal,
   baseFields: Record<string, any>
 ): string {
+  const sanitisedSolutionTitle = sanitizeTextForPrompt(solution.title, { maxLength: 180 })
+  const sanitisedCurrentGoal = sanitizeTextForPrompt(solution.current_goal, { maxLength: 180 })
+  const sanitisedTargetGoal = sanitizeTextForPrompt(goal.title, { maxLength: 180 })
+
   return `
 FIELD ADAPTATION FOR GOAL-SPECIFIC APPLICATION
 =============================================
 
-SOLUTION: "${solution.title}"
-CURRENT GOAL: "${solution.current_goal}"
-NEW GOAL: "${goal.title}"
+SOLUTION: "${sanitisedSolutionTitle}"
+CURRENT GOAL: "${sanitisedCurrentGoal}"
+NEW GOAL: "${sanitisedTargetGoal}"
 
 CURRENT FIELD VALUES:
 ${JSON.stringify(baseFields, null, 2)}
@@ -292,12 +381,15 @@ export function createQualityValidationPrompt(
   mappingResults: any[],
   solution: SolutionData
 ): string {
+  const sanitisedSolutionTitle = sanitizeTextForPrompt(solution.title, { maxLength: 180 })
+  const sanitisedCategory = sanitizeTextForPrompt(solution.category, { maxLength: 120 })
+
   return `
 QUALITY VALIDATION: SOLUTION-TO-GOAL MAPPINGS
 =============================================
 
-SOLUTION: "${solution.title}"
-CATEGORY: ${solution.category}
+SOLUTION: "${sanitisedSolutionTitle}"
+CATEGORY: ${sanitisedCategory}
 
 PROPOSED MAPPINGS:
 ${JSON.stringify(mappingResults, null, 2)}

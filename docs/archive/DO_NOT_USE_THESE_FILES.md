@@ -31,7 +31,7 @@
 ## ✅ USE THESE INSTEAD:
 
 ### For Current Field Names:
-- `/docs/WWFM Solution Fields Matrix - Code-Aligned.md` - THIS IS THE SOURCE OF TRUTH
+- `/docs/solution-fields-ssot.md` - THIS IS THE SOURCE OF TRUTH
 - `/docs/WWFM Solution Generation Instructions.md` - Updated with correct names
 - `/scripts/ai-solution-generator/config/category-fields.ts` - The actual generator config
 

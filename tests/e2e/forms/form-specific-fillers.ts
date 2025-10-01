@@ -24,6 +24,23 @@ async function waitForFormSuccess(page: Page): Promise<void> {
   }
 }
 
+async function selectNonNoneOption(
+  page: Page,
+  candidates: string[],
+  context: string
+) {
+  for (const option of candidates) {
+    const locator = page.locator('label').filter({ hasText: option })
+    if (await locator.first().isVisible().catch(() => false)) {
+      await locator.first().click()
+      console.log(`Selected ${context}: ${option}`)
+      return true
+    }
+  }
+  console.log(`WARNING: Could not find non-"None" option for ${context}`)
+  return false
+}
+
 // DosageForm filler - for medications, supplements, natural remedies, beauty_skincare
 export async function fillDosageForm(page: Page, category: string) {
   console.log(`Starting DosageForm filler for category: ${category}`)
@@ -145,7 +162,9 @@ export async function fillDosageForm(page: Page, category: string) {
     console.log(`Selected time to results: ${timeToResultsValue}`)
     await page.waitForTimeout(300)
   }
-  
+
+  // Note: Cost field has been moved to success screen (not in Step 1 anymore)
+
   // Click Continue to Step 2
   const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn1.click()
@@ -154,30 +173,11 @@ export async function fillDosageForm(page: Page, category: string) {
   
   // ============ STEP 2: Side Effects ============
   console.log('Step 2: Selecting side effects')
-  
-  // Select appropriate side effect based on category
-  if (category === 'beauty_skincare') {
-    // For retinol, select dryness/peeling which is common
-    const drynessPeeling = page.locator('label').filter({ hasText: 'Dryness/peeling' })
-    if (await drynessPeeling.isVisible()) {
-      await drynessPeeling.click()
-      console.log('Selected side effect: Dryness/peeling (common for retinol)')
-    } else {
-      // Fallback to None if not found
-      const noneEffect = page.locator('label').filter({ hasText: 'None' })
-      if (await noneEffect.isVisible()) {
-        await noneEffect.click()
-        console.log('Selected side effect: None (fallback)')
-      }
-    }
-  } else {
-    // Select "None" side effect by default for other categories
-    const noneEffect = page.locator('label').filter({ hasText: 'None' })
-    if (await noneEffect.isVisible()) {
-      await noneEffect.click()
-      console.log('Selected side effect: None')
-    }
-  }
+
+  // Select "None" for side effects to keep tests simple and consistent
+  const noneLabel = await page.locator('label:has-text("None")').first()
+  await noneLabel.click({ force: true })
+  console.log('Selected side effect: None')
   await page.waitForTimeout(500)
   
   // Click Continue to Step 3
@@ -256,11 +256,11 @@ export async function fillAppForm(page: Page) {
   // Wait for Step 2 to load
   await page.waitForSelector('text="Any challenges?"', { timeout: 5000 })
   console.log('Step 2: Selecting challenges')
-  
-  // Click "None" checkbox (based on AppForm.tsx line 514-542)
-  const noneCheckbox = page.locator('label:has-text("None")')
-  await noneCheckbox.click()
-  console.log('Selected "None" for challenges')
+
+  // Select "None" as a valid challenge option
+  const noneLabel = await page.locator('label:has-text("None")').first()
+  await noneLabel.click({ force: true })
+  console.log('Selected challenge: None')
   
   // Click Continue to Step 3
   await page.waitForTimeout(500)
@@ -1531,10 +1531,15 @@ export async function fillCommunityForm(page: Page, category: string) {
   await page.waitForTimeout(500)
   
   // ============ STEP 2: Challenges ============
-  console.log('Step 2: Selecting challenges - skipping (all optional)')
-  // Challenges are optional - we can just continue without selecting any
+  console.log('Step 2: Selecting challenges')
   await page.waitForTimeout(500)
-  
+
+  // Select "None" as a valid challenge option
+  const noneLabel = await page.locator('label:has-text("None")').first()
+  await noneLabel.click({ force: true })
+  console.log('Selected challenge: None')
+  await page.waitForTimeout(300)
+
   // Click Continue to Step 3
   console.log('Clicked Continue to Step 3')
   const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')

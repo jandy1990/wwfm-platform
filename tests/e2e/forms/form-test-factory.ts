@@ -67,13 +67,20 @@ export function createFormTest(config: FormTestConfig) {
             await config.navigateToForm(page, testData.goalId, category)
           } else {
             // Default navigation for auto-categorization flow
-            await page.goto(`/goal/${testData.goalId}/add-solution`)
-            
+            await page.goto(`/goal/${testData.goalId}/add-solution`, { waitUntil: 'domcontentloaded' })
+
+            // Next.js dev server can momentarily render the 404 page while compiling – wait it out
+            await expect(page.locator('text="This page could not be found."')).toBeHidden({ timeout: 60000 })
+
             // Wait for page to fully load
-            await page.waitForSelector('#solution-name', { timeout: 10000 })
-            
+            await page.waitForSelector('#solution-name', { timeout: 60000 })
+
             // Step 1: Enter solution name in the search field
-            await page.fill('#solution-name', testData.title)
+            // Use pressSequentially to trigger React onChange naturally
+            const input = page.locator('#solution-name')
+            await input.click()
+            await input.fill('')  // Clear first
+            await input.pressSequentially(testData.title, { delay: 50 })  // Type character by character
             
             // Wait for dropdown to appear AND for loading to complete
             try {
@@ -329,13 +336,18 @@ export function createFormTest(config: FormTestConfig) {
             await config.navigateToForm(page, testData.goalId, category)
           } else {
             // Default navigation for auto-categorization flow
-            await page.goto(`/goal/${testData.goalId}/add-solution`)
-            
+            await page.goto(`/goal/${testData.goalId}/add-solution`, { waitUntil: 'domcontentloaded' })
+
+            await expect(page.locator('text="This page could not be found."')).toBeHidden({ timeout: 60000 })
+
             // Wait for page to load
-            await page.waitForSelector('#solution-name', { timeout: 10000 })
-            
-            // Enter solution name
-            await page.fill('#solution-name', testData.title)
+            await page.waitForSelector('#solution-name', { timeout: 60000 })
+
+            // Enter solution name - use pressSequentially to trigger React onChange naturally
+            const input = page.locator('#solution-name')
+            await input.click()
+            await input.fill('')  // Clear first
+            await input.pressSequentially(testData.title, { delay: 50 })  // Type character by character
             
             // Wait for dropdown to appear AND for loading to complete
             try {
@@ -423,13 +435,18 @@ export function createFormTest(config: FormTestConfig) {
             await config.navigateToForm(page, testData.goalId, category)
           } else {
             // Default navigation for auto-categorization flow
-            await page.goto(`/goal/${testData.goalId}/add-solution`)
-            
+            await page.goto(`/goal/${testData.goalId}/add-solution`, { waitUntil: 'domcontentloaded' })
+
+            await expect(page.locator('text="This page could not be found."')).toBeHidden({ timeout: 60000 })
+
             // Wait for page to load
-            await page.waitForSelector('#solution-name', { timeout: 10000 })
-            
-            // Enter solution name
-            await page.fill('#solution-name', testData.title)
+            await page.waitForSelector('#solution-name', { timeout: 60000 })
+
+            // Enter solution name - use pressSequentially to trigger React onChange naturally
+            const input = page.locator('#solution-name')
+            await input.click()
+            await input.fill('')  // Clear first
+            await input.pressSequentially(testData.title, { delay: 50 })  // Type character by character
             
             // Wait for dropdown to appear AND for loading to complete
             try {

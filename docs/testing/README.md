@@ -15,9 +15,10 @@
 
 ```bash
 # Tiered Testing Approach (fastest to most comprehensive)
-npm run test:smoke       # 6 tests, ~30 seconds - Basic functionality
-npm run test:critical    # 34 tests, ~5 minutes - All form completions  
-npm run test:forms       # 186 tests, ~15 minutes - Full test suite
+npm run test:smoke        # 6 tests, ~30 seconds - Basic functionality
+npm run test:critical     # 34 tests, ~5 minutes - All form completions
+npm run test:forms:local  # Chromium + disposable Supabase (recommended)
+npm run test:forms        # Legacy all projects (requires Supabase running)
 
 # Run specific form tests
 npm run test:forms -- session-form
@@ -25,10 +26,32 @@ npm run test:forms -- session-form
 # Run with UI for debugging
 npm run test:forms:ui
 
-# Setup & Cleanup
-npm run test:setup       # Create test fixtures in database
+# Manage disposable Supabase
+npm run test:db:start
+npm run test:db:seed
+npm run test:db:status
+npm run test:db:stop
+
+# Cleanup helpers
 npm run test:reset       # Nuclear cleanup of all test data
 ```
+
+> Supabase CLI + Docker are required for the \`test:forms:local\` / \`test:db:*\` commands.
+
+### Restore schema/data before first run
+
+```bash
+npm run test:db:start
+# Load a plain SQL dump
+psql -h 127.0.0.1 -p 54322 -U postgres -d postgres -f ~/Downloads/wwfm-backup.sql
+# Or load a pg_dump archive
+pg_restore --clean --if-exists --no-owner \
+  -h 127.0.0.1 -p 54322 -U postgres -d postgres \
+  ~/Downloads/wwfm-backup.backup
+npm run test:db:stop
+```
+
+Use password `postgres` unless overridden. Docker keeps the restored data between runs.
 
 ## 📊 Current Test Status
 
@@ -73,14 +96,15 @@ Our test suite uses a tiered approach for efficiency:
 - **Purpose**: Comprehensive validation including edge cases
 - **Coverage**: All forms, variants, error handling, data pipeline
 - **When to run**: Before releases, after major refactors
-- **Command**: `npm run test:forms`
+- **Command**: `npm run test:forms:local` (Chromium)
+- Optional legacy suite: `npm run test:forms` (requires Supabase running)
 
 ## 🔧 Test Setup & Maintenance
 
 ### Prerequisites
 ```bash
 # Initial setup - creates test fixtures in database
-npm run test:setup
+npm run test:db:seed
 
 # This creates:
 # - Test solutions with "(Test)" suffix
@@ -99,7 +123,7 @@ npm run test:reset
 
 ### CI/CD Integration
 The GitHub Actions workflow automatically:
-1. Runs `test:setup` to ensure fixtures exist
+1. Runs `test:db:seed` to ensure fixtures exist
 2. Executes tests based on PR labels
 3. Reports results back to the PR
 

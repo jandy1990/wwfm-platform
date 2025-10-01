@@ -10,6 +10,7 @@ import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface LifestyleFormProps {
   goalId: string;
@@ -136,46 +137,14 @@ export function LifestyleForm({
   // Load challenge options
   useEffect(() => {
     const fetchOptions = async () => {
-      // Fallback challenge options for categories
-      const fallbackChallenges: Record<string, string[]> = {
-        diet_nutrition: [
-          'None',
-          // Time & Planning
-          'Meal planning and prep time',
-          'Cooking skills needed',
-          'Complicated diet rules',
-          // Cost
-          'Higher grocery costs',
-          // Cravings & Preferences  
-          'Cravings and temptations',
-          'Missing favorite foods',
-          // Social & Lifestyle
-          'Social situations difficult',
-          'Family not supportive',
-          'Travel and eating out',
-          // Physical Effects
-          'Energy dips initially', 
-          'Digestive adjustment',
-          // Access
-          'Limited food options nearby',
-          // Other
-          'Other (please describe)'
-        ],
-        sleep: [
-          'Hard to maintain schedule',
-          "Partner's different schedule",
-          'Work/family conflicts',
-          'Too restrictive',
-          'Anxiety about sleep',
-          'Physical discomfort',
-          'Missing late night activities',
-          'Inconsistent results',
-          'Environmental factors (noise, light)',
-          'None',
-          'Other (please describe)'
-        ]
-      };
-      
+      const fallbackKey =
+        category === 'diet_nutrition'
+          ? 'diet_challenges'
+          : category === 'sleep'
+            ? 'sleep_challenges'
+            : undefined;
+      const fallbackOptions = fallbackKey ? DROPDOWN_OPTIONS[fallbackKey] : undefined;
+
       // Initialize Supabase client
       const supabaseClient = createClientComponentClient();
       
@@ -188,9 +157,9 @@ export function LifestyleForm({
       
       if (!error && data && data.length > 0) {
         setChallengeOptions(data.map((item: { label: string }) => item.label));
-      } else if (fallbackChallenges[category]) {
+      } else if (fallbackOptions) {
         // Use fallback if no data in DB
-        setChallengeOptions(fallbackChallenges[category]);
+        setChallengeOptions(fallbackOptions);
       }
       setChallengesLoading(false);
     };
@@ -324,8 +293,8 @@ export function LifestyleForm({
           previous_sleep_hours: previousSleepHours,
         }),
         
-        // Array field (challenges for both categories)
-        challenges: selectedChallenges.filter(c => c !== 'None') // Remove 'None' from the array
+        // Array field (challenges for both categories) - "None" is a valid value
+        challenges: selectedChallenges
         
         // REMOVED from initial submission - optional fields handled in success screen only
       };

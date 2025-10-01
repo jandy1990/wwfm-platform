@@ -5,7 +5,11 @@
  * This single script handles all test setup requirements
  */
 
-require('dotenv').config({ path: '.env.local' });
+const dotenv = require('dotenv');
+
+// Load environment variables for disposable/local Supabase first, then fall back to the default dev file.
+dotenv.config({ path: '.env.local' });
+dotenv.config({ path: '.env.test.local', override: true });
 const { createClient } = require('@supabase/supabase-js');
 
 // Initialize Supabase clients
@@ -15,7 +19,7 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey || !supabaseServiceKey) {
   console.error('❌ Missing Supabase environment variables');
-  console.error('   Please ensure .env.local has:');
+  console.error('   Please ensure .env.test.local (or .env.local) provides:');
   console.error('   - NEXT_PUBLIC_SUPABASE_URL');
   console.error('   - NEXT_PUBLIC_SUPABASE_ANON_KEY');
   console.error('   - SUPABASE_SERVICE_KEY (for test setup only)');

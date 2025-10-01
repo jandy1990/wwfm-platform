@@ -15,7 +15,7 @@
 ### First Time Setup
 ```bash
 # 1. Add your API key to .env.local:
-ANTHROPIC_API_KEY=sk-ant-api03-xxxxx
+ANTHROPIC_API_KEY=<your_anthropic_api_key>
 
 # 2. Install dependencies (if not done):
 npm install

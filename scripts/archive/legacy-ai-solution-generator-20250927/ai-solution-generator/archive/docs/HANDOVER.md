@@ -157,7 +157,7 @@ Before proceeding with full generation, ensure:
 
 In `.env.local`:
 ```
-GEMINI_API_KEY=AIzaSyAeHrw-JAKpenIJO6Z7uIxza9WvjnSlYA0
+GEMINI_API_KEY=<your_gemini_api_key>
 NEXT_PUBLIC_SUPABASE_URL=https://wqxkhxdbxdtpuvuvgirx.supabase.co
 SUPABASE_SERVICE_KEY=<service_key>
 ```

@@ -12,6 +12,7 @@ import { useFormBackup } from '@/lib/hooks/useFormBackup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
 import { Skeleton } from '@/components/atoms/skeleton';
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface PurchaseFormProps {
   goalId: string;
@@ -164,32 +165,14 @@ export function PurchaseForm({
   
   useEffect(() => {
     const fetchOptions = async () => {
-      // Fallback issue options for categories
-      const fallbackIssues: Record<string, string[]> = {
-        products_devices: [
-          'Build quality concerns',
-          'Difficult to set up',
-          "Doesn't work as advertised",
-          'Poor customer support',
-          'Battery/power issues',
-          'Compatibility problems',
-          'Durability concerns',
-          'Missing features',
-          'None'
-        ],
-        books_courses: [
-          'Too theoretical',
-          'Not enough practical examples',
-          'Outdated information',
-          'Poor organization',
-          'Too basic/too advanced',
-          'Instructor hard to follow',
-          'Technical issues with platform',
-          'No community support',
-          'None'
-        ]
-      };
-      
+      const fallbackKey =
+        category === 'products_devices'
+          ? 'product_challenges'
+          : category === 'books_courses'
+            ? 'learning_challenges'
+            : undefined;
+      const fallbackOptions = fallbackKey ? DROPDOWN_OPTIONS[fallbackKey] : undefined;
+
       const { data, error } = await supabaseClient
         .from('challenge_options')
         .select('label')
@@ -199,9 +182,9 @@ export function PurchaseForm({
       
       if (!error && data && data.length > 0) {
         setChallengeOptions(data.map(item => item.label));
-      } else if (fallbackIssues[category]) {
+      } else if (fallbackOptions) {
         // Use fallback if no data in DB
-        setChallengeOptions(fallbackIssues[category]);
+        setChallengeOptions(fallbackOptions);
       }
       setLoading(false);
     };
@@ -289,11 +272,15 @@ export function PurchaseForm({
           learning_difficulty: learningDifficulty
         }),
         
-        // Array field (challenges for both categories)
-        challenges: selectedChallenges.filter(c => c !== 'None'),
+        // Array field (challenges for both categories) - "None" is a valid value
+        challenges: selectedChallenges,
         
         // REMOVED from initial submission - optional fields handled in success screen only
       };
+
+      if (timeToResults) {
+        solutionFields.time_to_results = timeToResults;
+      }
       
       // Prepare submission data with correct structure
       const submissionData: SubmitSolutionData = {

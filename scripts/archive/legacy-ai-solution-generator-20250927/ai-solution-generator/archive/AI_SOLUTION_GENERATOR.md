@@ -15,8 +15,8 @@ The AI Solution Generator is a hybrid system that solves WWFM's cold start probl
 npm install @google/generative-ai commander chalk dotenv
 
 # Add to .env.local:
-GEMINI_API_KEY=AIzaSyAeHrw-JAKpenIJO6Z7uIxza9WvjnSlYA0
-ANTHROPIC_API_KEY=sk-ant-api03-xxxxx  # For quality checking
+GEMINI_API_KEY=<your_gemini_api_key>
+ANTHROPIC_API_KEY=<your_anthropic_api_key>  # For quality checking
 ```
 
 ### 2. Generate Solutions

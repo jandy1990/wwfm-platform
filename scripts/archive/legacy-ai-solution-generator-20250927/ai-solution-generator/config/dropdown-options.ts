@@ -573,6 +573,7 @@ export const CATEGORY_COST_MAPPING = {
   // Apps use subscription-based costs
   apps_software: {
     field: 'cost',
+    options: DROPDOWN_OPTIONS.app_cost_monthly,
     getOptions: (subscriptionType: string) => {
       if (subscriptionType === 'Free version') return ['Free']
       if (subscriptionType === 'Monthly subscription') return DROPDOWN_OPTIONS.app_cost_monthly

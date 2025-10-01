@@ -10,7 +10,7 @@
 
 The AI-to-Human Data Transition system solves the critical challenge of seamlessly transitioning from AI-generated effectiveness data to authentic human-contributed data as users begin rating solutions. This maintains data authenticity while providing a smooth user experience during WWFM's growth from AI-seeded content to community-driven insights.
 
-**Core Innovation**: Shadow Replacement Architecture - AI and human data coexist separately until human data reaches critical mass (3+ ratings), then the system switches display mode while preserving historical AI data for analysis.
+**Core Innovation**: Shadow Replacement Architecture - AI and human data coexist separately until human data reaches critical mass (10+ ratings), then the system switches display mode while preserving historical AI data for analysis.
 
 ## Problem Statement
 
@@ -24,7 +24,7 @@ WWFM launched with 3,850+ AI-generated solutions to solve the "cold start" probl
 ### The Solution
 Implement a "Shadow Replacement System" that:
 1. **Tracks both data types separately** in the database
-2. **Switches display mode** when human data reaches threshold (3+ ratings)
+2. **Switches display mode** when human data reaches threshold (10+ ratings)
 3. **Preserves AI data** in snapshots for analysis
 4. **Provides transparent indicators** showing data source to users
 5. **Gamifies the transition** with progress indicators and celebration animations
@@ -68,7 +68,7 @@ Implement a "Shadow Replacement System" that:
 -- Transition control fields
 data_display_mode TEXT DEFAULT 'ai' CHECK (data_display_mode IN ('ai', 'human')),
 human_rating_count INTEGER DEFAULT 0,
-transition_threshold INTEGER DEFAULT 3,
+transition_threshold INTEGER DEFAULT 10,
 transitioned_at TIMESTAMP WITH TIME ZONE,
 ai_snapshot JSONB,
 
@@ -95,7 +95,7 @@ interface DataSourceBadgeProps {
 }
 
 // Display states:
-// AI Mode: "AI-Generated 🤖" or "AI-Generated 🤖 (2/3)"
+// AI Mode: "AI-Generated 🤖" or "AI-Generated 🤖 (9/10)"
 // Human Mode: "Community Verified ✓ (5 users)"
 ```
 
@@ -203,7 +203,7 @@ if (transitionResult) {
   <DataSourceBadge
     mode={bestVariant.goal_links[0].data_display_mode || 'ai'}
     humanCount={bestVariant.goal_links[0].human_rating_count || 0}
-    threshold={bestVariant.goal_links[0].transition_threshold || 3}
+    threshold={bestVariant.goal_links[0].transition_threshold || 10}
   />
 )}
 ```
@@ -231,18 +231,18 @@ if (transitionResult) {
 - **Tooltip**: "🥇 Be the first to rate this!"
 - **Psychology**: Encourages first contribution
 
-### Phase 2: Building Momentum (1-2 ratings)
-- **Badge**: "AI-Generated 🤖 (2/3)"
+### Phase 2: Building Momentum (1-9 ratings)
+- **Badge**: "AI-Generated 🤖 (9/10)"
 - **Tooltip**: Shows progress toward community verification
 - **Psychology**: Creates anticipation and urgency
 
-### Phase 3: Threshold Rating (3rd rating)
+### Phase 3: Threshold Rating (10th rating)
 - **Pre-submission**: "Your rating will unlock community verification!"
 - **Animation**: "🎉 Community Verification Unlocked!"
 - **Mode Switch**: Instant transition to human data display
 - **Psychology**: Celebrates user contribution
 
-### Phase 4: Community Verified (3+ ratings)
+### Phase 4: Community Verified (10+ ratings)
 - **Badge**: "Community Verified ✓ (X users)"
 - **Data**: Shows only human-contributed effectiveness
 - **Trust**: Clear indication of authentic user experiences
@@ -273,9 +273,9 @@ The system includes four levels of validation:
 #### 1. Test Data Seeding (`/scripts/test-transition-seeding.ts`)
 Creates controlled scenarios:
 - Fresh AI solutions (0 ratings)
-- Pre-transition solutions (2 ratings)
-- At-threshold solutions (3 ratings)
-- Transitioned solutions (5+ ratings)
+- Pre-transition solutions (9 ratings)
+- At-threshold solutions (10 ratings)
+- Transitioned solutions (12+ ratings)
 
 #### 2. E2E Tests (`/tests/e2e/ai-to-human-transition.spec.ts`)
 Playwright tests validating:
@@ -330,7 +330,7 @@ npm run test:transition:load
 
 ### Feature Flags (if applicable)
 - `ENABLE_AI_HUMAN_TRANSITION`: Master switch for the feature
-- `TRANSITION_THRESHOLD`: Configurable threshold (default: 3)
+- `TRANSITION_THRESHOLD`: Configurable threshold (default: 10)
 - `SHOW_TRANSITION_ANIMATIONS`: Toggle celebration animations
 
 ### Rollback Plan
@@ -355,7 +355,7 @@ npm run test:transition:load
 ## Technical Debt & Maintenance
 
 ### Known Limitations
-- **Fixed Threshold**: Currently hardcoded at 3 ratings
+- **Fixed Threshold**: Currently hardcoded at 10 ratings
 - **Binary Switch**: No gradual transition option
 - **Limited Analytics**: Basic tracking only
 
@@ -399,7 +399,7 @@ npm run test:transition:load
 - **Database**: Supabase function `check_and_execute_transition`
 
 ### Important Constants
-- **Transition Threshold**: 3 human ratings
+- **Transition Threshold**: 10 human ratings
 - **Animation Duration**: 3 seconds
 - **Performance Target**: < 1000ms response time
 

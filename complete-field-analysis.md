@@ -1,120 +1,75 @@
-# Complete Field Analysis - ALL Required Fields Per Category
+# Complete Field Analysis (Aligned with SSOT)
+> **Source of truth**: `docs/solution-fields-ssot.md`
+>
+> This document is a quick-reference mirror of the canonical solution-field matrix. Always update the SSOT first, then mirror changes here if a compact summary is still needed.
 
-Based on GoalPageClient.tsx CATEGORY_CONFIGS, here are ALL fields displayed for each category:
+## Category-to-Field Matrix
+_All groupings and field names come directly from the SSOT. Array fields are shown on the right when present._
 
-## DOSAGE FORMS (4 categories)
-**medications**: keyFields: ['time_to_results', 'frequency', 'length_of_use', 'cost'] + arrayField: 'side_effects'
-**supplements_vitamins**: keyFields: ['time_to_results', 'frequency', 'length_of_use', 'cost'] + arrayField: 'side_effects'
-**natural_remedies**: keyFields: ['time_to_results', 'frequency', 'length_of_use', 'cost'] + arrayField: 'side_effects'
-**beauty_skincare**: keyFields: ['time_to_results', 'skincare_frequency', 'length_of_use', 'cost'] + arrayField: 'side_effects'
+### Dosage Forms
+| Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
+|----------|---------|---------|---------|---------|-------------|
+| medications | `time_to_results` | `frequency` | `length_of_use` | `cost` | `side_effects` |
+| supplements_vitamins | `time_to_results` | `frequency` | `length_of_use` | `cost` | `side_effects` |
+| natural_remedies | `time_to_results` | `frequency` | `length_of_use` | `cost` | `side_effects` |
+| beauty_skincare | `time_to_results` | `skincare_frequency` | `length_of_use` | `cost` | `side_effects` |
 
-## PRACTICE FORMS (3 categories mapped)
-**meditation_mindfulness**: keyFields: ['time_to_results', 'practice_length', 'frequency'] + arrayField: 'challenges'
-**exercise_movement**: keyFields: ['time_to_results', 'frequency', 'cost'] + arrayField: 'challenges'
-**habits_routines**: keyFields: ['time_to_results', 'time_commitment', 'cost'] + arrayField: 'challenges'
+### Practice Forms
+| Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
+|----------|---------|---------|---------|---------|-------------|
+| meditation_mindfulness | `time_to_results` | `practice_length` | `frequency` | `cost` | `challenges` |
+| exercise_movement | `time_to_results` | `frequency` | `duration` | `cost` | `challenges` |
+| habits_routines | `time_to_results` | `time_commitment` | `frequency` | `cost` | `challenges` |
 
-## SESSION FORMS (7 categories)
-**therapists_counselors**: keyFields: ['time_to_results', 'session_frequency', 'session_length', 'cost'] + arrayField: 'challenges'
-**doctors_specialists**: keyFields: ['time_to_results', 'wait_time', 'insurance_coverage', 'cost'] + arrayField: 'challenges'
-**coaches_mentors**: keyFields: ['time_to_results', 'session_frequency', 'session_length', 'cost'] + arrayField: 'challenges'
-**alternative_practitioners**: keyFields: ['time_to_results', 'session_frequency', 'session_length', 'cost'] + arrayField: 'side_effects'
-**professional_services**: keyFields: ['time_to_results', 'session_frequency', 'specialty', 'cost'] + arrayField: 'challenges'
-**medical_procedures**: keyFields: ['time_to_results', 'session_frequency', 'wait_time', 'cost'] + arrayField: 'side_effects'
-**crisis_resources**: keyFields: ['time_to_results', 'response_time', 'cost'] + arrayField: null
+### Session Forms
+| Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
+|----------|---------|---------|---------|---------|-------------|
+| therapists_counselors | `time_to_results` | `session_frequency` | `session_length` | `cost` | `challenges` |
+| doctors_specialists | `time_to_results` | `wait_time` | `insurance_coverage` | `cost` | `challenges` |
+| coaches_mentors | `time_to_results` | `session_frequency` | `session_length` | `cost` | `challenges` |
+| alternative_practitioners | `time_to_results` | `session_frequency` | `session_length` | `cost` | `side_effects` |
+| professional_services | `time_to_results` | `session_frequency` | `specialty` | `cost` | `challenges` |
+| medical_procedures | `time_to_results` | `session_frequency` | `wait_time` | `cost` | `side_effects` |
+| crisis_resources | `time_to_results` | `response_time` | `format` | `cost` | `challenges` |
 
-## LIFESTYLE FORMS (2 categories mapped)
-**diet_nutrition**: keyFields: ['time_to_results', 'weekly_prep_time', 'still_following', 'cost'] + arrayField: 'challenges'
-**sleep**: keyFields: ['time_to_results', 'previous_sleep_hours', 'still_following', 'cost'] + arrayField: 'challenges'
+### Lifestyle Forms
+| Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
+|----------|---------|---------|---------|---------|-------------|
+| diet_nutrition | `time_to_results` | `weekly_prep_time` | `still_following` | `cost` | `challenges` |
+| sleep | `time_to_results` | `previous_sleep_hours` | `still_following` | `cost` | `challenges` |
 
-## PURCHASE FORMS (2 categories)
-**products_devices**: keyFields: ['time_to_results', 'ease_of_use', 'product_type', 'cost'] + arrayField: 'challenges'
-**books_courses**: keyFields: ['time_to_results', 'format', 'learning_difficulty', 'cost'] + arrayField: 'challenges'
+**⚠️ NOTE**: Field name is `cost` but UI label shows "Cost Impact" for these lifestyle categories
 
-## APP FORM (1 category)
-**apps_software**: keyFields: ['time_to_results', 'usage_frequency', 'subscription_type', 'cost'] + arrayField: 'challenges'
+### Purchase Forms
+| Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
+|----------|---------|---------|---------|---------|-------------|
+| products_devices | `time_to_results` | `ease_of_use` | `product_type` | `cost` | `challenges` |
+| books_courses | `time_to_results` | `format` | `learning_difficulty` | `cost` | `challenges` |
 
-## COMMUNITY FORMS (2 categories)
-**groups_communities**: keyFields: ['time_to_results', 'meeting_frequency', 'group_size', 'cost'] + arrayField: 'challenges'
-**support_groups**: keyFields: ['time_to_results', 'meeting_frequency', 'format', 'cost'] + arrayField: 'challenges'
+### App Form
+| Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
+|----------|---------|---------|---------|---------|-------------|
+| apps_software | `time_to_results` | `usage_frequency` | `subscription_type` | `cost` | `challenges` |
 
-## HOBBY FORM (1 category)
-**hobbies_activities**: keyFields: ['time_to_results', 'time_commitment', 'frequency', 'cost'] + arrayField: 'challenges'
+### Community Forms
+| Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
+|----------|---------|---------|---------|---------|-------------|
+| groups_communities | `time_to_results` | `meeting_frequency` | `group_size` | `cost` | `challenges` |
+| support_groups | `time_to_results` | `meeting_frequency` | `format` | `cost` | `challenges` |
 
-## FINANCIAL FORM (1 category)
-**financial_products**: keyFields: ['time_to_results', 'financial_benefit', 'access_time'] + arrayField: 'challenges'
+### Hobby Form
+| Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
+|----------|---------|---------|---------|---------|-------------|
+| hobbies_activities | `time_to_results` | `time_commitment` | `frequency` | `cost` | `challenges` |
 
----
+### Financial Form
+| Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
+|----------|---------|---------|---------|---------|-------------|
+| financial_products | `time_to_results` | `financial_benefit` | `access_time` | `cost_type` | `challenges` |
 
-# ALL UNIQUE FIELDS THAT NEED TO BE AUDITED:
+## Cost Handling Notes
+- Form submissions for practice and hobby categories capture `startup_cost` and `ongoing_cost`, derive a primary `cost`, and label a `cost_type` for filtering (`components/organisms/solutions/forms/PracticeForm.tsx:241`).
+- Aggregation preserves all cost variants (`lib/services/solution-aggregator.ts:63`).
+- The goal page displays a single cost metric built from those detailed fields, while still exposing `cost_type` where relevant (e.g. financial products) (`components/goal/GoalPageClient.tsx:535`).
 
-## Universal Fields:
-- **time_to_results** (appears in ALL categories)
-
-## Cost Fields:
-- **cost** (appears in 20/23 categories - missing from: meditation_mindfulness, financial_products, and some others)
-
-## Frequency Fields:
-- **frequency** (medications, natural_remedies, meditation_mindfulness, exercise_movement, hobbies_activities)
-- **session_frequency** (therapists_counselors, coaches_mentors, alternative_practitioners, professional_services, medical_procedures)
-- **skincare_frequency** (beauty_skincare)
-- **meeting_frequency** (groups_communities, support_groups)
-
-## Duration/Time Fields:
-- **length_of_use** (medications, supplements_vitamins, natural_remedies, beauty_skincare)
-- **session_length** (therapists_counselors, coaches_mentors, alternative_practitioners)
-- **practice_length** (meditation_mindfulness)
-- **time_commitment** (habits_routines, hobbies_activities)
-- **weekly_prep_time** (diet_nutrition)
-- **wait_time** (doctors_specialists, medical_procedures)
-- **response_time** (crisis_resources)
-- **access_time** (financial_products)
-
-## Service-Specific Fields:
-- **insurance_coverage** (doctors_specialists)
-- **specialty** (professional_services)
-- **subscription_type** (apps_software)
-- **usage_frequency** (apps_software)
-
-## Lifestyle Fields:
-- **still_following** (diet_nutrition, sleep)
-- **previous_sleep_hours** (sleep)
-
-## Product Fields:
-- **ease_of_use** (products_devices)
-- **product_type** (products_devices)
-- **format** (books_courses, support_groups)
-- **learning_difficulty** (books_courses)
-- **group_size** (groups_communities)
-
-## Financial Fields:
-- **financial_benefit** (financial_products)
-
-## Array Fields:
-- **side_effects** (6 categories: medications, supplements_vitamins, natural_remedies, beauty_skincare, alternative_practitioners, medical_procedures)
-- **challenges** (16 categories: all others except crisis_resources which has null)
-
----
-
-# AUDIT RESULTS: 31 unique fields analyzed across all categories!
-
-## 🎯 CRITICAL PRIORITIES (Based on Audit)
-
-### CRITICAL - Display Breaking (100% missing):
-1. **session_length** (265 solutions) - therapists, coaches, alternative practitioners
-2. **learning_difficulty** (833 solutions) - books/courses
-3. **group_size** (152 solutions) - groups/communities
-4. **practice_length** (160 solutions) - meditation/mindfulness
-
-### HIGH PRIORITY - Cost Display (81% missing):
-- **startup_cost** & **ongoing_cost** (4,444 solutions) - affects cost display
-
-### MEDIUM PRIORITY - UX Impact:
-- **side_effects** (637/1,336 missing - 48%) - medical categories
-- **session_frequency** (200/462 missing - 43%) - service categories
-
-### OPTIONAL (Removed from Requirements):
-- **notes** - Can remain blank across all categories
-
-## 🧠 AI Training Data Requirements:
-ALL generated data must reflect AI training patterns from medical literature/studies/research.
-NO mechanistic or random data patterns allowed.
+If any inconsistency is spotted, update the SSOT, regenerate this mirror, and audit dependent tooling (forms, generator, aggregator) in the same pass.

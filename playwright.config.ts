@@ -6,7 +6,7 @@ import path from 'path'
 dotenv.config({ path: path.resolve(__dirname, '.env.test.local') })
 
 // Determine port from environment or use defaults
-const defaultPort = 3000
+const defaultPort = 3001
 const baseURL = process.env.PLAYWRIGHT_TEST_BASE_URL || `http://localhost:${defaultPort}`
 
 // Extract port from baseURL if provided
@@ -51,7 +51,7 @@ export default defineConfig({
   webServer: {
     command: 'npm run dev',
     port,
-    timeout: 120 * 1000, // 2 minutes
+    timeout: 5 * 60 * 1000, // allow up to 5 minutes for first boot after restore
     reuseExistingServer: !process.env.CI,
   },
 })

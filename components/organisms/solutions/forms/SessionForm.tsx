@@ -15,6 +15,7 @@ import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface SessionFormProps {
   goalId: string;
@@ -222,34 +223,17 @@ export function SessionForm({
     if (showChallenges) {
       setChallengesLoading(true);
       
-      // Fallback challenge options for categories that might not be in DB yet
-      const fallbackChallenges: Record<string, string[]> = {
-        professional_services: [
-          'Finding qualified professionals',
-          'High cost',
-          'Limited availability',
-          'Not covered by insurance',
-          'Unclear about what I need',
-          'Too many options to choose from',
-          'Scheduling conflicts',
-          'Location/distance issues',
-          'Concerns about confidentiality',
-          'None'
-        ],
-        crisis_resources: [
-          'Long wait times',
-          'Difficulty getting through',
-          'Not the right type of help',
-          'Felt judged or dismissed',
-          'Language barriers',
-          'Technical issues with platform',
-          'Limited hours of operation',
-          'Needed different level of care',
-          'Privacy concerns',
-          'None'
-        ]
+      const fallbackKeyMap: Record<string, keyof typeof DROPDOWN_OPTIONS> = {
+        therapists_counselors: 'therapy_challenges',
+        coaches_mentors: 'coaching_challenges',
+        doctors_specialists: 'medical_challenges',
+        medical_procedures: 'medical_challenges',
+        professional_services: 'professional_service_challenges',
+        crisis_resources: 'crisis_challenges'
       };
-      
+      const fallbackKey = fallbackKeyMap[category];
+      const fallbackOptions = fallbackKey ? DROPDOWN_OPTIONS[fallbackKey] : undefined;
+
       const fetchChallenges = async () => {
         const supabase = createClientComponentClient();
         const { data, error } = await supabase
@@ -261,9 +245,9 @@ export function SessionForm({
         
         if (!error && data && data.length > 0) {
           setChallengeOptions(data.map((item: any) => item.label));
-        } else if (fallbackChallenges[category]) {
+        } else if (fallbackOptions) {
           // Use fallback if no data in DB
-          setChallengeOptions(fallbackChallenges[category]);
+          setChallengeOptions(fallbackOptions);
         }
         setChallengesLoading(false);
       };
@@ -1108,12 +1092,12 @@ export function SessionForm({
       
       // Add side effects or barriers
       if (showSideEffects) {
-        // Filter out 'None' and don't include 'Other (please describe)' marker
-        solutionFields.side_effects = selectedSideEffects.filter(e => e !== 'None' && e !== 'Other (please describe)');
+        // "None" is a valid value - only filter out 'Other (please describe)' marker
+        solutionFields.side_effects = selectedSideEffects.filter(e => e !== 'Other (please describe)');
       }
       if (showChallenges) {
-        // Filter out 'None' from challenges
-        solutionFields.challenges = selectedChallenges.filter(c => c !== 'None');
+        // Include challenges - "None" is a valid value
+        solutionFields.challenges = selectedChallenges;
       }
       
       // REMOVED from initial submission - notes handled in success screen only

@@ -39,11 +39,11 @@ npm install @google/generative-ai commander chalk dotenv
 Add to your `.env.local` file:
 ```env
 # Gemini API Key (FREE - replaces Claude which cost $137/run)
-GEMINI_API_KEY=AIzaSyAeHrw-JAKpenIJO6Z7uIxza9WvjnSlYA0
+GEMINI_API_KEY=<your_gemini_api_key>
 
 # Supabase keys should already be in your .env.local
 # Old Claude key (deprecated):
-# ANTHROPIC_API_KEY=sk-ant-api03-xxxxx
+# ANTHROPIC_API_KEY=<your_anthropic_api_key>
 ```
 
 ### 3. Add to package.json
@@ -176,7 +176,7 @@ Adjust the effectiveness guidance in the master prompt.
 ### "GEMINI_API_KEY not found"
 Add the Gemini API key to your `.env.local` file:
 ```
-GEMINI_API_KEY=AIzaSyAeHrw-JAKpenIJO6Z7uIxza9WvjnSlYA0
+GEMINI_API_KEY=<your_gemini_api_key>
 ```
 
 ### "Array percentages not showing in UI"
@@ -403,8 +403,8 @@ This system is completely self-contained. To use it:
 ### Initial Setup
 1. Add API keys to `.env.local`:
    ```
-   GEMINI_API_KEY=AIzaSyAeHrw-JAKpenIJO6Z7uIxza9WvjnSlYA0
-   ANTHROPIC_API_KEY=sk-ant-api03-xxxxx
+   GEMINI_API_KEY=<your_gemini_api_key>
+   ANTHROPIC_API_KEY=<your_anthropic_api_key>
    ```
 2. Apply database migration: `npm run quality:migrate`
 

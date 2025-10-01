@@ -14,7 +14,7 @@ import { getSolutionGenerationPrompt, getDistributionPrompt, validateDropdownVal
 import { getCleanSolutionPrompt, getCleanDistributionPrompt } from '../prompts/master-prompts-clean'
 import { getImprovedSolutionPrompt, getImprovedDistributionPrompt } from '../prompts/master-prompts-improved'
 import { getV2SolutionPrompt, getV2DistributionPrompt } from '../prompts/master-prompts-v2'
-import { CATEGORY_FIELDS } from '../config/category-fields'
+import { CATEGORY_FIELDS, validateFields } from '../config/category-fields'
 import { getDropdownOptionsForField } from '../config/dropdown-options'
 import { insertSolutionToDatabase } from '../database/inserter'
 import { mapAllFieldsToDropdowns } from '../utils/value-mapper'
@@ -33,6 +33,8 @@ export interface Goal {
 export interface GenerationOptions {
   dryRun?: boolean
   limit?: number
+  forceWrite?: boolean
+  dirtyOnly?: boolean
 }
 
 /**
@@ -43,7 +45,7 @@ export async function generateSolutionsForGoal(
   supabase: SupabaseClient,
   options: GenerationOptions = {}
 ): Promise<number> {
-  const { dryRun = false, limit = 15 } = options
+  const { dryRun = false, limit = 15, forceWrite = false, dirtyOnly = false } = options
   
   // Initialize Gemini client inside the function
   // const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! }) // Old Claude code
@@ -176,27 +178,28 @@ export async function generateSolutionsForGoal(
             if (allowedOptions && allowedOptions.length > 0) {
               // Use a sensible default from the dropdown options
               if (field === 'cost' || field.includes('cost')) {
-                // Find a mid-range cost option
                 const midIndex = Math.floor(allowedOptions.length / 2)
                 solution.fields[field] = allowedOptions[midIndex]
               } else if (field === 'time_to_results' || field === 'time_to_enjoyment') {
-                // Default to 3-4 weeks for time fields
                 solution.fields[field] = allowedOptions.find(opt => opt.includes('3-4 weeks')) || allowedOptions[2]
               } else if (field.includes('frequency')) {
-                // Default to a moderate frequency
                 solution.fields[field] = allowedOptions.find(opt => opt.includes('Weekly')) || allowedOptions[2]
               } else {
-                // Use the first non-"Select" option
                 solution.fields[field] = allowedOptions.find(opt => !opt.includes('Select')) || allowedOptions[0]
               }
               console.log(chalk.gray(`        Added default for ${field}: "${solution.fields[field]}"`))
             } else {
-              // No dropdown options, use generic default
               solution.fields[field] = 'Standard'
             }
           })
         }
-        
+
+        const requiredFieldErrors = validateFields(solution.category, solution.fields)
+        if (requiredFieldErrors.length > 0) {
+          console.log(chalk.red(`      ❌ Skipping ${solution.title} due to missing required fields: ${requiredFieldErrors.join(', ')}`))
+          continue
+        }
+
         // Step 2a: Get prevalence distributions from Gemini
         const distributionPrompt = getV2DistributionPrompt(
           solution.title,
@@ -233,7 +236,11 @@ export async function generateSolutionsForGoal(
           solution,
           distributions,
           supabase,
-          categoryConfig
+          categoryConfig,
+          {
+            forceWrite,
+            dirtyOnly
+          }
         )
         
         insertedCount++
