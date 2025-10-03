@@ -1,6 +1,30 @@
 import { createServerSupabaseClient } from '@/lib/database/server'
-import { SolutionV2, SourceType } from '@/types/solution'
+import { SolutionV2, SourceType, SolutionModel } from '@/types/solution'
 import { parseSolutionSlug } from '@/lib/utils/slugify'
+
+const SOURCE_TYPE_OPTIONS: SourceType[] = [
+  'community_contributed',
+  'ai_generated',
+  'ai_enhanced',
+  'expert_verified',
+  'ai_foundation'
+]
+
+const SOLUTION_MODEL_OPTIONS: SolutionModel[] = ['standard', 'measured']
+
+function normalizeSourceType(value: string | null): SourceType {
+  if (value && SOURCE_TYPE_OPTIONS.includes(value as SourceType)) {
+    return value as SourceType
+  }
+  return 'community_contributed'
+}
+
+function normalizeSolutionModel(value: string | null): SolutionModel {
+  if (value && SOLUTION_MODEL_OPTIONS.includes(value as SolutionModel)) {
+    return value as SolutionModel
+  }
+  return 'standard'
+}
 
 // Correct variant type that matches actual database schema
 export interface SolutionVariantActual {
@@ -20,6 +44,7 @@ export interface SolutionVariantActual {
 export interface SolutionVariantWithGoalLinks extends SolutionVariantActual {
   goal_links: {
     goal_id: string
+    implementation_id: string
     avg_effectiveness: number
     rating_count: number
     typical_application?: string | null
@@ -134,7 +159,7 @@ export async function getSolutionDetail(slugOrId: string): Promise<SolutionDetai
       .from('solution_variants')
       .select('*')
       .eq('solution_id', solution.id)
-      .order('display_order', { ascending: true, nullsLast: true })
+      .order('display_order', { ascending: true })
       .order('variant_name', { ascending: true })
 
     if (variantsError) {
@@ -181,10 +206,34 @@ export async function getSolutionDetail(slugOrId: string): Promise<SolutionDetai
     console.log(`[DEBUG] Found ${goalConnections?.length || 0} goal connections`)
 
     // 4. Process the data
-    const variantsWithGoals: SolutionVariantWithGoalLinks[] = variants?.map(variant => ({
+    const normalizedConnections: GoalConnection[] = (goalConnections ?? [])
+      .map((connection: any) => {
+        const goalRecord = Array.isArray(connection.goals) ? connection.goals[0] : connection.goals
+        if (!goalRecord) return null
+
+        const arenaRecord = Array.isArray(goalRecord.arenas)
+          ? goalRecord.arenas[0]
+          : goalRecord.arenas
+
+        if (!arenaRecord) return null
+
+        return {
+          ...connection,
+          goals: {
+            id: goalRecord.id,
+            title: goalRecord.title,
+            description: goalRecord.description,
+            arena_id: goalRecord.arena_id,
+            arenas: arenaRecord
+          }
+        } as GoalConnection
+      })
+      .filter((connection): connection is GoalConnection => connection !== null)
+
+    const variantsWithGoals: SolutionVariantWithGoalLinks[] = (variants ?? []).map((variant: any) => ({
       ...variant,
-      goal_links: goalConnections?.filter(gc => gc.implementation_id === variant.id) || []
-    })) || []
+      goal_links: normalizedConnections.filter(gc => gc.implementation_id === variant.id)
+    }))
 
     // 5. Calculate aggregated stats - deduplicate goals for proper counting
     const uniqueGoalIds = new Set(goalConnections?.map(gc => gc.goal_id) || [])
@@ -207,8 +256,25 @@ export async function getSolutionDetail(slugOrId: string): Promise<SolutionDetai
       ? Array.from(bestVariantPerGoal.values()).reduce((sum, gc) => sum + gc.avg_effectiveness, 0) / bestVariantPerGoal.size
       : 0
 
+    const createdAt = solution.created_at ?? new Date().toISOString()
+    const updatedAt = solution.updated_at ?? createdAt
+
+    const normalizedSolution: SolutionV2 = {
+      id: solution.id,
+      title: solution.title,
+      description: solution.description,
+      solution_category: solution.solution_category ?? null,
+      source_type: normalizeSourceType(solution.source_type),
+      solution_model: normalizeSolutionModel(solution.solution_model),
+      parent_concept: solution.parent_concept,
+      is_approved: Boolean(solution.is_approved),
+      created_at: createdAt,
+      updated_at: updatedAt,
+      legacy_solution_id: solution.legacy_solution_id ?? undefined
+    }
+
     return {
-      ...solution,
+      ...normalizedSolution,
       variants: variantsWithGoals,
       totalRatings,
       avgEffectiveness,
@@ -267,7 +333,27 @@ export async function getSolutionGoalConnections(solutionId: string): Promise<Go
       return []
     }
 
-    return connections || []
+    return (connections ?? []).map((connection: any) => {
+      const goalRecord = Array.isArray(connection.goals) ? connection.goals[0] : connection.goals
+      const arenaRecord = goalRecord && Array.isArray(goalRecord.arenas)
+        ? goalRecord.arenas[0]
+        : goalRecord?.arenas
+
+      if (!goalRecord || !arenaRecord) {
+        return null
+      }
+
+      return {
+        ...connection,
+        goals: {
+          id: goalRecord.id,
+          title: goalRecord.title,
+          description: goalRecord.description,
+          arena_id: goalRecord.arena_id,
+          arenas: arenaRecord
+        }
+      } as GoalConnection
+    }).filter((connection): connection is GoalConnection => connection !== null)
   } catch (error) {
     console.error('[DEBUG] Error in getSolutionGoalConnections:', error)
     return []

@@ -4,13 +4,13 @@ import { useEffect, useCallback, useRef } from 'react';
  * Custom hook to automatically backup form data to sessionStorage
  * Prevents data loss on page refresh or browser crashes
  */
-export function useFormBackup<T extends Record<string, any>>(
+export function useFormBackup<T extends Record<string, unknown>>(
   key: string,
   formData: T,
   options?: {
     debounceMs?: number;
     excludeFields?: string[];
-    onRestore?: (data: T) => void;
+    onRestore?: (data: Partial<T>) => void;
   }
 ) {
   const { debounceMs = 500, excludeFields = [], onRestore } = options || {};
@@ -26,12 +26,12 @@ export function useFormBackup<T extends Record<string, any>>(
     timeoutRef.current = setTimeout(() => {
       try {
         // Filter out excluded fields
-        const dataToSave = Object.keys(formData).reduce((acc, field) => {
+        const dataToSave = Object.entries(formData).reduce<Partial<T>>((acc, [field, value]) => {
           if (!excludeFields.includes(field)) {
-            (acc as any)[field] = formData[field];
+            (acc as Record<string, unknown>)[field] = value;
           }
           return acc;
-        }, {} as T);
+        }, {});
 
         // Only save if there's actual data
         const hasData = Object.values(dataToSave).some(
@@ -49,11 +49,11 @@ export function useFormBackup<T extends Record<string, any>>(
   }, [key, formData, excludeFields, debounceMs]);
 
   // Restore data from sessionStorage
-  const restoreBackup = useCallback((): T | null => {
+  const restoreBackup = useCallback((): Partial<T> | null => {
     try {
       const saved = sessionStorage.getItem(key);
       if (saved) {
-        return JSON.parse(saved);
+        return JSON.parse(saved) as Partial<T>;
       }
     } catch (error) {
       console.error('Failed to restore form backup:', error);

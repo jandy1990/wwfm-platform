@@ -142,7 +142,7 @@ export function DosageForm({
   };
 
   // Use the backup hook
-  const { clearBackup, hasBackup } = useFormBackup(
+  const { clearBackup } = useFormBackup(
     `dosage-form-${goalId}-${category}`,
     formBackupData,
     {
@@ -240,26 +240,6 @@ export function DosageForm({
     return result;
   };
 
-  const calculateDailyDose = () => {
-    if (!doseAmount || !frequency || category === 'beauty_skincare' || frequency === 'as needed') return null;
-    
-    const amount = parseFloat(doseAmount);
-    if (isNaN(amount)) return null;
-    
-    const multipliers: Record<string, number> = {
-      'once daily': 1,
-      'twice daily': 2,
-      'three times daily': 3,
-      'four times daily': 4,
-      'every other day': 0.5,
-      'twice weekly': 0.285,
-      'weekly': 0.143,
-      'monthly': 0.033
-    };
-    
-    return multipliers[frequency] ? amount * multipliers[frequency] : null;
-  };
-
   // Category-specific side effects
   const sideEffectOptions = {
     supplements_vitamins: [
@@ -344,7 +324,7 @@ export function DosageForm({
       
       // Prepare solution fields for storage
       // Only include fields that user has actually filled (no phantom fields)
-      const solutionFields: Record<string, any> = {}
+      const solutionFields: Record<string, unknown> = {}
       
       // Add fields only if they have values
       if (category !== 'beauty_skincare' && frequency) {
@@ -947,7 +927,7 @@ export function DosageForm({
             <FormSectionHeader
               icon="🔍"
               title="What else did you try?"
-              bgColor="bg-purple-100 dark:bg-purple-900"
+              bgColorClassName="bg-purple-100 dark:bg-purple-900"
             />
             
             <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 
@@ -987,7 +967,7 @@ export function DosageForm({
 
   const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (brand && brand.trim()) additionalFields.brand = brand.trim();
     if (form && form.trim()) additionalFields.form = form.trim();

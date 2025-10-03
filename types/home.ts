@@ -83,3 +83,41 @@ export interface PlatformStatsRow {
   ratings_last_hour: number;
   discussions_today: number;
 }
+
+export interface GoalCategoryRaw {
+  name: string | null
+  arenas?: {
+    name: string | null
+  } | {
+    name: string | null
+  }[] | null
+}
+
+export interface GoalSuggestion {
+  id: string;
+  title: string;
+  arenaName: string;
+  categoryName: string;
+  score: number;
+}
+
+export interface GoalSearchRow {
+  id: string
+  title: string
+  categories?: GoalCategoryRaw | GoalCategoryRaw[] | null
+}
+
+export interface FeaturedVerbatimRow {
+  content: string
+  upvotes: number
+  created_at: string
+  goals: {
+    title: string | null
+    emoji: string | null
+    is_approved: boolean | null
+  } | {
+    title: string | null
+    emoji: string | null
+    is_approved: boolean | null
+  }[]
+}

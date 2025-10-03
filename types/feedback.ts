@@ -11,7 +11,7 @@ export interface FeedbackData {
   pagePath: string;
   pageContext: PageContext;
   userEmail?: string;
-  sessionData?: Record<string, any>;
+  sessionData?: Record<string, unknown>;
 }
 
 export interface FeedbackSubmission extends FeedbackData {
@@ -31,6 +31,6 @@ export interface StoredFeedback {
   page_type: string;
   is_authenticated: boolean;
   user_email?: string;
-  session_data: Record<string, any>;
+  session_data: Record<string, unknown>;
   created_at: string;
 }

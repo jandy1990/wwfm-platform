@@ -126,6 +126,6 @@ export interface AggregatedFields {
 }
 
 export interface RatingWithFields {
-  solution_fields?: Record<string, any>
-  [key: string]: any
+  solution_fields?: Record<string, unknown>
+  [key: string]: unknown
 }

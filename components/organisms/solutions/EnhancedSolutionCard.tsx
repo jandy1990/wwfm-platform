@@ -9,10 +9,9 @@ type GoalImplementationLink = Database['public']['Tables']['goal_implementation_
 interface Props {
   solution: Solution
   link: GoalImplementationLink
-  variant?: any
 }
 
-export default function EnhancedSolutionCard({ solution, link, variant }: Props) {
+export default function EnhancedSolutionCard({ solution, link }: Props) {
   const effectiveness = link.avg_effectiveness || 0
   const ratingCount = link.rating_count || 0
   const lastingBenefitRate = link.lasting_benefit_rate

@@ -73,8 +73,26 @@ const highlightMatch = (text: string, query: string): React.ReactElement => {
   );
 };
 
+interface SearchResultBase {
+  title: string;
+  category: string;
+  categoryDisplayName: string;
+  matchScore?: number;
+}
+
+interface ExistingSearchResult extends SearchResultBase {
+  type: 'existing';
+  solution: SolutionMatch;
+}
+
+interface SuggestionSearchResult extends SearchResultBase {
+  type: 'suggestion';
+}
+
+type SearchResult = ExistingSearchResult | SuggestionSearchResult;
+
 // Smart ranking for search results
-const sortSuggestions = (results: any[], query: string): any[] => {
+const sortSuggestions = (results: SearchResult[], query: string): SearchResult[] => {
   const queryLower = query.toLowerCase();
   
   return results.sort((a, b) => {
@@ -257,7 +275,12 @@ export default function SolutionFormWithAutoCategory({
           .eq('id', goalId)
           .single();
         
-        if (data && !error) {
+        if (error) {
+          console.error('Failed to fetch goal title:', error);
+          return;
+        }
+
+        if (data) {
           setFetchedGoalTitle(data.title);
         }
       }
@@ -271,17 +294,17 @@ export default function SolutionFormWithAutoCategory({
   
   // Clean up cache and timeouts on unmount
   useEffect(() => {
+    const timeoutMap = cacheTimeout.current;
+    const cacheMap = searchCache.current;
+
     return () => {
-      // Clear all cache timeouts on unmount
-      const timeouts = cacheTimeout.current;
-      const cache = searchCache.current;
-      timeouts.forEach(timeout => clearTimeout(timeout));
-      cache.clear();
-      timeouts.clear();
-      
-      // Clear focus timeout
-      if (focusTimeoutRef.current) {
-        clearTimeout(focusTimeoutRef.current);
+      timeoutMap.forEach(timeout => clearTimeout(timeout));
+      cacheMap.clear();
+      timeoutMap.clear();
+
+      const focusTimeout = focusTimeoutRef.current;
+      if (focusTimeout) {
+        clearTimeout(focusTimeout);
       }
     };
   }, []);
@@ -310,7 +333,7 @@ export default function SolutionFormWithAutoCategory({
             
             console.log('🚀 Step0: Prefetched', solutionsResults.length, 'solutions for:', term);
             setCacheWithExpiry(term, quickResult);
-          } catch (error) {
+          } catch {
             // Silent fail for prefetch
           }
         }
@@ -564,7 +587,7 @@ export default function SolutionFormWithAutoCategory({
   }
 
   // Combine all results into a single list for the user
-  const allResults: any[] = [];
+  const allResults: SearchResult[] = [];
   
   if (detectionResult) {
     // Add existing solutions
@@ -574,7 +597,8 @@ export default function SolutionFormWithAutoCategory({
         title: solution.title,
         category: solution.category,
         categoryDisplayName: solution.categoryDisplayName,
-        solution
+        solution,
+        matchScore: solution.matchScore
       });
     });
     

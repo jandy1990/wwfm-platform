@@ -1,6 +1,28 @@
 // lib/solutions/categorization.ts
 import { supabase } from '@/lib/database/client';
 
+interface SolutionRow {
+  id: string;
+  title: string;
+  solution_category: string | null;
+}
+
+interface KeywordSolutionRow {
+  solution_name: string;
+  category: string;
+  is_likely_solution: boolean;
+}
+
+interface CategoryMatchRow {
+  category: string;
+}
+
+interface KeywordSuggestionRow {
+  keyword: string;
+  category: string;
+  match_score: number;
+}
+
 export interface CategoryMatch {
   category: string;
   confidence: 'high' | 'medium' | 'low';
@@ -138,7 +160,7 @@ export async function searchExistingSolutions(searchTerm: string): Promise<Solut
   // TEMPORARY FIX: Use direct query since search_solutions_fuzzy RPC is broken
   // The RPC function references 'solutions_v2' table that doesn't exist
   // Using ILIKE search as a fallback until RPC is fixed
-  const { data: solutions, error } = await supabase
+  const { data, error } = await supabase
     .from('solutions')
     .select('id, title, solution_category')
     .ilike('title', `%${normalizedSearch}%`)
@@ -150,13 +172,15 @@ export async function searchExistingSolutions(searchTerm: string): Promise<Solut
     return [];
   }
   
+  const solutions = (data ?? []) as SolutionRow[];
+
   console.log('[searchExistingSolutions] Found solutions:', solutions?.map(s => s.title));
-  
+
   // Add match_score for compatibility (1.0 for exact match, 0.8 for partial)
-  const solutionsWithScore = solutions?.map(s => ({
+  const solutionsWithScore = solutions.map(s => ({
     ...s,
     match_score: s.title.toLowerCase() === normalizedSearch ? 1.0 : 0.8
-  })) || [];
+  }));
 
   // Same generic terms filter as in searchKeywordsAsSolutions
   const genericTerms = new Set([
@@ -322,7 +346,7 @@ export async function detectCategoriesFromKeywords(userInput: string): Promise<C
       .rpc('check_keyword_match', { search_term: normalizedInput });
 
     if (exactMatches && exactMatches.length > 0) {
-      exactMatches.forEach((match: { category: string }) => {
+      (exactMatches as CategoryMatchRow[]).forEach((match) => {
         matches.set(match.category, 'high');
       });
     }
@@ -334,7 +358,7 @@ export async function detectCategoriesFromKeywords(userInput: string): Promise<C
       .rpc('match_category_patterns', { input_text: normalizedInput });
 
     if (patternMatches && patternMatches.length > 0) {
-      patternMatches.forEach((match: { category: string }) => {
+      (patternMatches as CategoryMatchRow[]).forEach((match) => {
         if (!matches.has(match.category)) {
           matches.set(match.category, 'medium');
         }
@@ -348,7 +372,7 @@ export async function detectCategoriesFromKeywords(userInput: string): Promise<C
       .rpc('match_category_partial', { input_text: normalizedInput });
 
     if (partialMatches && partialMatches.length > 0) {
-      partialMatches.forEach((match: { category: string }) => {
+      (partialMatches as CategoryMatchRow[]).forEach((match) => {
         if (!matches.has(match.category)) {
           matches.set(match.category, 'low');
         }
@@ -382,6 +406,7 @@ async function searchKeywordsAsSolutions(searchTerm: string): Promise<Array<{
   }
   
   const normalizedSearch = searchTerm.toLowerCase().trim();
+  const keywordRows = (data ?? []) as KeywordSolutionRow[];
 
   // Generic terms that should NEVER be shown as solutions
   const genericPatterns = [
@@ -459,10 +484,10 @@ async function searchKeywordsAsSolutions(searchTerm: string): Promise<Array<{
   ]);
 
   // Debug logging
-  console.log('Keywords found:', data?.map((d: any) => d.solution_name));
+  console.log('Keywords found:', keywordRows.map((row) => row.solution_name));
 
   // Filter out generic terms and patterns
-  const filtered = (data || []).filter((item: any) => {
+  const filtered = keywordRows.filter((item) => {
     const lowerName = item.solution_name.toLowerCase().trim();
     
     // ALWAYS allow test fixtures for E2E testing
@@ -558,12 +583,12 @@ async function searchKeywordsAsSolutions(searchTerm: string): Promise<Array<{
     return true;
   });
 
-  console.log('After filtering:', filtered.map((f: any) => f.solution_name));
+  console.log('After filtering:', filtered.map((row) => row.solution_name));
 
   // Only return filtered results that are also marked as likely solutions
   return filtered
-    .filter((item: any) => item.is_likely_solution)
-    .map((item: any) => ({
+    .filter((item) => item.is_likely_solution)
+    .map((item) => ({
       name: item.solution_name,
       category: item.category,
       categoryDisplayName: getCategoryInfo(item.category).displayName,
@@ -585,9 +610,11 @@ export async function searchKeywordSuggestions(searchTerm: string): Promise<Keyw
     return [];
   }
 
-  return (data || [])
+  const suggestionRows = (data ?? []) as KeywordSuggestionRow[];
+
+  return suggestionRows
     .filter(match => match.match_score > 0.5) // Only show decent matches
-    .map((match: any) => ({
+    .map((match) => ({
       keyword: match.keyword,
       category: match.category,
       categoryDisplayName: getCategoryInfo(match.category).displayName,

@@ -3,10 +3,7 @@ import {
   getDropdownSource,
   isValidCategory
 } from '@/lib/config/solution-fields'
-import {
-  DROPDOWN_OPTIONS,
-  getDropdownOptionsForField
-} from '@/lib/config/solution-dropdown-options'
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options'
 
 export interface ValidateOptions {
   allowPartial?: boolean

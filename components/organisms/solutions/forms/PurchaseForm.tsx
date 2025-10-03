@@ -241,27 +241,29 @@ export function PurchaseForm({
   };
   
   const handleSubmit = async () => {
+    console.log('[PurchaseForm] handleSubmit called');
     setIsSubmitting(true);
-    
+    console.log('[PurchaseForm] State set to submitting');
+
     try {
       // Determine primary cost and cost_type
       const hasUnknownCost = costRange === "Don't remember";
-      const primaryCost = hasUnknownCost ? "Unknown" : 
+      const primaryCost = hasUnknownCost ? "Unknown" :
                           costRange === "Free" ? "Free" :
                           costRange;
       const derivedCostType = hasUnknownCost ? "unknown" :
                               costRange === "Free" ? "free" :
                               costType === "one_time" ? "one_time" :
                               "recurring"; // subscription
-      
+
       // Prepare solution fields for storage
-      const solutionFields: Record<string, any> = {
+      const solutionFields: Record<string, unknown> = {
         // Cost fields
         cost: primaryCost,
         cost_type: derivedCostType,
         purchase_cost_type: costType, // Preserve original choice (one_time or subscription)
         cost_range: costRange,
-        
+
         // Category-specific fields
         ...(category === 'products_devices' && {
           product_type: productType,
@@ -271,17 +273,17 @@ export function PurchaseForm({
           format,
           learning_difficulty: learningDifficulty
         }),
-        
+
         // Array field (challenges for both categories) - "None" is a valid value
         challenges: selectedChallenges,
-        
+
         // REMOVED from initial submission - optional fields handled in success screen only
       };
 
       if (timeToResults) {
         solutionFields.time_to_results = timeToResults;
       }
-      
+
       // Prepare submission data with correct structure
       const submissionData: SubmitSolutionData = {
         goalId,
@@ -294,10 +296,14 @@ export function PurchaseForm({
         solutionFields,
         failedSolutions
       };
-      
+
+      console.log('[PurchaseForm] Calling submitSolution with:', submissionData);
+      const submitStart = Date.now();
       // Call server action
       const result = await submitSolution(submissionData);
-      
+      console.log(`[PurchaseForm] submitSolution completed in ${Date.now() - submitStart}ms`);
+      console.log('[PurchaseForm] Result:', result);
+
       if (result.success) {
         // Store the result for success screen
         setSubmissionResult({
@@ -315,20 +321,21 @@ export function PurchaseForm({
         setShowSuccessScreen(true);
       } else {
         // Handle error
-        console.error('Error submitting solution:', result.error);
+        console.error('[PurchaseForm] Error submitting solution:', result.error);
         alert(result.error || 'Failed to submit solution. Please try again.');
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('[PurchaseForm] Error submitting form:', error);
       alert('An unexpected error occurred. Please try again.');
     } finally {
+      console.log('[PurchaseForm] Setting isSubmitting to false');
       setIsSubmitting(false);
     }
   };
   
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (brand && brand.trim()) additionalFields.brand = brand.trim();
     if (completionStatus && completionStatus.trim()) additionalFields.completion_status = completionStatus.trim();
@@ -902,7 +909,12 @@ export function PurchaseForm({
             </button>
           ) : (
             <button
-              onClick={handleSubmit}
+              onClick={() => {
+                console.log('[PurchaseForm] Submit button CLICKED');
+                console.log('[PurchaseForm] isSubmitting:', isSubmitting);
+                console.log('[PurchaseForm] canProceed:', canProceedToNextStep());
+                handleSubmit();
+              }}
               disabled={isSubmitting || !canProceedToNextStep()}
               className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
                 !isSubmitting

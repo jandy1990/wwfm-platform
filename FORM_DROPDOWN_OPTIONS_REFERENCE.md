@@ -173,52 +173,32 @@ Star rating system: 1-5 scale
 
 ### 4. FinancialForm.tsx
 
-#### cost_type (Radio buttons)
-- "free"
-- "one_time"
-- "ongoing"
+#### cost_type (Dropdown - REQUIRED)
+- "Free to use"
+- "Subscription fee"
+- "Transaction/usage fees"
+- "Interest charged (loans/credit)"
+- "Account maintenance fees"
+- "One-time purchase/setup fee"
 
-#### cost_range (varies by cost_type)
-**Free:**
-- "Free"
+#### financial_benefit (Dropdown - REQUIRED)
+- "No direct financial benefit"
+- "Under $25/month saved/earned"
+- "$25-100/month saved/earned"
+- "$100-250/month saved/earned"
+- "$250-500/month saved/earned"
+- "$500-1000/month saved/earned"
+- "Over $1000/month saved/earned"
+- "Varies significantly (explain in notes)"
 
-**One-time:**
-- "Under $100"
-- "$100-500"
-- "$500-1000"
-- "$1000-5000"
-- "Over $5000"
-
-**Ongoing:**
-- "Under $50/month"
-- "$50-200/month"
-- "$200-500/month"
-- "Over $500/month"
-
-#### service_type (REQUIRED)
-- "Financial planning"
-- "Investment advice"
-- "Debt management"
-- "Budgeting tools"
-- "Banking services"
-- "Insurance"
-- "Tax services"
-- "Credit services"
-- "Other"
-
-#### complexity (REQUIRED)
-- "Very simple setup"
-- "Simple setup"
-- "Moderate complexity"
-- "Complex setup"
-- "Very complex setup"
-
-#### timeframe (REQUIRED)
-- "Immediate results"
-- "Within weeks"
-- "Within months"
-- "Long-term (1+ years)"
-- "Ongoing process"
+#### access_time (Dropdown - REQUIRED)
+- "Instant approval"
+- "Same day"
+- "1-3 business days"
+- "1-2 weeks"
+- "2-4 weeks"
+- "1-3 months"
+- "Over 3 months"
 
 ### 5. HobbyForm.tsx
 

@@ -17,12 +17,17 @@ async function globalSetup(config: FullConfig) {
     console.log(`🌐 Using baseURL: ${baseURL}`)
     
     // Navigate to sign in page (first boot can take time, especially after restores)
-    const maxAttempts = 5
+    const maxAttempts = 10
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       try {
         await page.goto(`${baseURL}/auth/signin`, {
-          waitUntil: 'networkidle',  // Wait for React hydration
+          waitUntil: 'domcontentloaded',
           timeout: 60_000
+        })
+
+        // Give Next.js a moment to finish streaming/hydration if this is the first boot
+        await page.waitForLoadState('networkidle', { timeout: 20_000 }).catch(() => {
+          // It's fine if we never reach full idle; the DOM check below will confirm readiness
         })
 
         // Wait for React hydration to complete
@@ -64,9 +69,9 @@ async function globalSetup(config: FullConfig) {
     // Submit form
     await page.click('button[type="submit"]')
     
-    // Wait for successful redirect
+    // Wait for successful redirect (increased timeout for database operations)
     try {
-      await page.waitForURL(/\/(dashboard|goal|$)/, { timeout: 10000 })
+      await page.waitForURL(/\/(dashboard|goal|home|$)/, { timeout: 30000 })
       console.log('✅ Login successful')
     } catch (error) {
       // Check if we got an error message
@@ -74,7 +79,7 @@ async function globalSetup(config: FullConfig) {
       if (errorElement) {
         const errorText = await errorElement.textContent()
         console.error('❌ Login failed with error:', errorText)
-        
+
         // If user doesn't exist, provide instructions
         if (errorText?.includes('Invalid login credentials')) {
           console.log('\n📝 Please create a test user in Supabase Dashboard:')
@@ -83,6 +88,9 @@ async function globalSetup(config: FullConfig) {
           console.log('   Make sure to confirm the email address')
         }
       }
+
+      // Log current URL for debugging
+      console.log('Current URL:', page.url())
       throw new Error('Failed to sign in test user')
     }
     

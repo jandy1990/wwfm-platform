@@ -21,9 +21,26 @@ export interface CategoryGroup {
     name: string
     slug: string
     goalCount: number
-    goals?: any[]
+    goals?: GoalInput[] | null
   }>
   totalGoals: number
+}
+
+interface ArenaInput {
+  categories?: CategoryInput[]
+}
+
+interface CategoryInput {
+  id: string
+  name: string
+  slug: string
+  goals?: GoalInput[] | null
+}
+
+interface GoalInput {
+  id: string
+  title: string
+  is_approved: boolean
 }
 
 export const SUPER_CATEGORIES: SuperCategory[] = [
@@ -159,11 +176,11 @@ export function getSuperCategoryForCategory(categoryName: string): SuperCategory
  * Groups categories by super-category for UI display
  */
 export function groupCategoriesBySuperCategory(
-  arenas: any[]
+  arenas: ArenaInput[]
 ): CategoryGroup[] {
   const superCategoryMap = new Map<string, {
     superCategory: SuperCategory
-    categories: any[]
+    categories: CategoryGroup['categories']
     totalGoals: number
   }>()
 

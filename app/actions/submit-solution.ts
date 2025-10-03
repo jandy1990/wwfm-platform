@@ -3,6 +3,7 @@
 import { createServerSupabaseClient } from '@/lib/database/server'
 import { solutionAggregator } from '@/lib/services/solution-aggregator'
 import { validateAndNormalizeSolutionFields } from '@/lib/solutions/solution-field-validator'
+import type { Tables, TablesInsert } from '@/types/supabase'
 
 // Types for the submission data
 interface VariantData {
@@ -107,6 +108,15 @@ export interface SubmitSolutionResult {
 // Categories that use dosage variants (beauty_skincare uses Standard)
 const DOSAGE_CATEGORIES = ['medications', 'supplements_vitamins', 'natural_remedies']
 
+type SolutionRow = Tables<'solutions'>
+type SolutionVariantRow = Tables<'solution_variants'>
+type RatingRow = Tables<'ratings'>
+type GoalImplementationLinkRow = Tables<'goal_implementation_links'>
+
+const toSolutionFieldsJson = (
+  value: Record<string, unknown>
+): TablesInsert<'ratings'>['solution_fields'] => value as TablesInsert<'ratings'>['solution_fields']
+
 export async function submitSolution(formData: SubmitSolutionData): Promise<SubmitSolutionResult> {
   console.log('[submitSolution] START - Category:', formData.category, 'Solution:', formData.solutionName);
   
@@ -157,7 +167,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
         .select('id')
         .eq('solution_id', solutionId)
         .eq('is_default', true)
-        .single()
+        .maybeSingle<Pick<SolutionVariantRow, 'id'>>()
       
       if (variantError) {
         console.log('[submitSolution] Error finding variant:', variantError.message)
@@ -174,7 +184,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           .eq('user_id', formData.userId)
           .eq('goal_id', formData.goalId)
           .eq('implementation_id', variantId)
-          .single()
+          .maybeSingle<Pick<RatingRow, 'id'>>()
         
         if (ratingCheckError && ratingCheckError.code !== 'PGRST116') {
           console.log('[submitSolution] Error checking for duplicate:', ratingCheckError.message)
@@ -210,10 +220,11 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           title: formData.solutionName,
           solution_category: formData.category,
           source_type: isTestSolution ? 'test_fixture' : 'user_generated',
-          is_approved: isTestSolution ? true : false // Test solutions are pre-approved
+          is_approved: isTestSolution ? true : false, // Test solutions are pre-approved
+          created_by: user.id // Required by RLS policy
         })
         .select()
-        .single()
+        .single<SolutionRow>()
       
       if (solutionError) {
         console.error('[submitSolution] Error creating solution:', JSON.stringify(solutionError))
@@ -227,7 +238,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
             .select('id')
             .eq('title', formData.solutionName)
             .eq('solution_category', formData.category)
-            .single()
+            .maybeSingle<Pick<SolutionRow, 'id'>>()
           
           if (existingSolution && !findError) {
             console.log('[submitSolution] Found existing solution:', existingSolution.id)
@@ -307,25 +318,24 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
       } else {
         // Create new variant
         console.log('[submitSolution] Creating new variant with name:', variantName)
-        const variantData: Record<string, unknown> = {
+        const variantInsert: TablesInsert<'solution_variants'> = {
           solution_id: solutionId,
           variant_name: variantName,
-          is_default: true, // First variant is default
+          is_default: true,
           display_order: 1
         }
-        
-        // Add dosage-specific fields if applicable
+
         if (isDosageCategory && formData.variantData) {
-          variantData.amount = formData.variantData.amount
-          variantData.unit = formData.variantData.unit
-          variantData.form = formData.variantData.form || null
+          variantInsert.amount = formData.variantData.amount ?? null
+          variantInsert.unit = formData.variantData.unit ?? null
+          variantInsert.form = formData.variantData.form ?? null
         }
-        
+
         const { data: newVariant, error: variantError } = await supabase
           .from('solution_variants')
-          .insert(variantData)
+          .insert(variantInsert)
           .select()
-          .single()
+          .single<SolutionVariantRow>()
         
         if (variantError) {
           console.error('[submitSolution] Error creating variant:', variantError)
@@ -339,24 +349,31 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
     
     // 5. Create individual rating WITH solution_fields (new architecture)
     console.log('[submitSolution] Step 5: Creating rating with solution_fields')
+    const sideEffectsValue = normalizedSolutionFields.side_effects
+    const lengthOfUseValue = normalizedSolutionFields.length_of_use
+
+    const ratingInsert: TablesInsert<'ratings'> = {
+      user_id: formData.userId,
+      implementation_id: variantId,
+      goal_id: formData.goalId,
+      solution_id: solutionId,
+      effectiveness_score: formData.effectiveness,
+      is_quick_rating: false,
+      duration_used: typeof lengthOfUseValue === 'string' ? lengthOfUseValue : null,
+      side_effects: Array.isArray(sideEffectsValue)
+        ? sideEffectsValue.join(', ')
+        : typeof sideEffectsValue === 'string'
+          ? sideEffectsValue
+          : null,
+      completion_percentage: 100,
+      solution_fields: toSolutionFieldsJson(normalizedSolutionFields)
+    }
+
     const { data: newRating, error: ratingError } = await supabase
       .from('ratings')
-      .insert({
-        user_id: formData.userId,
-        implementation_id: variantId,
-        goal_id: formData.goalId,
-        solution_id: solutionId,
-        effectiveness_score: formData.effectiveness,
-        is_quick_rating: false,
-        duration_used: normalizedSolutionFields.length_of_use || null,
-        side_effects: Array.isArray(normalizedSolutionFields.side_effects)
-          ? normalizedSolutionFields.side_effects.join(', ')
-          : null,
-        completion_percentage: 100,
-        solution_fields: normalizedSolutionFields // Store individual user's fields here
-      })
+      .insert(ratingInsert)
       .select()
-      .single()
+      .single<RatingRow>()
     
     if (ratingError) {
       console.error('[submitSolution] Error creating rating:', ratingError)
@@ -391,7 +408,12 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           .select('id, aggregated_fields, rating_count, avg_effectiveness')
           .eq('goal_id', formData.goalId)
           .eq('implementation_id', variantId)
-          .single()
+          .maybeSingle<
+            Pick<
+              GoalImplementationLinkRow,
+              'id' | 'aggregated_fields' | 'rating_count' | 'avg_effectiveness'
+            >
+          >()
         
         if (verifyError) {
           throw new Error(`Verification failed: ${verifyError.message}`)
@@ -408,21 +430,27 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
             .select('effectiveness_score', { count: 'exact' })
             .eq('goal_id', formData.goalId)
             .eq('implementation_id', variantId)
+            .returns<Pick<RatingRow, 'effectiveness_score'>[] | null>()
           
-          if (ratingsCount && ratingsCount.length > 0) {
-            const totalEffectiveness = ratingsCount.reduce((sum, r) => sum + (r.effectiveness_score || 0), 0)
-            const avgEffectiveness = totalEffectiveness / ratingsCount.length
+          const ratingRows = ratingsCount ?? []
+
+          if (ratingRows.length > 0) {
+            const totalEffectiveness = ratingRows.reduce(
+              (sum, row) => sum + (row.effectiveness_score ?? 0),
+              0
+            )
+            const avgEffectiveness = totalEffectiveness / ratingRows.length
             
             await supabase
               .from('goal_implementation_links')
               .update({
                 avg_effectiveness: avgEffectiveness,
-                rating_count: ratingsCount.length
+                rating_count: ratingRows.length
               })
               .eq('id', verifyLink.id)
             
             // Auto-approve the solution after 3 ratings
-            if (ratingsCount.length >= 3) {
+            if (ratingRows.length >= 3) {
               await supabase
                 .from('solutions')
                 .update({ is_approved: true })
@@ -462,7 +490,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
             .select('id')
             .eq('solution_id', failed.id)
             .eq('is_default', true)
-            .single()
+            .maybeSingle<Pick<SolutionVariantRow, 'id'>>()
           
           if (failedVariant) {
             // Check if user already rated this failed solution
@@ -472,7 +500,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
               .eq('user_id', formData.userId)
               .eq('goal_id', formData.goalId)
               .eq('implementation_id', failedVariant.id)
-              .single()
+              .maybeSingle<Pick<RatingRow, 'id'>>()
             
             if (!existingFailedRating) {
               // Create the failed solution rating
@@ -493,11 +521,18 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
                 .select('id, avg_effectiveness, rating_count')
                 .eq('goal_id', formData.goalId)
                 .eq('implementation_id', failedVariant.id)
-                .single()
+                .maybeSingle<
+                  Pick<
+                    GoalImplementationLinkRow,
+                    'id' | 'avg_effectiveness' | 'rating_count'
+                  >
+                >()
               
               if (failedLink) {
-                const newCount = failedLink.rating_count + 1
-                const newAvg = ((failedLink.avg_effectiveness * failedLink.rating_count) + failed.rating) / newCount
+                const currentCount = failedLink.rating_count ?? 0
+                const currentAverage = failedLink.avg_effectiveness ?? 0
+                const newCount = currentCount + 1
+                const newAvg = ((currentAverage * currentCount) + failed.rating) / newCount
                 
                 await supabase
                   .from('goal_implementation_links')
@@ -507,14 +542,16 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
                   })
                   .eq('id', failedLink.id)
               } else {
+                const failedLinkInsert: TablesInsert<'goal_implementation_links'> = {
+                  goal_id: formData.goalId,
+                  implementation_id: failedVariant.id,
+                  avg_effectiveness: failed.rating,
+                  rating_count: 1
+                }
+
                 await supabase
                   .from('goal_implementation_links')
-                  .insert({
-                    goal_id: formData.goalId,
-                    implementation_id: failedVariant.id,
-                    avg_effectiveness: failed.rating,
-                    rating_count: 1
-                  })
+                  .insert(failedLinkInsert)
               }
             }
           }
@@ -527,13 +564,15 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
       // Store text-only failed solutions with the rating
       if (textOnlyFailed.length > 0 && newRating) {
         // Update the rating we just created to include failed solutions text
+        const mergedFields: Record<string, unknown> = {
+          ...normalizedSolutionFields,
+          failed_solutions_text: textOnlyFailed
+        }
+
         await supabase
           .from('ratings')
           .update({ 
-            solution_fields: {
-              ...normalizedSolutionFields,
-              failed_solutions_text: textOnlyFailed
-            }
+            solution_fields: toSolutionFieldsJson(mergedFields)
           })
           .eq('id', newRating.id)
       }
@@ -602,11 +641,19 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           .eq('implementation_id', variantId)
           .eq('data_source', 'human')
           .not('effectiveness_score', 'is', null)
+          .returns<Pick<RatingRow, 'effectiveness_score'>[] | null>()
 
-        if (humanRatings && humanRatings.length > 0) {
-          const total = humanRatings.reduce((sum, rating) => sum + (rating.effectiveness_score || 0), 0)
-          projectedEffectiveness = total / humanRatings.length
-          console.log(`[submitSolution] Calculated immediate human effectiveness: ${projectedEffectiveness} from ${humanRatings.length} human ratings`)
+        const humanRatingRows = humanRatings ?? []
+
+        if (humanRatingRows.length > 0) {
+          const total = humanRatingRows.reduce(
+            (sum, rating) => sum + (rating.effectiveness_score ?? 0),
+            0
+          )
+          projectedEffectiveness = total / humanRatingRows.length
+          console.log(
+            `[submitSolution] Calculated immediate human effectiveness: ${projectedEffectiveness} from ${humanRatingRows.length} human ratings`
+          )
         }
       }
     } catch (transitionError) {

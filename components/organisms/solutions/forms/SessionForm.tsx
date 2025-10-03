@@ -33,6 +33,10 @@ interface FailedSolution {
   rating: number;
 }
 
+interface LabelRow {
+  label: string;
+}
+
 
 export function SessionForm({
   goalId,
@@ -210,7 +214,8 @@ export function SessionForm({
           .order('display_order');
         
         if (!error && data) {
-          setSideEffectOptions(data.map((item: any) => item.label));
+          const rows = data as LabelRow[];
+          setSideEffectOptions(rows.map((item) => item.label));
         }
         setLoading(false);
       };
@@ -244,7 +249,8 @@ export function SessionForm({
           .order('display_order');
         
         if (!error && data && data.length > 0) {
-          setChallengeOptions(data.map((item: any) => item.label));
+          const rows = data as LabelRow[];
+          setChallengeOptions(rows.map((item) => item.label));
         } else if (fallbackOptions) {
           // Use fallback if no data in DB
           setChallengeOptions(fallbackOptions);
@@ -1071,7 +1077,7 @@ export function SessionForm({
                               "recurring"; // monthly
       
       // Prepare solution fields for storage
-      const solutionFields: Record<string, any> = {
+      const solutionFields: Record<string, unknown> = {
         // Universal field
         time_to_results: timeToResults,
         // Cost fields
@@ -1148,7 +1154,7 @@ export function SessionForm({
   
   const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (completedTreatment) additionalFields.completed_treatment = completedTreatment;
     if (typicalLength) additionalFields.typical_length = typicalLength;

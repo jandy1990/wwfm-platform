@@ -211,7 +211,7 @@ export function AppForm({
       
       // Prepare solution fields for storage using conditional pattern (like DosageForm)
       // Only include fields that have actual values to avoid undefined
-      const solutionFields: Record<string, any> = {};
+      const solutionFields: Record<string, unknown> = {};
       
       // Add cost fields
       if (subscriptionType === 'Free version') {
@@ -276,7 +276,7 @@ export function AppForm({
 
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+      const additionalFields: Record<string, unknown> = {};
     
     if (platform && platform.trim()) additionalFields.platform = platform.trim();
     if (notes && notes.trim()) additionalFields.notes = notes.trim();

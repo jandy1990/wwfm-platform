@@ -1,18 +1,16 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
-import { createServerSupabaseClient } from '@/lib/database/server'
 import { getSolutionDetail, getSimilarSolutions } from '@/lib/solutions/solution-details'
 import SolutionPageClient from '@/components/solution/SolutionPageClient'
 import Breadcrumbs from '@/components/molecules/Breadcrumbs'
 
 interface PageProps {
-  params: Promise<{ slug: string }>
+  params: { slug: string }
 }
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const resolvedParams = await params
-  const solution = await getSolutionDetail(resolvedParams.slug)
+  const solution = await getSolutionDetail(params.slug)
 
   if (!solution) {
     return {
@@ -48,11 +46,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function SolutionPage({ params }: PageProps) {
-  const resolvedParams = await params
-  const solution = await getSolutionDetail(resolvedParams.slug)
+  const solution = await getSolutionDetail(params.slug)
 
   if (!solution) {
-    console.error(`[DEBUG] Solution not found for slug: ${resolvedParams.slug}`)
+    console.error(`[DEBUG] Solution not found for slug: ${params.slug}`)
     notFound()
   }
 
@@ -68,7 +65,11 @@ export default async function SolutionPage({ params }: PageProps) {
   // Structure variants with their goal connections for client component
   const variantsWithGoals = solution.variants.map(variant => ({
     ...variant,
-    goalConnections: variant.goal_links,
+    goalConnections: variant.goal_links.map(goalLink => ({
+      ...goalLink,
+      implementation_id: goalLink.implementation_id ?? variant.id,
+      variant_name: variant.variant_name
+    })),
     totalRatings: variant.goal_links.reduce((sum, gc) => sum + gc.rating_count, 0),
     avgEffectiveness: variant.goal_links.length > 0
       ? variant.goal_links.reduce((sum, gc) => sum + gc.avg_effectiveness, 0) / variant.goal_links.length

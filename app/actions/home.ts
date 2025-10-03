@@ -1,16 +1,28 @@
 'use server'
 
-import { createServerSupabaseClient } from '@/lib/database/server';
+import type { SupabaseClient } from '@supabase/supabase-js'
+import { createServerSupabaseClient } from '@/lib/database/server'
 import type {
   HomePageData,
   TrendingGoal,
   ActivityEvent,
   FeaturedVerbatim,
   PlatformStats,
-  TrendingGoalRow,
-  ActivityEventRow,
-  PlatformStatsRow
-} from '@/types/home';
+  GoalSuggestion,
+  GoalSearchRow,
+  FeaturedVerbatimRow
+} from '@/types/home'
+import type { Database, Tables } from '@/types/supabase'
+
+type TrendingGoalRow = Database['public']['Functions']['get_trending_goals']['Returns'][number]
+type ActivityEventRow = Database['public']['Functions']['get_activity_feed']['Returns'][number]
+const TREND_STATUSES = ['hot', 'rising', 'stable'] as const satisfies readonly TrendingGoal['trendStatus'][]
+const ACTIVITY_TYPES = ['rating', 'discussion', 'new_solution'] as const satisfies readonly ActivityEvent['activityType'][]
+
+const pickFirst = <T>(value: T | T[] | null | undefined): T | undefined => {
+  if (!value) return undefined
+  return Array.isArray(value) ? value[0] : value
+}
 
 export async function getHomePageData(): Promise<HomePageData> {
   const supabase = await createServerSupabaseClient();
@@ -36,25 +48,16 @@ export async function getHomePageData(): Promise<HomePageData> {
   };
 }
 
-// Types for search functionality
-export type GoalSuggestion = {
-  id: string;
-  title: string;
-  arenaName: string;
-  categoryName: string;
-  score: number;
-};
-
 export async function searchGoals(query: string): Promise<GoalSuggestion[]> {
-  if (!query || query.trim().length < 2) {
-    return [];
+  const trimmed = query?.trim()
+  if (!trimmed || trimmed.length < 2) {
+    return []
   }
 
-  const supabase = await createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient()
 
   try {
-    // Fetch goals with arena and category information for suggestions
-    const { data: goals, error } = await supabase
+    const { data: goalRows, error } = await supabase
       .from('goals')
       .select(`
         id,
@@ -67,78 +70,76 @@ export async function searchGoals(query: string): Promise<GoalSuggestion[]> {
         )
       `)
       .eq('is_approved', true)
-      .ilike('title', `%${query.trim()}%`)
-      .limit(10);
+      .ilike('title', `%${trimmed}%`)
+      .limit(10)
+      .returns<GoalSearchRow[] | null>()
 
     if (error) {
-      console.error('Error searching goals:', error);
-      return [];
+      console.error('Error searching goals:', error)
+      return []
     }
 
-    if (!goals) {
-      return [];
-    }
+    const suggestions: GoalSuggestion[] = (goalRows ?? []).map((goal) => {
+      const titleLower = goal.title.toLowerCase()
+      const queryLower = trimmed.toLowerCase()
+      let score = 0
 
-    // Transform and score the results
-    const suggestions: GoalSuggestion[] = goals.map((goal: any) => {
-      const titleLower = goal.title.toLowerCase();
-      const queryLower = query.toLowerCase().trim();
-      let score = 0;
-
-      // Scoring system for smart ranking
       if (titleLower === queryLower) {
-        score = 100; // Exact match
+        score = 100
       } else if (titleLower.startsWith(queryLower)) {
-        score = 90; // Starts with query
-      } else if (titleLower.split(' ').some((word: string) => word.startsWith(queryLower))) {
-        score = 80; // Word starts with query
-      } else if (titleLower.includes(' ' + queryLower)) {
-        score = 70; // Word boundary match
+        score = 90
+      } else if (titleLower.split(' ').some((word) => word.startsWith(queryLower))) {
+        score = 80
+      } else if (titleLower.includes(` ${queryLower}`)) {
+        score = 70
       } else if (titleLower.includes(queryLower)) {
-        score = 60; // Contains query
+        score = 60
       }
 
-      // Bonus for action verbs
-      const actionVerb = goal.title.split(' ')[0].toLowerCase();
+      const actionVerb = goal.title.split(' ')[0]?.toLowerCase()
       if (actionVerb === queryLower) {
-        score += 20;
+        score += 20
       }
+
+      const category = pickFirst(goal.categories)
+      const arena = category ? pickFirst(category.arenas) : undefined
 
       return {
         id: goal.id,
         title: goal.title,
-        arenaName: goal.categories?.arenas?.name || 'Unknown Arena',
-        categoryName: goal.categories?.name || 'Unknown Category',
+        arenaName: arena?.name ?? 'Unknown Arena',
+        categoryName: category?.name ?? 'Unknown Category',
         score
-      };
-    });
+      }
+    })
 
-    // Sort by score and return top results
     return suggestions
-      .filter(s => s.score > 0)
+      .filter((suggestion) => suggestion.score > 0)
       .sort((a, b) => b.score - a.score)
-      .slice(0, 8);
-
-  } catch (error) {
-    console.error('Error in searchGoals:', error);
-    return [];
+      .slice(0, 8)
+  } catch (err) {
+    console.error('Error in searchGoals:', err)
+    return []
   }
 }
 
-async function getTrendingGoals(supabase: any): Promise<TrendingGoal[]> {
+async function getTrendingGoals(supabase: SupabaseClient<Database>): Promise<TrendingGoal[]> {
   try {
-    const { data, error } = await supabase.rpc('get_trending_goals', {
+    const args: Database['public']['Functions']['get_trending_goals']['Args'] = {
       timeframe_days: 7,
       limit_count: 8
-    });
-
-    if (error) {
-      console.error('Error fetching trending goals:', error);
-      return [];
     }
 
-    // Transform snake_case to camelCase
-    return (data || []).map((row: TrendingGoalRow): TrendingGoal => ({
+    const { data, error } = await supabase.rpc('get_trending_goals', args)
+
+    if (error) {
+      console.error('Error fetching trending goals:', error)
+      return []
+    }
+
+    const rows = data ?? []
+
+    return rows.map((row): TrendingGoal => ({
       id: row.id,
       title: row.title,
       emoji: row.emoji,
@@ -147,45 +148,52 @@ async function getTrendingGoals(supabase: any): Promise<TrendingGoal[]> {
       recentRatings: Number(row.recent_ratings),
       recentDiscussions: Number(row.recent_discussions),
       ratingsToday: Number(row.ratings_today),
-      trendStatus: row.trend_status,
+      trendStatus: TREND_STATUSES.includes(row.trend_status as TrendingGoal['trendStatus'])
+        ? (row.trend_status as TrendingGoal['trendStatus'])
+        : 'stable',
       activityScore: Number(row.activity_score)
-    }));
-  } catch (error) {
-    console.error('Error in getTrendingGoals:', error);
-    return [];
+    }))
+  } catch (err) {
+    console.error('Error in getTrendingGoals:', err)
+    return []
   }
 }
 
-async function getActivityFeed(supabase: any): Promise<ActivityEvent[]> {
+async function getActivityFeed(supabase: SupabaseClient<Database>): Promise<ActivityEvent[]> {
   try {
-    const { data, error } = await supabase.rpc('get_activity_feed', {
+    const args: Database['public']['Functions']['get_activity_feed']['Args'] = {
       hours_back: 24,
       limit_count: 20
-    });
-
-    if (error) {
-      console.error('Error fetching activity feed:', error);
-      return [];
     }
 
-    // Transform snake_case to camelCase
-    return (data || []).map((row: ActivityEventRow): ActivityEvent => ({
-      activityType: row.activity_type,
+    const { data, error } = await supabase.rpc('get_activity_feed', args)
+
+    if (error) {
+      console.error('Error fetching activity feed:', error)
+      return []
+    }
+
+    const rows = data ?? []
+
+    return rows.map((row): ActivityEvent => ({
+      activityType: ACTIVITY_TYPES.includes(row.activity_type as ActivityEvent['activityType'])
+        ? (row.activity_type as ActivityEvent['activityType'])
+        : 'rating',
       createdAt: new Date(row.created_at),
       goalTitle: row.goal_title,
       goalEmoji: row.goal_emoji,
       solutionTitle: row.solution_title || undefined,
-      rating: row.rating || undefined,
-      contentExcerpt: row.content_excerpt || undefined,
-      upvotes: row.upvotes || undefined
-    }));
-  } catch (error) {
-    console.error('Error in getActivityFeed:', error);
-    return [];
+      rating: row.rating ?? undefined,
+      contentExcerpt: row.content_excerpt ?? undefined,
+      upvotes: row.upvotes ?? undefined
+    }))
+  } catch (err) {
+    console.error('Error in getActivityFeed:', err)
+    return []
   }
 }
 
-async function getFeaturedVerbatims(supabase: any): Promise<FeaturedVerbatim[]> {
+async function getFeaturedVerbatims(supabase: SupabaseClient<Database>): Promise<FeaturedVerbatim[]> {
   try {
     // Query for high-quality discussion excerpts
     const { data, error } = await supabase
@@ -205,48 +213,52 @@ async function getFeaturedVerbatims(supabase: any): Promise<FeaturedVerbatim[]> 
       .gte('created_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()) // Last 30 days
       .order('upvotes', { ascending: false })
       .order('created_at', { ascending: false })
-      .limit(5);
+      .limit(5)
+      .returns<FeaturedVerbatimRow[] | null>()
 
     if (error) {
-      console.error('Error fetching featured verbatims:', error);
-      return [];
+      console.error('Error fetching featured verbatims:', error)
+      return []
     }
 
-    return (data || []).map((row: any): FeaturedVerbatim => {
-      const createdAt = new Date(row.created_at);
-      const now = new Date();
-      const hoursDiff = (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60);
+    return (data ?? []).map((row): FeaturedVerbatim => {
+      const createdAt = new Date(row.created_at)
+      const now = new Date()
+      const hoursDiff = (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60)
 
-      let timeBucket: FeaturedVerbatim['timeBucket'];
-      if (hoursDiff < 24) timeBucket = 'today';
-      else if (hoursDiff < 168) timeBucket = 'this week'; // 7 days
-      else if (hoursDiff < 720) timeBucket = 'this month'; // 30 days
-      else timeBucket = 'earlier';
+      let timeBucket: FeaturedVerbatim['timeBucket']
+      if (hoursDiff < 24) timeBucket = 'today'
+      else if (hoursDiff < 168) timeBucket = 'this week' // 7 days
+      else if (hoursDiff < 720) timeBucket = 'this month' // 30 days
+      else timeBucket = 'earlier'
+
+      const goalInfo = pickFirst(row.goals)
 
       return {
-        goalTitle: row.goals.title,
-        goalEmoji: row.goals.emoji,
+        goalTitle: goalInfo?.title ?? 'Unknown Goal',
+        goalEmoji: goalInfo?.emoji ?? '❓',
         content: row.content,
         upvotes: row.upvotes,
         createdAt,
         timeBucket
-      };
-    });
-  } catch (error) {
-    console.error('Error in getFeaturedVerbatims:', error);
-    return [];
+      }
+    })
+  } catch (err) {
+    console.error('Error in getFeaturedVerbatims:', err)
+    return []
   }
 }
 
-async function getPlatformStats(supabase: any): Promise<PlatformStats> {
+async function getPlatformStats(supabase: SupabaseClient<Database>): Promise<PlatformStats> {
   try {
     const { data, error } = await supabase
       .from('platform_stats_cache')
       .select('*')
-      .single();
+      .single()
+      .returns<Tables<'platform_stats_cache'> | null>()
 
     if (error) {
-      console.error('Error fetching platform stats:', error);
+      console.error('Error fetching platform stats:', error)
       // Return fallback stats
       return {
         totalSolutions: 0,
@@ -255,20 +267,28 @@ async function getPlatformStats(supabase: any): Promise<PlatformStats> {
         activeUsersToday: 0,
         ratingsLastHour: 0,
         discussionsToday: 0
-      };
+      }
     }
 
-    const row: PlatformStatsRow = data;
+    const row = data ?? {
+      active_users_today: 0,
+      avg_effectiveness: 0,
+      discussions_today: 0,
+      ratings_last_hour: 0,
+      total_goals: 0,
+      total_solutions: 0,
+      last_updated: null
+    }
     return {
-      totalSolutions: Number(row.total_solutions),
-      totalGoals: Number(row.total_goals),
-      avgEffectiveness: Number(row.avg_effectiveness),
-      activeUsersToday: Number(row.active_users_today),
-      ratingsLastHour: Number(row.ratings_last_hour),
-      discussionsToday: Number(row.discussions_today)
-    };
-  } catch (error) {
-    console.error('Error in getPlatformStats:', error);
+      totalSolutions: Number(row.total_solutions ?? 0),
+      totalGoals: Number(row.total_goals ?? 0),
+      avgEffectiveness: Number(row.avg_effectiveness ?? 0),
+      activeUsersToday: Number(row.active_users_today ?? 0),
+      ratingsLastHour: Number(row.ratings_last_hour ?? 0),
+      discussionsToday: Number(row.discussions_today ?? 0)
+    }
+  } catch (err) {
+    console.error('Error in getPlatformStats:', err)
     // Return fallback stats
     return {
       totalSolutions: 0,
@@ -277,6 +297,6 @@ async function getPlatformStats(supabase: any): Promise<PlatformStats> {
       activeUsersToday: 0,
       ratingsLastHour: 0,
       discussionsToday: 0
-    };
+    }
   }
 }

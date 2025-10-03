@@ -244,7 +244,7 @@ export function PracticeForm({
                        startupCost && startupCost !== "Free/No startup cost" ? "one_time" : "free";
       
       // Build solution fields object with category-specific fields
-      const solutionFields: Record<string, any> = {
+      const solutionFields: Record<string, unknown> = {
         // Primary cost fields for filtering
         cost: primaryCost,
         cost_type: costType,
@@ -320,7 +320,7 @@ export function PracticeForm({
 
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (bestTime && bestTime.trim()) additionalFields.best_time = bestTime.trim();
     if (location && location.trim()) additionalFields.location = location.trim();

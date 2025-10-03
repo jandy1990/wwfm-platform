@@ -9,16 +9,21 @@
  */
 
 import { createServerSupabaseClient } from '@/lib/database/server'
-import type { 
-  DistributionData, 
+import type {
+  DistributionData,
   DistributionValue,
-  AggregatedFields, 
-  RatingWithFields,
-  AggregatedFieldsMetadata 
+  AggregatedFields
 } from '@/types/aggregated-fields'
+import type { TablesInsert, TablesUpdate } from '@/types/supabase'
+
+type SolutionFieldRecord = Record<string, unknown>
+
+interface HumanRatingRow {
+  solution_fields: SolutionFieldRecord | null
+}
 
 // Re-export types for convenience
-export type { DistributionData, AggregatedFields, RatingWithFields }
+export type { DistributionData, AggregatedFields }
 
 export class SolutionAggregator {
   /**
@@ -31,16 +36,20 @@ export class SolutionAggregator {
     const supabase = await createServerSupabaseClient()
     
     // Fetch only HUMAN ratings with solution_fields for this combo
-    const { data: ratings, error } = await supabase
+    const { data, error } = await supabase
       .from('ratings')
-      .select('solution_fields, user_id, data_source')
+      .select('solution_fields')
       .eq('goal_id', goalId)
       .eq('implementation_id', implementationId)
       .eq('data_source', 'human')  // Only human ratings for aggregation
-    
-    if (error || !ratings || ratings.length === 0) {
+
+    if (error || !data || data.length === 0) {
       return {}
     }
+
+    const ratings: HumanRatingRow[] = data.map(row => ({
+      solution_fields: (row as HumanRatingRow).solution_fields ?? null
+    }))
     
     // Since we only fetch human ratings, all data is from users
     const userRatings = ratings.length
@@ -152,18 +161,24 @@ export class SolutionAggregator {
    * Aggregate array fields into DistributionData format
    */
   private aggregateArrayField(
-    ratings: any[], 
+    ratings: ReadonlyArray<HumanRatingRow>,
     fieldName: string
   ): DistributionData | undefined {
     const valueCounts: Record<string, number> = {}
     let ratingsWithField = 0
-    
+
     // Collect all values from all ratings
     for (const rating of ratings) {
-      const fields = rating.solution_fields as Record<string, any>
-      if (fields && fields[fieldName] && Array.isArray(fields[fieldName])) {
+      const fields = this.ensureSolutionFields(rating)
+      const fieldValue = fields?.[fieldName]
+      if (Array.isArray(fieldValue)) {
+        const normalizedValues = fieldValue
+          .map((value) => (typeof value === 'string' ? value.trim() : null))
+          .filter((value): value is string => Boolean(value && value.length > 0))
+
+        if (normalizedValues.length === 0) continue
         ratingsWithField++
-        for (const value of fields[fieldName]) {
+        for (const value of normalizedValues) {
           valueCounts[value] = (valueCounts[value] || 0) + 1
         }
       }
@@ -196,21 +211,22 @@ export class SolutionAggregator {
    * Aggregate single-value fields into DistributionData format
    */
   private aggregateValueField(
-    ratings: any[], 
+    ratings: ReadonlyArray<HumanRatingRow>,
     fieldName: string
   ): DistributionData | undefined {
     const valueCounts: Record<string, number> = {}
     let ratingsWithField = 0
-    
+
     for (const rating of ratings) {
-      const fields = rating.solution_fields as Record<string, any>
-      if (fields && fields[fieldName] && fields[fieldName] !== '') {
+      const fields = this.ensureSolutionFields(rating)
+      const fieldValue = fields?.[fieldName]
+      const normalizedValue = this.normaliseToString(fieldValue)
+      if (normalizedValue) {
         ratingsWithField++
-        const value = String(fields[fieldName])
-        valueCounts[value] = (valueCounts[value] || 0) + 1
+        valueCounts[normalizedValue] = (valueCounts[normalizedValue] || 0) + 1
       }
     }
-    
+
     if (Object.keys(valueCounts).length === 0) return undefined
 
     // Convert to DistributionValue array
@@ -238,21 +254,26 @@ export class SolutionAggregator {
    * Aggregate boolean fields into DistributionData format
    */
   private aggregateBooleanField(
-    ratings: any[], 
+    ratings: ReadonlyArray<HumanRatingRow>,
     fieldName: string
   ): DistributionData | undefined {
     const valueCounts: Record<string, number> = { 'true': 0, 'false': 0 }
     let ratingsWithField = 0
-    
+
     for (const rating of ratings) {
-      const fields = rating.solution_fields as Record<string, any>
-      if (fields && fieldName in fields && fields[fieldName] !== null && fields[fieldName] !== undefined) {
+      const fields = this.ensureSolutionFields(rating)
+      if (fields && fieldName in fields) {
+        const rawValue = fields[fieldName]
+        const booleanValue = this.normaliseToBoolean(rawValue)
+        if (booleanValue === null) {
+          continue
+        }
         ratingsWithField++
-        const value = String(fields[fieldName])
-        valueCounts[value] = (valueCounts[value] || 0) + 1
+        const key = booleanValue ? 'true' : 'false'
+        valueCounts[key] = (valueCounts[key] || 0) + 1
       }
     }
-    
+
     if (ratingsWithField === 0) return undefined
 
     // Convert to DistributionValue array
@@ -334,13 +355,15 @@ export class SolutionAggregator {
     if (existingLink) {
       // Update existing link
       console.log(`[Aggregator] Updating existing link ${existingLink.id}`)
+      const updatePayload: TablesUpdate<'goal_implementation_links'> = {
+        aggregated_fields: aggregated as TablesUpdate<'goal_implementation_links'>['aggregated_fields'],
+        updated_at: new Date().toISOString(),
+        needs_aggregation: false
+      }
+
       const { error: updateError } = await supabase
         .from('goal_implementation_links')
-        .update({ 
-          aggregated_fields: aggregated,
-          updated_at: new Date().toISOString(),
-          needs_aggregation: false
-        })
+        .update(updatePayload)
         .eq('goal_id', goalId)
         .eq('implementation_id', implementationId)
       
@@ -352,16 +375,18 @@ export class SolutionAggregator {
     } else {
       // Create new link with aggregated fields
       console.log('[Aggregator] Creating new link with aggregated fields')
+      const insertPayload: TablesInsert<'goal_implementation_links'> = {
+        goal_id: goalId,
+        implementation_id: implementationId,
+        aggregated_fields: aggregated as TablesInsert<'goal_implementation_links'>['aggregated_fields'],
+        avg_effectiveness: 0,
+        rating_count: 1,
+        needs_aggregation: false
+      }
+
       const { error: insertError } = await supabase
         .from('goal_implementation_links')
-        .insert({
-          goal_id: goalId,
-          implementation_id: implementationId,
-          aggregated_fields: aggregated,
-          avg_effectiveness: 0, // Will be updated by triggers
-          rating_count: 1,
-          needs_aggregation: false
-        })
+        .insert(insertPayload)
       
       if (insertError) {
         console.error('[Aggregator] Error creating link with aggregated fields:', insertError)
@@ -369,6 +394,40 @@ export class SolutionAggregator {
       }
       console.log('[Aggregator] Successfully created new link with aggregated fields')
     }
+  }
+
+  private ensureSolutionFields(rating: HumanRatingRow): SolutionFieldRecord | null {
+    if (!rating.solution_fields || typeof rating.solution_fields !== 'object') {
+      return null
+    }
+    return rating.solution_fields
+  }
+
+  private normaliseToString(value: unknown): string | null {
+    if (typeof value === 'string') {
+      const trimmed = value.trim()
+      return trimmed.length > 0 ? trimmed : null
+    }
+
+    if (typeof value === 'number' || typeof value === 'boolean') {
+      return String(value)
+    }
+
+    return null
+  }
+
+  private normaliseToBoolean(value: unknown): boolean | null {
+    if (typeof value === 'boolean') {
+      return value
+    }
+
+    if (typeof value === 'string') {
+      const trimmed = value.trim().toLowerCase()
+      if (trimmed === 'true') return true
+      if (trimmed === 'false') return false
+    }
+
+    return null
   }
 }
 

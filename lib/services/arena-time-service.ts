@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/database/client'
-import type { Database } from '@/types/database.types'
 
 export interface ArenaStats {
   arena_name: string

@@ -2,18 +2,16 @@
 'use client';
 
 import { SolutionMatch } from '@/lib/solutions/categorization';
-import { CheckCircle2, ArrowRight, Plus } from 'lucide-react';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
 
 interface SolutionSearchResultsProps {
   solutions: SolutionMatch[];
   onSelectSolution: (solution: SolutionMatch) => void;
-  searchTerm: string;
 }
 
 export default function SolutionSearchResults({ 
   solutions, 
-  onSelectSolution,
-  searchTerm 
+  onSelectSolution
 }: SolutionSearchResultsProps) {
   if (solutions.length === 0) return null;
 

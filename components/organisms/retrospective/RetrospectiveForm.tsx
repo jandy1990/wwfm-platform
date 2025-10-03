@@ -4,42 +4,27 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { submitRetrospective } from '@/app/actions/retrospectives'
 import { IMPACT_OPTIONS } from '@/types/retrospectives'
-import { formatDistanceToNow } from 'date-fns'
 import { FormSectionHeader } from '@/components/organisms/solutions/forms/shared'
 import { Check, Loader2 } from 'lucide-react'
 
 interface Props {
   scheduleId: string
   goalTitle: string
-  goalDescription: string
   solutionTitle: string
-  achievementDate: string
+  achievementDate?: string | null
 }
 
 export default function RetrospectiveForm({ 
   scheduleId, 
   goalTitle, 
-  goalDescription,
   solutionTitle,
-  achievementDate 
+  achievementDate,
 }: Props) {
   const router = useRouter()
   const [impact, setImpact] = useState<number | null>(null)
   const [unexpectedBenefits, setUnexpectedBenefits] = useState('')
   const [benefitsLasted, setBenefitsLasted] = useState<boolean | null>(null)
   const [submitting, setSubmitting] = useState(false)
-
-  const timeAgo = (() => {
-    try {
-      const date = new Date(achievementDate)
-      if (isNaN(date.getTime())) {
-        return '6 months ago'
-      }
-      return formatDistanceToNow(date, { addSuffix: true })
-    } catch {
-      return '6 months ago'
-    }
-  })()
 
   const handleSubmit = async () => {
     if (impact === null) return
@@ -97,7 +82,7 @@ export default function RetrospectiveForm({
         <FormSectionHeader 
           icon="🎯" 
           title="Enduring Impact"
-          bgColor="bg-purple-100 dark:bg-purple-900"
+          bgColorClassName="bg-purple-100 dark:bg-purple-900"
         />
         
         <div className="space-y-4">
@@ -140,7 +125,7 @@ export default function RetrospectiveForm({
         <FormSectionHeader 
           icon="🔄" 
           title="Lasting Impact"
-          bgColor="bg-green-100 dark:bg-green-900"
+          bgColorClassName="bg-green-100 dark:bg-green-900"
         />
         
         <div className="space-y-4">
@@ -183,7 +168,7 @@ export default function RetrospectiveForm({
         <FormSectionHeader 
           icon="✨" 
           title="Unexpected Benefits (Optional)"
-          bgColor="bg-amber-100 dark:bg-amber-900"
+          bgColorClassName="bg-amber-100 dark:bg-amber-900"
         />
         
         <div className="space-y-4">

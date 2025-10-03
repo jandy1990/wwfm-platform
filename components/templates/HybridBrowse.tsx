@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import Link from 'next/link'
-import { groupCategoriesBySuperCategory, SUPER_CATEGORY_COLORS, shouldSkipCategoryLayer, type CategoryGroup } from '@/lib/navigation/super-categories'
+import { groupCategoriesBySuperCategory, SUPER_CATEGORY_COLORS, shouldSkipCategoryLayer } from '@/lib/navigation/super-categories'
 import { getCategoryIcon } from '@/lib/navigation/category-icons'
 import { ArenaSkeleton, SkeletonGrid, SearchSkeleton, PageHeaderSkeleton } from '@/components/atoms/SkeletonLoader'
 
@@ -86,15 +86,17 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
   const debouncedSearch = useDebounce(searchQuery, 150)
   
   // Search cache (reused from original)
-  const searchCache = useRef<Map<string, {
+  type SearchCacheEntry = {
     suggestions: Array<{
-      goal: Goal,
-      category: Category,
-      arena: Arena,
+      goal: Goal
+      category: Category
+      arena: Arena
       score: number
     }>
-  }>>(new Map())
-  const cacheTimeout = useRef<Map<string, NodeJS.Timeout>>(new Map())
+  }
+
+  const searchCache = useRef<Map<string, SearchCacheEntry>>(new Map())
+  const cacheTimeout = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map())
   const searchContainerRef = useRef<HTMLDivElement>(null)
   
   // Group categories by super-category
@@ -111,18 +113,19 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
   }, [categoryGroups, selectedSuperCategory])
 
   // Search functionality (adapted from original)
-  const setCacheWithExpiry = useCallback((key: string, data: any, expiryMs: number = 300000) => {
-    if (cacheTimeout.current.has(key)) {
-      clearTimeout(cacheTimeout.current.get(key)!)
+  const setCacheWithExpiry = useCallback((key: string, data: SearchCacheEntry, expiryMs: number = 300000) => {
+    const existingTimeout = cacheTimeout.current.get(key)
+    if (existingTimeout) {
+      clearTimeout(existingTimeout)
     }
-    
+
     searchCache.current.set(key, data)
-    
+
     const timeout = setTimeout(() => {
       searchCache.current.delete(key)
       cacheTimeout.current.delete(key)
     }, expiryMs)
-    
+
     cacheTimeout.current.set(key, timeout)
   }, [])
 

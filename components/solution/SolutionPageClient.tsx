@@ -12,38 +12,6 @@ import type { SolutionDetailWithGoals, SimilarSolution } from '@/lib/solutions/s
 const VARIANT_CATEGORIES = ['medications', 'supplements_vitamins', 'natural_remedies', 'beauty_skincare']
 
 // Enhanced variant type for client component
-interface VariantWithGoals {
-  id: string
-  variant_name: string
-  amount?: number | null
-  unit?: string | null
-  form?: string | null
-  goalConnections: Array<{
-    goal_id: string
-    implementation_id: string
-    avg_effectiveness: number
-    rating_count: number
-    typical_application?: string | null
-    contraindications?: string | null
-    notes?: string | null
-    goals: {
-      id: string
-      title: string
-      description?: string | null
-      arena_id: string
-      arenas: {
-        id: string
-        name: string
-        slug: string
-        icon: string
-      }
-    }
-  }>
-  totalRatings: number
-  avgEffectiveness: number
-}
-
-// Goal connection for all variants view
 interface GoalConnectionWithVariant {
   goal_id: string
   implementation_id: string
@@ -65,6 +33,19 @@ interface GoalConnectionWithVariant {
       icon: string
     }
   }
+  best_variant?: string
+  best_variant_id?: string
+}
+
+interface VariantWithGoals {
+  id: string
+  variant_name: string
+  amount?: number | null
+  unit?: string | null
+  form?: string | null
+  goalConnections: GoalConnectionWithVariant[]
+  totalRatings: number
+  avgEffectiveness: number
 }
 
 interface SolutionPageClientProps {
@@ -73,6 +54,25 @@ interface SolutionPageClientProps {
   allGoalConnections: GoalConnectionWithVariant[]
   similarSolutions: SimilarSolution[]
 }
+
+type AggregatedDisplayData = {
+  type: 'aggregated'
+  goalConnections: GoalConnectionWithVariant[]
+  totalRatings: number
+  avgEffectiveness: number
+  goalCount: number
+}
+
+type SingleDisplayData = {
+  type: 'single'
+  variant: VariantWithGoals
+  goalConnections: GoalConnectionWithVariant[]
+  totalRatings: number
+  avgEffectiveness: number
+  goalCount: number
+}
+
+type DisplayData = AggregatedDisplayData | SingleDisplayData | null
 
 // Category configuration for icons and labels
 const CATEGORY_CONFIG: Record<string, { icon: string; label: string }> = {
@@ -164,15 +164,16 @@ export default function SolutionPageClient({
   }
 
   // Determine what data to display based on variant selection
-  const displayData = useMemo(() => {
+  const displayData = useMemo<DisplayData>(() => {
     if (!hasMultipleVariants || selectedVariant === 'all') {
       // Aggregate all variants
-      const uniqueGoals = new Map()
+      const uniqueGoals = new Map<string, GoalConnectionWithVariant>()
 
       // Group by goal and find best variant for each
       allGoalConnections.forEach(gc => {
         const goalId = gc.goal_id
-        if (!uniqueGoals.has(goalId) || gc.avg_effectiveness > uniqueGoals.get(goalId).avg_effectiveness) {
+        const existing = uniqueGoals.get(goalId)
+        if (!existing || gc.avg_effectiveness > existing.avg_effectiveness) {
           // Find which variant this belongs to
           const variant = variantsWithGoals.find(v =>
             v.goalConnections.some(vgc => vgc.goal_id === goalId && vgc.implementation_id === gc.implementation_id)
@@ -180,7 +181,7 @@ export default function SolutionPageClient({
 
           uniqueGoals.set(goalId, {
             ...gc,
-            best_variant: variant?.variant_name || 'Standard',
+            best_variant: variant?.variant_name ?? 'Standard',
             best_variant_id: variant?.id
           })
         }
@@ -222,7 +223,7 @@ export default function SolutionPageClient({
     const goalConnections = displayData?.goalConnections || []
     if (goalConnections.length < 10) return null
 
-    const grouped = goalConnections.reduce((acc, gc) => {
+    const grouped = goalConnections.reduce<Record<string, { icon: string; goals: GoalConnectionWithVariant[] }>>((acc, gc) => {
       const arenaName = gc.goals.arenas.name
       if (!acc[arenaName]) {
         acc[arenaName] = {
@@ -232,7 +233,7 @@ export default function SolutionPageClient({
       }
       acc[arenaName].goals.push(gc)
       return acc
-    }, {} as Record<string, { icon: string; goals: any[] }>)
+    }, {})
 
     return grouped
   }, [displayData])
@@ -242,7 +243,12 @@ export default function SolutionPageClient({
     const goalConnections = displayData?.goalConnections || []
     if (goalConnections.length < 3) return null
 
-    const arenaStats = goalConnections.reduce((acc, gc) => {
+    const arenaStats = goalConnections.reduce<Record<string, {
+      icon: string
+      goals: GoalConnectionWithVariant[]
+      totalEffectiveness: number
+      totalRatings: number
+    }>>((acc, gc) => {
       const arenaName = gc.goals.arenas.name
       if (!acc[arenaName]) {
         acc[arenaName] = {
@@ -256,12 +262,7 @@ export default function SolutionPageClient({
       acc[arenaName].totalEffectiveness += gc.avg_effectiveness * gc.rating_count
       acc[arenaName].totalRatings += gc.rating_count
       return acc
-    }, {} as Record<string, {
-      icon: string;
-      goals: any[];
-      totalEffectiveness: number;
-      totalRatings: number
-    }>)
+    }, {})
 
     // Calculate weighted averages and sort by effectiveness
     const arenaResults = Object.entries(arenaStats)
@@ -282,9 +283,7 @@ export default function SolutionPageClient({
   const currentTotalRatings = displayData?.totalRatings || 0
   const currentGoalConnections = displayData?.goalConnections || []
 
-  const showEffectivenessChart = currentGoalCount >= 3
   const showMostEffectiveFor = currentGoalCount >= 5
-  const showInsights = currentTotalRatings >= 10
   const showSingleGoalNotice = currentGoalCount === 1
   const shouldGroupByArena = currentGoalConnections.length >= 10
 
@@ -526,7 +525,7 @@ export default function SolutionPageClient({
                   <span className="text-xl">🎯</span>
                   <div className="flex items-center gap-6 flex-wrap">
                     <span className="text-sm text-gray-600 dark:text-gray-400">Strongest in:</span>
-                    {arenaEffectiveness.slice(0, 3).map((arena, index) => (
+                    {arenaEffectiveness.slice(0, 3).map(arena => (
                       <div key={arena.name} className="flex items-center gap-1.5">
                         <span className="text-base">{arena.icon}</span>
                         <span className="font-medium text-gray-900 dark:text-gray-100">
@@ -707,7 +706,7 @@ export default function SolutionPageClient({
 
 // Goal card component
 function GoalCard({ goalConnection, showBestVariant = false, hideArenaContext = false }: {
-  goalConnection: any
+  goalConnection: GoalConnectionWithVariant
   showBestVariant?: boolean
   hideArenaContext?: boolean
 }) {

@@ -26,6 +26,15 @@ type Arena = {
   goals?: Goal[]
 }
 
+type GoalRow = {
+  id: string
+  title: string
+  description: string | null
+  emoji: string | null
+  view_count: number | null
+  goal_implementation_links: { id: string }[] | null
+}
+
 async function getArenaWithGoals(slug: string) {
   const supabase = await createServerSupabaseClient()
   
@@ -68,14 +77,14 @@ async function getArenaWithGoals(slug: string) {
   })
 
   // Process goals to add solution counts
-  const processedGoals = goals?.map((goal: any) => ({
+  const processedGoals = (goals as GoalRow[] | null)?.map((goal) => ({
     id: goal.id,
     title: goal.title,
     description: goal.description,
     emoji: goal.emoji,
-    view_count: goal.view_count || 0,
-    solution_count: goal.goal_implementation_links?.length || 0
-  })) || []
+    view_count: goal.view_count ?? 0,
+    solution_count: goal.goal_implementation_links?.length ?? 0
+  })) ?? []
 
   return {
     ...arena,
@@ -83,9 +92,8 @@ async function getArenaWithGoals(slug: string) {
   } as Arena
 }
 
-export default async function ArenaPage({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = await params
-  const arena = await getArenaWithGoals(resolvedParams.slug)
+export default async function ArenaPage({ params }: { params: { slug: string } }) {
+  const arena = await getArenaWithGoals(params.slug)
 
   if (!arena) {
     notFound()

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll } from '@jest/globals'
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { updateSolutionFields } from '@/app/actions/update-solution-fields'
 import { createClient } from '@supabase/supabase-js'
 
@@ -24,7 +24,7 @@ describe('updateSolutionFields', () => {
         user_id: TEST_USER_ID,
         goal_id: TEST_GOAL_ID,
         implementation_id: TEST_VARIANT_ID,
-        effectiveness: 4,
+        effectiveness_score: 4,
         solution_fields: {
           initial_field: 'test_value'
         }
@@ -53,7 +53,7 @@ describe('updateSolutionFields', () => {
     
     const result = await updateSolutionFields({
       goalId: TEST_GOAL_ID,
-      variantId: TEST_VARIANT_ID,
+      implementationId: TEST_VARIANT_ID,
       userId: TEST_USER_ID,
       additionalFields: newFields
     })
@@ -76,7 +76,7 @@ describe('updateSolutionFields', () => {
   it('should handle missing rating gracefully', async () => {
     const result = await updateSolutionFields({
       goalId: TEST_GOAL_ID,
-      variantId: 'non-existent-variant',
+      implementationId: 'non-existent-variant',
       userId: 'non-existent-user',
       additionalFields: { test: 'data' }
     })
@@ -88,7 +88,7 @@ describe('updateSolutionFields', () => {
   it('should trigger aggregation after update', async () => {
     const result = await updateSolutionFields({
       goalId: TEST_GOAL_ID,
-      variantId: TEST_VARIANT_ID,
+      implementationId: TEST_VARIANT_ID,
       userId: TEST_USER_ID,
       additionalFields: {
         new_field: 'new_value'
@@ -106,7 +106,7 @@ describe('updateSolutionFields', () => {
     // First update
     await updateSolutionFields({
       goalId: TEST_GOAL_ID,
-      variantId: TEST_VARIANT_ID,
+      implementationId: TEST_VARIANT_ID,
       userId: TEST_USER_ID,
       additionalFields: {
         field_a: 'value_a'
@@ -116,7 +116,7 @@ describe('updateSolutionFields', () => {
     // Second update with different field
     await updateSolutionFields({
       goalId: TEST_GOAL_ID,
-      variantId: TEST_VARIANT_ID,
+      implementationId: TEST_VARIANT_ID,
       userId: TEST_USER_ID,
       additionalFields: {
         field_b: 'value_b'

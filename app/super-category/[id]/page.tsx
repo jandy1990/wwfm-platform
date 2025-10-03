@@ -10,7 +10,7 @@ import { createServerSupabaseClient } from '@/lib/database/server'
 import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrumbs'
 import EmptyState from '@/components/molecules/EmptyState'
 import { GoalPageTracker } from '@/components/tracking/GoalPageTracker'
-import { SUPER_CATEGORIES, SUPER_CATEGORY_COLORS, getSuperCategoryForCategory } from '@/lib/navigation/super-categories'
+import { SUPER_CATEGORIES, SUPER_CATEGORY_COLORS } from '@/lib/navigation/super-categories'
 
 // Types
 type Goal = {
@@ -23,11 +23,21 @@ type Goal = {
   is_approved?: boolean
 }
 
-type Category = {
+type CategoryRow = {
   id: string
   name: string
   slug: string
-  goals: Goal[]
+  goals: GoalRow[] | null
+}
+
+type GoalRow = {
+  id: string
+  title: string
+  description: string | null
+  emoji: string | null
+  view_count: number | null
+  is_approved: boolean
+  goal_implementation_links: { id: string }[] | null
 }
 
 async function getSuperCategoryWithGoals(superCategoryId: string) {
@@ -65,16 +75,18 @@ async function getSuperCategoryWithGoals(superCategoryId: string) {
   }
 
   // Flatten all goals from all categories
+  const categoryRows: CategoryRow[] = Array.isArray(categories) ? (categories as CategoryRow[]) : []
+
   const allGoals: Goal[] = []
-  categories?.forEach(category => {
-    category.goals?.forEach((goal: any) => {
+  categoryRows.forEach(category => {
+    category.goals?.forEach((goal) => {
       allGoals.push({
         id: goal.id,
         title: goal.title,
         description: goal.description,
         emoji: goal.emoji,
-        view_count: goal.view_count || 0,
-        solution_count: goal.goal_implementation_links?.length || 0,
+        view_count: goal.view_count ?? 0,
+        solution_count: goal.goal_implementation_links?.length ?? 0,
         is_approved: goal.is_approved
       })
     })
@@ -89,18 +101,10 @@ async function getSuperCategoryWithGoals(superCategoryId: string) {
   }
 }
 
-export default async function SuperCategoryPage({ params }: { params: Promise<{ id: string }> }) {
-  const resolvedParams = await params
-
-  if (!resolvedParams?.id) {
-    console.error('No super-category ID provided')
-    notFound()
-  }
-
-  const result = await getSuperCategoryWithGoals(resolvedParams.id)
+export default async function SuperCategoryPage({ params }: { params: { id: string } }) {
+  const result = await getSuperCategoryWithGoals(params.id)
 
   if (!result) {
-    console.error(`Super-category not found for id: ${resolvedParams.id}`)
     notFound()
   }
 
@@ -115,7 +119,10 @@ export default async function SuperCategoryPage({ params }: { params: Promise<{ 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Breadcrumb Navigation */}
         <Breadcrumbs
-          items={createBreadcrumbs('browse', {})}
+          items={[
+            { label: 'Home', href: '/', hideOnMobile: true },
+            { label: 'Browse', href: '/browse' }
+          ]}
         />
 
         {/* Super-Category Header */}

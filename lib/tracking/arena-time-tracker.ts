@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/database/client'
-import type { Database } from '@/types/database.types'
 
 interface TimeEntry {
   arena_name: string
@@ -14,7 +13,7 @@ export class ArenaTimeTracker {
   private startTime: number | null = null
   private currentArena: string | null = null
   private currentArenaId: string | null = null
-  private syncInterval: NodeJS.Timeout | null = null
+  private syncInterval: ReturnType<typeof setInterval> | null = null
   private isTracking: boolean = false
   
   private readonly STORAGE_KEY = 'wwfm_arena_time'

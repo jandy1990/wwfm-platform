@@ -1,5 +1,31 @@
 import { NextResponse } from 'next/server'
 import { createServerSupabaseClient } from '@/lib/database/server'
+import type { Json, Tables } from '@/types/supabase'
+
+type GoalSummary = Pick<Tables<'goals'>, 'id' | 'title' | 'description'>
+type SolutionRow = Tables<'solutions'>
+type SolutionVariantRow = Tables<'solution_variants'>
+type GoalLinkRow = Tables<'goal_implementation_links'>
+
+type SolutionVariantWithSolution = SolutionVariantRow & {
+  solutions: SolutionRow | SolutionRow[] | null
+}
+
+type GoalLinkWithVariants = GoalLinkRow & {
+  solution_variants: SolutionVariantWithSolution | SolutionVariantWithSolution[] | null
+}
+
+const pickFirst = <T>(value: T | T[] | null | undefined): T | undefined => {
+  if (!value) return undefined
+  return Array.isArray(value) ? value[0] : value
+}
+
+const toRecord = (value: Json | null): Record<string, unknown> => {
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    return value as Record<string, unknown>
+  }
+  return {}
+}
 
 interface Solution {
   id: string
@@ -48,16 +74,17 @@ export async function GET() {
       .select('id, title, description')
       .or('title.ilike.%anxiety%,description.ilike.%anxiety%')
       .order('title')
+      .returns<GoalSummary[] | null>()
 
     if (goalError) {
       return NextResponse.json({ error: 'Error fetching goals', details: goalError }, { status: 500 })
     }
 
     // Find the specific "Calm My Anxiety" goal
-    const calmAnxietyGoal = goals.find(g => 
+    const calmAnxietyGoal = (goals ?? []).find(g => 
       g.title.toLowerCase().includes('calm') && 
       g.title.toLowerCase().includes('anxiety')
-    ) || goals[0] // Fall back to first anxiety goal if exact match not found
+    ) || (goals ?? [])[0] // Fall back to first anxiety goal if exact match not found
 
     if (!calmAnxietyGoal) {
       return NextResponse.json({ error: 'No anxiety goals found' }, { status: 404 })
@@ -103,43 +130,52 @@ export async function GET() {
       .eq('solution_variants.solutions.is_approved', true)
       .order('avg_effectiveness', { ascending: false })
       .limit(10)
+      .returns<GoalLinkWithVariants[] | null>()
 
     if (linksError) {
       return NextResponse.json({ error: 'Error fetching solutions', details: linksError }, { status: 500 })
     }
 
     // Transform the data for easier reading
-    const solutions = (goalLinks as GoalLink[])
-      .filter((link: GoalLink) => link.solution_variants?.solutions) // Filter out invalid entries
-      .map((link: GoalLink, index: number) => {
-        const variant = link.solution_variants
-        const solution = variant.solutions
-        
-        return {
-          rank: index + 1,
-          solution_name: solution.title,
-          category: solution.solution_category,
-          effectiveness_rating: link.avg_effectiveness || 'Not rated',
-          rating_count: link.rating_count || 0,
-          source_type: solution.source_type,
-          variant_info: {
-            name: variant.variant_name,
-            amount: variant.amount,
-            unit: variant.unit,
-            form: variant.form,
-            is_default: variant.is_default
-          },
-          solution_fields: link.solution_fields || {},
-          typical_application: link.typical_application,
-          contraindications: link.contraindications,
-          notes: link.notes,
-          description: solution.description,
-          parent_concept: solution.parent_concept,
-          search_keywords: solution.search_keywords,
-          created_at: link.created_at,
-          updated_at: link.updated_at
-        }
+    const solutions = (goalLinks ?? [])
+      .map((link) => {
+        const variant = pickFirst(link.solution_variants)
+        if (!variant) return null
+
+        const solution = pickFirst(variant.solutions)
+        if (!solution) return null
+
+        return { link, variant, solution }
       })
+      .filter((entry): entry is {
+        link: GoalLinkWithVariants
+        variant: SolutionVariantWithSolution
+        solution: SolutionRow
+      } => entry !== null)
+      .map(({ link, variant, solution }, index) => ({
+        rank: index + 1,
+        solution_name: solution.title,
+        category: solution.solution_category,
+        effectiveness_rating: link.avg_effectiveness ?? 'Not rated',
+        rating_count: link.rating_count ?? 0,
+        source_type: solution.source_type,
+        variant_info: {
+          name: variant.variant_name,
+          amount: variant.amount ?? null,
+          unit: variant.unit ?? null,
+          form: variant.form ?? null,
+          is_default: variant.is_default ?? false
+        },
+        solution_fields: toRecord(link.solution_fields),
+        typical_application: link.typical_application,
+        contraindications: link.contraindications,
+        notes: link.notes,
+        description: solution.description,
+        parent_concept: solution.parent_concept,
+        search_keywords: solution.search_keywords ?? [],
+        created_at: link.created_at,
+        updated_at: link.updated_at
+      }))
 
     return NextResponse.json({
       goal: {
@@ -147,7 +183,7 @@ export async function GET() {
         title: calmAnxietyGoal.title,
         description: calmAnxietyGoal.description
       },
-      total_anxiety_goals_found: goals.length,
+      total_anxiety_goals_found: (goals ?? []).length,
       solutions_count: solutions.length,
       solutions: solutions
     }, { 

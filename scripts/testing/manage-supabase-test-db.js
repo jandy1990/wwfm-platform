@@ -168,8 +168,9 @@ try {
     case 'stop': {
       assertSupabaseCliAvailable();
       console.log('🛑 Stopping local Supabase instance...');
-      run('supabase', ['stop', '--cleanup'], { stdio: 'inherit' });
-      console.log('Supabase containers stopped and cleaned up.');
+      const stopArgs = ['stop'];
+      run('supabase', stopArgs, { stdio: 'inherit' });
+      console.log('Supabase containers stopped.');
       break;
     }
     case 'status': {

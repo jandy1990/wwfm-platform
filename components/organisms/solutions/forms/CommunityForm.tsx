@@ -284,7 +284,7 @@ export function CommunityForm({
       
       // Prepare solution fields for storage using conditional pattern (like DosageForm)
       // Only include fields that have actual values to avoid undefined
-      const solutionFields: Record<string, any> = {};
+      const solutionFields: Record<string, unknown> = {};
       
       // Add cost fields
       if (costRange) {
@@ -365,7 +365,7 @@ export function CommunityForm({
   
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (paymentFrequency && paymentFrequency.trim()) additionalFields.payment_frequency = paymentFrequency.trim();
     if (commitmentType && commitmentType.trim()) additionalFields.commitment_type = commitmentType.trim();

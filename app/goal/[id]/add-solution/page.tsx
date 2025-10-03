@@ -5,6 +5,7 @@ import { redirect, notFound } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
 import SolutionFormWithAutoCategory from '@/components/organisms/solutions/SolutionFormWithAutoCategory'
 import { GoalPageTracker } from '@/components/tracking/GoalPageTracker'
+import type { Tables } from '@/types/supabase'
 
 export const metadata: Metadata = {
   title: 'Share What Worked | WWFM',
@@ -13,6 +14,19 @@ export const metadata: Metadata = {
 
 interface PageProps {
   params: Promise<{ id: string }>
+}
+
+type GoalRow = Tables<'goals'>
+type ArenaSummary = Pick<Tables<'arenas'>, 'id' | 'name' | 'slug'>
+type CategoryWithArenaRow = Pick<Tables<'categories'>, 'id' | 'name' | 'slug' | 'arena_id'> & {
+  arenas: ArenaSummary | ArenaSummary[] | null
+}
+
+type CategorySummary = {
+  name: string
+  slug: string
+  arena_id: string | null
+  arenas: ArenaSummary
 }
 
 export default async function AddSolutionPage({ params }: PageProps) {
@@ -33,17 +47,13 @@ export default async function AddSolutionPage({ params }: PageProps) {
     .select('*')
     .eq('id', resolvedParams.id)
     .single()
+    .returns<GoalRow | null>()
 
   if (goalError || !goalRow) {
     notFound()
   }
 
-  let categoryWithArena: {
-    name: string
-    slug: string
-    arena_id: string
-    arenas: { id: string; name: string; slug: string }
-  } | null = null
+  let categoryWithArena: CategorySummary | null = null
 
   if (goalRow.category_id) {
     const { data: category, error: categoryError } = await supabase
@@ -61,18 +71,29 @@ export default async function AddSolutionPage({ params }: PageProps) {
       `)
       .eq('id', goalRow.category_id)
       .single()
+      .returns<CategoryWithArenaRow | null>()
 
     if (!categoryError && category) {
+      const arena = Array.isArray(category.arenas)
+        ? category.arenas[0]
+        : category.arenas
+
+      const fallbackArena: ArenaSummary = {
+        id: '',
+        name: 'Unknown Arena',
+        slug: ''
+      }
+
       categoryWithArena = {
         name: category.name,
         slug: category.slug,
         arena_id: category.arena_id,
-        arenas: category.arenas
+        arenas: arena ?? fallbackArena
       }
     }
   }
 
-  const goal = {
+  const goal: GoalRow & { categories: CategorySummary | null } = {
     ...goalRow,
     categories: categoryWithArena
   }

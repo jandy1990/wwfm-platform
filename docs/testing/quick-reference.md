@@ -29,6 +29,13 @@ npm run test:critical     # 34 tests, ~5 minutes
 npm run test:forms:local  # Chromium + disposable Supabase
 npm run test:forms        # Legacy all projects (Supabase must be running)
 
+# Reuse a manual dev server (optional)
+PLAYWRIGHT_SKIP_WEB_SERVER=1 PLAYWRIGHT_TEST_BASE_URL=http://localhost:3000 npm run test:critical
+
+# Recommended dev server for manual runs
+# (load .env.test.local first if you want local Supabase)
+NEXT_DISABLE_FAST_REFRESH=1 npm run dev
+
 # Run specific form
 npm run test:forms -- dosage-form
 
@@ -68,6 +75,8 @@ TEST_GOAL_ID=56e2801e-0d78-4abd-a795-869e5b780ae7
 TEST_USER_EMAIL=test@wwfm-platform.com
 TEST_USER_PASSWORD=TestPassword123!
 ```
+
+> Playwright now passes these variables to the dev server automatically, so you can keep `.env.local` untouched for real Supabase credentials.
 
 ---
 

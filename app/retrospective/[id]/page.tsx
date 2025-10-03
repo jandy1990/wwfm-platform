@@ -1,6 +1,14 @@
 import { redirect } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
 import RetrospectiveForm from '@/components/organisms/retrospective/RetrospectiveForm'
+import type { Tables } from '@/types/supabase'
+
+type RetrospectiveScheduleRow = Tables<'retrospective_schedules'>
+type ScheduleWithRelations = RetrospectiveScheduleRow & {
+  goals: Pick<Tables<'goals'>, 'title' | 'description'> | null
+  solutions: Pick<Tables<'solutions'>, 'title'> | null
+  ratings: Pick<Tables<'ratings'>, 'created_at'> | null
+}
 
 export default async function RetrospectivePage({
   params
@@ -16,7 +24,7 @@ export default async function RetrospectivePage({
   }
 
   // Get schedule details with goal and solution info
-  const { data: schedule } = await supabase
+  const { data: schedule, error } = await supabase
     .from('retrospective_schedules')
     .select(`
       *,
@@ -27,6 +35,11 @@ export default async function RetrospectivePage({
     .eq('id', id)
     .eq('user_id', user.id)
     .single()
+    .returns<ScheduleWithRelations | null>()
+
+  if (error && error.code !== 'PGRST116') {
+    console.error('Error loading retrospective schedule:', error)
+  }
 
   if (!schedule || schedule.status !== 'pending') {
     redirect('/mailbox')
@@ -37,7 +50,6 @@ export default async function RetrospectivePage({
       <RetrospectiveForm
         scheduleId={id}
         goalTitle={schedule.goals?.title || ''}
-        goalDescription={schedule.goals?.description || ''}
         solutionTitle={schedule.solutions?.title || ''}
         achievementDate={schedule.ratings?.created_at || schedule.created_at}
       />

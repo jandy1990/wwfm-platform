@@ -25,5 +25,15 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "wwfm-platform-OLD", "wwfm-platform"]
+  "exclude": [
+    "node_modules",
+    "wwfm-platform-OLD",
+    "wwfm-platform",
+    "scripts",
+    "tests",
+    "supabase/functions",
+    "lib/test-data",
+    "playwright-report",
+    "_archive"
+  ]
 }

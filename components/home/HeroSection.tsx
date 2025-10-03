@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { PlatformStats } from '@/types/home';
-import { searchGoals, type GoalSuggestion } from '@/app/actions/home';
+import { PlatformStats, GoalSuggestion } from '@/types/home';
+import { searchGoals } from '@/app/actions/home';
 
 interface HeroSectionProps {
   stats: PlatformStats;
@@ -62,12 +62,13 @@ export default function HeroSection({ stats }: HeroSectionProps) {
 
   // Search cache to avoid repeated API calls
   const searchCache = useRef<Map<string, GoalSuggestion[]>>(new Map());
-  const cacheTimeout = useRef<Map<string, NodeJS.Timeout>>(new Map());
+  const cacheTimeout = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
 
   // Helper to manage cache with expiry
   const setCacheWithExpiry = useCallback((key: string, data: GoalSuggestion[], expiryMs: number = 300000) => {
-    if (cacheTimeout.current.has(key)) {
-      clearTimeout(cacheTimeout.current.get(key)!);
+    const existingTimeout = cacheTimeout.current.get(key);
+    if (existingTimeout) {
+      clearTimeout(existingTimeout);
     }
 
     searchCache.current.set(key, data);
@@ -94,10 +95,10 @@ export default function HeroSection({ stats }: HeroSectionProps) {
 
       // Check cache first
       const cacheKey = trimmedSearch.toLowerCase();
-      if (searchCache.current.has(cacheKey)) {
-        const cached = searchCache.current.get(cacheKey)!;
-        setSuggestions(cached);
-        setShowDropdown(cached.length > 0);
+      const cachedResults = searchCache.current.get(cacheKey);
+      if (cachedResults) {
+        setSuggestions(cachedResults);
+        setShowDropdown(cachedResults.length > 0);
         setIsSearching(false);
         return;
       }
@@ -137,11 +138,13 @@ export default function HeroSection({ stats }: HeroSectionProps) {
 
   // Clean up cache on unmount
   useEffect(() => {
+    const cacheMap = searchCache.current;
+    const timeoutMap = cacheTimeout.current;
+
     return () => {
-      const timeouts = Array.from(cacheTimeout.current.values());
-      timeouts.forEach(timeout => clearTimeout(timeout));
-      searchCache.current.clear();
-      cacheTimeout.current.clear();
+      timeoutMap.forEach(timeout => clearTimeout(timeout));
+      cacheMap.clear();
+      timeoutMap.clear();
     };
   }, []);
 

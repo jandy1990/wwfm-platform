@@ -260,11 +260,13 @@ export function FinancialForm({
   };
 
   const handleSubmit = async () => {
+    console.log('[FinancialForm] handleSubmit called');
     setIsSubmitting(true);
-    
+    console.log('[FinancialForm] State set to submitting');
+
     try {
       // Prepare solution fields for storage
-      const solutionFields: Record<string, any> = {
+      const solutionFields: Record<string, unknown> = {
         // Required fields for financial products
         cost_type: costType,
         financial_benefit: financialBenefit,
@@ -274,10 +276,10 @@ export function FinancialForm({
         // Array field (challenges) - required field, "None" is valid
         // Filter out "Other" since it triggers custom input
         challenges: selectedChallenges.filter(c => c !== 'Other'),
-        
+
         // REMOVED from initial submission - optional fields handled in success screen only
       };
-      
+
       // Prepare submission data with correct structure
       const submissionData: SubmitSolutionData = {
         goalId,
@@ -291,8 +293,14 @@ export function FinancialForm({
         failedSolutions
       };
 
-      // Call server action
+      console.log('[FinancialForm] Calling submitSolution with:', submissionData);
+      const submitStart = Date.now();
+
+      // Call server action with timeout
       const result = await submitSolution(submissionData);
+
+      console.log(`[FinancialForm] submitSolution completed in ${Date.now() - submitStart}ms`);
+      console.log('[FinancialForm] Result:', result);
       
       if (result.success) {
         // Store the result for success screen
@@ -324,7 +332,7 @@ export function FinancialForm({
 
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (provider && provider.trim()) additionalFields.provider = provider.trim();
     if (selectedRequirements.length > 0 && selectedRequirements[0] !== 'None') additionalFields.minimum_requirements = selectedRequirements;
@@ -411,12 +419,12 @@ export function FinancialForm({
                            appearance-none transition-all"
                 >
                   <option value="">Select cost type</option>
-                  <option value="Free">Free to use</option>
+                  <option value="Free to use">Free to use</option>
                   <option value="Subscription fee">Subscription fee</option>
-                  <option value="Transaction fees">Transaction/usage fees</option>
-                  <option value="Interest charged">Interest charged (loans/credit)</option>
-                  <option value="Account fees">Account maintenance fees</option>
-                  <option value="One-time fee">One-time purchase/setup fee</option>
+                  <option value="Transaction/usage fees">Transaction/usage fees</option>
+                  <option value="Interest charged (loans/credit)">Interest charged (loans/credit)</option>
+                  <option value="Account maintenance fees">Account maintenance fees</option>
+                  <option value="One-time purchase/setup fee">One-time purchase/setup fee</option>
                 </select>
               </div>
 
@@ -481,7 +489,7 @@ export function FinancialForm({
               <FormSectionHeader 
                 icon="⭐"
                 title="How well it worked"
-                bgColor="bg-green-100 dark:bg-green-900"
+                bgColorClassName="bg-green-100 dark:bg-green-900"
               />
               
               {/* 5-star rating */}
@@ -567,7 +575,7 @@ export function FinancialForm({
             <FormSectionHeader 
               icon="🚧"
               title="Any challenges?"
-              bgColor="bg-amber-100 dark:bg-amber-900"
+              bgColorClassName="bg-amber-100 dark:bg-amber-900"
             />
 
             {/* Quick tip */}
@@ -699,7 +707,7 @@ export function FinancialForm({
             <FormSectionHeader 
               icon="🔄"
               title="What else did you try?"
-              bgColor="bg-purple-100 dark:bg-purple-900"
+              bgColorClassName="bg-purple-100 dark:bg-purple-900"
             />
 
             {/* Context card */}
@@ -939,7 +947,12 @@ export function FinancialForm({
             </button>
           ) : (
             <button
-              onClick={handleSubmit}
+              onClick={() => {
+                console.log('[FinancialForm] Submit button CLICKED');
+                console.log('[FinancialForm] isSubmitting:', isSubmitting);
+                console.log('[FinancialForm] canProceed:', canProceedToNextStep());
+                handleSubmit();
+              }}
               disabled={isSubmitting || !canProceedToNextStep()}
               className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
                 !isSubmitting

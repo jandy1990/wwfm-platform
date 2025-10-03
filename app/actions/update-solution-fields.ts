@@ -3,6 +3,24 @@
 import { createServerSupabaseClient } from '@/lib/database/server'
 import { solutionAggregator } from '@/lib/services/solution-aggregator'
 import { validateAndNormalizeSolutionFields } from '@/lib/solutions/solution-field-validator'
+import type { Json, Tables, TablesInsert, TablesUpdate } from '@/types/supabase'
+
+type JsonObject = { [key: string]: Json | undefined }
+
+function isJsonObject(value: Json | null): value is JsonObject {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
+}
+
+function mergeSolutionFields(
+  existing: Json | null,
+  updates: Record<string, unknown>
+): TablesUpdate<'ratings'>['solution_fields'] {
+  const base = isJsonObject(existing) ? existing : {}
+  return {
+    ...base,
+    ...updates
+  } as TablesUpdate<'ratings'>['solution_fields']
+}
 
 interface UpdateSolutionFieldsData {
   ratingId?: string
@@ -25,13 +43,18 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
       .select('solutions!inner(solution_category)')
       .eq('id', data.implementationId)
       .single()
+      .returns<
+        {
+          solutions: Pick<Tables<'solutions'>, 'solution_category'> | null
+        } | null
+      >()
 
     if (variantError || !variantCategory?.solutions?.solution_category) {
       console.error('Unable to determine category for implementation:', variantError)
       return { success: false, error: 'Unable to validate solution fields' }
     }
 
-    const category = variantCategory.solutions.solution_category as string
+    const category = variantCategory.solutions.solution_category
 
     const { isValid, errors, normalizedFields } = validateAndNormalizeSolutionFields(
       category,
@@ -56,31 +79,31 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
         .select('user_id, solution_fields')
         .eq('id', data.ratingId)
         .single()
-      
+        .returns<Pick<Tables<'ratings'>, 'user_id' | 'solution_fields'> | null>()
+
       if (fetchError || !rating) {
         console.error('Rating not found:', fetchError)
         return { success: false, error: 'Rating not found' }
       }
-      
+
       if (rating.user_id !== data.userId) {
         return { success: false, error: 'Unauthorized' }
       }
-      
+
       // Merge new fields with existing ones
-      const updatedFields = {
-        ...(rating.solution_fields || {}),
-        ...normalizedFields
-      }
-      
+      const updatedFields = mergeSolutionFields(rating.solution_fields, normalizedFields)
+
       // Update the rating with merged fields
+      const ratingUpdate: TablesUpdate<'ratings'> = {
+        solution_fields: updatedFields,
+        updated_at: new Date().toISOString()
+      }
+
       const { error: updateError } = await supabase
         .from('ratings')
-        .update({ 
-          solution_fields: updatedFields,
-          updated_at: new Date().toISOString()
-        })
+        .update(ratingUpdate)
         .eq('id', data.ratingId)
-      
+
       if (updateError) {
         console.error('Error updating rating:', updateError)
         return { success: false, error: 'Failed to update rating' }
@@ -96,27 +119,27 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
         .order('created_at', { ascending: false })
         .limit(1)
         .single()
-      
+        .returns<Pick<Tables<'ratings'>, 'id' | 'solution_fields'> | null>()
+
       if (findError || !existingRating) {
         console.error('No existing rating found:', findError)
         return { success: false, error: 'No rating found to update' }
       }
-      
+
       // Merge new fields with existing ones
-      const updatedFields = {
-        ...(existingRating.solution_fields || {}),
-        ...normalizedFields
-      }
-      
+      const updatedFields = mergeSolutionFields(existingRating.solution_fields, normalizedFields)
+
       // Update the rating
+      const ratingUpdate: TablesUpdate<'ratings'> = {
+        solution_fields: updatedFields,
+        updated_at: new Date().toISOString()
+      }
+
       const { error: updateError } = await supabase
         .from('ratings')
-        .update({ 
-          solution_fields: updatedFields,
-          updated_at: new Date().toISOString()
-        })
+        .update(ratingUpdate)
         .eq('id', existingRating.id)
-      
+
       if (updateError) {
         console.error('Error updating rating:', updateError)
         return { success: false, error: 'Failed to update rating' }
@@ -139,13 +162,15 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
       const notesContent = normalizedFields.notes.trim()
       if (notesContent.length >= 10) { // Minimum length for discussion posts
         try {
+          const discussionInsert: TablesInsert<'goal_discussions'> = {
+            goal_id: data.goalId,
+            user_id: data.userId,
+            content: notesContent
+          }
+
           await supabase
             .from('goal_discussions')
-            .insert({
-              goal_id: data.goalId,
-              user_id: data.userId,
-              content: notesContent
-            })
+            .insert(discussionInsert)
           
           console.log('Created discussion post from form notes')
         } catch (discussionError) {

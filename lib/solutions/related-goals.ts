@@ -12,6 +12,20 @@ export interface RelatedGoal {
   user_overlap_percentage?: number;
 }
 
+interface RelatedGoalRow {
+  goal_id: string
+  title: string
+  relationship_type: RelatedGoal['relationship_type']
+  strength: number | null
+  source: RelatedGoal['source']
+}
+
+interface GoalRow {
+  id: string
+  title: string
+  description: string | null
+}
+
 export async function getRelatedGoals(goalId: string): Promise<RelatedGoal[]> {
   console.log('Calling RPC with goalId:', goalId)
   
@@ -32,23 +46,23 @@ export async function getRelatedGoals(goalId: string): Promise<RelatedGoal[]> {
   }
 
   // Map the database results to our TypeScript interface
-  return data.map((item: any) => ({
+  return (data as RelatedGoalRow[]).map((item) => ({
     id: item.goal_id,
     title: item.title,
-    relationship_type: item.relationship_type as RelatedGoal['relationship_type'],
-    strength: Number(item.strength),
-    source: item.source as RelatedGoal['source']
+    relationship_type: item.relationship_type,
+    strength: item.strength ?? 0,
+    source: item.source
   }));
 }
 
 export async function getGoalCluster(goalId: string): Promise<{
-  primaryGoal: any;
+  primaryGoal: GoalRow | null;
   relatedGoals: RelatedGoal[];
 }> {
   // Fetch the primary goal
   const { data: primaryGoal } = await supabase
     .from('goals')
-    .select('*')
+    .select('id, title, description')
     .eq('id', goalId)
     .single();
 

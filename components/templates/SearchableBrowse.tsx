@@ -91,7 +91,7 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
       score: number
     }>
   }>>(new Map())
-  const cacheTimeout = useRef<Map<string, NodeJS.Timeout>>(new Map())
+  const cacheTimeout = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map())
   
   // Handle click outside to close dropdown
   const searchContainerRef = useRef<HTMLDivElement>(null)
@@ -105,8 +105,9 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
       score: number
     }>
   }, expiryMs: number = 300000) => {
-    if (cacheTimeout.current.has(key)) {
-      clearTimeout(cacheTimeout.current.get(key)!)
+    const existingTimeout = cacheTimeout.current.get(key)
+    if (existingTimeout) {
+      clearTimeout(existingTimeout)
     }
     
     searchCache.current.set(key, data)
@@ -125,8 +126,9 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
     
     // Check cache first
     const cacheKey = trimmedSearch.toLowerCase()
-    if (searchCache.current.has(cacheKey)) {
-      return searchCache.current.get(cacheKey)
+    const cachedResult = searchCache.current.get(cacheKey)
+    if (cachedResult) {
+      return cachedResult
     }
     
     // Show loading state for search
@@ -220,12 +222,13 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
   
   // Clean up cache on unmount
   useEffect(() => {
+    const cacheMap = searchCache.current
+    const timeoutMap = cacheTimeout.current
+
     return () => {
-      // Store refs in local variables to avoid React warning
-      const timeouts = Array.from(cacheTimeout.current.values())
-      timeouts.forEach(timeout => clearTimeout(timeout))
-      searchCache.current.clear()
-      cacheTimeout.current.clear()
+      timeoutMap.forEach(timeout => clearTimeout(timeout))
+      cacheMap.clear()
+      timeoutMap.clear()
     }
   }, [])
 

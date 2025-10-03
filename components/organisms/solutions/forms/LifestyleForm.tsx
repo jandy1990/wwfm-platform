@@ -273,7 +273,7 @@ export function LifestyleForm({
       const costType = "impact"; // Special type for relative cost changes
       
       // Prepare the solution fields with correct field names
-      const solutionFields: Record<string, any> = {
+      const solutionFields: Record<string, unknown> = {
         // Primary cost fields for filtering
         cost: primaryCost,
         cost_type: costType,
@@ -346,7 +346,7 @@ export function LifestyleForm({
 
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (socialImpact && socialImpact.trim()) additionalFields.social_impact = socialImpact.trim();
     if (sleepQualityChange && sleepQualityChange.trim()) additionalFields.sleep_quality_change = sleepQualityChange.trim();
@@ -424,7 +424,7 @@ export function LifestyleForm({
                 <FormSectionHeader 
                   icon="⭐"
                   title="How well it worked"
-                  bgColor="bg-green-100 dark:bg-green-900"
+                  bgColorClassName="bg-green-100 dark:bg-green-900"
                 />
               </div>
               
@@ -731,7 +731,7 @@ export function LifestyleForm({
               <FormSectionHeader 
                 icon="⚡"
                 title="Any challenges?"
-                bgColor="bg-amber-100 dark:bg-amber-900"
+                bgColorClassName="bg-amber-100 dark:bg-amber-900"
               />
             </div>
 
@@ -869,7 +869,7 @@ export function LifestyleForm({
               <FormSectionHeader 
                 icon="🔍"
                 title="What else did you try?"
-                bgColor="bg-purple-100 dark:bg-purple-900"
+                bgColorClassName="bg-purple-100 dark:bg-purple-900"
               />
             </div>
 

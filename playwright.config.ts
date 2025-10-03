@@ -18,6 +18,26 @@ if (process.env.PLAYWRIGHT_TEST_BASE_URL) {
   }
 }
 
+const shouldStartWebServer = process.env.PLAYWRIGHT_SKIP_WEB_SERVER !== '1'
+
+const webServerEnvKeys = [
+  'NEXT_PUBLIC_SUPABASE_URL',
+  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+  'SUPABASE_SERVICE_KEY',
+  'TEST_GOAL_ID',
+  'SUPABASE_DB_PASSWORD',
+  'NODE_ENV',
+  'NEXT_DISABLE_FAST_REFRESH'
+] as const
+
+const webServerEnv = webServerEnvKeys.reduce<Record<string, string>>((acc, key) => {
+  const value = process.env[key]
+  if (value !== undefined) {
+    acc[key] = value
+  }
+  return acc
+}, {})
+
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: false,  // Disabled for pre-launch to avoid data conflicts
@@ -48,10 +68,17 @@ export default defineConfig({
     },
   ],
   
-  webServer: {
-    command: 'npm run dev',
-    port,
-    timeout: 5 * 60 * 1000, // allow up to 5 minutes for first boot after restore
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: shouldStartWebServer
+    ? {
+        command: 'npm run dev',
+        port,
+        timeout: 5 * 60 * 1000, // allow up to 5 minutes for first boot after restore
+        reuseExistingServer: !process.env.CI,
+        env: {
+          ...process.env,
+          ...webServerEnv,
+          NEXT_DISABLE_FAST_REFRESH: process.env.NEXT_DISABLE_FAST_REFRESH ?? '1'
+        }
+      }
+    : undefined,
 })

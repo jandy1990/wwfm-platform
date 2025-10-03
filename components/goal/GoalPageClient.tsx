@@ -11,13 +11,13 @@ import { SustainabilityMetricField, SustainabilityData } from '@/components/mole
 import { GoalSolutionWithVariants } from '@/lib/solutions/goal-solutions'
 import RatingDisplay, { getBestRating, getAverageRating } from '@/components/molecules/RatingDisplay'
 import EmptyState from '@/components/molecules/EmptyState'
-import SourceBadge from '@/components/atoms/SourceBadge'
 import { DataSourceBadge } from '@/components/molecules/DataSourceBadge'
 import { RelatedGoal } from '@/lib/solutions/related-goals'
 import { trackGoalRelationshipClick } from '@/lib/solutions/related-goals'
 import CommunityDiscussions from './CommunityDiscussions'
 import GoalWisdom from '@/components/organisms/goal/GoalWisdom'
 import { GoalWisdomScore } from '@/types/retrospectives'
+import type { AggregatedFieldsMetadata } from '@/types/aggregated-fields'
 
 type Goal = {
   id: string
@@ -489,6 +489,15 @@ const DEFAULT_CATEGORY_CONFIG = {
 //   return value?.toString() || ''
 // }
 
+const isDistributionLike = (value: unknown): value is { mode: string } => {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'mode' in value &&
+    typeof (value as { mode: unknown }).mode === 'string'
+  )
+}
+
 // Helper to get regular field values
 const getFieldDisplayValue = (solution: GoalSolutionWithVariants, fieldName: string, variant?: typeof solution.variants[0]): string | null => {
   // Check variant first (for dosage categories)
@@ -497,8 +506,8 @@ const getFieldDisplayValue = (solution: GoalSolutionWithVariants, fieldName: str
     if (variantFields[fieldName]) {
       const value = variantFields[fieldName]
       // Handle objects by checking for DistributionData format
-      if (typeof value === 'object' && value !== null && 'mode' in value) {
-        return (value as any).mode // Return the mode value from DistributionData
+      if (isDistributionLike(value)) {
+        return value.mode // Return the mode value from DistributionData
       }
       if (Array.isArray(value)) return null // Arrays handled elsewhere
       return value.toString()
@@ -510,8 +519,8 @@ const getFieldDisplayValue = (solution: GoalSolutionWithVariants, fieldName: str
   if (solutionFields[fieldName]) {
     const value = solutionFields[fieldName]
     // Handle objects by checking for DistributionData format
-    if (typeof value === 'object' && value !== null && 'mode' in value) {
-      return (value as any).mode // Return the mode value from DistributionData
+    if (isDistributionLike(value)) {
+      return value.mode // Return the mode value from DistributionData
     }
     if (Array.isArray(value)) return null // Arrays handled elsewhere
     return value.toString()
@@ -752,16 +761,15 @@ export default function GoalPageClient({ goal, initialSolutions, wisdom, error, 
       const aggregated = solution.aggregated_fields as Record<string, unknown>
       
       // Check metadata for data source
-      const metadata = aggregated._metadata as Record<string, unknown> | undefined
-      const dataSource = metadata?.data_source || 'user'
+      const metadata = aggregated._metadata as AggregatedFieldsMetadata | undefined
+      const dataSource = metadata?.data_source ?? 'user'
 
       if (aggregated[fieldName]) {
         // Check if it's already in DistributionData format from our aggregator
         const fieldValue = aggregated[fieldName]
         if (typeof fieldValue === 'object' && fieldValue !== null && 'mode' in fieldValue && 'values' in fieldValue) {
           const distribution = fieldValue as DistributionData
-          distribution.dataSource = dataSource
-          return distribution
+          return { ...distribution, dataSource }
         }
         // Handle case where it's a simple string value (shouldn't happen in new format)
         console.warn(`Field ${fieldName} contains unexpected format:`, fieldValue)
@@ -775,8 +783,7 @@ export default function GoalPageClient({ goal, initialSolutions, wisdom, error, 
           const fieldValue = aggregated[mappedField]
           if (typeof fieldValue === 'object' && fieldValue !== null && 'mode' in fieldValue && 'values' in fieldValue) {
             const distribution = fieldValue as DistributionData
-            distribution.dataSource = dataSource
-            return distribution
+            return { ...distribution, dataSource }
           }
           // Handle case where it's a simple string value (shouldn't happen in new format)
           console.warn(`Mapped field ${mappedField} contains unexpected format:`, fieldValue)

@@ -266,7 +266,7 @@ export function HobbyForm({
 
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (communityName && communityName.trim()) additionalFields.community_name = communityName.trim();
     if (notes && notes.trim()) additionalFields.notes = notes.trim();

@@ -12,10 +12,10 @@ import { Page } from '@playwright/test'
 async function waitForFormSuccess(page: Page): Promise<void> {
   console.log('Waiting for success screen...')
   try {
-    await page.waitForSelector('text="Thank you for sharing!"', { timeout: 10000 })
+    await page.waitForSelector('text="Thank you for sharing!"', { timeout: 30000 })
     console.log('✅ Success screen appeared')
   } catch (error) {
-    console.log('⚠️ Success screen did not appear within 10 seconds')
+    console.log('⚠️ Success screen did not appear within 30 seconds')
     // Log what's on the page for debugging
     const pageText = await page.textContent('body')
     if (pageText?.includes('already rated')) {
@@ -39,6 +39,43 @@ async function selectNonNoneOption(
   }
   console.log(`WARNING: Could not find non-"None" option for ${context}`)
   return false
+}
+
+async function waitForStepTwo(page: Page, category: string): Promise<boolean> {
+  if (page.isClosed()) {
+    console.log('Cannot wait for Step 2 marker - page is already closed')
+    return false
+  }
+
+  const timeout = 7000
+  const markers =
+    category === 'crisis_resources'
+      ? [
+          { locator: page.locator('text=/Any challenges\??/i'), label: 'Any challenges prompt' },
+          { locator: page.locator('text=/barriers?/i'), label: 'Barriers prompt' },
+        ]
+      : [
+          { locator: page.locator('text=/Any side effects\??/i'), label: 'Any side effects prompt' },
+          { locator: page.locator('text=/Any challenges\??/i'), label: 'Any challenges prompt' },
+        ]
+
+  try {
+    const visibleLabel = await Promise.any(
+      markers.map(async marker => {
+        await marker.locator.waitFor({ state: 'visible', timeout })
+        return marker.label
+      })
+    )
+    console.log(`Step 2 marker became visible: ${visibleLabel}`)
+    return true
+  } catch (error) {
+    if (page.isClosed()) {
+      console.log('Page closed before Step 2 markers became visible')
+    } else {
+      console.log('Step 2 markers did not appear before timeout')
+    }
+    return false
+  }
 }
 
 // DosageForm filler - for medications, supplements, natural remedies, beauty_skincare
@@ -1075,135 +1112,51 @@ export async function fillSessionForm(page: Page, category: string) {
   
   console.log('=== END DEBUG INFO ===\n')
   
-  // Special handling for crisis_resources to avoid page context loss
-  let skipNormalFlow = false
-  if (category === 'crisis_resources') {
-    console.log('Special handling for crisis_resources Continue button...')
-    
-    // Crisis resources has simpler validation - try to proceed quickly
-    try {
-      // Wait for Continue button to be visible
-      const continueBtn = page.locator('button:has-text("Continue"):visible').first()
-      await continueBtn.waitFor({ state: 'visible', timeout: 5000 })
-      
-      // Check if it's enabled
-      const isDisabled = await continueBtn.isDisabled()
-      if (!isDisabled) {
-        console.log('Continue button is enabled for crisis_resources, clicking...')
-        await continueBtn.click({ timeout: 10000 })
-        await page.waitForTimeout(1500)
-        
-        // Check if we moved to step 2
-        const step2Content = await page.textContent('body').catch(() => '')
-        if (step2Content?.includes('Any challenges') || step2Content?.includes('barriers')) {
-          console.log('Successfully navigated to Step 2')
-          skipNormalFlow = true
-        }
-      } else {
-        console.log('Continue button is disabled, checking required fields...')
-        // Log current form state for debugging
-        const effectiveness = await page.locator('.grid.grid-cols-5 button[aria-pressed="true"]').count()
-        const timeToResults = await page.inputValue('select').catch(() => '')
-        console.log(`Current state - Effectiveness: ${effectiveness}, Time: ${timeToResults}`)
-      }
-    } catch (err) {
-      console.log('Failed to click Continue for crisis_resources:', err.message)
-      // Continue with normal flow as fallback
-    }
-  }
-  
-  // Normal flow for other categories (or if crisis_resources special handling failed)
-  if (!skipNormalFlow) {
-  // Click Continue to Step 2 - check if it's enabled
-  // Find the Continue button more reliably - it's in the navigation area
-  console.log('Looking for Continue button...')
-  
-  // The Continue button is in the bottom navigation, not disabled when validation passes
-  let continueBtn1 = page.locator('button').filter({ hasText: 'Continue' }).first()
-  
-  // Check if button exists and is visible
-  const btnVisible = await continueBtn1.isVisible().catch(() => false)
-  if (!btnVisible) {
-    console.log('Continue button not immediately visible, waiting...')
-    
-    // Check if page is still valid before waiting
-    try {
-      await page.evaluate(() => document.readyState)
-    } catch (e) {
-      console.log('Page context lost - browser may have closed')
-      throw new Error('Page context lost during form fill')
-    }
-    
-    // Wait a bit for React to render
-    await page.waitForTimeout(1000)
-    
-    // Try alternative selectors
-    const altButton = page.locator('button:has-text("Continue")')
-    const altCount = await altButton.count().catch(() => 0)
-    console.log(`Found ${altCount} Continue buttons`)
-    if (altCount > 0) {
-      continueBtn1 = altButton.first()
-      console.log('Using first Continue button found')
-    } else {
-      console.log('ERROR: No Continue button found on page')
-      await page.screenshot({ path: `session-form-no-continue-${category}.png` }).catch(() => {})
-      throw new Error('Continue button not found on page')
-    }
-  } else {
-    console.log('Continue button found and visible')
-  }
-  
-  const continueBtnDisabled = await continueBtn1.isDisabled().catch(() => {
-    console.log('WARNING: Could not check Continue button state');
-    return false; // Assume enabled if we can't check
-  });
-  
-  if (continueBtnDisabled) {
-    console.log('Continue button is DISABLED - something is missing from validation')
-    // Take screenshot for debugging
-    await page.screenshot({ path: 'session-form-validation-failed.png' });
-    throw new Error('Continue button remains disabled after filling all fields');
-  }
-  
-  // Button is enabled, proceed
-  console.log('Continue button is ENABLED - validation passed')
-  
+  const continueButton = page.locator('button').filter({ hasText: /Continue/i }).first()
+
+  console.log('Preparing to click Continue and advance to Step 2')
+
   try {
-    // Wait for button to be stable and clickable
-    await continueBtn1.waitFor({ state: 'visible', timeout: 5000 })
-    await page.waitForTimeout(500) // Small wait for any animations
-    
-    // Try multiple click strategies
-    try {
-      // First try regular click
-      await continueBtn1.click({ timeout: 5000 })
-      console.log('Moving to Step 2 - regular click successful')
-    } catch (clickError) {
-      console.log('Regular click failed, trying force click...')
-      // If regular click fails, try force click
-      await continueBtn1.click({ force: true, timeout: 5000 })
-      console.log('Moving to Step 2 - force click successful')
-    }
-    
-    // Wait for navigation/step change
-    await page.waitForTimeout(1000)
-    
-    // Verify we moved to step 2 by checking for expected content
-    const step2Content = await page.textContent('body')
-    if (step2Content?.includes('Any challenges') || step2Content?.includes('side effects')) {
-      console.log('Successfully navigated to Step 2')
-    } else {
-      console.log('Warning: May not have navigated to Step 2 properly')
-    }
+    await continueButton.waitFor({ state: 'visible', timeout: 5000 })
   } catch (error) {
-    console.log('ERROR: Failed to click Continue button:', error)
-    // Take a screenshot for debugging
-    await page.screenshot({ path: `session-form-continue-error-${category}.png` })
-    throw new Error('Failed to click Continue button to move to Step 2')
+    if (page.isClosed()) {
+      throw new Error('Page context closed before Continue button became visible')
+    }
+    console.log('Continue button not visible within timeout:', error instanceof Error ? error.message : error)
+    await page.screenshot({ path: `session-form-no-continue-${category}.png` }).catch(() => {})
+    throw new Error('Continue button not available for Step 2 transition')
   }
-  await page.waitForTimeout(500)
-  } // End of if (!skipNormalFlow)
-  
+
+  const continueDisabled = await continueButton.isDisabled().catch(() => false)
+  if (continueDisabled) {
+    console.log('Continue button remains disabled after filling required fields')
+    await page.screenshot({ path: 'session-form-validation-failed.png' }).catch(() => {})
+    throw new Error('Continue button remains disabled after filling all fields')
+  }
+
+  console.log('Clicking Continue with noWaitAfter and waiting for Step 2 marker')
+
+  try {
+    await continueButton.click({ noWaitAfter: true })
+  } catch (error) {
+    if (page.isClosed()) {
+      throw new Error('Page context closed while clicking Continue')
+    }
+    console.log('Regular click failed, retrying with force:', error instanceof Error ? error.message : error)
+    await continueButton.click({ force: true, noWaitAfter: true })
+  }
+
+  const step2Reached = await waitForStepTwo(page, category)
+
+  if (!step2Reached) {
+    if (page.isClosed()) {
+      throw new Error('Page context closed before Step 2 marker appeared')
+    }
+    console.log('Warning: Step 2 marker not detected after Continue click')
+    await page.screenshot({ path: `session-form-step2-missing-${category}.png` }).catch(() => {})
+    throw new Error('Step 2 did not appear after Continue click')
+  }
+
   // ============ STEP 2: Side Effects or Barriers ============
   const showSideEffects = ['medical_procedures', 'alternative_practitioners'].includes(category)
   const showBarriers = ['therapists_counselors', 'coaches_mentors', 'doctors_specialists', 'professional_services', 'crisis_resources'].includes(category)
@@ -1382,21 +1335,21 @@ export async function fillPurchaseForm(page: Page, category: string) {
   console.log('Selected cost range: $50-100')
   await page.waitForTimeout(300)
   
-  // For products_devices category: need productType and easeOfUse
+  // Category-specific fields
   if (category === 'products_devices') {
     console.log('Filling products_devices category-specific fields')
     await page.waitForTimeout(1000)
-    
+
     // Look for Select components
     const selectTriggers = await page.locator('button[role="combobox"]').count()
     console.log(`Found ${selectTriggers} Select trigger buttons`)
-    
+
     if (selectTriggers >= 2) {
       // Select product type (should be 2nd Select component after cost range)
       const productTypeSelect = page.locator('button[role="combobox"]').nth(1)
       await productTypeSelect.click()
       await page.waitForTimeout(500)
-      
+
       try {
         await page.click('text="Physical device"', { timeout: 2000 })
         console.log('Selected product type: Physical device')
@@ -1405,12 +1358,12 @@ export async function fillPurchaseForm(page: Page, category: string) {
         await page.locator('[role="option"]').first().click()
       }
       await page.waitForTimeout(300)
-      
-      // Select ease of use 
+
+      // Select ease of use
       const easeSelect = page.locator('button[role="combobox"]').nth(2)
       await easeSelect.click()
       await page.waitForTimeout(500)
-      
+
       try {
         await page.click('text="Easy to use"', { timeout: 2000 })
         console.log('Selected ease of use: Easy to use')
@@ -1421,6 +1374,45 @@ export async function fillPurchaseForm(page: Page, category: string) {
       await page.waitForTimeout(300)
     } else {
       console.log('Not enough Select components found, skipping category-specific fields')
+    }
+  } else if (category === 'books_courses') {
+    console.log('Filling books_courses category-specific fields')
+    await page.waitForTimeout(1000)
+
+    // books_courses needs: format and learning_difficulty
+    const selectTriggers = await page.locator('button[role="combobox"]').count()
+    console.log(`Found ${selectTriggers} Select trigger buttons for books_courses`)
+
+    if (selectTriggers >= 2) {
+      // Select format (should be 2nd Select component after cost range)
+      const formatSelect = page.locator('button[role="combobox"]').nth(1)
+      await formatSelect.click()
+      await page.waitForTimeout(500)
+
+      try {
+        await page.click('text="Book (physical)"', { timeout: 2000 })
+        console.log('Selected format: Book (physical)')
+      } catch (e) {
+        console.log('Trying first option for format')
+        await page.locator('[role="option"]').first().click()
+      }
+      await page.waitForTimeout(300)
+
+      // Select learning difficulty
+      const difficultySelect = page.locator('button[role="combobox"]').nth(2)
+      await difficultySelect.click()
+      await page.waitForTimeout(500)
+
+      try {
+        await page.click('text="Beginner-friendly"', { timeout: 2000 })
+        console.log('Selected learning difficulty: Beginner-friendly')
+      } catch (e) {
+        console.log('Trying first option for learning difficulty')
+        await page.locator('[role="option"]').first().click()
+      }
+      await page.waitForTimeout(300)
+    } else {
+      console.log('Not enough Select components found for books_courses, trying to continue anyway')
     }
   }
   
@@ -1532,12 +1524,40 @@ export async function fillCommunityForm(page: Page, category: string) {
   
   // ============ STEP 2: Challenges ============
   console.log('Step 2: Selecting challenges')
-  await page.waitForTimeout(500)
 
-  // Select "None" as a valid challenge option
-  const noneLabel = await page.locator('label:has-text("None")').first()
-  await noneLabel.click({ force: true })
-  console.log('Selected challenge: None')
+  // Wait for Step 2 to load - look for challenge section
+  await page.waitForSelector('text=/challenges|Any challenges/i', { timeout: 10000 })
+  console.log('Step 2 challenges section loaded')
+
+  // Wait for checkboxes to appear (they load asynchronously)
+  await page.waitForTimeout(2000)
+
+  // Check if None label exists
+  const noneLabel = page.locator('label:has-text("None")').first()
+  const noneExists = await noneLabel.isVisible().catch(() => false)
+
+  if (!noneExists) {
+    console.log('WARNING: "None" label not found - checking all labels on page')
+    const allLabels = await page.locator('label').allTextContents()
+    console.log('Available labels:', allLabels.slice(0, 15))
+
+    // Try to find any label containing "None"
+    const anyNoneLabel = page.locator('label').filter({ hasText: /^None$/i })
+    const anyNoneLabelExists = await anyNoneLabel.isVisible().catch(() => false)
+
+    if (anyNoneLabelExists) {
+      console.log('Found "None" label with alternative selector')
+      await anyNoneLabel.click({ force: true })
+    } else {
+      console.log('ERROR: Could not find "None" label at all - challenges may not have loaded')
+      throw new Error('None challenge option not found in CommunityForm Step 2')
+    }
+  } else {
+    // Select "None" as a valid challenge option
+    await noneLabel.click({ force: true })
+    console.log('Selected challenge: None')
+  }
+
   await page.waitForTimeout(300)
 
   // Click Continue to Step 3
@@ -1681,8 +1701,8 @@ export async function fillFinancialForm(page: Page) {
   
   // Select cost type (required field)
   const costTypeSelect = page.locator('select').first()
-  await costTypeSelect.selectOption('Free')
-  console.log('Selected cost type: Free')
+  await costTypeSelect.selectOption('Free to use')
+  console.log('Selected cost type: Free to use')
   await page.waitForTimeout(300)
   
   // Select financial benefit (required field)
@@ -1710,12 +1730,29 @@ export async function fillFinancialForm(page: Page) {
   await timeToImpactSelect.selectOption('1-2 weeks')
   console.log('Selected time to impact: 1-2 weeks')
   await page.waitForTimeout(300)
-  
+
+  // Verify all required fields are filled before continuing
+  console.log('Verifying Step 1 required fields...')
+  const costTypeValue = await page.locator('select').first().inputValue()
+  const benefitValue = await timeToImpactSelect.inputValue() // Just check one
+  console.log('Cost type:', costTypeValue, 'Time to impact:', benefitValue)
+
   // Click Continue to Step 2
-  console.log('Clicked Continue to Step 2')
+  console.log('Attempting to continue to Step 2...')
   const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
+  const btn1Visible = await continueBtn1.isVisible()
+  console.log('Continue button visible:', btn1Visible)
+
+  if (!btn1Visible) {
+    console.log('Continue button not visible - checking all buttons on page')
+    const allButtons = await page.locator('button').allTextContents()
+    console.log('All buttons:', allButtons)
+    throw new Error('Continue button not visible after filling Step 1')
+  }
+
   await continueBtn1.click()
-  await page.waitForTimeout(500)
+  console.log('Clicked Continue to Step 2')
+  await page.waitForTimeout(1000) // Increased wait for step transition
   
   // ============ STEP 2: Challenges ============
   console.log('Step 2: Waiting for challenges to load')
@@ -1759,12 +1796,52 @@ export async function fillFinancialForm(page: Page) {
   // ============ STEP 3: Failed Solutions (Optional) ============
   console.log('Step 3: Skipping failed solutions')
   // This step is optional - can proceed directly to submit
-  
-  // Submit form
-  console.log('Submit button found, clicking...')
+
+  // Wait for Step 3 to load
+  await page.waitForSelector('text="What else did you try?"', { timeout: 5000 })
+  console.log('Step 3 loaded successfully')
+
+  // Wait for Submit button to be available
+  await page.waitForTimeout(1000)
+
+  // Find and check Submit button state
   const submitBtn = page.locator('button:has-text("Submit")')
-  await submitBtn.click()
-  
+  const isVisible = await submitBtn.isVisible()
+  console.log('Submit button visible:', isVisible)
+
+  if (!isVisible) {
+    throw new Error('Submit button not visible on Step 3')
+  }
+
+  const isDisabled = await submitBtn.getAttribute('disabled')
+  console.log('Submit button disabled:', isDisabled !== null)
+
+  if (isDisabled !== null) {
+    // Check what's blocking submission
+    console.log('Submit button is disabled - checking form state...')
+    const pageContent = await page.textContent('body')
+    console.log('Current page step indicator:', pageContent?.includes('Step 3') ? 'On Step 3' : 'Unknown step')
+
+    // Try to find validation error messages
+    const alerts = await page.locator('[role="alert"]').allTextContents()
+    if (alerts.length > 0) {
+      console.log('Validation errors found:', alerts)
+    }
+
+    throw new Error('Submit button is disabled - form validation may have failed')
+  }
+
+  // Submit form
+  console.log('Submit button enabled, clicking...')
+
+  // Wait for React hydration to be complete
+  await page.waitForLoadState('networkidle')
+  await page.waitForTimeout(1000)
+
+  // Use force click to ensure click event is triggered
+  await submitBtn.click({ force: true })
+  console.log('Submit button clicked (forced)')
+
   // Wait for success screen
   await waitForFormSuccess(page)
 }

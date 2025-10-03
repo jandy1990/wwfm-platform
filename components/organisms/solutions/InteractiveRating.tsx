@@ -93,11 +93,13 @@ export default function InteractiveRating({
   
   // Cleanup timeout on unmount
   useEffect(() => {
+    const state = successStateRef.current
     return () => {
-      if (successStateRef.current.timeoutId) {
-        clearTimeout(successStateRef.current.timeoutId);
+      if (state.timeoutId) {
+        clearTimeout(state.timeoutId)
+        state.timeoutId = null
       }
-    };
+    }
   }, []);
 
   // Check if this solution requires variant-specific rating

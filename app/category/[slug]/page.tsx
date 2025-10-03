@@ -38,6 +38,20 @@ type Category = {
   goals?: Goal[]
 }
 
+type CategoryRow = Category & {
+  arenas: Category['arenas']
+}
+
+type GoalRow = {
+  id: string
+  title: string
+  description: string | null
+  emoji: string | null
+  view_count: number | null
+  is_approved: boolean
+  goal_implementation_links: { id: string }[] | null
+}
+
 async function getCategoryWithGoals(slug: string) {
   const supabase = await createServerSupabaseClient()
 
@@ -87,35 +101,26 @@ async function getCategoryWithGoals(slug: string) {
   }
 
   // Process goals to add solution counts
-  const processedGoals = goals?.map((goal: any) => ({
+  const processedGoals = (goals as GoalRow[] | null)?.map((goal) => ({
     id: goal.id,
     title: goal.title,
     description: goal.description,
     emoji: goal.emoji,
-    view_count: goal.view_count || 0,
-    solution_count: goal.goal_implementation_links?.length || 0,
+    view_count: goal.view_count ?? 0,
+    solution_count: goal.goal_implementation_links?.length ?? 0,
     is_approved: goal.is_approved
-  })) || []
+  })) ?? []
 
   return {
-    ...category,
+    ...(category as CategoryRow),
     goals: processedGoals
-  } as Category
+  }
 }
 
-export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = await params
-  
-  // Add error handling for params
-  if (!resolvedParams?.slug) {
-    console.error('No slug provided to category page')
-    notFound()
-  }
-  
-  const category = await getCategoryWithGoals(resolvedParams.slug)
+export default async function CategoryPage({ params }: { params: { slug: string } }) {
+  const category = await getCategoryWithGoals(params.slug)
 
   if (!category) {
-    console.error(`Category not found for slug: ${resolvedParams.slug}`)
     notFound()
   }
 
