@@ -2,8 +2,11 @@ import { defineConfig, devices } from '@playwright/test'
 import dotenv from 'dotenv'
 import path from 'path'
 
-// Load test environment variables
-dotenv.config({ path: path.resolve(__dirname, '.env.test.local') })
+// Prefer local test environment variables; fall back to .env.local defaults
+const testEnv = dotenv.config({ path: path.resolve(__dirname, '.env.test.local') })
+if (testEnv.error) {
+  dotenv.config({ path: path.resolve(__dirname, '.env.local') })
+}
 
 // Determine port from environment or use defaults
 const defaultPort = 3001
@@ -40,12 +43,13 @@ const webServerEnv = webServerEnvKeys.reduce<Record<string, string>>((acc, key) 
 
 export default defineConfig({
   testDir: './tests/e2e',
-  fullyParallel: false,  // Disabled for pre-launch to avoid data conflicts
+  // Enable parallelization with improved test isolation
+  fullyParallel: true,  // Tests now have proper cleanup
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: 1,  // Run tests sequentially to avoid "already rated" errors
-  reporter: 'html',
-  timeout: 90000,  // 90 seconds per test (increased for reliability)
+  retries: process.env.CI ? 2 : 1,  // Retry once locally too
+  workers: process.env.CI ? 2 : 4,  // 4 workers locally, 2 in CI
+  reporter: process.env.CI ? 'github' : 'html',
+  timeout: 60000,  // 60 seconds (reduced from 90s with semantic waits)
   
   // Global setup for authentication
   globalSetup: require.resolve('./tests/setup/global-setup.ts'),

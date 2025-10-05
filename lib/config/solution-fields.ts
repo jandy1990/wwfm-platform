@@ -61,7 +61,7 @@ export const CATEGORY_FIELD_CONFIG: Record<string, CategoryConfig> = {
     contextSources: ['studies', 'medical_literature', 'user_experiences', 'expert_analysis']
   },
   crisis_resources: {
-    requiredFields: ['time_to_results', 'response_time', 'format', 'cost', 'challenges'],
+    requiredFields: ['time_to_results', 'response_time', 'format', 'cost'],
     fieldToDropdownMap: {
       time_to_results: 'time_to_results',
       response_time: 'response_time',

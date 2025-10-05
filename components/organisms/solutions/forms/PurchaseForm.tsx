@@ -9,6 +9,7 @@ import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
 import { Skeleton } from '@/components/atoms/skeleton';
@@ -31,6 +32,20 @@ interface FailedSolution {
 }
 
 
+const BASE_ALLOWED_FIELDS = [
+  'cost',
+  'cost_type',
+  'purchase_cost_type',
+  'cost_range',
+  'time_to_results',
+  'challenges'
+] as const;
+
+const CATEGORY_FIELD_ALLOWLIST: Record<string, readonly string[]> = {
+  products_devices: [...BASE_ALLOWED_FIELDS, 'product_type', 'ease_of_use'],
+  books_courses: [...BASE_ALLOWED_FIELDS, 'format', 'learning_difficulty']
+};
+
 export function PurchaseForm({
   goalId,
   goalTitle = "your goal",
@@ -42,6 +57,7 @@ export function PurchaseForm({
 }: PurchaseFormProps) {
   console.log('PurchaseForm initialized with existingSolutionId:', existingSolutionId);
   const router = useRouter();
+  const { triggerPoints } = usePointsAnimation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
@@ -284,6 +300,11 @@ export function PurchaseForm({
         solutionFields.time_to_results = timeToResults;
       }
 
+      const allowedFields = CATEGORY_FIELD_ALLOWLIST[category] || BASE_ALLOWED_FIELDS;
+      const filteredSolutionFields = Object.fromEntries(
+        Object.entries(solutionFields).filter(([key]) => allowedFields.includes(key))
+      );
+
       // Prepare submission data with correct structure
       const submissionData: SubmitSolutionData = {
         goalId,
@@ -293,7 +314,7 @@ export function PurchaseForm({
         existingSolutionId,
         effectiveness: effectiveness!,
         timeToResults,
-        solutionFields,
+        solutionFields: filteredSolutionFields,
         failedSolutions
       };
 
@@ -313,10 +334,17 @@ export function PurchaseForm({
           implementationId: result.variantId,
           otherRatingsCount: result.otherRatingsCount
         });
-        
+
         // Clear backup on successful submission
         clearBackup();
-        
+
+        // Trigger points animation
+        triggerPoints({
+          userId,
+          points: 15,
+          reason: 'Shared your experience'
+        });
+
         // Show success screen
         setShowSuccessScreen(true);
       } else {

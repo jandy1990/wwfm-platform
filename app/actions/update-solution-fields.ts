@@ -3,6 +3,7 @@
 import { createServerSupabaseClient } from '@/lib/database/server'
 import { solutionAggregator } from '@/lib/services/solution-aggregator'
 import { validateAndNormalizeSolutionFields } from '@/lib/solutions/solution-field-validator'
+import { logger } from '@/lib/utils/logger'
 import type { Json, Tables, TablesInsert, TablesUpdate } from '@/types/supabase'
 
 type JsonObject = { [key: string]: Json | undefined }
@@ -50,7 +51,7 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
       >()
 
     if (variantError || !variantCategory?.solutions?.solution_category) {
-      console.error('Unable to determine category for implementation:', variantError)
+      logger.error('updateSolutionFields unable to determine category for implementation', { error: variantError })
       return { success: false, error: 'Unable to validate solution fields' }
     }
 
@@ -63,7 +64,7 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
     )
 
     if (!isValid) {
-      console.warn('updateSolutionFields validation failed:', errors)
+      logger.warn('updateSolutionFields validation failed', { errors })
       return { success: false, error: `Invalid field data: ${errors.join('; ')}` }
     }
 
@@ -82,7 +83,7 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
         .returns<Pick<Tables<'ratings'>, 'user_id' | 'solution_fields'> | null>()
 
       if (fetchError || !rating) {
-        console.error('Rating not found:', fetchError)
+        logger.error('updateSolutionFields rating not found', { error: fetchError })
         return { success: false, error: 'Rating not found' }
       }
 
@@ -105,7 +106,7 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
         .eq('id', data.ratingId)
 
       if (updateError) {
-        console.error('Error updating rating:', updateError)
+        logger.error('updateSolutionFields failed to update rating', { error: updateError })
         return { success: false, error: 'Failed to update rating' }
       }
     } else {
@@ -122,7 +123,7 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
         .returns<Pick<Tables<'ratings'>, 'id' | 'solution_fields'> | null>()
 
       if (findError || !existingRating) {
-        console.error('No existing rating found:', findError)
+        logger.error('updateSolutionFields no existing rating found', { error: findError })
         return { success: false, error: 'No rating found to update' }
       }
 
@@ -141,7 +142,7 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
         .eq('id', existingRating.id)
 
       if (updateError) {
-        console.error('Error updating rating:', updateError)
+        logger.error('updateSolutionFields failed to update rating', { error: updateError })
         return { success: false, error: 'Failed to update rating' }
       }
     }
@@ -153,7 +154,7 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
         data.implementationId
       )
     } catch (aggError) {
-      console.error('Error updating aggregates:', aggError)
+      logger.error('updateSolutionFields error updating aggregates', { error: aggError })
       // Don't fail the whole operation if aggregation fails
     }
     
@@ -172,9 +173,12 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
             .from('goal_discussions')
             .insert(discussionInsert)
           
-          console.log('Created discussion post from form notes')
+          logger.info('updateSolutionFields created discussion post from form notes', {
+            goalId: data.goalId,
+            userId: data.userId
+          })
         } catch (discussionError) {
-          console.error('Error creating discussion post:', discussionError)
+          logger.error('updateSolutionFields error creating discussion post', { error: discussionError })
           // Don't fail the main operation if discussion creation fails
         }
       }
@@ -183,7 +187,7 @@ export async function updateSolutionFields(data: UpdateSolutionFieldsData) {
     return { success: true }
     
   } catch (error) {
-    console.error('Error in updateSolutionFields:', error)
+    logger.error('updateSolutionFields unexpected error', error instanceof Error ? error : { error })
     return { success: false, error: 'An unexpected error occurred' }
   }
 }

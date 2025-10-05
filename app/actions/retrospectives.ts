@@ -3,6 +3,7 @@
 import { createServerSupabaseClient } from '@/lib/database/server'
 import type { Json, Tables, TablesInsert, TablesUpdate } from '@/types/supabase'
 import { MailboxItem, GoalWisdomScore } from '@/types/retrospectives'
+import { logger } from '@/lib/utils/logger'
 
 type RetrospectiveScheduleRow = Tables<'retrospective_schedules'>
 type RetrospectiveScheduleWithRelations = RetrospectiveScheduleRow & {
@@ -46,7 +47,7 @@ export async function getPendingRetrospectives(userId: string) {
     .returns<RetrospectiveScheduleWithRelations[]>()
 
   if (error) {
-    console.error('Error fetching retrospectives:', error)
+    logger.error('retrospectives: error fetching schedules', { error, userId })
     return []
   }
 
@@ -104,7 +105,7 @@ export async function getMailboxItems(userId: string): Promise<MailboxItem[]> {
     .returns<Tables<'mailbox_items'>[]>()
 
   if (error) {
-    console.error('Error fetching mailbox items:', error)
+    logger.error('retrospectives: error fetching mailbox items', { error, userId })
     return []
   }
 
@@ -170,7 +171,7 @@ export async function getUnreadRetrospectiveCount(): Promise<number> {
     .eq('is_read', false)
 
   if (error) {
-    console.error('Error counting unread retrospectives:', error)
+    logger.error('retrospectives: error counting unread items', { error, userId: user.id })
     return 0
   }
 
@@ -222,7 +223,6 @@ export async function submitRetrospective(
   data: {
     counterfactual_impact: number
     worth_pursuing?: boolean
-    benefits_lasted?: boolean
     unexpected_benefits?: string
     wisdom_note?: string
   }
@@ -262,7 +262,6 @@ export async function submitRetrospective(
     evaluated_date: new Date().toISOString(),
     counterfactual_impact: data.counterfactual_impact,
     worth_pursuing: data.worth_pursuing ?? (data.counterfactual_impact >= 3),
-    benefits_lasted: data.benefits_lasted ?? null,
     unexpected_benefits: data.unexpected_benefits ?? null,
     wisdom_note: data.wisdom_note ?? null,
     response_source: 'in_app'
@@ -300,6 +299,7 @@ export async function submitRetrospective(
     .update(mailboxUpdate)
     .eq('retrospective_schedule_id', scheduleId)
 
+  // Schedule 12-month follow-up after 6-month retrospective
   if (schedule.schedule_type === '6_month') {
     const twelveMonthsFromOriginal = new Date(achievedDate ?? now)
     twelveMonthsFromOriginal.setMonth(twelveMonthsFromOriginal.getMonth() + 12)
@@ -319,48 +319,6 @@ export async function submitRetrospective(
     await supabase.from('retrospective_schedules').insert(followUpInsert)
   }
 
-  if (data.benefits_lasted !== undefined) {
-    const { data: variant } = await supabase
-      .from('solution_variants')
-      .select('id')
-      .eq('solution_id', schedule.solution_id)
-      .eq('is_default', true)
-      .single()
-      .returns<Pick<Tables<'solution_variants'>, 'id'> | null>()
-
-    if (variant) {
-      const { data: link } = await supabase
-        .from('goal_implementation_links')
-        .select('lasting_benefit_rate, lasting_benefit_count')
-        .eq('goal_id', schedule.goal_id)
-        .eq('implementation_id', variant.id)
-        .single()
-        .returns<
-          Pick<Tables<'goal_implementation_links'>, 'lasting_benefit_rate' | 'lasting_benefit_count'> | null
-        >()
-
-      if (link) {
-        const currentCount = link.lasting_benefit_count ?? 0
-        const currentRate = link.lasting_benefit_rate ?? 0
-        const currentWithBenefits = Math.round((currentRate / 100) * currentCount)
-        const newCount = currentCount + 1
-        const newWithBenefits = currentWithBenefits + (data.benefits_lasted ? 1 : 0)
-        const newRate = newCount === 0 ? 0 : (newWithBenefits / newCount) * 100
-
-        const linkUpdate: TablesUpdate<'goal_implementation_links'> = {
-          lasting_benefit_rate: newRate,
-          lasting_benefit_count: newCount
-        }
-
-        await supabase
-          .from('goal_implementation_links')
-          .update(linkUpdate)
-          .eq('goal_id', schedule.goal_id)
-          .eq('implementation_id', variant.id)
-      }
-    }
-  }
-
   return retrospective
 }
 
@@ -378,7 +336,7 @@ export async function getGoalWisdomScore(goalId: string): Promise<GoalWisdomScor
     .returns<Tables<'goal_wisdom_scores'> | null>()
 
   if (error && error.code !== 'PGRST116') {
-    console.error('Error fetching wisdom score:', error)
+    logger.error('retrospectives: error fetching wisdom score', { error, goalId })
   }
 
   if (!data) {

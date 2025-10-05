@@ -124,8 +124,29 @@ ARCHITECTURE.md: Design decisions and patterns
 /tests/README.md: Testing guide
 /docs/forms/: Form specifications
 🔌 Supabase Connection
-Project: wwfm
-URL: https://wqxkhxdbxdtpuvuvgirx.supabase.co
+
+## ⚠️ CRITICAL: Database Usage Guidelines
+
+**PRODUCTION DATABASE (ALWAYS USE THIS):**
+- URL: https://wqxkhxdbxdtpuvuvgirx.supabase.co
+- Project: wwfm
+- Access via: Supabase MCP tools (mcp__supabase__*) or lib/database/client.ts
+- This is the LIVE database with real user data
+- Use for ALL feature development, queries, and data operations
+
+**LOCAL TEST DATABASE (TESTING INFRASTRUCTURE ONLY):**
+- Config: supabase/config.toml (marked as "local-testing-only")
+- Port: 54322 (PostgreSQL)
+- Purpose: ONLY for testing Supabase CLI and migration infrastructure
+- ⚠️ NEVER query this database via psql commands
+- ⚠️ NEVER use this for feature development or data exploration
+- ⚠️ This database does NOT contain production data
+
+**How to Access Production Data:**
+1. ✅ Use Supabase MCP tools: `mcp__supabase__execute_sql`, `mcp__supabase__list_tables`, etc.
+2. ✅ Use TypeScript client: `import { supabase } from '@/lib/database/client'`
+3. ❌ NEVER use: `psql -h 127.0.0.1 -p 54322` (this is the local test database)
+
 Auth: Email/password with verification
 RLS: Enabled on all tables
 

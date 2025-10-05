@@ -9,6 +9,7 @@
  */
 
 import { createServerSupabaseClient } from '@/lib/database/server'
+import { logger } from '@/lib/utils/logger'
 import type {
   DistributionData,
   DistributionValue,
@@ -307,7 +308,7 @@ export class SolutionAggregator {
   ): Promise<void> {
     const supabase = await createServerSupabaseClient()
 
-    console.log(`[Aggregator] Starting aggregation for goal=${goalId}, implementation=${implementationId}`)
+    logger.debug('solutionAggregator start', { goalId, implementationId })
 
     // PROTECTION: Check display mode - don't overwrite AI data until transition
     const { data: linkCheck } = await supabase
@@ -318,14 +319,14 @@ export class SolutionAggregator {
       .single()
 
     if (linkCheck?.data_display_mode === 'ai' && linkCheck?.ai_snapshot) {
-      console.log(`[Aggregator] SKIPPED - Still displaying AI data, preserving until transition`)
+      logger.info('solutionAggregator skipped aggregation (AI data preserved)', { goalId, implementationId })
       return
     }
 
     // Compute new aggregates
     const aggregated = await this.computeAggregates(goalId, implementationId)
     if (Object.keys(aggregated).length === 0) {
-      console.log('[Aggregator] No human ratings available; skipping aggregation update to preserve existing data')
+      logger.info('solutionAggregator no human ratings, skipping aggregation update', { goalId, implementationId })
       await supabase
         .from('goal_implementation_links')
         .update({
@@ -337,7 +338,7 @@ export class SolutionAggregator {
       return
     }
 
-    console.log(`[Aggregator] Computed aggregates:`, Object.keys(aggregated))
+    logger.debug('solutionAggregator computed aggregates', { goalId, implementationId, fields: Object.keys(aggregated) })
 
     // First check if the link exists
     const { data: existingLink, error: checkError } = await supabase
@@ -348,13 +349,13 @@ export class SolutionAggregator {
       .single()
     
     if (checkError && checkError.code !== 'PGRST116') {
-      console.error('[Aggregator] Error checking for existing link:', checkError)
+      logger.error('solutionAggregator error checking existing link', { error: checkError, goalId, implementationId })
       throw checkError
     }
     
     if (existingLink) {
       // Update existing link
-      console.log(`[Aggregator] Updating existing link ${existingLink.id}`)
+      logger.debug('solutionAggregator updating existing link', { linkId: existingLink.id, goalId, implementationId })
       const updatePayload: TablesUpdate<'goal_implementation_links'> = {
         aggregated_fields: aggregated as TablesUpdate<'goal_implementation_links'>['aggregated_fields'],
         updated_at: new Date().toISOString(),
@@ -368,13 +369,13 @@ export class SolutionAggregator {
         .eq('implementation_id', implementationId)
       
       if (updateError) {
-        console.error('[Aggregator] Error updating aggregated fields:', updateError)
+        logger.error('solutionAggregator error updating aggregated fields', { error: updateError, goalId, implementationId })
         throw updateError
       }
-      console.log('[Aggregator] Successfully updated aggregated fields')
+      logger.info('solutionAggregator updated aggregated fields', { goalId, implementationId })
     } else {
       // Create new link with aggregated fields
-      console.log('[Aggregator] Creating new link with aggregated fields')
+      logger.debug('solutionAggregator creating new link with aggregated fields', { goalId, implementationId })
       const insertPayload: TablesInsert<'goal_implementation_links'> = {
         goal_id: goalId,
         implementation_id: implementationId,
@@ -389,10 +390,10 @@ export class SolutionAggregator {
         .insert(insertPayload)
       
       if (insertError) {
-        console.error('[Aggregator] Error creating link with aggregated fields:', insertError)
+        logger.error('solutionAggregator error creating link with aggregated fields', { error: insertError, goalId, implementationId })
         throw insertError
       }
-      console.log('[Aggregator] Successfully created new link with aggregated fields')
+      logger.info('solutionAggregator created new link with aggregated fields', { goalId, implementationId })
     }
   }
 

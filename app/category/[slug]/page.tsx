@@ -7,10 +7,12 @@ export const revalidate = 0
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
-import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrumbs'
+import Breadcrumbs from '@/components/molecules/Breadcrumbs'
+import { createBreadcrumbs } from '@/lib/utils/breadcrumbs'
 import EmptyState from '@/components/molecules/EmptyState'
 import { GoalPageTracker } from '@/components/tracking/GoalPageTracker'
 import { getSuperCategoryForCategory, SUPER_CATEGORY_COLORS } from '@/lib/navigation/super-categories'
+import BackButton from '@/components/atoms/BackButton'
 
 // Types
 type Goal = {
@@ -117,8 +119,13 @@ async function getCategoryWithGoals(slug: string) {
   }
 }
 
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
-  const category = await getCategoryWithGoals(params.slug)
+type CategoryPageProps = {
+  params: Promise<{ slug: string }>
+}
+
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  const { slug } = await params
+  const category = await getCategoryWithGoals(slug)
 
   if (!category) {
     notFound()
@@ -132,10 +139,14 @@ export default async function CategoryPage({ params }: { params: { slug: string 
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <GoalPageTracker arenaName={category.arenas.name} arenaId={category.arenas.id} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        {/* Mobile Back Button */}
+        <BackButton fallbackHref="/browse" className="mb-3" />
+
         {/* Breadcrumb Navigation */}
         <Breadcrumbs
-          items={createBreadcrumbs('arena', {
-            arena: { name: category.arenas.name, slug: category.arenas.slug }
+          items={createBreadcrumbs('category', {
+            arena: { name: category.arenas.name, slug: category.arenas.slug },
+            category: { name: category.name, slug: category.slug }
           })}
         />
 
@@ -194,7 +205,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
             subtext="We're working on adding goals for this category. Check back soon for updates."
             actionButton={{
               text: "Browse Other Categories",
-              href: `/arena/${category.arenas.slug}`,
+              href: "/browse",
               variant: "secondary"
             }}
           />

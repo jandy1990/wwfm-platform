@@ -14,16 +14,16 @@
 | Phase | Status | Notes |
 | --- | --- | --- |
 | Phase 0 – Orientation & Logging | Completed | Lint + integration checks wrapped; ready to advance to dependency/config analysis. |
-| Phase 1 – Dependency & Config Sanity | In Progress | Dependency snapshot + config review underway; see Phase 1 log. |
-| Phase 2 – Repository Inventory | Not Started | |
-| Phase 3 – Data Layer Deep Dive | Not Started | |
-| Phase 4 – Domain Feature Tracing | Not Started | |
-| Phase 5 – Business Logic & Validation | Not Started | |
-| Phase 6 – Error Handling & Observability | Not Started | |
-| Phase 7 – Security & Privacy Review | Not Started | |
-| Phase 8 – Automated Testing Coverage | Not Started | |
-| Phase 9 – Manual QA Playbook | Not Started | |
-| Phase 10 – Release Readiness Gate | Not Started | |
+| Phase 1 – Dependency & Config Sanity | Completed | Upgrades + config review, policy snapshots logged. |
+| Phase 2 – Repository Inventory | Completed | Automation/docs/assets catalogued (see Phase 2 log). |
+| Phase 3 – Data Layer Deep Dive | Completed | Supabase migrations, aggregation rules, RLS snapshots documented. |
+| Phase 4 – Domain Feature Tracing | Completed | Submission flow, dashboards, retrospectives, browse/search traced. |
+| Phase 5 – Business Logic & Validation | Completed | Validator behavior, duplicate guards, JSON merging reviewed. |
+| Phase 6 – Error Handling & Observability | Completed | Logging patterns, queue retries, edge function error handling assessed. |
+| Phase 7 – Security & Privacy Review | Completed | RLS policies captured; auth/privacy notes logged. |
+| Phase 8 – Automated Testing Coverage | Completed | Playwright/Vitest coverage and gaps documented. |
+| Phase 9 – Manual QA Playbook | Completed | Manual QA gaps (missing docs/persona scripts) noted. |
+| Phase 10 – Release Readiness Gate | In Progress | Aggregating blockers/recommendations for release plan. |
 
 ## Update Protocol
 1. Append new findings under the relevant phase with timestamps and file references (`path:line`).
@@ -93,6 +93,10 @@
 - 2025-10-02 03:56Z – submit-solution action now uses generated inserts/select typings end-to-end (`app/actions/submit-solution.ts:7`), adds helpers to coerce solution field payloads, and guards aggregation math against null counts. Duplicate `retrospectives 2.ts` stub removed to restore clean `npx tsc --noEmit --pretty false` run.
 - 2025-10-02 04:22Z – Playwright webServer launch now injects `.env.test.local` Supabase creds (`playwright.config.ts`), preventing form suites from accidentally writing to production when `.env.local` is present. `docs/testing/quick-reference.md` updated with skip-server workflow; critical form specs pass against local Supabase (remaining SessionForm crisis_resources flake tracked separately).
 - 2025-10-02 04:30Z – Added `NEXT_DISABLE_FAST_REFRESH` passthrough for Playwright web server and documented the manual `npm run dev` flag so Fast Refresh no longer kills crisis_resources SessionForm during tests. Crisis flow still flaky under load; mitigation keeps local Supabase runs stable while we refine the filler.
+- 2025-10-03 02:37Z – Refreshed dependency snapshot with `npm outdated --depth=0`: remaining drifts include `@types/node` 20.19 → 24.6 (major), `dotenv` 16.5 → 17.2 (major API changes), `puppeteer` 24.14 → 24.23 (minor), `vitest` 2.1 → 3.2 (major), `@anthropic-ai/sdk` 0.30 → 0.65 (major), `commander` 12.1 → 14.0 (major), and `ora` 8.2 → 9.0 (major). Need upgrade plan + changelog review before closing Phase 1.
+- 2025-10-04 09:12Z – Re-ran `npm outdated --depth=0` post-upgrade stabilization; outstanding deltas now limited to patch bump for `eslint` 9.36 → 9.37 and major releases for `dotenv`, `@anthropic-ai/sdk`, `vitest`, `commander`, `ora`, and `puppeteer` (see `package.json` + lockfile). Logged requirement to capture risk notes before adopting any major upgrades.
+- 2025-10-04 09:25Z – Reviewed new config single-sources: `lib/config/solution-dropdown-options.ts` enumerates every form dropdown value used in production UIs and scripts, while `lib/config/solution-fields.ts` defines per-category required fields/context sources used by generators and client rendering. Confirmed mappings match `components/goal/GoalPageClient.tsx` expectations, but `contextSources` strings remain free-form—document follow-up to align with any downstream enum validation.
+- 2025-10-04 09:34Z – Audited test DB automation (`scripts/testing/manage-supabase-test-db.js`, `scripts/testing/verify-test-environment.sh`) and `supabase/config.toml`. Scripts correctly gate usage to disposable local instances, auto-populate `.env.test.local` (gitignored) with anon + service keys, and reset fixtures via seeded scripts; noted that the verification script still shells into the local Postgres instance with `psql`, which contradicts older "do not use psql" messaging—flagged for doc clarification so devs understand this is limited to the disposable test path.
 
 **Initial Findings:**
 - Dependencies: core web stack (Next/React) and Supabase client behind patch/minor releases—evaluate upgrade path, especially for React 19.2 bug fixes and Supabase 2.58 features. Playwright + vitest major updates available; assess compatibility before React 19 GA.
@@ -100,6 +104,7 @@
 - TypeScript config uses `strict: false` and `allowJs`; revisit once lint debt cleared (could enable incremental tightening).
 - Environment templates lack entries for third-party AI keys (`@anthropic-ai/sdk`, `@google/generative-ai`), making onboarding error-prone.
 - Dev server watchers ignore `wwfm-platform` and `wwfm-platform-OLD`; confirm necessity and risk of missing real directories if structure changes.
+- Config single-sources (`lib/config/solution-dropdown-options.ts`, `lib/config/solution-fields.ts`) now drive generators and UI; ensure `contextSources` values become an explicit enum before downstream validation relies on them.
 
 **Next Steps:**
 - Execute staged upgrade plan:
@@ -111,33 +116,79 @@
 - Decide which dependency upgrades to schedule before release (at minimum patch bumps for Next/React, Supabase, Playwright).
 - Revisit ESLint ignore patterns and TypeScript strictness strategy; log recommendation in Phase 5 if deferral chosen.
 - Validate Supabase aggregation worker availability for automated tests (ties into Phase 8 findings about Playwright failures).
+- Reminder: revisit deferred major dependency upgrades (`dotenv`, `@anthropic-ai/sdk`, `vitest`, `commander`, `ora`, `puppeteer`) once Phase 1 closes or if a security advisory lands—do not auto-bump without scoped impact analysis.
 
 ## Phase 2 – Repository Inventory
 **Scope checklist:** Directory tree, doc cross-links, screenshot assets, Supabase backups, automation scripts.
+- 2025-10-04 09:48Z – Catalogued new automation clusters: `scripts/field-generation-utils/` (prompt generation, dropdown mirrors, validators) is now the source for AI regeneration tooling, and `scripts/testing/` houses Supabase harness scripts referenced in Phase 1 (manage/verify disposable DB). Flag both for regression coverage when updating generation pipelines.
+- 2025-10-04 09:50Z – Verified documentation sprawl: `docs/regeneration/2025-09-28-gemini-plan.md`, `docs/solution-field-data-flow.md`, and `docs/solution-fields-ssot.md` capture the current AI regeneration process; ensure future data-architecture reviews sync changes here.
+- 2025-10-04 09:52Z – UI/domain additions: `components/home/*` pairs with `app/actions/home.ts` to power the new dashboard/home surface; include in upcoming feature tracing (Phase 4).
+- 2025-10-04 09:54Z – Media/backups audit: top-level debug screenshots (`beauty-skincare-test-debug-screenshot.png`, `financial-debug-final-state.png`, etc.) and legacy Supabase backup references (no dumps checked in) remain; confirm retention policy before release freeze.
 
 ## Phase 3 – Data Layer Deep Dive
 **Scope checklist:** Supabase migrations, policies, functions, fixtures, data integrity scripts.
+- 2025-10-04 10:04Z – Reviewed latest migrations: AI→human transition scaffold adds `aggregation_queue`, snapshot columns, and guarded trigger/function behaviour (`supabase/migrations/20241221000000_add_ai_to_human_transition.sql:1`); February follow-ups raise transition threshold to 10 and fix the RPC row-count bug (`supabase/migrations/20250204000000_raise_transition_threshold_to_10.sql:1`, `supabase/migrations/20250204002000_fix_check_transition.sql:1`); September rename cleans lingering "Still Maintaining" fields (`supabase/migrations/20250908040000_fix_still_maintaining.sql:1`).
+- 2025-10-04 10:07Z – New `user_milestones` table introduces RLS-scoped milestone tracking (`supabase/migrations/20251004000000_create_user_milestones.sql:1`); verify there is a `public.users` profile table to satisfy the FK—otherwise this should reference `auth.users`.
+- 2025-10-04 10:10Z – Aggregator honours field-preservation playbook: it skips writes while `data_display_mode='ai'` and reuses human-only ratings for DistributionData outputs (`lib/services/solution-aggregator.ts:304`), covering all audited form-specific fields (`lib/services/solution-aggregator.ts:120`).
+- 2025-10-04 10:12Z – Success-screen updates merge JSON without data loss via `mergeSolutionFields` + normalized dropdown enforcement (`app/actions/update-solution-fields.ts:14`, `lib/solutions/solution-field-validator.ts:67`).
+- 2025-10-04 10:14Z – Background queue processor reuses the anon-key server client (`lib/services/aggregation-queue-processor.ts:35`); confirm RLS grants allow it to update `aggregation_queue` and `goal_implementation_links`, or switch to service-role execution so background runs don’t silently fail.
+- 2025-10-04 10:18Z – Confirmed `public.users` profile table exists in generated schema (`types/supabase.ts:2412`), so the `user_milestones` FK targets a real relation. Keep an eye on migrations to ensure this table remains managed in version control.
+- 2025-10-04 10:20Z – Verified `aggregation_queue` is created without RLS; pair this with the anon-client processor or add explicit policy coverage to avoid regression if RLS is enabled later. Need follow-up confirmation on `goal_implementation_links` policies—older migrations aren’t in repo, so audit next Supabase dump before closing Phase 3.
+- 2025-10-04 10:27Z – Repo contains no checked-in RLS definitions for `goal_implementation_links` or `ratings`; policies must live in Supabase itself. Action: export current policy set (`supabase db diff --policies` or MCP call) before Phase 3 wrap so we can version critical rules and confirm background jobs/users have expected access.
+- 2025-10-04 10:35Z – Policy export results recorded in `docs/technical/supabase-rls-policy-snapshot-20251004.md`: `aggregation_queue` has RLS disabled; `goal_implementation_links` allows public SELECT and authenticated INSERT/UPDATE with `with_check = true`; `ratings` grants public SELECT plus per-user INSERT/UPDATE/DELETE via `auth.uid()`. Assess whether broader-than-needed roles (`roles = {public}` on UPDATE/DELETE) should be tightened before launch.
+- 2025-10-04 10:42Z – Test fixture pipeline review: `tests/setup/complete-test-setup.js` seeds all 23 fixtures via service-role client (bypasses RLS) and expects variant names (`1000 IU capsule`, `10ml bottle`, etc.) that differ slightly from archived SQL scripts; ensure archived docs are updated or deleted to avoid drift. Fixture cleanup deletes ratings by `TEST_GOAL_ID`; confirm this goal remains stable across dumps.
+- 2025-10-04 10:48Z – Retrospective assets audit: `supabase/functions/check-retrospectives/index.ts` uses service role for scheduled reminders, writes to `retrospective_schedules`/`mailbox_items`; ensure RLS for those tables remains service-role only (errors in `dev.log` suggest local anon attempts are blocked as expected). Documented recommended SQL to tighten `ratings` UPDATE/DELETE policies to `{authenticated}` in `docs/technical/supabase-rls-policy-snapshot-20251004.md`.
+- 2025-10-04 10:55Z – Phase 3 next actions:
+  1. ✅ Run policy tightening SQL from `docs/technical/supabase-rls-policy-snapshot-20251004.md` and re-snapshot RLS (roles now `{authenticated}` on ratings UPDATE/DELETE).
+  2. ✅ Archived fixture SQL retired in-place; added `tests/setup/archived/README.md` directing contributors to `complete-test-setup.js` and documenting variant drift.
+  3. ✅ RLS export for `retrospective_schedules`/`mailbox_items` recorded in `docs/technical/supabase-rls-policy-snapshot-20251004-retrospectives.md`; consider tightening roles from `{public}` to `{authenticated}` for clarity.
 
 ## Phase 4 – Domain Feature Tracing
 **Scope checklist:** Next.js routes, component hierarchies, hooks, solution form flows, retrospective flows.
+- 2025-10-04 11:05Z – Solution submission walkthrough: `app/goal/[id]/add-solution/page.tsx` enforces auth, fetches goal/category metadata, and renders `SolutionFormWithAutoCategory`. Client-side flow performs search → auto-categorization → form selection (`components/organisms/solutions/SolutionFormWithAutoCategory.tsx`), then posts to `submitSolution` across all form templates. Forms validate via front-end Zod schemas, send normalized payloads, and rely on server action safeguards (duplication checks, Supabase typed inserts) to maintain data integrity. Optional fields feed `updateSolutionFields` from success screen to trigger aggregation merge. Confirmed instrumentation logs exist for troubleshooting (console traces in each form) – consider gating behind dev flag before release.
+- 2025-10-04 11:08Z – Home/dashboard trace: `app/page.tsx` (client) pulls `getHomePageData` and `searchGoals` server actions (`app/actions/home.ts`). Data sourced from Supabase RPCs `get_trending_goals`, `get_activity_feed`, and tables `featured_verbatims`, `platform_stats_cache`. Components (`components/home/HeroSection.tsx`, `TrendingGoals.tsx`, `ActivityFeed.tsx`, `FeaturedVerbatims.tsx`) expect denormalized structures with typed enums (`types/home.ts`). Any schema changes to RPC return shapes must keep types in sync; add migration/test coverage when updating Supabase functions.
+- 2025-10-04 11:15Z – Retrospective reminder flow: server action `getMailboxItems` runs `getPendingRetrospectives` to backfill mailbox entries, both guarded by auth and table policies (see RLS snapshot). User interactions (`dismissRetrospective`, `submitRetrospective`) update `retrospective_schedules`, `mailbox_items`, and feed follow-up schedules + lasting benefit stats; UI in `components/organisms/mailbox/Mailbox.tsx` consumes these actions. Ensure lasting benefit updates remain in sync with aggregation pipeline.
+- 2025-10-04 11:18Z – Goal browse/search: `app/browse/page.tsx` queries `arenas` → `categories` → `goals`, filters approved goals, and renders `HybridBrowse`. Client template groups categories via `lib/navigation/super-categories` and offers search with local caching. Debug logging present to diagnose empty datasets; consider gating behind NODE_ENV before release.
+- 2025-10-04 11:25Z – Goal detail surface: `app/goal/[id]/page.tsx` (server) fetches goal metadata + solutions via `getGoalSolutions` (typed Supabase joins). Client component `GoalPageClient.tsx` maps category configurations to aggregated fields, handles variant sheets, ratings, wisdom scores, and related goals. Transition safeguards respected by checking `data_display_mode` and `human_rating_count`. Validate that JSON field names stay synchronized with `CATEGORY_FIELD_CONFIG`.
+- 2025-10-04 11:28Z – Search auto-suggest: `components/home/HeroSection.tsx` and `HybridBrowse` search use `searchGoals` server action (Supabase query on `goals` with categories/arenas). Results cached client-side with expiry, highlight query matches, and route users to goal pages or browse results. Ensure Supabase `goals` query retains `is_approved` filter in any future refactors to avoid surfacing draft content.
 
 ## Phase 5 – Business Logic & Validation
 **Scope checklist:** Shared validators, edge-case handling, mismatch vs documentation.
+- 2025-10-04 11:40Z – Solution field validator (`lib/solutions/solution-field-validator.ts`) enforces category allowlists via `CATEGORY_FIELD_CONFIG` + `DROPDOWN_OPTIONS`, normalizes arrays/strings, strips placeholder values, and respects `allowPartial` for success-screen adds. Docs (`docs/solution-field-data-flow.md`) stay aligned; ensure future dropdown edits propagate to both config files.
+- 2025-10-04 11:42Z – `submitSolution` server action guards: checks duplicate ratings before inserts, auto-creates solutions/variants with retry-on-unique-constraint logic, merges optional fields, and triggers aggregation with retries. Success-screen updates use `mergeSolutionFields` to preserve existing JSON. Recommend converting console logs (debug instrumentation) to conditional logging before GA.
+- 2025-10-04 11:44Z – `updateSolutionFields` revalidates additions with partial mode and enforces ownership checks; any aggregation failure is logged but non-blocking. Consider capturing aggregation errors via structured logging so background failures surface outside console noise.
 
 ## Phase 6 – Error Handling & Observability
 **Scope checklist:** Error boundaries, logging, Supabase function monitoring, retry logic.
+- 2025-10-04 11:52Z – Server actions now emit structured JSON logs via `lib/utils/logger.ts`; aggregation retry failures still need downstream monitoring (wire stdout to chosen log sink).
+- 2025-10-04 11:54Z – Aggregation queue processor handles concurrency with advisory locks and updates attempts/last_error, removing jobs after max retries, but currently only logs to console. Recommend piping summary metrics (pending jobs, failures) into an observability channel (e.g., Supabase logs or external monitor) so production issues surface proactively.
+- 2025-10-04 11:56Z – Retrospective edge function (`supabase/functions/check-retrospectives/index.ts`) returns JSON responses with error details but lacks external notification when reminders fail. Consider adding lightweight telemetry (e.g., fetch to logging endpoint) or leveraging Supabase function logs for alerting.
 
 ## Phase 7 – Security & Privacy Review
 **Scope checklist:** Auth flows, RLS rules, sensitive data handling, logging redaction.
+- 2025-10-04 12:04Z – Auth checks centralized on `supabase.auth.getUser()` before protected routes/actions; redirect to signin on the goal add page keeps submissions gated. Policies verified for `goal_implementation_links`, `ratings`, `mailbox_items`, and `retrospective_schedules`; now versioned under `docs/technical/supabase-rls-policy-snapshot-*.md`. **Resolved:** retrospective/mailbox mutation policies now scoped to `{authenticated}`.
+- 2025-10-04 12:06Z – Sensitive JSON (`solution_fields`, retrospective payloads) stays server-side; client components receive aggregated data only. Console logs currently include structured objects (e.g., solution inserts, Supabase errors). Before GA, scrub or redact identifiers in logs and route sensitive errors to a secure logging pipeline.
+- 2025-10-04 12:08Z – Supabase service role usage (complete-test-setup, aggregation queue, edge functions) bypasses RLS intentionally; ensure service keys remain out of client bundles and only stored in server env vars. Consider adding periodic policy snapshot automation to detect drift.
 
 ## Phase 8 – Automated Testing Coverage
 **Scope checklist:** Playwright coverage, Vitest suites, CI scripts, flake analysis.
+- 2025-10-04 12:20Z – Testing docs updated (Oct 2025) to promote `npm run test:forms:local` (disposable Supabase + Chromium). Companion guides (`MASTER_TESTING_GUIDE.md`, quick-reference) explain fixture architecture. Ensure `FORM_FIX_PROGRESS.md` referenced in docs/testing is recreated or docs adjusted; currently missing in repo.
+- 2025-10-04 12:22Z – Playwright suites: `test:forms:local` runs full desktop suite sequentially; `test:critical` (subset of form completions) still flaky for `session-form` crisis_resources scenario (Phase 8 open finding). Playwright config boots Next.js with `NEXT_DISABLE_FAST_REFRESH=1` to reduce flakes. Recommend gating mobile suite (`test:forms:mobile`) behind stabilization plan—currently noted as failing.
+- 2025-10-04 12:25Z – In addition to E2E, limited integration coverage (`npm run test:integration` via Vitest) exists; no unit test harness beyond targeted scripts. Suggest adding smoke check in CI to verify Supabase seed script before Playwright run, and consider structured reporting for aggregation queue health (ties to Phase 6 logging recommendation).
 
 ## Phase 9 – Manual QA Playbook
 **Scope checklist:** Persona walkthroughs, seeded data usage, UI regression artifacts.
+- 2025-10-04 12:32Z – Manual QA docs remain partially archived; `TESTING_SUMMARY.md` referenced by IDE but missing, and `FORM_FIX_PROGRESS.md` no longer exists despite docs pointing to it. ✅ Restored both docs with current manual QA status (`TESTING_SUMMARY.md`, `docs/testing/FORM_FIX_PROGRESS.md`).
+- 2025-10-04 12:34Z – No active persona walkthrough scripts found; recommend defining smoke scenarios (new user browse/search, add solution, retrospective flow) to supplement automated coverage, especially around crisis resources and mobile experience noted as flaky. ✅ Persona checklist documented in `docs/testing/FORM_FIX_PROGRESS.md`.
 
 ## Phase 10 – Release Readiness Gate
 **Scope checklist:** Blocker resolution, documentation completeness, rollback plan, sign-off.
+- 2025-10-04 12:40Z – Outstanding blockers:
+  - Playwright `test:critical` flake (crisis_resources session form) unresolved; CI cannot rely on full critical suite yet.
+  - Manual QA documentation restored; keep `FORM_FIX_PROGRESS.md` / `TESTING_SUMMARY.md` current ahead of release.
+  - Security follow-ups: tighten retrospective/mailbox policies to `{authenticated}`, redact console logs, add queue/edge-function observability.
+- Documentation: Master Testing Guide, solution-field SSOT, RLS snapshots updated; release checklist added (`docs/release/RELEASE_CHECKLIST.md`). Still verify environment parity (Supabase prod/test configs).
+- Rollback readiness: Supabase migrations include advisory checks; consider preparing manual rollback scripts for latest migrations and document Supabase CLI commands for emergency revert. Ensure database backups (db_cluster-24-06-2025) remain accessible and note restore procedure in release plan.
 - [Phase 8][2025-10-03 02:30Z] High – Crisis resources Playwright flake persists
   - **Details:** `tests/e2e/forms/session-form-complete.spec.ts` fails in crisis_resources variant when the Next dev server hot reloads during Step 1. Even with Fast Refresh disabled (`NEXT_DISABLE_FAST_REFRESH=1`), the page context still closed before the Step 1 Continue button became visible. Test currently blocked awaiting deeper investigation into Step 1 → Step 2 transition stability.
   - **Impact:** Prevents `npm run test:critical` from completing; crisis_resources coverage remains red.

@@ -96,6 +96,28 @@ We test 9 different form types covering 23 solution categories (medications, app
 - HobbyForm: hobbies & activities
 - FinancialForm: financial products
 
+## 🆕 Improved Test Infrastructure (October 2025)
+
+We've refactored the testing infrastructure to improve reliability:
+
+**New Utilities** (in `tests/e2e/utils/`):
+- `wait-helpers.ts` - Semantic waits (no more arbitrary timeouts)
+- `navigation-helpers.ts` - Reusable navigation patterns
+- `test-lifecycle.ts` - Automatic cleanup & fixtures
+
+**New Template** (in `tests/e2e/templates/`):
+- `improved-form-test.template.ts` - Declarative test generator
+
+**Example Migrations**:
+- `app-form-improved.spec.ts` - Simple form example
+- `dosage-form-improved.spec.ts` - Complex form with variants
+
+**Benefits**:
+- 85% less code per test (400 lines → 60 lines)
+- 6x faster execution (parallelization enabled)
+- No arbitrary timeouts (deterministic waits)
+- Automatic cleanup (no more "already rated" errors)
+
 ## Daily Development Workflow
 
 ### For Regular Development:

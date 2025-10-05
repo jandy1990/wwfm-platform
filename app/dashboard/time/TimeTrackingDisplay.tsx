@@ -4,13 +4,16 @@ import { useEffect, useState, useMemo } from 'react'
 import { ArenaTimeService, type ArenaStats, type TimeSummary } from '@/lib/services/arena-time-service'
 import { ArenaTimeTracker } from '@/lib/tracking/arena-time-tracker'
 import { ArenaTimePieChart } from '@/components/charts/ArenaTimePieChart'
+import { InfoTooltip } from '@/components/molecules/InfoTooltip'
 
 export function TimeTrackingDisplay() {
   const [stats, setStats] = useState<ArenaStats[]>([])
   const [summary, setSummary] = useState<TimeSummary | null>(null)
   const [loading, setLoading] = useState(true)
-  
+  const [showAll, setShowAll] = useState(false)
+
   const service = useMemo(() => new ArenaTimeService(), [])
+  const INITIAL_DISPLAY_COUNT = 5
 
   useEffect(() => {
     async function loadDashboardData() {
@@ -66,6 +69,14 @@ export function TimeTrackingDisplay() {
     color: colors[index % colors.length]
   })).filter(item => item.percentage > 0) // Only show arenas with time spent
 
+  // Helper to determine if an arena name needs explanation
+  const needsExplanation = (arenaName: string): string | null => {
+    if (arenaName === 'General Browsing') {
+      return 'Time spent on the main browse page viewing all arenas'
+    }
+    return null
+  }
+
   if (loading) return (
     <div className="animate-pulse">
       <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
@@ -115,17 +126,21 @@ export function TimeTrackingDisplay() {
           <div>
             <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Detailed Breakdown</h3>
             <div className="space-y-3">
-              {stats.map(stat => {
+              {(showAll ? stats : stats.slice(0, INITIAL_DISPLAY_COUNT)).map(stat => {
                 const percentage = getPercentage(stat.total_seconds)
                 const isTopArena = summary?.most_visited_arena === stat.arena_name
                 const progressWidth = maxSeconds > 0 ? (stat.total_seconds / maxSeconds) * 100 : 0
-                
+                const tooltipText = needsExplanation(stat.arena_name)
+
                 return (
                   <div key={stat.arena_name} className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex justify-between items-center mb-2">
-                      <span className={`font-medium ${isTopArena ? 'text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100'}`}>
-                        {stat.arena_name}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className={`font-medium ${isTopArena ? 'text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100'}`}>
+                          {stat.arena_name}
+                        </span>
+                        {tooltipText && <InfoTooltip text={tooltipText} />}
+                      </div>
                       <div className="text-right">
                         <span className="font-semibold text-gray-900 dark:text-gray-100">
                           {service.formatTime(stat.total_seconds)}
@@ -135,13 +150,13 @@ export function TimeTrackingDisplay() {
                         </span>
                       </div>
                     </div>
-                    
+
                     {/* Progress bar */}
                     <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                      <div 
+                      <div
                         className={`h-2 rounded-full transition-all duration-500 ${
-                          isTopArena 
-                            ? 'bg-blue-500 dark:bg-blue-400' 
+                          isTopArena
+                            ? 'bg-blue-500 dark:bg-blue-400'
                             : 'bg-gray-400 dark:bg-gray-500'
                         }`}
                         style={{ width: `${progressWidth}%` }}
@@ -151,6 +166,16 @@ export function TimeTrackingDisplay() {
                 )
               })}
             </div>
+
+            {/* Show More/Less Button */}
+            {stats.length > INITIAL_DISPLAY_COUNT && (
+              <button
+                onClick={() => setShowAll(!showAll)}
+                className="mt-4 w-full py-2 px-4 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
+              >
+                {showAll ? '↑ Show Less' : `↓ Show ${stats.length - INITIAL_DISPLAY_COUNT} More`}
+              </button>
+            )}
           </div>
         </div>
       ) : (

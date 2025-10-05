@@ -2,12 +2,25 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { supabase } from '@/lib/database/client'
 import { User } from '@supabase/supabase-js'
+import HeaderSearch from '@/components/organisms/HeaderSearch'
+import MobileSearchModal from '@/components/organisms/MobileSearchModal'
+import MobileNav from '@/components/organisms/MobileNav'
+import UserDropdown from '@/components/organisms/UserDropdown'
+import NotificationBell from '@/components/organisms/NotificationBell'
+import { PointsBadge } from '@/components/points/PointsBadge'
 
 export default function Header() {
+  const pathname = usePathname()
   const [user, setUser] = useState<User | null>(null)
   const [retrospectiveCount, setRetrospectiveCount] = useState(0)
+  const [showMobileSearch, setShowMobileSearch] = useState(false)
+  const [showMobileNav, setShowMobileNav] = useState(false)
+
+  // Hide search on pages that already have their own search
+  const shouldHideSearch = pathname === '/' || pathname === '/browse'
 
   useEffect(() => {
     // Get initial user
@@ -51,53 +64,85 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 group">
-            <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100">WWFM</span>
-            <span className="relative">
-              <span className="text-2xl">🏔️</span>
-              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white dark:via-gray-300 to-transparent opacity-0 group-hover:opacity-30 animate-shimmer"></span>
-            </span>
-          </Link>
-
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link 
-              href="/browse" 
-              className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              Browse
+    <>
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center h-16 relative">
+            {/* Logo */}
+            <Link href="/" className="flex items-center space-x-2 group">
+              <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100">WWFM</span>
+              <span className="relative">
+                <span className="text-2xl">🏔️</span>
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white dark:via-gray-300 to-transparent opacity-0 group-hover:opacity-30 animate-shimmer"></span>
+              </span>
             </Link>
-            <Link 
-              href="/dashboard" 
-              className="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              Dashboard
-              {retrospectiveCount > 0 && (
-                <span className="absolute -top-1 -right-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 bg-red-600 rounded-full">
-                  {retrospectiveCount}
-                </span>
-              )}
-            </Link>
-          </nav>
 
-          {/* Auth Section */}
-          <div className="flex items-center space-x-4">
-            {user ? (
-              <div className="flex items-center space-x-3">
-                <span className="hidden sm:block text-sm text-gray-700 dark:text-gray-300">
-                  {user.email}
-                </span>
-                <button
-                  onClick={handleSignOut}
-                  className="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-2 rounded-md transition-colors"
+            {/* Desktop Search - Between logo and nav */}
+            <HeaderSearch className="hidden md:block ml-8" />
+
+            {/* Navigation Links - Absolutely Centered */}
+            <nav className="hidden md:flex items-center space-x-6 absolute left-1/2 -translate-x-1/2">
+              <Link
+                href="/browse"
+                className={`pb-1 transition-colors border-b-2 ${
+                  pathname === '/browse'
+                    ? 'border-blue-600 text-blue-600 dark:text-blue-400 font-semibold'
+                    : 'border-transparent text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:border-gray-300 dark:hover:border-gray-600'
+                }`}
+                aria-current={pathname === '/browse' ? 'page' : undefined}
+              >
+                Browse
+              </Link>
+              <Link
+                href="/dashboard"
+                className={`pb-1 transition-colors border-b-2 ${
+                  pathname === '/dashboard'
+                    ? 'border-blue-600 text-blue-600 dark:text-blue-400 font-semibold'
+                    : 'border-transparent text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:border-gray-300 dark:hover:border-gray-600'
+                }`}
+                aria-current={pathname === '/dashboard' ? 'page' : undefined}
+              >
+                Dashboard
+              </Link>
+              {user && (
+                <Link
+                  href="/contribute"
+                  className={`pb-1 transition-colors border-b-2 ${
+                    pathname === '/contribute'
+                      ? 'border-blue-600 text-blue-600 dark:text-blue-400 font-semibold'
+                      : 'border-transparent text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:border-gray-300 dark:hover:border-gray-600'
+                  }`}
+                  aria-current={pathname === '/contribute' ? 'page' : undefined}
                 >
-                  Sign Out
+                  Contribute
+                </Link>
+              )}
+            </nav>
+
+            {/* Auth Section + Mobile Search Icon */}
+            <div className="flex items-center space-x-4 ml-auto">
+              {/* Mobile Search Icon - Hidden on pages with their own search */}
+              {!shouldHideSearch && (
+                <button
+                  onClick={() => setShowMobileSearch(true)}
+                  className="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  aria-label="Search"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
                 </button>
-              </div>
+              )}
+            {user ? (
+              <>
+                <PointsBadge userId={user.id} />
+                <NotificationBell count={retrospectiveCount} />
+                <UserDropdown
+                  user={user}
+                  onSignOut={handleSignOut}
+                  retrospectiveCount={retrospectiveCount}
+                />
+              </>
             ) : (
               <div className="flex items-center space-x-3">
                 <Link
@@ -114,22 +159,39 @@ export default function Header() {
                 </Link>
               </div>
             )}
-          </div>
+            </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              type="button"
-              className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2"
-              aria-label="Open menu"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button
+                type="button"
+                onClick={() => setShowMobileNav(true)}
+                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2"
+                aria-label="Open menu"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Mobile Search Modal */}
+      <MobileSearchModal
+        isOpen={showMobileSearch}
+        onClose={() => setShowMobileSearch(false)}
+      />
+
+      {/* Mobile Navigation Drawer */}
+      <MobileNav
+        isOpen={showMobileNav}
+        onClose={() => setShowMobileNav(false)}
+        user={user}
+        onSignOut={handleSignOut}
+        retrospectiveCount={retrospectiveCount}
+      />
+    </>
   )
 }

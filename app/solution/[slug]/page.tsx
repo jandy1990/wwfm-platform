@@ -5,12 +5,13 @@ import SolutionPageClient from '@/components/solution/SolutionPageClient'
 import Breadcrumbs from '@/components/molecules/Breadcrumbs'
 
 interface PageProps {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const solution = await getSolutionDetail(params.slug)
+  const { slug } = await params
+  const solution = await getSolutionDetail(slug)
 
   if (!solution) {
     return {
@@ -46,10 +47,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function SolutionPage({ params }: PageProps) {
-  const solution = await getSolutionDetail(params.slug)
+  const { slug } = await params
+  const solution = await getSolutionDetail(slug)
 
   if (!solution) {
-    console.error(`[DEBUG] Solution not found for slug: ${params.slug}`)
+    console.error(`[DEBUG] Solution not found for slug: ${slug}`)
     notFound()
   }
 

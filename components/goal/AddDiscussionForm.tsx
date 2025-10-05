@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/database/client'
+import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation'
 
 interface AddDiscussionFormProps {
   goalId: string
@@ -11,18 +12,19 @@ interface AddDiscussionFormProps {
   onCancel: () => void
 }
 
-export default function AddDiscussionForm({ 
-  goalId, 
-  goalTitle, 
-  parentId = null, 
-  onSuccess, 
-  onCancel 
+export default function AddDiscussionForm({
+  goalId,
+  goalTitle,
+  parentId = null,
+  onSuccess,
+  onCancel
 }: AddDiscussionFormProps) {
   const [content, setContent] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const supabase = createClient()
+  const { triggerPoints } = usePointsAnimation()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -84,6 +86,12 @@ export default function AddDiscussionForm({
         console.error('Error creating discussion:', insertError)
         setError('Failed to post discussion. Please try again.')
       } else {
+        // Trigger points animation - different points for discussion vs reply
+        triggerPoints({
+          userId: user.id,
+          points: parentId ? 3 : 8,
+          reason: parentId ? 'Replied to discussion' : 'Started a discussion'
+        })
         onSuccess()
       }
     } catch (err) {

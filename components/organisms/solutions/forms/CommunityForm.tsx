@@ -11,6 +11,7 @@ import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
 import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface CommunityFormProps {
@@ -41,6 +42,7 @@ export function CommunityForm({
 }: CommunityFormProps) {
   console.log('CommunityForm initialized with existingSolutionId:', existingSolutionId);
   const router = useRouter();
+  const { triggerPoints } = usePointsAnimation();
   const isMounted = useRef(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -345,7 +347,14 @@ export function CommunityForm({
         
         // Clear backup on successful submission
         clearBackup();
-        
+
+        // Trigger points animation
+        triggerPoints({
+          userId,
+          points: 15,
+          reason: 'Shared your experience'
+        });
+
         // Show success screen
         setShowSuccessScreen(true);
       } else {

@@ -7,9 +7,11 @@
 
 const dotenv = require('dotenv');
 
-// Load environment variables for disposable/local Supabase first, then fall back to the default dev file.
-dotenv.config({ path: '.env.local' });
-dotenv.config({ path: '.env.test.local', override: true });
+// Load local test database credentials first, then fall back to .env.local defaults
+const testEnv = dotenv.config({ path: '.env.test.local' });
+if (testEnv.error) {
+  dotenv.config({ path: '.env.local' });
+}
 const { createClient } = require('@supabase/supabase-js');
 
 // Initialize Supabase clients
@@ -219,26 +221,34 @@ async function setupTestFixtures() {
       .eq('goal_id', TEST_GOAL_ID);
     
     // Find and delete all test fixtures
-    const { data: existingFixtures } = await supabaseAdmin
+    const { data: existingFixtures, error: findError } = await supabaseAdmin
       .from('solutions')
-      .select('id')
+      .select('id, title')
       .like('title', '%(Test)%');
-    
+
+    console.log('   📋 Found existing fixtures:', existingFixtures?.length || 0, findError ? `(error: ${findError.message})` : '');
+
     if (existingFixtures && existingFixtures.length > 0) {
       const fixtureIds = existingFixtures.map(f => f.id);
-      
+
+      console.log('   🗑️ Deleting variants for', fixtureIds.length, 'fixtures...');
       // Delete all variants for test fixtures
-      await supabaseAdmin
+      const { error: variantDeleteError } = await supabaseAdmin
         .from('solution_variants')
         .delete()
         .in('solution_id', fixtureIds);
-      
+
+      if (variantDeleteError) console.log('   ⚠️ Variant delete error:', variantDeleteError.message);
+
+      console.log('   🗑️ Deleting solutions...');
       // Delete all test fixtures
-      await supabaseAdmin
+      const { error: solutionDeleteError } = await supabaseAdmin
         .from('solutions')
         .delete()
         .in('id', fixtureIds);
-      
+
+      if (solutionDeleteError) console.log('   ⚠️ Solution delete error:', solutionDeleteError.message);
+
       console.log(`   ✅ Cleaned up ${existingFixtures.length} test fixtures`);
     }
     
@@ -253,14 +263,15 @@ async function setupTestFixtures() {
           title: fixture.title,
           solution_category: fixture.category,
           source_type: 'test_fixture',
-          is_approved: true,
-          created_by: userId
+          solution_model: 'standard',
+          is_approved: true
         })
         .select()
         .single();
-      
-      if (createError) {
-        console.error(`   ❌ Failed to create ${fixture.title}:`, createError.message);
+
+      if (createError || !solution) {
+        console.error(`   ❌ Failed to create ${fixture.title}:`, createError?.message || 'No data returned');
+        if (createError) console.error('   Full error:', JSON.stringify(createError, null, 2));
         continue;
       }
       

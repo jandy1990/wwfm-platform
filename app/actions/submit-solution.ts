@@ -3,6 +3,7 @@
 import { createServerSupabaseClient } from '@/lib/database/server'
 import { solutionAggregator } from '@/lib/services/solution-aggregator'
 import { validateAndNormalizeSolutionFields } from '@/lib/solutions/solution-field-validator'
+import { logger } from '@/lib/utils/logger'
 import type { Tables, TablesInsert } from '@/types/supabase'
 
 // Types for the submission data
@@ -118,24 +119,25 @@ const toSolutionFieldsJson = (
 ): TablesInsert<'ratings'>['solution_fields'] => value as TablesInsert<'ratings'>['solution_fields']
 
 export async function submitSolution(formData: SubmitSolutionData): Promise<SubmitSolutionResult> {
-  console.log('[submitSolution] START - Category:', formData.category, 'Solution:', formData.solutionName);
+  logger.info('submitSolution started', {
+    category: formData.category,
+    solutionName: formData.solutionName
+  })
   
   try {
-    console.log('[Server] Received submission data:', {
+    logger.debug('submitSolution payload received', {
       goalId: formData.goalId,
       userId: formData.userId,
-      solutionName: formData.solutionName,
-      category: formData.category,
       existingSolutionId: formData.existingSolutionId,
       effectiveness: formData.effectiveness,
-      solutionFields: formData.solutionFields
+      fieldsCount: Object.keys(formData.solutionFields || {}).length
     })
 
     const { isValid: fieldsValid, errors: fieldErrors, normalizedFields } =
       validateAndNormalizeSolutionFields(formData.category, formData.solutionFields)
 
     if (!fieldsValid) {
-      console.warn('[submitSolution] Field validation failed:', fieldErrors)
+      logger.warn('submitSolution validation failed', { fieldErrors })
       return { success: false, error: `Invalid field data: ${fieldErrors.join('; ')}` }
     }
 
@@ -144,17 +146,16 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
     const supabase = await createServerSupabaseClient()
     
     // 1. Verify authentication
-    console.log('[submitSolution] Step 1: Checking authentication')
+    logger.debug('submitSolution authentication step')
     const { data: { user } } = await supabase.auth.getUser()
     if (!user || user.id !== formData.userId) {
-      console.log('[submitSolution] AUTH FAILED - user:', user?.id, 'expected:', formData.userId)
+      logger.warn('submitSolution auth failed', { userIdExpected: formData.userId, userIdActual: user?.id })
       return { success: false, error: 'Unauthorized: Please sign in to submit a solution' }
     }
-    console.log('[submitSolution] Auth successful for user:', user.id)
+    logger.debug('submitSolution auth success', { userId: user.id })
     
     // 2. Check for duplicate rating first
-    console.log('[submitSolution] Step 2: Checking for duplicate rating')
-    console.log('[submitSolution] Form data contains existingSolutionId?', !!formData.existingSolutionId, formData.existingSolutionId || 'none')
+    logger.debug('submitSolution duplicate-check step', { existingSolutionId: formData.existingSolutionId })
     let solutionId = formData.existingSolutionId
     let variantId: string | null = null
     
@@ -227,7 +228,11 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
         .single<SolutionRow>()
       
       if (solutionError) {
-        console.error('[submitSolution] Error creating solution:', JSON.stringify(solutionError))
+      logger.error('submitSolution error creating solution', {
+        error: solutionError,
+        solutionName: formData.solutionName,
+        category: formData.category
+      })
         
         // If it's a duplicate error, try to find the existing solution
         if (solutionError.code === '23505' || solutionError.message?.includes('duplicate')) {
@@ -244,30 +249,33 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
             console.log('[submitSolution] Found existing solution:', existingSolution.id)
             solutionId = existingSolution.id
           } else {
-            console.error('[submitSolution] Could not find existing solution:', findError)
+            logger.error('submitSolution: could not find existing solution after duplicate', { error: findError })
             return { success: false, error: 'Failed to create or find solution' }
           }
         } else {
           // Some other error
-          console.error('[submitSolution] Failed insert data:', {
-            title: formData.solutionName,
-            solution_category: formData.category,
-            source_type: 'user_generated',
-            is_approved: false
+          logger.error('submitSolution: failed solution insert', {
+            payload: {
+              title: formData.solutionName,
+              solution_category: formData.category,
+              source_type: 'user_generated',
+              is_approved: false
+            },
+            error: solutionError
           })
           return { success: false, error: 'Failed to create solution' }
         }
       } else {
         solutionId = newSolution.id
-        console.log('[submitSolution] Created new solution with id:', solutionId)
+        logger.info('submitSolution created new solution', { solutionId })
       }
-      console.log('[Server] Created solution with ID:', solutionId)
+      logger.debug('submitSolution using solution id', { solutionId })
     } else {
-      console.log('[Server] Using existing solution ID:', solutionId)
+      logger.debug('submitSolution using existing solution id', { solutionId })
     }
     
     // 4. Create or find variant
-    console.log('[submitSolution] Step 4: Create or find variant')
+    logger.debug('submitSolution create-or-find variant start')
     if (!variantId) {
       const isDosageCategory = DOSAGE_CATEGORIES.includes(formData.category)
       let variantName: string
@@ -291,12 +299,12 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
       
       // Ignore PGRST116 error (no rows returned)
       if (variantCheckError && variantCheckError.code !== 'PGRST116') {
-        console.error('[submitSolution] Error checking for existing variant:', variantCheckError)
+        logger.error('submitSolution: error checking existing variant', { error: variantCheckError })
       }
       
       if (existingVariant) {
         variantId = existingVariant.id
-        console.log('[submitSolution] Found existing variant for name:', variantName, 'id:', variantId)
+        logger.debug('submitSolution found existing variant', { variantName, variantId })
         
         // Check for duplicate rating with this variant
         const { data: existingRating } = await supabase
@@ -308,16 +316,16 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           .single()
         
         if (existingRating) {
-          console.log('[submitSolution] DUPLICATE FOUND at variant check - User already rated this variant')
+          logger.info('submitSolution duplicate rating at variant stage', { userId: formData.userId, goalId: formData.goalId, variantId })
           return { 
             success: false, 
             error: "You've already rated this solution variant for this goal." 
           }
         }
-        console.log('[submitSolution] No duplicate for this variant, continuing')
+        logger.debug('submitSolution no variant duplicate, continuing')
       } else {
         // Create new variant
-        console.log('[submitSolution] Creating new variant with name:', variantName)
+        logger.debug('submitSolution creating new variant', { variantName })
         const variantInsert: TablesInsert<'solution_variants'> = {
           solution_id: solutionId,
           variant_name: variantName,
@@ -338,7 +346,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           .single<SolutionVariantRow>()
         
         if (variantError) {
-          console.error('[submitSolution] Error creating variant:', variantError)
+          logger.error('submitSolution: error creating variant', { error: variantError })
           return { success: false, error: 'Failed to create solution variant' }
         }
         
@@ -376,7 +384,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
       .single<RatingRow>()
     
     if (ratingError) {
-      console.error('[submitSolution] Error creating rating:', ratingError)
+      logger.error('submitSolution: error creating rating', { error: ratingError })
       return { success: false, error: 'Failed to save your rating' }
     }
     
@@ -461,20 +469,30 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           break
         }
       } catch (error) {
-        console.error(`[submitSolution] Aggregation attempt ${i + 1}/${maxRetries} failed:`, error)
+        logger.error('submitSolution aggregation attempt failed', {
+          attempt: i + 1,
+          maxRetries,
+          error
+        })
         
         if (i < maxRetries - 1) {
           // Wait before retrying with exponential backoff
           await new Promise(r => setTimeout(r, 1000 * (i + 1)))
         } else {
           // Final attempt failed - but don't fail the submission
-          console.error('[submitSolution] Failed to aggregate after all retries')
+          logger.error('submitSolution aggregation failed after max retries', {
+            goalId: formData.goalId,
+            implementationId: variantId
+          })
         }
       }
     }
     
     if (!aggregationSuccess) {
-      console.warn('[submitSolution] Aggregation failed but rating was saved successfully')
+      logger.warn('submitSolution aggregation failed but rating saved', {
+        goalId: formData.goalId,
+        implementationId: variantId
+      })
     }
     
     // 7. Process failed solutions
@@ -609,7 +627,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
         })
       
       if (scheduleError) {
-        console.error('[submitSolution] Failed to schedule retrospective:', scheduleError)
+        logger.error('submitSolution failed to schedule retrospective', { error: scheduleError })
         // Don't fail the submission over this - retrospective is a nice-to-have
       } else {
         console.log('[submitSolution] Scheduled 6-month retrospective for', sixMonthsFromNow.toISOString().split('T')[0])
@@ -657,7 +675,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
         }
       }
     } catch (transitionError) {
-      console.error('[submitSolution] Transition check failed (non-fatal):', transitionError)
+      logger.warn('submitSolution transition check failed (non-fatal)', { error: transitionError })
       // Don't fail the submission over transition issues
     }
 
@@ -673,11 +691,16 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
       projectedEffectiveness
     };
     
-    console.log('[submitSolution] SUCCESS - Rating created:', newRating?.id, 'for solution:', solutionId);
+    logger.debug('submitSolution success', {
+      ratingId: newRating?.id,
+      solutionId,
+      transitioned,
+      projectedEffectiveness
+    })
     return result
     
   } catch (error) {
-    console.error('Unexpected error in submitSolution:', error)
+    logger.error('submitSolution unexpected error', error instanceof Error ? error : { error })
     return {
       success: false,
       error: 'An unexpected error occurred. Please try again.'

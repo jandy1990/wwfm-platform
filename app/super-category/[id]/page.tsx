@@ -7,7 +7,8 @@ export const revalidate = 0
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
-import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrumbs'
+import Breadcrumbs from '@/components/molecules/Breadcrumbs'
+import { createBreadcrumbs } from '@/lib/utils/breadcrumbs'
 import EmptyState from '@/components/molecules/EmptyState'
 import { GoalPageTracker } from '@/components/tracking/GoalPageTracker'
 import { SUPER_CATEGORIES, SUPER_CATEGORY_COLORS } from '@/lib/navigation/super-categories'
@@ -101,8 +102,13 @@ async function getSuperCategoryWithGoals(superCategoryId: string) {
   }
 }
 
-export default async function SuperCategoryPage({ params }: { params: { id: string } }) {
-  const result = await getSuperCategoryWithGoals(params.id)
+type SuperCategoryPageProps = {
+  params: Promise<{ id: string }>
+}
+
+export default async function SuperCategoryPage({ params }: SuperCategoryPageProps) {
+  const { id } = await params
+  const result = await getSuperCategoryWithGoals(id)
 
   if (!result) {
     notFound()

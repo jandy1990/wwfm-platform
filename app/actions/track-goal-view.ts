@@ -2,6 +2,7 @@
 
 import { createServerSupabaseClient } from '@/lib/database/server';
 import { cookies } from 'next/headers';
+import { logger } from '@/lib/utils/logger';
 
 export async function trackGoalView(goalId: string) {
   try {
@@ -22,7 +23,7 @@ export async function trackGoalView(goalId: string) {
       .rpc('increment_goal_view_count', { goal_id: goalId });
 
     if (error) {
-      console.error('Failed to track goal view:', error);
+      logger.error('trackGoalView failed to increment view', { error, goalId });
       return { success: false, error: 'Failed to track view' };
     }
 
@@ -36,7 +37,7 @@ export async function trackGoalView(goalId: string) {
 
     return { success: true };
   } catch (error) {
-    console.error('View tracking error:', error);
+    logger.error('trackGoalView unexpected error', error instanceof Error ? error : { error, goalId });
     return { success: false, error: 'Unexpected error' };
   }
 }

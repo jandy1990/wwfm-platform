@@ -139,9 +139,14 @@ export async function getGoalSolutions(goalId: string): Promise<GoalSolutionWith
 
   if (error) {
     console.error('[DEBUG] Error fetching goal links:', error)
+    console.error('[DEBUG] Error details:', JSON.stringify(error, null, 2))
+    console.error('[DEBUG] Error message:', error?.message)
+    console.error('[DEBUG] Error hint:', error?.hint)
+    console.error('[DEBUG] Error details:', error?.details)
   }
 
   console.log(`[DEBUG] Goal links fetched:`, goalLinks?.length || 0)
+  console.log('[DEBUG] Sample goal link:', goalLinks?.[0])
 
   // Transform the data to group by solution
   const solutionsMap = new Map<string, GoalSolutionWithVariants>();
@@ -158,7 +163,8 @@ export async function getGoalSolutions(goalId: string): Promise<GoalSolutionWith
       ? variant.solutions[0]
       : variant?.solutions;
 
-    if (!variant || !solution) {
+    // Skip if no variant, solution, or solution is not approved
+    if (!variant || !solution || !solution.is_approved) {
       return;
     }
 

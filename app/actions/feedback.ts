@@ -3,6 +3,7 @@
 import { createServerSupabaseClient } from '@/lib/database/server'
 import type { FeedbackData } from '@/types/feedback'
 import type { Json, TablesInsert } from '@/types/supabase'
+import { logger } from '@/lib/utils/logger'
 
 type UserFeedbackInsert = TablesInsert<'user_feedback'>
 
@@ -35,13 +36,13 @@ export async function submitFeedback(data: FeedbackData) {
     const { error } = await supabase.from('user_feedback').insert(submission)
 
     if (error) {
-      console.error('Failed to submit feedback:', error)
+      logger.error('feedback submission failed', { error })
       return { success: false, error: 'Failed to submit feedback' }
     }
 
     return { success: true }
   } catch (error) {
-    console.error('Feedback submission error:', error)
+    logger.error('feedback submission unexpected error', error instanceof Error ? error : { error })
     return { success: false, error: 'An unexpected error occurred' }
   }
 }

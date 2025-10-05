@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# ⚠️ LOCAL TEST DATABASE VERIFICATION SCRIPT
+# This script checks the LOCAL test database (port 54322)
+# This is NOT the production database!
+#
+# Production database is at: https://wqxkhxdbxdtpuvuvgirx.supabase.co
+# Use Supabase MCP tools for production queries
+#
 # WWFM Test Environment Verification Script
 # Run this before executing any tests to ensure environment is ready
 

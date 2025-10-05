@@ -61,6 +61,31 @@ npm run test:forms:ui     # Debug Playwright runs with UI
 
 Tests ensure all form submissions work correctly. See [Testing Guide](tests/README.md) for details.
 
+## ⚠️ Database Usage
+
+**This project uses TWO separate databases:**
+
+1. **Production Database (Supabase Cloud)** - **USE THIS FOR ALL DEVELOPMENT**
+   - URL: `https://wqxkhxdbxdtpuvuvgirx.supabase.co`
+   - Contains real user data and AI-generated solutions
+   - Access via:
+     - TypeScript client: `import { supabase } from '@/lib/database/client'`
+     - Supabase MCP tools: `mcp__supabase__execute_sql`, `mcp__supabase__list_tables`, etc.
+   - **This is where you query data, develop features, and test changes**
+
+2. **Local Test Database (Docker)** - **TESTING INFRASTRUCTURE ONLY**
+   - Config: `supabase/config.toml` (marked "local-testing-only")
+   - Port: 54322
+   - Purpose: ONLY for testing Supabase CLI migrations and local development setup
+   - ⚠️ **DO NOT query this database directly with psql**
+   - ⚠️ **DO NOT use for feature development or data exploration**
+   - ⚠️ **Contains NO production data**
+
+**When developing features:**
+- ✅ Use Supabase MCP tools to query production database
+- ✅ Use `lib/database/client.ts` in application code
+- ❌ Never use `psql -h 127.0.0.1 -p 54322` (local test database)
+
 ## 🏗️ Architecture
 
 WWFM uses a modern JAMstack architecture optimized for content discovery:

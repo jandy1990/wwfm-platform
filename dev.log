@@ -1776,3 +1776,74 @@ RPC response: {
  ○ Compiling / ...
  ✓ Compiled / in 566ms (1763 modules)
  HEAD / 200 in 958ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/jackandrews/Desktop/wwfm-platform/.next/server/app/auth/signin/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/jackandrews/Desktop/wwfm-platform/.next/server/app/auth/signin/page.js',
+  page: '/auth/signin'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 684ms (1854 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/jackandrews/Desktop/wwfm-platform/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/jackandrews/Desktop/wwfm-platform/.next/server/pages/_document.js'
+}
+[Error: ENOENT: no such file or directory, open '/Users/jackandrews/Desktop/wwfm-platform/.next/server/app/auth/signin/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/jackandrews/Desktop/wwfm-platform/.next/server/app/auth/signin/page.js',
+  page: '/auth/signin'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/jackandrews/Desktop/wwfm-platform/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/jackandrews/Desktop/wwfm-platform/.next/server/pages/_document.js'
+}
+[Error: ENOENT: no such file or directory, open '/Users/jackandrews/Desktop/wwfm-platform/.next/required-server-files.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/jackandrews/Desktop/wwfm-platform/.next/required-server-files.json'
+}
+ GET /auth/signin 500 in 48902ms
+ GET /auth/signin 500 in 261ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/jackandrews/Desktop/wwfm-platform/.next/server/app/auth/signin/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/jackandrews/Desktop/wwfm-platform/.next/server/app/auth/signin/page.js',
+  page: '/auth/signin'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/jackandrews/Desktop/wwfm-platform/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/jackandrews/Desktop/wwfm-platform/.next/server/pages/_document.js'
+}
+[Error: ENOENT: no such file or directory, open '/Users/jackandrews/Desktop/wwfm-platform/.next/server/app/auth/signin/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/jackandrews/Desktop/wwfm-platform/.next/server/app/auth/signin/page.js',
+  page: '/auth/signin'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/jackandrews/Desktop/wwfm-platform/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/jackandrews/Desktop/wwfm-platform/.next/server/pages/_document.js'
+}
+[Error: ENOENT: no such file or directory, open '/Users/jackandrews/Desktop/wwfm-platform/.next/required-server-files.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/jackandrews/Desktop/wwfm-platform/.next/required-server-files.json'
+}
+ GET /auth/signin 500 in 97ms
+ GET /auth/signin 500 in 21ms
+[?25h

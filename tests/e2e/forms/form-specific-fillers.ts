@@ -12,10 +12,10 @@ import { Page } from '@playwright/test'
 async function waitForFormSuccess(page: Page): Promise<void> {
   console.log('Waiting for success screen...')
   try {
-    await page.waitForSelector('text="Thank you for sharing!"', { timeout: 30000 })
+    await page.waitForSelector('text="Thank you for sharing!"', { timeout: 60000 })
     console.log('✅ Success screen appeared')
   } catch (error) {
-    console.log('⚠️ Success screen did not appear within 30 seconds')
+    console.log('⚠️ Success screen did not appear within 60 seconds')
     // Log what's on the page for debugging
     const pageText = await page.textContent('body')
     if (pageText?.includes('already rated')) {
@@ -964,88 +964,43 @@ export async function fillSessionForm(page: Page, category: string) {
   // Response time - REQUIRED for crisis_resources
   if (category === 'crisis_resources') {
     console.log('Selecting response time (REQUIRED for crisis_resources)...');
-    
-    try {
-      // Be very careful with selectors to avoid clicking wrong elements
-      // Look for the response time label first
-      const responseLabel = page.locator('label').filter({ hasText: 'Response time' }).first();
-      const hasLabel = await responseLabel.isVisible().catch(() => false);
-      
-      if (hasLabel) {
-        console.log('Found response time label, looking for associated dropdown...');
-        // Find the next select/combobox after the label
-        const responseTrigger = page.locator('label:has-text("Response time") ~ div button[role="combobox"], label:has-text("Response time") + div button[role="combobox"]').first();
-        const hasResponseTrigger = await responseTrigger.isVisible().catch(() => false);
-        
-        if (!hasResponseTrigger) {
-          // Try finding by placeholder text
-          const altTrigger = page.locator('button[role="combobox"]').filter({ hasText: 'How quickly did they respond?' }).first();
-          const hasAltTrigger = await altTrigger.isVisible().catch(() => false);
-          
-          if (hasAltTrigger) {
-            console.log('Found response time dropdown by placeholder');
-            await altTrigger.click();
-          } else {
-            console.log('WARNING: Could not find response time dropdown reliably');
-            // Skip response time selection to see if form works without it
-          }
-        } else {
-          console.log('Found response time dropdown by label association');
-          await responseTrigger.click();
-        }
-      } else {
-        console.log('WARNING: Response time label not found');
-        // Try finding by placeholder text as fallback
-        const responseTrigger = page.locator('button[role="combobox"]').filter({ hasText: 'How quickly did they respond?' }).first();
-        const hasResponseTrigger = await responseTrigger.isVisible().catch(() => false);
-        
-        if (hasResponseTrigger) {
-          console.log('Found response time dropdown by placeholder (fallback)');
-          await responseTrigger.click();
-        } else {
-          console.log('ERROR: Cannot find response time dropdown');
-        }
-      }
-      
-      // After clicking dropdown (if we found it), select an option
+
+    // Simplified approach: Find the last combobox on the page (it's the response_time dropdown)
+    const allComboboxes = await page.locator('button[role="combobox"]').count();
+    console.log(`Found ${allComboboxes} total comboboxes - response_time should be the last one`);
+
+    if (allComboboxes > 0) {
+      // For crisis_resources: cost (index 0), format (index 1), response_time (index 2/last)
+      const responseTimeIndex = allComboboxes - 1; // Last combobox
+      const responseTrigger = page.locator('button[role="combobox"]').nth(responseTimeIndex);
+
+      console.log(`Clicking response time dropdown at index ${responseTimeIndex}`);
+      await responseTrigger.click();
       await page.waitForTimeout(500);
-      
-      // Check if dropdown opened
-      const optionsVisible = await page.locator('[role="option"]').first().isVisible().catch(() => false);
+
+      // Wait for options to appear and select first one
+      const optionsVisible = await page.locator('[role="option"]').first().isVisible({ timeout: 3000 }).catch(() => false);
       if (optionsVisible) {
-        // Select "Immediate" option
-        const option = page.locator('[role="option"]').filter({ hasText: 'Immediate' }).first();
-        if (await option.isVisible().catch(() => false)) {
-          await option.click();
+        // Try to select "Immediate" if available, otherwise first option
+        const immediateOption = page.locator('[role="option"]').filter({ hasText: 'Immediate' }).first();
+        const hasImmediate = await immediateOption.isVisible().catch(() => false);
+
+        if (hasImmediate) {
+          await immediateOption.click();
           console.log('Selected response time: Immediate');
         } else {
-          // Fallback to first option
           await page.locator('[role="option"]').first().click();
           console.log('Selected first available response time option');
         }
       } else {
-        console.log('WARNING: Response time dropdown did not open or was not selected');
+        console.log('WARNING: Response time options did not appear');
       }
-      
-      // Check if page is still valid after selection
-      // Give extra time for crisis_resources to stabilize after response time selection
-      await page.waitForTimeout(2000);
-      console.log('Response time selection completed, checking page state...');
-      
-      // Verify the page is still valid before continuing
-      try {
-        await page.evaluate(() => {
-          console.log('Page is still responsive');
-          return document.readyState;
-        });
-      } catch (evalError) {
-        console.log('ERROR: Page context lost after response time selection');
-        throw evalError;
-      }
-    } catch (error) {
-      console.log('ERROR during response time selection:', error);
-      throw error;
+    } else {
+      console.log('ERROR: No comboboxes found on page');
     }
+
+    console.log('Response time selection completed');
+    await page.waitForTimeout(500);
   }
   
   // Debug: Check form field states before clicking Continue

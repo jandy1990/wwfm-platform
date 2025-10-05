@@ -675,3 +675,31 @@ Continue through goal #35 (`Learn to use AI tools`) to reach the 350-call target
   - [ec0a9b79-05ac-47ea-809c-d9bc10fb730b] Budget home projects — 2 remaining
   - [111adb63-1916-48d4-9599-4b074c10f894] Have healthier hair — 2 remaining
   - [888693d9-7498-410b-ac31-cea63ee12078] Plan for healthcare costs — 2 remaining
+- 2025-10-04 02:05 UTC — Completed Block D `learning_difficulty` backlog:
+  - Regenerated the remaining 146 books_courses solutions across 28 goals (57 Gemini calls; per-goal validation before/after each run).
+  - Finished the high-volume queue (`Get stronger` → `Plan for healthcare costs`) and cleaned up the final singletons (`Learn new skills`, `Use skills for good`, `Sleep peacefully`, `Quit drinking`, `Remove unwanted hair`, `Fall asleep faster`, `Reduce joint pain`, `Grow thicker hair`).
+  - Fresh Supabase audit confirms `learning_difficulty` now present for 177/177 books_courses solutions; `npm run quality:validate` spot checks are all green.
+- 2025-10-04 02:45 UTC — Block B cost-field sweeps in progress:
+  - Regenerated `startup_cost` + `ongoing_cost` for top exercise/habit goals (`Channel anger productively`, `Improve emotional regulation`, `Find exercise I enjoy`, `Develop morning routine`) covering 402 solutions (308 API calls incl. targeted retries).
+  - Resolved validator edge cases by rerunning targeted goal-state passes and one manual data correction (`Mindful Breathing Exercises` ongoing_cost) to keep dropdown sources compliant.
+  - Post-run `npm run quality:validate` confirms 0 missing/invalid cost splits for the processed goals; remaining high-volume backlog now at 17 goals (next up: `Complete a marathon`, `Improve flexibility`, `Start yoga practice`, etc.).
+- 2025-10-04 09:42 UTC — Continued cost-field sweeps:
+  - Baseline validation for `Complete a marathon` (goal `d08a7dde-e7fe-42e8-af4e-752cef7a7355`) flagged 18/18 practice solutions missing `startup_cost`/`ongoing_cost` (exercise_movement + habits_routines).
+  - Ran `npx tsx scripts/generate-validated-fields-v3.ts --goal-id=d08a7dde-e7fe-42e8-af4e-752cef7a7355 --field-filter=startup_cost,ongoing_cost,cost,cost_type --api-delay=4000 --state-file .cache/generate-v3/costs/goal-d08a7dde.json` (51 Gemini calls).
+  - Follow-up `npm run quality:validate -- --goal-id=d08a7dde-e7fe-42e8-af4e-752cef7a7355 --field-filter=startup_cost,ongoing_cost --category-filter=exercise_movement,habits_routines --show-good-quality` now reports 0% error; cost/cost_type remain derived automatically from the regenerated splits.
+  - Running total for today: 51 Gemini calls; `.cache/generate-v3/costs/goal-d08a7dde.json` captured state for resume.
+- 2025-10-04 09:50 UTC — Cost-field sweep follow-up:
+  - Baseline for `Start yoga practice` (goal `0bfa9bd6-794a-4663-9262-9f2aa640f34e`) showed 15/15 practice solutions missing `startup_cost`/`ongoing_cost` (exercise_movement + meditation_mindfulness + habits_routines).
+  - Primary run (`npx tsx scripts/generate-validated-fields-v3.ts --goal-id=0bfa9bd6-794a-4663-9262-9f2aa640f34e --field-filter=startup_cost,ongoing_cost,cost,cost_type --api-delay=4000 --state-file .cache/generate-v3/costs/goal-0bfa9bd6.json`) consumed 45 Gemini calls; a targeted resume pass (2 calls) reprocessed `Alo Moves` cost + `Body Scan Meditation` ongoing_cost after validation failures.
+  - Revalidation (`npm run quality:validate -- --goal-id=0bfa9bd6-794a-4663-9262-9f2aa640f34e --field-filter=startup_cost,ongoing_cost --category-filter=meditation_mindfulness,exercise_movement,habits_routines --show-good-quality`) now clean; derived `cost`/`cost_type` noted for future dropdown mapping work.
+  - Running total for today: 98 Gemini calls; `.cache/generate-v3/costs/goal-0bfa9bd6.json` updated with processed implementations (problematic entries removed before the resume run).
+- 2025-10-04 10:00 UTC — Prepared 900-call cost regeneration batch:
+  - Compiled next 24 practice-heavy goals (38–22 solutions each) targeting split cost repair; estimated usage ≈908 Gemini calls (goal totals ×1.5).
+  - Added runner script `scripts/batch/run-cost-regeneration-oct04.sh` that sequentially calls `generate-validated-fields-v3.ts` with the standardized `--field-filter` and per-goal state files under `.cache/generate-v3/costs/`.
+  - Goals ordered by remaining gap size, starting with `Practice self-compassion` and finishing with `Start writing regularly`; script maintains 4s throttle and reuse-safe checkpoints for resumability.
+  - Ready to launch when quota resets; append validator results + actual call counts after execution to keep the log accurate.
+- 2025-10-04 10:32 UTC — Batch execution (daily quota hit):
+  - Kicked off `run-cost-regeneration-oct04.sh`; `Practice self-compassion` (goal `7b0d1a0a-f65a-41d9-b1cd-afedf41d52b9`) completed first with clean validation afterward and an estimated ~60 Gemini calls consumed across 22 practice solutions + 8 split-cost stragglers.
+  - Gemini API returned HTTP 429 (`GenerateRequestsPerDayPerProjectPerModel-FreeTier` limit reached) as soon as `Practice mindfulness` began; remaining 23 goals in the batch produced quota errors and did not regenerate fields.
+  - Cleared the affected state files under `.cache/generate-v3/costs/goal-*.json` (batch IDs except `7b0d1a0a-…`) so the script can be rerun verbatim once the daily quota resets.
+  - Next action for tomorrow: rerun the batch script; after completion, record actual call counts + validator results per goal.

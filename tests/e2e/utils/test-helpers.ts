@@ -47,31 +47,44 @@ export function generateTestSolution(category: string) {
 
 // Helper to find existing solution by title
 export async function findExistingSolution(title: string) {
-  // First try exact match
+  console.log(`🔍 Searching for solution: "${title}"`)
+
+  // Search for exact match (may return multiple rows)
   let { data, error } = await testSupabase
     .from('solutions')
     .select('*')
     .eq('title', title)
-    .single()
-  
-  if (error && error.code === 'PGRST116') { // No rows found
-    // Try with LIKE to handle any variations
-    const { data: solutions } = await testSupabase
-      .from('solutions')
-      .select('*')
-      .ilike('title', `${title}%`)
-      .order('created_at', { ascending: false })
-      .limit(1)
-    
-    if (solutions && solutions.length > 0) {
-      console.log(`Found solution with similar title: "${solutions[0].title}" for search "${title}"`)
-      return solutions[0]
-    }
-  } else if (error) {
-    console.error('Error finding solution:', error)
+    .order('created_at', { ascending: false })
+    .limit(1)
+
+  console.log('📋 Exact match result:', { data: data && data.length > 0 ? `Found: ${data[0].title}` : 'null', error: error ? error.message : 'none' })
+
+  if (data && data.length > 0) {
+    return data[0]
   }
-  
-  return data
+
+  if (error) {
+    console.error('Error finding solution:', error)
+    return null
+  }
+
+  // Try LIKE search as fallback
+  console.log('⚠️ No exact match, trying LIKE search...')
+  const { data: solutions } = await testSupabase
+    .from('solutions')
+    .select('*')
+    .ilike('title', `${title}%`)
+    .order('created_at', { ascending: false })
+    .limit(1)
+
+  console.log('📋 LIKE search result:', solutions ? `Found ${solutions.length} solutions` : 'null')
+
+  if (solutions && solutions.length > 0) {
+    console.log(`Found solution with similar title: "${solutions[0].title}" for search "${title}"`)
+    return solutions[0]
+  }
+
+  return null
 }
 
 // Helper to find existing variant
@@ -169,9 +182,9 @@ export async function cleanupTestData(titlePattern: string) {
 export async function waitForSuccessPage(page: Page) {
   // Forms now use server actions and show Step 3 as the success state
   // Step 3 ("What else did you try?") indicates the main solution has been successfully submitted
-  
+
   console.log('Waiting for form submission success...')
-  
+
   try {
     // The primary success indicator is reaching Step 3
     await page.waitForSelector('text="What else did you try?"', { timeout: 10000 })
@@ -181,7 +194,7 @@ export async function waitForSuccessPage(page: Page) {
     // If Step 3 didn't appear, check for other success patterns
     console.log('Step 3 not found, checking other success indicators...')
   }
-  
+
   // Check for alternative success patterns
   const checks = await Promise.all([
     page.locator('text=/Success|successfully submitted|Thank you|Congrats/i').isVisible().catch(() => false),
@@ -191,19 +204,19 @@ export async function waitForSuccessPage(page: Page) {
     page.locator('text="solution has been added"').isVisible().catch(() => false),
     page.locator('text="Already submitted"').isVisible().catch(() => false)
   ])
-  
+
   const [hasSuccessText, hasDashboard, isDashboardUrl, isSuccessUrl, hasSolutionAdded, hasAlreadySubmitted] = checks
-  
+
   if (hasSuccessText || hasDashboard || isDashboardUrl || isSuccessUrl || hasSolutionAdded || hasAlreadySubmitted) {
     console.log('✅ Form submission successful via alternative indicator')
     return
   }
-  
+
   // If none of the success indicators are present, the submission failed
   await page.screenshot({ path: 'submission-failed.png' })
   const currentUrl = page.url()
   const pageText = await page.locator('body').textContent()
-  
+
   throw new Error(`Form submission did not show success. URL: ${currentUrl}, Page contains: ${pageText?.substring(0, 200)}...`)
 }
 

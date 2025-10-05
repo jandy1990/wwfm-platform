@@ -3,9 +3,11 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
-import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrumbs'
+import Breadcrumbs from '@/components/molecules/Breadcrumbs'
+import { createBreadcrumbs } from '@/lib/utils/breadcrumbs'
 import EmptyState from '@/components/molecules/EmptyState'
 import { GoalPageTracker } from '@/components/tracking/GoalPageTracker'
+import BackButton from '@/components/atoms/BackButton'
 
 // Types - Updated to match actual database columns
 type Goal = {
@@ -92,8 +94,13 @@ async function getArenaWithGoals(slug: string) {
   } as Arena
 }
 
-export default async function ArenaPage({ params }: { params: { slug: string } }) {
-  const arena = await getArenaWithGoals(params.slug)
+type ArenaPageProps = {
+  params: Promise<{ slug: string }>
+}
+
+export default async function ArenaPage({ params }: ArenaPageProps) {
+  const { slug } = await params
+  const arena = await getArenaWithGoals(slug)
 
   if (!arena) {
     notFound()
@@ -103,8 +110,11 @@ export default async function ArenaPage({ params }: { params: { slug: string } }
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <GoalPageTracker arenaName={arena.name} arenaId={arena.id} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        {/* Mobile Back Button */}
+        <BackButton fallbackHref="/browse" className="mb-3" />
+
         {/* Breadcrumb Navigation */}
-        <Breadcrumbs 
+        <Breadcrumbs
           items={createBreadcrumbs('arena', {
             arena: { name: arena.name, slug: arena.slug }
           })}

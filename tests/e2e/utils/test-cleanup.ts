@@ -220,6 +220,19 @@ export async function clearTestRatingsForSolution(
     }
   }
 
+  // First, clear aggregated_fields to prevent contamination (before deleting links)
+  const { error: clearFieldsError } = await supabase
+    .from('goal_implementation_links')
+    .update({ aggregated_fields: {} })
+    .eq('goal_id', goalId)
+    .in('implementation_id', variantIds)
+
+  if (clearFieldsError) {
+    console.error('Error clearing aggregated_fields:', clearFieldsError.message)
+  } else {
+    console.log(`✅ Cleared aggregated_fields for "${solutionTitle}"`)
+  }
+
   // Delete goal_implementation_links - get count of deleted rows
   const { data: deletedLinks, error: linkError } = await supabase
     .from('goal_implementation_links')

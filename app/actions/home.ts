@@ -8,6 +8,7 @@ import type {
   ActivityEvent,
   FeaturedVerbatim,
   PlatformStats,
+  TopValueArena,
   GoalSuggestion,
   GoalSearchRow,
   FeaturedVerbatimRow
@@ -32,19 +33,22 @@ export async function getHomePageData(): Promise<HomePageData> {
     trendingGoals,
     activityFeed,
     featuredVerbatims,
-    platformStats
+    platformStats,
+    topValueArenas
   ] = await Promise.all([
     getTrendingGoals(supabase),
     getActivityFeed(supabase),
     getFeaturedVerbatims(supabase),
-    getPlatformStats(supabase)
+    getPlatformStats(supabase),
+    getTopValueArenas(supabase)
   ]);
 
   return {
     trendingGoals,
     activityFeed,
     featuredVerbatims,
-    platformStats
+    platformStats,
+    topValueArenas
   };
 }
 
@@ -75,7 +79,7 @@ export async function searchGoals(query: string): Promise<GoalSuggestion[]> {
       .returns<GoalSearchRow[] | null>()
 
     if (error) {
-      console.error('Error searching goals:', error)
+      logger.error('home: error searching goals', { error, query: trimmed })
       return []
     }
 
@@ -118,7 +122,7 @@ export async function searchGoals(query: string): Promise<GoalSuggestion[]> {
       .sort((a, b) => b.score - a.score)
       .slice(0, 8)
   } catch (err) {
-    console.error('Error in searchGoals:', err)
+    logger.error('home: searchGoals unexpected error', err instanceof Error ? err : { err, query })
     return []
   }
 }
@@ -133,7 +137,7 @@ async function getTrendingGoals(supabase: SupabaseClient<Database>): Promise<Tre
     const { data, error } = await supabase.rpc('get_trending_goals', args)
 
     if (error) {
-      console.error('Error fetching trending goals:', error)
+      logger.error('home: error fetching trending goals', { error, args })
       return []
     }
 
@@ -154,7 +158,7 @@ async function getTrendingGoals(supabase: SupabaseClient<Database>): Promise<Tre
       activityScore: Number(row.activity_score)
     }))
   } catch (err) {
-    console.error('Error in getTrendingGoals:', err)
+    logger.error('home: getTrendingGoals unexpected error', err instanceof Error ? err : { err })
     return []
   }
 }
@@ -169,7 +173,7 @@ async function getActivityFeed(supabase: SupabaseClient<Database>): Promise<Acti
     const { data, error } = await supabase.rpc('get_activity_feed', args)
 
     if (error) {
-      console.error('Error fetching activity feed:', error)
+      logger.error('home: error fetching activity feed', { error })
       return []
     }
 
@@ -188,7 +192,7 @@ async function getActivityFeed(supabase: SupabaseClient<Database>): Promise<Acti
       upvotes: row.upvotes ?? undefined
     }))
   } catch (err) {
-    console.error('Error in getActivityFeed:', err)
+    logger.error('home: getActivityFeed unexpected error', err instanceof Error ? err : { err })
     return []
   }
 }
@@ -217,7 +221,7 @@ async function getFeaturedVerbatims(supabase: SupabaseClient<Database>): Promise
       .returns<FeaturedVerbatimRow[] | null>()
 
     if (error) {
-      console.error('Error fetching featured verbatims:', error)
+      logger.error('home: error fetching featured verbatims', { error })
       return []
     }
 
@@ -244,7 +248,7 @@ async function getFeaturedVerbatims(supabase: SupabaseClient<Database>): Promise
       }
     })
   } catch (err) {
-    console.error('Error in getFeaturedVerbatims:', err)
+    logger.error('home: getFeaturedVerbatims unexpected error', err instanceof Error ? err : { err })
     return []
   }
 }
@@ -258,7 +262,7 @@ async function getPlatformStats(supabase: SupabaseClient<Database>): Promise<Pla
       .returns<Tables<'platform_stats_cache'> | null>()
 
     if (error) {
-      console.error('Error fetching platform stats:', error)
+      logger.error('home: error fetching platform stats', { error })
       // Return fallback stats
       return {
         totalSolutions: 0,
@@ -288,7 +292,7 @@ async function getPlatformStats(supabase: SupabaseClient<Database>): Promise<Pla
       discussionsToday: Number(row.discussions_today ?? 0)
     }
   } catch (err) {
-    console.error('Error in getPlatformStats:', err)
+    logger.error('home: getPlatformStats unexpected error', err instanceof Error ? err : { err })
     // Return fallback stats
     return {
       totalSolutions: 0,
@@ -298,5 +302,56 @@ async function getPlatformStats(supabase: SupabaseClient<Database>): Promise<Pla
       ratingsLastHour: 0,
       discussionsToday: 0
     }
+  }
+}
+
+async function getTopValueArenas(supabase: SupabaseClient<Database>): Promise<TopValueArena[]> {
+  try {
+    // Use the get_arena_value_scores function we created earlier
+    const { data, error } = await supabase.rpc('get_arena_value_scores')
+
+    if (error) {
+      logger.error('home: error fetching top value arenas', { error })
+      return []
+    }
+
+    if (!data || data.length === 0) {
+      return []
+    }
+
+    // Get top 5 arenas by lasting value, then fetch full arena details
+    const topArenaIds = data
+      .sort((a, b) => (b.avg_lasting_value || 0) - (a.avg_lasting_value || 0))
+      .slice(0, 5)
+      .map(a => a.arena_id)
+
+    const { data: arenaDetails, error: arenaError } = await supabase
+      .from('arenas')
+      .select('id, name, description, slug')
+      .in('id', topArenaIds)
+
+    if (arenaError) {
+      logger.error('home: error fetching arena details', { error: arenaError })
+      return []
+    }
+
+    // Combine the data
+    return topArenaIds.map(id => {
+      const valueData = data.find(d => d.arena_id === id)
+      const arenaDetail = arenaDetails?.find(a => a.id === id)
+
+      return {
+        id,
+        slug: arenaDetail?.slug || '',
+        name: arenaDetail?.name || valueData?.arena_name || 'Unknown',
+        avgLastingValue: Number(valueData?.avg_lasting_value || 0),
+        goalCount: Number(valueData?.goal_count || 0),
+        description: arenaDetail?.description || ''
+      }
+    }).filter(arena => arena.goalCount > 0 && arena.slug)
+
+  } catch (err) {
+    logger.error('home: getTopValueArenas unexpected error', err instanceof Error ? err : { err })
+    return []
   }
 }

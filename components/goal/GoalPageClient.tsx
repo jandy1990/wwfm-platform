@@ -18,6 +18,8 @@ import CommunityDiscussions from './CommunityDiscussions'
 import GoalWisdom from '@/components/organisms/goal/GoalWisdom'
 import { GoalWisdomScore } from '@/types/retrospectives'
 import type { AggregatedFieldsMetadata } from '@/types/aggregated-fields'
+import FollowGoalButton from './FollowGoalButton'
+import type { FollowStatus } from '@/app/actions/goal-following'
 
 type Goal = {
   id: string
@@ -43,6 +45,8 @@ interface GoalPageClientProps {
   wisdom?: GoalWisdomScore | null
   error?: string | null
   relatedGoals?: RelatedGoal[]
+  followStatus?: FollowStatus
+  followerCount?: number
 }
 
 // Categories that have variants
@@ -648,7 +652,15 @@ const CategoryDropdown = ({
   )
 }
 
-export default function GoalPageClient({ goal, initialSolutions, wisdom, error, relatedGoals = [] }: GoalPageClientProps) {
+export default function GoalPageClient({
+  goal,
+  initialSolutions,
+  wisdom,
+  error,
+  relatedGoals = [],
+  followStatus = { isFollowing: false },
+  followerCount = 0
+}: GoalPageClientProps) {
   const [sortBy, setSortBy] = useState('effectiveness')
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set())
   const [viewMode, setViewMode] = useState<'simple' | 'detailed'>('simple')
@@ -1007,7 +1019,19 @@ export default function GoalPageClient({ goal, initialSolutions, wisdom, error, 
               </h1>
               {/* Description removed - it was just duplicating the title with different icon */}
             </div>
-            <div className="flex gap-6 mt-4 sm:mt-0">
+            <div className="flex flex-col sm:flex-row gap-4 mt-4 sm:mt-0 items-end sm:items-start">
+              {/* Follow Button */}
+              <div>
+                <FollowGoalButton
+                  goalId={goal.id}
+                  initialIsFollowing={followStatus.isFollowing}
+                  initialFollowerCount={followerCount}
+                  variant="outline"
+                  size="default"
+                  showCount={true}
+                />
+              </div>
+              {/* Ratings Count */}
               <div className="text-center">
                 <div className="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">
                   {totalRatings}
@@ -1058,7 +1082,7 @@ export default function GoalPageClient({ goal, initialSolutions, wisdom, error, 
         {activeTab === 'solutions' && (
           <>
             {/* Wisdom Bar - Only on solutions tab */}
-            <GoalWisdom wisdom={wisdom} minResponses={1} />
+            <GoalWisdom goalId={goal.id} wisdom={wisdom} minResponses={1} />
             
             {/* Solutions Controls - Only for this tab */}
             <div className="mt-4 sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-4">

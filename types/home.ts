@@ -42,12 +42,21 @@ export interface PlatformStats {
   discussionsToday: number;
 }
 
+export interface TopValueArena {
+  id: string;
+  slug: string;
+  name: string;
+  avgLastingValue: number;
+  goalCount: number;
+  description: string;
+}
+
 export interface HomePageData {
   trendingGoals: TrendingGoal[];
   activityFeed: ActivityEvent[];
   featuredVerbatims: FeaturedVerbatim[];
   platformStats: PlatformStats;
-  // Note: Arena type should already exist in the codebase
+  topValueArenas: TopValueArena[];
 }
 
 // Database response types (snake_case from Supabase)

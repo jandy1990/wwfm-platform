@@ -7,6 +7,7 @@
 
 import { createServerSupabaseClient } from '@/lib/database/server'
 import { solutionAggregator } from './solution-aggregator'
+import { logger } from '@/lib/utils/logger'
 
 export class AggregationQueueProcessor {
   private processing = false
@@ -22,7 +23,7 @@ export class AggregationQueueProcessor {
     errors: string[]
   }> {
     if (this.processing) {
-      console.log('[Queue] Already processing, skipping...')
+      logger.debug('aggregationQueue already processing, skipping run')
       return { processed: 0, failed: 0, errors: [] }
     }
 
@@ -43,16 +44,16 @@ export class AggregationQueueProcessor {
         .limit(this.maxConcurrent)
 
       if (error) {
-        console.error('[Queue] Error fetching jobs:', error)
+        logger.error('aggregationQueue error fetching jobs', { error })
         return { processed: 0, failed: 1, errors: [error.message] }
       }
 
       if (!jobs || jobs.length === 0) {
-        console.log('[Queue] No pending jobs')
+        logger.info('aggregationQueue no pending jobs')
         return { processed: 0, failed: 0, errors: [] }
       }
 
-      console.log(`[Queue] Processing ${jobs.length} jobs`)
+      logger.info('aggregationQueue processing jobs', { count: jobs.length })
 
       // Process jobs concurrently
       const promises = jobs.map(job =>
@@ -75,11 +76,11 @@ export class AggregationQueueProcessor {
         }
       })
 
-      console.log(`[Queue] Completed: ${processed} processed, ${failed} failed`)
+      logger.info('aggregationQueue completed batch', { processed, failed })
       return { processed, failed, errors }
 
     } catch (error) {
-      console.error('[Queue] Unexpected error:', error)
+      logger.error('aggregationQueue unexpected error', error instanceof Error ? error : { error })
       return { processed: 0, failed: 1, errors: [String(error)] }
     } finally {
       this.processing = false
@@ -104,7 +105,7 @@ export class AggregationQueueProcessor {
         throw new Error(`Failed to mark job as processing: ${markError.message}`)
       }
 
-      console.log(`[Queue] Processing aggregation for ${goalId}/${implementationId}`)
+      logger.debug('aggregationQueue processing job', { goalId, implementationId })
 
       // Run the aggregation
       await solutionAggregator.updateAggregatesAfterRating(goalId, implementationId)
@@ -117,13 +118,17 @@ export class AggregationQueueProcessor {
         .eq('implementation_id', implementationId)
 
       if (deleteError) {
-        console.error(`[Queue] Warning: Failed to remove completed job: ${deleteError.message}`)
+        logger.warn('aggregationQueue failed to remove completed job', {
+          error: deleteError,
+          goalId,
+          implementationId
+        })
       }
 
-      console.log(`[Queue] Successfully processed ${goalId}/${implementationId}`)
+      logger.info('aggregationQueue processed job successfully', { goalId, implementationId })
 
     } catch (error) {
-      console.error(`[Queue] Error processing ${goalId}/${implementationId}:`, error)
+      logger.error('aggregationQueue error processing job', { goalId, implementationId, error })
 
       // Increment attempts and update error
       const { error: updateError } = await supabase
@@ -137,7 +142,7 @@ export class AggregationQueueProcessor {
         .eq('implementation_id', implementationId)
 
       if (updateError) {
-        console.error(`[Queue] Failed to update job error: ${updateError.message}`)
+        logger.error('aggregationQueue failed to update job error record', { error: updateError, goalId, implementationId })
       }
 
       // Remove jobs that have exceeded max retries
@@ -149,7 +154,7 @@ export class AggregationQueueProcessor {
         .single()
 
       if (jobCheck && jobCheck.attempts >= this.maxRetries) {
-        console.error(`[Queue] Job ${goalId}/${implementationId} exceeded max retries, removing`)
+        logger.warn('aggregationQueue job exceeded max retries, removing', { goalId, implementationId })
         await supabase
           .from('aggregation_queue')
           .delete()
@@ -213,7 +218,7 @@ export class AggregationQueueProcessor {
       await this.processJob(goalId, implementationId, jobRecord?.attempts ?? 0)
       return true
     } catch (error) {
-      console.error(`[Queue] Force process failed:`, error)
+      logger.error('aggregationQueue force process failed', { goalId, implementationId, error })
       return false
     }
   }
@@ -232,7 +237,7 @@ export class AggregationQueueProcessor {
       .lt('queued_at', fiveMinutesAgo)
       .select('goal_id')
 
-    console.log(`[Queue] Cleared ${stuckJobs?.length || 0} stuck jobs`)
+    logger.info('aggregationQueue cleared stuck jobs', { count: stuckJobs?.length ?? 0 })
     return stuckJobs?.length || 0
   }
 }
