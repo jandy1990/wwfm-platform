@@ -14,12 +14,8 @@ export interface GoalSolutionWithVariants extends SolutionV2 {
     unit?: string | null
     form?: string | null
     is_default?: boolean | null
-    category_fields?: Record<string, unknown> | null
     effectiveness?: number | null
-    time_to_results?: string | null
-    cost_range?: string | null
     created_at?: string
-    updated_at?: string
     goal_links: Array<{
       goal_id: string
       implementation_id?: string
@@ -59,11 +55,7 @@ type SolutionVariantRow = {
   unit: string | null
   form: string | null
   is_default: boolean
-  category_fields?: Record<string, unknown> | null
-  time_to_results?: string | null
-  cost_range?: string | null
   created_at: string
-  updated_at: string
   solutions: SolutionRow | null
 }
 
@@ -115,11 +107,7 @@ export async function getGoalSolutions(goalId: string): Promise<GoalSolutionWith
         unit,
         form,
         is_default,
-        category_fields,
-        time_to_results,
-        cost_range,
         created_at,
-        updated_at,
         solutions (
           id,
           title,
