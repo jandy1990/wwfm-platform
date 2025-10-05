@@ -67,7 +67,7 @@ export async function awardPoints(
           .select('id')
           .eq('user_id', userId)
           .eq('milestone_key', milestone.key)
-          .single()
+          .maybeSingle()
 
         if (!existingMilestone) {
           // Record the milestone achievement
