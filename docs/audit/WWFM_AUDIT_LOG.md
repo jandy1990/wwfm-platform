@@ -164,6 +164,7 @@
 - 2025-10-04 11:54Z – Aggregation queue processor handles concurrency with advisory locks and updates attempts/last_error, removing jobs after max retries, but currently only logs to console. Recommend piping summary metrics (pending jobs, failures) into an observability channel (e.g., Supabase logs or external monitor) so production issues surface proactively.
 - 2025-10-04 11:56Z – Retrospective edge function (`supabase/functions/check-retrospectives/index.ts`) returns JSON responses with error details but lacks external notification when reminders fail. Consider adding lightweight telemetry (e.g., fetch to logging endpoint) or leveraging Supabase function logs for alerting.
 - 2025-10-05 03:31Z – Vercel production env variables `LOG_LEVEL=info` and `LOG_ENV=production` applied; first prod deploy (https://wwfm-platform-1av6zdog7-jack-andrews-projects.vercel.app) confirms drain wiring. Logflare integration authorized; source IDs + alert URLs pending capture in release checklist once alerting configured. Next action: create saved searches for aggregation queue, `submitSolution`, and `check-retrospectives` failures and paste dashboard URLs into `docs/release/RELEASE_CHECKLIST.md`.
+- 2025-10-05 03:55Z – Added recommended Logflare SQL templates to `docs/release/RELEASE_CHECKLIST.md` so alerts can be created consistently. Waiting on final Source IDs and alert/webhook URLs once Logflare configuration is completed.
 
 ## Phase 7 – Security & Privacy Review
 **Scope checklist:** Auth flows, RLS rules, sensitive data handling, logging redaction.

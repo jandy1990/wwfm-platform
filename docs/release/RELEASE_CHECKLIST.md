@@ -18,6 +18,10 @@ _Last updated: 2025-10-05_
   - Aggregation queue failures alert URL: `TBD`
   - `submitSolution` error alert URL: `TBD`
   - `retrospectives/check-retrospectives` failure alert URL: `TBD`
+- Suggested Logflare SQL (use as templates when creating the saved searches):
+  - Aggregation queue failures: `SELECT * FROM source WHERE message = 'aggregationQueue error processing job' AND timestamp >= NOW() - INTERVAL '5 minutes'`
+  - Submit solution failures: `SELECT * FROM source WHERE message LIKE 'submitSolution%' AND level = 'error' AND timestamp >= NOW() - INTERVAL '5 minutes'`
+  - Retrospective edge failures: `SELECT * FROM source WHERE message LIKE 'retrospectives/check-retrospectives%' AND level = 'error' AND timestamp >= NOW() - INTERVAL '5 minutes'`
 - [ ] Ensure aggregation queue processor metrics/alerts configured (e.g., Supabase logs dashboard or external monitor).
 
 ## 3. Documentation & Communications
