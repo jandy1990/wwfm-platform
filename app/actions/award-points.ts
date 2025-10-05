@@ -61,15 +61,14 @@ export async function awardPoints(
     for (const milestone of MILESTONES) {
       // Check if they just crossed this threshold
       if (oldPoints < milestone.threshold && newPoints >= milestone.threshold) {
-        // Check if they already have this milestone
-        const existingCheck = await supabase
+        // Check if they already have this milestone - using count to avoid type issues
+        const { count } = await supabase
           .from('user_milestones')
-          .select('id')
+          .select('*', { count: 'exact', head: true })
           .eq('user_id', userId)
           .eq('milestone_key', milestone.key)
-          .maybeSingle()
 
-        if (!existingCheck.data) {
+        if (!count || count === 0) {
           // Record the milestone achievement
           const { error: milestoneError } = await supabase
             .from('user_milestones')
