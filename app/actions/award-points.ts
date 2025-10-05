@@ -56,35 +56,30 @@ export async function awardPoints(
     }
 
     // 3. Check if user crossed any milestone threshold
+    // Note: Milestone checking temporarily simplified to avoid TypeScript issues
     let milestoneAchieved: Milestone | undefined
 
     for (const milestone of MILESTONES) {
       // Check if they just crossed this threshold
       if (oldPoints < milestone.threshold && newPoints >= milestone.threshold) {
-        // Check if they already have this milestone - using count to avoid type issues
-        const countResult: { count: number | null; error: any } = await supabase
+        // Record the milestone achievement (using INSERT ... ON CONFLICT DO NOTHING to handle duplicates)
+        const { error: milestoneError } = await supabase
           .from('user_milestones')
-          .select('*', { count: 'exact', head: true })
-          .eq('user_id', userId)
-          .eq('milestone_key', milestone.key)
+          .upsert({
+            user_id: userId,
+            milestone_type: 'points',
+            milestone_key: milestone.key,
+            threshold: milestone.threshold,
+            points_at_achievement: newPoints
+          }, {
+            onConflict: 'user_id,milestone_key',
+            ignoreDuplicates: true
+          })
 
-        if (!countResult.count || countResult.count === 0) {
-          // Record the milestone achievement
-          const { error: milestoneError } = await supabase
-            .from('user_milestones')
-            .insert({
-              user_id: userId,
-              milestone_type: 'points',
-              milestone_key: milestone.key,
-              threshold: milestone.threshold,
-              points_at_achievement: newPoints
-            })
-
-          if (!milestoneError) {
-            milestoneAchieved = milestone
-          } else {
-            logger.error('awardPoints error recording milestone', { error: milestoneError, userId, milestone: milestone.key })
-          }
+        if (!milestoneError) {
+          milestoneAchieved = milestone
+        } else {
+          logger.error('awardPoints error recording milestone', { error: milestoneError, userId, milestone: milestone.key })
         }
 
         // Only trigger for the first milestone crossed in this action
