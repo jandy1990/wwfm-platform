@@ -163,6 +163,7 @@
 - 2025-10-04 11:52Z – Server actions now emit structured JSON logs via `lib/utils/logger.ts`; aggregation retry failures still need downstream monitoring (wire stdout to chosen log sink).
 - 2025-10-04 11:54Z – Aggregation queue processor handles concurrency with advisory locks and updates attempts/last_error, removing jobs after max retries, but currently only logs to console. Recommend piping summary metrics (pending jobs, failures) into an observability channel (e.g., Supabase logs or external monitor) so production issues surface proactively.
 - 2025-10-04 11:56Z – Retrospective edge function (`supabase/functions/check-retrospectives/index.ts`) returns JSON responses with error details but lacks external notification when reminders fail. Consider adding lightweight telemetry (e.g., fetch to logging endpoint) or leveraging Supabase function logs for alerting.
+- 2025-10-05 03:31Z – Vercel production env variables `LOG_LEVEL=info` and `LOG_ENV=production` applied; first prod deploy (https://wwfm-platform-1av6zdog7-jack-andrews-projects.vercel.app) confirms drain wiring. Logflare integration authorized; source IDs + alert URLs pending capture in release checklist once alerting configured. Next action: create saved searches for aggregation queue, `submitSolution`, and `check-retrospectives` failures and paste dashboard URLs into `docs/release/RELEASE_CHECKLIST.md`.
 
 ## Phase 7 – Security & Privacy Review
 **Scope checklist:** Auth flows, RLS rules, sensitive data handling, logging redaction.

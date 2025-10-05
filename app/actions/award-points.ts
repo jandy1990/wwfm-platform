@@ -3,6 +3,7 @@
 import { getServiceSupabaseClient } from '@/lib/database'
 import { logger } from '@/lib/utils/logger'
 import { MILESTONES, type Milestone } from '@/lib/milestones'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 export interface AwardPointsResult {
   success: boolean
@@ -18,6 +19,10 @@ export async function awardPoints(
   reason: string
 ): Promise<AwardPointsResult> {
   const supabase = getServiceSupabaseClient()
+  // Supabase's generated types for user_milestones are extremely deep, which can
+  // trigger "type instantiation is excessively deep" in CI. Treat the milestone
+  // operations as generic to keep the type checker happy while we reshape the data.
+  const milestoneClient = supabase as unknown as SupabaseClient<any>
   try {
     // 1. Get current user points
     const { data: userData, error: userError } = await supabase
@@ -56,14 +61,11 @@ export async function awardPoints(
     }
 
     // 3. Check if user crossed any milestone threshold
-    // Note: Milestone checking temporarily simplified to avoid TypeScript issues
-    let milestoneAchieved: Milestone | undefined
+    let milestoneAchieved: Milestone | undefined = undefined
 
     for (const milestone of MILESTONES) {
-      // Check if they just crossed this threshold
       if (oldPoints < milestone.threshold && newPoints >= milestone.threshold) {
-        // Record the milestone achievement (using INSERT ... ON CONFLICT DO NOTHING to handle duplicates)
-        const { error: milestoneError } = await supabase
+        const { error: milestoneError } = await milestoneClient
           .from('user_milestones')
           .upsert({
             user_id: userId,
@@ -81,8 +83,6 @@ export async function awardPoints(
         } else {
           logger.error('awardPoints error recording milestone', { error: milestoneError, userId, milestone: milestone.key })
         }
-
-        // Only trigger for the first milestone crossed in this action
         break
       }
     }

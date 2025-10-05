@@ -1,6 +1,6 @@
 # WWFM Release Checklist
 
-_Last updated: 2025-10-04_
+_Last updated: 2025-10-05_
 
 ## 1. Pre-Release Verification
 - [ ] Run `npm run test:forms:local` (Chromium + disposable Supabase) and record run ID.
@@ -11,6 +11,13 @@ _Last updated: 2025-10-04_
 ## 2. Security & Config
 - [ ] Verify RLS roles remain `{authenticated}` for mailbox/schedule mutations (re-run policy snapshot).
 - [ ] Scrub server action console logs or guard with `if (process.env.NODE_ENV !== 'production')`.
+- [ ] Confirm Vercel → Logflare drain active:
+  - Production Source ID / dashboard URL: `TBD`
+  - Staging Source ID / dashboard URL: `TBD`
+- [ ] Ensure Logflare saved searches + alerts configured:
+  - Aggregation queue failures alert URL: `TBD`
+  - `submitSolution` error alert URL: `TBD`
+  - `retrospectives/check-retrospectives` failure alert URL: `TBD`
 - [ ] Ensure aggregation queue processor metrics/alerts configured (e.g., Supabase logs dashboard or external monitor).
 
 ## 3. Documentation & Communications
