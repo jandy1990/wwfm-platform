@@ -133,20 +133,20 @@ export async function fillDosageForm(page: Page, category: string) {
     console.log(`Entered dosage amount: ${dosageAmount}`)
     await page.waitForTimeout(300)
     
-    // Select unit (first select on page)
-    const unitSelect = page.locator('select').nth(0)
+    // Select unit (semantic selector: find label, navigate to select)
+    const unitSelect = page.locator('label:has-text("Unit")').locator('..').locator('select')
     await unitSelect.selectOption(dosageUnit)
     console.log(`Selected unit: ${dosageUnit}`)
     await page.waitForTimeout(300)
     
-    // Select frequency (second select)
-    const frequencySelect = page.locator('select').nth(1)
+    // Select frequency (semantic selector: find label, navigate to select)
+    const frequencySelect = page.locator('label:has-text("How often?")').locator('..').locator('select')
     await frequencySelect.selectOption(frequencyValue)
     console.log(`Selected frequency: ${frequencyValue}`)
     await page.waitForTimeout(300)
     
-    // Select length of use (third select)
-    const lengthSelect = page.locator('select').nth(2)
+    // Select length of use (semantic selector: find label, navigate to select)
+    const lengthSelect = page.locator('label:has-text("How long did you use it?")').locator('..').locator('select')
     await lengthSelect.selectOption(lengthValue)
     console.log(`Selected length of use: ${lengthValue}`)
   }
@@ -166,27 +166,29 @@ export async function fillDosageForm(page: Page, category: string) {
   
   // For beauty_skincare, handle application details AFTER effectiveness
   if (category === 'beauty_skincare') {
-    // Time to results (first select after effectiveness)
-    const timeSelect = page.locator('select').nth(0)
+    // Time to results (semantic selector: label is nested in flex container)
+    const timeSelect = page.locator('label:has-text("When did you notice results?")').locator('../..').locator('select')
     await timeSelect.selectOption('3-4 weeks')  // Retinol takes time
     console.log('Selected time to results: 3-4 weeks')
     await page.waitForTimeout(300)
-    
-    // Skincare frequency (second select)
-    const skincareFrequencySelect = page.locator('select').nth(1)
+
+    // Skincare frequency (semantic selector - different label for beauty)
+    const skincareFrequencySelect = page.locator('label:has-text("How often did you use it?")').locator('..').locator('select')
     await skincareFrequencySelect.selectOption('once_daily_pm')  // Night use for retinol
     console.log('Selected skincare frequency: Once daily (night)')
     await page.waitForTimeout(300)
-    
-    // Length of use (third select)
-    const lengthSelect = page.locator('select').nth(2)
+
+    // Length of use (semantic selector - appears later in beauty_skincare section)
+    // Note: This appears in "Application details" section for beauty_skincare
+    const lengthSelect = page.locator('label:has-text("How long did you use it?")').locator('..').locator('select').last()
     await lengthSelect.selectOption('3-6 months')  // Longer trial period
     console.log('Selected length of use: 3-6 months')
     await page.waitForTimeout(300)
   } else {
-    // Select time to results (should be select after effectiveness section)
-    const timeSelect = page.locator('select').nth(3)  // 4th select for other categories
-    
+    // Select time to results (semantic selector: label is nested in flex container)
+    // DOM: div.space-y-3 > div.flex > label, followed by select
+    const timeSelect = page.locator('label:has-text("When did you notice results?")').locator('../..').locator('select')
+
     // Use category-specific time to results value
     let timeToResultsValue = '1-2 weeks'  // Default
     if (category === 'medications') {
@@ -194,7 +196,7 @@ export async function fillDosageForm(page: Page, category: string) {
     } else if (category === 'natural_remedies') {
       timeToResultsValue = 'Immediately'  // Essential oils work quickly
     }
-    
+
     await timeSelect.selectOption(timeToResultsValue)
     console.log(`Selected time to results: ${timeToResultsValue}`)
     await page.waitForTimeout(300)
