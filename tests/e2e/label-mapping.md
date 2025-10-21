@@ -79,11 +79,47 @@ const lengthSelect = page.locator('text=Application details').locator('..').loca
 
 ---
 
-## SessionForm Label Mappings
+## SessionForm Label Mappings ✅
 
-**TODO**: Read SessionForm.tsx to get exact labels (mostly uses shadcn already)
-**Brittle selectors to replace**:
-- Line 975: `page.locator('button[role="combobox"]').nth(responseTimeIndex)` - Response time
+**Component Type**: MIXED - Uses native `<select>` for time_to_results, shadcn `<Select>` for all other dropdowns
+**Categories**: therapists_counselors, coaches_mentors, alternative_practitioners, doctors_specialists, professional_services, crisis_resources, medical_procedures
+
+### Universal Fields (All Categories)
+
+| Current Selector | Field Purpose | Label Text | Placeholder | Semantic Selector | Component Type | File Line |
+|-----------------|---------------|------------|-------------|-------------------|----------------|-----------|
+| `page.locator('select').first()` | Time to results | "When did you notice results?" | - | `page.locator('label:has-text("When did you notice results?")').locator('..').locator('select')` | Native `<select>` | 582 |
+| ✅ Already good | Cost range | "Cost?" | "Select cost range" | `page.locator('button[role="combobox"]').filter({ hasText: 'Select cost range' })` | shadcn Select | 699 |
+
+### Category-Specific Fields
+
+| Current Selector | Field Purpose | Categories | Placeholder | Semantic Selector | File Line |
+|-----------------|---------------|------------|-------------|-------------------|-----------|
+| `allComboboxes[1]` | Session frequency | All except crisis_resources | "How often?" | `page.locator('button[role="combobox"]').filter({ hasText: 'How often' })` | 756 |
+| `page.locator('button[role="combobox"]').nth(formatIndex)` | Format | All categories | "Select format" | `page.locator('button[role="combobox"]').filter({ hasText: 'Select format' })` | 794 |
+| Loop with `.nth(i)` | Session length | therapists/coaches/alternative/doctors/professional | "How long?" | `page.locator('button[role="combobox"]').filter({ hasText: 'How long' })` | 833 |
+| Loop with `.nth(i)` | Insurance coverage | therapists/doctors/medical_procedures | "Coverage status" | `page.locator('button[role="combobox"]').filter({ hasText: 'Coverage' })` | 891 |
+| Loop with `.nth(i)` | Wait time | doctors_specialists | "Time to get appointment" | `page.locator('button[role="combobox"]').filter({ hasText: 'Time to get appointment' })` | 891 |
+| ✅ Already good | Wait time | medical_procedures | "Time to get appointment" | `page.locator('button[role="combobox"]').filter({ hasText: 'Time to get appointment' })` | 921 |
+| ✅ Already good | Specialty | professional_services | "Select service type" | `page.locator('button[role="combobox"]').filter({ hasText: 'Select service type' })` | 949 |
+| Last combobox `.count()` | Response time | crisis_resources | "How quickly did they respond?" | `page.locator('button[role="combobox"]').filter({ hasText: 'How quickly did they respond' })` | 971 |
+
+### Summary of Changes Needed
+
+**Brittle selectors to fix**:
+1. Line 582: time_to_results - native `<select>` → Use label navigation pattern
+2. Line 587: time_to_results - shadcn fallback → Use label + button[role="combobox"]
+3. Line 756: session_frequency → Use placeholder text filter
+4. Line 794: format → Use placeholder text filter
+5. Line 833: session_length loop → Use placeholder text filter
+6. Line 891: insurance_coverage loop → Use placeholder text filter
+7. Line 891: wait_time loop → Use placeholder text filter
+8. Line 971: response_time → Use placeholder text filter
+
+**Already good selectors** (no changes needed):
+- Line 699: Cost range (uses placeholder filter)
+- Line 921: Wait time for medical_procedures (uses placeholder filter)
+- Line 949: Specialty (uses placeholder filter)
 
 ---
 

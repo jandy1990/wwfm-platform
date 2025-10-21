@@ -574,28 +574,17 @@ export async function fillSessionForm(page: Page, category: string) {
     timeToResults = 'Immediate';
     console.log('Selected "Immediate" time to results using button UI');
   } else {
-    // Check for native select or custom dropdown
-    const hasNativeSelect = await page.locator('select').first().isVisible().catch(() => false);
-    
-    if (hasNativeSelect) {
-      // Use native select element
-      const timeSelect = page.locator('select').first();
+    // SessionForm uses native <select> for time_to_results
+    // The select has a distinctive placeholder - use that for reliable selection
+    const timeSelect = page.locator('select').filter({ hasText: 'Select timeframe' });
+    const hasTimeSelect = await timeSelect.isVisible().catch(() => false);
+
+    if (hasTimeSelect) {
+      // Use native select element with semantic selector
       await timeSelect.selectOption(timeToResults);
-      console.log('Selected time to results using native select: 1-2 weeks');
+      console.log('Selected time to results using semantic selector: 1-2 weeks');
     } else {
-      // Use custom Select component
-      const timeSelect = page.locator('button[role="combobox"]').first();
-      await timeSelect.click();
-      await page.waitForTimeout(500);
-      
-      // Try to click the option with various selectors
-      const clicked = await page.locator('text="1-2 weeks"').first().click({ timeout: 2000 }).then(() => true).catch(() => false);
-      if (!clicked) {
-        console.log('WARNING: Could not select time to results');
-        timeToResults = 'not selected';
-      } else {
-        console.log('Selected time to results: 1-2 weeks');
-      }
+      console.log('WARNING: Time to results selector not found');
     }
   }
   await page.waitForTimeout(300)
@@ -604,30 +593,24 @@ export async function fillSessionForm(page: Page, category: string) {
   // Wait for the cost section to be fully rendered (it's conditional based on category)
   await page.waitForSelector('text="Cost?"', { timeout: 10000 })
   console.log('Cost section found')
-  
-  // For therapists_counselors category, radio buttons should be visible
-  // Wait a bit longer for dynamic content to render
-  await page.waitForTimeout(1000)
-  
+
+  // Define categories that auto-set cost type (no radio buttons)
+  const singleCostCategories = ['therapists_counselors', 'coaches_mentors', 'alternative_practitioners', 'doctors_specialists'];
+
   // Check if radio buttons are present
   const radioButtonsExist = await page.locator('input[type="radio"][value="per_session"]').count() > 0
   console.log(`Radio buttons exist on page: ${radioButtonsExist}`)
-  
+
   if (!radioButtonsExist) {
-    // crisis_resources doesn't have cost type radio buttons - that's OK!
-    if (category === 'crisis_resources') {
-      console.log('No radio buttons for crisis_resources - this is expected')
-      // Skip cost type selection for crisis_resources
+    // Some categories auto-set cost type and don't have radio buttons
+    if (category === 'crisis_resources' || singleCostCategories.includes(category)) {
+      console.log(`No radio buttons for ${category} - this is expected (auto-set to per_session)`)
+      // Skip cost type selection - it's auto-set
     } else {
       // Other categories should have radio buttons
       await page.screenshot({ path: 'session-form-no-radio.png' })
       console.log('No radio buttons found - screenshot saved')
-      
-      // Check what's actually on the page
-      const pageContent = await page.textContent('body')
-      console.log('Page contains "Per session":', pageContent?.includes('Per session'))
-      console.log('Page contains "Monthly":', pageContent?.includes('Monthly'))
-      
+
       throw new Error(`Radio buttons not found for category: ${category}. Check SessionForm.tsx conditions.`)
     }
   } else {
@@ -719,11 +702,12 @@ export async function fillSessionForm(page: Page, category: string) {
         selectedOption = true;
       }
     } else {
-      // Other categories have numeric ranges
-      const costOption = page.locator('[role="option"]').filter({ hasText: '$0-10' }).first();
+      // Other session-based categories use per_session cost ranges
+      // Try 'Under $50' which is the first non-free option
+      const costOption = page.locator('[role="option"]').filter({ hasText: 'Under $50' }).first();
       if (await costOption.isVisible().catch(() => false)) {
         await costOption.click();
-        console.log('Selected cost range: $0-10/session');
+        console.log('Selected cost range: Under $50');
         selectedOption = true;
       }
     }
@@ -745,38 +729,27 @@ export async function fillSessionForm(page: Page, category: string) {
   // Note: crisis_resources doesn't require session_frequency
   if (category !== 'crisis_resources') {
     console.log('Selecting session frequency (required field)...');
-    
-    // Session frequency is a Select component (not native select)
-    // It should be the second combobox after cost range
-    const allComboboxes = await page.locator('button[role="combobox"]').all();
-    console.log(`Found ${allComboboxes.length} Select components for session frequency selection`);
-    
-    // Session frequency is typically the 2nd combobox (index 1)
-    if (allComboboxes.length > 1) {
-      const freqTrigger = allComboboxes[1];
-      const triggerText = await freqTrigger.textContent();
-      
-      // Verify this is the session frequency dropdown
-      if (triggerText?.includes('How often') || triggerText?.includes('frequency') || 
-          triggerText?.includes('Weekly') || triggerText?.includes('Monthly')) {
-        await freqTrigger.click();
-        await page.waitForTimeout(500);
-        
-        // Select Weekly option
-        const weeklyOption = page.locator('[role="option"]').filter({ hasText: 'Weekly' });
-        if (await weeklyOption.isVisible()) {
-          await weeklyOption.click();
-          console.log('Selected session frequency: Weekly');
-        } else {
-          // Fallback to first option
-          await page.locator('[role="option"]').first().click();
-          console.log('Selected first available session frequency');
-        }
+
+    // Use semantic selector based on placeholder text
+    const freqTrigger = page.locator('button[role="combobox"]').filter({ hasText: 'How often' });
+    const hasFreqTrigger = await freqTrigger.isVisible().catch(() => false);
+
+    if (hasFreqTrigger) {
+      await freqTrigger.click();
+      await page.waitForTimeout(500);
+
+      // Select Weekly option
+      const weeklyOption = page.locator('[role="option"]').filter({ hasText: 'Weekly' });
+      if (await weeklyOption.isVisible()) {
+        await weeklyOption.click();
+        console.log('Selected session frequency: Weekly');
       } else {
-        console.log(`Warning: Expected session frequency dropdown but found "${triggerText}"`);
+        // Fallback to first option
+        await page.locator('[role="option"]').first().click();
+        console.log('Selected first available session frequency');
       }
     } else {
-      console.log('ERROR: Not enough Select components found for session frequency');
+      console.log('ERROR: Session frequency dropdown not found (placeholder "How often" not visible)');
     }
     await page.waitForTimeout(300);
   } else {
@@ -785,131 +758,115 @@ export async function fillSessionForm(page: Page, category: string) {
   
   // Format - Select component
   console.log('Selecting format...');
-  
-  // Format is typically the 3rd combobox (index 2) for most categories
-  const comboboxCount2 = await page.locator('button[role="combobox"]').count();
-  const formatIndex = category === 'crisis_resources' ? 1 : 2; // Adjust index based on category
-  
-  if (comboboxCount2 > formatIndex) {
-    const formatTrigger = page.locator('button[role="combobox"]').nth(formatIndex);
-    const triggerText = await formatTrigger.textContent();
-    
-    // Verify this looks like the format dropdown
-    if (triggerText?.includes('format') || triggerText?.includes('In-person') || 
-        triggerText?.includes('Virtual') || triggerText?.includes('Phone')) {
-      await formatTrigger.click();
-      await page.waitForTimeout(500);
-      
-      let formatValue = 'In-person';
-      if (category === 'crisis_resources') {
-        formatValue = 'Phone';
-      } else if (category === 'medical_procedures') {
-        formatValue = 'Outpatient';
-      }
-      
-      // Try to select the specific format
-      const formatOption = page.locator('[role="option"]').filter({ hasText: formatValue });
-      if (await formatOption.isVisible()) {
-        await formatOption.click();
-        console.log(`Selected format: ${formatValue}`);
-      } else {
-        // Fallback to first option
-        await page.locator('[role="option"]').first().click();
-        console.log('Selected first available format');
-      }
-    } else {
-      console.log(`Warning: Expected format dropdown but found "${triggerText}"`);
+
+  // Use semantic selector based on placeholder text
+  const formatTrigger = page.locator('button[role="combobox"]').filter({ hasText: 'Select format' });
+  const hasFormatTrigger = await formatTrigger.isVisible().catch(() => false);
+
+  if (hasFormatTrigger) {
+    await formatTrigger.click();
+    await page.waitForTimeout(500);
+
+    let formatValue = 'In-person';
+    if (category === 'crisis_resources') {
+      formatValue = 'Phone';
+    } else if (category === 'medical_procedures') {
+      formatValue = 'Outpatient';
     }
+
+    // Try to select the specific format
+    const formatOption = page.locator('[role="option"]').filter({ hasText: formatValue });
+    if (await formatOption.isVisible()) {
+      await formatOption.click();
+      console.log(`Selected format: ${formatValue}`);
+    } else {
+      // Fallback to first option
+      await page.locator('[role="option"]').first().click();
+      console.log('Selected first available format');
+    }
+  } else {
+    console.log('Warning: Format dropdown not found (placeholder "Select format" not visible)');
   }
   await page.waitForTimeout(300)
   
   // Session length - REQUIRED for therapists_counselors, OPTIONAL for others but may still appear
-  // Check if session length dropdown exists for any category
-  const comboboxCount3 = await page.locator('button[role="combobox"]').count();
-  let sessionLengthFound = false;
-  
-  // Look for session length dropdown by checking text content
-  for (let i = 0; i < comboboxCount3; i++) {
-    const combobox = page.locator('button[role="combobox"]').nth(i);
-    const triggerText = await combobox.textContent();
-    if (triggerText?.includes('How long') || triggerText?.includes('minutes') || 
-        triggerText?.includes('length')) {
-      sessionLengthFound = true;
-      console.log(`Found session length dropdown at index ${i} for ${category}`);
-      
-      // Fill it whether required or not to ensure form validation passes
-      await combobox.click();
-      await page.waitForTimeout(500);
-      
-      // Select 60 minutes option if available
-      const sixtyMinOption = page.locator('[role="option"]').filter({ hasText: '60 minutes' });
-      if (await sixtyMinOption.isVisible()) {
-        await sixtyMinOption.click();
-        console.log('Selected session length: 60 minutes');
-      } else {
-        // Fallback to first option
-        await page.locator('[role="option"]').first().click();
-        console.log('Selected first available session length');
-      }
-      await page.waitForTimeout(300);
-      break;
+  // Use semantic selector based on placeholder text
+  const sessionLengthTrigger = page.locator('button[role="combobox"]').filter({ hasText: 'How long' });
+  const hasSessionLength = await sessionLengthTrigger.isVisible().catch(() => false);
+
+  if (hasSessionLength) {
+    console.log(`Found session length dropdown for ${category}`);
+
+    // Fill it whether required or not to ensure form validation passes
+    await sessionLengthTrigger.click();
+    await page.waitForTimeout(500);
+
+    // Select 60 minutes option if available
+    const sixtyMinOption = page.locator('[role="option"]').filter({ hasText: '60 minutes' });
+    if (await sixtyMinOption.isVisible()) {
+      await sixtyMinOption.click();
+      console.log('Selected session length: 60 minutes');
+    } else {
+      // Fallback to first option
+      await page.locator('[role="option"]').first().click();
+      console.log('Selected first available session length');
     }
-  }
-  
-  if (!sessionLengthFound && category === 'therapists_counselors') {
-    console.log('ERROR: Session length dropdown not found for therapists_counselors (REQUIRED)');
+    await page.waitForTimeout(300);
+  } else if (category === 'therapists_counselors' || category === 'coaches_mentors' || category === 'alternative_practitioners') {
+    console.log(`ERROR: Session length dropdown not found for ${category} (REQUIRED)`);
+  } else {
+    console.log(`Session length not present for ${category} (optional)`);
   }
   
   // Insurance coverage - OPTIONAL for therapists, doctors, medical_procedures
   if (['therapists_counselors', 'doctors_specialists', 'medical_procedures'].includes(category)) {
     console.log('Looking for insurance coverage dropdown...');
-    
-    // Insurance coverage is usually one of the last comboboxes
-    const allComboboxes4 = await page.locator('button[role="combobox"]').all();
-    
-    for (let i = 0; i < allComboboxes4.length; i++) {
-      const triggerText = await allComboboxes4[i].textContent();
-      if (triggerText?.includes('Coverage') || triggerText?.includes('insurance')) {
-        console.log(`Found insurance coverage dropdown at index ${i}`);
-        
-        await allComboboxes4[i].click();
-        await page.waitForTimeout(500);
-        
-        // Select first available option
-        await page.locator('[role="option"]').first().click();
-        console.log('Selected first available insurance coverage option');
-        await page.waitForTimeout(300);
-        break;
-      }
+
+    // Use semantic selector based on placeholder text
+    const insuranceTrigger = page.locator('button[role="combobox"]').filter({ hasText: 'Coverage' });
+    const hasInsurance = await insuranceTrigger.isVisible().catch(() => false);
+
+    if (hasInsurance) {
+      console.log('Found insurance coverage dropdown');
+
+      await insuranceTrigger.click();
+      await page.waitForTimeout(500);
+
+      // Select first available option
+      await page.locator('[role="option"]').first().click();
+      console.log('Selected first available insurance coverage option');
+      await page.waitForTimeout(300);
+    } else {
+      console.log(`Insurance coverage dropdown not found for ${category}`);
     }
   }
   
-  // Wait time - OPTIONAL for doctors_specialists
+  // Wait time - REQUIRED for doctors_specialists
   if (category === 'doctors_specialists') {
-    console.log('Looking for wait time dropdown (optional for doctors)...');
-    
-    const allComboboxes5 = await page.locator('button[role="combobox"]').all();
-    
-    for (let i = 0; i < allComboboxes5.length; i++) {
-      const triggerText = await allComboboxes5[i].textContent();
-      if (triggerText?.includes('Time to get appointment') || triggerText?.includes('Wait time')) {
-        console.log(`Found wait time dropdown at index ${i}`);
-        
-        await allComboboxes5[i].click();
-        await page.waitForTimeout(500);
-        
-        // Select "Within a week" if available
-        const weekOption = page.locator('[role="option"]').filter({ hasText: 'Within a week' });
-        if (await weekOption.isVisible()) {
-          await weekOption.click();
-          console.log('Selected wait time: Within a week');
-        } else {
-          await page.locator('[role="option"]').first().click();
-          console.log('Selected first available wait time');
-        }
-        await page.waitForTimeout(300);
-        break;
+    console.log('Looking for wait time dropdown (REQUIRED for doctors)...');
+
+    // Use semantic selector based on placeholder text
+    const waitTrigger = page.locator('button[role="combobox"]').filter({ hasText: 'Time to get appointment' });
+    const hasWaitTime = await waitTrigger.isVisible().catch(() => false);
+
+    if (hasWaitTime) {
+      console.log('Found wait time dropdown');
+
+      await waitTrigger.click();
+      await page.waitForTimeout(500);
+
+      // Select "Within a week" if available
+      const weekOption = page.locator('[role="option"]').filter({ hasText: 'Within a week' });
+      if (await weekOption.isVisible()) {
+        await weekOption.click();
+        console.log('Selected wait time: Within a week');
+      } else {
+        await page.locator('[role="option"]').first().click();
+        console.log('Selected first available wait time');
       }
+      await page.waitForTimeout(300);
+    } else {
+      console.log('ERROR: Wait time dropdown not found for doctors_specialists (REQUIRED)');
     }
   }
   
@@ -967,16 +924,12 @@ export async function fillSessionForm(page: Page, category: string) {
   if (category === 'crisis_resources') {
     console.log('Selecting response time (REQUIRED for crisis_resources)...');
 
-    // Simplified approach: Find the last combobox on the page (it's the response_time dropdown)
-    const allComboboxes = await page.locator('button[role="combobox"]').count();
-    console.log(`Found ${allComboboxes} total comboboxes - response_time should be the last one`);
+    // Use semantic selector based on placeholder text
+    const responseTrigger = page.locator('button[role="combobox"]').filter({ hasText: 'How quickly did they respond' });
+    const hasResponseTime = await responseTrigger.isVisible().catch(() => false);
 
-    if (allComboboxes > 0) {
-      // For crisis_resources: cost (index 0), format (index 1), response_time (index 2/last)
-      const responseTimeIndex = allComboboxes - 1; // Last combobox
-      const responseTrigger = page.locator('button[role="combobox"]').nth(responseTimeIndex);
-
-      console.log(`Clicking response time dropdown at index ${responseTimeIndex}`);
+    if (hasResponseTime) {
+      console.log('Found response time dropdown');
       await responseTrigger.click();
       await page.waitForTimeout(500);
 
@@ -998,7 +951,7 @@ export async function fillSessionForm(page: Page, category: string) {
         console.log('WARNING: Response time options did not appear');
       }
     } else {
-      console.log('ERROR: No comboboxes found on page');
+      console.log('ERROR: Response time dropdown not found for crisis_resources (REQUIRED)');
     }
 
     console.log('Response time selection completed');
