@@ -56,15 +56,17 @@ const lengthSelect = page.locator('text=Application details').locator('..').loca
 
 ---
 
-## FinancialForm Label Mappings
+## FinancialForm Label Mappings ✅
 
-**TODO**: Read FinancialForm.tsx to get exact labels
-**Brittle selectors to replace**:
-- Line 1176: `page.locator('select').nth(0)` - Time commitment
-- Line 1182: `page.locator('select').nth(1)` - Startup cost
-- Line 1188: `page.locator('select').nth(2)` - Ongoing cost
-- Line 1194: `page.locator('select').nth(3)` - Frequency
-- Line 1200: `page.locator('select').nth(4)` - Category
+**Component Type**: Native `<select>` elements
+**Category**: financial_products
+
+| Current Selector | Field Purpose | Placeholder | Semantic Selector | File Line |
+|-----------------|---------------|-------------|-------------------|-----------|
+| `.first()` | Cost type | "Select cost type" | `page.locator('select').filter({ hasText: 'Select cost type' })` | 1613 |
+| `.nth(1)` | Financial benefit | "Select savings or earnings..." | `page.locator('select').filter({ hasText: 'Select savings or earnings' })` | 1619 |
+| `.nth(2)` | Access time | "Select access time..." | `page.locator('select').filter({ hasText: 'Select access time' })` | 1625 |
+| `.nth(3)` | Time to impact | "Select timeframe" | `page.locator('select').filter({ hasText: 'Select timeframe' })` | 1639 |
 
 ---
 

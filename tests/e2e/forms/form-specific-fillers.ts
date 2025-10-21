@@ -1609,20 +1609,20 @@ export async function fillFinancialForm(page: Page) {
   // ============ STEP 1: Product Details + Effectiveness + Time to Impact ============
   console.log('Step 1: Filling product details and effectiveness')
   
-  // Select cost type (required field)
-  const costTypeSelect = page.locator('select').first()
+  // Select cost type (required field) - SEMANTIC SELECTOR
+  const costTypeSelect = page.locator('select').filter({ hasText: 'Select cost type' })
   await costTypeSelect.selectOption('Free to use')
   console.log('Selected cost type: Free to use')
   await page.waitForTimeout(300)
   
-  // Select financial benefit (required field)
-  const benefitSelect = page.locator('select').nth(1) 
+  // Select financial benefit (required field) - SEMANTIC SELECTOR
+  const benefitSelect = page.locator('select').filter({ hasText: 'Select savings or earnings' })
   await benefitSelect.selectOption('$25-100/month saved/earned')
   console.log('Selected financial benefit: $25-100/month saved/earned')
   await page.waitForTimeout(300)
   
-  // Select access time (required field)
-  const accessSelect = page.locator('select').nth(2)
+  // Select access time (required field) - SEMANTIC SELECTOR
+  const accessSelect = page.locator('select').filter({ hasText: 'Select access time' })
   await accessSelect.selectOption('Same day')
   console.log('Selected access time: Same day')
   await page.waitForTimeout(300)
@@ -1635,16 +1635,16 @@ export async function fillFinancialForm(page: Page) {
   }
   await page.waitForTimeout(500)
   
-  // Select time to impact (required field)
-  const timeToImpactSelect = page.locator('select').nth(3)
+  // Select time to impact (required field) - SEMANTIC SELECTOR
+  const timeToImpactSelect = page.locator('select').filter({ hasText: 'Select timeframe' })
   await timeToImpactSelect.selectOption('1-2 weeks')
   console.log('Selected time to impact: 1-2 weeks')
   await page.waitForTimeout(300)
 
   // Verify all required fields are filled before continuing
   console.log('Verifying Step 1 required fields...')
-  const costTypeValue = await page.locator('select').first().inputValue()
-  const benefitValue = await timeToImpactSelect.inputValue() // Just check one
+  const costTypeValue = await costTypeSelect.inputValue()
+  const benefitValue = await timeToImpactSelect.inputValue()
   console.log('Cost type:', costTypeValue, 'Time to impact:', benefitValue)
 
   // Click Continue to Step 2
