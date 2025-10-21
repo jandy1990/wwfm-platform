@@ -1224,8 +1224,8 @@ export async function fillPurchaseForm(page: Page, category: string) {
   }
   await page.waitForTimeout(500)
   
-  // Select time to results (regular select dropdown)
-  const timeSelect = page.locator('select').first()
+  // Select time to results (regular select dropdown) - SEMANTIC SELECTOR
+  const timeSelect = page.locator('select').filter({ hasText: 'Select timeframe' })
   await timeSelect.selectOption('1-2 weeks')
   console.log('Selected time to results: 1-2 weeks')
   await page.waitForTimeout(300)
@@ -1257,8 +1257,8 @@ export async function fillPurchaseForm(page: Page, category: string) {
     console.log(`Found ${selectTriggers} Select trigger buttons`)
 
     if (selectTriggers >= 2) {
-      // Select product type (should be 2nd Select component after cost range)
-      const productTypeSelect = page.locator('button[role="combobox"]').nth(1)
+      // Select product type - SEMANTIC SELECTOR
+      const productTypeSelect = page.locator('button[role="combobox"]').filter({ hasText: 'Select type' })
       await productTypeSelect.click()
       await page.waitForTimeout(500)
 
@@ -1271,8 +1271,8 @@ export async function fillPurchaseForm(page: Page, category: string) {
       }
       await page.waitForTimeout(300)
 
-      // Select ease of use
-      const easeSelect = page.locator('button[role="combobox"]').nth(2)
+      // Select ease of use - SEMANTIC SELECTOR
+      const easeSelect = page.locator('button[role="combobox"]').filter({ hasText: 'How easy to use' })
       await easeSelect.click()
       await page.waitForTimeout(500)
 
@@ -1296,28 +1296,28 @@ export async function fillPurchaseForm(page: Page, category: string) {
     console.log(`Found ${selectTriggers} Select trigger buttons for books_courses`)
 
     if (selectTriggers >= 2) {
-      // Select format (should be 2nd Select component after cost range)
-      const formatSelect = page.locator('button[role="combobox"]').nth(1)
+      // Select format - SEMANTIC SELECTOR
+      const formatSelect = page.locator('button[role="combobox"]').filter({ hasText: 'Select type' })
       await formatSelect.click()
       await page.waitForTimeout(500)
 
       try {
-        await page.click('text="Book (physical)"', { timeout: 2000 })
-        console.log('Selected format: Book (physical)')
+        await page.click('text="Physical book"', { timeout: 2000 })
+        console.log('Selected format: Physical book')
       } catch (e) {
         console.log('Trying first option for format')
         await page.locator('[role="option"]').first().click()
       }
       await page.waitForTimeout(300)
 
-      // Select learning difficulty
-      const difficultySelect = page.locator('button[role="combobox"]').nth(2)
+      // Select learning difficulty - SEMANTIC SELECTOR
+      const difficultySelect = page.locator('button[role="combobox"]').filter({ hasText: 'How challenging' })
       await difficultySelect.click()
       await page.waitForTimeout(500)
 
       try {
-        await page.click('text="Beginner-friendly"', { timeout: 2000 })
-        console.log('Selected learning difficulty: Beginner-friendly')
+        await page.click('text="Beginner friendly"', { timeout: 2000 })
+        console.log('Selected learning difficulty: Beginner friendly')
       } catch (e) {
         console.log('Trying first option for learning difficulty')
         await page.locator('[role="option"]').first().click()
