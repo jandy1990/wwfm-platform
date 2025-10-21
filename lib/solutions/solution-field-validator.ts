@@ -118,7 +118,44 @@ export function validateAndNormalizeSolutionFields(
       const str = normalizeString(rawValue)
       if (!str) continue
 
-      const dropdownKey = safeGetDropdownSource(fieldName, category)
+      // Dynamic dropdown selection for cost fields based on form type markers
+      let dropdownKey: string | undefined
+
+      if (fieldName === 'cost') {
+        // Check for cost type markers submitted by forms
+        const dosageCostType = fields['dosage_cost_type'] as string | undefined
+        const sessionCostType = fields['session_cost_type'] as string | undefined
+        const purchaseCostType = fields['purchase_cost_type'] as string | undefined
+
+        // DosageForm categories: use dosage_cost_type marker
+        if (dosageCostType === 'monthly') {
+          dropdownKey = 'dosage_cost_monthly'
+        } else if (dosageCostType === 'one_time') {
+          dropdownKey = 'dosage_cost_onetime'
+        }
+        // SessionForm categories: use session_cost_type marker
+        else if (sessionCostType === 'monthly') {
+          dropdownKey = 'session_cost_monthly'
+        } else if (sessionCostType === 'per_session') {
+          dropdownKey = 'session_cost_per'
+        } else if (sessionCostType === 'total') {
+          dropdownKey = 'session_cost_total'
+        }
+        // PurchaseForm categories: use purchase_cost_type marker
+        else if (purchaseCostType === 'subscription') {
+          dropdownKey = 'purchase_cost_subscription'
+        } else if (purchaseCostType === 'one_time') {
+          dropdownKey = 'purchase_cost_onetime'
+        }
+        // Fallback to SSOT mapping if no marker found
+        else {
+          dropdownKey = safeGetDropdownSource(fieldName, category)
+        }
+      } else {
+        // For non-cost fields, use standard SSOT mapping
+        dropdownKey = safeGetDropdownSource(fieldName, category)
+      }
+
       if (dropdownKey) {
         const validOptions = DROPDOWN_OPTIONS[dropdownKey]
         if (validOptions) {

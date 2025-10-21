@@ -162,7 +162,7 @@ export default function HeroSection({ stats }: HeroSectionProps) {
         {/* Main Heading */}
         <div className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-            Find what works for life's challenges
+            Stop guessing. Start solving.
           </h1>
         </div>
 
@@ -179,7 +179,7 @@ export default function HeroSection({ stats }: HeroSectionProps) {
                     setShowDropdown(true);
                   }
                 }}
-                placeholder="Try 'reduce anxiety' or 'sleep better'"
+                placeholder="Try 'Reduce anxiety' or 'Sleep better'"
                 className="w-full px-6 py-4 text-lg border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none shadow-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
               />
 

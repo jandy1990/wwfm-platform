@@ -154,11 +154,12 @@ export const CATEGORY_FIELD_CONFIG: Record<string, CategoryConfig> = {
   },
   medications: {
     // Cost moved to success screen (optional) - removed from required fields
+    // Medications are one-time purchases only (no monthly subscriptions)
     requiredFields: ['frequency', 'length_of_use', 'time_to_results', 'side_effects'],
     fieldToDropdownMap: {
       frequency: 'frequency',
       length_of_use: 'length_of_use',
-      cost: 'dosage_cost_monthly',
+      cost: 'dosage_cost_onetime',
       time_to_results: 'time_to_results',
       side_effects: 'common_side_effects'
     },

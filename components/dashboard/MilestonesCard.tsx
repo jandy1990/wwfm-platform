@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { getUserPoints, type UserPointsData } from '@/app/actions/get-user-points'
 import { getUserMilestone, getUserMilestoneHistory } from '@/app/actions/award-points'
+import { backfillUserMilestones } from '@/app/actions/backfill-milestones'
 import { MILESTONES } from '@/lib/milestones'
 import { formatDistanceToNow } from 'date-fns'
 
@@ -33,6 +34,16 @@ export function MilestonesCard({ userId }: MilestonesCardProps) {
       setPointsData(points)
       setCurrentMilestone(milestone)
       setHistory(milestoneHistory)
+
+      // Auto-backfill if user has points but no milestone records
+      if (points.points > 0 && milestoneHistory.length === 0) {
+        const backfillResult = await backfillUserMilestones(userId)
+        if (backfillResult.success && backfillResult.milestonesAdded > 0) {
+          // Reload milestone history after backfill
+          const updatedHistory = await getUserMilestoneHistory(userId)
+          setHistory(updatedHistory)
+        }
+      }
     } catch (error) {
       console.error('Error loading milestone data:', error)
     } finally {
@@ -124,6 +135,13 @@ export function MilestonesCard({ userId }: MilestonesCardProps) {
             const isCurrent = currentMilestone?.key === milestone.key
             const isLocked = (pointsData?.points || 0) < milestone.threshold
 
+            // Determine if this is the next milestone to unlock
+            const nextMilestone = pointsData?.nextMilestone
+            const isNextToUnlock = nextMilestone && milestone.threshold === nextMilestone.threshold
+
+            // Mystery state: Hide details for milestones beyond the next one
+            const isMystery = !achieved && !isCurrent && !isNextToUnlock && isLocked
+
             return (
               <div
                 key={milestone.key}
@@ -132,26 +150,48 @@ export function MilestonesCard({ userId }: MilestonesCardProps) {
                     ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-300 dark:border-amber-700'
                     : achieved
                     ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800'
+                    : isNextToUnlock
+                    ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800'
                     : 'bg-gray-50 dark:bg-gray-900/20 border-gray-200 dark:border-gray-700 opacity-60'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className={`text-2xl ${isLocked ? 'grayscale opacity-40' : ''}`}>
-                      {milestone.emoji}
+                    <span className={`text-2xl ${isMystery ? 'blur-sm select-none' : isLocked && !isNextToUnlock ? 'grayscale opacity-40' : ''}`}>
+                      {isMystery ? '❓' : milestone.emoji}
                     </span>
                     <div>
                       <div className="font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                        {milestone.name}
-                        {isCurrent && (
-                          <span className="text-xs px-2 py-0.5 bg-amber-400 text-white rounded-full">
-                            Current
-                          </span>
+                        {isMystery ? (
+                          <span className="blur-sm select-none">??? Locked</span>
+                        ) : (
+                          <>
+                            {milestone.name}
+                            {isCurrent && (
+                              <span className="text-xs px-2 py-0.5 bg-amber-400 text-white rounded-full">
+                                Current
+                              </span>
+                            )}
+                            {isNextToUnlock && (
+                              <span className="text-xs px-2 py-0.5 bg-blue-500 text-white rounded-full">
+                                Next
+                              </span>
+                            )}
+                          </>
                         )}
                       </div>
                       <div className="text-xs text-gray-600 dark:text-gray-400">
-                        {milestone.threshold.toLocaleString()} points
+                        {isMystery ? (
+                          <span className="blur-sm select-none">??? points</span>
+                        ) : (
+                          `${milestone.threshold.toLocaleString()} points`
+                        )}
                       </div>
+                      {!isMystery && (
+                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                          {milestone.description}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="text-right">

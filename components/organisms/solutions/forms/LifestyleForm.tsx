@@ -635,17 +635,8 @@ export function LifestyleForm({
                           setStillFollowing(true);
                           setSustainabilityReason(''); // Reset reason when changing selection
                         }}
-                        className="sr-only"
+                        className="mr-2 text-blue-600 focus:ring-blue-500"
                       />
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        stillFollowing === true
-                          ? 'border-blue-500 bg-blue-500'
-                          : 'border-gray-300 dark:border-gray-600'
-                      }`}>
-                        {stillFollowing === true && (
-                          <div className="w-2 h-2 bg-white rounded-full" />
-                        )}
-                      </div>
                       <span className="text-sm">Yes, still following it</span>
                     </label>
                     
@@ -662,23 +653,15 @@ export function LifestyleForm({
                           setStillFollowing(false);
                           setSustainabilityReason(''); // Reset reason when changing selection
                         }}
-                        className="sr-only"
+                        className="mr-2 text-blue-600 focus:ring-blue-500"
                       />
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        stillFollowing === false
-                          ? 'border-blue-500 bg-blue-500'
-                          : 'border-gray-300 dark:border-gray-600'
-                      }`}>
-                        {stillFollowing === false && (
-                          <div className="w-2 h-2 bg-white rounded-full" />
-                        )}
-                      </div>
                       <span className="text-sm">No, I stopped</span>
                     </label>
                   </div>
                 </div>
 
                 {/* Step B: Conditional dropdown based on selection */}
+                {/* Trigger recompile */}
                 {stillFollowing === true && (
                   <div className="space-y-3 animate-slide-in">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-300">

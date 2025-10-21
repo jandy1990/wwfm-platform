@@ -6,34 +6,43 @@ import { ArenaTimeTracker } from '@/lib/tracking/arena-time-tracker'
 import { ArenaTimePieChart } from '@/components/charts/ArenaTimePieChart'
 import { InfoTooltip } from '@/components/molecules/InfoTooltip'
 
+type TimePeriod = 'all-time' | 'last-30-days'
+
 export function TimeTrackingDisplay() {
   const [stats, setStats] = useState<ArenaStats[]>([])
   const [summary, setSummary] = useState<TimeSummary | null>(null)
   const [loading, setLoading] = useState(true)
+  const [showDetails, setShowDetails] = useState(false)
   const [showAll, setShowAll] = useState(false)
+  const [timePeriod, setTimePeriod] = useState<TimePeriod>('all-time')
 
   const service = useMemo(() => new ArenaTimeService(), [])
   const INITIAL_DISPLAY_COUNT = 5
 
   useEffect(() => {
     async function loadDashboardData() {
+      setLoading(true)
+
       // Auto-sync any pending data first
       const tracker = ArenaTimeTracker.getInstance()
       await tracker.checkAndSync()
-      
+
+      // Determine days parameter based on time period
+      const days = timePeriod === 'last-30-days' ? 30 : undefined
+
       // Then fetch the latest data from database
       const [arenaStats, timeSummary] = await Promise.all([
-        service.getUserArenaStats(),
-        service.getUserTimeSummary()
+        service.getUserArenaStats(days),
+        service.getUserTimeSummary(days)
       ])
-      
+
       setStats(arenaStats)
       setSummary(timeSummary)
       setLoading(false)
     }
-    
+
     loadDashboardData()
-  }, [service])
+  }, [service, timePeriod])
 
   // Calculate percentages for each arena
   const totalSeconds = stats.reduce((sum, stat) => sum + stat.total_seconds, 0)
@@ -89,6 +98,32 @@ export function TimeTrackingDisplay() {
 
   return (
     <div className="space-y-6">
+      {/* Time Period Toggle */}
+      <div className="flex justify-end">
+        <div className="inline-flex rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-1">
+          <button
+            onClick={() => setTimePeriod('all-time')}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+              timePeriod === 'all-time'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+            }`}
+          >
+            All Time
+          </button>
+          <button
+            onClick={() => setTimePeriod('last-30-days')}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+              timePeriod === 'last-30-days'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+            }`}
+          >
+            Last 30 Days
+          </button>
+        </div>
+      </div>
+
       {/* Summary stats */}
       {summary && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -109,74 +144,86 @@ export function TimeTrackingDisplay() {
       
       {/* Arena breakdown */}
       {stats.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Pie Chart */}
+        <div className="space-y-4">
+          {/* Pie Chart - Clickable */}
           <div>
             <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Time Distribution</h3>
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6">
-              <ArenaTimePieChart 
+            <div
+              className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6 cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => setShowDetails(!showDetails)}
+            >
+              <ArenaTimePieChart
                 data={pieChartData}
                 formatTime={service.formatTime}
                 size={280}
               />
+
+              {/* Click hint */}
+              <div className="mt-4 text-center">
+                <button className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+                  {showDetails ? '▲ Hide detailed breakdown' : '▼ Click for detailed breakdown'}
+                </button>
+              </div>
             </div>
           </div>
-          
-          {/* Detailed List */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Detailed Breakdown</h3>
-            <div className="space-y-3">
-              {(showAll ? stats : stats.slice(0, INITIAL_DISPLAY_COUNT)).map(stat => {
-                const percentage = getPercentage(stat.total_seconds)
-                const isTopArena = summary?.most_visited_arena === stat.arena_name
-                const progressWidth = maxSeconds > 0 ? (stat.total_seconds / maxSeconds) * 100 : 0
-                const tooltipText = needsExplanation(stat.arena_name)
 
-                return (
-                  <div key={stat.arena_name} className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                    <div className="flex justify-between items-center mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className={`font-medium ${isTopArena ? 'text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100'}`}>
-                          {stat.arena_name}
-                        </span>
-                        {tooltipText && <InfoTooltip text={tooltipText} />}
+          {/* Detailed List - Expandable */}
+          {showDetails && (
+            <div className="animate-slideDown">
+              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Detailed Breakdown</h3>
+              <div className="space-y-3">
+                {(showAll ? stats : stats.slice(0, INITIAL_DISPLAY_COUNT)).map(stat => {
+                  const percentage = getPercentage(stat.total_seconds)
+                  const isTopArena = summary?.most_visited_arena === stat.arena_name
+                  const progressWidth = maxSeconds > 0 ? (stat.total_seconds / maxSeconds) * 100 : 0
+                  const tooltipText = needsExplanation(stat.arena_name)
+
+                  return (
+                    <div key={stat.arena_name} className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                      <div className="flex justify-between items-center mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className={`font-medium ${isTopArena ? 'text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100'}`}>
+                            {stat.arena_name}
+                          </span>
+                          {tooltipText && <InfoTooltip text={tooltipText} />}
+                        </div>
+                        <div className="text-right">
+                          <span className="font-semibold text-gray-900 dark:text-gray-100">
+                            {service.formatTime(stat.total_seconds)}
+                          </span>
+                          <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
+                            ({percentage}%)
+                          </span>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <span className="font-semibold text-gray-900 dark:text-gray-100">
-                          {service.formatTime(stat.total_seconds)}
-                        </span>
-                        <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
-                          ({percentage}%)
-                        </span>
+
+                      {/* Progress bar */}
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div
+                          className={`h-2 rounded-full transition-all duration-500 ${
+                            isTopArena
+                              ? 'bg-blue-500 dark:bg-blue-400'
+                              : 'bg-gray-400 dark:bg-gray-500'
+                          }`}
+                          style={{ width: `${progressWidth}%` }}
+                        ></div>
                       </div>
                     </div>
+                  )
+                })}
+              </div>
 
-                    {/* Progress bar */}
-                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                      <div
-                        className={`h-2 rounded-full transition-all duration-500 ${
-                          isTopArena
-                            ? 'bg-blue-500 dark:bg-blue-400'
-                            : 'bg-gray-400 dark:bg-gray-500'
-                        }`}
-                        style={{ width: `${progressWidth}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                )
-              })}
+              {/* Show More/Less Button */}
+              {stats.length > INITIAL_DISPLAY_COUNT && (
+                <button
+                  onClick={() => setShowAll(!showAll)}
+                  className="mt-4 w-full py-2 px-4 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
+                >
+                  {showAll ? '↑ Show Less' : `↓ Show ${stats.length - INITIAL_DISPLAY_COUNT} More`}
+                </button>
+              )}
             </div>
-
-            {/* Show More/Less Button */}
-            {stats.length > INITIAL_DISPLAY_COUNT && (
-              <button
-                onClick={() => setShowAll(!showAll)}
-                className="mt-4 w-full py-2 px-4 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
-              >
-                {showAll ? '↑ Show Less' : `↓ Show ${stats.length - INITIAL_DISPLAY_COUNT} More`}
-              </button>
-            )}
-          </div>
+          )}
         </div>
       ) : (
         <div className="text-center py-12">
@@ -185,6 +232,24 @@ export function TimeTrackingDisplay() {
           <p className="text-gray-600 dark:text-gray-400">Start browsing to see your time investments!</p>
         </div>
       )}
+
+      <style jsx>{`
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            max-height: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            max-height: 2000px;
+            transform: translateY(0);
+          }
+        }
+        .animate-slideDown {
+          animation: slideDown 0.3s ease-out;
+        }
+      `}</style>
     </div>
   )
 }

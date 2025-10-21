@@ -12,23 +12,20 @@ import { Info } from 'lucide-react'
 
 interface ArenaValueInsightsProps {
   insights: ArenaValueInsight[]
-  daysAnalyzed: number
+  daysAnalyzed?: number
 }
 
 export default function ArenaValueInsights({
   insights,
   daysAnalyzed
 }: ArenaValueInsightsProps) {
+  const timePeriod = daysAnalyzed ? `last ${daysAnalyzed} days` : 'all time'
   if (insights.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
-          Time Allocation & Long-term Value Data
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          Time & Long-term Value by Arena
         </h2>
-        <p className="text-gray-600 text-sm">
-          Track time across different life arenas to see data about time
-          allocation and AI-estimated long-term value scores.
-        </p>
       </div>
     )
   }
@@ -36,35 +33,24 @@ export default function ArenaValueInsights({
   const totalGoals = insights.reduce((sum, i) => sum + i.goal_count, 0)
 
   return (
-    <div className="bg-white rounded-lg shadow">
-      <div className="p-6 border-b border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-900 mb-1">
-          Time Allocation & Long-term Value Data
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          Time & Long-term Value by Arena
         </h2>
-        <p className="text-sm text-gray-600">
-          Your time spent across arenas (last {daysAnalyzed} days) alongside AI-estimated long-term impact scores
-        </p>
       </div>
 
-      <div className="p-6 space-y-4">
-        {/* AI Data Source Notice - Prominent at top */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex gap-3">
-          <Info className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-          <div className="text-sm text-blue-900">
-            <p className="font-medium mb-1">AI-Generated Value Scores</p>
-            <p className="text-blue-800">
-              Long-term value scores are currently based on AI training data patterns.
-              These will transition to human retrospective data after 10 user reports per goal.
-              Based on {totalGoals} goals across these arenas.
-            </p>
-          </div>
-        </div>
+      <div className="p-6 space-y-6">
+        {insights.map(insight => (
+          <InsightRow key={insight.arena_id} insight={insight} />
+        ))}
 
-        {/* Simple data display - all arenas */}
-        <div className="space-y-2">
-          {insights.map(insight => (
-            <InsightRow key={insight.arena_id} insight={insight} />
-          ))}
+        {/* Subtle data source note */}
+        <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
+          <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+            <Info className="w-3 h-3" />
+            Long-term value ratings based on AI training data until 10+ user retrospectives per goal
+          </p>
         </div>
       </div>
     </div>
@@ -75,30 +61,50 @@ function InsightRow({ insight }: { insight: ArenaValueInsight }) {
   const hours = Math.floor(insight.seconds_spent / 3600)
   const minutes = Math.floor((insight.seconds_spent % 3600) / 60)
 
+  // Calculate value percentage (out of 5)
+  const valuePercentage = (insight.avg_lasting_value / 5) * 100
+
   return (
-    <div className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-      <div className="flex-1">
-        <h4 className="text-sm font-medium text-gray-900">
+    <div>
+      {/* Arena name and meta */}
+      <div className="flex items-center justify-between mb-2">
+        <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">
           {insight.arena_name}
         </h4>
-        <p className="text-xs text-gray-500">
-          {hours}h {minutes}m · {insight.goal_count} goals
-        </p>
+        <span className="text-xs text-gray-500 dark:text-gray-400">
+          {insight.goal_count} {insight.goal_count === 1 ? 'goal' : 'goals'}
+        </span>
       </div>
 
-      <div className="flex items-center gap-4 text-right">
-        <div>
-          <div className="text-sm font-semibold text-gray-900">
-            {insight.time_percentage}%
-          </div>
-          <div className="text-xs text-gray-500">time</div>
+      {/* Time bar */}
+      <div className="mb-2">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-xs text-gray-600 dark:text-gray-400">Time</span>
+          <span className="text-xs font-medium text-gray-900 dark:text-gray-100">
+            {hours}h {minutes}m ({insight.time_percentage}%)
+          </span>
         </div>
+        <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2">
+          <div
+            className="bg-blue-500 dark:bg-blue-400 h-2 rounded-full transition-all duration-500"
+            style={{ width: `${insight.time_percentage}%` }}
+          />
+        </div>
+      </div>
 
-        <div>
-          <div className="text-sm font-semibold text-gray-900">
-            {insight.avg_lasting_value.toFixed(1)}
-          </div>
-          <div className="text-xs text-gray-500">value</div>
+      {/* Long-term Value bar */}
+      <div>
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-xs text-gray-600 dark:text-gray-400">Long-term Value</span>
+          <span className="text-xs font-medium text-gray-900 dark:text-gray-100">
+            {insight.avg_lasting_value.toFixed(1)}/5
+          </span>
+        </div>
+        <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2">
+          <div
+            className="bg-green-500 dark:bg-green-400 h-2 rounded-full transition-all duration-500"
+            style={{ width: `${valuePercentage}%` }}
+          />
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import confetti from 'canvas-confetti'
+import { MILESTONES } from '@/lib/milestones'
 
 export interface Milestone {
   id: string
@@ -23,6 +24,19 @@ export function useCelebrations(stats: Stats | null) {
 
   useEffect(() => {
     if (!stats || typeof window === 'undefined') return
+
+    // Generate milestone celebrations from centralized MILESTONES constant
+    const pointsMilestones: Milestone[] = MILESTONES.map((milestone, index) => {
+      const nextMilestone = MILESTONES[index + 1]
+      const upperBound = nextMilestone ? nextMilestone.threshold : milestone.threshold + 100
+
+      return {
+        id: milestone.key,
+        title: `${milestone.emoji} ${milestone.name}!`,
+        message: `You've reached ${milestone.threshold.toLocaleString()} points - ${milestone.description}!`,
+        achieved: stats.contributionPoints >= milestone.threshold && stats.contributionPoints < upperBound
+      }
+    })
 
     const milestones: Milestone[] = [
       {
@@ -85,60 +99,8 @@ export function useCelebrations(stats: Stats | null) {
         message: '10 people found your insights helpful!',
         achieved: stats.helpfulVotes === 10
       },
-      {
-        id: 'seeker',
-        title: '🌱 Seeker!',
-        message: "You've reached 100 points - just starting the journey!",
-        achieved: stats.contributionPoints >= 100 && stats.contributionPoints < 150
-      },
-      {
-        id: 'explorer',
-        title: '🔍 Explorer!',
-        message: "You've reached 250 points - actively discovering solutions!",
-        achieved: stats.contributionPoints >= 250 && stats.contributionPoints < 300
-      },
-      {
-        id: 'guide',
-        title: '🗺️ Guide!',
-        message: "You've reached 500 points - helping others navigate their path!",
-        achieved: stats.contributionPoints >= 500 && stats.contributionPoints < 600
-      },
-      {
-        id: 'pathfinder',
-        title: '🧭 Pathfinder!',
-        message: "You've reached 1,000 points - clearing the way for others!",
-        achieved: stats.contributionPoints >= 1000 && stats.contributionPoints < 1100
-      },
-      {
-        id: 'trailblazer',
-        title: '🏔️ Trailblazer!',
-        message: "You've reached 2,000 points - breaking new ground!",
-        achieved: stats.contributionPoints >= 2000 && stats.contributionPoints < 2100
-      },
-      {
-        id: 'mentor',
-        title: '🌟 Mentor!',
-        message: "You've reached 3,500 points - sharing wisdom with the community!",
-        achieved: stats.contributionPoints >= 3500 && stats.contributionPoints < 3600
-      },
-      {
-        id: 'sage',
-        title: '💎 Sage!',
-        message: '5,000 points - deep expertise and insight achieved!',
-        achieved: stats.contributionPoints >= 5000 && stats.contributionPoints < 5100
-      },
-      {
-        id: 'oracle',
-        title: '👑 Oracle!',
-        message: '7,500 points - legendary status achieved!',
-        achieved: stats.contributionPoints >= 7500 && stats.contributionPoints < 7600
-      },
-      {
-        id: 'luminary',
-        title: '✨ Luminary!',
-        message: '10,000 points! You\'re enlightening the entire community!',
-        achieved: stats.contributionPoints >= 10000 && stats.contributionPoints < 10100
-      }
+      // Points milestones are now generated from MILESTONES constant above
+      ...pointsMilestones
     ]
 
     // Get celebrated milestones from localStorage
@@ -157,8 +119,9 @@ export function useCelebrations(stats: Stats | null) {
           origin: { y: 0.6 }
         })
 
-        // Extra confetti for special milestones
-        if (milestone.id.includes('points') || milestone.id === 'fifty_ratings') {
+        // Extra confetti for special milestones (point milestones + rating milestones)
+        const isMilestoneCelebration = MILESTONES.some(m => m.key === milestone.id)
+        if (isMilestoneCelebration || milestone.id === 'fifty_ratings') {
           setTimeout(() => {
             confetti({
               particleCount: 50,
@@ -179,8 +142,8 @@ export function useCelebrations(stats: Stats | null) {
         celebratedMilestones.push(milestone.id)
         localStorage.setItem('celebratedMilestones', JSON.stringify(celebratedMilestones))
 
-        // Auto-hide after 5 seconds
-        setTimeout(() => setShowCelebration(null), 5000)
+        // Auto-hide after 8 seconds (gives users time to read)
+        setTimeout(() => setShowCelebration(null), 8000)
 
         break // Only show one at a time
       }

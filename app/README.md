@@ -18,18 +18,67 @@ Arena (13) → Category (75) → Goals (781)
 **Example Flow:**
 - Mental Health (arena) → Anxiety (category) → "Calm my anxiety" (goal)
 
-### Homepage Strategy
-- **Current State:** Redirects to `/browse` (temporary solution)
-- **Future Vision:** Newsfeed with algorithmic content showing:
-  - New ratings
-  - New comments  
-  - User activity
-- **Priority:** Get users to goal pages ASAP for immediate value
+### Homepage (`/`)
+**Status:** Production Ready ✅
+**File:** `app/page.tsx`
+
+The homepage is a dynamic landing page with 5 major sections designed to demonstrate value and guide discovery:
+
+#### 1. Hero Section
+- **Large search bar** with auto-suggest dropdown (2+ characters, 150ms debounce)
+- **Smart matching**: Scores by exact, starts-with, word-starts, contains
+- **Platform stats ticker**: Total solutions, avg rating, goals, active users
+- **Quick actions**: "Browse All Goals" and "Share What Worked" buttons
+- **Search cache**: 5-minute client-side cache to reduce API calls
+
+#### 2. Trending Goals (Last 7 Days)
+- Shows 8 trending goals with activity indicators
+- **Trend statuses**: 🔥 Hot, 📈 Rising, 💡 Stable
+- Displays: Solution count, avg effectiveness, recent ratings
+- Grid layout: 2 cols mobile, 3 tablet, 4 desktop
+
+#### 3. Top Value Arenas (Top 5 by Lasting Impact)
+- Ranked arenas with 6-month retrospective data
+- **Display**: Star rating visualization, numeric score, goal count
+- Gradient purple-to-blue background for emphasis
+- Transparent about AI vs human data transition
+
+#### 4. Activity Feed (Last 24 Hours)
+- Real-time platform activity: ratings, discussions, new solutions
+- **Limit**: 20 events, shows "just now" to "Xd ago" timestamps
+- Empty state: 🌱 "Getting started" message
+- Demonstrates active community engagement
+
+#### 5. Featured Verbatims (High-Quality Discussions)
+- Discussion posts with 10+ upvotes from last 30 days
+- **Time buckets**: Today (green), this week (blue), this month (purple)
+- Displays upvote counts and quoted excerpts
+- "Join the Discussion" CTA button
+
+#### Data Fetching Strategy
+**File:** `app/actions/home.ts`
+
+All data fetched in parallel via `getHomePageData()`:
+- `getTrendingGoals()` - PostgreSQL function, 7 days, 8 goals
+- `getActivityFeed()` - PostgreSQL function, 24 hours, 20 events
+- `getFeaturedVerbatims()` - Direct query, 10+ upvotes, 30 days, 5 posts
+- `getPlatformStats()` - Cached table query for instant stats
+- `getTopValueArenas()` - Arena value scores, top 5 by lasting impact
+
+**Performance**: Platform stats cached in `platform_stats_cache` table
+
+#### Search Functionality
+**Server Action:** `searchGoals(query: string)`
+- ILIKE search on goal titles (case-insensitive)
+- Returns top 8 matching goals with arena/category breadcrumbs
+- Highlighting of matching text in results
+- Minimum 2 characters required
 
 ### First User Experience
-- **Goal:** Users reach a specific goal page (e.g., "Calm my anxiety") as quickly as possible
-- **Success Metric:** Intuitive navigation to find their problem/goal
-- **Time to Value:** Must be minimal - immediate scrolling and discovery
+- **Goal:** Users find their specific problem within 10 seconds
+- **Success Metric:** Search → Goal page → Rate solution flow
+- **Time to Value:** Immediate via search auto-suggest or trending goals
+- **Social Proof**: Activity feed and stats build trust instantly
 
 ## 🔐 Authentication Strategy
 

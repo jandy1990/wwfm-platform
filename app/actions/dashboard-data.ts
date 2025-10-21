@@ -107,10 +107,11 @@ export async function getUserImpactStats(userId: string) {
   }
 }
 
-// Action 3: Get category mastery (explored vs unexplored categories + time spent)
-export async function getCategoryMastery(userId: string) {
+// Action 3: Get solution type preferences (ratings + contributions combined)
+export async function getSolutionTypePreferences(userId: string) {
   try {
     const supabase = getServiceSupabaseClient()
+
     // Get ratings grouped by category
     const { data: ratings } = await supabase
       .from('ratings')
@@ -120,7 +121,7 @@ export async function getCategoryMastery(userId: string) {
       .eq('user_id', userId)
 
     // Count ratings by category
-    const categoryCounts = ratings?.reduce((acc, r: any) => {
+    const ratingCounts = ratings?.reduce((acc, r: any) => {
       const category = r.solution?.solution_category
       if (category) {
         acc[category] = (acc[category] || 0) + 1
@@ -128,44 +129,49 @@ export async function getCategoryMastery(userId: string) {
       return acc
     }, {} as Record<string, number>) || {}
 
-    // Get time spent by arena
-    const { data: arenaTime } = await supabase
-      .from('user_arena_time')
-      .select('arena_name, seconds_spent')
-      .eq('user_id', userId)
+    // Get contributed solutions grouped by category
+    const { data: contributions } = await supabase
+      .from('solutions')
+      .select('solution_category')
+      .eq('created_by', userId)
 
-    // Sum time by arena
-    const arenaTimeMap = arenaTime?.reduce((acc, a) => {
-      acc[a.arena_name] = (acc[a.arena_name] || 0) + a.seconds_spent
+    // Count contributions by category
+    const contributionCounts = contributions?.reduce((acc, s) => {
+      const category = s.solution_category
+      if (category) {
+        acc[category] = (acc[category] || 0) + 1
+      }
       return acc
     }, {} as Record<string, number>) || {}
 
-    // Combine category data with time spent
-    const explored = Object.entries(categoryCounts)
-      .sort(([, a], [, b]) => b - a)
-      .map(([category, count]) => ({
+    // Combine all categories
+    const allCategories = new Set([
+      ...Object.keys(ratingCounts),
+      ...Object.keys(contributionCounts)
+    ])
+
+    // Build combined data
+    const solutionTypes = Array.from(allCategories).map(category => {
+      const ratedCount = ratingCounts[category] || 0
+      const contributedCount = contributionCounts[category] || 0
+      const totalCount = ratedCount + contributedCount
+
+      return {
         category,
-        count,
-        timeSpent: arenaTimeMap[category] || 0
-      }))
+        ratedCount,
+        contributedCount,
+        totalCount
+      }
+    })
+    .sort((a, b) => b.totalCount - a.totalCount) // Sort by total activity
 
-    // All categories
-    const allCategories = [
-      'supplements_vitamins', 'medications', 'natural_remedies', 'beauty_skincare',
-      'therapists_counselors', 'doctors_specialists', 'coaches_mentors',
-      'alternative_practitioners', 'professional_services', 'medical_procedures',
-      'crisis_resources', 'exercise_movement', 'meditation_mindfulness',
-      'habits_routines', 'hobbies_activities', 'groups_communities',
-      'apps_software', 'products_devices', 'books_courses',
-      'diet_nutrition', 'sleep', 'financial_products'
-    ]
+    // Calculate total activity across all types
+    const totalActivity = solutionTypes.reduce((sum, st) => sum + st.totalCount, 0)
 
-    const unexplored = allCategories.filter(cat => !categoryCounts[cat])
-
-    return { explored, unexplored, arenaTime: arenaTimeMap }
+    return { solutionTypes, totalActivity }
   } catch (error) {
-    logger.error('dashboard: error in getCategoryMastery', error instanceof Error ? error : { error, userId })
-    return { explored: [], unexplored: [], arenaTime: {} }
+    logger.error('dashboard: error in getSolutionTypePreferences', error instanceof Error ? error : { error, userId })
+    return { solutionTypes: [], totalActivity: 0 }
   }
 }
 

@@ -32,19 +32,24 @@ interface ArenaValueData {
 
 export async function getArenaValueInsights(
   userId: string,
-  daysToAnalyze: number = 30
+  daysToAnalyze?: number
 ): Promise<ArenaValueInsight[]> {
   const supabase = getServiceSupabaseClient()
 
-  // 1. Fetch user's arena time data for the specified period
-  const cutoffDate = new Date()
-  cutoffDate.setDate(cutoffDate.getDate() - daysToAnalyze)
-
-  const { data: timeData, error: timeError } = await supabase
+  // 1. Fetch user's arena time data (all-time by default, or filtered by days)
+  let query = supabase
     .from('user_arena_time')
     .select('arena_id, arena_name, seconds_spent')
     .eq('user_id', userId)
-    .gte('date', cutoffDate.toISOString().split('T')[0])
+
+  // Only apply date filter if daysToAnalyze is explicitly provided
+  if (daysToAnalyze) {
+    const cutoffDate = new Date()
+    cutoffDate.setDate(cutoffDate.getDate() - daysToAnalyze)
+    query = query.gte('date', cutoffDate.toISOString().split('T')[0])
+  }
+
+  const { data: timeData, error: timeError } = await query
 
   if (timeError) {
     console.error('Error fetching arena time data:', timeError)

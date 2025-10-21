@@ -5,6 +5,8 @@
 
 This document is the single source of truth for every field the platform expects per solution category. All generators, migrations, QA scripts, and documentation **must** reference this file (via `/docs/solution-fields-ssot.md`).
 
+> **Reminder**: `time_to_complete` is **not** displayed for any category and should not be targeted by regeneration scripts.
+
 For end-to-end context on how these fields travel through the system, see `/docs/solution-field-data-flow.md`.
 
 ## Using This Document

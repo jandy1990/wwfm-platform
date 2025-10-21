@@ -4,7 +4,40 @@ The WWFM Dashboard is a comprehensive user engagement hub that tracks contributi
 
 ## 📊 Dashboard Sections
 
-### 1. Your Community Impact
+### 1. Your Journey (Milestones Card)
+**Purpose**: Show contribution point milestones and achievement history.
+
+**Displays**:
+- **Current Milestone**: User's current achievement level with emoji
+- **Progress to Next**: Visual progress bar and points needed
+- **Achievement History**: Chronological list of unlocked milestones
+- **Mystery System**: Future milestones shown as blurred previews
+
+**Data Source**:
+- `app/actions/get-user-points.ts → getUserPoints()`
+- `lib/milestones.ts` (SINGLE SOURCE OF TRUTH for all milestone data)
+
+**Component**: `components/dashboard/MilestonesCard.tsx`
+
+**Features**:
+- **26 Total Milestones** (expanded from original 5):
+  - **Early Journey (100-1,000)**: 7 milestones
+  - **Mid Journey (1,000-5,000)**: 8 milestones
+  - **Advanced Journey (5,000-10,000)**: 3 milestones
+  - **Legendary Journey (10,000+)**: 8 stretch goals up to 1M points
+- **Auto-backfill**: Automatically creates missing milestone records on load
+- **Progressive Revelation**: Only shows current + next milestone clearly, future milestones blurred
+
+**CRITICAL**: Always use `lib/milestones.ts` MILESTONES constant - never hardcode milestone data
+
+### 2. Your Goals
+**Purpose**: Display user's tracked goals for quick access.
+
+**Component**: `components/dashboard/YourGoals.tsx`
+
+**Status**: Working
+
+### 3. Your Community Impact
 **Purpose**: Show users their total contribution value and encourage continued engagement.
 
 **Displays**:
@@ -16,29 +49,26 @@ The WWFM Dashboard is a comprehensive user engagement hub that tracks contributi
 
 **Data Source**: `app/actions/dashboard-data.ts → getUserImpactStats()`
 
-**Milestones**:
-- 100 points: Contributor
-- 500 points: Active Member
-- 1,000 points: Community Builder
-- 5,000 points: Expert Contributor
-- 10,000 points: Legend
+**Dynamic Milestone Message**: Shows "X points to [next milestone name]" calculated from MILESTONES constant
 
-### 2. Category Mastery
-**Purpose**: Encourage users to explore diverse solution types and track expertise areas.
+### 4. How You Solve Problems
+**Purpose**: Show users which solution types they gravitate toward based on their activity.
 
 **Displays**:
-- **Explored Categories**: Top categories by rating count with medal icons (🥇🥈🥉)
-- **Time Spent**: Shows arena browsing time per category (e.g., "⏱️ 15m")
-- **Unexplored Categories**: Suggests new areas to explore
+- **Top 5 Solution Types**: Ranked by combined ratings + contributions with medal icons (🥇🥈🥉)
+- **Activity Breakdown**: Shows count split (e.g., "5 rated, 2 contributed")
+- **Progress Bars**: Visual representation of relative preference
+- **Locked State**: Blurred preview until user reaches 5 total activities
 
-**Data Source**: `app/actions/dashboard-data.ts → getCategoryMastery()`
+**Data Source**: `app/actions/dashboard-data.ts → getSolutionTypePreferences()`
 
 **Features**:
-- Combines rating activity with time tracking data
-- Shows "Top" badge for #1 category
-- Displays all 23 solution categories
+- Combines both ratings AND contributed solutions
+- Shows top 5 only for focus
+- Minimum threshold of 5 activities before display
+- Gamified unlock experience for new users
 
-### 3. Your Activity Timeline
+### 5. Your Activity Timeline
 **Purpose**: Provide a chronological view of all user actions across the platform.
 
 **Activity Types**:
@@ -53,20 +83,56 @@ The WWFM Dashboard is a comprehensive user engagement hub that tracks contributi
 - Shows most recent 20 activities
 - Mixed feed from ratings, user_arena_time, and goal_discussions tables
 
-### 4. Your Time Investment
+### 6. Your Time Investment
 **Purpose**: Help users see where they're spending time exploring solutions.
 
 **Displays**:
 - **Summary Stats**: Total time, most visited arena, areas explored
-- **Time Distribution**: Pie chart visualization
-- **Detailed Breakdown**: List of all arenas with progress bars
+- **Time Distribution**: Clickable pie chart visualization
+- **Detailed Breakdown**: Expandable list of all arenas with progress bars (hidden by default)
+- **Time Period Toggle**: Switch between "All Time" and "Last 30 Days"
 
 **Data Source**: `lib/services/arena-time-service.ts → ArenaTimeService`
 
+**Component**: `app/dashboard/time/TimeTrackingDisplay.tsx`
+
 **Features**:
-- Auto-syncs pending time from localStorage
-- Show More/Less toggle (shows 5 arenas by default)
+- **Progressive Disclosure**: Click pie chart to reveal/hide detailed breakdown
+- **Time Period Filter**: Toggle affects all sections (summary, pie chart, breakdown)
+- Auto-syncs pending time from localStorage on load
+- Show More/Less toggle (shows 5 arenas by default in detailed view)
 - Highlights most visited arena in blue
+- Smooth slide-down animation for expanding details
+
+**Design Pattern**: Simple view by default, details on demand (reduces visual clutter ~50%)
+
+### 7. Time & Long-term Value by Arena
+**Purpose**: Visual comparison of time investment vs long-term value scores per arena.
+
+**Displays**:
+- **Dual Progress Bars** for each arena:
+  - **Time bar (blue)**: Hours, minutes, and percentage of total time
+  - **Long-term Value bar (green)**: Score out of 5 with percentage visualization
+- **Goal count**: Number of goals tracked in each arena
+- **Subtle AI notice**: Footer note about data source (not a large warning box)
+
+**Data Source**: `app/actions/get-arena-value-insights.ts → getArenaValueInsights()`
+
+**Component**: `components/dashboard/ArenaValueInsights.tsx`
+
+**Time Period**: All-time by default (matches "Your Time Investment" section)
+
+**Features**:
+- Only displays arenas that have value scores (goals with wisdom data)
+- Ranked by time percentage (most time → least time)
+- Visual bars show alignment/misalignment without explanatory text
+- Completely neutral, non-paternalistic language (no judgments or prescriptions)
+
+**Design Philosophy**:
+- **Let design do the talking**: Different bar lengths communicate insights visually
+- **Neutral presentation**: No emojis, warnings, or interpretive language
+- **Respect user intelligence**: Users can interpret their own data
+- **Terminology precision**: "Long-term value" (6-month retrospective rating) not just "value"
 
 ## 🎯 Contribution Points System
 
@@ -147,33 +213,41 @@ SELECT calculate_contribution_points('user-uuid');
 **Purpose**: Reward milestone achievements with delightful animations.
 
 ### Celebration Triggers
+
+**Activity-Based Milestones**:
 - First rating
 - 5th rating (Rating Streak!)
 - 10th rating (Double Digits!)
+- 25th rating (Quarter Century!)
+- 50th rating (Half Century!)
 - First discussion post
-- 3rd discussion (Conversation Starter!)
-- First solution submitted
-- 500 contribution points
-- 1,000 contribution points (1K Club!)
-- 5,000 contribution points (Top Contributor!)
-- 10,000 contribution points (Legend!)
-- 5 categories explored
-- 10 categories explored (Category Explorer!)
-- 15 categories explored (Renaissance User!)
-- All categories explored (Category Master!)
+- 5th discussion (Voice of Wisdom!)
+- First helpful vote
+- 5th helpful vote (Helping Hand!)
+- 10th helpful vote (Community Hero!)
+
+**Points-Based Milestones** (26 total, from MILESTONES constant):
+- All milestones from 100 to 1,000,000 points
+- See `lib/milestones.ts` for complete list
 
 ### Technical Implementation
 - **Hook**: `lib/hooks/useCelebrations.ts`
 - **Component**: `app/dashboard/celebrations/CelebrationModal.tsx`
 - **Library**: `canvas-confetti` for animations
 - **Storage**: `localStorage` to track which milestones have been celebrated
-- **Auto-dismiss**: After 5 seconds
+- **Auto-dismiss**: After 8 seconds (increased from 5s for readability)
 
 ### Features
 - Only shows once per milestone (won't repeat)
-- Confetti animation on appearance
-- Bounce-in animation
+- Confetti animation on appearance (extra bursts for major milestones)
+- Smooth bounce-in animation (fixed opacity bug)
 - Gradient "Awesome! 🎉" button
+- Listens for custom `milestoneAchieved` events from point awards
+
+### Recent Fixes (October 2025)
+- **Animation bug**: Fixed CSS keyframes to keep modal visible (was ending at `opacity: 0`)
+- **Timeout**: Increased from 5s to 8s so users can actually read the message
+- **Confetti trigger**: Fixed detection to properly identify milestone achievements
 
 ## 🏗️ Technical Architecture
 
@@ -201,17 +275,17 @@ Array<{
 }>
 ```
 
-#### `getCategoryMastery(userId)`
+#### `getSolutionTypePreferences(userId)`
 Returns:
 ```typescript
 {
-  explored: Array<{
+  solutionTypes: Array<{
     category: string
-    count: number
-    timeSpent: number
+    ratedCount: number
+    contributedCount: number
+    totalCount: number
   }>
-  unexplored: string[]
-  arenaTime: Record<string, number>
+  totalActivity: number
 }
 ```
 
@@ -223,11 +297,11 @@ Returns:
 - Shows 2×2 grid of stats
 - Renders encouragement messages
 
-**`app/dashboard/mastery/CategoryMastery.tsx`**
-- Shows explored categories with medals
-- Displays time spent per category
-- Lists unexplored opportunities
-- Maps category slugs to display names
+**`app/dashboard/mastery/CategoryMastery.tsx`** (renamed to "How You Solve Problems")
+- Combines ratings and contributions per solution category
+- Shows top 5 solution types with progress bars
+- Displays activity breakdown (rated vs contributed)
+- Locked state with blur effect until 5 total activities
 
 **`app/dashboard/activity/ActivityTimeline.tsx`**
 - Groups activities by date
@@ -286,10 +360,48 @@ useEffect(() => {
 - Touch-friendly buttons
 - Scrollable lists
 
-## 🎨 Styling Patterns
+## 🎨 Design Principles
+
+### 1. No Paternalistic Language
+**CRITICAL RULE**: Never use language that judges, prescribes, or interprets user data.
+
+❌ **DON'T**:
+- "You should spend more time on X"
+- "Warning: low value detected"
+- "Opportunity to improve"
+- Emojis suggesting judgment (⚠️, 💎, etc.)
+
+✅ **DO**:
+- Simple labels: "Time", "Long-term Value"
+- Neutral presentation of facts
+- Let visual design communicate insights
+- Respect user's ability to interpret their own data
+
+### 2. Progressive Disclosure
+- Hide complexity by default
+- Reveal details on user request
+- Reduce cognitive load on initial view
+- Example: Clickable pie chart → detailed breakdown
+
+### 3. Visual Communication
+- Use design elements (bar colors, lengths) to show relationships
+- Minimize explanatory text
+- Let users draw their own conclusions
+- Example: Blue (time) vs green (long-term value) bars
+
+### 4. Single Source of Truth
+- **NEVER** hardcode milestone data
+- Always reference `lib/milestones.ts`
+- Prevents inconsistencies across dashboard sections
+
+### 5. Terminology Precision
+- "Long-term value" not "value" (refers to 6-month retrospective rating)
+- "Time Investment" not "Time Spent" (more neutral)
+- Avoid value judgments in all UI text
 
 ### Color Coding
-- **Blue**: Primary actions, top rankings
+- **Blue**: Time data, primary actions, top rankings
+- **Green**: Long-term value scores
 - **Yellow**: Top category badges
 - **Gradient**: Contribution points card
 - **Gray**: Default/neutral states
@@ -320,9 +432,26 @@ className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
 ## 📖 Related Documentation
 - `/docs/contribution-points-system.md` - Detailed points formula
 - `/lib/services/arena-time-service.ts` - Time tracking service
+- `/lib/milestones.ts` - **SINGLE SOURCE OF TRUTH** for milestone data
 - `/docs/database/schema.md` - Database schema
+- `CLAUDE.md` - General project overview and data architecture
 
 ## 🐛 Debugging
+
+### Previously Solved Issues (for reference)
+
+**Achievement History showing "0 unlocked"** - SOLVED
+- Now has auto-backfill mechanism in `MilestonesCard.tsx` (lines 38-46)
+- Script available: `scripts/backfill-user-milestones.ts`
+
+**Time periods mismatched between sections** - SOLVED
+- Both sections now use all-time by default
+
+**Celebration modal disappearing instantly** - SOLVED
+- Fixed animation keyframes (now ends at `opacity: 1`)
+- Increased timeout from 5s to 8s
+
+**Note**: TypeScript type recursion with user_milestones can occur with Supabase auto-generated types. Workaround: `supabase as unknown as SupabaseClient<any>`
 
 ### Check User Points Calculation
 ```sql
@@ -334,6 +463,18 @@ FROM users
 WHERE email = 'user@example.com';
 ```
 
+### Check Milestone Records
+```sql
+SELECT
+  milestone_key,
+  threshold,
+  points_at_achievement,
+  achieved_at
+FROM user_milestones
+WHERE user_id = 'uuid'
+ORDER BY achieved_at DESC;
+```
+
 ### Check Activity Data
 ```sql
 -- Ratings count
@@ -342,8 +483,29 @@ SELECT COUNT(*) FROM ratings WHERE user_id = 'uuid';
 -- Discussions count
 SELECT COUNT(*) FROM goal_discussions WHERE user_id = 'uuid';
 
--- Time tracking
-SELECT * FROM user_arena_time WHERE user_id = 'uuid';
+-- Time tracking (all-time)
+SELECT arena_name, SUM(seconds_spent) as total_seconds
+FROM user_arena_time
+WHERE user_id = 'uuid'
+GROUP BY arena_name
+ORDER BY total_seconds DESC;
+
+-- Time tracking (last 30 days)
+SELECT arena_name, SUM(seconds_spent) as total_seconds
+FROM user_arena_time
+WHERE user_id = 'uuid'
+  AND date >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY arena_name
+ORDER BY total_seconds DESC;
+```
+
+### Backfill Missing Milestones
+```bash
+# Single user
+npx tsx scripts/backfill-user-milestones.ts user@example.com
+
+# All users
+npx tsx scripts/backfill-user-milestones.ts all
 ```
 
 ### Recalculate All Points

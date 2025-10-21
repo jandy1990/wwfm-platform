@@ -80,7 +80,7 @@ export default function TrendingGoals({ goals }: TrendingGoalsProps) {
       <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-            Trending This Week
+            Goals Trending This Week
           </h2>
           <div className="text-center text-gray-600 dark:text-gray-400">
             <p>Check back soon for trending goals!</p>
@@ -95,7 +95,7 @@ export default function TrendingGoals({ goals }: TrendingGoalsProps) {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-            Trending This Week
+            Goals Trending This Week
           </h2>
           <Link
             href="/browse"

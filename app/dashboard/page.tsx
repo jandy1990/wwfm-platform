@@ -83,7 +83,7 @@ export default function DashboardPage() {
   const loadArenaInsights = async () => {
     if (!user) return
     try {
-      const insights = await getArenaValueInsights(user.id, 30)
+      const insights = await getArenaValueInsights(user.id)
       setArenaInsights(insights)
     } catch (error) {
       console.error('Error loading arena insights:', error)
@@ -164,7 +164,7 @@ export default function DashboardPage() {
             {/* Arena Value Insights */}
             {user && arenaInsights.length > 0 && (
               <div className="mb-8">
-                <ArenaValueInsights insights={arenaInsights} daysAnalyzed={30} />
+                <ArenaValueInsights insights={arenaInsights} />
               </div>
             )}
 

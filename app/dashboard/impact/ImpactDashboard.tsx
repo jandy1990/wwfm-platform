@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { getUserImpactStats } from '@/app/actions/dashboard-data'
+import { getUserPoints, type UserPointsData } from '@/app/actions/get-user-points'
 import { supabase } from '@/lib/database/client'
 
 interface ImpactStats {
@@ -14,14 +15,19 @@ interface ImpactStats {
 
 export function ImpactDashboard() {
   const [stats, setStats] = useState<ImpactStats | null>(null)
+  const [pointsData, setPointsData] = useState<UserPointsData | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function loadData() {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
-        const impactData = await getUserImpactStats(user.id)
+        const [impactData, points] = await Promise.all([
+          getUserImpactStats(user.id),
+          getUserPoints(user.id)
+        ])
         setStats(impactData as ImpactStats)
+        setPointsData(points)
       }
       setLoading(false)
     }
@@ -118,10 +124,10 @@ export function ImpactDashboard() {
         )}
 
         {/* Encouragement for active users */}
-        {hasAnyActivity && stats && stats.contributionPoints < 1000 && (
+        {hasAnyActivity && stats && pointsData?.nextMilestone && (
           <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800/30">
             <p className="text-sm text-blue-800 dark:text-blue-300">
-              <span className="font-semibold">Keep going!</span> You're {1000 - stats.contributionPoints} points away from your first milestone! 🎯
+              <span className="font-semibold">Keep going!</span> You're {pointsData.nextMilestone.threshold - stats.contributionPoints} points away from {pointsData.nextMilestone.emoji} {pointsData.nextMilestone.name}! 🎯
             </p>
           </div>
         )}

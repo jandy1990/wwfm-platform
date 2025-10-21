@@ -1,5 +1,5 @@
   'use client';
-
+// SessionForm - handles session-based solution categories
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Check, X } from 'lucide-react';
@@ -68,7 +68,12 @@ export function SessionForm({
   // Step 1 fields - Universal + Category-specific
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
   const [timeToResults, setTimeToResults] = useState('');
-  const [costType, setCostType] = useState<'per_session' | 'monthly' | 'total' | ''>('');
+
+  // Categories with only per_session cost type (no radio button)
+  const singleCostCategories = ['therapists_counselors', 'coaches_mentors', 'alternative_practitioners', 'doctors_specialists'];
+  const initialCostType = singleCostCategories.includes(category) ? 'per_session' : '';
+
+  const [costType, setCostType] = useState<'per_session' | 'monthly' | 'total' | ''>(initialCostType);
   const [costRange, setCostRange] = useState('');
   const [sessionFrequency, setSessionFrequency] = useState('');
   const [format, setFormat] = useState('');
@@ -467,8 +472,9 @@ export function SessionForm({
         <Label className="text-base font-medium">
           Cost? <span className="text-red-500">*</span>
         </Label>
-        
-        {category !== 'crisis_resources' && (
+
+        {/* Only show radio buttons for categories that support multiple cost types */}
+        {category !== 'crisis_resources' && !singleCostCategories.includes(category) && (
           <div className="flex gap-4" role="radiogroup">
             <label className="flex items-center cursor-pointer">
               <input
@@ -528,6 +534,9 @@ export function SessionForm({
           <div>
             <Label htmlFor="session_frequency">
               {category === 'medical_procedures' ? 'Treatment frequency' : 'Session frequency'}
+              {['therapists_counselors', 'coaches_mentors', 'alternative_practitioners', 'medical_procedures', 'professional_services'].includes(category) && (
+                <span className="text-red-500">*</span>
+              )}
             </Label>
             <Select value={sessionFrequency} onValueChange={setSessionFrequency}>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
@@ -548,7 +557,9 @@ export function SessionForm({
         )}
 
         <div>
-          <Label htmlFor="format">Format</Label>
+          <Label htmlFor="format">
+            Format{category === 'crisis_resources' && <span className="text-red-500">*</span>}
+          </Label>
           <Select value={format} onValueChange={setFormat}>
             <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
               <SelectValue placeholder="Select format" />
@@ -579,8 +590,8 @@ export function SessionForm({
           </Select>
         </div>
 
-        {/* Session length for therapists_counselors REQUIRED */}
-        {category === 'therapists_counselors' && (
+        {/* Session length REQUIRED for therapists, coaches, alternative practitioners */}
+        {['therapists_counselors', 'coaches_mentors', 'alternative_practitioners'].includes(category) && (
           <div>
             <Label htmlFor="session_length">
               Session length <span className="text-red-500">*</span>
@@ -602,8 +613,8 @@ export function SessionForm({
           </div>
         )}
 
-        {/* Session length for other categories OPTIONAL */}
-        {!['crisis_resources', 'medical_procedures', 'therapists_counselors'].includes(category) && (
+        {/* Session length OPTIONAL for doctors and professional services */}
+        {['doctors_specialists', 'professional_services'].includes(category) && (
           <div>
             <Label htmlFor="session_length">Session length</Label>
             <Select value={sessionLength} onValueChange={setSessionLength}>
@@ -625,28 +636,33 @@ export function SessionForm({
 
         {['therapists_counselors', 'doctors_specialists', 'medical_procedures'].includes(category) && (
           <div>
-            <Label htmlFor="insurance_coverage">Insurance coverage</Label>
-            <Select value={insuranceCoverage} onValueChange={setInsuranceCoverage}>
+            <Label htmlFor="insurance_coverage">
+              Insurance coverage
+              {category === 'doctors_specialists' && <span className="text-red-500">*</span>}
+            </Label>
+            <Select value={insuranceCoverage} onValueChange={setInsuranceCoverage} required={category === 'doctors_specialists'}>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Coverage status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Fully covered">Fully covered by insurance</SelectItem>
-                <SelectItem value="Partially covered">Partially covered by insurance</SelectItem>
-                <SelectItem value="Not covered">Not covered by insurance</SelectItem>
-                <SelectItem value="No insurance">No insurance/Self-pay</SelectItem>
-                <SelectItem value="Government program">Covered by government program (Medicare, NHS, provincial coverage, etc.)</SelectItem>
+                <SelectItem value="Fully covered by insurance">Fully covered by insurance</SelectItem>
+                <SelectItem value="Partially covered by insurance">Partially covered by insurance</SelectItem>
+                <SelectItem value="Not covered by insurance">Not covered by insurance</SelectItem>
+                <SelectItem value="No insurance/Self-pay">No insurance/Self-pay</SelectItem>
+                <SelectItem value="Covered by government program (Medicare, NHS, provincial coverage, etc.)">Covered by government program (Medicare, NHS, provincial coverage, etc.)</SelectItem>
                 <SelectItem value="HSA/FSA eligible (US)">HSA/FSA eligible (US)</SelectItem>
               </SelectContent>
             </Select>
           </div>
         )}
 
-        {/* Wait time for doctors OPTIONAL, medical_procedures REQUIRED */}
+        {/* Wait time for doctors REQUIRED, medical_procedures REQUIRED */}
         {category === 'doctors_specialists' && (
           <div>
-            <Label htmlFor="wait_time">Wait time</Label>
-            <Select value={waitTime} onValueChange={setWaitTime}>
+            <Label htmlFor="wait_time">
+              Wait time <span className="text-red-500">*</span>
+            </Label>
+            <Select value={waitTime} onValueChange={setWaitTime} required>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Time to get appointment" />
               </SelectTrigger>
@@ -1030,19 +1046,22 @@ export function SessionForm({
         
         // Category-specific required fields
         let categorySpecificValid = true;
-        
-        if (category === 'therapists_counselors') {
+
+        if (category === 'therapists_counselors' || category === 'coaches_mentors' || category === 'alternative_practitioners') {
+          // These categories require both session_frequency and session_length
           categorySpecificValid = sessionLength !== '' && sessionFrequency !== '';
+        } else if (category === 'doctors_specialists') {
+          // Doctors require wait_time and insurance_coverage (NOT session fields)
+          categorySpecificValid = waitTime !== '' && insuranceCoverage !== '';
         } else if (category === 'medical_procedures') {
           categorySpecificValid = waitTime !== '' && sessionFrequency !== '';
         } else if (category === 'professional_services') {
           categorySpecificValid = specialty !== '' && sessionFrequency !== '';
         } else if (category === 'crisis_resources') {
           categorySpecificValid = responseTime !== '' && format !== '';
-          // Note: crisis_resources doesn't need session_frequency
         } else {
-          // For other categories (coaches, alternative practitioners, etc.)
-          categorySpecificValid = sessionFrequency !== '';
+          // Unknown category - should not happen
+          categorySpecificValid = false;
         }
         
         return universalValid && costValid && categorySpecificValid;

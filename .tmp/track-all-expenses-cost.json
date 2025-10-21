@@ -1,0 +1,68 @@
+{
+  "goalId": "97fe516b-0d28-40a4-9fbb-221e00c31d1d",
+  "goalTitle": "Track all expenses",
+  "timestamp": "2025-10-16T22:45:14.787Z",
+  "summary": {
+    "totalSolutions": 12,
+    "categoriesFound": [
+      "apps_software"
+    ],
+    "totalFieldsChecked": 12,
+    "validFields": 10,
+    "invalidFields": 2,
+    "missingFields": 0,
+    "errorRate": 16.666666666666664
+  },
+  "categoryBreakdown": {
+    "apps_software": {
+      "solutionCount": 12,
+      "requiredFields": [
+        "cost"
+      ],
+      "fieldValidation": {
+        "cost": {
+          "valid": 10,
+          "invalid": 2,
+          "missing": 0,
+          "issues": [
+            "Missing source attribution",
+            "Low diversity: only 1 options (recommend 5-8)",
+            "Single-option distribution - very low diversity",
+            "Overly dominant option: 100%",
+            "Count mismatch: totalReports=1, calculated=2",
+            "Low diversity: only 2 options (recommend 5-8)"
+          ]
+        }
+      }
+    }
+  },
+  "detailedIssues": [
+    {
+      "solutionName": "Tiller Money",
+      "category": "apps_software",
+      "fieldName": "cost",
+      "issues": [
+        "Missing source attribution",
+        "Low diversity: only 1 options (recommend 5-8)",
+        "Single-option distribution - very low diversity",
+        "Overly dominant option: 100%"
+      ],
+      "needsRegeneration": true
+    },
+    {
+      "solutionName": "EveryDollar",
+      "category": "apps_software",
+      "fieldName": "cost",
+      "issues": [
+        "Count mismatch: totalReports=1, calculated=2",
+        "Missing source attribution",
+        "Missing source attribution",
+        "Low diversity: only 2 options (recommend 5-8)"
+      ],
+      "needsRegeneration": true
+    }
+  ],
+  "recommendations": [
+    "HIGH ERROR RATE: 16.7% of fields have issues - consider V3 regeneration"
+  ]
+}

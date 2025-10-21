@@ -81,12 +81,11 @@ export default function TopValueArenas({ arenas }: TopValueArenasProps) {
           <div className="flex items-center justify-center gap-2 mb-3">
             <Sparkles className="w-6 h-6 text-purple-600 dark:text-purple-400" />
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-              Life Areas with Most Lasting Impact
+              Life Areas with Lasting Impact
             </h2>
           </div>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Based on AI analysis of training data, these arenas show the most enduring benefits
-            6+ months after people achieve their goals. Scores will transition to human retrospective data as users report back.
+            Ranked by long-term benefit 6+ months after goal achievement
           </p>
         </div>
 

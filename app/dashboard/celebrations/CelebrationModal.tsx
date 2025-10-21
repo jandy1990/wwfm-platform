@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Milestone } from '@/lib/hooks/useCelebrations'
 import { Milestone as PointsMilestone } from '@/app/actions/award-points'
+import { MILESTONES } from '@/lib/milestones'
 import confetti from 'canvas-confetti'
 
 interface CelebrationModalProps {
@@ -26,8 +27,9 @@ export function CelebrationModal({ milestone, onDismiss }: CelebrationModalProps
         origin: { y: 0.6 }
       })
 
-      // Extra confetti for major milestones
-      if ([1000, 2000, 3500, 5000, 7500, 10000].includes(achieved.threshold)) {
+      // Extra confetti for major milestones (pathfinder and above)
+      const majorMilestoneThresholds = MILESTONES.filter(m => m.threshold >= 1000).map(m => m.threshold)
+      if (majorMilestoneThresholds.includes(achieved.threshold)) {
         setTimeout(() => {
           confetti({
             particleCount: 50,
@@ -44,8 +46,8 @@ export function CelebrationModal({ milestone, onDismiss }: CelebrationModalProps
         }, 250)
       }
 
-      // Auto-dismiss after 5 seconds
-      setTimeout(() => setPointsMilestone(null), 5000)
+      // Auto-dismiss after 8 seconds (gives users time to read)
+      setTimeout(() => setPointsMilestone(null), 8000)
     }
 
     window.addEventListener('milestoneAchieved', handleMilestoneAchieved as EventListener)
@@ -121,8 +123,7 @@ export function CelebrationModal({ milestone, onDismiss }: CelebrationModalProps
           }
         }
         @keyframes bounce-once {
-          0%,
-          100% {
+          0% {
             transform: translateY(0) scale(0.95);
             opacity: 0;
           }
@@ -132,6 +133,11 @@ export function CelebrationModal({ milestone, onDismiss }: CelebrationModalProps
           }
           75% {
             transform: translateY(5px) scale(1.02);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
           }
         }
         .animate-fadeIn {
