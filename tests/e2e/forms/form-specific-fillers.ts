@@ -259,27 +259,27 @@ export async function fillAppForm(page: Page) {
   
   // Wait a moment for the selection to register
   await page.waitForTimeout(500)
-  
-  // Select time to results (first select on page)
-  const timeSelect = page.locator('select:visible').first()
+
+  // Select time to results - use semantic selector based on placeholder text
+  const timeSelect = page.locator('select').filter({ hasText: 'Select timeframe' })
   await timeSelect.selectOption('1-2 weeks')
   console.log('Selected time to results: 1-2 weeks')
-  
-  // Select usage frequency (second select on page)
-  const frequencySelect = page.locator('select:visible').nth(1)
+
+  // Select usage frequency - use semantic selector based on placeholder text
+  const frequencySelect = page.locator('select').filter({ hasText: 'Select frequency' })
   await frequencySelect.selectOption('Daily')
   console.log('Selected usage frequency: Daily')
-  
-  // Select subscription type (third select on page)
-  const subscriptionSelect = page.locator('select:visible').nth(2)
+
+  // Select subscription type - use semantic selector based on placeholder text
+  const subscriptionSelect = page.locator('select').filter({ hasText: 'Select type' })
   await subscriptionSelect.selectOption('Monthly subscription')
   console.log('Selected subscription type: Monthly subscription')
-  
+
   // Wait for cost dropdown to appear (it's conditional based on subscription type)
   await page.waitForTimeout(500)
-  
-  // Select cost (fourth select, only visible for non-free subscriptions)
-  const costSelect = page.locator('select:visible').nth(3)
+
+  // Select cost - use semantic selector based on placeholder text
+  const costSelect = page.locator('select').filter({ hasText: 'Select cost' })
   if (await costSelect.isVisible()) {
     await costSelect.selectOption('$10-$19.99/month')
     console.log('Selected cost: $10-$19.99/month')
