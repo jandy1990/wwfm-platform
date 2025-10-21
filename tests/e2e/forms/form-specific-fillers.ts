@@ -446,41 +446,35 @@ export async function fillHobbyForm(page: Page) {
     await page.waitForTimeout(500)
   }
   
-  // Time to results dropdown
-  const timeSelects = await page.locator('select').all()
-  if (timeSelects.length >= 1) {
-    console.log('Selecting time to results')
-    await timeSelects[0].selectOption('1-2 weeks')
-    await page.waitForTimeout(300)
-  }
-  
-  // Select startup cost
-  if (timeSelects.length >= 2) {
-    console.log('Selecting startup cost')
-    await timeSelects[1].selectOption('$50-$100')
-    await page.waitForTimeout(300)
-  }
-  
-  // Select ongoing cost
-  if (timeSelects.length >= 3) {
-    console.log('Selecting ongoing cost')
-    await timeSelects[2].selectOption('Under $25/month')
-    await page.waitForTimeout(300)
-  }
-  
-  // Time investment
-  if (timeSelects.length >= 4) {
-    console.log('Selecting time investment')
-    await timeSelects[3].selectOption('1-2 hours')
-    await page.waitForTimeout(300)
-  }
-  
-  // Frequency
-  if (timeSelects.length >= 5) {
-    console.log('Selecting frequency')
-    await timeSelects[4].selectOption('Daily')
-    await page.waitForTimeout(300)
-  }
+  // Time to results - native select with placeholder "Select timeframe"
+  const timeToResultsSelect = page.locator('select').filter({ hasText: 'Select timeframe' })
+  console.log('Selecting time to results')
+  await timeToResultsSelect.selectOption('1-2 weeks')
+  await page.waitForTimeout(300)
+
+  // Startup cost - native select with placeholder "Select startup cost"
+  const startupCostSelect = page.locator('select').filter({ hasText: 'Select startup cost' })
+  console.log('Selecting startup cost')
+  await startupCostSelect.selectOption('$50-$100')
+  await page.waitForTimeout(300)
+
+  // Ongoing cost - native select with placeholder "Select monthly cost"
+  const ongoingCostSelect = page.locator('select').filter({ hasText: 'Select monthly cost' })
+  console.log('Selecting ongoing cost')
+  await ongoingCostSelect.selectOption('Under $25/month')
+  await page.waitForTimeout(300)
+
+  // Time commitment - navigate from label "Time per session?" to avoid duplicate "Select time"
+  const timeCommitmentSelect = page.locator('label').filter({ hasText: 'Time per session?' }).locator('..').locator('select')
+  console.log('Selecting time investment')
+  await timeCommitmentSelect.selectOption('1-2 hours')
+  await page.waitForTimeout(300)
+
+  // Frequency - native select with placeholder "Select frequency"
+  const frequencySelect = page.locator('select').filter({ hasText: 'Select frequency' })
+  console.log('Selecting frequency')
+  await frequencySelect.selectOption('Daily')
+  await page.waitForTimeout(300)
   
   // Click Continue to Step 2
   console.log('Clicking Continue to Step 2')
