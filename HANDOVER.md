@@ -105,36 +105,24 @@ Successfully migrated **8 brittle selectors** to semantic patterns and achieved 
 
 ---
 
-## 🎬 NEXT ACTIONS (Task 2.1 - START HERE)
+## 🎬 NEXT ACTIONS (Task 3.1 - START HERE)
 
-### Immediate Next Step: DosageForm Selector Migration
+### Immediate Next Step: SessionForm Selector Migration
+
+**Complexity**: SessionForm has **15+ brittle selectors** across **7 category variations** (therapists_counselors, doctors_specialists, coaches_mentors, alternative_practitioners, professional_services, crisis_resources, medical_procedures)
 
 **File to Edit**: `tests/e2e/forms/form-specific-fillers.ts`
 
 **Lines to Update** (from selector-audit.md):
-- Line 137: `page.locator('select').nth(0)` → Unit selector
-- Line 143: `page.locator('select').nth(1)` → Frequency selector
-- Line 149: `page.locator('select').nth(2)` → Length of use selector
-- Line 170-188: beauty_skincare specific selectors
+- SessionForm function starts around line 575
+- Multiple `.nth()` selectors for session frequency, session length, cost, etc.
+- Category-specific variations for medical vs therapy vs crisis resources
 
-**Recommended Semantic Selectors** (from label-mapping.md):
-```typescript
-// Non-beauty categories
-const unitSelect = page.locator('label').filter({ hasText: 'Unit' }).locator('..').locator('select')
-const frequencySelect = page.locator('label').filter({ hasText: 'How often?' }).locator('..').locator('select')
-const lengthSelect = page.locator('label').filter({ hasText: /How long did you use it\?/ }).locator('..').locator('select')
-const timeSelect = page.locator('label').filter({ hasText: 'When did you notice results?' }).locator('..').locator('select')
-
-// Beauty/skincare (use section scoping for duplicate labels)
-const skincareFrequencySelect = page.locator('text=Application details').locator('..').locator('label:has-text("How often")').locator('..').locator('select')
-```
-
-### Step-by-Step Process (Task 2.1-2.4):
-1. **Update selectors** in `form-specific-fillers.ts` lines 137-188
-2. **Test with old component**: `PLAYWRIGHT_TEST_BASE_URL=http://localhost:3000 npx playwright test dosage-form-complete --project=chromium`
-3. **Verify all 4 categories pass**: medications, supplements_vitamins, natural_remedies, beauty_skincare
-4. **Run 3 times** to check consistency
-5. **Commit**: `git commit -m "test: update DosageForm selectors to semantic patterns"`
+**Step-by-Step Process (Tasks 3.1-3.4)**:
+1. **Map SessionForm labels**: Read `components/organisms/solutions/forms/SessionForm.tsx` to identify exact label text for each category
+2. **Update selectors**: Replace `.nth()` with semantic `label:has-text()` patterns in `form-specific-fillers.ts`
+3. **Test**: `PLAYWRIGHT_TEST_BASE_URL=http://localhost:3000 npx playwright test session-form --project=chromium`
+4. **Commit**: `git commit -m "test: update SessionForm selectors to semantic patterns"`
 
 ---
 
@@ -200,15 +188,15 @@ If needed: `npx playwright install chromium`
 
 ---
 
-## 🗺️ PHASE 1 ROADMAP
+## 🗺️ PHASE 0 ROADMAP
 
-### Where We Are: 11% Complete (Pre-Work Done)
+### Where We Are: 26% Complete (DosageForm Done)
 ```
-[■■■░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 4/35 tasks (11%)
+[■■■■■■■■■░░░░░░░░░░░░░░░░░░░░░░░░░░] 9/35 tasks (26%)
 
-Pre-Work     ████ DONE (4/4)
-DosageForm   ░░░░ TODO (0/4) ← YOU ARE HERE
-SessionForm  ░░░░ TODO (0/4)
+Pre-Work     ████ DONE (4/4) ✅
+DosageForm   █████ DONE (5/5) ✅
+SessionForm  ░░░░ TODO (0/4) ← YOU ARE HERE
 AppForm      ░░░ TODO (0/3)
 FinancialForm ░░░ TODO (0/3)
 PracticeForm ░░░ TODO (0/3)
@@ -218,12 +206,11 @@ Testing      ░░░░ TODO (0/4)
 Docs         ░░░ TODO (0/3)
 ```
 
-### Estimated Time Remaining: 6.5-8.5 hours
-- DosageForm: 1 hour
-- SessionForm: 1.5 hours
+### Estimated Time Remaining: 5.5-7.5 hours
+- SessionForm: 1.5 hours (15+ selectors, 7 category variations)
 - Other forms: 2.5 hours
 - Helper utilities: 1 hour
-- Testing & docs: 2 hours
+- Testing & docs: 1.5 hours
 
 ---
 
@@ -342,21 +329,31 @@ git commit -m "test: update DosageForm selectors to semantic patterns"
 
 ## ⏭️ NEXT SESSION STARTS HERE
 
+### Task 3.1: Map SessionForm Labels to Semantic Selectors
+
+**Objective**: Identify exact label text for all SessionForm dropdown fields across 7 category variations
+
+**Step 1**: Read `components/organisms/solutions/forms/SessionForm.tsx` to map labels
+**Step 2**: Document label text for each category in `tests/e2e/label-mapping.md`
+**Step 3**: Note any duplicate labels or nested structures (like DosageForm had)
+
+**Categories to Map**:
+- therapists_counselors (session_frequency, session_length)
+- doctors_specialists (session_frequency, wait_time)
+- coaches_mentors (session_frequency, session_length)
+- alternative_practitioners (session_frequency, session_length)
+- professional_services (session_frequency, session_length)
+- crisis_resources (response_time)
+- medical_procedures (session_frequency, wait_time)
+
+**Expected Pattern** (based on DosageForm learnings):
 ```typescript
-// Task 2.1: Update DosageForm Selectors
-
-// Current (BRITTLE):
-const unitSelect = page.locator('select').nth(0)  // Line 137
-
-// New (SEMANTIC):
-const unitSelect = page.locator('label').filter({ hasText: 'Unit' }).locator('..').locator('select')
-
-// Apply this pattern to all 8 DosageForm selectors
-// Reference: tests/e2e/label-mapping.md for exact labels
+// SessionForm selector pattern (to be confirmed):
+const sessionFrequencySelect = page.locator('label:has-text("How often")').locator('..').locator('select')
 ```
 
-**File**: `/tests/e2e/forms/form-specific-fillers.ts`
-**Function**: `fillDosageForm()` starting line ~82
-**Action**: Replace lines 137, 143, 149, 170, 176, 182, 188
+**File to Read**: `/components/organisms/solutions/forms/SessionForm.tsx`
+**File to Update**: `tests/e2e/forms/form-specific-fillers.ts` (lines ~575-822)
+**Reference**: See DosageForm patterns in lines 131-189 for examples
 
 **Good luck! 🚀**
