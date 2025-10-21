@@ -127,8 +127,8 @@ export async function fillDosageForm(page: Page, category: string) {
       timeToResultsValue = 'Immediately'  // Essential oils work quickly
     }
     
-    // Fill dosage amount
-    const doseInput = page.locator('input[type="text"]').first()
+    // Fill dosage amount (semantic selector: find label, navigate to input)
+    const doseInput = page.locator('label:has-text("Amount")').locator('..').locator('input')
     await doseInput.fill(dosageAmount)
     console.log(`Entered dosage amount: ${dosageAmount}`)
     await page.waitForTimeout(300)

@@ -1,6 +1,6 @@
 // components/solutions/forms/DosageForm.tsx
 'use client';
-
+// Force recompile
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 // import { supabase } from '@/lib/database/client'; // Removed: unused after migrating to server actions
@@ -105,7 +105,10 @@ export function DosageForm({
   const [lengthOfUse, setLengthOfUse] = useState('');
   
   // Cost field (moved to success screen)
-  const [costType, setCostType] = useState<'monthly' | 'one_time' | ''>('');
+  // Medications are always one-time purchases; other categories can toggle
+  const [costType, setCostType] = useState<'monthly' | 'one_time' | ''>(
+    category === 'medications' ? 'one_time' : ''
+  );
   const [costRange, setCostRange] = useState('');
   
   // Step 2 fields - Side Effects
@@ -297,11 +300,11 @@ export function DosageForm({
   const canProceedToNextStep = () => {
     switch (currentStep) {
       case 1: // Dosage, Effectiveness, TTR
-        const dosageValid = category === 'beauty_skincare' 
+        const dosageValid = category === 'beauty_skincare'
           ? skincareFrequency !== ''
-          : doseAmount !== '' && 
+          : doseAmount !== '' &&
             parseFloat(doseAmount) > 0 &&  // Ensure positive number
-            (doseUnit !== '' || (showCustomUnit && customUnit !== '')) && 
+            (doseUnit !== '' || (showCustomUnit && customUnit !== '')) &&
             frequency !== '';
         const effectivenessValid = effectiveness !== null && timeToResults !== '' && lengthOfUse !== '';
         return dosageValid && effectivenessValid;
@@ -321,13 +324,10 @@ export function DosageForm({
     setIsSubmitting(true);
     
     try {
-      // Determine cost type - dosage items are typically recurring purchases
-      const costType = costRange === 'dont_remember' || !costRange ? undefined : 'recurring';
-      
       // Prepare solution fields for storage
       // Only include fields that user has actually filled (no phantom fields)
       const solutionFields: Record<string, unknown> = {}
-      
+
       // Add fields only if they have values
       if (category !== 'beauty_skincare' && frequency) {
         solutionFields.frequency = frequency
@@ -344,7 +344,10 @@ export function DosageForm({
       }
       if (costRange && costRange !== 'dont_remember') {
         solutionFields.cost = costRange
-        solutionFields.cost_type = costType
+        // Store the actual cost type selection for validation
+        solutionFields.dosage_cost_type = costType  // 'monthly' or 'one_time'
+        // Legacy field for backwards compatibility
+        solutionFields.cost_type = costType === 'one_time' ? 'one_time' : 'recurring'
       }
       // REMOVED phantom fields: brand, form_factor, notes (shown on success screen)
 
@@ -483,7 +486,7 @@ export function DosageForm({
                     <div className="flex items-center gap-2">
                       <span className="text-lg">⏱️</span>
                       <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        When did you notice results?
+                        When did you notice results? <span className="text-red-500">*</span>
                       </label>
                     </div>
                     <select
@@ -767,7 +770,7 @@ export function DosageForm({
                     <div className="flex items-center gap-2">
                       <span className="text-lg">⏱️</span>
                       <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        When did you notice results?
+                        When did you notice results? <span className="text-red-500">*</span>
                       </label>
                     </div>
                     <select
@@ -1046,28 +1049,31 @@ export function DosageForm({
               {/* Cost section */}
               <div>
                 <label className="text-xs text-gray-600 dark:text-gray-400 mb-1 block">Cost</label>
-                <div className="flex gap-2 mb-2">
-                  <button
-                    onClick={() => setCostType('monthly')}
-                    className={`flex-1 py-1.5 px-3 rounded text-xs font-medium transition-colors ${
-                      costType === 'monthly'
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                    }`}
-                  >
-                    Monthly
-                  </button>
-                  <button
-                    onClick={() => setCostType('one_time')}
-                    className={`flex-1 py-1.5 px-3 rounded text-xs font-medium transition-colors ${
-                      costType === 'one_time'
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                    }`}
-                  >
-                    One-time
-                  </button>
-                </div>
+                {/* Only show toggle for non-medication categories */}
+                {category !== 'medications' && (
+                  <div className="flex gap-2 mb-2">
+                    <button
+                      onClick={() => setCostType('monthly')}
+                      className={`flex-1 py-1.5 px-3 rounded text-xs font-medium transition-colors ${
+                        costType === 'monthly'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                      }`}
+                    >
+                      Monthly
+                    </button>
+                    <button
+                      onClick={() => setCostType('one_time')}
+                      className={`flex-1 py-1.5 px-3 rounded text-xs font-medium transition-colors ${
+                        costType === 'one_time'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                      }`}
+                    >
+                      One-time
+                    </button>
+                  </div>
+                )}
                 <select
                   value={costRange}
                   onChange={(e) => setCostRange(e.target.value)}
