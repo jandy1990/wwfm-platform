@@ -1127,42 +1127,44 @@ export async function fillPracticeForm(page: Page, category: string) {
   }
   await page.waitForTimeout(500)
   
-  // Select time to results (first select after effectiveness)
-  const timeSelect = page.locator('select').nth(0)
+  // Select time to results (first select after effectiveness) - SEMANTIC SELECTOR
+  const timeSelect = page.locator('select').filter({ hasText: 'Select timeframe' })
   await timeSelect.selectOption('1-2 weeks')
   console.log('Selected time to results: 1-2 weeks')
   await page.waitForTimeout(300)
   
-  // Select startup cost (second select)
-  const startupSelect = page.locator('select').nth(1)
+  // Select startup cost (second select) - SEMANTIC SELECTOR
+  const startupSelect = page.locator('select').filter({ hasText: 'Select startup cost' })
   await startupSelect.selectOption('Free/No startup cost')
   console.log('Selected startup cost: Free/No startup cost')
   await page.waitForTimeout(300)
-  
-  // Select ongoing cost (third select)
-  const ongoingSelect = page.locator('select').nth(2)
+
+  // Select ongoing cost (third select) - SEMANTIC SELECTOR
+  const ongoingSelect = page.locator('select').filter({ hasText: 'Select ongoing cost' })
   await ongoingSelect.selectOption('Free/No ongoing cost')
   console.log('Selected ongoing cost: Free/No ongoing cost')
   await page.waitForTimeout(300)
-  
-  // Select frequency (fourth select)
-  const frequencySelect = page.locator('select').nth(3)
+
+  // Select frequency (fourth select) - SEMANTIC SELECTOR
+  const frequencySelect = page.locator('select').filter({ hasText: 'Select frequency' })
   await frequencySelect.selectOption('3-4 times per week')
   console.log('Selected frequency: 3-4 times per week')
   await page.waitForTimeout(300)
   
-  // Category-specific field (fifth select)
-  const categorySelect = page.locator('select').nth(4)
+  // Category-specific field (fifth select) - SEMANTIC SELECTOR
   if (category === 'meditation_mindfulness') {
     // Practice length for meditation
+    const categorySelect = page.locator('select').filter({ hasText: 'Select practice length' })
     await categorySelect.selectOption('10-20 minutes')
     console.log('Selected practice length: 10-20 minutes')
   } else if (category === 'exercise_movement') {
     // Session duration for exercise
+    const categorySelect = page.locator('select').filter({ hasText: 'Select duration' })
     await categorySelect.selectOption('30-45 minutes')
     console.log('Selected session duration: 30-45 minutes')
   } else if (category === 'habits_routines') {
     // Daily time commitment for habits
+    const categorySelect = page.locator('select').filter({ hasText: 'Select time commitment' })
     await categorySelect.selectOption('10-20 minutes')
     console.log('Selected daily time commitment: 10-20 minutes')
   }
