@@ -1527,14 +1527,16 @@ export async function fillLifestyleForm(page: Page, category: string) {
   }
   await page.waitForTimeout(500)
   
-  // Select time to results (required) - look for select containing "Select timeframe" option
-  const timeSelect = page.locator('select').nth(0) // First select after effectiveness rating
+  // Select time to results (required) using semantic selector
+  const timeSelect = page.locator('select').filter({ hasText: 'Select timeframe' })
   await timeSelect.selectOption('1-2 weeks')
   console.log('Selected time to results: 1-2 weeks')
   await page.waitForTimeout(300)
-  
-  // Select cost impact (required) - second select element
-  const costSelect = page.locator('select').nth(1)
+
+  // Select cost impact (required) using semantic selector with conditional placeholder
+  const costSelect = page.locator('select').filter({
+    hasText: category === 'diet_nutrition' ? 'Compared to previous diet' : 'Any costs'
+  })
   if (category === 'diet_nutrition') {
     await costSelect.selectOption('About the same')
     console.log('Selected cost impact: About the same')
@@ -1543,16 +1545,16 @@ export async function fillLifestyleForm(page: Page, category: string) {
     console.log('Selected cost impact: Free')
   }
   await page.waitForTimeout(300)
-  
-  // Category-specific required fields
+
+  // Category-specific required fields using semantic selectors
   if (category === 'diet_nutrition') {
-    // Weekly prep time (required for diet_nutrition) - third select element
-    const prepTimeSelect = page.locator('select').nth(2)
+    // Weekly prep time (required for diet_nutrition)
+    const prepTimeSelect = page.locator('select').filter({ hasText: 'Time spent on meal planning' })
     await prepTimeSelect.selectOption('1-2 hours/week')
     console.log('Selected weekly prep time: 1-2 hours/week')
   } else if (category === 'sleep') {
-    // Previous sleep hours (required for sleep) - third select element
-    const sleepSelect = page.locator('select').nth(2)
+    // Previous sleep hours (required for sleep)
+    const sleepSelect = page.locator('select').filter({ hasText: 'Before this change' })
     await sleepSelect.selectOption('6-7 hours')
     console.log('Selected previous sleep hours: 6-7 hours')
   }
