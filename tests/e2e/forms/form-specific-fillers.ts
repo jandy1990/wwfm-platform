@@ -1379,49 +1379,49 @@ export async function fillCommunityForm(page: Page, category: string) {
   }
   await page.waitForTimeout(500)
   
-  // Select time to results using Select component (1st Select component)
+  // Select time to results using semantic selector
   await page.waitForTimeout(1000)
-  const timeSelect = page.locator('button[role="combobox"]').first()
+  const timeSelect = page.locator('button[role="combobox"]').filter({ hasText: 'Select timeframe' })
   await timeSelect.click()
   await page.waitForTimeout(300)
   await page.click('text="1-2 weeks"')
   console.log('Selected time to results: 1-2 weeks')
   await page.waitForTimeout(300)
-  
-  // Select payment frequency FIRST (2nd Select component) - REQUIRED before cost range appears!
-  const paymentSelect = page.locator('button[role="combobox"]').nth(1)
+
+  // Select payment frequency FIRST - REQUIRED before cost range appears!
+  const paymentSelect = page.locator('button[role="combobox"]').filter({ hasText: 'How do you pay' })
   await paymentSelect.click()
   await page.waitForTimeout(300)
   await page.click('text="Free or donation-based"')
   console.log('Selected payment frequency: Free or donation-based')
   await page.waitForTimeout(500)
-  
-  // Select cost range (3rd Select component - appears after payment frequency is selected)
-  const costRangeSelect = page.locator('button[role="combobox"]').nth(2)
+
+  // Select cost range (appears after payment frequency is selected)
+  const costRangeSelect = page.locator('button[role="combobox"]').filter({ hasText: 'Select type' })
   await costRangeSelect.click()
   await page.waitForTimeout(300)
   await page.click('text="Free"')
   console.log('Selected cost range: Free')
   await page.waitForTimeout(500)
-  
-  // Select meeting frequency (4th Select component)
-  const meetingSelect = page.locator('button[role="combobox"]').nth(3)
+
+  // Select meeting frequency
+  const meetingSelect = page.locator('button[role="combobox"]').filter({ hasText: 'How often' })
   await meetingSelect.click()
   await page.waitForTimeout(300)
   await page.click('text="Weekly"')
   console.log('Selected meeting frequency: Weekly')
   await page.waitForTimeout(500)
-  
-  // Select format (5th Select component)
-  const formatSelect = page.locator('button[role="combobox"]').nth(4)
+
+  // Select format
+  const formatSelect = page.locator('button[role="combobox"]').filter({ hasText: 'Meeting format' })
   await formatSelect.click()
   await page.waitForTimeout(300)
   await page.click('text="Online only"')
   console.log('Selected format: Online only')
   await page.waitForTimeout(500)
-  
-  // Select group size (6th Select component)
-  const groupSizeSelect = page.locator('button[role="combobox"]').nth(5)
+
+  // Select group size
+  const groupSizeSelect = page.locator('button[role="combobox"]').filter({ hasText: 'How many people' })
   await groupSizeSelect.click()
   await page.waitForTimeout(300)
   await page.locator('[role="option"]').first().click()
