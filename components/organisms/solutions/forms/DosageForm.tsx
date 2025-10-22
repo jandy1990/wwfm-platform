@@ -1,15 +1,16 @@
 // components/solutions/forms/DosageForm.tsx
 'use client';
-
+// Force recompile
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 // import { supabase } from '@/lib/database/client'; // Removed: unused after migrating to server actions
 import { ChevronLeft, Check, X, Plus } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { FormSectionHeader } from './shared';
+import { FormSectionHeader } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
 
 interface DosageFormProps {
   goalId: string;
@@ -78,6 +79,7 @@ export function DosageForm({
   onBack
 }: DosageFormProps) {
   const router = useRouter();
+  const { triggerPoints } = usePointsAnimation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
@@ -103,7 +105,10 @@ export function DosageForm({
   const [lengthOfUse, setLengthOfUse] = useState('');
   
   // Cost field (moved to success screen)
-  const [costType, setCostType] = useState<'monthly' | 'one_time' | ''>('');
+  // Medications are always one-time purchases; other categories can toggle
+  const [costType, setCostType] = useState<'monthly' | 'one_time' | ''>(
+    category === 'medications' ? 'one_time' : ''
+  );
   const [costRange, setCostRange] = useState('');
   
   // Step 2 fields - Side Effects
@@ -142,7 +147,7 @@ export function DosageForm({
   };
 
   // Use the backup hook
-  const { clearBackup, hasBackup } = useFormBackup(
+  const { clearBackup } = useFormBackup(
     `dosage-form-${goalId}-${category}`,
     formBackupData,
     {
@@ -240,26 +245,6 @@ export function DosageForm({
     return result;
   };
 
-  const calculateDailyDose = () => {
-    if (!doseAmount || !frequency || category === 'beauty_skincare' || frequency === 'as needed') return null;
-    
-    const amount = parseFloat(doseAmount);
-    if (isNaN(amount)) return null;
-    
-    const multipliers: Record<string, number> = {
-      'once daily': 1,
-      'twice daily': 2,
-      'three times daily': 3,
-      'four times daily': 4,
-      'every other day': 0.5,
-      'twice weekly': 0.285,
-      'weekly': 0.143,
-      'monthly': 0.033
-    };
-    
-    return multipliers[frequency] ? amount * multipliers[frequency] : null;
-  };
-
   // Category-specific side effects
   const sideEffectOptions = {
     supplements_vitamins: [
@@ -315,11 +300,11 @@ export function DosageForm({
   const canProceedToNextStep = () => {
     switch (currentStep) {
       case 1: // Dosage, Effectiveness, TTR
-        const dosageValid = category === 'beauty_skincare' 
+        const dosageValid = category === 'beauty_skincare'
           ? skincareFrequency !== ''
-          : doseAmount !== '' && 
+          : doseAmount !== '' &&
             parseFloat(doseAmount) > 0 &&  // Ensure positive number
-            (doseUnit !== '' || (showCustomUnit && customUnit !== '')) && 
+            (doseUnit !== '' || (showCustomUnit && customUnit !== '')) &&
             frequency !== '';
         const effectivenessValid = effectiveness !== null && timeToResults !== '' && lengthOfUse !== '';
         return dosageValid && effectivenessValid;
@@ -339,13 +324,10 @@ export function DosageForm({
     setIsSubmitting(true);
     
     try {
-      // Determine cost type - dosage items are typically recurring purchases
-      const costType = costRange === 'dont_remember' || !costRange ? undefined : 'recurring';
-      
       // Prepare solution fields for storage
       // Only include fields that user has actually filled (no phantom fields)
-      const solutionFields: Record<string, any> = {}
-      
+      const solutionFields: Record<string, unknown> = {}
+
       // Add fields only if they have values
       if (category !== 'beauty_skincare' && frequency) {
         solutionFields.frequency = frequency
@@ -362,7 +344,10 @@ export function DosageForm({
       }
       if (costRange && costRange !== 'dont_remember') {
         solutionFields.cost = costRange
-        solutionFields.cost_type = costType
+        // Store the actual cost type selection for validation
+        solutionFields.dosage_cost_type = costType  // 'monthly' or 'one_time'
+        // Legacy field for backwards compatibility
+        solutionFields.cost_type = costType === 'one_time' ? 'one_time' : 'recurring'
       }
       // REMOVED phantom fields: brand, form_factor, notes (shown on success screen)
 
@@ -405,7 +390,14 @@ export function DosageForm({
         
         // Clear backup on successful submission
         clearBackup();
-        
+
+        // Trigger points animation
+        triggerPoints({
+          userId,
+          points: 15,
+          reason: 'Shared your experience'
+        });
+
         // Show success screen
         setShowSuccessScreen(true);
       } else {
@@ -494,7 +486,7 @@ export function DosageForm({
                     <div className="flex items-center gap-2">
                       <span className="text-lg">⏱️</span>
                       <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        When did you notice results?
+                        When did you notice results? <span className="text-red-500">*</span>
                       </label>
                     </div>
                     <select
@@ -778,7 +770,7 @@ export function DosageForm({
                     <div className="flex items-center gap-2">
                       <span className="text-lg">⏱️</span>
                       <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        When did you notice results?
+                        When did you notice results? <span className="text-red-500">*</span>
                       </label>
                     </div>
                     <select
@@ -947,7 +939,7 @@ export function DosageForm({
             <FormSectionHeader
               icon="🔍"
               title="What else did you try?"
-              bgColor="bg-purple-100 dark:bg-purple-900"
+              bgColorClassName="bg-purple-100 dark:bg-purple-900"
             />
             
             <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 
@@ -987,7 +979,7 @@ export function DosageForm({
 
   const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (brand && brand.trim()) additionalFields.brand = brand.trim();
     if (form && form.trim()) additionalFields.form = form.trim();
@@ -1057,28 +1049,31 @@ export function DosageForm({
               {/* Cost section */}
               <div>
                 <label className="text-xs text-gray-600 dark:text-gray-400 mb-1 block">Cost</label>
-                <div className="flex gap-2 mb-2">
-                  <button
-                    onClick={() => setCostType('monthly')}
-                    className={`flex-1 py-1.5 px-3 rounded text-xs font-medium transition-colors ${
-                      costType === 'monthly'
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                    }`}
-                  >
-                    Monthly
-                  </button>
-                  <button
-                    onClick={() => setCostType('one_time')}
-                    className={`flex-1 py-1.5 px-3 rounded text-xs font-medium transition-colors ${
-                      costType === 'one_time'
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                    }`}
-                  >
-                    One-time
-                  </button>
-                </div>
+                {/* Only show toggle for non-medication categories */}
+                {category !== 'medications' && (
+                  <div className="flex gap-2 mb-2">
+                    <button
+                      onClick={() => setCostType('monthly')}
+                      className={`flex-1 py-1.5 px-3 rounded text-xs font-medium transition-colors ${
+                        costType === 'monthly'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                      }`}
+                    >
+                      Monthly
+                    </button>
+                    <button
+                      onClick={() => setCostType('one_time')}
+                      className={`flex-1 py-1.5 px-3 rounded text-xs font-medium transition-colors ${
+                        costType === 'one_time'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                      }`}
+                    >
+                      One-time
+                    </button>
+                  </div>
+                )}
                 <select
                   value={costRange}
                   onChange={(e) => setCostRange(e.target.value)}

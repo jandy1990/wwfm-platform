@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { createClient } from '@/lib/database/client'
 import AddDiscussionForm from './AddDiscussionForm'
 
@@ -37,7 +37,7 @@ export default function CommunityDiscussions({ goalId, goalTitle, sortBy = 'newe
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [userVotes, setUserVotes] = useState<Set<string>>(new Set())
 
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
 
   // Get current user and their votes
   useEffect(() => {
@@ -58,10 +58,10 @@ export default function CommunityDiscussions({ goalId, goalTitle, sortBy = 'newe
       }
     }
     getUser()
-  }, [goalId])
+  }, [goalId, supabase])
 
   // Fetch discussions for this goal
-  const fetchDiscussions = async () => {
+  const fetchDiscussions = useCallback(async () => {
     setIsLoading(true)
     
     const { data, error } = await supabase
@@ -106,7 +106,7 @@ export default function CommunityDiscussions({ goalId, goalTitle, sortBy = 'newe
     }
     
     setIsLoading(false)
-  }
+  }, [goalId, sortBy, supabase])
 
   // Handle upvote/un-upvote
   const handleUpvote = async (discussionId: string, currentUpvotes: number) => {
@@ -191,11 +191,11 @@ export default function CommunityDiscussions({ goalId, goalTitle, sortBy = 'newe
   }
 
   // Handle new discussion/reply
-  const handleNewPost = () => {
+  const handleNewPost = useCallback(() => {
     fetchDiscussions() // Refresh discussions
     setShowAddForm(false)
     setReplyToId(null)
-  }
+  }, [fetchDiscussions])
 
   // Handle edit post
   const handleEdit = (discussionId: string, currentContent: string) => {
@@ -272,7 +272,7 @@ export default function CommunityDiscussions({ goalId, goalTitle, sortBy = 'newe
 
   useEffect(() => {
     fetchDiscussions()
-  }, [goalId, sortBy])
+  }, [fetchDiscussions])
 
   if (isLoading) {
     return (
@@ -286,8 +286,49 @@ export default function CommunityDiscussions({ goalId, goalTitle, sortBy = 'newe
     )
   }
 
+  const isReplying = Boolean(replyToId)
+
   return (
     <>
+      <div className="flex flex-col gap-4 mb-6">
+        <div className="flex justify-end">
+          {showAddForm ? (
+            <button
+              onClick={() => {
+                setShowAddForm(false)
+                setReplyToId(null)
+              }}
+              className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
+            >
+              Cancel {isReplying ? 'reply' : 'post'}
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                setShowAddForm(true)
+                setReplyToId(null)
+              }}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors"
+            >
+              {discussions.length > 0 ? 'Start a new discussion' : 'Share your experience'}
+            </button>
+          )}
+        </div>
+
+        {showAddForm && (
+          <AddDiscussionForm
+            goalId={goalId}
+            goalTitle={goalTitle}
+            parentId={replyToId}
+            onSuccess={handleNewPost}
+            onCancel={() => {
+              setShowAddForm(false)
+              setReplyToId(null)
+            }}
+          />
+        )}
+      </div>
+
       {discussions && discussions.length > 0 ? (
         <div className="space-y-4">
           {discussions.map((discussion) => (

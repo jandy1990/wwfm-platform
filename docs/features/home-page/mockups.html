@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WWFM Home Page - Design Mockups</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+        
+        // Switch between designs
+        function showDesign(num) {
+            document.querySelectorAll('.design').forEach(d => d.classList.add('hidden'));
+            document.getElementById('design' + num).classList.remove('hidden');
+            document.querySelectorAll('.design-btn').forEach(b => {
+                b.classList.remove('bg-blue-600', 'text-white');
+                b.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            document.getElementById('btn' + num).classList.remove('bg-gray-200', 'text-gray-700');
+            document.getElementById('btn' + num).classList.add('bg-blue-600', 'text-white');
+        }
+    </script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+    <!-- Design Selector -->
+    <div class="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex gap-2">
+                    <button id="btn1" onclick="showDesign(1)" class="design-btn px-4 py-2 rounded-lg bg-blue-600 text-white">Design 1: Dynamic</button>
+                    <button id="btn2" onclick="showDesign(2)" class="design-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700">Design 2: Clean</button>
+                    <button id="btn3" onclick="showDesign(3)" class="design-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700">Design 3: Focused</button>
+                </div>
+                <button onclick="toggleDarkMode()" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg">🌓 Toggle Dark</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DESIGN 1: Dynamic & Activity-Focused -->
+    <div id="design1" class="design">
+        <!-- Hero Section with Live Ticker -->
+        <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-16">
+            <div class="max-w-7xl mx-auto px-4">
+                <!-- Live Activity Ticker -->
+                <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full px-4 py-2 inline-flex items-center gap-2 mb-8">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    <span class="text-sm text-gray-600 dark:text-gray-400">142 people finding solutions right now</span>
+                </div>
+                
+                <!-- Main Hero -->
+                <h1 class="text-5xl sm:text-6xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+                    Find what <span class="text-blue-600 dark:text-blue-400">actually works</span>
+                    <br />for life's challenges
+                </h1>
+                <p class="text-xl text-gray-600 dark:text-gray-400 mb-8">
+                    3,873 proven solutions from real people, rated by effectiveness
+                </p>
+                
+                <!-- Search Bar with Suggestions -->
+                <div class="max-w-2xl mx-auto relative">
+                    <input 
+                        type="text" 
+                        placeholder="Try 'reduce anxiety' or 'sleep better'"
+                        class="w-full px-6 py-4 text-lg rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:border-blue-500 focus:outline-none"
+                    />
+                    <button class="absolute right-2 top-2 px-6 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">
+                        Search
+                    </button>
+                    <!-- Popular searches -->
+                    <div class="flex gap-2 mt-4 text-sm">
+                        <span class="text-gray-500">Popular:</span>
+                        <button class="text-blue-600 hover:underline">anxiety</button>
+                        <button class="text-blue-600 hover:underline">sleep</button>
+                        <button class="text-blue-600 hover:underline">focus</button>
+                        <button class="text-blue-600 hover:underline">confidence</button>
+                    </div>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="flex justify-center gap-8 mt-12">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-600">3,873</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Solutions</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-600">227</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Goals</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-600">4.15★</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Avg Rating</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Real-time Activity Feed -->
+        <section class="py-12 max-w-7xl mx-auto px-4">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+                Live Activity Feed
+                <span class="ml-2 text-sm font-normal text-gray-500">Last 24 hours</span>
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-4">
+                <!-- Activity Cards -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 flex items-start gap-3">
+                    <span class="text-2xl">⭐</span>
+                    <div class="flex-1">
+                        <p class="text-gray-900 dark:text-gray-100">
+                            <span class="font-semibold">CBT Therapy</span> rated 5★ for 
+                            <span class="text-blue-600">"Reduce anxiety"</span>
+                        </p>
+                        <p class="text-sm text-gray-500 mt-1">2 minutes ago</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 flex items-start gap-3">
+                    <span class="text-2xl">💬</span>
+                    <div class="flex-1">
+                        <p class="text-gray-900 dark:text-gray-100">
+                            New insight on <span class="text-blue-600">"Stop procrastinating"</span>:
+                        </p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 italic">
+                            "The Pomodoro Technique changed everything for me..."
+                        </p>
+                        <p class="text-sm text-gray-500 mt-1">5 minutes ago • 12 found helpful</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 flex items-start gap-3">
+                    <span class="text-2xl">✨</span>
+                    <div class="flex-1">
+                        <p class="text-gray-900 dark:text-gray-100">
+                            New solution for <span class="text-blue-600">"Improve focus"</span>:
+                            <span class="font-semibold">Forest App</span>
+                        </p>
+                        <p class="text-sm text-gray-500 mt-1">18 minutes ago</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 flex items-start gap-3">
+                    <span class="text-2xl">⭐</span>
+                    <div class="flex-1">
+                        <p class="text-gray-900 dark:text-gray-100">
+                            <span class="font-semibold">Melatonin 3mg</span> rated 4★ for 
+                            <span class="text-blue-600">"Sleep better"</span>
+                        </p>
+                        <p class="text-sm text-gray-500 mt-1">32 minutes ago</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trending Goals -->
+        <section class="bg-white dark:bg-gray-800 py-12">
+            <div class="max-w-7xl mx-auto px-4">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+                    Trending This Week
+                    <span class="ml-2 px-2 py-1 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400 text-sm rounded">Hot</span>
+                </h2>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Trending Goal Cards -->
+                    <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-3xl">🧠</span>
+                            <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-600 rounded">↑ 23%</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Reduce anxiety</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">45 solutions • 4.2★ avg</p>
+                        <div class="text-xs text-blue-600">
+                            💬 "CBT changed my life" - trending discussion
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-3xl">😴</span>
+                            <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-600 rounded">↑ 18%</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Sleep better</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">38 solutions • 4.0★ avg</p>
+                        <div class="text-xs text-blue-600">
+                            ⭐ New: "Sleep stories" rated 4.8★
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-3xl">🎯</span>
+                            <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-600 rounded">↑ 15%</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Stop procrastinating</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">32 solutions • 3.9★ avg</p>
+                        <div class="text-xs text-blue-600">
+                            🔥 12 people succeeded today
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-3xl">💪</span>
+                            <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 text-green-600 rounded">↑ 12%</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Build confidence</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">28 solutions • 4.1★ avg</p>
+                        <div class="text-xs text-blue-600">
+                            💬 Active discussion: 24 replies
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- DESIGN 2: Clean & Trustworthy -->
+    <div id="design2" class="design hidden">
+        <!-- Hero Section -->
+        <section class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-20">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+                    Real Solutions. Real People. Real Results.
+                </h1>
+                <p class="text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
+                    Discover what actually worked for 227 life challenges, 
+                    rated by thousands of people just like you.
+                </p>
+                
+                <!-- Search -->
+                <div class="max-w-3xl mx-auto">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            placeholder="What challenge are you facing?"
+                            class="w-full px-6 py-4 pr-32 text-lg rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 focus:border-blue-500 focus:outline-none"
+                        />
+                        <button class="absolute right-2 top-2 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                            Find Solutions
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trust Indicators -->
+        <section class="bg-gray-50 dark:bg-gray-900 py-8">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="flex justify-center gap-12 text-center">
+                    <div>
+                        <div class="text-3xl font-bold text-gray-900 dark:text-gray-100">3,873</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Verified Solutions</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-gray-900 dark:text-gray-100">15,427</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Success Stories</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-gray-900 dark:text-gray-100">4.15★</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Average Rating</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-gray-900 dark:text-gray-100">87%</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Would Recommend</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Success Stories -->
+        <section class="py-16 max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-gray-100 mb-12">
+                What People Are Saying
+            </h2>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Testimonial Cards -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl">🧠</span>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100">Reduce anxiety</h3>
+                    </div>
+                    <blockquote class="text-gray-600 dark:text-gray-400 mb-4">
+                        "After trying 5 different approaches, CBT therapy finally gave me the tools I needed. 
+                        The breathing exercises work within minutes, and the thought challenging techniques 
+                        changed how I see everything."
+                    </blockquote>
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-gray-500">42 found this helpful</span>
+                        <span class="text-blue-600">Read more →</span>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl">😴</span>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100">Sleep better</h3>
+                    </div>
+                    <blockquote class="text-gray-600 dark:text-gray-400 mb-4">
+                        "The combination of melatonin (3mg) and a consistent bedtime routine worked wonders. 
+                        I went from 3-4 hours to 7-8 hours of quality sleep. Game changer."
+                    </blockquote>
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-gray-500">38 found this helpful</span>
+                        <span class="text-blue-600">Read more →</span>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl">🎯</span>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100">Improve focus</h3>
+                    </div>
+                    <blockquote class="text-gray-600 dark:text-gray-400 mb-4">
+                        "The Pomodoro Technique with the Forest app keeps me on track. 
+                        25 minutes of focus, 5-minute break. Simple but incredibly effective for ADHD."
+                    </blockquote>
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-gray-500">31 found this helpful</span>
+                        <span class="text-blue-600">Read more →</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Browse by Category -->
+        <section class="bg-gray-50 dark:bg-gray-900 py-16">
+            <div class="max-w-7xl mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-gray-100 mb-12">
+                    Browse by Life Area
+                </h2>
+
+                <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <button class="bg-white dark:bg-gray-800 rounded-lg p-6 text-left hover:shadow-lg transition-shadow border border-gray-200 dark:border-gray-700">
+                        <span class="text-3xl mb-2 block">🧠</span>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100">Mental Health</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">42 challenges</p>
+                    </button>
+                    <button class="bg-white dark:bg-gray-800 rounded-lg p-6 text-left hover:shadow-lg transition-shadow border border-gray-200 dark:border-gray-700">
+                        <span class="text-3xl mb-2 block">💼</span>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100">Career & Work</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">38 challenges</p>
+                    </button>
+                    <button class="bg-white dark:bg-gray-800 rounded-lg p-6 text-left hover:shadow-lg transition-shadow border border-gray-200 dark:border-gray-700">
+                        <span class="text-3xl mb-2 block">❤️</span>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100">Relationships</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">28 challenges</p>
+                    </button>
+                    <button class="bg-white dark:bg-gray-800 rounded-lg p-6 text-left hover:shadow-lg transition-shadow border border-gray-200 dark:border-gray-700">
+                        <span class="text-3xl mb-2 block">💪</span>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100">Health & Fitness</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">35 challenges</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- DESIGN 3: Focused & Goal-Oriented -->
+    <div id="design3" class="design hidden">
+        <!-- Compact Hero -->
+        <section class="bg-gradient-to-b from-blue-600 to-blue-700 dark:from-blue-800 dark:to-blue-900 py-16 text-white">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <h1 class="text-4xl font-bold mb-4">
+                    What challenge can we help you solve?
+                </h1>
+                <p class="text-xl opacity-90 mb-8">
+                    Join 15,000+ people finding proven solutions every day
+                </p>
+                
+                <!-- Search -->
+                <div class="max-w-xl mx-auto">
+                    <input 
+                        type="text" 
+                        placeholder="Type your challenge..."
+                        class="w-full px-6 py-3 text-lg rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-white/30"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Win Goals -->
+        <section class="py-12 max-w-7xl mx-auto px-4">
+            <div class="bg-green-50 dark:bg-green-900/20 rounded-2xl p-8 mb-12">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                    🎯 Quick Wins
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">
+                    High success rate • See results in under 2 weeks
+                </p>
+                
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 cursor-pointer hover:shadow-lg transition-shadow">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl">😴</span>
+                            <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 rounded">92% success</span>
+                        </div>
+                        <h3 className="font-semibold text-gray-900 dark:text-gray-100">Fall asleep faster</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">12 solutions • 4.3★</p>
+                        <p class="text-xs text-blue-600 mt-2">↗ 3-7 days to results</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 cursor-pointer hover:shadow-lg transition-shadow">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl">⚡</span>
+                            <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 rounded">88% success</span>
+                        </div>
+                        <h3 className="font-semibold text-gray-900 dark:text-gray-100">Boost energy</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">18 solutions • 4.1★</p>
+                        <p class="text-xs text-blue-600 mt-2">↗ 1 week to results</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 cursor-pointer hover:shadow-lg transition-shadow">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl">🧘</span>
+                            <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 rounded">90% success</span>
+                        </div>
+                        <h3 className="font-semibold text-gray-900 dark:text-gray-100">Reduce stress</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">22 solutions • 4.2★</p>
+                        <p class="text-xs text-blue-600 mt-2">↗ Immediate relief</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 cursor-pointer hover:shadow-lg transition-shadow">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl">💧</span>
+                            <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 rounded">85% success</span>
+                        </div>
+                        <h3 className="font-semibold text-gray-900 dark:text-gray-100">Drink more water</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">8 solutions • 4.0★</p>
+                        <p class="text-xs text-blue-600 mt-2">↗ 3 days to habit</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popular Challenges -->
+            <div>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+                    Most Popular Challenges
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Challenge Cards with Solutions Preview -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Reduce anxiety</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">45 solutions available</p>
+                            </div>
+                            <span class="text-3xl">🧠</span>
+                        </div>
+                        
+                        <!-- Top Solutions Preview -->
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-700 dark:text-gray-300">CBT Therapy</span>
+                                <span class="text-yellow-600">★★★★★ 4.8</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-700 dark:text-gray-300">Meditation (Headspace)</span>
+                                <span class="text-yellow-600">★★★★☆ 4.3</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-700 dark:text-gray-300">L-theanine supplement</span>
+                                <span class="text-yellow-600">★★★★☆ 4.1</span>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            View All Solutions →
+                        </button>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Sleep better</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">38 solutions available</p>
+                            </div>
+                            <span class="text-3xl">😴</span>
+                        </div>
+                        
+                        <!-- Top Solutions Preview -->
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-700 dark:text-gray-300">Sleep hygiene routine</span>
+                                <span class="text-yellow-600">★★★★★ 4.5</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-700 dark:text-gray-300">Melatonin 3mg</span>
+                                <span class="text-yellow-600">★★★★☆ 4.2</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-700 dark:text-gray-300">White noise machine</span>
+                                <span class="text-yellow-600">★★★★☆ 4.0</span>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            View All Solutions →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="bg-gray-50 dark:bg-gray-900 py-12">
+            <div class="max-w-7xl mx-auto px-4">
+                <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-gray-100 mb-8">
+                    How WWFM Works
+                </h2>
+                
+                <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">🔍</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">1. Search Your Challenge</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            Type any life challenge you're facing
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">⭐</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">2. See What Works</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            Browse solutions rated by real people
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">✨</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">3. Share Your Success</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            Rate solutions and help others
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer (Common) -->
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-8">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                    Ready to solve your challenge?
+                </h3>
+                <button class="mt-4 px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    Get Started Free
+                </button>
+            </div>
+            <div class="text-center text-sm text-gray-500 dark:text-gray-400">
+                <p>© 2024 What Works For Me. Privacy-first. No ads. No data selling.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

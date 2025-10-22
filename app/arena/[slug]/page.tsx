@@ -3,15 +3,20 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
-import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrumbs'
+import Breadcrumbs from '@/components/molecules/Breadcrumbs'
+import { createBreadcrumbs } from '@/lib/utils/breadcrumbs'
 import EmptyState from '@/components/molecules/EmptyState'
 import { GoalPageTracker } from '@/components/tracking/GoalPageTracker'
+import BackButton from '@/components/atoms/BackButton'
 
 // Types - Updated to match actual database columns
 type Goal = {
   id: string
   title: string
   description: string | null
+  emoji: string | null
+  view_count: number
+  solution_count: number
 }
 
 type Arena = {
@@ -21,6 +26,15 @@ type Arena = {
   description: string
   icon: string
   goals?: Goal[]
+}
+
+type GoalRow = {
+  id: string
+  title: string
+  description: string | null
+  emoji: string | null
+  view_count: number | null
+  goal_implementation_links: { id: string }[] | null
 }
 
 async function getArenaWithGoals(slug: string) {
@@ -43,33 +57,50 @@ async function getArenaWithGoals(slug: string) {
   
   console.log('Arena found:', arena.name, 'with ID:', arena.id)
   
-  // Then, get goals for this arena - only select columns that exist
+  // Then, get goals for this arena with solution counts
   const { data: goals, error: goalsError } = await supabase
     .from('goals')
     .select(`
       id,
       title,
       description,
+      emoji,
+      view_count,
       arena_id,
-      is_approved
+      is_approved,
+      goal_implementation_links!left(id)
     `)
     .eq('arena_id', arena.id)
     .eq('is_approved', true)
   
-  console.log('Goals fetch result:', { 
-    count: goals?.length || 0, 
-    error: goalsError 
+  console.log('Goals fetch result:', {
+    count: goals?.length || 0,
+    error: goalsError
   })
-  
+
+  // Process goals to add solution counts
+  const processedGoals = (goals as GoalRow[] | null)?.map((goal) => ({
+    id: goal.id,
+    title: goal.title,
+    description: goal.description,
+    emoji: goal.emoji,
+    view_count: goal.view_count ?? 0,
+    solution_count: goal.goal_implementation_links?.length ?? 0
+  })) ?? []
+
   return {
     ...arena,
-    goals: goals || []
+    goals: processedGoals
   } as Arena
 }
 
-export default async function ArenaPage({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = await params
-  const arena = await getArenaWithGoals(resolvedParams.slug)
+type ArenaPageProps = {
+  params: Promise<{ slug: string }>
+}
+
+export default async function ArenaPage({ params }: ArenaPageProps) {
+  const { slug } = await params
+  const arena = await getArenaWithGoals(slug)
 
   if (!arena) {
     notFound()
@@ -79,8 +110,11 @@ export default async function ArenaPage({ params }: { params: Promise<{ slug: st
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <GoalPageTracker arenaName={arena.name} arenaId={arena.id} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        {/* Mobile Back Button */}
+        <BackButton fallbackHref="/browse" className="mb-3" />
+
         {/* Breadcrumb Navigation */}
-        <Breadcrumbs 
+        <Breadcrumbs
           items={createBreadcrumbs('arena', {
             arena: { name: arena.name, slug: arena.slug }
           })}
@@ -109,16 +143,19 @@ export default async function ArenaPage({ params }: { params: Promise<{ slug: st
               href={`/goal/${goal.id}`}
               className="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-4 sm:p-6 min-h-[120px] flex flex-col focus:ring-2 focus:ring-blue-500 focus:outline-none border border-gray-200 dark:border-gray-700"
             >
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 flex-1">
-                {goal.title}
-              </h3>
-              {goal.description && (
-                <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2 flex-1">
-                  {goal.description}
-                </p>
-              )}
-              <div className="text-sm text-blue-600 dark:text-blue-400 mt-auto">
-                View solutions →
+              <div className="flex items-center gap-3 mb-3">
+                {goal.emoji && (
+                  <span className="text-3xl flex-shrink-0">{goal.emoji}</span>
+                )}
+                <div className="flex-1">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100">
+                    {goal.title}
+                  </h3>
+                </div>
+              </div>
+              <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-auto">
+                <span>{goal.solution_count} solution{goal.solution_count !== 1 ? 's' : ''} • {goal.view_count || 0} views</span>
+                <span className="text-blue-600 dark:text-blue-400">View solutions →</span>
               </div>
             </Link>
           ))}

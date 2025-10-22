@@ -2,6 +2,9 @@
 
 import { createServerSupabaseClient } from '@/lib/database/server'
 import { solutionAggregator } from '@/lib/services/solution-aggregator'
+import { validateAndNormalizeSolutionFields } from '@/lib/solutions/solution-field-validator'
+import { logger } from '@/lib/utils/logger'
+import type { Tables, TablesInsert } from '@/types/supabase'
 
 // Types for the submission data
 interface VariantData {
@@ -67,6 +70,8 @@ interface SolutionFields {
   form_factor?: string
   other_info?: string
   failed_solutions_text?: Array<{ name: string; rating: number }>
+
+  [key: string]: unknown
 }
 
 export interface SubmitSolutionData {
@@ -96,39 +101,61 @@ export interface SubmitSolutionResult {
   variantId?: string
   ratingId?: string
   otherRatingsCount?: number
+  transitioned?: boolean
+  transitionMessage?: string
+  projectedEffectiveness?: number  // Immediate human effectiveness for UI
 }
 
 // Categories that use dosage variants (beauty_skincare uses Standard)
 const DOSAGE_CATEGORIES = ['medications', 'supplements_vitamins', 'natural_remedies']
 
+type SolutionRow = Tables<'solutions'>
+type SolutionVariantRow = Tables<'solution_variants'>
+type RatingRow = Tables<'ratings'>
+type GoalImplementationLinkRow = Tables<'goal_implementation_links'>
+
+const toSolutionFieldsJson = (
+  value: Record<string, unknown>
+): TablesInsert<'ratings'>['solution_fields'] => value as TablesInsert<'ratings'>['solution_fields']
+
 export async function submitSolution(formData: SubmitSolutionData): Promise<SubmitSolutionResult> {
-  console.log('[submitSolution] START - Category:', formData.category, 'Solution:', formData.solutionName);
+  logger.info('submitSolution started', {
+    category: formData.category,
+    solutionName: formData.solutionName
+  })
   
   try {
-    console.log('[Server] Received submission data:', {
+    logger.debug('submitSolution payload received', {
       goalId: formData.goalId,
       userId: formData.userId,
-      solutionName: formData.solutionName,
-      category: formData.category,
       existingSolutionId: formData.existingSolutionId,
       effectiveness: formData.effectiveness,
-      solutionFields: formData.solutionFields
+      fieldsCount: Object.keys(formData.solutionFields || {}).length
     })
+
+    const { isValid: fieldsValid, errors: fieldErrors, normalizedFields } =
+      validateAndNormalizeSolutionFields(formData.category, formData.solutionFields)
+
+    if (!fieldsValid) {
+      logger.warn('submitSolution validation failed', { fieldErrors })
+      return { success: false, error: `Invalid field data: ${fieldErrors.join('; ')}` }
+    }
+
+    const normalizedSolutionFields = normalizedFields
     
     const supabase = await createServerSupabaseClient()
     
     // 1. Verify authentication
-    console.log('[submitSolution] Step 1: Checking authentication')
+    logger.debug('submitSolution authentication step')
     const { data: { user } } = await supabase.auth.getUser()
     if (!user || user.id !== formData.userId) {
-      console.log('[submitSolution] AUTH FAILED - user:', user?.id, 'expected:', formData.userId)
+      logger.warn('submitSolution auth failed', { userIdExpected: formData.userId, userIdActual: user?.id })
       return { success: false, error: 'Unauthorized: Please sign in to submit a solution' }
     }
-    console.log('[submitSolution] Auth successful for user:', user.id)
+    logger.debug('submitSolution auth success', { userId: user.id })
     
     // 2. Check for duplicate rating first
-    console.log('[submitSolution] Step 2: Checking for duplicate rating')
-    console.log('[submitSolution] Form data contains existingSolutionId?', !!formData.existingSolutionId, formData.existingSolutionId || 'none')
+    logger.debug('submitSolution duplicate-check step', { existingSolutionId: formData.existingSolutionId })
     let solutionId = formData.existingSolutionId
     let variantId: string | null = null
     
@@ -141,7 +168,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
         .select('id')
         .eq('solution_id', solutionId)
         .eq('is_default', true)
-        .single()
+        .maybeSingle<Pick<SolutionVariantRow, 'id'>>()
       
       if (variantError) {
         console.log('[submitSolution] Error finding variant:', variantError.message)
@@ -158,7 +185,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           .eq('user_id', formData.userId)
           .eq('goal_id', formData.goalId)
           .eq('implementation_id', variantId)
-          .single()
+          .maybeSingle<Pick<RatingRow, 'id'>>()
         
         if (ratingCheckError && ratingCheckError.code !== 'PGRST116') {
           console.log('[submitSolution] Error checking for duplicate:', ratingCheckError.message)
@@ -194,13 +221,18 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           title: formData.solutionName,
           solution_category: formData.category,
           source_type: isTestSolution ? 'test_fixture' : 'user_generated',
-          is_approved: isTestSolution ? true : false // Test solutions are pre-approved
+          is_approved: isTestSolution ? true : false, // Test solutions are pre-approved
+          created_by: user.id // Required by RLS policy
         })
         .select()
-        .single()
+        .single<SolutionRow>()
       
       if (solutionError) {
-        console.error('[submitSolution] Error creating solution:', JSON.stringify(solutionError))
+      logger.error('submitSolution error creating solution', {
+        error: solutionError,
+        solutionName: formData.solutionName,
+        category: formData.category
+      })
         
         // If it's a duplicate error, try to find the existing solution
         if (solutionError.code === '23505' || solutionError.message?.includes('duplicate')) {
@@ -211,36 +243,39 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
             .select('id')
             .eq('title', formData.solutionName)
             .eq('solution_category', formData.category)
-            .single()
+            .maybeSingle<Pick<SolutionRow, 'id'>>()
           
           if (existingSolution && !findError) {
             console.log('[submitSolution] Found existing solution:', existingSolution.id)
             solutionId = existingSolution.id
           } else {
-            console.error('[submitSolution] Could not find existing solution:', findError)
+            logger.error('submitSolution: could not find existing solution after duplicate', { error: findError })
             return { success: false, error: 'Failed to create or find solution' }
           }
         } else {
           // Some other error
-          console.error('[submitSolution] Failed insert data:', {
-            title: formData.solutionName,
-            solution_category: formData.category,
-            source_type: 'user_generated',
-            is_approved: false
+          logger.error('submitSolution: failed solution insert', {
+            payload: {
+              title: formData.solutionName,
+              solution_category: formData.category,
+              source_type: 'user_generated',
+              is_approved: false
+            },
+            error: solutionError
           })
           return { success: false, error: 'Failed to create solution' }
         }
       } else {
         solutionId = newSolution.id
-        console.log('[submitSolution] Created new solution with id:', solutionId)
+        logger.info('submitSolution created new solution', { solutionId })
       }
-      console.log('[Server] Created solution with ID:', solutionId)
+      logger.debug('submitSolution using solution id', { solutionId })
     } else {
-      console.log('[Server] Using existing solution ID:', solutionId)
+      logger.debug('submitSolution using existing solution id', { solutionId })
     }
     
     // 4. Create or find variant
-    console.log('[submitSolution] Step 4: Create or find variant')
+    logger.debug('submitSolution create-or-find variant start')
     if (!variantId) {
       const isDosageCategory = DOSAGE_CATEGORIES.includes(formData.category)
       let variantName: string
@@ -264,12 +299,12 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
       
       // Ignore PGRST116 error (no rows returned)
       if (variantCheckError && variantCheckError.code !== 'PGRST116') {
-        console.error('[submitSolution] Error checking for existing variant:', variantCheckError)
+        logger.error('submitSolution: error checking existing variant', { error: variantCheckError })
       }
       
       if (existingVariant) {
         variantId = existingVariant.id
-        console.log('[submitSolution] Found existing variant for name:', variantName, 'id:', variantId)
+        logger.debug('submitSolution found existing variant', { variantName, variantId })
         
         // Check for duplicate rating with this variant
         const { data: existingRating } = await supabase
@@ -281,38 +316,37 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           .single()
         
         if (existingRating) {
-          console.log('[submitSolution] DUPLICATE FOUND at variant check - User already rated this variant')
+          logger.info('submitSolution duplicate rating at variant stage', { userId: formData.userId, goalId: formData.goalId, variantId })
           return { 
             success: false, 
             error: "You've already rated this solution variant for this goal." 
           }
         }
-        console.log('[submitSolution] No duplicate for this variant, continuing')
+        logger.debug('submitSolution no variant duplicate, continuing')
       } else {
         // Create new variant
-        console.log('[submitSolution] Creating new variant with name:', variantName)
-        const variantData: Record<string, unknown> = {
+        logger.debug('submitSolution creating new variant', { variantName })
+        const variantInsert: TablesInsert<'solution_variants'> = {
           solution_id: solutionId,
           variant_name: variantName,
-          is_default: true, // First variant is default
+          is_default: true,
           display_order: 1
         }
-        
-        // Add dosage-specific fields if applicable
+
         if (isDosageCategory && formData.variantData) {
-          variantData.amount = formData.variantData.amount
-          variantData.unit = formData.variantData.unit
-          variantData.form = formData.variantData.form || null
+          variantInsert.amount = formData.variantData.amount ?? null
+          variantInsert.unit = formData.variantData.unit ?? null
+          variantInsert.form = formData.variantData.form ?? null
         }
-        
+
         const { data: newVariant, error: variantError } = await supabase
           .from('solution_variants')
-          .insert(variantData)
+          .insert(variantInsert)
           .select()
-          .single()
+          .single<SolutionVariantRow>()
         
         if (variantError) {
-          console.error('[submitSolution] Error creating variant:', variantError)
+          logger.error('submitSolution: error creating variant', { error: variantError })
           return { success: false, error: 'Failed to create solution variant' }
         }
         
@@ -323,26 +357,34 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
     
     // 5. Create individual rating WITH solution_fields (new architecture)
     console.log('[submitSolution] Step 5: Creating rating with solution_fields')
+    const sideEffectsValue = normalizedSolutionFields.side_effects
+    const lengthOfUseValue = normalizedSolutionFields.length_of_use
+
+    const ratingInsert: TablesInsert<'ratings'> = {
+      user_id: formData.userId,
+      implementation_id: variantId,
+      goal_id: formData.goalId,
+      solution_id: solutionId,
+      effectiveness_score: formData.effectiveness,
+      is_quick_rating: false,
+      duration_used: typeof lengthOfUseValue === 'string' ? lengthOfUseValue : null,
+      side_effects: Array.isArray(sideEffectsValue)
+        ? sideEffectsValue.join(', ')
+        : typeof sideEffectsValue === 'string'
+          ? sideEffectsValue
+          : null,
+      completion_percentage: 100,
+      solution_fields: toSolutionFieldsJson(normalizedSolutionFields)
+    }
+
     const { data: newRating, error: ratingError } = await supabase
       .from('ratings')
-      .insert({
-        user_id: formData.userId,
-        implementation_id: variantId,
-        goal_id: formData.goalId,
-        solution_id: solutionId,
-        effectiveness_score: formData.effectiveness,
-        is_quick_rating: false,
-        duration_used: formData.solutionFields.length_of_use || null,
-        side_effects: formData.solutionFields.side_effects ? 
-          formData.solutionFields.side_effects.join(', ') : null,
-        completion_percentage: 100,
-        solution_fields: formData.solutionFields // Store individual user's fields here
-      })
+      .insert(ratingInsert)
       .select()
-      .single()
+      .single<RatingRow>()
     
     if (ratingError) {
-      console.error('[submitSolution] Error creating rating:', ratingError)
+      logger.error('submitSolution: error creating rating', { error: ratingError })
       return { success: false, error: 'Failed to save your rating' }
     }
     
@@ -374,7 +416,12 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           .select('id, aggregated_fields, rating_count, avg_effectiveness')
           .eq('goal_id', formData.goalId)
           .eq('implementation_id', variantId)
-          .single()
+          .maybeSingle<
+            Pick<
+              GoalImplementationLinkRow,
+              'id' | 'aggregated_fields' | 'rating_count' | 'avg_effectiveness'
+            >
+          >()
         
         if (verifyError) {
           throw new Error(`Verification failed: ${verifyError.message}`)
@@ -388,24 +435,30 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           // (The aggregator doesn't update these legacy fields, only aggregated_fields)
           const { data: ratingsCount } = await supabase
             .from('ratings')
-            .select('effectiveness', { count: 'exact' })
+            .select('effectiveness_score', { count: 'exact' })
             .eq('goal_id', formData.goalId)
             .eq('implementation_id', variantId)
+            .returns<Pick<RatingRow, 'effectiveness_score'>[] | null>()
           
-          if (ratingsCount && ratingsCount.length > 0) {
-            const totalEffectiveness = ratingsCount.reduce((sum, r) => sum + (r.effectiveness || 0), 0)
-            const avgEffectiveness = totalEffectiveness / ratingsCount.length
+          const ratingRows = ratingsCount ?? []
+
+          if (ratingRows.length > 0) {
+            const totalEffectiveness = ratingRows.reduce(
+              (sum, row) => sum + (row.effectiveness_score ?? 0),
+              0
+            )
+            const avgEffectiveness = totalEffectiveness / ratingRows.length
             
             await supabase
               .from('goal_implementation_links')
               .update({
                 avg_effectiveness: avgEffectiveness,
-                rating_count: ratingsCount.length
+                rating_count: ratingRows.length
               })
               .eq('id', verifyLink.id)
             
             // Auto-approve the solution after 3 ratings
-            if (ratingsCount.length >= 3) {
+            if (ratingRows.length >= 3) {
               await supabase
                 .from('solutions')
                 .update({ is_approved: true })
@@ -416,20 +469,30 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           break
         }
       } catch (error) {
-        console.error(`[submitSolution] Aggregation attempt ${i + 1}/${maxRetries} failed:`, error)
+        logger.error('submitSolution aggregation attempt failed', {
+          attempt: i + 1,
+          maxRetries,
+          error
+        })
         
         if (i < maxRetries - 1) {
           // Wait before retrying with exponential backoff
           await new Promise(r => setTimeout(r, 1000 * (i + 1)))
         } else {
           // Final attempt failed - but don't fail the submission
-          console.error('[submitSolution] Failed to aggregate after all retries')
+          logger.error('submitSolution aggregation failed after max retries', {
+            goalId: formData.goalId,
+            implementationId: variantId
+          })
         }
       }
     }
     
     if (!aggregationSuccess) {
-      console.warn('[submitSolution] Aggregation failed but rating was saved successfully')
+      logger.warn('submitSolution aggregation failed but rating saved', {
+        goalId: formData.goalId,
+        implementationId: variantId
+      })
     }
     
     // 7. Process failed solutions
@@ -445,7 +508,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
             .select('id')
             .eq('solution_id', failed.id)
             .eq('is_default', true)
-            .single()
+            .maybeSingle<Pick<SolutionVariantRow, 'id'>>()
           
           if (failedVariant) {
             // Check if user already rated this failed solution
@@ -455,7 +518,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
               .eq('user_id', formData.userId)
               .eq('goal_id', formData.goalId)
               .eq('implementation_id', failedVariant.id)
-              .single()
+              .maybeSingle<Pick<RatingRow, 'id'>>()
             
             if (!existingFailedRating) {
               // Create the failed solution rating
@@ -476,11 +539,18 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
                 .select('id, avg_effectiveness, rating_count')
                 .eq('goal_id', formData.goalId)
                 .eq('implementation_id', failedVariant.id)
-                .single()
+                .maybeSingle<
+                  Pick<
+                    GoalImplementationLinkRow,
+                    'id' | 'avg_effectiveness' | 'rating_count'
+                  >
+                >()
               
               if (failedLink) {
-                const newCount = failedLink.rating_count + 1
-                const newAvg = ((failedLink.avg_effectiveness * failedLink.rating_count) + failed.rating) / newCount
+                const currentCount = failedLink.rating_count ?? 0
+                const currentAverage = failedLink.avg_effectiveness ?? 0
+                const newCount = currentCount + 1
+                const newAvg = ((currentAverage * currentCount) + failed.rating) / newCount
                 
                 await supabase
                   .from('goal_implementation_links')
@@ -490,14 +560,16 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
                   })
                   .eq('id', failedLink.id)
               } else {
+                const failedLinkInsert: TablesInsert<'goal_implementation_links'> = {
+                  goal_id: formData.goalId,
+                  implementation_id: failedVariant.id,
+                  avg_effectiveness: failed.rating,
+                  rating_count: 1
+                }
+
                 await supabase
                   .from('goal_implementation_links')
-                  .insert({
-                    goal_id: formData.goalId,
-                    implementation_id: failedVariant.id,
-                    avg_effectiveness: failed.rating,
-                    rating_count: 1
-                  })
+                  .insert(failedLinkInsert)
               }
             }
           }
@@ -510,13 +582,15 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
       // Store text-only failed solutions with the rating
       if (textOnlyFailed.length > 0 && newRating) {
         // Update the rating we just created to include failed solutions text
+        const mergedFields: Record<string, unknown> = {
+          ...normalizedSolutionFields,
+          failed_solutions_text: textOnlyFailed
+        }
+
         await supabase
           .from('ratings')
           .update({ 
-            solution_fields: {
-              ...formData.solutionFields,
-              failed_solutions_text: textOnlyFailed
-            }
+            solution_fields: toSolutionFieldsJson(mergedFields)
           })
           .eq('id', newRating.id)
       }
@@ -553,27 +627,80 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
         })
       
       if (scheduleError) {
-        console.error('[submitSolution] Failed to schedule retrospective:', scheduleError)
+        logger.error('submitSolution failed to schedule retrospective', { error: scheduleError })
         // Don't fail the submission over this - retrospective is a nice-to-have
       } else {
         console.log('[submitSolution] Scheduled 6-month retrospective for', sixMonthsFromNow.toISOString().split('T')[0])
       }
     }
-    
+
+    // 8.75 Check if this rating triggers a transition to human data
+    let transitioned = false
+    let transitionMessage = ''
+    let projectedEffectiveness: number | undefined
+
+    try {
+      console.log('[submitSolution] Checking for AI to human transition')
+      const { data: transitionResult } = await supabase.rpc('check_and_execute_transition', {
+        p_goal_id: formData.goalId,
+        p_implementation_id: variantId
+      })
+
+      if (transitionResult) {
+        transitioned = true
+        transitionMessage = '🎉 You unlocked community verification for this solution!'
+        console.log('[submitSolution] TRANSITION OCCURRED - AI to human data switch completed')
+
+        // Calculate immediate human effectiveness to prevent lag window
+        const { data: humanRatings } = await supabase
+          .from('ratings')
+          .select('effectiveness_score')
+          .eq('goal_id', formData.goalId)
+          .eq('implementation_id', variantId)
+          .eq('data_source', 'human')
+          .not('effectiveness_score', 'is', null)
+          .returns<Pick<RatingRow, 'effectiveness_score'>[] | null>()
+
+        const humanRatingRows = humanRatings ?? []
+
+        if (humanRatingRows.length > 0) {
+          const total = humanRatingRows.reduce(
+            (sum, rating) => sum + (rating.effectiveness_score ?? 0),
+            0
+          )
+          projectedEffectiveness = total / humanRatingRows.length
+          console.log(
+            `[submitSolution] Calculated immediate human effectiveness: ${projectedEffectiveness} from ${humanRatingRows.length} human ratings`
+          )
+        }
+      }
+    } catch (transitionError) {
+      logger.warn('submitSolution transition check failed (non-fatal)', { error: transitionError })
+      // Don't fail the submission over transition issues
+    }
+
     // 9. Return success result
     const result = {
       success: true,
       solutionId: solutionId!,
       variantId: variantId!,
       ratingId: newRating?.id,
-      otherRatingsCount: otherRatingsCount || 0
+      otherRatingsCount: otherRatingsCount || 0,
+      transitioned,
+      transitionMessage: transitioned ? transitionMessage : undefined,
+      projectedEffectiveness
     };
     
-    console.log('[submitSolution] SUCCESS - Rating created:', newRating?.id, 'for solution:', solutionId);
+    logger.debug('submitSolution success', {
+      ratingId: newRating?.id,
+      solutionId,
+      transitioned,
+      projectedEffectiveness
+    })
     return result
     
   } catch (error) {
-    console.error('Unexpected error in submitSolution:', error)
+    logger.error('submitSolution unexpected error', error instanceof Error ? error : { error })
     return {
       success: false,
       error: 'An unexpected error occurred. Please try again.'

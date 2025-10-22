@@ -1,6 +1,8 @@
 # WWFM Forms README
 
 > **Source of truth for Claude Code**  
+> Field configuration SSOT: `/docs/solution-fields-ssot.md`  
+> Data flow overview: `/docs/solution-field-data-flow.md`
 
 This document contains an introduction to the forms. The forms themselves are here: components/organisms/solutions/forms 
 

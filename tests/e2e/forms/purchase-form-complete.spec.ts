@@ -10,9 +10,21 @@ test.describe('PurchaseForm - Complete E2E Tests', () => {
   });
 
   test('should submit purchase solution successfully from goal page', async ({ page }) => {
+    // Capture ALL browser console logs
+    page.on('console', msg => {
+      const type = msg.type();
+      const text = msg.text();
+      console.log(`Browser console [${type}]:`, text);
+    });
+
+    // Capture page errors
+    page.on('pageerror', error => {
+      console.log('PAGE ERROR:', error.message);
+    });
+
     console.log('Test setup - user already authenticated via global setup')
     console.log('Starting PurchaseForm test from actual goal page')
-    
+
     // Navigate to goal page and click "Share What Worked"
     await page.goto('/goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution')
     
@@ -258,38 +270,14 @@ test.describe('PurchaseForm - Complete E2E Tests', () => {
     console.log('Submit button found, clicking...')
     const submitBtn = page.locator('button:has-text("Submit")')
     await submitBtn.click()
-    
-    // Wait longer for submission to complete (like HobbyForm)
-    await page.waitForTimeout(5000)
-    
-    // Verify the form was processed (success, duplicate, or any completion message)
-    const pageContent = await page.textContent('body')
-    const wasProcessed = pageContent?.includes('Thank you') || 
-                        pageContent?.includes('already') || 
-                        pageContent?.includes('recorded') ||
-                        pageContent?.includes('success') ||
-                        pageContent?.includes('submitted') ||
-                        pageContent?.includes('added')
-    
-    // Also check if we're still on Step 3 (which means submission failed)
-    const stillOnStep3 = await page.locator('text="What else did you try?"').isVisible().catch(() => false)
-    
-    if (stillOnStep3) {
-      // Check for any error alerts
-      const alerts = await page.locator('[role="alert"]').all()
-      for (const alert of alerts) {
-        const alertText = await alert.textContent()
-        console.log('Alert found:', alertText || '(empty)')
-      }
-      
-      // Take a screenshot for debugging
-      await page.screenshot({ path: 'purchase-test-failure-screenshot.png' })
-      console.log('Screenshot saved to purchase-test-failure-screenshot.png')
-      
-      throw new Error('PurchaseForm submission failed - still on Step 3')
-    }
-    
-    expect(wasProcessed).toBeTruthy()
+
+    // Wait for the success screen rather than sleeping
+    const successHeading = page.getByRole('heading', { name: 'Thank you for sharing!' })
+    await expect(successHeading).toBeVisible({ timeout: 15_000 })
+
+    // Ensure the Step 3 content has disappeared to confirm the transition
+    await expect(page.locator('text="What else did you try?"')).toHaveCount(0)
+
     console.log('Test completed successfully!')
   })
 });

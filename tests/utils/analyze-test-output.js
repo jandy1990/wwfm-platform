@@ -184,7 +184,7 @@ if (results.issues.alreadyRated.length > 0) {
   results.issues.alreadyRated.slice(0, 3).forEach(issue => {
     console.log(`  Line ${issue.line}: ${issue.test || 'Unknown test'}`);
   });
-  console.log('  💡 Fix: Run test:setup to clear old ratings');
+  console.log('  💡 Fix: Run test:db:seed to clear old ratings');
 }
 
 if (results.issues.rlsPolicy.length > 0) {
@@ -230,7 +230,7 @@ console.log('-'.repeat(40));
 const recommendations = [];
 
 if (results.issues.solutionNotFound.length > 0) {
-  recommendations.push('1. Run: npm run test:setup to ensure fixtures exist');
+  recommendations.push('1. Run: npm run test:db:seed to ensure fixtures exist');
   recommendations.push('2. Verify fixtures are approved in database');
 }
 

@@ -6,10 +6,12 @@ import { useRouter } from 'next/navigation';
 import { ChevronLeft, Check } from 'lucide-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface LifestyleFormProps {
   goalId: string;
@@ -40,6 +42,7 @@ export function LifestyleForm({
   // existingSolutionId will be used when updating existing solutions
   console.log('LifestyleForm initialized with solution:', existingSolutionId || 'new');
   const router = useRouter();
+  const { triggerPoints } = usePointsAnimation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
@@ -136,46 +139,14 @@ export function LifestyleForm({
   // Load challenge options
   useEffect(() => {
     const fetchOptions = async () => {
-      // Fallback challenge options for categories
-      const fallbackChallenges: Record<string, string[]> = {
-        diet_nutrition: [
-          'None',
-          // Time & Planning
-          'Meal planning and prep time',
-          'Cooking skills needed',
-          'Complicated diet rules',
-          // Cost
-          'Higher grocery costs',
-          // Cravings & Preferences  
-          'Cravings and temptations',
-          'Missing favorite foods',
-          // Social & Lifestyle
-          'Social situations difficult',
-          'Family not supportive',
-          'Travel and eating out',
-          // Physical Effects
-          'Energy dips initially', 
-          'Digestive adjustment',
-          // Access
-          'Limited food options nearby',
-          // Other
-          'Other (please describe)'
-        ],
-        sleep: [
-          'Hard to maintain schedule',
-          "Partner's different schedule",
-          'Work/family conflicts',
-          'Too restrictive',
-          'Anxiety about sleep',
-          'Physical discomfort',
-          'Missing late night activities',
-          'Inconsistent results',
-          'Environmental factors (noise, light)',
-          'None',
-          'Other (please describe)'
-        ]
-      };
-      
+      const fallbackKey =
+        category === 'diet_nutrition'
+          ? 'diet_challenges'
+          : category === 'sleep'
+            ? 'sleep_challenges'
+            : undefined;
+      const fallbackOptions = fallbackKey ? DROPDOWN_OPTIONS[fallbackKey] : undefined;
+
       // Initialize Supabase client
       const supabaseClient = createClientComponentClient();
       
@@ -188,9 +159,9 @@ export function LifestyleForm({
       
       if (!error && data && data.length > 0) {
         setChallengeOptions(data.map((item: { label: string }) => item.label));
-      } else if (fallbackChallenges[category]) {
+      } else if (fallbackOptions) {
         // Use fallback if no data in DB
-        setChallengeOptions(fallbackChallenges[category]);
+        setChallengeOptions(fallbackOptions);
       }
       setChallengesLoading(false);
     };
@@ -304,7 +275,7 @@ export function LifestyleForm({
       const costType = "impact"; // Special type for relative cost changes
       
       // Prepare the solution fields with correct field names
-      const solutionFields: Record<string, any> = {
+      const solutionFields: Record<string, unknown> = {
         // Primary cost fields for filtering
         cost: primaryCost,
         cost_type: costType,
@@ -324,8 +295,8 @@ export function LifestyleForm({
           previous_sleep_hours: previousSleepHours,
         }),
         
-        // Array field (challenges for both categories)
-        challenges: selectedChallenges.filter(c => c !== 'None') // Remove 'None' from the array
+        // Array field (challenges for both categories) - "None" is a valid value
+        challenges: selectedChallenges
         
         // REMOVED from initial submission - optional fields handled in success screen only
       };
@@ -360,7 +331,14 @@ export function LifestyleForm({
         
         // Clear backup on successful submission
         clearBackup();
-        
+
+        // Trigger points animation
+        triggerPoints({
+          userId,
+          points: 15,
+          reason: 'Shared your experience'
+        });
+
         // Show success screen
         setShowSuccessScreen(true);
       } else {
@@ -377,7 +355,7 @@ export function LifestyleForm({
 
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (socialImpact && socialImpact.trim()) additionalFields.social_impact = socialImpact.trim();
     if (sleepQualityChange && sleepQualityChange.trim()) additionalFields.sleep_quality_change = sleepQualityChange.trim();
@@ -455,7 +433,7 @@ export function LifestyleForm({
                 <FormSectionHeader 
                   icon="⭐"
                   title="How well it worked"
-                  bgColor="bg-green-100 dark:bg-green-900"
+                  bgColorClassName="bg-green-100 dark:bg-green-900"
                 />
               </div>
               
@@ -657,17 +635,8 @@ export function LifestyleForm({
                           setStillFollowing(true);
                           setSustainabilityReason(''); // Reset reason when changing selection
                         }}
-                        className="sr-only"
+                        className="mr-2 text-blue-600 focus:ring-blue-500"
                       />
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        stillFollowing === true
-                          ? 'border-blue-500 bg-blue-500'
-                          : 'border-gray-300 dark:border-gray-600'
-                      }`}>
-                        {stillFollowing === true && (
-                          <div className="w-2 h-2 bg-white rounded-full" />
-                        )}
-                      </div>
                       <span className="text-sm">Yes, still following it</span>
                     </label>
                     
@@ -684,23 +653,15 @@ export function LifestyleForm({
                           setStillFollowing(false);
                           setSustainabilityReason(''); // Reset reason when changing selection
                         }}
-                        className="sr-only"
+                        className="mr-2 text-blue-600 focus:ring-blue-500"
                       />
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        stillFollowing === false
-                          ? 'border-blue-500 bg-blue-500'
-                          : 'border-gray-300 dark:border-gray-600'
-                      }`}>
-                        {stillFollowing === false && (
-                          <div className="w-2 h-2 bg-white rounded-full" />
-                        )}
-                      </div>
                       <span className="text-sm">No, I stopped</span>
                     </label>
                   </div>
                 </div>
 
                 {/* Step B: Conditional dropdown based on selection */}
+                {/* Trigger recompile */}
                 {stillFollowing === true && (
                   <div className="space-y-3 animate-slide-in">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -762,7 +723,7 @@ export function LifestyleForm({
               <FormSectionHeader 
                 icon="⚡"
                 title="Any challenges?"
-                bgColor="bg-amber-100 dark:bg-amber-900"
+                bgColorClassName="bg-amber-100 dark:bg-amber-900"
               />
             </div>
 
@@ -900,7 +861,7 @@ export function LifestyleForm({
               <FormSectionHeader 
                 icon="🔍"
                 title="What else did you try?"
-                bgColor="bg-purple-100 dark:bg-purple-900"
+                bgColorClassName="bg-purple-100 dark:bg-purple-900"
               />
             </div>
 

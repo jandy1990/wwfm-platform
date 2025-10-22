@@ -1,0 +1,595 @@
+/**
+ * Expansion Data Handler
+ *
+ * Handles the complex data structures for goal_implementation_links
+ * when creating new solution-to-goal connections.
+ */
+
+import { SupabaseClient } from '@supabase/supabase-js'
+import { mapAllFieldsToDropdowns } from '../utils/value-mapper'
+import { CATEGORY_FIELDS, validateFields } from '../config/category-fields'
+import chalk from 'chalk'
+
+export interface ExpandedGoalLink {
+  goal_id: string
+  goal_title: string
+  implementation_id: string // This is the variant ID
+  effectiveness: number
+  effectiveness_rationale: string
+  goal_specific_adaptation: string
+  solution_fields: Record<string, any>
+  aggregated_fields: Record<string, any>
+}
+
+export interface SolutionVariantInfo {
+  variant_id: string
+  solution_id: string
+  solution_title: string
+  solution_category: string
+  amount?: number
+  unit?: string
+  form?: string
+}
+
+interface ExpansionDataHandlerOptions {
+  forceWrite?: boolean
+  dirtyOnly?: boolean
+}
+
+export class ExpansionDataHandler {
+  constructor(
+    private supabase: SupabaseClient,
+    private options: ExpansionDataHandlerOptions = {}
+  ) {}
+
+  /**
+   * Get solution variant information needed for creating links
+   */
+  async getSolutionVariantInfo(solutionId: string): Promise<SolutionVariantInfo | null> {
+    // First try to get existing variant
+    const { data, error } = await this.supabase
+      .from('solution_variants')
+      .select(`
+        id,
+        solution_id,
+        amount,
+        unit,
+        form,
+        solutions(title, solution_category)
+      `)
+      .eq('solution_id', solutionId)
+      .limit(1)
+      .single()
+
+    // If variant exists, return it
+    if (!error && data) {
+      const solutionRecord = Array.isArray(data.solutions)
+        ? data.solutions[0]
+        : data.solutions
+
+      if (!solutionRecord) {
+        console.log(chalk.yellow(`⚠️  Solution record missing for ${solutionId}, skipping`))
+        return null
+      }
+
+      return {
+        variant_id: data.id,
+        solution_id: data.solution_id,
+        solution_title: solutionRecord.title ?? 'Unknown Solution',
+        solution_category: solutionRecord.solution_category ?? 'unknown',
+        amount: data.amount,
+        unit: data.unit,
+        form: data.form
+      }
+    }
+
+    // If no variant exists, return null (solutions without variants can't be expanded)
+    console.log(chalk.yellow(`⚠️  No variant found for solution ${solutionId} - skipping expansion`))
+    return null
+  }
+
+  /**
+   * Get existing goal link data to use as template
+   */
+  async getExistingGoalLinkTemplate(variantId: string): Promise<ExpandedGoalLink | null> {
+    const { data, error } = await this.supabase
+      .from('goal_implementation_links')
+      .select(`
+        goal_id,
+        avg_effectiveness,
+        solution_fields,
+        aggregated_fields,
+        goals(title)
+      `)
+      .eq('implementation_id', variantId)
+      .limit(1)
+      .single()
+
+    if (error || !data) {
+      console.log(chalk.yellow(`   No existing template found for variant ${variantId}`))
+      return null
+    }
+
+    const goalRecord = Array.isArray(data.goals) ? data.goals[0] : data.goals
+
+    return {
+      goal_id: data.goal_id,
+      goal_title: goalRecord?.title ?? 'Unknown Goal',
+      implementation_id: variantId,
+      effectiveness: parseFloat(data.avg_effectiveness) || 4.0,
+      effectiveness_rationale: 'Template from existing connection',
+      goal_specific_adaptation: 'Based on existing application',
+      solution_fields: data.solution_fields || {},
+      aggregated_fields: data.aggregated_fields || {}
+    }
+  }
+
+  /**
+   * Create aggregated fields structure from solution fields
+   */
+  createAggregatedFields(
+    solutionFields: Record<string, any>,
+    solutionCategory: string,
+    metadata: {
+      sourceSolution: string
+      sourceGoal: string
+      targetGoal: string
+    }
+  ): Record<string, any> {
+    const aggregatedFields: Record<string, any> = {
+      _metadata: {
+        confidence: 'high',
+        ai_enhanced: true,
+        computed_at: new Date().toISOString(),
+        data_source: 'ai_expansion',
+        user_ratings: 0,
+        value_mapped: true,
+        mapping_version: 'v3_expansion_system',
+        source_solution: metadata.sourceSolution,
+        source_goal: metadata.sourceGoal,
+        target_goal: metadata.targetGoal,
+        expansion_method: 'conservative_mapping'
+      }
+    }
+
+    // Generate distributions for each field
+    for (const [fieldName, value] of Object.entries(solutionFields)) {
+      if (Array.isArray(value)) {
+        aggregatedFields[fieldName] = this.createArrayFieldDistribution(fieldName, value)
+      } else {
+        aggregatedFields[fieldName] = this.createSingleFieldDistribution(fieldName, value)
+      }
+    }
+
+    return aggregatedFields
+  }
+
+  /**
+   * Create distribution for array fields
+   */
+  private createArrayFieldDistribution(fieldName: string, values: any[]): any {
+    if (!values || values.length === 0) {
+      return {
+        mode: 'None',
+        values: [{ count: 1, value: 'None', percentage: 100 }],
+        totalReports: 1
+      }
+    }
+
+    const uniqueValues: string[] = []
+    const seen = new Set<string>()
+
+    for (const raw of values) {
+      if (raw === null || raw === undefined) continue
+      const valueString = String(raw).trim()
+      if (!valueString) continue
+
+      const key = valueString.toLowerCase()
+      if (seen.has(key)) continue
+
+      seen.add(key)
+      uniqueValues.push(valueString)
+    }
+
+    if (uniqueValues.length === 0) {
+      return {
+        mode: 'None',
+        values: [{ count: 1, value: 'None', percentage: 100 }],
+        totalReports: 1
+      }
+    }
+
+    // Create realistic percentage distribution based on unique values
+    const distributions = uniqueValues.map((value, index) => {
+      let percentage: number
+      if (index === 0) {
+        percentage = Math.max(40, 70 - (uniqueValues.length - 1) * 10)
+      } else {
+        const remaining = 100 - 40
+        percentage = remaining / (uniqueValues.length - 1)
+      }
+
+      return {
+        count: 1,
+        value,
+        percentage: Math.round(percentage)
+      }
+    })
+
+    // Ensure percentages sum to 100
+    const totalPercentage = distributions.reduce((sum, d) => sum + d.percentage, 0)
+    if (totalPercentage !== 100) {
+      distributions[0].percentage += (100 - totalPercentage)
+    }
+
+    return {
+      mode: uniqueValues[0],
+      values: distributions,
+      totalReports: 1
+    }
+  }
+
+  /**
+   * Create distribution for single value fields
+   */
+  private createSingleFieldDistribution(fieldName: string, value: any): any {
+    const primaryValue = value === null || value === undefined
+      ? ''
+      : String(value).trim()
+
+    if (!primaryValue) {
+      return {
+        mode: 'Unknown',
+        values: [{ count: 1, value: 'Unknown', percentage: 100 }],
+        totalReports: 1
+      }
+    }
+
+    const alternativeValue = this.generateAlternativeValue(fieldName, primaryValue)
+
+    if (!alternativeValue || alternativeValue.toLowerCase() === primaryValue.toLowerCase()) {
+      return {
+        mode: primaryValue,
+        values: [{ count: 1, value: primaryValue, percentage: 100 }],
+        totalReports: 1
+      }
+    }
+
+    return {
+      mode: primaryValue,
+      values: [
+        { count: 1, value: primaryValue, percentage: 75 },
+        { count: 1, value: alternativeValue, percentage: 25 }
+      ],
+      totalReports: 1
+    }
+  }
+
+  /**
+   * Generate alternative values for field distributions
+   */
+  private generateAlternativeValue(fieldName: string, primaryValue: any): any {
+    // Time-related fields
+    if (fieldName.includes('time') || fieldName === 'duration') {
+      const timeAlternatives: Record<string, string> = {
+        'immediately': '1-2 weeks',
+        '1-2 weeks': '1 month',
+        '1 month': '2-3 months',
+        '2-3 months': '3-6 months',
+        '3-6 months': '6+ months',
+        '6+ months': '3-6 months'
+      }
+      return timeAlternatives[primaryValue] || 'varies by individual'
+    }
+
+    // Frequency fields
+    if (fieldName.includes('frequency')) {
+      const frequencyAlternatives: Record<string, string> = {
+        'daily': 'twice daily',
+        'twice daily': 'daily',
+        'once daily': 'twice daily',
+        'weekly': 'daily',
+        'monthly': 'weekly',
+        'as needed': 'daily'
+      }
+      return frequencyAlternatives[primaryValue] || 'as needed'
+    }
+
+    // Cost fields
+    if (fieldName.includes('cost')) {
+      if (primaryValue === 'Free') return 'Under $10'
+      if (primaryValue.includes('Under $10')) return 'Free'
+      if (primaryValue.includes('$10-25')) return 'Under $10'
+      if (primaryValue.includes('$25-50')) return '$10-25'
+      return 'varies by provider'
+    }
+
+    // Default: return a generic alternative
+    return 'varies'
+  }
+
+  /**
+   * Validate and prepare goal link data for insertion
+   */
+  async prepareGoalLinkData(
+    variantInfo: SolutionVariantInfo,
+    goalId: string,
+    effectiveness: number,
+    effectivenessRationale: string,
+    goalSpecificAdaptation: string,
+    solutionFields: Record<string, any>,
+    targetGoalTitle: string
+  ): Promise<ExpandedGoalLink> {
+    // Map solution fields to dropdown values
+    const categoryConfig = CATEGORY_FIELDS[variantInfo.solution_category]
+    if (!categoryConfig) {
+      throw new Error(`No category config found for: ${variantInfo.solution_category}`)
+    }
+
+    const mappedFields = mapAllFieldsToDropdowns(
+      solutionFields,
+      variantInfo.solution_category
+    )
+
+    const validationErrors = validateFields(variantInfo.solution_category, mappedFields)
+    if (validationErrors.length > 0) {
+      throw new Error(`Missing required data: ${validationErrors.join(', ')}`)
+    }
+
+    // Create aggregated fields
+    const aggregatedFields = this.createAggregatedFields(
+      mappedFields,
+      variantInfo.solution_category,
+      {
+        sourceSolution: variantInfo.solution_title,
+        sourceGoal: 'expansion_source',
+        targetGoal: targetGoalTitle
+      }
+    )
+
+    return {
+      goal_id: goalId,
+      goal_title: targetGoalTitle,
+      implementation_id: variantInfo.variant_id,
+      effectiveness: effectiveness,
+      effectiveness_rationale: effectivenessRationale,
+      goal_specific_adaptation: goalSpecificAdaptation,
+      solution_fields: mappedFields,
+      aggregated_fields: aggregatedFields
+    }
+  }
+
+  /**
+   * Insert new goal implementation link to database
+   */
+  async insertGoalLink(goalLink: ExpandedGoalLink): Promise<boolean> {
+    try {
+      // Check if link already exists
+      const { data: existing } = await this.supabase
+        .from('goal_implementation_links')
+        .select('id, solution_fields, aggregated_fields, needs_aggregation')
+        .eq('goal_id', goalLink.goal_id)
+        .eq('implementation_id', goalLink.implementation_id)
+        .single()
+
+      if (existing) {
+        if (this.options.dirtyOnly && !existing.needs_aggregation) {
+          console.log(chalk.gray(`   Skipping ${goalLink.goal_title} – not flagged for cleanup`))
+          return false
+        }
+
+        const fieldsEqual = isDeepEqual(existing.solution_fields, goalLink.solution_fields)
+        const aggregatedEqual = isDeepEqual(existing.aggregated_fields, goalLink.aggregated_fields)
+
+        if (fieldsEqual && aggregatedEqual && !this.options.forceWrite) {
+          console.log(chalk.gray(`   No changes detected for ${goalLink.goal_title}, skipping write`))
+          return false
+        }
+
+        const { error: updateError } = await this.supabase
+          .from('goal_implementation_links')
+          .update({
+            avg_effectiveness: goalLink.effectiveness,
+            rating_count: 1,
+            typical_application: goalLink.goal_specific_adaptation,
+            notes: `Expanded from existing solution. ${goalLink.effectiveness_rationale}`,
+            solution_fields: goalLink.solution_fields,
+            aggregated_fields: goalLink.aggregated_fields,
+            needs_aggregation: false,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', existing.id)
+
+        if (updateError) {
+          console.error(chalk.red(`   Error updating goal link: ${updateError.message}`))
+          return false
+        }
+
+        console.log(chalk.green(`   🔄 Updated link: ${goalLink.goal_title}`))
+        return true
+      }
+
+      // Insert new link
+      const { error } = await this.supabase
+        .from('goal_implementation_links')
+        .insert({
+          goal_id: goalLink.goal_id,
+          implementation_id: goalLink.implementation_id,
+          avg_effectiveness: goalLink.effectiveness,
+          rating_count: 1,
+          typical_application: goalLink.goal_specific_adaptation,
+          notes: `Expanded from existing solution. ${goalLink.effectiveness_rationale}`,
+          solution_fields: goalLink.solution_fields,
+          aggregated_fields: goalLink.aggregated_fields,
+          needs_aggregation: false,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+
+      if (error) {
+        console.error(chalk.red(`   Error inserting goal link: ${error.message}`))
+        return false
+      }
+
+      console.log(chalk.green(`   ✅ Created link: ${goalLink.goal_title} (${goalLink.effectiveness} effectiveness)`))
+      return true
+
+    } catch (error) {
+      console.error(chalk.red(`   Error in insertGoalLink: ${error}`))
+      return false
+    }
+  }
+
+  /**
+   * Create goal links from passed connections (simplified interface for quality-first expansion)
+   */
+  async createGoalLinks(
+    solutionId: string,
+    passedConnections: Array<{
+      goal_id: string
+      effectiveness: number
+      effectiveness_rationale?: string
+      goal_specific_adaptation?: string
+      fields?: Record<string, any>
+    }>,
+    approvedCandidates?: Array<{ id: string; title: string }>
+  ): Promise<ExpandedGoalLink[]> {
+    console.log(chalk.cyan(`\n📥 Creating ${passedConnections.length} goal implementation links...`))
+
+    // Get solution variant info
+    const variantInfo = await this.getSolutionVariantInfo(solutionId)
+    if (!variantInfo) {
+      console.error(chalk.red(`❌ Could not find variant for solution ${solutionId}`))
+      return []
+    }
+
+    const expandedLinks: ExpandedGoalLink[] = []
+
+    for (const connection of passedConnections) {
+      try {
+        // Find goal title from Gemini response
+        const goalCandidate = approvedCandidates?.find(candidate => candidate.id === connection.goal_id)
+        const goalTitle = goalCandidate?.title || 'Unknown Goal'
+
+        const expandedLink = await this.prepareGoalLinkData(
+          variantInfo,
+          connection.goal_id,
+          connection.effectiveness,
+          connection.effectiveness_rationale || '',
+          connection.goal_specific_adaptation || '',
+          connection.fields || {},
+          goalTitle
+        )
+
+        if (expandedLink) {
+          expandedLinks.push(expandedLink)
+        }
+      } catch (error) {
+        console.error(chalk.red(`❌ Failed to prepare goal link for ${connection.goal_id}: ${error}`))
+      }
+    }
+
+    // Insert the links
+    const results = await this.batchInsertGoalLinks(expandedLinks)
+    console.log(chalk.green(`📊 Successfully created ${results.successful} new connections`))
+
+    return expandedLinks.slice(0, results.successful)
+  }
+
+  /**
+   * Batch insert multiple goal links
+   */
+  async batchInsertGoalLinks(goalLinks: ExpandedGoalLink[]): Promise<{
+    successful: number
+    failed: number
+    skipped: number
+  }> {
+    let successful = 0
+    let failed = 0
+    let skipped = 0
+
+    console.log(chalk.cyan(`\n📥 Inserting ${goalLinks.length} goal links...`))
+
+    for (const goalLink of goalLinks) {
+      const result = await this.insertGoalLink(goalLink)
+
+      if (result === true) {
+        successful++
+      } else if (result === false) {
+        // Check if it was skipped (already exists) or failed
+        const { data: existing } = await this.supabase
+          .from('goal_implementation_links')
+          .select('id')
+          .eq('goal_id', goalLink.goal_id)
+          .eq('implementation_id', goalLink.implementation_id)
+          .single()
+
+        if (existing) {
+          skipped++
+        } else {
+          failed++
+        }
+      }
+
+      // Small delay to avoid overwhelming the database
+      await new Promise(resolve => setTimeout(resolve, 100))
+    }
+
+    console.log(chalk.cyan('\n📊 Batch Insert Results:'))
+    console.log(chalk.green(`   ✅ Successful: ${successful}`))
+    console.log(chalk.yellow(`   ⏭️  Skipped (existing): ${skipped}`))
+    console.log(chalk.red(`   ❌ Failed: ${failed}`))
+
+    return { successful, failed, skipped }
+  }
+
+  /**
+   * Validate goal link data before insertion
+   */
+  validateGoalLinkData(goalLink: ExpandedGoalLink): { valid: boolean; errors: string[] } {
+    const errors: string[] = []
+
+    // Required fields validation
+    if (!goalLink.goal_id) errors.push('Missing goal_id')
+    if (!goalLink.implementation_id) errors.push('Missing implementation_id')
+    if (!goalLink.effectiveness || goalLink.effectiveness < 3.0 || goalLink.effectiveness > 5.0) {
+      errors.push(`Invalid effectiveness: ${goalLink.effectiveness} (must be 3.0-5.0)`)
+    }
+
+    // Solution fields validation
+    if (!goalLink.solution_fields || Object.keys(goalLink.solution_fields).length === 0) {
+      errors.push('Missing solution_fields')
+    }
+
+    // Aggregated fields validation
+    if (!goalLink.aggregated_fields || !goalLink.aggregated_fields._metadata) {
+      errors.push('Missing or invalid aggregated_fields')
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors
+    }
+  }
+}
+
+function isDeepEqual(a: any, b: any): boolean {
+  return JSON.stringify(normalizeForComparison(a)) === JSON.stringify(normalizeForComparison(b))
+}
+
+function normalizeForComparison(value: any): any {
+  if (Array.isArray(value)) {
+    return value.map(normalizeForComparison)
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.keys(value)
+      .sort()
+      .reduce<Record<string, any>>((acc, key) => {
+        acc[key] = normalizeForComparison(value[key])
+        return acc
+      }, {})
+  }
+
+  return value
+}

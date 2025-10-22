@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { supabase } from '@/lib/database/client';
 import { Star, X, Search, Plus } from 'lucide-react';
 import { useKeyboardNavigation } from '@/lib/hooks/useKeyboardNavigation';
 import { searchExistingSolutions } from '@/lib/solutions/categorization';
@@ -86,33 +85,31 @@ export function FailedSolutionsPicker({
   const [suggestions, setSuggestions] = useState<SolutionSuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-  const [searchTimer, setSearchTimer] = useState<NodeJS.Timeout | null>(null);
+  const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [ratingIndex, setRatingIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [showMobileSheet, setShowMobileSheet] = useState(false);
   const [isDropdownInteracting, setIsDropdownInteracting] = useState(false);
-  const focusTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const focusTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   
   // Search cache to avoid repeated API calls
   const searchCache = useRef<Map<string, SolutionSuggestion[]>>(new Map());
-  const cacheTimeout = useRef<Map<string, NodeJS.Timeout>>(new Map());
+  const cacheTimeout = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
 
   // Helper to manage cache with expiry
   const setCacheWithExpiry = useCallback((key: string, data: SolutionSuggestion[], expiryMs: number = 300000) => {
-    // Clear any existing timeout for this key
-    if (cacheTimeout.current.has(key)) {
-      clearTimeout(cacheTimeout.current.get(key)!);
+    const existingTimeout = cacheTimeout.current.get(key);
+    if (existingTimeout) {
+      clearTimeout(existingTimeout);
     }
-    
-    // Set the cache
+
     searchCache.current.set(key, data);
-    
-    // Set expiry (5 minutes default)
+
     const timeout = setTimeout(() => {
       searchCache.current.delete(key);
       cacheTimeout.current.delete(key);
     }, expiryMs);
-    
+
     cacheTimeout.current.set(key, timeout);
   }, []);
   
@@ -167,42 +164,31 @@ export function FailedSolutionsPicker({
 
   // Search for solutions
   useEffect(() => {
-    console.log('🔍 FailedSolutionsPicker: Search term changed:', searchTerm, 'Length:', searchTerm.length);
-    console.log('🔍 FailedSolutionsPicker: Current state - showSuggestions:', showSuggestions, 'isSearching:', isSearching, 'suggestions count:', suggestions.length);
-    
     if (searchTerm.length >= 3) {
       // Check cache first
       const cacheKey = searchTerm.toLowerCase().trim();
       if (searchCache.current.has(cacheKey)) {
         const cachedData = searchCache.current.get(cacheKey)!;
-        console.log('📦 FailedSolutionsPicker: Cache hit for:', searchTerm, 'Found:', cachedData.length, 'results');
         setSuggestions(cachedData);
         setShowSuggestions(true);
         setIsSearching(false);
         return; // Use cached results, skip API call
       }
       
-      console.log('🚀 FailedSolutionsPicker: Cache miss, triggering search for:', searchTerm);
-      if (searchTimer) clearTimeout(searchTimer);
+      if (searchTimerRef.current) {
+        clearTimeout(searchTimerRef.current);
+      }
       
       // Show loading immediately for perceived performance
       setIsSearching(true);
       setShowSuggestions(true); // Show dropdown with loading state
       
       const timer = setTimeout(async () => {
-        console.log('⏰ FailedSolutionsPicker: Executing search after debounce');
-        
         try {
-          console.log('🔍 FailedSolutionsPicker: Making search call with term:', searchTerm);
-          
           // Use the same sophisticated search logic as Step 0
           const results = await searchExistingSolutions(searchTerm.trim());
           
-          console.log('📊 FailedSolutionsPicker: Raw search result:', results);
-          
           if (results && results.length > 0) {
-            console.log('✅ FailedSolutionsPicker: Search Success - Results:', results.map(r => r.title));
-            
             // Convert SolutionMatch[] to SolutionSuggestion[] format
             const suggestions = results.map(result => ({
               id: result.id,
@@ -213,30 +199,25 @@ export function FailedSolutionsPicker({
               matchScore: result.matchScore
             }));
             
-            console.log('📤 FailedSolutionsPicker: Setting', suggestions.length, 'suggestions');
             setSuggestions(suggestions);
             
             // Cache the results
             setCacheWithExpiry(cacheKey, suggestions);
-            console.log('💾 FailedSolutionsPicker: Cached results for:', searchTerm);
           } else {
-            console.log('❌ FailedSolutionsPicker: No results found for:', searchTerm);
             setSuggestions([]);
             
             // Cache empty results too (avoid repeated failed searches)
             setCacheWithExpiry(cacheKey, [], 60000); // 1 minute for empty results
-            console.log('💾 FailedSolutionsPicker: Cached empty result for:', searchTerm);
           }
         } catch (error) {
           console.error('💥 FailedSolutionsPicker: Error searching solutions:', error);
           setSuggestions([]);
         } finally {
-          console.log('🏁 FailedSolutionsPicker: Search completed, setting isSearching to false');
           setIsSearching(false); // No artificial delay
         }
       }, 150); // Reduced from 300ms
       
-      setSearchTimer(timer);
+      searchTimerRef.current = timer;
     } else {
       setSuggestions([]);
       setShowSuggestions(false);
@@ -244,15 +225,16 @@ export function FailedSolutionsPicker({
     }
     
     return () => {
-      if (searchTimer) clearTimeout(searchTimer);
+      if (searchTimerRef.current) {
+        clearTimeout(searchTimerRef.current);
+        searchTimerRef.current = null;
+      }
     };
   }, [searchTerm, isMobile, setCacheWithExpiry]);
 
   // Show suggestions when results arrive
   useEffect(() => {
-    console.log('👁️ FailedSolutionsPicker: Suggestions updated:', suggestions.length, 'items. SearchTerm:', searchTerm, 'Mobile:', isMobile, 'Input focused:', inputRef.current === document.activeElement);
     if (suggestions.length > 0 && searchTerm.length >= 3 && !isMobile && inputRef.current === document.activeElement) {
-      console.log('📍 FailedSolutionsPicker: Auto-showing suggestions because we have results and input is focused');
       setShowSuggestions(true);
     }
   }, [suggestions, searchTerm, isMobile]);
@@ -324,25 +306,31 @@ export function FailedSolutionsPicker({
   }, [ratingIndex, updateRating]);
 
   useEffect(() => {
-    if (ratingIndex !== null) {
-      window.addEventListener('keydown', handleNumberKeyPress as unknown as EventListener);
-      return () => window.removeEventListener('keydown', handleNumberKeyPress as unknown as EventListener);
+    if (ratingIndex === null) {
+      return;
     }
+
+    const listener: EventListener = (event) => {
+      handleNumberKeyPress(event as unknown as KeyboardEvent);
+    };
+
+    window.addEventListener('keydown', listener);
+    return () => window.removeEventListener('keydown', listener);
   }, [ratingIndex, handleNumberKeyPress]);
   
   // Clean up cache and timeouts on unmount
   useEffect(() => {
+    const cacheMap = searchCache.current;
+    const timeoutMap = cacheTimeout.current;
+
     return () => {
-      // Clear all cache timeouts on unmount
-      const timeouts = cacheTimeout.current;
-      const cache = searchCache.current;
-      timeouts.forEach(timeout => clearTimeout(timeout));
-      cache.clear();
-      timeouts.clear();
-      
-      // Clear focus timeout
-      if (focusTimeoutRef.current) {
-        clearTimeout(focusTimeoutRef.current);
+      timeoutMap.forEach(timeout => clearTimeout(timeout));
+      cacheMap.clear();
+      timeoutMap.clear();
+
+      const focusTimeout = focusTimeoutRef.current;
+      if (focusTimeout) {
+        clearTimeout(focusTimeout);
       }
     };
   }, []);
@@ -354,27 +342,29 @@ export function FailedSolutionsPicker({
       // Prefetch some common terms in the background
       const commonTerms = ['meditation', 'therapy', 'exercise', 'vitamin'];
       
-      commonTerms.forEach(async (term) => {
-        if (!searchCache.current.has(term)) {
+      commonTerms.forEach((term) => {
+        if (searchCache.current.has(term)) {
+          return;
+        }
+
+        void (async () => {
           try {
             const results = await searchExistingSolutions(term);
-            
-            if (results) {
-              // Convert to SolutionSuggestion format for cache consistency
-              const suggestions = results.map(result => ({
-                id: result.id,
-                title: result.title,
-                category: result.category,
-                categoryDisplayName: result.categoryDisplayName,
-                matchType: result.matchType,
-                matchScore: result.matchScore
-              }));
-              setCacheWithExpiry(term, suggestions);
-            }
+            if (!results) return;
+
+            const suggestions = results.map(result => ({
+              id: result.id,
+              title: result.title,
+              category: result.category,
+              categoryDisplayName: result.categoryDisplayName,
+              matchType: result.matchType,
+              matchScore: result.matchScore
+            }));
+            setCacheWithExpiry(term, suggestions);
           } catch {
             // Silent fail for prefetch
           }
-        }
+        })();
       });
     }
   }, [setCacheWithExpiry]);

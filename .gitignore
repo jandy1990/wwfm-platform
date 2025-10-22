@@ -86,6 +86,14 @@ next-env.d.ts
 # Supabase connection guide (contains sensitive keys)
 /docs/technical/supabase-connection-guide.md
 
+# Supabase CLI runtime artifacts
+supabase/.temp/
+supabase/.branches/
+
+# Generated cache/error logs
+.cache/
+.failed-goals.json
+
 # duplicate directories
 wwfm-platform-OLD/
 wwfm-platform/

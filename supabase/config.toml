@@ -1,0 +1,21 @@
+# ⚠️ LOCAL TESTING DATABASE ONLY - DO NOT USE FOR PRODUCTION
+# This is a local Supabase instance for testing infrastructure only
+# Production database is at: https://wqxkhxdbxdtpuvuvgirx.supabase.co
+# Always use Supabase MCP tools or lib/database/client.ts for production data
+project_id = "wwfm-platform-local-testing-only"
+
+[api]
+port = 54321
+schemas = ["public", "extensions"]
+extra_search_path = ["extensions"]
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[studio]
+port = 54323
+
+[inbucket]
+port = 54324

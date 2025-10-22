@@ -1,7 +1,7 @@
 ⚠️⚠️⚠️ **ARCHIVED - CONTAINS OUTDATED FIELD NAMES - DO NOT USE AS REFERENCE** ⚠️⚠️⚠️
 
 # ❌ OUTDATED ANALYSIS - FIELD NAMES HAVE BEEN FIXED
-## ✅ FOR CURRENT FIELD NAMES SEE: `/docs/WWFM Solution Fields Matrix - Code-Aligned.md`
+## ✅ FOR CURRENT FIELD NAMES SEE: `/docs/solution-fields-ssot.md`
 
 ### THIS DOCUMENT REFERENCES OLD FIELD NAMES:
 - `issues` (now `challenges`)

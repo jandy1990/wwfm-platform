@@ -42,55 +42,94 @@ function getAdminSupabase() {
  * This allows the same test solutions to be rated again
  */
 export async function clearTestRatings(goalId: string = process.env.TEST_GOAL_ID!) {
-  const supabase = getTestSupabase()
-  
+  const supabase = getAdminSupabase()
+
   console.log('🧹 Clearing test ratings for goal:', goalId)
-  
-  // First, get all test fixture variant IDs
-  const { data: testVariants } = await supabase
-    .from('solution_variants')
-    .select('id, solution_id')
-    .in('solution_id', 
-      supabase
-        .from('solutions')
-        .select('id')
-        .eq('source_type', 'test_fixture')
-    )
-  
-  if (!testVariants || testVariants.length === 0) {
-    console.log('No test fixtures found')
-    return
+
+  const { data: fixtureSolutions, error: fixtureError } = await supabase
+    .from('solutions')
+    .select('id')
+    .eq('source_type', 'test_fixture')
+
+  if (fixtureError) {
+    console.error('Error fetching test fixtures:', fixtureError.message)
+    return { linksCleared: 0, ratingsCleared: 0 }
   }
-  
-  const variantIds = testVariants.map(v => v.id)
-  
-  // Delete from goal_implementation_links
-  const { error: linkError, count: linkCount } = await supabase
+
+  if (!fixtureSolutions || fixtureSolutions.length === 0) {
+    console.log('No test fixtures found')
+    return { linksCleared: 0, ratingsCleared: 0 }
+  }
+
+  const solutionIds = fixtureSolutions.map(s => s.id)
+
+  const { data: variants, error: variantError } = await supabase
+    .from('solution_variants')
+    .select('id')
+    .in('solution_id', solutionIds)
+
+  if (variantError) {
+    console.error('Error fetching fixture variants:', variantError.message)
+    return { linksCleared: 0, ratingsCleared: 0 }
+  }
+
+  if (!variants || variants.length === 0) {
+    console.log('No fixture variants found')
+    return { linksCleared: 0, ratingsCleared: 0 }
+  }
+
+  const variantIds = variants.map(v => v.id)
+
+  const { data: ratingRows } = await supabase
+    .from('ratings')
+    .select('id')
+    .eq('goal_id', goalId)
+    .in('implementation_id', variantIds)
+
+  if (ratingRows && ratingRows.length > 0) {
+    const ratingIds = ratingRows.map(r => r.id)
+
+    await supabase
+      .from('retrospective_schedules')
+      .delete()
+      .in('rating_id', ratingIds)
+
+    await supabase
+      .from('goal_retrospectives')
+      .delete()
+      .in('rating_id', ratingIds)
+  }
+
+  const { data: deletedLinks, error: linkError } = await supabase
     .from('goal_implementation_links')
     .delete()
     .eq('goal_id', goalId)
     .in('implementation_id', variantIds)
-  
+    .select('id')
+
   if (linkError) {
-    console.error('Error clearing goal_implementation_links:', linkError)
+    console.error('Error clearing goal_implementation_links:', linkError.message)
   } else {
-    console.log(`✅ Cleared ${linkCount || 0} goal_implementation_links`)
+    console.log(`✅ Cleared ${deletedLinks?.length || 0} goal_implementation_links`)
   }
-  
-  // Delete from ratings table - using implementation_id field (not solution_variant_id)
-  const { error: ratingError, count: ratingCount } = await supabase
+
+  const { data: deletedRatings, error: ratingError } = await supabase
     .from('ratings')
     .delete()
     .eq('goal_id', goalId)
     .in('implementation_id', variantIds)
-  
+    .select('id')
+
   if (ratingError) {
-    console.error('Error clearing ratings:', ratingError)
+    console.error('Error clearing ratings:', ratingError.message)
   } else {
-    console.log(`✅ Cleared ${ratingCount || 0} ratings`)
+    console.log(`✅ Cleared ${deletedRatings?.length || 0} ratings`)
   }
-  
-  return { linksCleared: linkCount || 0, ratingsCleared: ratingCount || 0 }
+
+  return {
+    linksCleared: deletedLinks?.length || 0,
+    ratingsCleared: deletedRatings?.length || 0
+  }
 }
 
 /**
@@ -181,6 +220,19 @@ export async function clearTestRatingsForSolution(
     }
   }
 
+  // First, clear aggregated_fields to prevent contamination (before deleting links)
+  const { error: clearFieldsError } = await supabase
+    .from('goal_implementation_links')
+    .update({ aggregated_fields: {} })
+    .eq('goal_id', goalId)
+    .in('implementation_id', variantIds)
+
+  if (clearFieldsError) {
+    console.error('Error clearing aggregated_fields:', clearFieldsError.message)
+  } else {
+    console.log(`✅ Cleared aggregated_fields for "${solutionTitle}"`)
+  }
+
   // Delete goal_implementation_links - get count of deleted rows
   const { data: deletedLinks, error: linkError } = await supabase
     .from('goal_implementation_links')
@@ -231,61 +283,104 @@ export async function aggressiveCleanupForSolution(
   solutionTitle: string,
   goalId: string = process.env.TEST_GOAL_ID!
 ) {
-  const adminClient = getAdminSupabase()
-  
-  console.log(`🔥 Aggressive cleanup for "${solutionTitle}"`)
-  
-  // First, find ALL solutions with this title (including user-generated)
-  const { data: solutions, error: searchError } = await adminClient
+  const supabase = getAdminSupabase()
+
+  console.log(`🔥 Aggressive cleanup for "${solutionTitle}" (goal ${goalId})`)
+
+  const { data: solutions, error: searchError } = await supabase
     .from('solutions')
-    .select('id')
+    .select('id, source_type')
     .eq('title', solutionTitle)
-  
+
   if (searchError || !solutions || solutions.length === 0) {
     console.log('No solutions found to clean')
     return { success: true, message: 'No solutions found' }
   }
-  
-  const solutionIds = solutions.map(s => s.id)
-  console.log(`Found ${solutionIds.length} solution(s) to clean`)
-  
-  // Get ALL variants for these solutions
-  const { data: variants } = await adminClient
-    .from('solution_variants')
-    .select('id')
-    .in('solution_id', solutionIds)
-  
-  if (variants && variants.length > 0) {
-    const variantIds = variants.map(v => v.id)
-    console.log(`Found ${variantIds.length} variant(s) to clean`)
-    
-    // Delete ALL ratings for these variants (regardless of goal)
-    const { data: deletedRatings, error: ratingError } = await adminClient
-      .from('ratings')
-      .delete()
-      .in('implementation_id', variantIds)
-      .select()
-    
-    if (ratingError) {
-      console.error('Failed to delete ratings:', ratingError)
-    } else {
-      console.log(`Deleted ${deletedRatings?.length || 0} ratings`)
+
+  for (const solution of solutions) {
+    const { data: variants } = await supabase
+      .from('solution_variants')
+      .select('id')
+      .eq('solution_id', solution.id)
+
+    if (!variants || variants.length === 0) {
+      continue
     }
-    
-    // Delete ALL goal links for these variants
-    const { data: deletedLinks, error: linkError } = await adminClient
+
+    const variantIds = variants.map(v => v.id)
+
+    const { data: goalLinks } = await supabase
+      .from('goal_implementation_links')
+      .select('id, implementation_id')
+      .eq('goal_id', goalId)
+      .in('implementation_id', variantIds)
+
+    if (!goalLinks || goalLinks.length === 0) {
+      continue
+    }
+
+    const linkedVariantIds = goalLinks.map(link => link.implementation_id)
+
+    const { data: ratingRows } = await supabase
+      .from('ratings')
+      .select('id')
+      .eq('goal_id', goalId)
+      .in('implementation_id', linkedVariantIds)
+
+    if (ratingRows && ratingRows.length > 0) {
+      const ratingIds = ratingRows.map(r => r.id)
+
+      await supabase
+        .from('retrospective_schedules')
+        .delete()
+        .in('rating_id', ratingIds)
+
+      await supabase
+        .from('goal_retrospectives')
+        .delete()
+        .in('rating_id', ratingIds)
+
+      await supabase
+        .from('ratings')
+        .delete()
+        .in('id', ratingIds)
+    }
+
+    await supabase
       .from('goal_implementation_links')
       .delete()
-      .in('implementation_id', variantIds)
-      .select()
-    
-    if (linkError) {
-      console.error('Failed to delete links:', linkError)
-    } else {
-      console.log(`Deleted ${deletedLinks?.length || 0} goal links`)
+      .eq('goal_id', goalId)
+      .in('implementation_id', linkedVariantIds)
+
+    for (const variantId of linkedVariantIds) {
+      const { data: remainingLinks } = await supabase
+        .from('goal_implementation_links')
+        .select('id')
+        .eq('implementation_id', variantId)
+        .limit(1)
+
+      if (!remainingLinks || remainingLinks.length === 0) {
+        await supabase
+          .from('solution_variants')
+          .delete()
+          .eq('id', variantId)
+      }
+    }
+
+    const { data: remainingVariants } = await supabase
+      .from('solution_variants')
+      .select('id')
+      .eq('solution_id', solution.id)
+      .limit(1)
+
+    if ((!remainingVariants || remainingVariants.length === 0) && solution.source_type !== 'test_fixture') {
+      await supabase
+        .from('solutions')
+        .delete()
+        .eq('id', solution.id)
     }
   }
-  
+
   return { success: true, message: 'Aggressive cleanup complete' }
 }
 

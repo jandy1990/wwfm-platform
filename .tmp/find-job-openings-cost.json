@@ -1,0 +1,48 @@
+{
+  "goalId": "7f10f31f-5ba4-4be7-a2c0-d4d244f7aa94",
+  "goalTitle": "Find job openings",
+  "timestamp": "2025-10-16T22:51:21.969Z",
+  "summary": {
+    "totalSolutions": 11,
+    "categoriesFound": [
+      "apps_software"
+    ],
+    "totalFieldsChecked": 11,
+    "validFields": 10,
+    "invalidFields": 1,
+    "missingFields": 0,
+    "errorRate": 9.090909090909092
+  },
+  "categoryBreakdown": {
+    "apps_software": {
+      "solutionCount": 11,
+      "requiredFields": [
+        "cost"
+      ],
+      "fieldValidation": {
+        "cost": {
+          "valid": 10,
+          "invalid": 1,
+          "missing": 0,
+          "issues": [
+            "Invalid source: \"career_services\""
+          ]
+        }
+      }
+    }
+  },
+  "detailedIssues": [
+    {
+      "solutionName": "Handshake",
+      "category": "apps_software",
+      "fieldName": "cost",
+      "issues": [
+        "Invalid source: \"career_services\""
+      ],
+      "needsRegeneration": true
+    }
+  ],
+  "recommendations": [
+    "All fields appear to be in good condition - no immediate action needed"
+  ]
+}

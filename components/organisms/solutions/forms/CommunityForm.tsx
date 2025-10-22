@@ -7,10 +7,12 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { Skeleton } from '@/components/atoms/skeleton';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface CommunityFormProps {
   goalId: string;
@@ -40,6 +42,7 @@ export function CommunityForm({
 }: CommunityFormProps) {
   console.log('CommunityForm initialized with existingSolutionId:', existingSolutionId);
   const router = useRouter();
+  const { triggerPoints } = usePointsAnimation();
   const isMounted = useRef(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -180,36 +183,14 @@ export function CommunityForm({
   
   useEffect(() => {
     const fetchOptions = async () => {
-      // Fallback challenge options for categories
-      const fallbackChallenges: Record<string, string[]> = {
-        support_groups: [
-          'Inconsistent attendance',
-          'Group dynamics issues',
-          'Not enough structure',
-          'Too much structure',
-          'Facilitator quality varies',
-          'Hard to share openly',
-          'Triggering content from others',
-          'Time conflicts',
-          'Cliques or exclusion',
-          'Not the right fit',
-          'None'
-        ],
-        groups_communities: [
-          'Hard to break in socially',
-          'Activity level inconsistent',
-          'Leadership issues',
-          'Drama or conflicts',
-          'Time commitment too high',
-          'Location/meeting challenges',
-          'Cost of activities',
-          'Age/demographic mismatch',
-          'Too competitive/not competitive enough',
-          'Communication gaps',
-          'None'
-        ]
-      };
-      
+      const fallbackKey =
+        category === 'support_groups'
+          ? 'support_group_challenges'
+          : category === 'groups_communities'
+            ? 'community_challenges'
+            : undefined;
+      const fallbackOptions = fallbackKey ? DROPDOWN_OPTIONS[fallbackKey] : undefined;
+
       const { data, error } = await supabaseClient
         .from('challenge_options')
         .select('label')
@@ -219,9 +200,9 @@ export function CommunityForm({
       
       if (!error && data && data.length > 0) {
         setChallengeOptions(data.map(item => item.label));
-      } else if (fallbackChallenges[category]) {
+      } else if (fallbackOptions) {
         // Use fallback if no data in DB
-        setChallengeOptions(fallbackChallenges[category]);
+        setChallengeOptions(fallbackOptions);
       }
       setLoading(false);
     };
@@ -305,12 +286,16 @@ export function CommunityForm({
       
       // Prepare solution fields for storage using conditional pattern (like DosageForm)
       // Only include fields that have actual values to avoid undefined
-      const solutionFields: Record<string, any> = {};
+      const solutionFields: Record<string, unknown> = {};
       
       // Add cost fields
       if (costRange) {
         solutionFields.cost = costRange;
         solutionFields.cost_type = costType;
+      }
+
+      if (timeToResults) {
+        solutionFields.time_to_results = timeToResults;
       }
       
       // Add other fields only if they have values
@@ -318,10 +303,10 @@ export function CommunityForm({
       if (format) solutionFields.format = format;
       if (groupSize) solutionFields.group_size = groupSize;
       
-      // Array field (challenges) - only add if not empty
-      const filteredChallenges = selectedChallenges.filter(c => c !== 'None');
-      if (filteredChallenges.length > 0) {
-        solutionFields.challenges = filteredChallenges;
+      // Always include challenges field (required field)
+      // "None" is a valid value meaning no challenges experienced
+      if (selectedChallenges.length > 0) {
+        solutionFields.challenges = selectedChallenges;
       }
       
       // Optional fields from success screen
@@ -362,7 +347,14 @@ export function CommunityForm({
         
         // Clear backup on successful submission
         clearBackup();
-        
+
+        // Trigger points animation
+        triggerPoints({
+          userId,
+          points: 15,
+          reason: 'Shared your experience'
+        });
+
         // Show success screen
         setShowSuccessScreen(true);
       } else {
@@ -382,7 +374,7 @@ export function CommunityForm({
   
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (paymentFrequency && paymentFrequency.trim()) additionalFields.payment_frequency = paymentFrequency.trim();
     if (commitmentType && commitmentType.trim()) additionalFields.commitment_type = commitmentType.trim();

@@ -3,8 +3,18 @@
 
 import { FieldDistribution } from '@/components/solutions/DistributionDisplay'
 
+type SolutionFields = Record<string, string | string[] | null | undefined>
+
+interface SolutionLike {
+  solution_fields?: SolutionFields | null
+}
+
+interface CategoryConfigLike {
+  keyFields: string[]
+}
+
 export function generateMockDistributions(
-  solution: any,
+  _solution: SolutionLike,
   fieldName: string,
   currentValue: string | null
 ): FieldDistribution | null {
@@ -103,15 +113,15 @@ export function generateMockDistributions(
 
 // Get distributions for all fields of a solution
 export function getMockDistributionsForSolution(
-  solution: any,
-  categoryConfig: any
+  solution: SolutionLike,
+  categoryConfig: CategoryConfigLike
 ): FieldDistribution[] {
   const distributions: FieldDistribution[] = []
   
   // Get distributions for each key field
   categoryConfig.keyFields.forEach((fieldName: string) => {
     const value = solution.solution_fields?.[fieldName]
-    if (value) {
+    if (typeof value === 'string') {
       const distribution = generateMockDistributions(solution, fieldName, value)
       if (distribution) {
         distributions.push(distribution)
@@ -124,7 +134,7 @@ export function getMockDistributionsForSolution(
   additionalFields.forEach(fieldName => {
     if (!categoryConfig.keyFields.includes(fieldName)) {
       const value = solution.solution_fields?.[fieldName]
-      if (value) {
+      if (typeof value === 'string') {
         const distribution = generateMockDistributions(solution, fieldName, value)
         if (distribution) {
           distributions.push(distribution)

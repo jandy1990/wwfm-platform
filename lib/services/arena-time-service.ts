@@ -1,5 +1,4 @@
-import { createClient } from '@/lib/supabase/client'
-import type { Database } from '@/types/database.types'
+import { createClient } from '@/lib/database/client'
 
 export interface ArenaStats {
   arena_name: string

@@ -1,16 +1,28 @@
-import Link from 'next/link'
+'use client'
 
-export interface BreadcrumbItem {
-  label: string
-  href?: string // Optional - if not provided, it's the current page
-  hideOnMobile?: boolean
-}
+import { useState, useRef, useEffect } from 'react'
+import Link from 'next/link'
+import type { BreadcrumbItem } from '@/lib/utils/breadcrumbs'
 
 interface BreadcrumbsProps {
   items: BreadcrumbItem[]
 }
 
 export default function Breadcrumbs({ items }: BreadcrumbsProps) {
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowMobileMenu(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
   // Generate schema.org structured data
   const structuredData = {
     "@context": "https://schema.org",
@@ -39,7 +51,9 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
           {items.map((item, index) => {
             const isLast = index === items.length - 1
             const isFirst = index === 0
-            
+            const hiddenItems = items.filter(i => i.hideOnMobile)
+            const showEllipsis = hiddenItems.length > 0 && index === 0
+
             return (
               <li
                 key={index}
@@ -47,6 +61,43 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
                   item.hideOnMobile && !isLast ? 'hidden sm:flex' : 'flex'
                 }`}
               >
+                {/* Mobile ellipsis menu for hidden items */}
+                {showEllipsis && (
+                  <div className="sm:hidden relative" ref={dropdownRef}>
+                    <button
+                      onClick={() => setShowMobileMenu(!showMobileMenu)}
+                      className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      aria-label="Show hidden breadcrumbs"
+                    >
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                      </svg>
+                    </button>
+
+                    {showMobileMenu && (
+                      <div className="absolute left-0 top-full mt-1 z-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg min-w-[200px] py-1">
+                        {hiddenItems.map((hiddenItem, hiddenIndex) => (
+                          <div key={hiddenIndex}>
+                            {hiddenItem.href ? (
+                              <Link
+                                href={hiddenItem.href}
+                                onClick={() => setShowMobileMenu(false)}
+                                className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                              >
+                                {hiddenItem.label}
+                              </Link>
+                            ) : (
+                              <span className="block px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
+                                {hiddenItem.label}
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Add separator before item (except for first) */}
                 {!isFirst && (
                   <svg
@@ -63,7 +114,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
                     />
                   </svg>
                 )}
-                
+
                 {/* Breadcrumb item */}
                 {item.href && !isLast ? (
                   <Link
@@ -89,39 +140,4 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
       </nav>
     </>
   )
-}
-
-// Helper function to create breadcrumb items for different pages
-export function createBreadcrumbs(type: 'arena' | 'category' | 'goal', data: {
-  arena?: { name: string; slug: string }
-  category?: { name: string; slug: string }
-  goal?: { title: string }
-}): BreadcrumbItem[] {
-  const items: BreadcrumbItem[] = [
-    { label: 'Home', href: '/', hideOnMobile: true },
-    { label: 'Browse', href: '/browse', hideOnMobile: true }
-  ]
-
-  if (data.arena) {
-    items.push({
-      label: data.arena.name,
-      href: type === 'arena' ? undefined : `/arena/${data.arena.slug}`,
-      hideOnMobile: type === 'goal' // Hide arena on mobile for goal pages
-    })
-  }
-
-  if (data.category) {
-    items.push({
-      label: data.category.name,
-      href: type === 'category' ? undefined : `/category/${data.category.slug}`
-    })
-  }
-
-  if (data.goal) {
-    items.push({
-      label: data.goal.title
-    })
-  }
-
-  return items
 }

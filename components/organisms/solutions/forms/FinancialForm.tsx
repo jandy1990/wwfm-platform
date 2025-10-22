@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation';
 import { ChevronLeft, Check } from 'lucide-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface FinancialFormProps {
   goalId: string;
@@ -38,6 +40,7 @@ export function FinancialForm({
 }: FinancialFormProps) {
   console.log('FinancialForm initialized with solution:', existingSolutionId || 'new', 'category:', category);
   const router = useRouter();
+  const { triggerPoints } = usePointsAnimation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
@@ -167,24 +170,9 @@ export function FinancialForm({
     const fetchOptions = async () => {
       // Initialize Supabase client
       const supabaseClient = createClientComponentClient();
-      
-      // Fallback challenge options for financial products
-      const fallbackChallenges: string[] = [
-        'Credit score too low',
-        'Income requirements not met',
-        'Complex application process',
-        'High minimum balance',
-        'Documentation requirements',
-        'Geographic restrictions',
-        'Age restrictions',
-        'Citizenship/residency requirements',
-        'Hidden fees discovered',
-        'Poor customer service',
-        'Technical issues with platform',
-        'None',
-        'Other'
-      ];
-      
+
+      const fallbackOptions = DROPDOWN_OPTIONS.financial_challenges;
+
       const { data, error } = await supabaseClient
         .from('challenge_options')
         .select('label')
@@ -194,9 +182,9 @@ export function FinancialForm({
       
       if (!error && data && data.length > 0) {
         setChallengeOptions(data.map((item: { label: string }) => item.label));
-      } else {
+      } else if (fallbackOptions) {
         // Use fallback if no data in DB
-        setChallengeOptions(fallbackChallenges);
+        setChallengeOptions(fallbackOptions);
       }
       setLoading(false);
     };
@@ -274,23 +262,26 @@ export function FinancialForm({
   };
 
   const handleSubmit = async () => {
+    console.log('[FinancialForm] handleSubmit called');
     setIsSubmitting(true);
-    
+    console.log('[FinancialForm] State set to submitting');
+
     try {
       // Prepare solution fields for storage
-      const solutionFields: Record<string, any> = {
+      const solutionFields: Record<string, unknown> = {
         // Required fields for financial products
         cost_type: costType,
         financial_benefit: financialBenefit,
         access_time: accessTime,
         time_to_results: timeToImpact,
-        
-        // Array field (challenges) - exclude 'None' and 'Other'
-        challenges: selectedChallenges.filter(c => c !== 'None' && c !== 'Other'),
-        
+
+        // Array field (challenges) - required field, "None" is valid
+        // Filter out "Other" since it triggers custom input
+        challenges: selectedChallenges.filter(c => c !== 'Other'),
+
         // REMOVED from initial submission - optional fields handled in success screen only
       };
-      
+
       // Prepare submission data with correct structure
       const submissionData: SubmitSolutionData = {
         goalId,
@@ -304,8 +295,14 @@ export function FinancialForm({
         failedSolutions
       };
 
-      // Call server action
+      console.log('[FinancialForm] Calling submitSolution with:', submissionData);
+      const submitStart = Date.now();
+
+      // Call server action with timeout
       const result = await submitSolution(submissionData);
+
+      console.log(`[FinancialForm] submitSolution completed in ${Date.now() - submitStart}ms`);
+      console.log('[FinancialForm] Result:', result);
       
       if (result.success) {
         // Store the result for success screen
@@ -319,7 +316,14 @@ export function FinancialForm({
         
         // Clear backup on successful submission
         clearBackup();
-        
+
+        // Trigger points animation
+        triggerPoints({
+          userId,
+          points: 15,
+          reason: 'Shared your experience'
+        });
+
         // Show success screen
         setShowSuccessScreen(true);
       } else {
@@ -337,7 +341,7 @@ export function FinancialForm({
 
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (provider && provider.trim()) additionalFields.provider = provider.trim();
     if (selectedRequirements.length > 0 && selectedRequirements[0] !== 'None') additionalFields.minimum_requirements = selectedRequirements;
@@ -424,12 +428,12 @@ export function FinancialForm({
                            appearance-none transition-all"
                 >
                   <option value="">Select cost type</option>
-                  <option value="Free">Free to use</option>
+                  <option value="Free to use">Free to use</option>
                   <option value="Subscription fee">Subscription fee</option>
-                  <option value="Transaction fees">Transaction/usage fees</option>
-                  <option value="Interest charged">Interest charged (loans/credit)</option>
-                  <option value="Account fees">Account maintenance fees</option>
-                  <option value="One-time fee">One-time purchase/setup fee</option>
+                  <option value="Transaction/usage fees">Transaction/usage fees</option>
+                  <option value="Interest charged (loans/credit)">Interest charged (loans/credit)</option>
+                  <option value="Account maintenance fees">Account maintenance fees</option>
+                  <option value="One-time purchase/setup fee">One-time purchase/setup fee</option>
                 </select>
               </div>
 
@@ -494,7 +498,7 @@ export function FinancialForm({
               <FormSectionHeader 
                 icon="⭐"
                 title="How well it worked"
-                bgColor="bg-green-100 dark:bg-green-900"
+                bgColorClassName="bg-green-100 dark:bg-green-900"
               />
               
               {/* 5-star rating */}
@@ -580,7 +584,7 @@ export function FinancialForm({
             <FormSectionHeader 
               icon="🚧"
               title="Any challenges?"
-              bgColor="bg-amber-100 dark:bg-amber-900"
+              bgColorClassName="bg-amber-100 dark:bg-amber-900"
             />
 
             {/* Quick tip */}
@@ -712,7 +716,7 @@ export function FinancialForm({
             <FormSectionHeader 
               icon="🔄"
               title="What else did you try?"
-              bgColor="bg-purple-100 dark:bg-purple-900"
+              bgColorClassName="bg-purple-100 dark:bg-purple-900"
             />
 
             {/* Context card */}
@@ -952,7 +956,12 @@ export function FinancialForm({
             </button>
           ) : (
             <button
-              onClick={handleSubmit}
+              onClick={() => {
+                console.log('[FinancialForm] Submit button CLICKED');
+                console.log('[FinancialForm] isSubmitting:', isSubmitting);
+                console.log('[FinancialForm] canProceed:', canProceedToNextStep());
+                handleSubmit();
+              }}
               disabled={isSubmitting || !canProceedToNextStep()}
               className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
                 !isSubmitting

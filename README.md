@@ -52,11 +52,39 @@ You should now see the WWFM homepage! Try:
 ### 🧪 Testing
 
 ```bash
-npm run test:forms        # Run E2E tests
-npm run test:forms:ui     # Debug with UI
+npm run test:forms:local  # Spin up disposable Supabase + run Chromium E2E tests
+npm run test:forms:ui     # Debug Playwright runs with UI
 ```
 
+> Requires the [Supabase CLI](https://supabase.com/docs/guides/cli/start) and Docker for disposable databases.
+> Restore a production dump into the local Supabase instance once (see [Testing Guide](tests/README.md)) so the schema/data exist before running the suites.
+
 Tests ensure all form submissions work correctly. See [Testing Guide](tests/README.md) for details.
+
+## ⚠️ Database Usage
+
+**This project uses TWO separate databases:**
+
+1. **Production Database (Supabase Cloud)** - **USE THIS FOR ALL DEVELOPMENT**
+   - URL: `https://wqxkhxdbxdtpuvuvgirx.supabase.co`
+   - Contains real user data and AI-generated solutions
+   - Access via:
+     - TypeScript client: `import { supabase } from '@/lib/database/client'`
+     - Supabase MCP tools: `mcp__supabase__execute_sql`, `mcp__supabase__list_tables`, etc.
+   - **This is where you query data, develop features, and test changes**
+
+2. **Local Test Database (Docker)** - **TESTING INFRASTRUCTURE ONLY**
+   - Config: `supabase/config.toml` (marked "local-testing-only")
+   - Port: 54322
+   - Purpose: ONLY for testing Supabase CLI migrations and local development setup
+   - ⚠️ **DO NOT query this database directly with psql**
+   - ⚠️ **DO NOT use for feature development or data exploration**
+   - ⚠️ **Contains NO production data**
+
+**When developing features:**
+- ✅ Use Supabase MCP tools to query production database
+- ✅ Use `lib/database/client.ts` in application code
+- ❌ Never use `psql -h 127.0.0.1 -p 54322` (local test database)
 
 ## 🏗️ Architecture
 
@@ -80,6 +108,7 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed design decisions.
 
 ### Core Documentation
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)** - System design, patterns, and key decisions
+- **[Solution Field Data Flow](./docs/solution-field-data-flow.md)** - End-to-end pipeline from forms → aggregation → AI tooling
 - **[Solution Search Data Flow](./docs/architecture/SOLUTION_SEARCH_DATA_FLOW.md)** - Complete search and filtering pipeline
 - **[Database Schema](/docs/database/schema.md)** - Complete database structure and relationships
 - **[Form Templates](/docs/forms/README.md)** - All 9 form specifications and field mappings
@@ -105,7 +134,7 @@ wwfm-platform/
 │   │   └── forms/        # 9 form templates (ALL IMPLEMENTED)
 │   └── ui/               # Reusable UI components
 ├── lib/                   # Utilities and services
-│   ├── supabase/         # Database clients
+│   ├── database/         # Database clients (Supabase)
 │   └── solutions/        # Search & categorization logic
 ├── tests/                 # E2E tests with Playwright
 │   └── e2e/forms/        # Form submission tests
@@ -134,9 +163,12 @@ npm run dev                # Start development server (port 3002)
 npm run build             # Build for production
 npm run start             # Start production server
 npm run lint              # Run ESLint
-npm run test:forms        # Run E2E form tests
-npm run test:forms:all    # Run all form tests sequentially
-npm run test:fixtures:verify # Verify test fixtures are ready
+npm run test:forms:local  # Full Chromium suite against disposable Supabase
+npm run test:forms        # Legacy all-project suite (Supabase must be running)
+npm run test:db:start     # Start disposable Supabase without running tests
+npm run test:db:seed      # Reset + seed fixtures against running Supabase
+npm run test:db:stop      # Stop disposable Supabase containers
+npm run quality:audit:fields # Ensure docs/config/UI field mappings stay aligned
 node scripts/cleanup-all.js # Clean all test artifacts
 ```
 

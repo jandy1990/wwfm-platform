@@ -5,13 +5,15 @@ import { useRouter } from 'next/navigation';
 import { ChevronLeft, Check } from 'lucide-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
 import { Skeleton } from '@/components/atoms/skeleton';
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface PurchaseFormProps {
   goalId: string;
@@ -30,6 +32,20 @@ interface FailedSolution {
 }
 
 
+const BASE_ALLOWED_FIELDS = [
+  'cost',
+  'cost_type',
+  'purchase_cost_type',
+  'cost_range',
+  'time_to_results',
+  'challenges'
+] as const;
+
+const CATEGORY_FIELD_ALLOWLIST: Record<string, readonly string[]> = {
+  products_devices: [...BASE_ALLOWED_FIELDS, 'product_type', 'ease_of_use'],
+  books_courses: [...BASE_ALLOWED_FIELDS, 'format', 'learning_difficulty']
+};
+
 export function PurchaseForm({
   goalId,
   goalTitle = "your goal",
@@ -41,6 +57,7 @@ export function PurchaseForm({
 }: PurchaseFormProps) {
   console.log('PurchaseForm initialized with existingSolutionId:', existingSolutionId);
   const router = useRouter();
+  const { triggerPoints } = usePointsAnimation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
@@ -164,32 +181,14 @@ export function PurchaseForm({
   
   useEffect(() => {
     const fetchOptions = async () => {
-      // Fallback issue options for categories
-      const fallbackIssues: Record<string, string[]> = {
-        products_devices: [
-          'Build quality concerns',
-          'Difficult to set up',
-          "Doesn't work as advertised",
-          'Poor customer support',
-          'Battery/power issues',
-          'Compatibility problems',
-          'Durability concerns',
-          'Missing features',
-          'None'
-        ],
-        books_courses: [
-          'Too theoretical',
-          'Not enough practical examples',
-          'Outdated information',
-          'Poor organization',
-          'Too basic/too advanced',
-          'Instructor hard to follow',
-          'Technical issues with platform',
-          'No community support',
-          'None'
-        ]
-      };
-      
+      const fallbackKey =
+        category === 'products_devices'
+          ? 'product_challenges'
+          : category === 'books_courses'
+            ? 'learning_challenges'
+            : undefined;
+      const fallbackOptions = fallbackKey ? DROPDOWN_OPTIONS[fallbackKey] : undefined;
+
       const { data, error } = await supabaseClient
         .from('challenge_options')
         .select('label')
@@ -199,9 +198,9 @@ export function PurchaseForm({
       
       if (!error && data && data.length > 0) {
         setChallengeOptions(data.map(item => item.label));
-      } else if (fallbackIssues[category]) {
+      } else if (fallbackOptions) {
         // Use fallback if no data in DB
-        setChallengeOptions(fallbackIssues[category]);
+        setChallengeOptions(fallbackOptions);
       }
       setLoading(false);
     };
@@ -258,27 +257,29 @@ export function PurchaseForm({
   };
   
   const handleSubmit = async () => {
+    console.log('[PurchaseForm] handleSubmit called');
     setIsSubmitting(true);
-    
+    console.log('[PurchaseForm] State set to submitting');
+
     try {
       // Determine primary cost and cost_type
       const hasUnknownCost = costRange === "Don't remember";
-      const primaryCost = hasUnknownCost ? "Unknown" : 
+      const primaryCost = hasUnknownCost ? "Unknown" :
                           costRange === "Free" ? "Free" :
                           costRange;
       const derivedCostType = hasUnknownCost ? "unknown" :
                               costRange === "Free" ? "free" :
                               costType === "one_time" ? "one_time" :
                               "recurring"; // subscription
-      
+
       // Prepare solution fields for storage
-      const solutionFields: Record<string, any> = {
+      const solutionFields: Record<string, unknown> = {
         // Cost fields
         cost: primaryCost,
         cost_type: derivedCostType,
         purchase_cost_type: costType, // Preserve original choice (one_time or subscription)
         cost_range: costRange,
-        
+
         // Category-specific fields
         ...(category === 'products_devices' && {
           product_type: productType,
@@ -288,13 +289,22 @@ export function PurchaseForm({
           format,
           learning_difficulty: learningDifficulty
         }),
-        
-        // Array field (challenges for both categories)
-        challenges: selectedChallenges.filter(c => c !== 'None'),
-        
+
+        // Array field (challenges for both categories) - "None" is a valid value
+        challenges: selectedChallenges,
+
         // REMOVED from initial submission - optional fields handled in success screen only
       };
-      
+
+      if (timeToResults) {
+        solutionFields.time_to_results = timeToResults;
+      }
+
+      const allowedFields = CATEGORY_FIELD_ALLOWLIST[category] || BASE_ALLOWED_FIELDS;
+      const filteredSolutionFields = Object.fromEntries(
+        Object.entries(solutionFields).filter(([key]) => allowedFields.includes(key))
+      );
+
       // Prepare submission data with correct structure
       const submissionData: SubmitSolutionData = {
         goalId,
@@ -304,13 +314,17 @@ export function PurchaseForm({
         existingSolutionId,
         effectiveness: effectiveness!,
         timeToResults,
-        solutionFields,
+        solutionFields: filteredSolutionFields,
         failedSolutions
       };
-      
+
+      console.log('[PurchaseForm] Calling submitSolution with:', submissionData);
+      const submitStart = Date.now();
       // Call server action
       const result = await submitSolution(submissionData);
-      
+      console.log(`[PurchaseForm] submitSolution completed in ${Date.now() - submitStart}ms`);
+      console.log('[PurchaseForm] Result:', result);
+
       if (result.success) {
         // Store the result for success screen
         setSubmissionResult({
@@ -320,28 +334,36 @@ export function PurchaseForm({
           implementationId: result.variantId,
           otherRatingsCount: result.otherRatingsCount
         });
-        
+
         // Clear backup on successful submission
         clearBackup();
-        
+
+        // Trigger points animation
+        triggerPoints({
+          userId,
+          points: 15,
+          reason: 'Shared your experience'
+        });
+
         // Show success screen
         setShowSuccessScreen(true);
       } else {
         // Handle error
-        console.error('Error submitting solution:', result.error);
+        console.error('[PurchaseForm] Error submitting solution:', result.error);
         alert(result.error || 'Failed to submit solution. Please try again.');
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('[PurchaseForm] Error submitting form:', error);
       alert('An unexpected error occurred. Please try again.');
     } finally {
+      console.log('[PurchaseForm] Setting isSubmitting to false');
       setIsSubmitting(false);
     }
   };
   
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (brand && brand.trim()) additionalFields.brand = brand.trim();
     if (completionStatus && completionStatus.trim()) additionalFields.completion_status = completionStatus.trim();
@@ -915,7 +937,12 @@ export function PurchaseForm({
             </button>
           ) : (
             <button
-              onClick={handleSubmit}
+              onClick={() => {
+                console.log('[PurchaseForm] Submit button CLICKED');
+                console.log('[PurchaseForm] isSubmitting:', isSubmitting);
+                console.log('[PurchaseForm] canProceed:', canProceedToNextStep());
+                handleSubmit();
+              }}
               disabled={isSubmitting || !canProceedToNextStep()}
               className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
                 !isSubmitting

@@ -13,12 +13,15 @@ import { TEST_SOLUTIONS } from './fixtures/test-solutions'
 test.describe('WWFM Smoke Tests', () => {
   
   test('authentication is working', async ({ page }) => {
-    // Navigate to home which redirects to /browse
+    // Navigate to home (now shows content instead of redirecting)
     await page.goto('/')
-    
-    // Should redirect to /browse
-    await page.waitForURL('**/browse', { timeout: 5000 })
-    
+
+    // Should stay on home page
+    await expect(page).toHaveURL('/')
+
+    // Wait for page content to load
+    await expect(page.locator('h1, h2').first()).toBeVisible({ timeout: 10000 })
+
     // Wait a moment for Header component to hydrate (it's client-side)
     await page.waitForTimeout(2000)
     

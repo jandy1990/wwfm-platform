@@ -1,0 +1,58 @@
+{
+  "goalId": "d920d47a-4e2d-4499-9893-3e110fc04a23",
+  "goalTitle": "Understand taxes",
+  "timestamp": "2025-10-17T00:14:27.257Z",
+  "summary": {
+    "totalSolutions": 8,
+    "categoriesFound": [
+      "apps_software"
+    ],
+    "totalFieldsChecked": 8,
+    "validFields": 7,
+    "invalidFields": 1,
+    "missingFields": 0,
+    "errorRate": 12.5
+  },
+  "categoryBreakdown": {
+    "apps_software": {
+      "solutionCount": 8,
+      "requiredFields": [
+        "cost"
+      ],
+      "fieldValidation": {
+        "cost": {
+          "valid": 7,
+          "invalid": 1,
+          "missing": 0,
+          "issues": [
+            "Invalid value \"Not applicable (user found alternative)\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Invalid value \"Paid version used due to eligibility\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Count mismatch: totalReports=1, calculated=3",
+            "Missing source attribution",
+            "Overly dominant option: 95%"
+          ]
+        }
+      }
+    }
+  },
+  "detailedIssues": [
+    {
+      "solutionName": "IRS Free File Program",
+      "category": "apps_software",
+      "fieldName": "cost",
+      "issues": [
+        "Invalid value \"Not applicable (user found alternative)\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Invalid value \"Paid version used due to eligibility\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Count mismatch: totalReports=1, calculated=3",
+        "Missing source attribution",
+        "Missing source attribution",
+        "Missing source attribution",
+        "Overly dominant option: 95%"
+      ],
+      "needsRegeneration": true
+    }
+  ],
+  "recommendations": [
+    "HIGH ERROR RATE: 12.5% of fields have issues - consider V3 regeneration"
+  ]
+}

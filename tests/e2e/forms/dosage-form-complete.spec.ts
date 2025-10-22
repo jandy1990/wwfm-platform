@@ -19,7 +19,7 @@ test.describe('DosageForm End-to-End Tests', () => {
 
   test('should complete DosageForm for supplements_vitamins (Vitamin D Test)', async ({ page }) => {
     console.log('=== Starting DosageForm test for Vitamin D (Test) ===');
-    
+
     // Navigate to add solution page directly
     await page.goto('/goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution');
     

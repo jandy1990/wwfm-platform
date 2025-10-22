@@ -6,12 +6,14 @@ export interface DistributionValue {
   value: string
   count: number
   percentage: number
+  source?: string
 }
 
 export interface DistributionData {
   mode: string
   values: DistributionValue[]
   totalReports: number
+  dataSource?: string
 }
 
 export interface AggregatedFieldsMetadata {
@@ -27,10 +29,12 @@ export interface AggregatedFields {
   effectiveness?: DistributionData
   time_to_results?: DistributionData
   cost?: DistributionData
+  cost_type?: DistributionData
   
   // Dosage fields (medications, supplements, natural remedies, beauty)
   dosage_amount?: DistributionData
   dosage_unit?: DistributionData
+  skincare_frequency?: DistributionData
   usage_frequency?: DistributionData
   time_of_day?: DistributionData
   with_food?: DistributionData
@@ -122,6 +126,6 @@ export interface AggregatedFields {
 }
 
 export interface RatingWithFields {
-  solution_fields?: Record<string, any>
-  [key: string]: any
+  solution_fields?: Record<string, unknown>
+  [key: string]: unknown
 }

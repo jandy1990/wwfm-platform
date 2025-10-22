@@ -1,5 +1,5 @@
   'use client';
-
+// SessionForm - handles session-based solution categories
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Check, X } from 'lucide-react';
@@ -11,10 +11,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { COST_RANGES } from '@/lib/forms/templates';
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Skeleton } from '@/components/atoms/skeleton';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface SessionFormProps {
   goalId: string;
@@ -32,6 +34,10 @@ interface FailedSolution {
   rating: number;
 }
 
+interface LabelRow {
+  label: string;
+}
+
 
 export function SessionForm({
   goalId,
@@ -45,6 +51,7 @@ export function SessionForm({
   // existingSolutionId will be used when updating existing solutions
   console.log('SessionForm initialized with solution:', existingSolutionId || 'new');
   const router = useRouter();
+  const { triggerPoints } = usePointsAnimation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
@@ -61,7 +68,12 @@ export function SessionForm({
   // Step 1 fields - Universal + Category-specific
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
   const [timeToResults, setTimeToResults] = useState('');
-  const [costType, setCostType] = useState<'per_session' | 'monthly' | 'total' | ''>('');
+
+  // Categories with only per_session cost type (no radio button)
+  const singleCostCategories = ['therapists_counselors', 'coaches_mentors', 'alternative_practitioners', 'doctors_specialists'];
+  const initialCostType = singleCostCategories.includes(category) ? 'per_session' : '';
+
+  const [costType, setCostType] = useState<'per_session' | 'monthly' | 'total' | ''>(initialCostType);
   const [costRange, setCostRange] = useState('');
   const [sessionFrequency, setSessionFrequency] = useState('');
   const [format, setFormat] = useState('');
@@ -209,7 +221,8 @@ export function SessionForm({
           .order('display_order');
         
         if (!error && data) {
-          setSideEffectOptions(data.map((item: any) => item.label));
+          const rows = data as LabelRow[];
+          setSideEffectOptions(rows.map((item) => item.label));
         }
         setLoading(false);
       };
@@ -222,34 +235,17 @@ export function SessionForm({
     if (showChallenges) {
       setChallengesLoading(true);
       
-      // Fallback challenge options for categories that might not be in DB yet
-      const fallbackChallenges: Record<string, string[]> = {
-        professional_services: [
-          'Finding qualified professionals',
-          'High cost',
-          'Limited availability',
-          'Not covered by insurance',
-          'Unclear about what I need',
-          'Too many options to choose from',
-          'Scheduling conflicts',
-          'Location/distance issues',
-          'Concerns about confidentiality',
-          'None'
-        ],
-        crisis_resources: [
-          'Long wait times',
-          'Difficulty getting through',
-          'Not the right type of help',
-          'Felt judged or dismissed',
-          'Language barriers',
-          'Technical issues with platform',
-          'Limited hours of operation',
-          'Needed different level of care',
-          'Privacy concerns',
-          'None'
-        ]
+      const fallbackKeyMap: Record<string, keyof typeof DROPDOWN_OPTIONS> = {
+        therapists_counselors: 'therapy_challenges',
+        coaches_mentors: 'coaching_challenges',
+        doctors_specialists: 'medical_challenges',
+        medical_procedures: 'medical_challenges',
+        professional_services: 'professional_service_challenges',
+        crisis_resources: 'crisis_challenges'
       };
-      
+      const fallbackKey = fallbackKeyMap[category];
+      const fallbackOptions = fallbackKey ? DROPDOWN_OPTIONS[fallbackKey] : undefined;
+
       const fetchChallenges = async () => {
         const supabase = createClientComponentClient();
         const { data, error } = await supabase
@@ -260,10 +256,11 @@ export function SessionForm({
           .order('display_order');
         
         if (!error && data && data.length > 0) {
-          setChallengeOptions(data.map((item: any) => item.label));
-        } else if (fallbackChallenges[category]) {
+          const rows = data as LabelRow[];
+          setChallengeOptions(rows.map((item) => item.label));
+        } else if (fallbackOptions) {
           // Use fallback if no data in DB
-          setChallengeOptions(fallbackChallenges[category]);
+          setChallengeOptions(fallbackOptions);
         }
         setChallengesLoading(false);
       };
@@ -475,8 +472,9 @@ export function SessionForm({
         <Label className="text-base font-medium">
           Cost? <span className="text-red-500">*</span>
         </Label>
-        
-        {category !== 'crisis_resources' && (
+
+        {/* Only show radio buttons for categories that support multiple cost types */}
+        {category !== 'crisis_resources' && !singleCostCategories.includes(category) && (
           <div className="flex gap-4" role="radiogroup">
             <label className="flex items-center cursor-pointer">
               <input
@@ -536,6 +534,9 @@ export function SessionForm({
           <div>
             <Label htmlFor="session_frequency">
               {category === 'medical_procedures' ? 'Treatment frequency' : 'Session frequency'}
+              {['therapists_counselors', 'coaches_mentors', 'alternative_practitioners', 'medical_procedures', 'professional_services'].includes(category) && (
+                <span className="text-red-500">*</span>
+              )}
             </Label>
             <Select value={sessionFrequency} onValueChange={setSessionFrequency}>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
@@ -556,7 +557,9 @@ export function SessionForm({
         )}
 
         <div>
-          <Label htmlFor="format">Format</Label>
+          <Label htmlFor="format">
+            Format{category === 'crisis_resources' && <span className="text-red-500">*</span>}
+          </Label>
           <Select value={format} onValueChange={setFormat}>
             <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
               <SelectValue placeholder="Select format" />
@@ -587,8 +590,8 @@ export function SessionForm({
           </Select>
         </div>
 
-        {/* Session length for therapists_counselors REQUIRED */}
-        {category === 'therapists_counselors' && (
+        {/* Session length REQUIRED for therapists, coaches, alternative practitioners */}
+        {['therapists_counselors', 'coaches_mentors', 'alternative_practitioners'].includes(category) && (
           <div>
             <Label htmlFor="session_length">
               Session length <span className="text-red-500">*</span>
@@ -610,8 +613,8 @@ export function SessionForm({
           </div>
         )}
 
-        {/* Session length for other categories OPTIONAL */}
-        {!['crisis_resources', 'medical_procedures', 'therapists_counselors'].includes(category) && (
+        {/* Session length OPTIONAL for doctors and professional services */}
+        {['doctors_specialists', 'professional_services'].includes(category) && (
           <div>
             <Label htmlFor="session_length">Session length</Label>
             <Select value={sessionLength} onValueChange={setSessionLength}>
@@ -633,28 +636,33 @@ export function SessionForm({
 
         {['therapists_counselors', 'doctors_specialists', 'medical_procedures'].includes(category) && (
           <div>
-            <Label htmlFor="insurance_coverage">Insurance coverage</Label>
-            <Select value={insuranceCoverage} onValueChange={setInsuranceCoverage}>
+            <Label htmlFor="insurance_coverage">
+              Insurance coverage
+              {category === 'doctors_specialists' && <span className="text-red-500">*</span>}
+            </Label>
+            <Select value={insuranceCoverage} onValueChange={setInsuranceCoverage} required={category === 'doctors_specialists'}>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Coverage status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Fully covered">Fully covered by insurance</SelectItem>
-                <SelectItem value="Partially covered">Partially covered by insurance</SelectItem>
-                <SelectItem value="Not covered">Not covered by insurance</SelectItem>
-                <SelectItem value="No insurance">No insurance/Self-pay</SelectItem>
-                <SelectItem value="Government program">Covered by government program (Medicare, NHS, provincial coverage, etc.)</SelectItem>
+                <SelectItem value="Fully covered by insurance">Fully covered by insurance</SelectItem>
+                <SelectItem value="Partially covered by insurance">Partially covered by insurance</SelectItem>
+                <SelectItem value="Not covered by insurance">Not covered by insurance</SelectItem>
+                <SelectItem value="No insurance/Self-pay">No insurance/Self-pay</SelectItem>
+                <SelectItem value="Covered by government program (Medicare, NHS, provincial coverage, etc.)">Covered by government program (Medicare, NHS, provincial coverage, etc.)</SelectItem>
                 <SelectItem value="HSA/FSA eligible (US)">HSA/FSA eligible (US)</SelectItem>
               </SelectContent>
             </Select>
           </div>
         )}
 
-        {/* Wait time for doctors OPTIONAL, medical_procedures REQUIRED */}
+        {/* Wait time for doctors REQUIRED, medical_procedures REQUIRED */}
         {category === 'doctors_specialists' && (
           <div>
-            <Label htmlFor="wait_time">Wait time</Label>
-            <Select value={waitTime} onValueChange={setWaitTime}>
+            <Label htmlFor="wait_time">
+              Wait time <span className="text-red-500">*</span>
+            </Label>
+            <Select value={waitTime} onValueChange={setWaitTime} required>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
                 <SelectValue placeholder="Time to get appointment" />
               </SelectTrigger>
@@ -1038,19 +1046,22 @@ export function SessionForm({
         
         // Category-specific required fields
         let categorySpecificValid = true;
-        
-        if (category === 'therapists_counselors') {
+
+        if (category === 'therapists_counselors' || category === 'coaches_mentors' || category === 'alternative_practitioners') {
+          // These categories require both session_frequency and session_length
           categorySpecificValid = sessionLength !== '' && sessionFrequency !== '';
+        } else if (category === 'doctors_specialists') {
+          // Doctors require wait_time and insurance_coverage (NOT session fields)
+          categorySpecificValid = waitTime !== '' && insuranceCoverage !== '';
         } else if (category === 'medical_procedures') {
           categorySpecificValid = waitTime !== '' && sessionFrequency !== '';
         } else if (category === 'professional_services') {
           categorySpecificValid = specialty !== '' && sessionFrequency !== '';
         } else if (category === 'crisis_resources') {
-          categorySpecificValid = responseTime !== '';
-          // Note: crisis_resources doesn't need session_frequency
+          categorySpecificValid = responseTime !== '' && format !== '';
         } else {
-          // For other categories (coaches, alternative practitioners, etc.)
-          categorySpecificValid = sessionFrequency !== '';
+          // Unknown category - should not happen
+          categorySpecificValid = false;
         }
         
         return universalValid && costValid && categorySpecificValid;
@@ -1087,7 +1098,7 @@ export function SessionForm({
                               "recurring"; // monthly
       
       // Prepare solution fields for storage
-      const solutionFields: Record<string, any> = {
+      const solutionFields: Record<string, unknown> = {
         // Universal field
         time_to_results: timeToResults,
         // Cost fields
@@ -1108,12 +1119,12 @@ export function SessionForm({
       
       // Add side effects or barriers
       if (showSideEffects) {
-        // Filter out 'None' and don't include 'Other (please describe)' marker
-        solutionFields.side_effects = selectedSideEffects.filter(e => e !== 'None' && e !== 'Other (please describe)');
+        // "None" is a valid value - only filter out 'Other (please describe)' marker
+        solutionFields.side_effects = selectedSideEffects.filter(e => e !== 'Other (please describe)');
       }
       if (showChallenges) {
-        // Filter out 'None' from challenges
-        solutionFields.challenges = selectedChallenges.filter(c => c !== 'None');
+        // Include challenges - "None" is a valid value
+        solutionFields.challenges = selectedChallenges;
       }
       
       // REMOVED from initial submission - notes handled in success screen only
@@ -1143,10 +1154,17 @@ export function SessionForm({
           implementationId: result.variantId, // For session forms, variantId is the implementationId
           otherRatingsCount: result.otherRatingsCount
         });
-        
+
         // Clear backup on successful submission
         clearBackup();
-        
+
+        // Trigger points animation
+        triggerPoints({
+          userId,
+          points: 15,
+          reason: 'Shared your experience'
+        });
+
         // Show success screen
         setShowSuccessScreen(true);
       } else {
@@ -1164,7 +1182,7 @@ export function SessionForm({
   
   const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+    const additionalFields: Record<string, unknown> = {};
     
     if (completedTreatment) additionalFields.completed_treatment = completedTreatment;
     if (typicalLength) additionalFields.typical_length = typicalLength;

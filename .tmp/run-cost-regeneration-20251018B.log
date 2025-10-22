@@ -1,0 +1,3941 @@
+
+=== Build emotional intelligence (2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1) — startup_cost,ongoing_cost,cost,cost_type ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: 2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1
+Solution limit: 0
+Field filter: startup_cost,ongoing_cost,cost,cost_type
+Mode: LIVE
+📊 Loading goal data: 2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1
+✅ Loaded 23 solutions for "Build emotional intelligence"
+
+📋 Processing "Build emotional intelligence" (23 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/23 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 1.7s
+
+🔧 Processing: Pilates Reformer Training (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Pilates Reformer Training...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Pilates Reformer Training...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Empathy Training Workshops (professional_services)
+  Fields to check: cost
+    🤖 Generating cost for Empathy Training Workshops...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Mindfulness-Based Stress Reduction (MBSR) (meditation_mindfulness)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Mindfulness-Based Stress Reduction (MBSR)...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Mindfulness-Based Stress Reduction (MBSR)...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The 5 Love Languages (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 5 Love Languages...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Emotion Code by Dr. Bradley Nelson (alternative_practitioners)
+  Fields to check: cost
+    🤖 Generating cost for The Emotion Code by Dr. Bradley Nelson...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Emotional Intelligence Coaching (coaches_mentors)
+  Fields to check: cost
+    🤖 Generating cost for Emotional Intelligence Coaching...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Brene Brown's 'The Power of Vulnerability' TED Talk and related work (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Brene Brown's 'The Power of Vulnerability' TED Talk and related work...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Emotional Agility by Susan David (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Emotional Agility by Susan David...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Active Listening Practice (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Active Listening Practice...
+    🤖 Generating ongoing_cost for Active Listening Practice...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 1 fields, skipped 3
+📍 Checkpoint: Processed 10/23 solutions
+   Progress: 10/23 solutions
+   Fields: 12 generated, 6 skipped, 1 errors
+   API calls: 13, Elapsed: 80.6s
+
+🔧 Processing: Cognitive Behavioral Therapy (CBT) with a Licensed Therapist (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for Cognitive Behavioral Therapy (CBT) with a Licensed Therapist...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Yoga with Adriene - 'Yoga For Complete Beginners' (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Yoga with Adriene - 'Yoga For Complete Beginners'...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Yoga with Adriene - 'Yoga For Complete Beginners'...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Headspace App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Headspace App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: SMART Goals Setting (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for SMART Goals Setting...
+    ✅ Generated 7 options for startup_cost
+    🤖 Generating ongoing_cost for SMART Goals Setting...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Insight Timer App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Insight Timer App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Five Love Languages by Gary Chapman (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Five Love Languages by Gary Chapman...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Power of Habit by Charles Duhigg (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Power of Habit by Charles Duhigg...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Gong.io (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Gong.io...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Gottman Method Couples Therapy (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for The Gottman Method Couples Therapy...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Mindful Scrolling Practice (meditation_mindfulness)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Mindful Scrolling Practice...
+    ✅ Generated 7 options for startup_cost
+    🤖 Generating ongoing_cost for Mindful Scrolling Practice...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+📍 Checkpoint: Processed 20/23 solutions
+   Progress: 20/23 solutions
+   Fields: 25 generated, 12 skipped, 1 errors
+   API calls: 26, Elapsed: 160.2s
+
+🔧 Processing: Dialectical Behavior Therapy (DBT) Skills Training (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Dialectical Behavior Therapy (DBT) Skills Training...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Journaling (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Journaling...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Journaling...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Acceptance and Commitment Therapy (ACT) (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for Acceptance and Commitment Therapy (ACT)...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processing completed
+   Progress: 23/23 solutions
+   Fields: 29 generated, 14 skipped, 1 errors
+   API calls: 30, Elapsed: 184.3s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 23/23
+   Fields generated: 29
+   Fields skipped: 14
+   Fields errored: 1
+   API calls made: 30
+   Total time: 184.3s
+   Error rate: 3.3%
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Build emotional intelligence (2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1) — fields startup_cost,ongoing_cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1
+✅ Loaded 23 solutions for "Build emotional intelligence"
+Validating 7 solutions after filters
+
+🔍 Validating exercise_movement (2 solutions)
+  ✅ Pilates Reformer Training: startup_cost - OK
+  ✅ Pilates Reformer Training: ongoing_cost - OK
+  ✅ Yoga with Adriene - 'Yoga For Complete Beginners': startup_cost - OK
+  ✅ Yoga with Adriene - 'Yoga For Complete Beginners': ongoing_cost - OK
+
+🔍 Validating meditation_mindfulness (2 solutions)
+  ✅ Mindfulness-Based Stress Reduction (MBSR): startup_cost - OK
+  ✅ Mindfulness-Based Stress Reduction (MBSR): ongoing_cost - OK
+  ✅ Mindful Scrolling Practice: startup_cost - OK
+  ✅ Mindful Scrolling Practice: ongoing_cost - OK
+
+🔍 Validating habits_routines (3 solutions)
+  ✅ Active Listening Practice: startup_cost - OK
+  ✅ Active Listening Practice: ongoing_cost - OK
+  ✅ SMART Goals Setting: startup_cost - OK
+  ✅ SMART Goals Setting: ongoing_cost - OK
+  ✅ Journaling: startup_cost - OK
+  ✅ Journaling: ongoing_cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Build emotional intelligence"
+   Solutions: 7
+   Categories: 3 (exercise_movement, meditation_mindfulness, habits_routines)
+   Fields checked: 14
+
+📈 Quality Metrics:
+   ✅ Valid fields: 14
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   exercise_movement: 0/4 issues (0.0%)
+   meditation_mindfulness: 0/4 issues (0.0%)
+   habits_routines: 0/6 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend
+
+=== Build emotional intelligence (2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1) — cost ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: 2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1
+Solution limit: 0
+Field filter: cost
+Mode: LIVE
+📊 Loading goal data: 2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1
+✅ Loaded 23 solutions for "Build emotional intelligence"
+
+📋 Processing "Build emotional intelligence" (23 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/23 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 0.9s
+
+🔧 Processing: Pilates Reformer Training (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Empathy Training Workshops (professional_services)
+  Fields to check: cost
+    🤖 Generating cost for Empathy Training Workshops...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Mindfulness-Based Stress Reduction (MBSR) (meditation_mindfulness)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The 5 Love Languages (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 5 Love Languages...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Emotion Code by Dr. Bradley Nelson (alternative_practitioners)
+  Fields to check: cost
+    🤖 Generating cost for The Emotion Code by Dr. Bradley Nelson...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Emotional Intelligence Coaching (coaches_mentors)
+  Fields to check: cost
+    🤖 Generating cost for Emotional Intelligence Coaching...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Brene Brown's 'The Power of Vulnerability' TED Talk and related work (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Brene Brown's 'The Power of Vulnerability' TED Talk and related work...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Emotional Agility by Susan David (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Emotional Agility by Susan David...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Active Listening Practice (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+📍 Checkpoint: Processed 10/23 solutions
+   Progress: 10/23 solutions
+   Fields: 7 generated, 3 skipped, 0 errors
+   API calls: 7, Elapsed: 43.7s
+
+🔧 Processing: Cognitive Behavioral Therapy (CBT) with a Licensed Therapist (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for Cognitive Behavioral Therapy (CBT) with a Licensed Therapist...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Yoga with Adriene - 'Yoga For Complete Beginners' (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Headspace App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Headspace App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: SMART Goals Setting (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Insight Timer App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Insight Timer App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Five Love Languages by Gary Chapman (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Five Love Languages by Gary Chapman...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Power of Habit by Charles Duhigg (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Power of Habit by Charles Duhigg...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Gong.io (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Gong.io...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Gottman Method Couples Therapy (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for The Gottman Method Couples Therapy...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Mindful Scrolling Practice (meditation_mindfulness)
+  Fields to check: cost
+  ⏭️  All fields up to date
+📍 Checkpoint: Processed 20/23 solutions
+   Progress: 20/23 solutions
+   Fields: 14 generated, 6 skipped, 0 errors
+   API calls: 14, Elapsed: 85.4s
+
+🔧 Processing: Dialectical Behavior Therapy (DBT) Skills Training (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Dialectical Behavior Therapy (DBT) Skills Training...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Journaling (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Acceptance and Commitment Therapy (ACT) (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for Acceptance and Commitment Therapy (ACT)...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processing completed
+   Progress: 23/23 solutions
+   Fields: 16 generated, 7 skipped, 0 errors
+   API calls: 16, Elapsed: 97.3s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 23/23
+   Fields generated: 16
+   Fields skipped: 7
+   Fields errored: 0
+   API calls made: 16
+   Total time: 97.3s
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Build emotional intelligence (2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1) — fields cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1
+✅ Loaded 23 solutions for "Build emotional intelligence"
+Validating 23 solutions after filters
+
+🔍 Validating exercise_movement (2 solutions)
+
+🔍 Validating professional_services (1 solutions)
+  ✅ Empathy Training Workshops: cost - OK
+
+🔍 Validating meditation_mindfulness (2 solutions)
+
+🔍 Validating books_courses (7 solutions)
+  ✅ Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves: cost - OK
+  ✅ The 5 Love Languages: cost - OK
+  ✅ Brene Brown's 'The Power of Vulnerability' TED Talk and related work: cost - OK
+  ✅ Emotional Agility by Susan David: cost - OK
+  ✅ The Five Love Languages by Gary Chapman: cost - OK
+  ✅ The Power of Habit by Charles Duhigg: cost - OK
+  ✅ Dialectical Behavior Therapy (DBT) Skills Training: cost - OK
+
+🔍 Validating alternative_practitioners (1 solutions)
+  ✅ The Emotion Code by Dr. Bradley Nelson: cost - OK
+
+🔍 Validating coaches_mentors (1 solutions)
+  ✅ Emotional Intelligence Coaching: cost - OK
+
+🔍 Validating habits_routines (3 solutions)
+
+🔍 Validating therapists_counselors (3 solutions)
+  ✅ Cognitive Behavioral Therapy (CBT) with a Licensed Therapist: cost - OK
+  ✅ The Gottman Method Couples Therapy: cost - OK
+  ✅ Acceptance and Commitment Therapy (ACT): cost - OK
+
+🔍 Validating apps_software (3 solutions)
+  ✅ Headspace App: cost - OK
+  ✅ Insight Timer App: cost - OK
+  ✅ Gong.io: cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Build emotional intelligence"
+   Solutions: 23
+   Categories: 9 (exercise_movement, professional_services, meditation_mindfulness, books_courses, alternative_practitioners, coaches_mentors, habits_routines, therapists_counselors, apps_software)
+   Fields checked: 23
+
+📈 Quality Metrics:
+   ✅ Valid fields: 16
+   ❌ Invalid fields: 7
+   ⚠️  Missing fields: 0
+   📊 Error rate: 30.4%
+
+📂 Category Breakdown:
+   exercise_movement: 2/2 issues (100.0%)
+   professional_services: 0/1 issues (0.0%)
+   meditation_mindfulness: 2/2 issues (100.0%)
+   books_courses: 0/7 issues (0.0%)
+   alternative_practitioners: 0/1 issues (0.0%)
+   coaches_mentors: 0/1 issues (0.0%)
+   habits_routines: 3/3 issues (100.0%)
+   therapists_counselors: 0/3 issues (0.0%)
+   apps_software: 0/3 issues (0.0%)
+
+💡 Recommendations:
+   • HIGH ERROR RATE: 30.4% of fields have issues - consider V3 regeneration
+   • exercise_movement category has 100.0% error rate - focus regeneration here
+   • meditation_mindfulness category has 100.0% error rate - focus regeneration here
+   • habits_routines category has 100.0% error rate - focus regeneration here
+   • cost field has 7 issues across solutions - regenerate this field specifically
+
+🎯 Next Steps:
+   1. Run V3 generation to fix identified issues
+   2. Focus on problematic categories/fields
+   3. Re-validate after regeneration
+
+=== Create good habits (e9569309-a911-4045-a416-a74827827c7c) — startup_cost,ongoing_cost,cost,cost_type ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: e9569309-a911-4045-a416-a74827827c7c
+Solution limit: 0
+Field filter: startup_cost,ongoing_cost,cost,cost_type
+Mode: LIVE
+📊 Loading goal data: e9569309-a911-4045-a416-a74827827c7c
+✅ Loaded 30 solutions for "Create good habits"
+
+📋 Processing "Create good habits" (30 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/30 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 0.9s
+
+🔧 Processing: Stickk (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Stickk...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: mindful.org (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for mindful.org...
+    ✅ Generated 7 options for startup_cost
+    🤖 Generating ongoing_cost for mindful.org...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: The 7 Habits of Highly Effective Teens by Sean Covey (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 7 Habits of Highly Effective Teens by Sean Covey...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: IBS-Friendly Meal Prep (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for IBS-Friendly Meal Prep...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for IBS-Friendly Meal Prep...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Public Goods Water Filter Pitcher (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Public Goods Water Filter Pitcher...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Glucose Revolution by Jessie Inchauspé (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Glucose Revolution by Jessie Inchauspé...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Acne Diet by Dr. Whitney Bowe (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Acne Diet by Dr. Whitney Bowe...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Streaks Habit Tracker App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Streaks Habit Tracker App...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Eat What You Love (diet_nutrition)
+  Fields to check: cost
+    🤖 Generating cost for Eat What You Love...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Book - 'Feeling Good: The New Mood Therapy' by David D. Burns (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Book - 'Feeling Good: The New Mood Therapy' by David D. Burns...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 10/30 solutions
+   Progress: 10/30 solutions
+   Fields: 12 generated, 4 skipped, 0 errors
+   API calls: 12, Elapsed: 74.3s
+
+🔧 Processing: Duolingo Language Learning App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Duolingo Language Learning App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: CoveyLink Coaching (coaches_mentors)
+  Fields to check: cost
+    🤖 Generating cost for CoveyLink Coaching...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: SMART Goals Framework (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for SMART Goals Framework...
+    ✅ Generated 7 options for startup_cost
+    🤖 Generating ongoing_cost for SMART Goals Framework...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Sleep Cycle App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Sleep Cycle App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: BetterHelp Online Therapy (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for BetterHelp Online Therapy...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: MyFitnessPal (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for MyFitnessPal...
+  ⏭️  All fields up to date
+
+🔧 Processing: Daily Affirmations (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Daily Affirmations...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Hashimoto's Protocol (by Izabella Wentz) (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Hashimoto's Protocol (by Izabella Wentz)...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Habit Stacking (from Atomic Habits) (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Habit Stacking (from Atomic Habits)...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Habit Stacking (from Atomic Habits)...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Calm App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Calm App...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 20/30 solutions
+   Progress: 20/30 solutions
+   Fields: 23 generated, 8 skipped, 1 errors
+   API calls: 24, Elapsed: 146.5s
+
+🔧 Processing: The 5 AM Club by Robin Sharma (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 5 AM Club by Robin Sharma...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Power of Habit by Charles Duhigg (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Power of Habit by Charles Duhigg...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Commit Action Plan (from 'The 7 Habits of Highly Effective People') (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Commit Action Plan (from 'The 7 Habits of Highly Effective People')...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Commit Action Plan (from 'The 7 Habits of Highly Effective People')...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: The 7 Habits of Highly Effective People (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 7 Habits of Highly Effective People...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Feeling Good Handbook by David D. Burns, MD (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Feeling Good Handbook by David D. Burns, MD...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Fitbit Charge 6 (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Fitbit Charge 6...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Noom Psychology-Based Weight Loss (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Noom Psychology-Based Weight Loss...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Savor (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Savor...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Savor...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Atomic Habits by James Clear (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Atomic Habits by James Clear...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Habit Stacking (James Clear's 'Atomic Habits') (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Habit Stacking (James Clear's 'Atomic Habits')...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Habit Stacking (James Clear's 'Atomic Habits')...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+📍 Checkpoint: Processed 30/30 solutions
+   Progress: 30/30 solutions
+   Fields: 36 generated, 14 skipped, 1 errors
+   API calls: 37, Elapsed: 223.9s
+📍 Checkpoint: Processing completed
+   Progress: 30/30 solutions
+   Fields: 36 generated, 14 skipped, 1 errors
+   API calls: 37, Elapsed: 223.9s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 30/30
+   Fields generated: 36
+   Fields skipped: 14
+   Fields errored: 1
+   API calls made: 37
+   Total time: 223.9s
+   Error rate: 2.7%
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Create good habits (e9569309-a911-4045-a416-a74827827c7c) — fields startup_cost,ongoing_cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: e9569309-a911-4045-a416-a74827827c7c
+✅ Loaded 30 solutions for "Create good habits"
+Validating 7 solutions after filters
+
+🔍 Validating habits_routines (7 solutions)
+  ✅ mindful.org: startup_cost - OK
+  ✅ mindful.org: ongoing_cost - OK
+  ✅ IBS-Friendly Meal Prep: startup_cost - OK
+  ✅ IBS-Friendly Meal Prep: ongoing_cost - OK
+  ✅ SMART Goals Framework: startup_cost - OK
+  ✅ SMART Goals Framework: ongoing_cost - OK
+  ✅ Habit Stacking (from Atomic Habits): startup_cost - OK
+  ✅ Habit Stacking (from Atomic Habits): ongoing_cost - OK
+  ✅ Commit Action Plan (from 'The 7 Habits of Highly Effective People'): startup_cost - OK
+  ✅ Commit Action Plan (from 'The 7 Habits of Highly Effective People'): ongoing_cost - OK
+  ✅ Savor: startup_cost - OK
+  ✅ Savor: ongoing_cost - OK
+  ✅ Habit Stacking (James Clear's 'Atomic Habits'): startup_cost - OK
+  ✅ Habit Stacking (James Clear's 'Atomic Habits'): ongoing_cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Create good habits"
+   Solutions: 7
+   Categories: 1 (habits_routines)
+   Fields checked: 14
+
+📈 Quality Metrics:
+   ✅ Valid fields: 14
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   habits_routines: 0/14 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend
+
+=== Create good habits (e9569309-a911-4045-a416-a74827827c7c) — cost ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: e9569309-a911-4045-a416-a74827827c7c
+Solution limit: 0
+Field filter: cost
+Mode: LIVE
+📊 Loading goal data: e9569309-a911-4045-a416-a74827827c7c
+✅ Loaded 30 solutions for "Create good habits"
+
+📋 Processing "Create good habits" (30 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/30 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 0.9s
+
+🔧 Processing: Stickk (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Stickk...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: mindful.org (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: The 7 Habits of Highly Effective Teens by Sean Covey (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 7 Habits of Highly Effective Teens by Sean Covey...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: IBS-Friendly Meal Prep (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Public Goods Water Filter Pitcher (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Public Goods Water Filter Pitcher...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Glucose Revolution by Jessie Inchauspé (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Glucose Revolution by Jessie Inchauspé...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Acne Diet by Dr. Whitney Bowe (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Acne Diet by Dr. Whitney Bowe...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Streaks Habit Tracker App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Streaks Habit Tracker App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Eat What You Love (diet_nutrition)
+  Fields to check: cost
+    🤖 Generating cost for Eat What You Love...
+  ⏭️  All fields up to date
+
+🔧 Processing: Book - 'Feeling Good: The New Mood Therapy' by David D. Burns (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Book - 'Feeling Good: The New Mood Therapy' by David D. Burns...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 10/30 solutions
+   Progress: 10/30 solutions
+   Fields: 7 generated, 2 skipped, 1 errors
+   API calls: 8, Elapsed: 48.0s
+
+🔧 Processing: Duolingo Language Learning App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Duolingo Language Learning App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: CoveyLink Coaching (coaches_mentors)
+  Fields to check: cost
+    🤖 Generating cost for CoveyLink Coaching...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: SMART Goals Framework (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Sleep Cycle App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Sleep Cycle App...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: BetterHelp Online Therapy (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for BetterHelp Online Therapy...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: MyFitnessPal (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for MyFitnessPal...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Daily Affirmations (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Daily Affirmations...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Hashimoto's Protocol (by Izabella Wentz) (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Hashimoto's Protocol (by Izabella Wentz)...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Habit Stacking (from Atomic Habits) (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Calm App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Calm App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 20/30 solutions
+   Progress: 20/30 solutions
+   Fields: 15 generated, 4 skipped, 1 errors
+   API calls: 16, Elapsed: 95.7s
+
+🔧 Processing: The 5 AM Club by Robin Sharma (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 5 AM Club by Robin Sharma...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Power of Habit by Charles Duhigg (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Power of Habit by Charles Duhigg...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Commit Action Plan (from 'The 7 Habits of Highly Effective People') (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: The 7 Habits of Highly Effective People (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 7 Habits of Highly Effective People...
+    ✅ Generated 7 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Feeling Good Handbook by David D. Burns, MD (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Feeling Good Handbook by David D. Burns, MD...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Fitbit Charge 6 (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Fitbit Charge 6...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Noom Psychology-Based Weight Loss (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Noom Psychology-Based Weight Loss...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Savor (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Atomic Habits by James Clear (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Atomic Habits by James Clear...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Habit Stacking (James Clear's 'Atomic Habits') (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+📍 Checkpoint: Processed 30/30 solutions
+   Progress: 30/30 solutions
+   Fields: 22 generated, 7 skipped, 1 errors
+   API calls: 23, Elapsed: 137.4s
+📍 Checkpoint: Processing completed
+   Progress: 30/30 solutions
+   Fields: 22 generated, 7 skipped, 1 errors
+   API calls: 23, Elapsed: 137.4s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 30/30
+   Fields generated: 22
+   Fields skipped: 7
+   Fields errored: 1
+   API calls made: 23
+   Total time: 137.4s
+   Error rate: 4.3%
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Create good habits (e9569309-a911-4045-a416-a74827827c7c) — fields cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: e9569309-a911-4045-a416-a74827827c7c
+✅ Loaded 30 solutions for "Create good habits"
+Validating 30 solutions after filters
+
+🔍 Validating apps_software (8 solutions)
+  ✅ Stickk: cost - OK
+  ✅ Streaks Habit Tracker App: cost - OK
+  ✅ Duolingo Language Learning App: cost - OK
+  ✅ Sleep Cycle App: cost - OK
+  ✅ MyFitnessPal: cost - OK
+  ✅ Daily Affirmations: cost - OK
+  ✅ Calm App: cost - OK
+  ✅ Noom Psychology-Based Weight Loss: cost - OK
+
+🔍 Validating habits_routines (7 solutions)
+
+🔍 Validating books_courses (10 solutions)
+  ✅ The 7 Habits of Highly Effective Teens by Sean Covey: cost - OK
+  ✅ The Glucose Revolution by Jessie Inchauspé: cost - OK
+  ✅ The Acne Diet by Dr. Whitney Bowe: cost - OK
+  ✅ Book - 'Feeling Good: The New Mood Therapy' by David D. Burns: cost - OK
+  ✅ Hashimoto's Protocol (by Izabella Wentz): cost - OK
+  ✅ The 5 AM Club by Robin Sharma: cost - OK
+  ✅ The Power of Habit by Charles Duhigg: cost - OK
+  ✅ The 7 Habits of Highly Effective People: cost - OK
+  ✅ The Feeling Good Handbook by David D. Burns, MD: cost - OK
+  ✅ Atomic Habits by James Clear: cost - OK
+
+🔍 Validating products_devices (2 solutions)
+  ✅ Public Goods Water Filter Pitcher: cost - OK
+  ✅ Fitbit Charge 6: cost - OK
+
+🔍 Validating diet_nutrition (1 solutions)
+  ✅ Eat What You Love: cost - OK
+
+🔍 Validating coaches_mentors (1 solutions)
+  ✅ CoveyLink Coaching: cost - OK
+
+🔍 Validating therapists_counselors (1 solutions)
+  ✅ BetterHelp Online Therapy: cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Create good habits"
+   Solutions: 30
+   Categories: 7 (apps_software, habits_routines, books_courses, products_devices, diet_nutrition, coaches_mentors, therapists_counselors)
+   Fields checked: 30
+
+📈 Quality Metrics:
+   ✅ Valid fields: 23
+   ❌ Invalid fields: 7
+   ⚠️  Missing fields: 0
+   📊 Error rate: 23.3%
+
+📂 Category Breakdown:
+   apps_software: 0/8 issues (0.0%)
+   habits_routines: 7/7 issues (100.0%)
+   books_courses: 0/10 issues (0.0%)
+   products_devices: 0/2 issues (0.0%)
+   diet_nutrition: 0/1 issues (0.0%)
+   coaches_mentors: 0/1 issues (0.0%)
+   therapists_counselors: 0/1 issues (0.0%)
+
+💡 Recommendations:
+   • HIGH ERROR RATE: 23.3% of fields have issues - consider V3 regeneration
+   • habits_routines category has 100.0% error rate - focus regeneration here
+   • cost field has 7 issues across solutions - regenerate this field specifically
+
+🎯 Next Steps:
+   1. Run V3 generation to fix identified issues
+   2. Focus on problematic categories/fields
+   3. Re-validate after regeneration
+
+=== Maintain deep focus (f36c91a3-bb0f-4cd4-906c-337e3d8a5f3c) — startup_cost,ongoing_cost,cost,cost_type ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: f36c91a3-bb0f-4cd4-906c-337e3d8a5f3c
+Solution limit: 0
+Field filter: startup_cost,ongoing_cost,cost,cost_type
+Mode: LIVE
+📊 Loading goal data: f36c91a3-bb0f-4cd4-906c-337e3d8a5f3c
+✅ Loaded 31 solutions for "Maintain deep focus"
+
+📋 Processing "Maintain deep focus" (31 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/31 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 0.9s
+
+🔧 Processing: Mindfulness-Based Stress Reduction (MBSR) (meditation_mindfulness)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Mindfulness-Based Stress Reduction (MBSR)...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Mindfulness-Based Stress Reduction (MBSR)...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Andrew Huberman's 'Optimize Your Energy & Focus' Protocol (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Andrew Huberman's 'Optimize Your Energy & Focus' Protocol...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Andrew Huberman's 'Optimize Your Energy & Focus' Protocol...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: The One Thing: The Surprisingly Simple Truth Behind Extraordinary Results (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The One Thing: The Surprisingly Simple Truth Behind Extraordinary Results...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Bacopa Monnieri (natural_remedies)
+  ⚠️  No fields to process for natural_remedies
+
+🔧 Processing: Bacopa Monnieri (natural_remedies)
+  ⚠️  No fields to process for natural_remedies
+
+🔧 Processing: Go for a walk (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Go for a walk...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Go for a walk...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Eisenhower Matrix (Urgent/Important) (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Eisenhower Matrix (Urgent/Important)...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Eisenhower Matrix (Urgent/Important)...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Yoga Nidra (meditation_mindfulness)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Yoga Nidra...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Yoga Nidra...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Omega-3 (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Cognitive Behavioral Therapy (CBT) with a Licensed Therapist (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for Cognitive Behavioral Therapy (CBT) with a Licensed Therapist...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 10/31 solutions
+   Progress: 7/31 solutions
+   Fields: 12 generated, 10 skipped, 0 errors
+   API calls: 12, Elapsed: 73.9s
+
+🔧 Processing: Compound Lifts Focus (Squat, Bench Press, Deadlift) (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Compound Lifts Focus (Squat, Bench Press, Deadlift)...
+    ✅ Generated 7 options for startup_cost
+    🤖 Generating ongoing_cost for Compound Lifts Focus (Squat, Bench Press, Deadlift)...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Headspace App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Headspace App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Pomodoro Technique (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Pomodoro Technique...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Pomodoro Technique...
+    ✅ Generated 7 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: NVIDIA Deep Learning Institute (DLI) (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for NVIDIA Deep Learning Institute (DLI)...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Bose QuietComfort (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Bose QuietComfort...
+    ✅ Generated 7 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Mental Toughness Training (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Mental Toughness Training...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Mental Toughness Training...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: High-Intensity Interval Training (HIIT) (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for High-Intensity Interval Training (HIIT)...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for High-Intensity Interval Training (HIIT)...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Todoist Task Management App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Todoist Task Management App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Ginkgo Biloba (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Deep Breathing Exercises (Diaphragmatic Breathing) (meditation_mindfulness)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Deep Breathing Exercises (Diaphragmatic Breathing)...
+    ✅ Generated 7 options for startup_cost
+    🤖 Generating ongoing_cost for Deep Breathing Exercises (Diaphragmatic Breathing)...
+  ✅ Updated 1 fields, skipped 3
+📍 Checkpoint: Processed 20/31 solutions
+   Progress: 16/31 solutions
+   Fields: 25 generated, 20 skipped, 1 errors
+   API calls: 26, Elapsed: 159.1s
+
+🔧 Processing: Setting Clear Goals (SMART criteria) (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Setting Clear Goals (SMART criteria)...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Setting Clear Goals (SMART criteria)...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Deep Work by Cal Newport (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Deep Work by Cal Newport...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: L-Theanine (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: L-Theanine (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Focus@Will (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Focus@Will...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Ginkgo Biloba (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Time Blocking (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Time Blocking...
+    ✅ Generated 7 options for startup_cost
+    🤖 Generating ongoing_cost for Time Blocking...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Bullet Journaling (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Bullet Journaling...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Bullet Journaling...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Forest App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Forest App...
+  ⏭️  All fields up to date
+
+🔧 Processing: Omega-3 (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+📍 Checkpoint: Processed 30/31 solutions
+   Progress: 22/31 solutions
+   Fields: 33 generated, 26 skipped, 2 errors
+   API calls: 35, Elapsed: 213.6s
+
+🔧 Processing: The 7 Habits of Highly Effective People by Stephen Covey (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 7 Habits of Highly Effective People by Stephen Covey...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processing completed
+   Progress: 23/31 solutions
+   Fields: 34 generated, 26 skipped, 2 errors
+   API calls: 36, Elapsed: 219.3s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 23/31
+   Fields generated: 34
+   Fields skipped: 26
+   Fields errored: 2
+   API calls made: 36
+   Total time: 219.3s
+   Error rate: 5.6%
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Maintain deep focus (f36c91a3-bb0f-4cd4-906c-337e3d8a5f3c) — fields startup_cost,ongoing_cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: f36c91a3-bb0f-4cd4-906c-337e3d8a5f3c
+✅ Loaded 31 solutions for "Maintain deep focus"
+Validating 13 solutions after filters
+
+🔍 Validating meditation_mindfulness (3 solutions)
+  ✅ Mindfulness-Based Stress Reduction (MBSR): startup_cost - OK
+  ✅ Mindfulness-Based Stress Reduction (MBSR): ongoing_cost - OK
+  ✅ Yoga Nidra: startup_cost - OK
+  ✅ Yoga Nidra: ongoing_cost - OK
+  ✅ Deep Breathing Exercises (Diaphragmatic Breathing): startup_cost - OK
+  ✅ Deep Breathing Exercises (Diaphragmatic Breathing): ongoing_cost - OK
+
+🔍 Validating habits_routines (8 solutions)
+  ✅ Andrew Huberman's 'Optimize Your Energy & Focus' Protocol: startup_cost - OK
+  ✅ Andrew Huberman's 'Optimize Your Energy & Focus' Protocol: ongoing_cost - OK
+  ✅ Go for a walk: startup_cost - OK
+  ✅ Go for a walk: ongoing_cost - OK
+  ✅ Eisenhower Matrix (Urgent/Important): startup_cost - OK
+  ✅ Eisenhower Matrix (Urgent/Important): ongoing_cost - OK
+  ✅ Pomodoro Technique: startup_cost - OK
+  ✅ Pomodoro Technique: ongoing_cost - OK
+  ✅ Mental Toughness Training: startup_cost - OK
+  ✅ Mental Toughness Training: ongoing_cost - OK
+  ✅ Setting Clear Goals (SMART criteria): startup_cost - OK
+  ✅ Setting Clear Goals (SMART criteria): ongoing_cost - OK
+  ✅ Time Blocking: startup_cost - OK
+  ✅ Time Blocking: ongoing_cost - OK
+  ✅ Bullet Journaling: startup_cost - OK
+  ✅ Bullet Journaling: ongoing_cost - OK
+
+🔍 Validating exercise_movement (2 solutions)
+  ✅ Compound Lifts Focus (Squat, Bench Press, Deadlift): startup_cost - OK
+  ✅ Compound Lifts Focus (Squat, Bench Press, Deadlift): ongoing_cost - OK
+  ✅ High-Intensity Interval Training (HIIT): startup_cost - OK
+  ✅ High-Intensity Interval Training (HIIT): ongoing_cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Maintain deep focus"
+   Solutions: 13
+   Categories: 3 (meditation_mindfulness, habits_routines, exercise_movement)
+   Fields checked: 26
+
+📈 Quality Metrics:
+   ✅ Valid fields: 26
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   meditation_mindfulness: 0/6 issues (0.0%)
+   habits_routines: 0/16 issues (0.0%)
+   exercise_movement: 0/4 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend
+
+=== Maintain deep focus (f36c91a3-bb0f-4cd4-906c-337e3d8a5f3c) — cost ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: f36c91a3-bb0f-4cd4-906c-337e3d8a5f3c
+Solution limit: 0
+Field filter: cost
+Mode: LIVE
+📊 Loading goal data: f36c91a3-bb0f-4cd4-906c-337e3d8a5f3c
+✅ Loaded 31 solutions for "Maintain deep focus"
+
+📋 Processing "Maintain deep focus" (31 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/31 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 1.2s
+
+🔧 Processing: Mindfulness-Based Stress Reduction (MBSR) (meditation_mindfulness)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Andrew Huberman's 'Optimize Your Energy & Focus' Protocol (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: The One Thing: The Surprisingly Simple Truth Behind Extraordinary Results (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The One Thing: The Surprisingly Simple Truth Behind Extraordinary Results...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Bacopa Monnieri (natural_remedies)
+  ⚠️  No fields to process for natural_remedies
+
+🔧 Processing: Bacopa Monnieri (natural_remedies)
+  ⚠️  No fields to process for natural_remedies
+
+🔧 Processing: Go for a walk (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Eisenhower Matrix (Urgent/Important) (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Yoga Nidra (meditation_mindfulness)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Omega-3 (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Cognitive Behavioral Therapy (CBT) with a Licensed Therapist (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for Cognitive Behavioral Therapy (CBT) with a Licensed Therapist...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 10/31 solutions
+   Progress: 7/31 solutions
+   Fields: 2 generated, 5 skipped, 0 errors
+   API calls: 2, Elapsed: 13.3s
+
+🔧 Processing: Compound Lifts Focus (Squat, Bench Press, Deadlift) (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Headspace App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Headspace App...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Pomodoro Technique (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: NVIDIA Deep Learning Institute (DLI) (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for NVIDIA Deep Learning Institute (DLI)...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Bose QuietComfort (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Bose QuietComfort...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Mental Toughness Training (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: High-Intensity Interval Training (HIIT) (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Todoist Task Management App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Todoist Task Management App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Ginkgo Biloba (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Deep Breathing Exercises (Diaphragmatic Breathing) (meditation_mindfulness)
+  Fields to check: cost
+  ⏭️  All fields up to date
+📍 Checkpoint: Processed 20/31 solutions
+   Progress: 16/31 solutions
+   Fields: 6 generated, 10 skipped, 0 errors
+   API calls: 6, Elapsed: 38.0s
+
+🔧 Processing: Setting Clear Goals (SMART criteria) (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Deep Work by Cal Newport (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Deep Work by Cal Newport...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: L-Theanine (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: L-Theanine (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Focus@Will (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Focus@Will...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Ginkgo Biloba (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Time Blocking (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Bullet Journaling (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Forest App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Forest App...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Omega-3 (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+📍 Checkpoint: Processed 30/31 solutions
+   Progress: 22/31 solutions
+   Fields: 9 generated, 13 skipped, 0 errors
+   API calls: 9, Elapsed: 55.9s
+
+🔧 Processing: The 7 Habits of Highly Effective People by Stephen Covey (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 7 Habits of Highly Effective People by Stephen Covey...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processing completed
+   Progress: 23/31 solutions
+   Fields: 10 generated, 13 skipped, 0 errors
+   API calls: 10, Elapsed: 61.7s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 23/31
+   Fields generated: 10
+   Fields skipped: 13
+   Fields errored: 0
+   API calls made: 10
+   Total time: 61.7s
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Maintain deep focus (f36c91a3-bb0f-4cd4-906c-337e3d8a5f3c) — fields cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: f36c91a3-bb0f-4cd4-906c-337e3d8a5f3c
+✅ Loaded 31 solutions for "Maintain deep focus"
+Validating 31 solutions after filters
+
+🔍 Validating meditation_mindfulness (3 solutions)
+
+🔍 Validating habits_routines (8 solutions)
+
+🔍 Validating books_courses (4 solutions)
+  ✅ The One Thing: The Surprisingly Simple Truth Behind Extraordinary Results: cost - OK
+  ✅ NVIDIA Deep Learning Institute (DLI): cost - OK
+  ✅ Deep Work by Cal Newport: cost - OK
+  ✅ The 7 Habits of Highly Effective People by Stephen Covey: cost - OK
+
+🔍 Validating natural_remedies (2 solutions)
+
+🔍 Validating supplements_vitamins (6 solutions)
+
+🔍 Validating therapists_counselors (1 solutions)
+  ✅ Cognitive Behavioral Therapy (CBT) with a Licensed Therapist: cost - OK
+
+🔍 Validating exercise_movement (2 solutions)
+
+🔍 Validating apps_software (4 solutions)
+  ✅ Headspace App: cost - OK
+  ✅ Todoist Task Management App: cost - OK
+  ✅ Focus@Will: cost - OK
+  ✅ Forest App: cost - OK
+
+🔍 Validating products_devices (1 solutions)
+  ✅ Bose QuietComfort: cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Maintain deep focus"
+   Solutions: 31
+   Categories: 9 (meditation_mindfulness, habits_routines, books_courses, natural_remedies, supplements_vitamins, therapists_counselors, exercise_movement, apps_software, products_devices)
+   Fields checked: 23
+
+📈 Quality Metrics:
+   ✅ Valid fields: 10
+   ❌ Invalid fields: 13
+   ⚠️  Missing fields: 0
+   📊 Error rate: 56.5%
+
+📂 Category Breakdown:
+   meditation_mindfulness: 3/3 issues (100.0%)
+   habits_routines: 8/8 issues (100.0%)
+   books_courses: 0/4 issues (0.0%)
+   natural_remedies: 0/0 issues (0.0%)
+   supplements_vitamins: 0/0 issues (0.0%)
+   therapists_counselors: 0/1 issues (0.0%)
+   exercise_movement: 2/2 issues (100.0%)
+   apps_software: 0/4 issues (0.0%)
+   products_devices: 0/1 issues (0.0%)
+
+💡 Recommendations:
+   • HIGH ERROR RATE: 56.5% of fields have issues - consider V3 regeneration
+   • meditation_mindfulness category has 100.0% error rate - focus regeneration here
+   • habits_routines category has 100.0% error rate - focus regeneration here
+   • exercise_movement category has 100.0% error rate - focus regeneration here
+   • cost field has 13 issues across solutions - regenerate this field specifically
+
+🎯 Next Steps:
+   1. Run V3 generation to fix identified issues
+   2. Focus on problematic categories/fields
+   3. Re-validate after regeneration
+
+=== Complete a marathon (d08a7dde-e7fe-42e8-af4e-752cef7a7355) — startup_cost,ongoing_cost,cost,cost_type ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: d08a7dde-e7fe-42e8-af4e-752cef7a7355
+Solution limit: 0
+Field filter: startup_cost,ongoing_cost,cost,cost_type
+Mode: LIVE
+📊 Loading goal data: d08a7dde-e7fe-42e8-af4e-752cef7a7355
+✅ Loaded 36 solutions for "Complete a marathon"
+
+📋 Processing "Complete a marathon" (36 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/36 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 1.1s
+
+🔧 Processing: TRX Suspension Training System (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for TRX Suspension Training System...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for TRX Suspension Training System...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Hydration Tracking (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Hydration Tracking...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Hydration Tracking...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Daily Walk/Exercise (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Daily Walk/Exercise...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Daily Walk/Exercise...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Zone 2 Cardio Training (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Zone 2 Cardio Training...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Zone 2 Cardio Training...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Outdoor Exercise Routine - Brisk Walking (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Outdoor Exercise Routine - Brisk Walking...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Outdoor Exercise Routine - Brisk Walking...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: CrossFit (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for CrossFit...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for CrossFit...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: The Marathon Spectator's Survival Guide (Book) (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Marathon Spectator's Survival Guide (Book)...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Regular Aerobic Exercise (e.g., Brisk Walking) (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Regular Aerobic Exercise (e.g., Brisk Walking)...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Regular Aerobic Exercise (e.g., Brisk Walking)...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Thera-Band Resistance Bands (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Thera-Band Resistance Bands...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Thera-Band Resistance Bands...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Carb-Loading Strategy (diet_nutrition)
+  Fields to check: cost
+    🤖 Generating cost for Carb-Loading Strategy...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 10/36 solutions
+   Progress: 10/36 solutions
+   Fields: 18 generated, 16 skipped, 0 errors
+   API calls: 18, Elapsed: 109.1s
+
+🔧 Processing: Nike Training Club App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Nike Training Club App...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Book: 'The Cyclist's Training Bible' by Joe Friel (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Book: 'The Cyclist's Training Bible' by Joe Friel...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Hal Higdon's 5K Training Program (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Hal Higdon's 5K Training Program...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Runner's World Magazine Subscription (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Runner's World Magazine Subscription...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Sleep Hygiene Improvement (sleep)
+  Fields to check: cost
+    🤖 Generating cost for Sleep Hygiene Improvement...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Asics Gel-Kayano (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Asics Gel-Kayano...
+    ✅ Generated 7 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Massage Therapy (alternative_practitioners)
+  Fields to check: cost
+    🤖 Generating cost for Massage Therapy...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Brooks Ghost (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Brooks Ghost...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Daniel's Running Formula (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Daniel's Running Formula...
+    ✅ Generated 7 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Runner's World Big Book of Marathon Training (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Runner's World Big Book of Marathon Training...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 20/36 solutions
+   Progress: 20/36 solutions
+   Fields: 28 generated, 16 skipped, 0 errors
+   API calls: 28, Elapsed: 169.8s
+
+🔧 Processing: Hal Higdon's Marathon Training Program (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Hal Higdon's Marathon Training Program...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: GU Energy Gels (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Runner's High-Intensity Interval Training (HIIT) (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Runner's High-Intensity Interval Training (HIIT)...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Runner's High-Intensity Interval Training (HIIT)...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Block Periodization (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Block Periodization...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Block Periodization...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Progressive Calisthenics Training (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Progressive Calisthenics Training...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Progressive Calisthenics Training...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Strength Training with a Certified Personal Trainer (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Strength Training with a Certified Personal Trainer...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Strength Training with a Certified Personal Trainer...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Core Strength Training (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Core Strength Training...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Core Strength Training...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Strava (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Strava...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Active Recovery (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Active Recovery...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Active Recovery...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Nuun Hydration (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+📍 Checkpoint: Processed 30/36 solutions
+   Progress: 28/36 solutions
+   Fields: 42 generated, 28 skipped, 0 errors
+   API calls: 42, Elapsed: 255.3s
+
+🔧 Processing: GU Energy Gels (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Foam Rolling (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Foam Rolling...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Foam Rolling...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Fitbit Premium (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Fitbit Premium...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: B Risk: High-Intensity Interval Training (HIIT) - 15 Min (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for B Risk: High-Intensity Interval Training (HIIT) - 15 Min...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for B Risk: High-Intensity Interval Training (HIIT) - 15 Min...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Nike SPARQ Training (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Nike SPARQ Training...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Nike SPARQ Training...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Mental Toughness Training (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Mental Toughness Training...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Mental Toughness Training...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+📍 Checkpoint: Processing completed
+   Progress: 33/36 solutions
+   Fields: 51 generated, 36 skipped, 0 errors
+   API calls: 51, Elapsed: 310.9s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 33/36
+   Fields generated: 51
+   Fields skipped: 36
+   Fields errored: 0
+   API calls made: 51
+   Total time: 310.9s
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Complete a marathon (d08a7dde-e7fe-42e8-af4e-752cef7a7355) — fields startup_cost,ongoing_cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: d08a7dde-e7fe-42e8-af4e-752cef7a7355
+✅ Loaded 36 solutions for "Complete a marathon"
+Validating 18 solutions after filters
+
+🔍 Validating exercise_movement (15 solutions)
+  ✅ TRX Suspension Training System: startup_cost - OK
+  ✅ TRX Suspension Training System: ongoing_cost - OK
+  ✅ Zone 2 Cardio Training: startup_cost - OK
+  ✅ Zone 2 Cardio Training: ongoing_cost - OK
+  ✅ Daily Walk/Exercise: startup_cost - OK
+  ✅ Daily Walk/Exercise: ongoing_cost - OK
+  ✅ Outdoor Exercise Routine - Brisk Walking: startup_cost - OK
+  ✅ Outdoor Exercise Routine - Brisk Walking: ongoing_cost - OK
+  ✅ CrossFit: startup_cost - OK
+  ✅ CrossFit: ongoing_cost - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): startup_cost - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): ongoing_cost - OK
+  ✅ Thera-Band Resistance Bands: startup_cost - OK
+  ✅ Thera-Band Resistance Bands: ongoing_cost - OK
+  ✅ Runner's High-Intensity Interval Training (HIIT): startup_cost - OK
+  ✅ Runner's High-Intensity Interval Training (HIIT): ongoing_cost - OK
+  ✅ Strength Training with a Certified Personal Trainer: startup_cost - OK
+  ✅ Strength Training with a Certified Personal Trainer: ongoing_cost - OK
+  ✅ Core Strength Training: startup_cost - OK
+  ✅ Core Strength Training: ongoing_cost - OK
+  ✅ B Risk: High-Intensity Interval Training (HIIT) - 15 Min: startup_cost - OK
+  ✅ B Risk: High-Intensity Interval Training (HIIT) - 15 Min: ongoing_cost - OK
+  ✅ Progressive Calisthenics Training: startup_cost - OK
+  ✅ Progressive Calisthenics Training: ongoing_cost - OK
+  ✅ Active Recovery: startup_cost - OK
+  ✅ Active Recovery: ongoing_cost - OK
+  ✅ Foam Rolling: startup_cost - OK
+  ✅ Foam Rolling: ongoing_cost - OK
+  ✅ Nike SPARQ Training: startup_cost - OK
+  ✅ Nike SPARQ Training: ongoing_cost - OK
+
+🔍 Validating habits_routines (3 solutions)
+  ✅ Hydration Tracking: startup_cost - OK
+  ✅ Hydration Tracking: ongoing_cost - OK
+  ✅ Block Periodization: startup_cost - OK
+  ✅ Block Periodization: ongoing_cost - OK
+  ✅ Mental Toughness Training: startup_cost - OK
+  ✅ Mental Toughness Training: ongoing_cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Complete a marathon"
+   Solutions: 18
+   Categories: 2 (exercise_movement, habits_routines)
+   Fields checked: 36
+
+📈 Quality Metrics:
+   ✅ Valid fields: 36
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   exercise_movement: 0/30 issues (0.0%)
+   habits_routines: 0/6 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend
+
+=== Complete a marathon (d08a7dde-e7fe-42e8-af4e-752cef7a7355) — cost ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: d08a7dde-e7fe-42e8-af4e-752cef7a7355
+Solution limit: 0
+Field filter: cost
+Mode: LIVE
+📊 Loading goal data: d08a7dde-e7fe-42e8-af4e-752cef7a7355
+✅ Loaded 36 solutions for "Complete a marathon"
+
+📋 Processing "Complete a marathon" (36 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/36 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 0.9s
+
+🔧 Processing: TRX Suspension Training System (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Hydration Tracking (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Carb-Loading Strategy (diet_nutrition)
+  Fields to check: cost
+    🤖 Generating cost for Carb-Loading Strategy...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Book: 'The Cyclist's Training Bible' by Joe Friel (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Book: 'The Cyclist's Training Bible' by Joe Friel...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Hal Higdon's 5K Training Program (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Hal Higdon's 5K Training Program...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Runner's World Magazine Subscription (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Runner's World Magazine Subscription...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Sleep Hygiene Improvement (sleep)
+  Fields to check: cost
+    🤖 Generating cost for Sleep Hygiene Improvement...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Asics Gel-Kayano (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Asics Gel-Kayano...
+    ✅ Generated 7 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Massage Therapy (alternative_practitioners)
+  Fields to check: cost
+    🤖 Generating cost for Massage Therapy...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Runner's World Big Book of Marathon Training (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Runner's World Big Book of Marathon Training...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 10/36 solutions
+   Progress: 10/36 solutions
+   Fields: 8 generated, 2 skipped, 0 errors
+   API calls: 8, Elapsed: 49.0s
+
+🔧 Processing: Zone 2 Cardio Training (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Daily Walk/Exercise (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Outdoor Exercise Routine - Brisk Walking (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: CrossFit (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: The Marathon Spectator's Survival Guide (Book) (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Marathon Spectator's Survival Guide (Book)...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Regular Aerobic Exercise (e.g., Brisk Walking) (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Thera-Band Resistance Bands (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Nike Training Club App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Nike Training Club App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Brooks Ghost (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Brooks Ghost...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Daniel's Running Formula (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Daniel's Running Formula...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 20/36 solutions
+   Progress: 20/36 solutions
+   Fields: 12 generated, 8 skipped, 0 errors
+   API calls: 12, Elapsed: 72.3s
+
+🔧 Processing: Hal Higdon's Marathon Training Program (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Hal Higdon's Marathon Training Program...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Runner's High-Intensity Interval Training (HIIT) (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Block Periodization (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Strength Training with a Certified Personal Trainer (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Core Strength Training (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: B Risk: High-Intensity Interval Training (HIIT) - 15 Min (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Mental Toughness Training (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: GU Energy Gels (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Progressive Calisthenics Training (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Strava (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Strava...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 30/36 solutions
+   Progress: 29/36 solutions
+   Fields: 14 generated, 15 skipped, 0 errors
+   API calls: 14, Elapsed: 84.2s
+
+🔧 Processing: Active Recovery (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Nuun Hydration (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: GU Energy Gels (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Foam Rolling (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Fitbit Premium (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Fitbit Premium...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Nike SPARQ Training (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+📍 Checkpoint: Processing completed
+   Progress: 33/36 solutions
+   Fields: 15 generated, 18 skipped, 0 errors
+   API calls: 15, Elapsed: 90.3s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 33/36
+   Fields generated: 15
+   Fields skipped: 18
+   Fields errored: 0
+   API calls made: 15
+   Total time: 90.3s
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Complete a marathon (d08a7dde-e7fe-42e8-af4e-752cef7a7355) — fields cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: d08a7dde-e7fe-42e8-af4e-752cef7a7355
+✅ Loaded 36 solutions for "Complete a marathon"
+Validating 36 solutions after filters
+
+🔍 Validating exercise_movement (15 solutions)
+
+🔍 Validating habits_routines (3 solutions)
+
+🔍 Validating diet_nutrition (1 solutions)
+  ✅ Carb-Loading Strategy: cost - OK
+
+🔍 Validating books_courses (7 solutions)
+  ✅ Book: 'The Cyclist's Training Bible' by Joe Friel: cost - OK
+  ✅ Runner's World Magazine Subscription: cost - OK
+  ✅ The Runner's World Big Book of Marathon Training: cost - OK
+  ✅ The Marathon Spectator's Survival Guide (Book): cost - OK
+  ✅ The Daniel's Running Formula: cost - OK
+  ✅ Hal Higdon's Marathon Training Program: cost - OK
+  ✅ Hal Higdon's 5K Training Program: cost - OK
+
+🔍 Validating sleep (1 solutions)
+  ✅ Sleep Hygiene Improvement: cost - OK
+
+🔍 Validating products_devices (2 solutions)
+  ✅ Asics Gel-Kayano: cost - OK
+  ✅ Brooks Ghost: cost - OK
+
+🔍 Validating alternative_practitioners (1 solutions)
+  ✅ Massage Therapy: cost - OK
+
+🔍 Validating apps_software (3 solutions)
+  ✅ Nike Training Club App: cost - OK
+  ✅ Strava: cost - OK
+  ✅ Fitbit Premium: cost - OK
+
+🔍 Validating supplements_vitamins (3 solutions)
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Complete a marathon"
+   Solutions: 36
+   Categories: 9 (exercise_movement, habits_routines, diet_nutrition, books_courses, sleep, products_devices, alternative_practitioners, apps_software, supplements_vitamins)
+   Fields checked: 33
+
+📈 Quality Metrics:
+   ✅ Valid fields: 15
+   ❌ Invalid fields: 18
+   ⚠️  Missing fields: 0
+   📊 Error rate: 54.5%
+
+📂 Category Breakdown:
+   exercise_movement: 15/15 issues (100.0%)
+   habits_routines: 3/3 issues (100.0%)
+   diet_nutrition: 0/1 issues (0.0%)
+   books_courses: 0/7 issues (0.0%)
+   sleep: 0/1 issues (0.0%)
+   products_devices: 0/2 issues (0.0%)
+   alternative_practitioners: 0/1 issues (0.0%)
+   apps_software: 0/3 issues (0.0%)
+   supplements_vitamins: 0/0 issues (0.0%)
+
+💡 Recommendations:
+   • HIGH ERROR RATE: 54.5% of fields have issues - consider V3 regeneration
+   • exercise_movement category has 100.0% error rate - focus regeneration here
+   • habits_routines category has 100.0% error rate - focus regeneration here
+   • cost field has 18 issues across solutions - regenerate this field specifically
+
+🎯 Next Steps:
+   1. Run V3 generation to fix identified issues
+   2. Focus on problematic categories/fields
+   3. Re-validate after regeneration
+
+=== Start writing regularly (01a258a6-2414-4a12-a79d-4c58d090aabe) — startup_cost,ongoing_cost,cost,cost_type ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: 01a258a6-2414-4a12-a79d-4c58d090aabe
+Solution limit: 0
+Field filter: startup_cost,ongoing_cost,cost,cost_type
+Mode: LIVE
+📊 Loading goal data: 01a258a6-2414-4a12-a79d-4c58d090aabe
+✅ Loaded 22 solutions for "Start writing regularly"
+
+📋 Processing "Start writing regularly" (22 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/22 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 0.9s
+
+🔧 Processing: Mind mapping with tools like XMind (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Mind mapping with tools like XMind...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: 750 Words a Day (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for 750 Words a Day...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for 750 Words a Day...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Daily Walk/Exercise (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Daily Walk/Exercise...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Daily Walk/Exercise...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: The Artist's Way by Julia Cameron (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Artist's Way by Julia Cameron...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The War of Art by Steven Pressfield (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The War of Art by Steven Pressfield...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: 500 words (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for 500 words...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for 500 words...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Scrivener Writing Software (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Scrivener Writing Software...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Pomodoro Technique (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Pomodoro Technique...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Pomodoro Technique...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Journaling Prompts for Writers (online resources) (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Journaling Prompts for Writers (online resources)...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: NaNoWriMo (National Novel Writing Month) (groups_communities)
+  Fields to check: cost
+    🤖 Generating cost for NaNoWriMo (National Novel Writing Month)...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 10/22 solutions
+   Progress: 10/22 solutions
+   Fields: 14 generated, 8 skipped, 0 errors
+   API calls: 14, Elapsed: 86.2s
+
+🔧 Processing: Gotham Writers Workshop (groups_communities)
+  Fields to check: cost
+    🤖 Generating cost for Gotham Writers Workshop...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Daily Stoic by Ryan Holiday (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Daily Stoic by Ryan Holiday...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Hemingway App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Hemingway App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Daily Journaling with Prompts (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Daily Journaling with Prompts...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Daily Journaling with Prompts...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: The Power of Habit by Charles Duhigg (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Power of Habit by Charles Duhigg...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Daily Gratitude Journaling (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Daily Gratitude Journaling...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Daily Gratitude Journaling...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Story Genius by Lisa Cron (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Story Genius by Lisa Cron...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Freedom App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Freedom App...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Writing Accountability Partner (groups_communities)
+  Fields to check: cost
+    🤖 Generating cost for Writing Accountability Partner...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: 15-minute bursts (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for 15-minute bursts...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for 15-minute bursts...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+📍 Checkpoint: Processed 20/22 solutions
+   Progress: 20/22 solutions
+   Fields: 27 generated, 14 skipped, 0 errors
+   API calls: 27, Elapsed: 165.0s
+
+🔧 Processing: Body Scan Meditation (meditation_mindfulness)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Body Scan Meditation...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Body Scan Meditation...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Bullet Journal Method by Ryder Carroll (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Bullet Journal Method by Ryder Carroll...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Bullet Journal Method by Ryder Carroll...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+📍 Checkpoint: Processing completed
+   Progress: 22/22 solutions
+   Fields: 31 generated, 18 skipped, 0 errors
+   API calls: 31, Elapsed: 189.7s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 22/22
+   Fields generated: 31
+   Fields skipped: 18
+   Fields errored: 0
+   API calls made: 31
+   Total time: 189.7s
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Start writing regularly (01a258a6-2414-4a12-a79d-4c58d090aabe) — fields startup_cost,ongoing_cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 01a258a6-2414-4a12-a79d-4c58d090aabe
+✅ Loaded 22 solutions for "Start writing regularly"
+Validating 9 solutions after filters
+
+🔍 Validating habits_routines (7 solutions)
+  ✅ 750 Words a Day: startup_cost - OK
+  ✅ 750 Words a Day: ongoing_cost - OK
+  ✅ 500 words: startup_cost - OK
+  ✅ 500 words: ongoing_cost - OK
+  ✅ Pomodoro Technique: startup_cost - OK
+  ✅ Pomodoro Technique: ongoing_cost - OK
+  ✅ Daily Journaling with Prompts: startup_cost - OK
+  ✅ Daily Journaling with Prompts: ongoing_cost - OK
+  ✅ Daily Gratitude Journaling: startup_cost - OK
+  ✅ Daily Gratitude Journaling: ongoing_cost - OK
+  ✅ 15-minute bursts: startup_cost - OK
+  ✅ 15-minute bursts: ongoing_cost - OK
+  ✅ Bullet Journal Method by Ryder Carroll: startup_cost - OK
+  ✅ Bullet Journal Method by Ryder Carroll: ongoing_cost - OK
+
+🔍 Validating exercise_movement (1 solutions)
+  ✅ Daily Walk/Exercise: startup_cost - OK
+  ✅ Daily Walk/Exercise: ongoing_cost - OK
+
+🔍 Validating meditation_mindfulness (1 solutions)
+  ✅ Body Scan Meditation: startup_cost - OK
+  ✅ Body Scan Meditation: ongoing_cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Start writing regularly"
+   Solutions: 9
+   Categories: 3 (habits_routines, exercise_movement, meditation_mindfulness)
+   Fields checked: 18
+
+📈 Quality Metrics:
+   ✅ Valid fields: 18
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   habits_routines: 0/14 issues (0.0%)
+   exercise_movement: 0/2 issues (0.0%)
+   meditation_mindfulness: 0/2 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend
+
+=== Start writing regularly (01a258a6-2414-4a12-a79d-4c58d090aabe) — cost ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: 01a258a6-2414-4a12-a79d-4c58d090aabe
+Solution limit: 0
+Field filter: cost
+Mode: LIVE
+📊 Loading goal data: 01a258a6-2414-4a12-a79d-4c58d090aabe
+✅ Loaded 22 solutions for "Start writing regularly"
+
+📋 Processing "Start writing regularly" (22 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/22 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 0.8s
+
+🔧 Processing: Mind mapping with tools like XMind (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Mind mapping with tools like XMind...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: 750 Words a Day (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Daily Walk/Exercise (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: The Artist's Way by Julia Cameron (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Artist's Way by Julia Cameron...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The War of Art by Steven Pressfield (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The War of Art by Steven Pressfield...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: 500 words (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Scrivener Writing Software (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Scrivener Writing Software...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Pomodoro Technique (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Journaling Prompts for Writers (online resources) (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Journaling Prompts for Writers (online resources)...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: NaNoWriMo (National Novel Writing Month) (groups_communities)
+  Fields to check: cost
+    🤖 Generating cost for NaNoWriMo (National Novel Writing Month)...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 10/22 solutions
+   Progress: 10/22 solutions
+   Fields: 6 generated, 4 skipped, 0 errors
+   API calls: 6, Elapsed: 38.5s
+
+🔧 Processing: Gotham Writers Workshop (groups_communities)
+  Fields to check: cost
+    🤖 Generating cost for Gotham Writers Workshop...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Daily Stoic by Ryan Holiday (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Daily Stoic by Ryan Holiday...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Hemingway App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Hemingway App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Daily Journaling with Prompts (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: The Power of Habit by Charles Duhigg (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Power of Habit by Charles Duhigg...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Daily Gratitude Journaling (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Story Genius by Lisa Cron (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Story Genius by Lisa Cron...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Freedom App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Freedom App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Writing Accountability Partner (groups_communities)
+  Fields to check: cost
+    🤖 Generating cost for Writing Accountability Partner...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: 15-minute bursts (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+📍 Checkpoint: Processed 20/22 solutions
+   Progress: 20/22 solutions
+   Fields: 13 generated, 7 skipped, 0 errors
+   API calls: 13, Elapsed: 80.6s
+
+🔧 Processing: Body Scan Meditation (meditation_mindfulness)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Bullet Journal Method by Ryder Carroll (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+📍 Checkpoint: Processing completed
+   Progress: 22/22 solutions
+   Fields: 13 generated, 9 skipped, 0 errors
+   API calls: 13, Elapsed: 80.6s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 22/22
+   Fields generated: 13
+   Fields skipped: 9
+   Fields errored: 0
+   API calls made: 13
+   Total time: 80.6s
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Start writing regularly (01a258a6-2414-4a12-a79d-4c58d090aabe) — fields cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 01a258a6-2414-4a12-a79d-4c58d090aabe
+✅ Loaded 22 solutions for "Start writing regularly"
+Validating 22 solutions after filters
+
+🔍 Validating apps_software (4 solutions)
+  ✅ Mind mapping with tools like XMind: cost - OK
+  ✅ Scrivener Writing Software: cost - OK
+  ✅ Hemingway App: cost - OK
+  ✅ Freedom App: cost - OK
+
+🔍 Validating habits_routines (7 solutions)
+
+🔍 Validating exercise_movement (1 solutions)
+
+🔍 Validating books_courses (6 solutions)
+  ✅ The Artist's Way by Julia Cameron: cost - OK
+  ✅ The War of Art by Steven Pressfield: cost - OK
+  ✅ Journaling Prompts for Writers (online resources): cost - OK
+  ✅ The Daily Stoic by Ryan Holiday: cost - OK
+  ✅ The Power of Habit by Charles Duhigg: cost - OK
+  ✅ Story Genius by Lisa Cron: cost - OK
+
+🔍 Validating groups_communities (3 solutions)
+  ✅ NaNoWriMo (National Novel Writing Month): cost - OK
+  ✅ Gotham Writers Workshop: cost - OK
+  ✅ Writing Accountability Partner: cost - OK
+
+🔍 Validating meditation_mindfulness (1 solutions)
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Start writing regularly"
+   Solutions: 22
+   Categories: 6 (apps_software, habits_routines, exercise_movement, books_courses, groups_communities, meditation_mindfulness)
+   Fields checked: 22
+
+📈 Quality Metrics:
+   ✅ Valid fields: 13
+   ❌ Invalid fields: 9
+   ⚠️  Missing fields: 0
+   📊 Error rate: 40.9%
+
+📂 Category Breakdown:
+   apps_software: 0/4 issues (0.0%)
+   habits_routines: 7/7 issues (100.0%)
+   exercise_movement: 1/1 issues (100.0%)
+   books_courses: 0/6 issues (0.0%)
+   groups_communities: 0/3 issues (0.0%)
+   meditation_mindfulness: 1/1 issues (100.0%)
+
+💡 Recommendations:
+   • HIGH ERROR RATE: 40.9% of fields have issues - consider V3 regeneration
+   • habits_routines category has 100.0% error rate - focus regeneration here
+   • exercise_movement category has 100.0% error rate - focus regeneration here
+   • meditation_mindfulness category has 100.0% error rate - focus regeneration here
+   • cost field has 9 issues across solutions - regenerate this field specifically
+
+🎯 Next Steps:
+   1. Run V3 generation to fix identified issues
+   2. Focus on problematic categories/fields
+   3. Re-validate after regeneration
+
+=== Start journaling (1e792f27-966f-4968-bae4-c84c84989fed) — startup_cost,ongoing_cost,cost,cost_type ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: 1e792f27-966f-4968-bae4-c84c84989fed
+Solution limit: 0
+Field filter: startup_cost,ongoing_cost,cost,cost_type
+Mode: LIVE
+📊 Loading goal data: 1e792f27-966f-4968-bae4-c84c84989fed
+✅ Loaded 23 solutions for "Start journaling"
+
+📋 Processing "Start journaling" (23 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/23 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 0.9s
+
+🔧 Processing: via online courses (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for via online courses...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Expressive Writing Protocol (professional_services)
+  Fields to check: cost
+    🤖 Generating cost for Expressive Writing Protocol...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Daylio (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Daylio...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Stream-of-Consciousness Writing (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Stream-of-Consciousness Writing...
+    ✅ Generated 7 options for startup_cost
+    🤖 Generating ongoing_cost for Stream-of-Consciousness Writing...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Art Journaling (hobbies_activities)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Art Journaling...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Art Journaling...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Gratitude Jar (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Gratitude Jar...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Gratitude Jar...
+  ✅ Updated 1 fields, skipped 3
+
+🔧 Processing: Journaling Prompts for Self-Reflection (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Journaling Prompts for Self-Reflection...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Cognitive Behavioral Therapy (CBT) with a Licensed Therapist (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for Cognitive Behavioral Therapy (CBT) with a Licensed Therapist...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Bullet Journaling Method (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Bullet Journaling Method...
+    ✅ Generated 7 options for startup_cost
+    🤖 Generating ongoing_cost for Bullet Journaling Method...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Prompted Journaling with '642 Things to Write About' (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Prompted Journaling with '642 Things to Write About'...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 10/23 solutions
+   Progress: 10/23 solutions
+   Fields: 13 generated, 8 skipped, 1 errors
+   API calls: 14, Elapsed: 87.6s
+
+🔧 Processing: Stanford or other universities (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Stanford or other universities...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Morning Pages (from 'The Artist's Way') (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Morning Pages (from 'The Artist's Way')...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Morning Pages (from 'The Artist's Way')...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: The Anxiety Journal (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Anxiety Journal...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Penzu Journal App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Penzu Journal App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Daily Stoic by Ryan Holiday (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Daily Stoic by Ryan Holiday...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Daily Journaling with Prompts (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Daily Journaling with Prompts...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Daily Journaling with Prompts...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Day One Journal App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Day One Journal App...
+  ⏭️  All fields up to date
+
+🔧 Processing: Letter to Your Future Self (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Letter to Your Future Self...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Letter to Your Future Self...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Journaling for Self-Discovery (Book by Lucia Capacchione) (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Journaling for Self-Discovery (Book by Lucia Capacchione)...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Five-Minute Journal (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for The Five-Minute Journal...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 20/23 solutions
+   Progress: 20/23 solutions
+   Fields: 25 generated, 14 skipped, 2 errors
+   API calls: 27, Elapsed: 165.7s
+
+🔧 Processing: Failure as a Learning Opportunity (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Failure as a Learning Opportunity...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Failure as a Learning Opportunity...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Body Scan Meditation (meditation_mindfulness)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Body Scan Meditation...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Body Scan Meditation...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Gratitude Journaling Group (support_groups)
+  Fields to check: cost
+    🤖 Generating cost for Gratitude Journaling Group...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processing completed
+   Progress: 23/23 solutions
+   Fields: 30 generated, 18 skipped, 2 errors
+   API calls: 32, Elapsed: 196.6s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 23/23
+   Fields generated: 30
+   Fields skipped: 18
+   Fields errored: 2
+   API calls made: 32
+   Total time: 196.6s
+   Error rate: 6.3%
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Start journaling (1e792f27-966f-4968-bae4-c84c84989fed) — fields startup_cost,ongoing_cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 1e792f27-966f-4968-bae4-c84c84989fed
+✅ Loaded 23 solutions for "Start journaling"
+Validating 9 solutions after filters
+
+🔍 Validating habits_routines (7 solutions)
+  ✅ Stream-of-Consciousness Writing: startup_cost - OK
+  ✅ Stream-of-Consciousness Writing: ongoing_cost - OK
+  ✅ Gratitude Jar: startup_cost - OK
+  ✅ Gratitude Jar: ongoing_cost - OK
+  ✅ Bullet Journaling Method: startup_cost - OK
+  ✅ Bullet Journaling Method: ongoing_cost - OK
+  ✅ Morning Pages (from 'The Artist's Way'): startup_cost - OK
+  ✅ Morning Pages (from 'The Artist's Way'): ongoing_cost - OK
+  ✅ Daily Journaling with Prompts: startup_cost - OK
+  ✅ Daily Journaling with Prompts: ongoing_cost - OK
+  ✅ Letter to Your Future Self: startup_cost - OK
+  ✅ Letter to Your Future Self: ongoing_cost - OK
+  ✅ Failure as a Learning Opportunity: startup_cost - OK
+  ✅ Failure as a Learning Opportunity: ongoing_cost - OK
+
+🔍 Validating hobbies_activities (1 solutions)
+  ✅ Art Journaling: startup_cost - OK
+  ✅ Art Journaling: ongoing_cost - OK
+
+🔍 Validating meditation_mindfulness (1 solutions)
+  ✅ Body Scan Meditation: startup_cost - OK
+  ✅ Body Scan Meditation: ongoing_cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Start journaling"
+   Solutions: 9
+   Categories: 3 (habits_routines, hobbies_activities, meditation_mindfulness)
+   Fields checked: 18
+
+📈 Quality Metrics:
+   ✅ Valid fields: 18
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   habits_routines: 0/14 issues (0.0%)
+   hobbies_activities: 0/2 issues (0.0%)
+   meditation_mindfulness: 0/2 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend
+
+=== Start journaling (1e792f27-966f-4968-bae4-c84c84989fed) — cost ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: 1e792f27-966f-4968-bae4-c84c84989fed
+Solution limit: 0
+Field filter: cost
+Mode: LIVE
+📊 Loading goal data: 1e792f27-966f-4968-bae4-c84c84989fed
+✅ Loaded 23 solutions for "Start journaling"
+
+📋 Processing "Start journaling" (23 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/23 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 0.9s
+
+🔧 Processing: via online courses (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for via online courses...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Expressive Writing Protocol (professional_services)
+  Fields to check: cost
+    🤖 Generating cost for Expressive Writing Protocol...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Daylio (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Daylio...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Stream-of-Consciousness Writing (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Art Journaling (hobbies_activities)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Gratitude Jar (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Journaling Prompts for Self-Reflection (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Journaling Prompts for Self-Reflection...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Cognitive Behavioral Therapy (CBT) with a Licensed Therapist (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for Cognitive Behavioral Therapy (CBT) with a Licensed Therapist...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Bullet Journaling Method (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Prompted Journaling with '642 Things to Write About' (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Prompted Journaling with '642 Things to Write About'...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 10/23 solutions
+   Progress: 10/23 solutions
+   Fields: 6 generated, 4 skipped, 0 errors
+   API calls: 6, Elapsed: 36.9s
+
+🔧 Processing: Stanford or other universities (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Stanford or other universities...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Morning Pages (from 'The Artist's Way') (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: The Anxiety Journal (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Anxiety Journal...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Penzu Journal App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Penzu Journal App...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Daily Stoic by Ryan Holiday (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Daily Stoic by Ryan Holiday...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Daily Journaling with Prompts (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Day One Journal App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Day One Journal App...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Letter to Your Future Self (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Journaling for Self-Discovery (Book by Lucia Capacchione) (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Journaling for Self-Discovery (Book by Lucia Capacchione)...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Five-Minute Journal (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for The Five-Minute Journal...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 20/23 solutions
+   Progress: 20/23 solutions
+   Fields: 13 generated, 7 skipped, 0 errors
+   API calls: 13, Elapsed: 77.6s
+
+🔧 Processing: Failure as a Learning Opportunity (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Body Scan Meditation (meditation_mindfulness)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Gratitude Journaling Group (support_groups)
+  Fields to check: cost
+    🤖 Generating cost for Gratitude Journaling Group...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processing completed
+   Progress: 23/23 solutions
+   Fields: 14 generated, 9 skipped, 0 errors
+   API calls: 14, Elapsed: 83.4s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 23/23
+   Fields generated: 14
+   Fields skipped: 9
+   Fields errored: 0
+   API calls made: 14
+   Total time: 83.4s
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Start journaling (1e792f27-966f-4968-bae4-c84c84989fed) — fields cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 1e792f27-966f-4968-bae4-c84c84989fed
+✅ Loaded 23 solutions for "Start journaling"
+Validating 23 solutions after filters
+
+🔍 Validating books_courses (6 solutions)
+  ✅ via online courses: cost - OK
+  ✅ Prompted Journaling with '642 Things to Write About': cost - OK
+  ✅ Stanford or other universities: cost - OK
+  ✅ The Anxiety Journal: cost - OK
+  ✅ The Daily Stoic by Ryan Holiday: cost - OK
+  ✅ Journaling for Self-Discovery (Book by Lucia Capacchione): cost - OK
+
+🔍 Validating professional_services (1 solutions)
+  ✅ Expressive Writing Protocol: cost - OK
+
+🔍 Validating apps_software (4 solutions)
+  ✅ Daylio: cost - OK
+  ✅ Journaling Prompts for Self-Reflection: cost - OK
+  ✅ Penzu Journal App: cost - OK
+  ✅ Day One Journal App: cost - OK
+
+🔍 Validating habits_routines (7 solutions)
+
+🔍 Validating hobbies_activities (1 solutions)
+
+🔍 Validating therapists_counselors (1 solutions)
+  ✅ Cognitive Behavioral Therapy (CBT) with a Licensed Therapist: cost - OK
+
+🔍 Validating products_devices (1 solutions)
+  ✅ The Five-Minute Journal: cost - OK
+
+🔍 Validating meditation_mindfulness (1 solutions)
+
+🔍 Validating support_groups (1 solutions)
+  ✅ Gratitude Journaling Group: cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Start journaling"
+   Solutions: 23
+   Categories: 9 (books_courses, professional_services, apps_software, habits_routines, hobbies_activities, therapists_counselors, products_devices, meditation_mindfulness, support_groups)
+   Fields checked: 23
+
+📈 Quality Metrics:
+   ✅ Valid fields: 14
+   ❌ Invalid fields: 9
+   ⚠️  Missing fields: 0
+   📊 Error rate: 39.1%
+
+📂 Category Breakdown:
+   books_courses: 0/6 issues (0.0%)
+   professional_services: 0/1 issues (0.0%)
+   apps_software: 0/4 issues (0.0%)
+   habits_routines: 7/7 issues (100.0%)
+   hobbies_activities: 1/1 issues (100.0%)
+   therapists_counselors: 0/1 issues (0.0%)
+   products_devices: 0/1 issues (0.0%)
+   meditation_mindfulness: 1/1 issues (100.0%)
+   support_groups: 0/1 issues (0.0%)
+
+💡 Recommendations:
+   • HIGH ERROR RATE: 39.1% of fields have issues - consider V3 regeneration
+   • habits_routines category has 100.0% error rate - focus regeneration here
+   • hobbies_activities category has 100.0% error rate - focus regeneration here
+   • meditation_mindfulness category has 100.0% error rate - focus regeneration here
+   • cost field has 9 issues across solutions - regenerate this field specifically
+
+🎯 Next Steps:
+   1. Run V3 generation to fix identified issues
+   2. Focus on problematic categories/fields
+   3. Re-validate after regeneration
+
+=== Build muscle mass (38fc0df5-6a7a-4ebd-9bb9-79a297562886) — startup_cost,ongoing_cost,cost,cost_type ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: 38fc0df5-6a7a-4ebd-9bb9-79a297562886
+Solution limit: 0
+Field filter: startup_cost,ongoing_cost,cost,cost_type
+Mode: LIVE
+📊 Loading goal data: 38fc0df5-6a7a-4ebd-9bb9-79a297562886
+✅ Loaded 28 solutions for "Build muscle mass"
+
+📋 Processing "Build muscle mass" (28 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/28 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 0.9s
+
+🔧 Processing: Mindful Eating Practice (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Mindful Eating Practice...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Mindful Eating Practice...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Mind Pump: Hardstyle Podcast (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Mind Pump: Hardstyle Podcast...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Resistance Bands Set (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Resistance Bands Set...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Squats (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Squats...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Squats...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Beta-Alanine Supplementation (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Progressive Overload Training Protocol (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Progressive Overload Training Protocol...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Progressive Overload Training Protocol...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Nutrabolt C4 Pre-Workout Supplement (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Sleep Hygiene Improvement (sleep)
+  Fields to check: cost
+    🤖 Generating cost for Sleep Hygiene Improvement...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Dumbbells (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Dumbbells...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Dumbbells...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Hormone Replacement Therapy (TRT) under Medical Supervision (medications)
+  ⚠️  No fields to process for medications
+📍 Checkpoint: Processed 10/28 solutions
+   Progress: 7/28 solutions
+   Fields: 11 generated, 8 skipped, 0 errors
+   API calls: 11, Elapsed: 67.0s
+
+🔧 Processing: Starting Strength by Mark Rippetoe (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Starting Strength by Mark Rippetoe...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Starting Strength by Mark Rippetoe...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Sleep Cycle App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Sleep Cycle App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Strength Training Program (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Strength Training Program...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Strength Training Program...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: MyFitnessPal (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for MyFitnessPal...
+  ⏭️  All fields up to date
+
+🔧 Processing: Compound Interest Calculator (Personal Use) (financial_products)
+  Fields to check: cost_type
+    🤖 Generating cost_type for Compound Interest Calculator (Personal Use)...
+    ✅ Generated 5 options for cost_type
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Intermittent Fasting (16/8 Method) (diet_nutrition)
+  Fields to check: cost
+    🤖 Generating cost for Intermittent Fasting (16/8 Method)...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Whey Protein Isolate Supplement (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Creatine Monohydrate Supplementation (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Whey Protein Isolate Supplement (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Starting Strength: Basic Barbell Training by Mark Rippetoe (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Starting Strength: Basic Barbell Training by Mark Rippetoe...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 20/28 solutions
+   Progress: 14/28 solutions
+   Fields: 19 generated, 12 skipped, 1 errors
+   API calls: 20, Elapsed: 120.1s
+
+🔧 Processing: Bodybuilding.com Exercise Database (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Bodybuilding.com Exercise Database...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Creatine Monohydrate Supplementation (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Hormone Replacement Therapy (TRT) under Medical Supervision (medications)
+  ⚠️  No fields to process for medications
+
+🔧 Processing: Professional Personal Trainer Consultation (coaches_mentors)
+  Fields to check: cost
+    🤖 Generating cost for Professional Personal Trainer Consultation...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Beta-Alanine Supplementation (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Anabolic Diet by Dr. Scott Connelly (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Anabolic Diet by Dr. Scott Connelly...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: High-Protein Diet Plan (diet_nutrition)
+  Fields to check: cost
+    🤖 Generating cost for High-Protein Diet Plan...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Nutrabolt C4 Pre-Workout Supplement (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+📍 Checkpoint: Processing completed
+   Progress: 18/28 solutions
+   Fields: 23 generated, 12 skipped, 1 errors
+   API calls: 24, Elapsed: 143.9s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 18/28
+   Fields generated: 23
+   Fields skipped: 12
+   Fields errored: 1
+   API calls made: 24
+   Total time: 143.9s
+   Error rate: 4.2%
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Build muscle mass (38fc0df5-6a7a-4ebd-9bb9-79a297562886) — fields startup_cost,ongoing_cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 38fc0df5-6a7a-4ebd-9bb9-79a297562886
+✅ Loaded 28 solutions for "Build muscle mass"
+Validating 6 solutions after filters
+
+🔍 Validating habits_routines (1 solutions)
+  ✅ Mindful Eating Practice: startup_cost - OK
+  ✅ Mindful Eating Practice: ongoing_cost - OK
+
+🔍 Validating exercise_movement (5 solutions)
+  ✅ Squats: startup_cost - OK
+  ✅ Squats: ongoing_cost - OK
+  ✅ Progressive Overload Training Protocol: startup_cost - OK
+  ✅ Progressive Overload Training Protocol: ongoing_cost - OK
+  ✅ Dumbbells: startup_cost - OK
+  ✅ Dumbbells: ongoing_cost - OK
+  ✅ Starting Strength by Mark Rippetoe: startup_cost - OK
+  ✅ Starting Strength by Mark Rippetoe: ongoing_cost - OK
+  ✅ Strength Training Program: startup_cost - OK
+  ✅ Strength Training Program: ongoing_cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Build muscle mass"
+   Solutions: 6
+   Categories: 2 (habits_routines, exercise_movement)
+   Fields checked: 12
+
+📈 Quality Metrics:
+   ✅ Valid fields: 12
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   habits_routines: 0/2 issues (0.0%)
+   exercise_movement: 0/10 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend
+
+=== Build muscle mass (38fc0df5-6a7a-4ebd-9bb9-79a297562886) — cost ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: 38fc0df5-6a7a-4ebd-9bb9-79a297562886
+Solution limit: 0
+Field filter: cost
+Mode: LIVE
+📊 Loading goal data: 38fc0df5-6a7a-4ebd-9bb9-79a297562886
+✅ Loaded 28 solutions for "Build muscle mass"
+
+📋 Processing "Build muscle mass" (28 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/28 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 0.9s
+
+🔧 Processing: Mindful Eating Practice (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Mind Pump: Hardstyle Podcast (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Mind Pump: Hardstyle Podcast...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Resistance Bands Set (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Resistance Bands Set...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Squats (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Beta-Alanine Supplementation (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Progressive Overload Training Protocol (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Nutrabolt C4 Pre-Workout Supplement (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Sleep Hygiene Improvement (sleep)
+  Fields to check: cost
+    🤖 Generating cost for Sleep Hygiene Improvement...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Dumbbells (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Hormone Replacement Therapy (TRT) under Medical Supervision (medications)
+  ⚠️  No fields to process for medications
+📍 Checkpoint: Processed 10/28 solutions
+   Progress: 7/28 solutions
+   Fields: 3 generated, 4 skipped, 0 errors
+   API calls: 3, Elapsed: 18.8s
+
+🔧 Processing: Starting Strength by Mark Rippetoe (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Sleep Cycle App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Sleep Cycle App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Strength Training Program (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: MyFitnessPal (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for MyFitnessPal...
+  ⏭️  All fields up to date
+
+🔧 Processing: Compound Interest Calculator (Personal Use) (financial_products)
+  ⚠️  No fields to process for financial_products
+
+🔧 Processing: Intermittent Fasting (16/8 Method) (diet_nutrition)
+  Fields to check: cost
+    🤖 Generating cost for Intermittent Fasting (16/8 Method)...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Whey Protein Isolate Supplement (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Creatine Monohydrate Supplementation (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Whey Protein Isolate Supplement (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Starting Strength: Basic Barbell Training by Mark Rippetoe (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Starting Strength: Basic Barbell Training by Mark Rippetoe...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 20/28 solutions
+   Progress: 13/28 solutions
+   Fields: 6 generated, 6 skipped, 1 errors
+   API calls: 7, Elapsed: 43.1s
+
+🔧 Processing: Bodybuilding.com Exercise Database (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Bodybuilding.com Exercise Database...
+  ⏭️  All fields up to date
+
+🔧 Processing: Creatine Monohydrate Supplementation (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Hormone Replacement Therapy (TRT) under Medical Supervision (medications)
+  ⚠️  No fields to process for medications
+
+🔧 Processing: Professional Personal Trainer Consultation (coaches_mentors)
+  Fields to check: cost
+    🤖 Generating cost for Professional Personal Trainer Consultation...
+  ⏭️  All fields up to date
+
+🔧 Processing: Beta-Alanine Supplementation (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Anabolic Diet by Dr. Scott Connelly (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Anabolic Diet by Dr. Scott Connelly...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: High-Protein Diet Plan (diet_nutrition)
+  Fields to check: cost
+    🤖 Generating cost for High-Protein Diet Plan...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Nutrabolt C4 Pre-Workout Supplement (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+📍 Checkpoint: Processing completed
+   Progress: 17/28 solutions
+   Fields: 8 generated, 6 skipped, 3 errors
+   API calls: 10, Elapsed: 4982.0s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 17/28
+   Fields generated: 8
+   Fields skipped: 6
+   Fields errored: 3
+   API calls made: 10
+   Total time: 4982.0s
+   Error rate: 27.3%
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Build muscle mass (38fc0df5-6a7a-4ebd-9bb9-79a297562886) — fields cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 38fc0df5-6a7a-4ebd-9bb9-79a297562886
+✅ Loaded 28 solutions for "Build muscle mass"
+Validating 28 solutions after filters
+
+🔍 Validating habits_routines (1 solutions)
+
+🔍 Validating books_courses (3 solutions)
+  ✅ Mind Pump: Hardstyle Podcast: cost - OK
+  ✅ Starting Strength: Basic Barbell Training by Mark Rippetoe: cost - OK
+  ✅ Anabolic Diet by Dr. Scott Connelly: cost - OK
+
+🔍 Validating products_devices (1 solutions)
+  ✅ Resistance Bands Set: cost - OK
+
+🔍 Validating exercise_movement (5 solutions)
+
+🔍 Validating supplements_vitamins (8 solutions)
+
+🔍 Validating sleep (1 solutions)
+  ✅ Sleep Hygiene Improvement: cost - OK
+
+🔍 Validating medications (2 solutions)
+
+🔍 Validating apps_software (3 solutions)
+  ✅ Sleep Cycle App: cost - OK
+  ✅ MyFitnessPal: cost - OK
+  ✅ Bodybuilding.com Exercise Database: cost - OK
+
+🔍 Validating financial_products (1 solutions)
+
+🔍 Validating diet_nutrition (2 solutions)
+  ✅ Intermittent Fasting (16/8 Method): cost - OK
+  ✅ High-Protein Diet Plan: cost - OK
+
+🔍 Validating coaches_mentors (1 solutions)
+  ✅ Professional Personal Trainer Consultation: cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Build muscle mass"
+   Solutions: 28
+   Categories: 11 (habits_routines, books_courses, products_devices, exercise_movement, supplements_vitamins, sleep, medications, apps_software, financial_products, diet_nutrition, coaches_mentors)
+   Fields checked: 17
+
+📈 Quality Metrics:
+   ✅ Valid fields: 11
+   ❌ Invalid fields: 6
+   ⚠️  Missing fields: 0
+   📊 Error rate: 35.3%
+
+📂 Category Breakdown:
+   habits_routines: 1/1 issues (100.0%)
+   books_courses: 0/3 issues (0.0%)
+   products_devices: 0/1 issues (0.0%)
+   exercise_movement: 5/5 issues (100.0%)
+   supplements_vitamins: 0/0 issues (0.0%)
+   sleep: 0/1 issues (0.0%)
+   medications: 0/0 issues (0.0%)
+   apps_software: 0/3 issues (0.0%)
+   financial_products: 0/0 issues (0.0%)
+   diet_nutrition: 0/2 issues (0.0%)
+   coaches_mentors: 0/1 issues (0.0%)
+
+💡 Recommendations:
+   • HIGH ERROR RATE: 35.3% of fields have issues - consider V3 regeneration
+   • habits_routines category has 100.0% error rate - focus regeneration here
+   • exercise_movement category has 100.0% error rate - focus regeneration here
+   • cost field has 6 issues across solutions - regenerate this field specifically
+
+🎯 Next Steps:
+   1. Run V3 generation to fix identified issues
+   2. Focus on problematic categories/fields
+   3. Re-validate after regeneration
+
+=== Break bad habits (68099253-5b89-48cf-a8dd-08f5118b9c19) — startup_cost,ongoing_cost,cost,cost_type ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: 68099253-5b89-48cf-a8dd-08f5118b9c19
+Solution limit: 0
+Field filter: startup_cost,ongoing_cost,cost,cost_type
+Mode: LIVE
+📊 Loading goal data: 68099253-5b89-48cf-a8dd-08f5118b9c19
+✅ Loaded 28 solutions for "Break bad habits"
+
+📋 Processing "Break bad habits" (28 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/28 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 1.2s
+
+🔧 Processing: Journaling with the Bullet Journal Method (hobbies_activities)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Journaling with the Bullet Journal Method...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Journaling with the Bullet Journal Method...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Brief Walking Break (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Brief Walking Break...
+    🤖 Generating ongoing_cost for Brief Walking Break...
+  ⏭️  All fields up to date
+
+🔧 Processing: SMART Recovery Anonymous (support_groups)
+  Fields to check: cost
+    🤖 Generating cost for SMART Recovery Anonymous...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Self-Compassion Break Exercise (meditation_mindfulness)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Self-Compassion Break Exercise...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Self-Compassion Break Exercise...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: The 7 Habits of Highly Effective Teens by Sean Covey (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 7 Habits of Highly Effective Teens by Sean Covey...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Four Tendencies by Gretchen Rubin (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Four Tendencies by Gretchen Rubin...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Mindset: The New Psychology of Success by Carol S. Dweck (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Mindset: The New Psychology of Success by Carol S. Dweck...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Sleep Hygiene Improvement (sleep)
+  Fields to check: cost
+    🤖 Generating cost for Sleep Hygiene Improvement...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: CoveyLink Coaching (coaches_mentors)
+  Fields to check: cost
+    🤖 Generating cost for CoveyLink Coaching...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: SMART Goals Framework (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for SMART Goals Framework...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for SMART Goals Framework...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+📍 Checkpoint: Processed 10/28 solutions
+   Progress: 10/28 solutions
+   Fields: 12 generated, 8 skipped, 2 errors
+   API calls: 12, Elapsed: 22278.6s
+
+🔧 Processing: Acceptance and Commitment Therapy (ACT) Techniques (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Acceptance and Commitment Therapy (ACT) Techniques...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Omega-3 (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Cognitive Behavioral Therapy (CBT) with a Licensed Therapist (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for Cognitive Behavioral Therapy (CBT) with a Licensed Therapist...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Ketogenic Diet (diet_nutrition)
+  Fields to check: cost
+    🤖 Generating cost for Ketogenic Diet...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Habit Stacking (from Atomic Habits) (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Habit Stacking (from Atomic Habits)...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Habit Stacking (from Atomic Habits)...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Omega-3 (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: The 12-Week Year by Brian P. Moran and Michael Lennington (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 12-Week Year by Brian P. Moran and Michael Lennington...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Self-Compassion Break (Kristin Neff) (meditation_mindfulness)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Self-Compassion Break (Kristin Neff)...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Self-Compassion Break (Kristin Neff)...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Commit Action Plan (from 'The 7 Habits of Highly Effective People') (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Commit Action Plan (from 'The 7 Habits of Highly Effective People')...
+    ✅ Generated 7 options for startup_cost
+    🤖 Generating ongoing_cost for Commit Action Plan (from 'The 7 Habits of Highly Effective People')...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Noom Weight Loss Program (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Noom Weight Loss Program...
+  ⏭️  All fields up to date
+📍 Checkpoint: Processed 20/28 solutions
+   Progress: 18/28 solutions
+   Fields: 22 generated, 14 skipped, 3 errors
+   API calls: 22, Elapsed: 41913.8s
+
+🔧 Processing: The 7 Habits of Highly Effective People (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 7 Habits of Highly Effective People...
+  ⏭️  All fields up to date
+
+🔧 Processing: Nicotine Replacement Therapy (NRT) - Nicotine Gum (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Structured Exercise Program with a Personal Trainer (coaches_mentors)
+  Fields to check: cost
+    🤖 Generating cost for Structured Exercise Program with a Personal Trainer...
+  ⏭️  All fields up to date
+
+🔧 Processing: Quit Smart Stop Smoking Program (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Quit Smart Stop Smoking Program...
+    🤖 Generating ongoing_cost for Quit Smart Stop Smoking Program...
+  ⏭️  All fields up to date
+
+🔧 Processing: Atomic Habits by James Clear (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Atomic Habits by James Clear...
+  ⏭️  All fields up to date
+
+🔧 Processing: Omega-3 (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+
+🔧 Processing: Habit Stacking (James Clear's 'Atomic Habits') (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Habit Stacking (James Clear's 'Atomic Habits')...
+    🤖 Generating ongoing_cost for Habit Stacking (James Clear's 'Atomic Habits')...
+  ⏭️  All fields up to date
+
+🔧 Processing: Nicotine Replacement Therapy (NRT) - Nicotine Gum (supplements_vitamins)
+  ⚠️  No fields to process for supplements_vitamins
+📍 Checkpoint: Processing completed
+   Progress: 23/28 solutions
+   Fields: 22 generated, 18 skipped, 10 errors
+   API calls: 22, Elapsed: 41913.8s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 23/28
+   Fields generated: 22
+   Fields skipped: 18
+   Fields errored: 10
+   API calls made: 22
+   Total time: 41913.8s
+   Error rate: 31.3%
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Break bad habits (68099253-5b89-48cf-a8dd-08f5118b9c19) — fields startup_cost,ongoing_cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 68099253-5b89-48cf-a8dd-08f5118b9c19

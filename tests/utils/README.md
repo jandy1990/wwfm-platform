@@ -144,7 +144,7 @@ Total Tests: 176
 
 💡 RECOMMENDATIONS
 ----------------------------------------
-1. Run: npm run test:setup to ensure fixtures exist
+1. Run: npm run test:db:seed to ensure fixtures exist
 2. Verify fixtures are approved in database
 3. Review test code for solution creation attempts
 ```

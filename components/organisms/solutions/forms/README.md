@@ -23,13 +23,11 @@ Forms are grouped by **similar data collection needs**, not by traditional produ
 ```
 components/organisms/solutions/forms/
 ├── README.md                     # This file
-├── FormTemplate.tsx              # Base template (deprecated - not used by current forms)
 ├── shared/                       # Shared components
-│   ├── constants.ts              # Common constants
+│   ├── constants.ts              # Common constants and category icons
 │   ├── FormSectionHeader.tsx     # Section headers
 │   ├── ProgressCelebration.tsx   # Success animations
-│   └── index.ts                  # Exports
-├── shared.tsx                    # Legacy shared components
+│   └── index.ts                  # Barrel exports
 │
 ├── AppForm.tsx                   # apps_software
 ├── CommunityForm.tsx             # groups_communities, support_groups
@@ -157,7 +155,6 @@ All forms include backup/restore functionality using `useFormBackup` hook for us
 - Form templates may be consolidated if usage patterns emerge
 
 ### Technical Debt
-- FormTemplate.tsx appears unused by current forms (needs verification)
 - Some validation logic could be centralized
 - Form backup system could be optimized for performance
 

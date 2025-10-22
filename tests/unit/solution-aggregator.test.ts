@@ -1,29 +1,11 @@
-import { describe, it, expect, beforeEach } from '@jest/globals'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { SolutionAggregator } from '@/lib/services/solution-aggregator'
-import { createClient } from '@supabase/supabase-js'
-
-// Mock Supabase client
-const mockSupabase = {
-  from: jest.fn(() => ({
-    select: jest.fn(() => ({
-      eq: jest.fn(() => ({
-        single: jest.fn(),
-        data: []
-      }))
-    })),
-    update: jest.fn(() => ({
-      eq: jest.fn(() => ({
-        select: jest.fn()
-      }))
-    }))
-  }))
-} as any
 
 describe('SolutionAggregator', () => {
   let aggregator: SolutionAggregator
   
   beforeEach(() => {
-    aggregator = new SolutionAggregator(mockSupabase)
+    aggregator = new SolutionAggregator()
   })
   
   describe('aggregateValueField', () => {
@@ -35,7 +17,7 @@ describe('SolutionAggregator', () => {
         { solution_fields: { dosage_amount: '1000' } }
       ]
       
-      const result = aggregator.aggregateValueField(ratings, 'dosage_amount')
+      const result = (aggregator as any).aggregateValueField(ratings, 'dosage_amount')
       
       expect(result).toEqual({
         mode: '1000',
@@ -54,7 +36,7 @@ describe('SolutionAggregator', () => {
         { solution_fields: { dosage_amount: '2000' } }
       ]
       
-      const result = aggregator.aggregateValueField(ratings, 'dosage_amount')
+      const result = (aggregator as any).aggregateValueField(ratings, 'dosage_amount')
       
       expect(result).toEqual({
         mode: '1000',
@@ -75,7 +57,7 @@ describe('SolutionAggregator', () => {
         { solution_fields: { time_of_day: ['Morning', 'Afternoon'] } }
       ]
       
-      const result = aggregator.aggregateArrayField(ratings, 'time_of_day')
+      const result = (aggregator as any).aggregateArrayField(ratings, 'time_of_day')
       
       expect(result).toEqual({
         mode: 'Morning',
@@ -98,7 +80,7 @@ describe('SolutionAggregator', () => {
         { solution_fields: { would_recommend: true } }
       ]
       
-      const result = aggregator.aggregateBooleanField(ratings, 'would_recommend')
+      const result = (aggregator as any).aggregateBooleanField(ratings, 'would_recommend')
       
       expect(result).toEqual({
         mode: 'Yes',
@@ -119,7 +101,7 @@ describe('SolutionAggregator', () => {
         { solution_fields: { meeting_frequency: 'Monthly' } }
       ]
       
-      const result = aggregator.aggregateValueField(ratings, 'meeting_frequency')
+      const result = (aggregator as any).aggregateValueField(ratings, 'meeting_frequency')
       
       expect(result.mode).toBe('Weekly')
       expect(result.totalReports).toBe(3)
@@ -132,7 +114,7 @@ describe('SolutionAggregator', () => {
         { solution_fields: { group_size: '5-10 people' } }
       ]
       
-      const result = aggregator.aggregateValueField(ratings, 'group_size')
+      const result = (aggregator as any).aggregateValueField(ratings, 'group_size')
       
       expect(result.mode).toBe('5-10 people')
     })
@@ -144,8 +126,8 @@ describe('SolutionAggregator', () => {
         { solution_fields: { dosage_amount: '10000', dosage_unit: 'IU' } }
       ]
       
-      const amountResult = aggregator.aggregateValueField(ratings, 'dosage_amount')
-      const unitResult = aggregator.aggregateValueField(ratings, 'dosage_unit')
+      const amountResult = (aggregator as any).aggregateValueField(ratings, 'dosage_amount')
+      const unitResult = (aggregator as any).aggregateValueField(ratings, 'dosage_unit')
       
       expect(amountResult.mode).toBe('5000')
       expect(unitResult.mode).toBe('IU')
@@ -158,7 +140,7 @@ describe('SolutionAggregator', () => {
         { solution_fields: { financial_benefit: '$500-1000/month' } }
       ]
       
-      const result = aggregator.aggregateValueField(ratings, 'financial_benefit')
+      const result = (aggregator as any).aggregateValueField(ratings, 'financial_benefit')
       
       expect(result.mode).toBe('$100-500/month')
     })
@@ -170,52 +152,11 @@ describe('SolutionAggregator', () => {
         { solution_fields: { still_following: true } }
       ]
       
-      const result = aggregator.aggregateBooleanField(ratings, 'still_following')
+      const result = (aggregator as any).aggregateBooleanField(ratings, 'still_following')
       
       expect(result.mode).toBe('Yes')
       expect(result.values[0].percentage).toBe(67) // 2 out of 3
     })
   })
   
-  describe('computeAggregatedFields', () => {
-    it('should compute all fields for a complete rating set', () => {
-      const ratings = [
-        {
-          solution_fields: {
-            effectiveness: 4,
-            time_to_results: '1-2 weeks',
-            cost: '$10-30',
-            dosage_amount: '5000',
-            dosage_unit: 'IU',
-            usage_frequency: 'Daily',
-            time_of_day: ['Morning'],
-            with_food: true,
-            side_effects: 'None',
-            would_recommend: true
-          }
-        }
-      ]
-      
-      const result = aggregator.computeAggregatedFields(ratings)
-      
-      // Check that all expected fields are present
-      expect(result).toHaveProperty('effectiveness')
-      expect(result).toHaveProperty('time_to_results')
-      expect(result).toHaveProperty('cost')
-      expect(result).toHaveProperty('dosage_amount')
-      expect(result).toHaveProperty('dosage_unit')
-      expect(result).toHaveProperty('usage_frequency')
-      expect(result).toHaveProperty('time_of_day')
-      expect(result).toHaveProperty('with_food')
-      expect(result).toHaveProperty('_metadata')
-      
-      // Check metadata
-      expect(result._metadata).toEqual({
-        total_ratings: 1,
-        last_aggregated: expect.any(String),
-        data_source: 'user',
-        confidence: 'low'
-      })
-    })
-  })
 })

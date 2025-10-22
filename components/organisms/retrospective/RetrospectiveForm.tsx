@@ -4,42 +4,26 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { submitRetrospective } from '@/app/actions/retrospectives'
 import { IMPACT_OPTIONS } from '@/types/retrospectives'
-import { formatDistanceToNow } from 'date-fns'
 import { FormSectionHeader } from '@/components/organisms/solutions/forms/shared'
 import { Check, Loader2 } from 'lucide-react'
 
 interface Props {
   scheduleId: string
   goalTitle: string
-  goalDescription: string
   solutionTitle: string
-  achievementDate: string
+  achievementDate?: string | null
 }
 
 export default function RetrospectiveForm({ 
   scheduleId, 
   goalTitle, 
-  goalDescription,
   solutionTitle,
-  achievementDate 
+  achievementDate,
 }: Props) {
   const router = useRouter()
   const [impact, setImpact] = useState<number | null>(null)
   const [unexpectedBenefits, setUnexpectedBenefits] = useState('')
-  const [benefitsLasted, setBenefitsLasted] = useState<boolean | null>(null)
   const [submitting, setSubmitting] = useState(false)
-
-  const timeAgo = (() => {
-    try {
-      const date = new Date(achievementDate)
-      if (isNaN(date.getTime())) {
-        return '6 months ago'
-      }
-      return formatDistanceToNow(date, { addSuffix: true })
-    } catch {
-      return '6 months ago'
-    }
-  })()
 
   const handleSubmit = async () => {
     if (impact === null) return
@@ -49,7 +33,7 @@ export default function RetrospectiveForm({
       // Handle test mode - if scheduleId is a test ID, just show success
       if (scheduleId === 'test-schedule-id') {
         await new Promise(resolve => setTimeout(resolve, 1000)) // Simulate API delay
-        alert('Test submission successful! Selected impact: ' + impact + (benefitsLasted !== null ? ', Benefits lasted: ' + benefitsLasted : ''))
+        alert('Test submission successful! Selected impact: ' + impact)
         setSubmitting(false)
         return
       }
@@ -57,7 +41,6 @@ export default function RetrospectiveForm({
       await submitRetrospective(scheduleId, {
         counterfactual_impact: impact,
         worth_pursuing: impact >= 3,
-        benefits_lasted: benefitsLasted ?? undefined,
         unexpected_benefits: unexpectedBenefits || undefined
       })
 
@@ -97,7 +80,7 @@ export default function RetrospectiveForm({
         <FormSectionHeader 
           icon="🎯" 
           title="Enduring Impact"
-          bgColor="bg-purple-100 dark:bg-purple-900"
+          bgColorClassName="bg-purple-100 dark:bg-purple-900"
         />
         
         <div className="space-y-4">
@@ -135,55 +118,12 @@ export default function RetrospectiveForm({
         </div>
       </div>
 
-      {/* Still Maintaining - About the SOLUTION's durability */}
-      <div className="space-y-6">
-        <FormSectionHeader 
-          icon="🔄" 
-          title="Lasting Impact"
-          bgColor="bg-green-100 dark:bg-green-900"
-        />
-        
-        <div className="space-y-4">
-          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Did the benefits from <span className="text-blue-600 dark:text-blue-400">"{solutionTitle}"</span> last over time?
-          </p>
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              onClick={() => setBenefitsLasted(true)}
-              className={`
-                p-4 rounded-lg border-2 transition-all transform hover:scale-[1.02] text-center
-                ${benefitsLasted === true
-                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-lg scale-[1.02]'
-                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800/50'
-                }
-              `}
-            >
-              <div className="text-2xl mb-2">✅</div>
-              <div className="font-semibold text-gray-900 dark:text-white">Yes, benefits lasted</div>
-            </button>
-            <button
-              onClick={() => setBenefitsLasted(false)}
-              className={`
-                p-4 rounded-lg border-2 transition-all transform hover:scale-[1.02] text-center
-                ${benefitsLasted === false
-                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-lg scale-[1.02]'
-                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800/50'
-                }
-              `}
-            >
-              <div className="text-2xl mb-2">❌</div>
-              <div className="font-semibold text-gray-900 dark:text-white">No, didn't last</div>
-            </button>
-          </div>
-        </div>
-      </div>
-
       {/* Unexpected Benefits (Optional) */}
       <div className="space-y-6">
         <FormSectionHeader 
           icon="✨" 
           title="Unexpected Benefits (Optional)"
-          bgColor="bg-amber-100 dark:bg-amber-900"
+          bgColorClassName="bg-amber-100 dark:bg-amber-900"
         />
         
         <div className="space-y-4">

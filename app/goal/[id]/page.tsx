@@ -4,11 +4,15 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
 import { getGoalSolutions, type GoalSolutionWithVariants } from '@/lib/solutions/goal-solutions'
-import Breadcrumbs, { createBreadcrumbs } from '@/components/molecules/Breadcrumbs'
+import Breadcrumbs from '@/components/molecules/Breadcrumbs'
+import { createBreadcrumbs } from '@/lib/utils/breadcrumbs'
 import GoalPageClient from '@/components/goal/GoalPageClient'
 import { getRelatedGoals } from '@/lib/solutions/related-goals'
 import { GoalPageTracker } from '@/components/tracking/GoalPageTracker'
+import { GoalViewTracker } from '@/components/tracking/GoalViewTracker'
 import { getGoalWisdomScore } from '@/app/actions/retrospectives'
+import { getFollowStatus, getFollowerCount } from '@/app/actions/goal-following'
+import BackButton from '@/components/atoms/BackButton'
 
 type Goal = {
   id: string
@@ -74,16 +78,8 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
   let solutions: GoalSolutionWithVariants[] = []
   let relatedGoals: Awaited<ReturnType<typeof getRelatedGoals>> = []
   let wisdom: Awaited<ReturnType<typeof getGoalWisdomScore>> = null
-  let distributions: Array<{
-    id: string
-    solution_id: string
-    goal_id: string
-    field_name: string
-    distributions: Array<{
-      name: string
-      percentage: number
-    }>
-  }> = []
+  let followStatus: Awaited<ReturnType<typeof getFollowStatus>> = { isFollowing: false }
+  let followerCount = 0
   let error: string | null = null
 
   try {
@@ -102,24 +98,6 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
       error = 'Unable to load solutions at this time'
     }
 
-    // Get distributions from ai_field_distributions table
-    try {
-      const supabase = await createServerSupabaseClient()
-      const { data: distData, error: distError } = await supabase
-        .from('ai_field_distributions')
-        .select('*')
-        .eq('goal_id', resolvedParams.id)
-
-      if (distError) {
-        console.error('Error fetching distributions:', distError)
-      } else {
-        distributions = distData || []
-        console.log(`Fetched ${distributions.length} distribution records for goal ${resolvedParams.id}`)
-      }
-    } catch (distError) {
-      console.error('Error fetching distributions:', distError)
-      // Don't set error for this - distributions are enhancement, not critical
-    }
 
     // Get related goals
     try {
@@ -135,6 +113,15 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
     } catch (wisdomError) {
       console.error('Error fetching wisdom scores:', wisdomError)
       // Don't set error for this - wisdom scores are enhancement, not critical
+    }
+
+    // Get follow status and follower count
+    try {
+      followStatus = await getFollowStatus(resolvedParams.id)
+      followerCount = await getFollowerCount(resolvedParams.id)
+    } catch (followError) {
+      console.error('Error fetching follow data:', followError)
+      // Don't set error for this - following is enhancement, not critical
     }
   } catch (pageError) {
     console.error('Error loading goal page:', pageError)
@@ -162,10 +149,14 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <GoalPageTracker arenaName={arenaName} arenaId={arenaId} />
+      <GoalViewTracker goalId={goal?.id || ''} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        {/* Mobile Back Button */}
+        <BackButton fallbackHref={goal.categories ? `/category/${goal.categories.slug}` : '/browse'} className="mb-3" />
+
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-4">
-          <Breadcrumbs 
+          <Breadcrumbs
             items={createBreadcrumbs('goal', {
               arena: { name: goal.arenas.name, slug: goal.arenas.slug },
               category: goal.categories ? { name: goal.categories.name, slug: goal.categories.slug } : undefined,
@@ -175,13 +166,14 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
         </nav>
 
         {/* Goal Page Client Content - This now handles ALL the display */}
-        <GoalPageClient 
+        <GoalPageClient
           goal={goal}
           initialSolutions={solutions}
-          distributions={distributions}
           wisdom={wisdom}
           error={error}
           relatedGoals={relatedGoals}
+          followStatus={followStatus}
+          followerCount={followerCount}
         />
       </div>
     </div>

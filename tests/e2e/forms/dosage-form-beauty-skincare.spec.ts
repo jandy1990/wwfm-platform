@@ -168,7 +168,7 @@ test.describe('DosageForm End-to-End Tests - Beauty/Skincare', () => {
       time_to_results: '3-4 weeks',          // Typical for retinol
       skincare_frequency: 'once_daily_pm',   // Night use for retinol
       length_of_use: '3-6 months',           // Standard trial period
-      side_effects: ['Dryness/peeling']      // Common retinol side effect
+      side_effects: ['None']                 // Filler now selects "None" for simplicity
       // NO dosage_amount or dosage_unit!
     }
     

@@ -28,7 +28,6 @@ export default function TestRetrospectivePage() {
           <RetrospectiveForm 
             scheduleId={mockSchedule.id}
             goalTitle={mockSchedule.goal_title}
-            goalDescription="Feeling overwhelmed by daily stress and anxiety"
             solutionTitle={mockSchedule.solution_title}
             achievementDate={mockSchedule.achievement_date}
           />

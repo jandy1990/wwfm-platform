@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
+import { getSolutionUrl } from '@/lib/utils/slugify'
 import SwipeableRating from '@/components/organisms/solutions/SwipeableRating'
 import VariantSheet from '@/components/organisms/solutions/VariantSheet'
 import { NewDistributionField, DistributionData } from '@/components/molecules/NewDistributionField'
@@ -10,12 +11,15 @@ import { SustainabilityMetricField, SustainabilityData } from '@/components/mole
 import { GoalSolutionWithVariants } from '@/lib/solutions/goal-solutions'
 import RatingDisplay, { getBestRating, getAverageRating } from '@/components/molecules/RatingDisplay'
 import EmptyState from '@/components/molecules/EmptyState'
-import SourceBadge from '@/components/atoms/SourceBadge'
+import { DataSourceBadge } from '@/components/molecules/DataSourceBadge'
 import { RelatedGoal } from '@/lib/solutions/related-goals'
 import { trackGoalRelationshipClick } from '@/lib/solutions/related-goals'
 import CommunityDiscussions from './CommunityDiscussions'
 import GoalWisdom from '@/components/organisms/goal/GoalWisdom'
 import { GoalWisdomScore } from '@/types/retrospectives'
+import type { AggregatedFieldsMetadata } from '@/types/aggregated-fields'
+import FollowGoalButton from './FollowGoalButton'
+import type { FollowStatus } from '@/app/actions/goal-following'
 
 type Goal = {
   id: string
@@ -38,23 +42,17 @@ type Goal = {
 interface GoalPageClientProps {
   goal: Goal
   initialSolutions: GoalSolutionWithVariants[]
-  distributions: Array<{
-    id: string
-    solution_id: string
-    goal_id: string
-    field_name: string
-    distributions: Array<{
-      name: string
-      percentage: number
-    }>
-  }>
   wisdom?: GoalWisdomScore | null
   error?: string | null
   relatedGoals?: RelatedGoal[]
+  followStatus?: FollowStatus
+  followerCount?: number
 }
 
 // Categories that have variants
 const VARIANT_CATEGORIES = ['medications', 'supplements_vitamins', 'natural_remedies', 'beauty_skincare']
+
+const DEFAULT_TRANSITION_THRESHOLD = 10
 
 // Category configuration with icons, colors, and key fields
 const CATEGORY_CONFIG: Record<string, {
@@ -130,11 +128,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['time_to_results', 'practice_length', 'frequency'],
+    keyFields: ['time_to_results', 'practice_length', 'frequency', 'cost'],
     fieldLabels: {
-      frequency: 'Frequency',
       time_to_results: 'Time to Results',
-      practice_length: 'Practice Length'
+      practice_length: 'Practice Length',
+      frequency: 'Frequency',
+      cost: 'Cost'
     },
     arrayField: 'challenges'
   },
@@ -143,11 +142,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['time_to_results', 'frequency', 'cost'],
+    keyFields: ['time_to_results', 'frequency', 'duration', 'cost'],
     fieldLabels: {
-      cost: 'Cost',
       time_to_results: 'Time to Results',
-      frequency: 'Frequency'
+      frequency: 'Frequency',
+      duration: 'Duration',
+      cost: 'Cost'
     },
     arrayField: 'challenges'
   },
@@ -156,11 +156,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-orange-700',
     borderColor: 'border-orange-200',
     bgColor: 'bg-orange-50',
-    keyFields: ['time_to_results', 'time_commitment', 'cost'],
+    keyFields: ['time_to_results', 'time_commitment', 'frequency', 'cost'],
     fieldLabels: {
-      cost: 'Cost',
       time_to_results: 'Time to Results',
-      time_commitment: 'Time Commitment'
+      time_commitment: 'Time Commitment',
+      frequency: 'Frequency',
+      cost: 'Cost'
     },
     arrayField: 'challenges'
   },
@@ -255,13 +256,14 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-red-700',
     borderColor: 'border-red-200',
     bgColor: 'bg-red-50',
-    keyFields: ['time_to_results', 'response_time', 'cost'],
+    keyFields: ['time_to_results', 'response_time', 'format', 'cost'],
     fieldLabels: {
       cost: 'Cost',
       time_to_results: 'Time to Results',
-      response_time: 'Response Time'
+      response_time: 'Response Time',
+      format: 'Format'
     },
-    arrayField: null
+    arrayField: 'challenges'
   },
 
   // LIFESTYLE FORMS (2 categories)
@@ -392,11 +394,12 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-green-700',
     borderColor: 'border-green-200',
     bgColor: 'bg-green-50',
-    keyFields: ['time_to_results', 'financial_benefit', 'access_time'],
+    keyFields: ['time_to_results', 'financial_benefit', 'access_time', 'cost_type'],
     fieldLabels: {
-      financial_benefit: 'Financial Benefit',
       time_to_results: 'Time to Impact',
-      access_time: 'Access Time'
+      financial_benefit: 'Financial Benefit',
+      access_time: 'Access Time',
+      cost_type: 'Cost Type'
     },
     arrayField: 'challenges'
   }
@@ -490,24 +493,43 @@ const DEFAULT_CATEGORY_CONFIG = {
 //   return value?.toString() || ''
 // }
 
+const isDistributionLike = (value: unknown): value is { mode: string } => {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'mode' in value &&
+    typeof (value as { mode: unknown }).mode === 'string'
+  )
+}
+
 // Helper to get regular field values
 const getFieldDisplayValue = (solution: GoalSolutionWithVariants, fieldName: string, variant?: typeof solution.variants[0]): string | null => {
   // Check variant first (for dosage categories)
   if (variant && variant.category_fields) {
     const variantFields = variant.category_fields as Record<string, unknown>
     if (variantFields[fieldName]) {
-      return variantFields[fieldName].toString()
+      const value = variantFields[fieldName]
+      // Handle objects by checking for DistributionData format
+      if (isDistributionLike(value)) {
+        return value.mode // Return the mode value from DistributionData
+      }
+      if (Array.isArray(value)) return null // Arrays handled elsewhere
+      return value.toString()
     }
   }
-  
+
   // Then check solution_fields
   const solutionFields = solution.solution_fields as Record<string, unknown> || {}
   if (solutionFields[fieldName]) {
     const value = solutionFields[fieldName]
+    // Handle objects by checking for DistributionData format
+    if (isDistributionLike(value)) {
+      return value.mode // Return the mode value from DistributionData
+    }
     if (Array.isArray(value)) return null // Arrays handled elsewhere
     return value.toString()
   }
-  
+
   return null
 }
 
@@ -630,7 +652,15 @@ const CategoryDropdown = ({
   )
 }
 
-export default function GoalPageClient({ goal, initialSolutions, distributions, wisdom, error, relatedGoals = [] }: GoalPageClientProps) {
+export default function GoalPageClient({
+  goal,
+  initialSolutions,
+  wisdom,
+  error,
+  relatedGoals = [],
+  followStatus = { isFollowing: false },
+  followerCount = 0
+}: GoalPageClientProps) {
   const [sortBy, setSortBy] = useState('effectiveness')
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set())
   const [viewMode, setViewMode] = useState<'simple' | 'detailed'>('simple')
@@ -653,36 +683,6 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
   const SOLUTIONS_PER_PAGE = 20 // Constant for how many to load each time
   const [discussionSort, setDiscussionSort] = useState('newest')
   
-  // Process distributions into a map for easy lookup
-  const distributionMap = useMemo(() => {
-    const map = new Map<string, DistributionData>();
-    
-    distributions.forEach(dist => {
-      if (dist.distributions && Array.isArray(dist.distributions)) {
-        const key = `${dist.solution_id}-${dist.field_name}`;
-        
-        // Convert to DistributionData format
-        const values = dist.distributions.map(item => ({
-          value: item.name,
-          count: Math.round(item.percentage), // Using percentage as count for now
-          percentage: item.percentage
-        }));
-        
-        // Find the mode (highest percentage)
-        const mode = values.reduce((prev, current) => 
-          current.percentage > prev.percentage ? current : prev
-        ).value;
-        
-        map.set(key, {
-          mode,
-          values,
-          totalReports: 100 // Default for now
-        });
-      }
-    });
-    
-    return map;
-  }, [distributions]);
   
   // Check if user has seen the contribution hint banner
   useEffect(() => {
@@ -773,16 +773,15 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
       const aggregated = solution.aggregated_fields as Record<string, unknown>
       
       // Check metadata for data source
-      const metadata = aggregated._metadata
-      const dataSource = metadata?.data_source || 'user'
-      
+      const metadata = aggregated._metadata as AggregatedFieldsMetadata | undefined
+      const dataSource = metadata?.data_source ?? 'user'
+
       if (aggregated[fieldName]) {
         // Check if it's already in DistributionData format from our aggregator
         const fieldValue = aggregated[fieldName]
-        if (typeof fieldValue === 'object' && fieldValue.mode !== undefined && fieldValue.values !== undefined) {
+        if (typeof fieldValue === 'object' && fieldValue !== null && 'mode' in fieldValue && 'values' in fieldValue) {
           const distribution = fieldValue as DistributionData
-          distribution.dataSource = dataSource
-          return distribution
+          return { ...distribution, dataSource }
         }
         // Handle case where it's a simple string value (shouldn't happen in new format)
         console.warn(`Field ${fieldName} contains unexpected format:`, fieldValue)
@@ -794,10 +793,9 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
       for (const mappedField of mappedFields) {
         if (aggregated[mappedField]) {
           const fieldValue = aggregated[mappedField]
-          if (typeof fieldValue === 'object' && fieldValue.mode !== undefined && fieldValue.values !== undefined) {
+          if (typeof fieldValue === 'object' && fieldValue !== null && 'mode' in fieldValue && 'values' in fieldValue) {
             const distribution = fieldValue as DistributionData
-            distribution.dataSource = dataSource
-            return distribution
+            return { ...distribution, dataSource }
           }
           // Handle case where it's a simple string value (shouldn't happen in new format)
           console.warn(`Mapped field ${mappedField} contains unexpected format:`, fieldValue)
@@ -805,28 +803,6 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
       }
     }
     
-    // Fall back to AI distributions if no user data
-    const directKey = `${solution.id}-${fieldName}`;
-    const directResult = distributionMap.get(directKey);
-    if (directResult) {
-      directResult.dataSource = 'ai' // Mark as AI data
-      return directResult
-    }
-    
-    // If no direct match, try field mappings for AI data
-    const mappedFields = FIELD_MAPPINGS[fieldName] || [];
-    for (const mappedField of mappedFields) {
-      const mappedKey = `${solution.id}-${mappedField}`;
-      const mappedResult = distributionMap.get(mappedKey);
-      if (mappedResult) {
-        // Debug logging
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`AI distribution found via mapping: ${fieldName} -> ${mappedField}`);
-        }
-        mappedResult.dataSource = 'ai' // Mark as AI data
-        return mappedResult;
-      }
-    }
     
     // Debug logging for missing distributions
     if (process.env.NODE_ENV === 'development' && solution.solution_category) {
@@ -846,7 +822,10 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
     
     if (stillFollowingDist && stillFollowingDist.values.length > 0) {
       // Calculate percentage from distribution
-      const yesValue = stillFollowingDist.values.find(v => v.value.toLowerCase() === 'yes' || v.value.toLowerCase() === 'true')
+      const yesValue = stillFollowingDist.values.find(v => {
+        // Ensure v.value is a string before calling toLowerCase
+        return typeof v.value === 'string' && (v.value.toLowerCase() === 'yes' || v.value.toLowerCase() === 'true')
+      })
       const stillFollowingPercentage = yesValue ? yesValue.percentage : 0
       
       // Get reasons distribution if available
@@ -900,24 +879,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
     return null
   }
 
-  // Helper to get prevalence map for array field items
-  const getArrayFieldDistribution = (solution: GoalSolutionWithVariants, fieldName: string): Map<string, number> => {
-    const distributionKey = `${solution.id}-${fieldName}`;
-    const distribution = distributionMap.get(distributionKey);
-    
-    console.log(`Looking for distribution: ${distributionKey}`, distribution);
-    
-    const itemPrevalenceMap = new Map<string, number>();
-    
-    if (distribution && distribution.values) {
-      distribution.values.forEach(item => {
-        // Store with lowercase key for case-insensitive matching
-        itemPrevalenceMap.set(item.value.toLowerCase(), item.percentage);
-      });
-    }
-    
-    return itemPrevalenceMap;
-  };
+;
 
   // Filter and sort solutions
   const filteredAndSortedSolutions = useMemo(() => {
@@ -1057,7 +1019,19 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
               </h1>
               {/* Description removed - it was just duplicating the title with different icon */}
             </div>
-            <div className="flex gap-6 mt-4 sm:mt-0">
+            <div className="flex flex-col sm:flex-row gap-4 mt-4 sm:mt-0 items-end sm:items-start">
+              {/* Follow Button */}
+              <div>
+                <FollowGoalButton
+                  goalId={goal.id}
+                  initialIsFollowing={followStatus.isFollowing}
+                  initialFollowerCount={followerCount}
+                  variant="outline"
+                  size="default"
+                  showCount={true}
+                />
+              </div>
+              {/* Ratings Count */}
               <div className="text-center">
                 <div className="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">
                   {totalRatings}
@@ -1108,10 +1082,10 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
         {activeTab === 'solutions' && (
           <>
             {/* Wisdom Bar - Only on solutions tab */}
-            <GoalWisdom wisdom={wisdom} minResponses={1} />
+            <GoalWisdom goalId={goal.id} wisdom={wisdom} minResponses={1} />
             
             {/* Solutions Controls - Only for this tab */}
-            <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-4">
+            <div className="mt-4 sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-4">
               <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div className="flex items-center gap-3 sm:gap-4 flex-1">
@@ -1225,8 +1199,14 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                 {categoryConfig.icon}
                               </span>
                               <div className="flex-1 min-w-0">
-                                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 break-words">
-                                  {solution.title}
+                                <h3 className="text-lg sm:text-xl font-semibold break-words">
+                                  <Link
+                                    href={getSolutionUrl(solution.title, solution.id)}
+                                    className="text-gray-900 dark:text-gray-100 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                                    onClick={(e) => e.stopPropagation()} // Prevents card toggle
+                                  >
+                                    {solution.title}
+                                  </Link>
                                 </h3>
                                 {hasVariants && bestVariant && (
                                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
@@ -1247,10 +1227,13 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                             </div>
                           </div>
                           <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 flex-shrink-0">
-                            <SourceBadge 
-                              sourceType={solution.source_type} 
-                              size={solution.source_type === 'ai_foundation' ? 'md' : 'sm'}
-                            />
+                            {bestVariant?.goal_links?.[0] && (
+                              <DataSourceBadge
+                                mode={bestVariant.goal_links[0].data_display_mode || 'ai'}
+                                humanCount={bestVariant.goal_links[0].human_rating_count || 0}
+                                threshold={bestVariant.goal_links[0].transition_threshold || DEFAULT_TRANSITION_THRESHOLD}
+                              />
+                            )}
                             {bestRating > 0 && (
                               <div className="whitespace-nowrap">
                                 {/* Check if this is a variant category */}
@@ -1276,7 +1259,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                     initialRating={bestRating}
                                     ratingCount={totalReviews}
                                     isMobile={isMobile}
-                                    onRatingUpdate={(newRating, newCount) => {
+                                    onRatingUpdate={(newRating, newCount, meta) => {
                                       // Set the flag that disables sorting
                                       setHasRatedAny(true);
                                       
@@ -1295,7 +1278,9 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                                           ? {
                                                               ...link,
                                                               avg_effectiveness: newRating,
-                                                              rating_count: newCount
+                                                              rating_count: newCount,
+                                                              human_rating_count: meta?.humanCount ?? link.human_rating_count,
+                                                              data_display_mode: meta?.dataDisplayMode ?? link.data_display_mode
                                                             }
                                                           : link
                                                       )
@@ -1610,14 +1595,41 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                             ).join(' ')
                           }
                     
-                          const itemsArray = Array.isArray(fieldValue) ? fieldValue : [fieldValue]
+                          // Handle both old array format and new DistributionData format
+                          let itemsArray: string[] = []
+
+                          if (Array.isArray(fieldValue)) {
+                            // Old array format - convert to strings
+                            itemsArray = fieldValue.map(item => String(item))
+                          } else if (fieldValue && typeof fieldValue === 'object' && 'values' in fieldValue) {
+                            // New DistributionData format - extract values
+                            const distributionData = fieldValue as DistributionData
+                            itemsArray = distributionData.values.map(item => item.value)
+                          } else if (fieldValue) {
+                            // Single value
+                            itemsArray = [String(fieldValue)]
+                          }
+
                           const maxDisplayLimit = cardView === 'detailed' ? 8 : (isMobile ? 2 : 3)
                           const displayLimit = Math.min(maxDisplayLimit, itemsArray.length)
                           const displayItems = itemsArray.slice(0, displayLimit)
                           const remainingCount = itemsArray.length - displayLimit
                           
                           // Get prevalence data for this array field
-                          const prevalenceMap = getArrayFieldDistribution(solution, fieldName)
+                          const prevalenceMap = new Map<string, number>()
+
+                          // If we have DistributionData format, use those percentages directly
+                          if (fieldValue && typeof fieldValue === 'object' && 'values' in fieldValue && !Array.isArray(fieldValue)) {
+                            const distributionData = fieldValue as DistributionData
+                            // Add safety check for values array
+                            if (Array.isArray(distributionData.values)) {
+                              distributionData.values.forEach(item => {
+                                prevalenceMap.set(item.value.toLowerCase(), item.percentage)
+                              })
+                            } else {
+                              console.warn('DistributionData.values is not an array:', distributionData)
+                            }
+                          }
                     
                           return (
                             <div className="side-effects-section">
@@ -1710,8 +1722,16 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                           </div>
                                         )}
                                       </div>
-                                      {rating > 0 && (
-                                        <SwipeableRating
+                                      <div className="flex flex-col items-end gap-1">
+                                        {goalLink && (
+                                        <DataSourceBadge
+                                          mode={goalLink.data_display_mode || 'ai'}
+                                          humanCount={goalLink.human_rating_count || 0}
+                                          threshold={goalLink.transition_threshold || DEFAULT_TRANSITION_THRESHOLD}
+                                        />
+                                        )}
+                                        {rating > 0 && (
+                                          <SwipeableRating
                                           solution={{
                                             id: solution.id,
                                             title: solution.title,
@@ -1725,7 +1745,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                           initialRating={rating}
                                           ratingCount={ratingCount}
                                           isMobile={isMobile}
-                                          onRatingUpdate={(newRating, newCount) => {
+                                          onRatingUpdate={(newRating, newCount, meta) => {
                                             // Set the flag that disables sorting
                                             setHasRatedAny(true);
                                             
@@ -1744,9 +1764,11 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                                                 ? {
                                                                     ...link,
                                                                     avg_effectiveness: newRating,
-                                                                    rating_count: newCount
+                                                                    rating_count: newCount,
+                                                                    human_rating_count: meta?.humanCount ?? link.human_rating_count,
+                                                                    data_display_mode: meta?.dataDisplayMode ?? link.data_display_mode
                                                                   }
-                                                                : link
+                                                              : link
                                                             )
                                                           }
                                                         : v
@@ -1756,7 +1778,8 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
                                             ))
                                           }}
                                         />
-                                      )}
+                                        )}
+                                      </div>
                                     </div>
                                   )
                                 })}
@@ -1878,7 +1901,7 @@ export default function GoalPageClient({ goal, initialSolutions, distributions, 
         {activeTab === 'discussions' && (
           <>
             {/* Discussion Controls - Different from solutions */}
-            <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-4">
+            <div className="mt-4 sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-4">
               <div className="max-w-7xl mx-auto">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">

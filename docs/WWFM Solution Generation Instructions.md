@@ -16,7 +16,8 @@ Located in `/Users/jackandrews/Desktop/wwfm-platform/`:
 - `ARCHITECTURE.md` - Technical architecture
 
 ### Reference Documents
-- `/docs/WWFM Solution Fields Matrix - Code-Aligned.md` - **CRITICAL: Exact field requirements**
+- `/docs/solution-fields-ssot.md` - **CRITICAL: Exact field requirements**
+- `/docs/solution-field-data-flow.md` - Overview of how fields move through the system
 - `/docs/archive/WWFM Forms Field Matrix - ACTUAL Implementation - ARCHIVED 2025-01.md` - Dropdown options
 - Project uploads:
   - `WWFM Solution Generation Guide v5` - SQL patterns and generation strategy
@@ -34,7 +35,7 @@ Located in `/Users/jackandrews/Desktop/wwfm-platform/`:
 
 ```typescript
 // Create this file with:
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/database/client'
 
 interface SolutionProfile {
   mechanisms: string[]        // How it works
@@ -77,7 +78,7 @@ class SolutionGenerator {
 ```
 
 **Reference**:
-- Field names from: `/docs/WWFM Solution Fields Matrix - Code-Aligned.md`
+- Field names from: `/docs/solution-fields-ssot.md`
 - Dropdown values from: Archived matrix Section "Dropdown Options Reference"
 - Database structure from: `/docs/database/schema.md`
 
@@ -463,7 +464,7 @@ Check in UI at `/goal/[id]`:
 ## 🚀 Execution Checklist
 
 ### Prerequisites
-- [ ] Read `/docs/WWFM Solution Fields Matrix - Code-Aligned.md`
+- [ ] Read `/docs/solution-fields-ssot.md`
 - [ ] Understand field variations (skincare_frequency for beauty_skincare)
 - [ ] Have Supabase credentials
 - [ ] TypeScript environment ready
@@ -495,7 +496,7 @@ Check in UI at `/goal/[id]`:
 **Solution**: Check that array values in `solution_fields` EXACTLY match distribution names
 
 ### Problem: "Wrong fields displaying"
-**Solution**: Verify against `/docs/WWFM Solution Fields Matrix - Code-Aligned.md`
+**Solution**: Verify against `/docs/solution-fields-ssot.md`
 - beauty_skincare uses `skincare_frequency`
 - All categories use `time_to_results`
 - financial uses `time_to_impact`
@@ -520,7 +521,7 @@ Target outcomes:
 
 For the next Claude session, provide:
 1. This instruction document: `/docs/WWFM Solution Generation Instructions.md`
-2. Matrix document: `/docs/WWFM Solution Fields Matrix - Code-Aligned.md`
+2. Matrix document: `/docs/solution-fields-ssot.md`
 3. Progress update: "Completed Phase X, Step Y"
 4. Any error logs or issues
 5. Current metrics
@@ -534,7 +535,7 @@ Current issue: [describe if any]"
 
 ## 📞 Support Resources
 
-- **Matrix**: `/docs/WWFM Solution Fields Matrix - Code-Aligned.md`
+- **Matrix**: `/docs/solution-fields-ssot.md`
 - **Display Logic**: `/components/goal/GoalPageClient.tsx`
 - **Database Schema**: `/docs/database/schema.md`
 - **Form Templates**: `/components/solutions/forms/`

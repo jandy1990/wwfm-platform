@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import Link from 'next/link'
-import { groupCategoriesBySuperCategory, SUPER_CATEGORY_COLORS, type CategoryGroup } from '@/lib/navigation/super-categories'
+import { groupCategoriesBySuperCategory, SUPER_CATEGORY_COLORS, shouldSkipCategoryLayer } from '@/lib/navigation/super-categories'
+import { getCategoryIcon } from '@/lib/navigation/category-icons'
 import { ArenaSkeleton, SkeletonGrid, SearchSkeleton, PageHeaderSkeleton } from '@/components/atoms/SkeletonLoader'
 
 // Types (reused from original)
@@ -85,15 +86,17 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
   const debouncedSearch = useDebounce(searchQuery, 150)
   
   // Search cache (reused from original)
-  const searchCache = useRef<Map<string, {
+  type SearchCacheEntry = {
     suggestions: Array<{
-      goal: Goal,
-      category: Category,
-      arena: Arena,
+      goal: Goal
+      category: Category
+      arena: Arena
       score: number
     }>
-  }>>(new Map())
-  const cacheTimeout = useRef<Map<string, NodeJS.Timeout>>(new Map())
+  }
+
+  const searchCache = useRef<Map<string, SearchCacheEntry>>(new Map())
+  const cacheTimeout = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map())
   const searchContainerRef = useRef<HTMLDivElement>(null)
   
   // Group categories by super-category
@@ -110,18 +113,19 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
   }, [categoryGroups, selectedSuperCategory])
 
   // Search functionality (adapted from original)
-  const setCacheWithExpiry = useCallback((key: string, data: any, expiryMs: number = 300000) => {
-    if (cacheTimeout.current.has(key)) {
-      clearTimeout(cacheTimeout.current.get(key)!)
+  const setCacheWithExpiry = useCallback((key: string, data: SearchCacheEntry, expiryMs: number = 300000) => {
+    const existingTimeout = cacheTimeout.current.get(key)
+    if (existingTimeout) {
+      clearTimeout(existingTimeout)
     }
-    
+
     searchCache.current.set(key, data)
-    
+
     const timeout = setTimeout(() => {
       searchCache.current.delete(key)
       cacheTimeout.current.delete(key)
     }, expiryMs)
-    
+
     cacheTimeout.current.set(key, timeout)
   }, [])
 
@@ -352,7 +356,16 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                     <div
                       key={group.superCategory.id}
                       className={`${colors.bg} ${colors.border} border rounded-xl p-6 transition-all duration-300 hover:shadow-lg cursor-pointer ${colors.hover}`}
-                      onClick={() => setSelectedSuperCategory(group.superCategory.id)}
+                      onClick={() => {
+                        // Check if we should skip category layer
+                        if (shouldSkipCategoryLayer(group)) {
+                          // Navigate directly to a combined goals page for this super-category
+                          window.location.href = `/super-category/${group.superCategory.id}`
+                        } else {
+                          // Show categories as normal
+                          setSelectedSuperCategory(group.superCategory.id)
+                        }
+                      }}
                     >
                       <div className="flex items-start mb-4">
                         <span className={`text-4xl ${colors.icon} mr-4`}>
@@ -362,7 +375,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                           <h2 className={`text-xl font-bold ${colors.text} mb-2`}>
                             {group.superCategory.name}
                           </h2>
-                          <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                          <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
                             {group.superCategory.description}
                           </p>
                           <div className="flex items-center justify-between text-sm">
@@ -370,35 +383,9 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                               {group.totalGoals} goals
                             </span>
                             <span className={`${colors.text} text-xs`}>
-                              {group.categories.length} categories
+                              →
                             </span>
                           </div>
-                        </div>
-                      </div>
-                      
-                      {/* Preview top categories */}
-                      <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
-                        <div className="grid grid-cols-2 gap-2 text-xs">
-                          {group.categories
-                            .sort((a, b) => b.goalCount - a.goalCount)
-                            .slice(0, 4)
-                            .map(cat => (
-                              <div key={cat.id} className="flex justify-between">
-                                <span className="text-gray-600 dark:text-gray-400 truncate">
-                                  {cat.name}
-                                </span>
-                                <span className={`${colors.text} font-medium`}>
-                                  {cat.goalCount}
-                                </span>
-                              </div>
-                            ))}
-                          {group.categories.length > 4 && (
-                            <div className="col-span-2 text-center pt-1">
-                              <span className="text-gray-500 text-xs">
-                                +{group.categories.length - 4} more categories
-                              </span>
-                            </div>
-                          )}
                         </div>
                       </div>
                     </div>
@@ -410,47 +397,40 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
             // Category Detail View
             <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {filteredCategories
-                  .filter(cat => cat.goalCount > 0) // Hide empty categories
-                  .sort((a, b) => b.goalCount - a.goalCount) // Sort by goal count
-                  .map((category) => (
-                    <Link
-                      key={category.id}
-                      href={`/category/${category.slug}`}
-                      className="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6 min-h-[140px] flex flex-col focus:ring-2 focus:ring-blue-500 focus:outline-none border border-gray-200 dark:border-gray-700"
-                    >
-                      <div className="flex items-start justify-between mb-3">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex-1 pr-2">
-                          {category.name}
-                        </h3>
-                        <span className="text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-full shrink-0">
-                          {category.goalCount}
-                        </span>
-                      </div>
-                      
-                      {/* Preview top goals */}
-                      {category.goals && category.goals.length > 0 && (
-                        <div className="flex-1">
-                          <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
-                            {category.goals.slice(0, 3).map(goal => (
-                              <div key={goal.id} className="truncate">
-                                • {goal.title}
-                              </div>
-                            ))}
-                            {category.goals.length > 3 && (
-                              <div className="text-gray-400">
-                                +{category.goals.length - 3} more goals
-                              </div>
-                            )}
+                {(() => {
+                  const group = categoryGroups.find(g => g.superCategory.id === selectedSuperCategory)
+                  const colors = group ? SUPER_CATEGORY_COLORS[group.superCategory.color as keyof typeof SUPER_CATEGORY_COLORS] : SUPER_CATEGORY_COLORS.blue
+
+                  return filteredCategories
+                    .filter(cat => cat.goalCount > 0) // Hide empty categories
+                    .sort((a, b) => b.goalCount - a.goalCount) // Sort by goal count
+                    .map((category) => (
+                      <Link
+                        key={category.id}
+                        href={`/category/${category.slug}`}
+                        className={`${colors.bg} ${colors.border} border rounded-xl shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6 min-h-[120px] flex flex-col focus:ring-2 focus:ring-blue-500 focus:outline-none ${colors.hover}`}
+                      >
+                        <div className="flex items-start mb-4">
+                          <span className={`text-3xl ${colors.icon} mr-4`}>
+                            {getCategoryIcon(category.slug)}
+                          </span>
+                          <div className="flex-1">
+                            <h3 className={`text-lg font-semibold ${colors.text} mb-2`}>
+                              {category.name}
+                            </h3>
+                            <div className="flex items-center justify-between text-sm">
+                              <span className={`${colors.text} font-medium`}>
+                                {category.goalCount} goals
+                              </span>
+                              <span className={`${colors.text} text-xs`}>
+                                →
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      )}
-                      
-                      <div className="text-sm text-blue-600 dark:text-blue-400 mt-4">
-                        View goals →
-                      </div>
-                    </Link>
-                  ))}
+                      </Link>
+                    ))
+                })()}
               </div>
 
               {/* Empty state for super-category */}

@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/database/client';
 import { Star } from 'lucide-react';
+import { TransitionAnimation } from '@/components/molecules/TransitionAnimation';
+import { PreTransitionWarning } from '@/components/molecules/PreTransitionWarning';
 
 interface InteractiveRatingProps {
   solution: {
@@ -16,11 +18,17 @@ interface InteractiveRatingProps {
   goalId: string;
   initialRating: number;
   ratingCount: number;
-  onRatingUpdate?: (newRating: number, newCount: number) => void;
+  onRatingUpdate?: (
+    newRating: number,
+    newCount: number,
+    meta?: { humanCount: number; dataDisplayMode: 'ai' | 'human' }
+  ) => void;
 }
 
 // Categories that require variant-specific ratings
 const VARIANT_CATEGORIES = ['medications', 'supplements_vitamins', 'natural_remedies', 'beauty_skincare'];
+
+const DEFAULT_TRANSITION_THRESHOLD = 10;
 
 export default function InteractiveRating({ 
   solution, 
@@ -35,6 +43,14 @@ export default function InteractiveRating({
   console.log('InteractiveRating state - isHovering:', isHovering);
   const [hasRated, setHasRated] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showTransition, setShowTransition] = useState(false);
+  const [transitionData, setTransitionData] = useState<{from: number; to: number} | null>(null);
+  const [transitionInfo, setTransitionInfo] = useState<{
+    humanCount: number;
+    threshold: number;
+    dataDisplayMode: 'ai' | 'human';
+  } | null>(null);
+  const [showPreTransitionWarning, setShowPreTransitionWarning] = useState(false);
   
   // 🔧 FIX: Use a unique key to identify this rating instance
   const ratingKey = `${solution.id}-${variant.id}-${goalId}`;
@@ -48,14 +64,42 @@ export default function InteractiveRating({
   
   // Force re-render when success state changes
   const [, forceUpdate] = useState({});
+
+  // Load transition info on mount
+  useEffect(() => {
+    const loadTransitionInfo = async () => {
+      try {
+        const { data: goalLink } = await supabase
+          .from('goal_implementation_links')
+          .select('human_rating_count, transition_threshold, data_display_mode')
+          .eq('goal_id', goalId)
+          .eq('implementation_id', variant.id)
+          .single();
+
+        if (goalLink) {
+          setTransitionInfo({
+            humanCount: goalLink.human_rating_count || 0,
+            threshold: goalLink.transition_threshold || DEFAULT_TRANSITION_THRESHOLD,
+            dataDisplayMode: goalLink.data_display_mode || 'ai'
+          });
+        }
+      } catch (error) {
+        console.error('Failed to load transition info:', error);
+      }
+    };
+
+    loadTransitionInfo();
+  }, [goalId, variant.id]);
   
   // Cleanup timeout on unmount
   useEffect(() => {
+    const state = successStateRef.current
     return () => {
-      if (successStateRef.current.timeoutId) {
-        clearTimeout(successStateRef.current.timeoutId);
+      if (state.timeoutId) {
+        clearTimeout(state.timeoutId)
+        state.timeoutId = null
       }
-    };
+    }
   }, []);
 
   // Check if this solution requires variant-specific rating
@@ -151,15 +195,62 @@ export default function InteractiveRating({
         successStateRef.current.hasRated = true;
         setHasRated(true); // Also set local state for immediate UI update
         
-        // Update parent component if callback provided
-        if (onRatingUpdate) {
-          const newCount = isResubmit ? ratingCount : ratingCount + 1; // 🔧 Don't increment count for re-ratings
-          const newAverage = isResubmit 
-            ? ((initialRating * ratingCount) - initialRating + rating) / ratingCount // Replace old rating
-            : ((initialRating * ratingCount) + rating) / newCount; // Add new rating
-          
-          console.log('📊 Callback details:', { isResubmit, oldAvg: initialRating, newAvg: newAverage, oldCount: ratingCount, newCount });
-          onRatingUpdate(newAverage, newCount);
+        const baseHumanCount = transitionInfo?.humanCount ?? 0;
+        const newCount = isResubmit ? ratingCount : ratingCount + 1; // 🔧 Don't increment count for re-ratings
+        const newAverage = isResubmit 
+          ? ((initialRating * ratingCount) - initialRating + rating) / ratingCount // Replace old rating
+          : ((initialRating * ratingCount) + rating) / newCount; // Add new rating
+        const newHumanCount = baseHumanCount + (isResubmit ? 0 : 1);
+        let newDisplayMode: 'ai' | 'human' = transitionInfo?.dataDisplayMode || 'ai';
+
+        console.log('📊 Callback details:', { isResubmit, oldAvg: initialRating, newAvg: newAverage, oldCount: ratingCount, newCount });
+
+        // Check for AI to human transition after successful rating
+        try {
+          console.log('🔄 Checking for AI to human transition...');
+          const { data: transitionResult } = await supabase.rpc('check_and_execute_transition', {
+            p_goal_id: goalId,
+            p_implementation_id: variant.id
+          });
+
+          if (transitionResult) {
+            console.log('🎉 TRANSITION OCCURRED - Showing animation');
+            setTransitionData({
+              from: initialRating,
+              to: newAverage
+            });
+            setShowTransition(true);
+            newDisplayMode = 'human';
+          }
+
+        const updatedTransitionInfo = {
+          humanCount: newHumanCount,
+          threshold: transitionInfo?.threshold || DEFAULT_TRANSITION_THRESHOLD,
+          dataDisplayMode: newDisplayMode
+        };
+          setTransitionInfo(updatedTransitionInfo);
+          setShowPreTransitionWarning(false);
+
+          if (onRatingUpdate) {
+            onRatingUpdate(newAverage, newCount, {
+              humanCount: updatedTransitionInfo.humanCount,
+              dataDisplayMode: updatedTransitionInfo.dataDisplayMode
+            });
+          }
+        } catch (transitionError) {
+          console.error('Transition check failed (non-fatal):', transitionError);
+          if (onRatingUpdate) {
+            onRatingUpdate(newAverage, newCount, {
+              humanCount: newHumanCount,
+              dataDisplayMode: newDisplayMode
+            });
+          }
+          setTransitionInfo(prev => ({
+            humanCount: newHumanCount,
+            threshold: prev?.threshold || DEFAULT_TRANSITION_THRESHOLD,
+            dataDisplayMode: newDisplayMode
+          }));
+          setShowPreTransitionWarning(false);
         }
 
         // Clear any existing timeout
@@ -197,18 +288,18 @@ export default function InteractiveRating({
       }}
     >
       {/* Default rating display */}
-      <div className="rating-content">
-        <span className="text-xl font-semibold text-gray-900 dark:text-gray-100">{initialRating.toFixed(1)}</span>
+      <div className="rating-content flex items-center gap-2">
+        <span className="text-base font-semibold text-gray-900 dark:text-gray-100">{initialRating.toFixed(1)}</span>
         <div className="flex text-yellow-400">
           {[...Array(5)].map((_, i) => (
             <Star
               key={i}
-              className={`w-4 h-4 ${i < Math.round(initialRating) ? 'fill-current' : ''}`}
+              className={`w-5 h-5 ${i < Math.round(initialRating) ? 'fill-current' : ''}`}
             />
           ))}
         </div>
         <span className="text-sm text-gray-500 dark:text-gray-400 border-l border-gray-300 dark:border-gray-600 pl-2">
-          {ratingCount} {ratingCount === 1 ? 'rating' : 'ratings'}
+          {ratingCount}
         </span>
       </div>
 
@@ -218,8 +309,19 @@ export default function InteractiveRating({
           <button
             key={star}
             type="button"
-            onMouseEnter={() => setHoveredStar(star)}
-            onMouseLeave={() => setHoveredStar(0)}
+            onMouseEnter={() => {
+              setHoveredStar(star);
+              // Check if this rating would trigger a transition
+              if (transitionInfo &&
+                  transitionInfo.dataDisplayMode === 'ai' &&
+                  transitionInfo.humanCount === transitionInfo.threshold - 1) {
+                setShowPreTransitionWarning(true);
+              }
+            }}
+            onMouseLeave={() => {
+              setHoveredStar(0);
+              setShowPreTransitionWarning(false);
+            }}
             onClick={(e) => {
               console.log('=== Star clicked ===');
               console.log('Star number:', star);
@@ -248,6 +350,28 @@ export default function InteractiveRating({
           </svg>
           <span className="ml-2 font-medium text-green-600 dark:text-green-400">Thanks!</span>
         </div>
+      )}
+
+      {/* Pre-transition Warning */}
+      {showPreTransitionWarning && transitionInfo && (
+        <div className="absolute -top-24 left-0 right-0 z-20">
+          <PreTransitionWarning
+            currentAI={Math.round(initialRating)}
+            projectedHuman={Math.round(hoveredStar)}
+          />
+        </div>
+      )}
+
+      {/* Transition Animation */}
+      {showTransition && transitionData && (
+        <TransitionAnimation
+          from={Math.round(transitionData.from)}
+          to={Math.round(transitionData.to)}
+          onComplete={() => {
+            setShowTransition(false);
+            setTransitionData(null);
+          }}
+        />
       )}
     </div>
   );

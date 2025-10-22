@@ -9,16 +9,22 @@
  */
 
 import { createServerSupabaseClient } from '@/lib/database/server'
-import type { 
-  DistributionData, 
+import { logger } from '@/lib/utils/logger'
+import type {
+  DistributionData,
   DistributionValue,
-  AggregatedFields, 
-  RatingWithFields,
-  AggregatedFieldsMetadata 
+  AggregatedFields
 } from '@/types/aggregated-fields'
+import type { TablesInsert, TablesUpdate } from '@/types/supabase'
+
+type SolutionFieldRecord = Record<string, unknown>
+
+interface HumanRatingRow {
+  solution_fields: SolutionFieldRecord | null
+}
 
 // Re-export types for convenience
-export type { DistributionData, AggregatedFields, RatingWithFields }
+export type { DistributionData, AggregatedFields }
 
 export class SolutionAggregator {
   /**
@@ -30,27 +36,31 @@ export class SolutionAggregator {
   ): Promise<AggregatedFields> {
     const supabase = await createServerSupabaseClient()
     
-    // Fetch all ratings with solution_fields for this combo
-    const { data: ratings, error } = await supabase
+    // Fetch only HUMAN ratings with solution_fields for this combo
+    const { data, error } = await supabase
       .from('ratings')
-      .select('solution_fields, user_id')
+      .select('solution_fields')
       .eq('goal_id', goalId)
       .eq('implementation_id', implementationId)
-    
-    if (error || !ratings || ratings.length === 0) {
+      .eq('data_source', 'human')  // Only human ratings for aggregation
+
+    if (error || !data || data.length === 0) {
       return {}
     }
+
+    const ratings: HumanRatingRow[] = data.map(row => ({
+      solution_fields: (row as HumanRatingRow).solution_fields ?? null
+    }))
     
-    // Determine data source and confidence
-    const hasAI = ratings.some(r => r.user_id === 'ai_foundation')
-    const userRatings = ratings.filter(r => r.user_id !== 'ai_foundation').length
-    
+    // Since we only fetch human ratings, all data is from users
+    const userRatings = ratings.length
+
     const aggregated: AggregatedFields = {
       _metadata: {
         computed_at: new Date().toISOString(),
         last_aggregated: new Date().toISOString(),
-        total_ratings: ratings.length,
-        data_source: hasAI && userRatings > 0 ? 'mixed' : hasAI ? 'ai' : 'user',
+        total_ratings: userRatings,
+        data_source: 'user',  // Only human ratings in this aggregation
         confidence: userRatings >= 10 ? 'high' : userRatings >= 3 ? 'medium' : 'low'
       }
     }
@@ -61,9 +71,10 @@ export class SolutionAggregator {
     
     // Aggregate cost fields
     aggregated.cost = this.aggregateValueField(ratings, 'cost')
+    aggregated.cost_type = this.aggregateValueField(ratings, 'cost_type')
     aggregated.startup_cost = this.aggregateValueField(ratings, 'startup_cost')
     aggregated.ongoing_cost = this.aggregateValueField(ratings, 'ongoing_cost')
-    
+
     // Aggregate brand
     aggregated.brand = this.aggregateValueField(ratings, 'brand')
     
@@ -72,6 +83,7 @@ export class SolutionAggregator {
     
     // Aggregate frequency fields
     aggregated.frequency = this.aggregateValueField(ratings, 'frequency')
+    aggregated.skincare_frequency = this.aggregateValueField(ratings, 'skincare_frequency')
     aggregated.session_frequency = this.aggregateValueField(ratings, 'session_frequency')
     
     // Aggregate length fields
@@ -150,122 +162,140 @@ export class SolutionAggregator {
    * Aggregate array fields into DistributionData format
    */
   private aggregateArrayField(
-    ratings: any[], 
+    ratings: ReadonlyArray<HumanRatingRow>,
     fieldName: string
   ): DistributionData | undefined {
     const valueCounts: Record<string, number> = {}
     let ratingsWithField = 0
-    
+
     // Collect all values from all ratings
     for (const rating of ratings) {
-      const fields = rating.solution_fields as Record<string, any>
-      if (fields && fields[fieldName] && Array.isArray(fields[fieldName])) {
+      const fields = this.ensureSolutionFields(rating)
+      const fieldValue = fields?.[fieldName]
+      if (Array.isArray(fieldValue)) {
+        const normalizedValues = fieldValue
+          .map((value) => (typeof value === 'string' ? value.trim() : null))
+          .filter((value): value is string => Boolean(value && value.length > 0))
+
+        if (normalizedValues.length === 0) continue
         ratingsWithField++
-        for (const value of fields[fieldName]) {
+        for (const value of normalizedValues) {
           valueCounts[value] = (valueCounts[value] || 0) + 1
         }
       }
     }
     
     if (Object.keys(valueCounts).length === 0) return undefined
-    
+
     // Convert to DistributionValue array
     const values: DistributionValue[] = Object.entries(valueCounts)
       .map(([value, count]) => ({
         value,
         count,
-        percentage: Math.round((count / ratingsWithField) * 100)
+        percentage: Math.round((count / ratingsWithField) * 100),
+        source: 'user_submission'
       }))
       .sort((a, b) => b.count - a.count) // Sort by frequency
-    
+
     // Find mode (most common value)
     const mode = values[0].value
-    
+
     return {
       mode,
       values,
-      totalReports: ratingsWithField
+      totalReports: ratingsWithField,
+      dataSource: 'user_submission'
     }
   }
-  
+
   /**
    * Aggregate single-value fields into DistributionData format
    */
   private aggregateValueField(
-    ratings: any[], 
+    ratings: ReadonlyArray<HumanRatingRow>,
     fieldName: string
   ): DistributionData | undefined {
     const valueCounts: Record<string, number> = {}
     let ratingsWithField = 0
-    
+
     for (const rating of ratings) {
-      const fields = rating.solution_fields as Record<string, any>
-      if (fields && fields[fieldName] && fields[fieldName] !== '') {
+      const fields = this.ensureSolutionFields(rating)
+      const fieldValue = fields?.[fieldName]
+      const normalizedValue = this.normaliseToString(fieldValue)
+      if (normalizedValue) {
         ratingsWithField++
-        const value = String(fields[fieldName])
-        valueCounts[value] = (valueCounts[value] || 0) + 1
+        valueCounts[normalizedValue] = (valueCounts[normalizedValue] || 0) + 1
       }
     }
-    
+
     if (Object.keys(valueCounts).length === 0) return undefined
-    
+
     // Convert to DistributionValue array
     const values: DistributionValue[] = Object.entries(valueCounts)
       .map(([value, count]) => ({
         value,
         count,
-        percentage: Math.round((count / ratingsWithField) * 100)
+        percentage: Math.round((count / ratingsWithField) * 100),
+        source: 'user_submission'
       }))
       .sort((a, b) => b.count - a.count) // Sort by frequency
-    
+
     // Find mode (most common value)
     const mode = values[0].value
-    
+
     return {
       mode,
       values,
-      totalReports: ratingsWithField
+      totalReports: ratingsWithField,
+      dataSource: 'user_submission'
     }
   }
-  
+
   /**
    * Aggregate boolean fields into DistributionData format
    */
   private aggregateBooleanField(
-    ratings: any[], 
+    ratings: ReadonlyArray<HumanRatingRow>,
     fieldName: string
   ): DistributionData | undefined {
     const valueCounts: Record<string, number> = { 'true': 0, 'false': 0 }
     let ratingsWithField = 0
-    
+
     for (const rating of ratings) {
-      const fields = rating.solution_fields as Record<string, any>
-      if (fields && fieldName in fields && fields[fieldName] !== null && fields[fieldName] !== undefined) {
+      const fields = this.ensureSolutionFields(rating)
+      if (fields && fieldName in fields) {
+        const rawValue = fields[fieldName]
+        const booleanValue = this.normaliseToBoolean(rawValue)
+        if (booleanValue === null) {
+          continue
+        }
         ratingsWithField++
-        const value = String(fields[fieldName])
-        valueCounts[value] = (valueCounts[value] || 0) + 1
+        const key = booleanValue ? 'true' : 'false'
+        valueCounts[key] = (valueCounts[key] || 0) + 1
       }
     }
-    
+
     if (ratingsWithField === 0) return undefined
-    
+
     // Convert to DistributionValue array
     const values: DistributionValue[] = Object.entries(valueCounts)
       .filter(([_, count]) => count > 0)
       .map(([value, count]) => ({
         value,
         count,
-        percentage: Math.round((count / ratingsWithField) * 100)
+        percentage: Math.round((count / ratingsWithField) * 100),
+        source: 'user_submission'
       }))
       .sort((a, b) => b.count - a.count)
-    
+
     // Find mode (most common value)
     const mode = values[0]?.value || 'false'
-    
+
     return {
       mode,
       values,
-      totalReports: ratingsWithField
+      totalReports: ratingsWithField,
+      dataSource: 'user_submission'
     }
   }
   
@@ -278,23 +308,37 @@ export class SolutionAggregator {
   ): Promise<void> {
     const supabase = await createServerSupabaseClient()
 
-    console.log(`[Aggregator] Starting aggregation for goal=${goalId}, implementation=${implementationId}`)
+    logger.debug('solutionAggregator start', { goalId, implementationId })
 
-    // PROTECTION: Check if this is an AI solution - never overwrite AI data
-    const { data: solutionCheck } = await supabase
-      .from('solution_variants')
-      .select('solutions!inner(source_type)')
-      .eq('id', implementationId)
+    // PROTECTION: Check display mode - don't overwrite AI data until transition
+    const { data: linkCheck } = await supabase
+      .from('goal_implementation_links')
+      .select('data_display_mode, ai_snapshot')
+      .eq('goal_id', goalId)
+      .eq('implementation_id', implementationId)
       .single()
 
-    if (solutionCheck?.solutions?.source_type === 'ai_foundation') {
-      console.log(`[Aggregator] SKIPPED - This is an AI solution, preserving pre-built distribution data`)
+    if (linkCheck?.data_display_mode === 'ai' && linkCheck?.ai_snapshot) {
+      logger.info('solutionAggregator skipped aggregation (AI data preserved)', { goalId, implementationId })
       return
     }
 
     // Compute new aggregates
     const aggregated = await this.computeAggregates(goalId, implementationId)
-    console.log(`[Aggregator] Computed aggregates:`, Object.keys(aggregated))
+    if (Object.keys(aggregated).length === 0) {
+      logger.info('solutionAggregator no human ratings, skipping aggregation update', { goalId, implementationId })
+      await supabase
+        .from('goal_implementation_links')
+        .update({
+          needs_aggregation: false,
+          updated_at: new Date().toISOString()
+        })
+        .eq('goal_id', goalId)
+        .eq('implementation_id', implementationId)
+      return
+    }
+
+    logger.debug('solutionAggregator computed aggregates', { goalId, implementationId, fields: Object.keys(aggregated) })
 
     // First check if the link exists
     const { data: existingLink, error: checkError } = await supabase
@@ -305,46 +349,86 @@ export class SolutionAggregator {
       .single()
     
     if (checkError && checkError.code !== 'PGRST116') {
-      console.error('[Aggregator] Error checking for existing link:', checkError)
+      logger.error('solutionAggregator error checking existing link', { error: checkError, goalId, implementationId })
       throw checkError
     }
     
     if (existingLink) {
       // Update existing link
-      console.log(`[Aggregator] Updating existing link ${existingLink.id}`)
+      logger.debug('solutionAggregator updating existing link', { linkId: existingLink.id, goalId, implementationId })
+      const updatePayload: TablesUpdate<'goal_implementation_links'> = {
+        aggregated_fields: aggregated as TablesUpdate<'goal_implementation_links'>['aggregated_fields'],
+        updated_at: new Date().toISOString(),
+        needs_aggregation: false
+      }
+
       const { error: updateError } = await supabase
         .from('goal_implementation_links')
-        .update({ 
-          aggregated_fields: aggregated,
-          updated_at: new Date().toISOString()
-        })
+        .update(updatePayload)
         .eq('goal_id', goalId)
         .eq('implementation_id', implementationId)
       
       if (updateError) {
-        console.error('[Aggregator] Error updating aggregated fields:', updateError)
+        logger.error('solutionAggregator error updating aggregated fields', { error: updateError, goalId, implementationId })
         throw updateError
       }
-      console.log('[Aggregator] Successfully updated aggregated fields')
+      logger.info('solutionAggregator updated aggregated fields', { goalId, implementationId })
     } else {
       // Create new link with aggregated fields
-      console.log('[Aggregator] Creating new link with aggregated fields')
+      logger.debug('solutionAggregator creating new link with aggregated fields', { goalId, implementationId })
+      const insertPayload: TablesInsert<'goal_implementation_links'> = {
+        goal_id: goalId,
+        implementation_id: implementationId,
+        aggregated_fields: aggregated as TablesInsert<'goal_implementation_links'>['aggregated_fields'],
+        avg_effectiveness: 0,
+        rating_count: 1,
+        needs_aggregation: false
+      }
+
       const { error: insertError } = await supabase
         .from('goal_implementation_links')
-        .insert({
-          goal_id: goalId,
-          implementation_id: implementationId,
-          aggregated_fields: aggregated,
-          avg_effectiveness: 0, // Will be updated by triggers
-          rating_count: 1
-        })
+        .insert(insertPayload)
       
       if (insertError) {
-        console.error('[Aggregator] Error creating link with aggregated fields:', insertError)
+        logger.error('solutionAggregator error creating link with aggregated fields', { error: insertError, goalId, implementationId })
         throw insertError
       }
-      console.log('[Aggregator] Successfully created new link with aggregated fields')
+      logger.info('solutionAggregator created new link with aggregated fields', { goalId, implementationId })
     }
+  }
+
+  private ensureSolutionFields(rating: HumanRatingRow): SolutionFieldRecord | null {
+    if (!rating.solution_fields || typeof rating.solution_fields !== 'object') {
+      return null
+    }
+    return rating.solution_fields
+  }
+
+  private normaliseToString(value: unknown): string | null {
+    if (typeof value === 'string') {
+      const trimmed = value.trim()
+      return trimmed.length > 0 ? trimmed : null
+    }
+
+    if (typeof value === 'number' || typeof value === 'boolean') {
+      return String(value)
+    }
+
+    return null
+  }
+
+  private normaliseToBoolean(value: unknown): boolean | null {
+    if (typeof value === 'boolean') {
+      return value
+    }
+
+    if (typeof value === 'string') {
+      const trimmed = value.trim().toLowerCase()
+      if (trimmed === 'true') return true
+      if (trimmed === 'false') return false
+    }
+
+    return null
   }
 }
 

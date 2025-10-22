@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { MailboxItem } from '@/types/retrospectives'
 import { getMailboxItems, markAsRead, dismissRetrospective } from '@/app/actions/retrospectives'
 import { formatDistanceToNow } from 'date-fns'
@@ -10,11 +10,7 @@ export default function Mailbox({ userId }: { userId: string }) {
   const [items, setItems] = useState<MailboxItem[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    loadMailbox()
-  }, [userId])
-
-  const loadMailbox = async () => {
+  const loadMailbox = useCallback(async () => {
     try {
       const mailboxItems = await getMailboxItems(userId)
       setItems(mailboxItems)
@@ -23,12 +19,16 @@ export default function Mailbox({ userId }: { userId: string }) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [userId])
+
+  useEffect(() => {
+    loadMailbox()
+  }, [loadMailbox])
 
   const handleDismiss = async (item: MailboxItem) => {
     try {
       await dismissRetrospective(item.retrospective_schedule_id)
-      setItems(items.filter(i => i.id !== item.id))
+      setItems(prev => prev.filter(i => i.id !== item.id))
     } catch (error) {
       console.error('Error dismissing:', error)
     }
@@ -37,7 +37,7 @@ export default function Mailbox({ userId }: { userId: string }) {
   const handleOpen = async (item: MailboxItem) => {
     if (!item.is_read) {
       await markAsRead(item.id)
-      setItems(items.map(i => 
+      setItems(prev => prev.map(i => 
         i.id === item.id ? { ...i, is_read: true } : i
       ))
     }

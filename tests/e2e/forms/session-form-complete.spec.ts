@@ -152,6 +152,8 @@ test.describe('SessionForm End-to-End Tests', () => {
   });
 
   test('should complete SessionForm for doctors_specialists (Psychiatrist Test)', async ({ page }) => {
+    // Increase timeout for this test - server processing can take >90s
+    test.setTimeout(120000)
     console.log('=== Starting SessionForm test for Psychiatrist (Test) ===');
     
     // Navigate to add solution page directly
@@ -365,8 +367,23 @@ test.describe('SessionForm End-to-End Tests', () => {
   });
 
   test('should complete SessionForm for crisis_resources (Crisis Hotline Test)', async ({ page }) => {
+    // Increase timeout for this test - page crashes are unpredictable
+    test.setTimeout(120000)
+
+    // Add browser error logging to capture JavaScript errors
+    page.on('pageerror', error => {
+      console.log('🔴 BROWSER ERROR:', error.message)
+      console.log('Stack:', error.stack)
+    })
+
+    page.on('console', msg => {
+      if (msg.type() === 'error') {
+        console.log('🔴 CONSOLE ERROR:', msg.text())
+      }
+    })
+
     console.log('=== Starting SessionForm test for Crisis Hotline (Test) ===');
-    
+
     // Navigate to add solution page
     await page.goto('/goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution');
     

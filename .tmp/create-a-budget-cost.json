@@ -1,0 +1,53 @@
+{
+  "goalId": "90700d46-1013-41eb-ab06-8a66abdd6286",
+  "goalTitle": "Create a budget",
+  "timestamp": "2025-10-17T00:07:40.391Z",
+  "summary": {
+    "totalSolutions": 8,
+    "categoriesFound": [
+      "apps_software"
+    ],
+    "totalFieldsChecked": 8,
+    "validFields": 7,
+    "invalidFields": 1,
+    "missingFields": 0,
+    "errorRate": 12.5
+  },
+  "categoryBreakdown": {
+    "apps_software": {
+      "solutionCount": 8,
+      "requiredFields": [
+        "cost"
+      ],
+      "fieldValidation": {
+        "cost": {
+          "valid": 7,
+          "invalid": 1,
+          "missing": 0,
+          "issues": [
+            "Count mismatch: totalReports=1, calculated=2",
+            "Missing source attribution",
+            "Low diversity: only 2 options (recommend 5-8)"
+          ]
+        }
+      }
+    }
+  },
+  "detailedIssues": [
+    {
+      "solutionName": "EveryDollar",
+      "category": "apps_software",
+      "fieldName": "cost",
+      "issues": [
+        "Count mismatch: totalReports=1, calculated=2",
+        "Missing source attribution",
+        "Missing source attribution",
+        "Low diversity: only 2 options (recommend 5-8)"
+      ],
+      "needsRegeneration": true
+    }
+  ],
+  "recommendations": [
+    "HIGH ERROR RATE: 12.5% of fields have issues - consider V3 regeneration"
+  ]
+}

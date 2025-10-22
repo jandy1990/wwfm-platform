@@ -6,10 +6,12 @@ import { useRouter } from 'next/navigation';
 // import { supabase } from '@/lib/database/client'; // Removed: unused after migrating to server actions
 import { ChevronLeft, Check, X, Plus } from 'lucide-react';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
+import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
+import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface AppFormProps {
   goalId: string;
@@ -41,6 +43,7 @@ export function AppForm({
   // Debug logging
   
   const router = useRouter();
+  const { triggerPoints } = usePointsAnimation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
@@ -157,20 +160,7 @@ export function AppForm({
   }, [subscriptionType]);
 
   // App-specific challenge options
-  const challengeOptions = [
-    'None',
-    'Remembering to use daily',
-    'Too many notifications',
-    'Gets repetitive after a while',
-    'Hard to maintain habit',
-    'Premium features expensive',
-    'Privacy concerns with data',
-    'Takes up too much storage',
-    'Drains battery',
-    'Not enough customization',
-    'Subscription fatigue',
-    'Forgot to cancel trial'
-  ];
+  const challengeOptions = DROPDOWN_OPTIONS.app_challenges ?? ['None'];
 
   const handleChallengeToggle = (challenge: string) => {
     if (challenge === 'None') {
@@ -223,7 +213,7 @@ export function AppForm({
       
       // Prepare solution fields for storage using conditional pattern (like DosageForm)
       // Only include fields that have actual values to avoid undefined
-      const solutionFields: Record<string, any> = {};
+      const solutionFields: Record<string, unknown> = {};
       
       // Add cost fields
       if (subscriptionType === 'Free version') {
@@ -270,7 +260,14 @@ export function AppForm({
         
         // Clear backup on successful submission
         clearBackup();
-        
+
+        // Trigger points animation
+        triggerPoints({
+          userId,
+          points: 15,
+          reason: 'Shared your experience'
+        });
+
         // Show success screen
         setShowSuccessScreen(true);
       } else {
@@ -288,7 +285,7 @@ export function AppForm({
 
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
-    const additionalFields: Record<string, any> = {};
+      const additionalFields: Record<string, unknown> = {};
     
     if (platform && platform.trim()) additionalFields.platform = platform.trim();
     if (notes && notes.trim()) additionalFields.notes = notes.trim();

@@ -1,13 +1,21 @@
 # Lib Folder Migration Guide
 
+**Status**: ✅ MIGRATION COMPLETE (September 17, 2025)
+
+> **Archive Note**: Detailed migration documentation available in `_archive/migration-docs/`
+> - DATABASE-MIGRATION-PLAN.md - 7-phase execution plan
+> - DATABASE-MIGRATION-REPORT.md - Comprehensive completion report
+
 ## Import Path Changes
 
-### Database/Supabase
+### Database/Supabase ✅ COMPLETE
 - OLD: `import { supabase } from '@/lib/supabase'`
 - NEW: `import { supabase } from '@/lib/database/client'`
 
 - OLD: `import { createSupabaseServerClient } from '@/lib/supabase/server'`
 - NEW: `import { createServerSupabaseClient } from '@/lib/database/server'`
+
+**Note**: `/lib/supabase/` folder has been archived. All imports now use `/lib/database/`.
 
 ### Solutions
 - OLD: `import { detectFromInput } from '@/lib/services/auto-categorization'`

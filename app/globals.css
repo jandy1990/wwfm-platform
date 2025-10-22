@@ -1256,3 +1256,77 @@ button:focus-visible,
 .zoom-in-95 {
   animation-name: zoom-in-95;
 }
+
+/* ========================================
+   Contribution Points Animations
+   ======================================== */
+
+/* Points toast slide up animation */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Points badge scale animation (haptic feel) */
+@keyframes points-scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-points-scale {
+  animation: points-scale 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Points badge glow effect */
+@keyframes points-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(245, 158, 11, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.4),
+                0 0 40px rgba(245, 158, 11, 0.2);
+  }
+}
+
+.points-glow {
+  animation: points-glow 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sparkle particle float animation */
+@keyframes sparkle-float {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0);
+  }
+}
+
+.animate-sparkle-float {
+  animation: sparkle-float 1s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+}
+
+/* Points counter count-up animation utility */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}

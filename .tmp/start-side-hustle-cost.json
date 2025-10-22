@@ -1,0 +1,122 @@
+{
+  "goalId": "91f8cf27-c3f2-47af-ad88-c39ccaea72d4",
+  "goalTitle": "Start side hustle",
+  "timestamp": "2025-10-16T23:59:10.073Z",
+  "summary": {
+    "totalSolutions": 8,
+    "categoriesFound": [
+      "apps_software"
+    ],
+    "totalFieldsChecked": 8,
+    "validFields": 4,
+    "invalidFields": 4,
+    "missingFields": 0,
+    "errorRate": 50
+  },
+  "categoryBreakdown": {
+    "apps_software": {
+      "solutionCount": 8,
+      "requiredFields": [
+        "cost"
+      ],
+      "fieldValidation": {
+        "cost": {
+          "valid": 4,
+          "invalid": 4,
+          "missing": 0,
+          "issues": [
+            "Invalid value \"Commission on earnings\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Invalid value \"Optional premium features\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Count mismatch: totalReports=1, calculated=3",
+            "Missing source attribution",
+            "Invalid value \"Listing fees, transaction fees, payment processing fees\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Invalid value \"Transaction fees, payment processing fees\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Invalid value \"Mainly listing fees with occasional transaction fees\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Invalid value \"Minimal fees, often covered by initial sales\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Count mismatch: totalReports=1, calculated=4",
+            "Invalid value \"Monthly subscription fee, transaction fees\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Invalid value \"Monthly subscription fee only\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Invalid value \"Transaction fees only\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Overly dominant option: 90%",
+            "Invalid value \"Camera equipment\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Invalid value \"Editing software\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Invalid value \"Stock photo subscriptions\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+            "Invalid value \"Online courses/tutorials\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month..."
+          ]
+        }
+      }
+    }
+  },
+  "detailedIssues": [
+    {
+      "solutionName": "Fiverr Freelance Platform",
+      "category": "apps_software",
+      "fieldName": "cost",
+      "issues": [
+        "Invalid value \"Commission on earnings\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Invalid value \"Optional premium features\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Count mismatch: totalReports=1, calculated=3",
+        "Missing source attribution",
+        "Missing source attribution",
+        "Missing source attribution"
+      ],
+      "needsRegeneration": true
+    },
+    {
+      "solutionName": "Etsy",
+      "category": "apps_software",
+      "fieldName": "cost",
+      "issues": [
+        "Invalid value \"Listing fees, transaction fees, payment processing fees\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Invalid value \"Transaction fees, payment processing fees\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Invalid value \"Mainly listing fees with occasional transaction fees\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Invalid value \"Minimal fees, often covered by initial sales\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Count mismatch: totalReports=1, calculated=4",
+        "Missing source attribution",
+        "Missing source attribution",
+        "Missing source attribution",
+        "Missing source attribution"
+      ],
+      "needsRegeneration": true
+    },
+    {
+      "solutionName": "Shopify Store for Niche Products",
+      "category": "apps_software",
+      "fieldName": "cost",
+      "issues": [
+        "Invalid value \"Monthly subscription fee, transaction fees\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Invalid value \"Monthly subscription fee only\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Invalid value \"Transaction fees only\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Count mismatch: totalReports=1, calculated=4",
+        "Missing source attribution",
+        "Missing source attribution",
+        "Missing source attribution",
+        "Missing source attribution",
+        "Overly dominant option: 90%"
+      ],
+      "needsRegeneration": true
+    },
+    {
+      "solutionName": "Stock Photography Contributor",
+      "category": "apps_software",
+      "fieldName": "cost",
+      "issues": [
+        "Invalid value \"Camera equipment\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Invalid value \"Editing software\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Invalid value \"Stock photo subscriptions\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Invalid value \"Online courses/tutorials\" for cost. Valid options: Free, Under $5/month, $5-$9.99/month...",
+        "Count mismatch: totalReports=1, calculated=4",
+        "Missing source attribution",
+        "Missing source attribution",
+        "Missing source attribution",
+        "Missing source attribution"
+      ],
+      "needsRegeneration": true
+    }
+  ],
+  "recommendations": [
+    "HIGH ERROR RATE: 50.0% of fields have issues - consider V3 regeneration",
+    "apps_software category has 50.0% error rate - focus regeneration here",
+    "cost field has 4 issues across solutions - regenerate this field specifically"
+  ]
+}

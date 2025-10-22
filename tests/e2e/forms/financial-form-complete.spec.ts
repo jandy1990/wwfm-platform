@@ -9,9 +9,21 @@ test.describe('FinancialForm - Complete E2E Tests', () => {
   });
 
   test('should submit financial solution successfully from goal page', async ({ page }) => {
+    // Capture ALL browser console logs
+    page.on('console', msg => {
+      const type = msg.type();
+      const text = msg.text();
+      console.log(`Browser console [${type}]:`, text);
+    });
+
+    // Capture page errors
+    page.on('pageerror', error => {
+      console.log('PAGE ERROR:', error.message);
+    });
+
     console.log('Test setup - user already authenticated via global setup')
     console.log('Starting FinancialForm test from actual goal page')
-    
+
     // Navigate to goal page and click "Share What Worked"
     await page.goto('/goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution')
     

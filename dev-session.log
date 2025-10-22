@@ -1,0 +1,29 @@
+
+> wwfm-platform@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3000
+   - Network:      http://192.0.0.2:3000
+
+ ✓ Starting...
+ ✓ Ready in 2.2s
+ ✓ Compiled /middleware in 296ms (185 modules)
+ ○ Compiling /auth/signin ...
+ ✓ Compiled /auth/signin in 584ms (936 modules)
+ GET /auth/signin 200 in 901ms
+ ✓ Compiled /dashboard in 257ms (953 modules)
+ GET /dashboard 200 in 320ms
+ POST /dashboard 200 in 95ms
+ ○ Compiling /goal/[id]/add-solution ...
+ ✓ Compiled /goal/[id]/add-solution in 1099ms (1493 modules)
+ GET /goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution 200 in 2279ms
+ POST /goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution 200 in 330ms
+ POST /goal/56e2801e-0d78-4abd-a795-869e5b780ae7/add-solution 200 in 44ms
+ GET /auth/signin 200 in 71ms
+ GET /dashboard 200 in 26ms
+ POST /dashboard 200 in 51ms
+ GET /auth/signin 200 in 86ms
+ GET /dashboard 200 in 18ms
+ POST /dashboard 200 in 64ms
+[?25h

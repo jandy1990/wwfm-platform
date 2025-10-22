@@ -67,13 +67,20 @@ export function createFormTest(config: FormTestConfig) {
             await config.navigateToForm(page, testData.goalId, category)
           } else {
             // Default navigation for auto-categorization flow
-            await page.goto(`/goal/${testData.goalId}/add-solution`)
-            
+            await page.goto(`/goal/${testData.goalId}/add-solution`, { waitUntil: 'domcontentloaded' })
+
+            // Next.js dev server can momentarily render the 404 page while compiling – wait it out
+            await expect(page.locator('text="This page could not be found."')).toBeHidden({ timeout: 60000 })
+
             // Wait for page to fully load
-            await page.waitForSelector('#solution-name', { timeout: 10000 })
-            
+            await page.waitForSelector('#solution-name', { timeout: 60000 })
+
             // Step 1: Enter solution name in the search field
-            await page.fill('#solution-name', testData.title)
+            // Use pressSequentially to trigger React onChange naturally
+            const input = page.locator('#solution-name')
+            await input.click()
+            await input.fill('')  // Clear first
+            await input.pressSequentially(testData.title, { delay: 50 })  // Type character by character
             
             // Wait for dropdown to appear AND for loading to complete
             try {
@@ -245,14 +252,39 @@ export function createFormTest(config: FormTestConfig) {
           
           // Wait for success
           await waitForSuccessPage(page)
-          
-          // Wait a moment for data to be saved
-          await page.waitForTimeout(2000)
-          
-          // Verify data was actually saved to Supabase
-          console.log(`🔍 Verifying data in Supabase for ${testData.title}...`)
-          const supabaseData = await verifyDataInSupabase(testData.title, testData.goalId)
-          
+
+          // Retry verification up to 3 times with increasing waits (handles timing issues)
+          let supabaseData;
+          let attempt = 0;
+          const maxAttempts = 3;
+
+          while (attempt < maxAttempts) {
+            attempt++;
+            await page.waitForTimeout(2000 * attempt)  // 2s, 4s, 6s
+
+            console.log(`🔍 Verification attempt ${attempt}/${maxAttempts} for ${testData.title}...`)
+            supabaseData = await verifyDataInSupabase(testData.title, testData.goalId)
+
+            // Log verification details for debugging
+            console.log('🔍 Supabase verification details:', {
+              success: supabaseData.success,
+              error: supabaseData.error,
+              solutionId: supabaseData.solution?.id,
+              variantCount: supabaseData.variants?.length,
+              linkCount: supabaseData.summary.linkCount,
+              ratingCount: supabaseData.summary.ratingCount
+            })
+
+            if (supabaseData.success) {
+              console.log(`✅ Verified on attempt ${attempt}`)
+              break
+            }
+
+            if (attempt < maxAttempts) {
+              console.log(`⚠️ Attempt ${attempt} failed, retrying... (${supabaseData.error})`)
+            }
+          }
+
           // Check that data was saved
           expect(supabaseData.success).toBe(true)
           expect(supabaseData.summary.hasLinks).toBe(true)
@@ -329,13 +361,18 @@ export function createFormTest(config: FormTestConfig) {
             await config.navigateToForm(page, testData.goalId, category)
           } else {
             // Default navigation for auto-categorization flow
-            await page.goto(`/goal/${testData.goalId}/add-solution`)
-            
+            await page.goto(`/goal/${testData.goalId}/add-solution`, { waitUntil: 'domcontentloaded' })
+
+            await expect(page.locator('text="This page could not be found."')).toBeHidden({ timeout: 60000 })
+
             // Wait for page to load
-            await page.waitForSelector('#solution-name', { timeout: 10000 })
-            
-            // Enter solution name
-            await page.fill('#solution-name', testData.title)
+            await page.waitForSelector('#solution-name', { timeout: 60000 })
+
+            // Enter solution name - use pressSequentially to trigger React onChange naturally
+            const input = page.locator('#solution-name')
+            await input.click()
+            await input.fill('')  // Clear first
+            await input.pressSequentially(testData.title, { delay: 50 })  // Type character by character
             
             // Wait for dropdown to appear AND for loading to complete
             try {
@@ -423,13 +460,18 @@ export function createFormTest(config: FormTestConfig) {
             await config.navigateToForm(page, testData.goalId, category)
           } else {
             // Default navigation for auto-categorization flow
-            await page.goto(`/goal/${testData.goalId}/add-solution`)
-            
+            await page.goto(`/goal/${testData.goalId}/add-solution`, { waitUntil: 'domcontentloaded' })
+
+            await expect(page.locator('text="This page could not be found."')).toBeHidden({ timeout: 60000 })
+
             // Wait for page to load
-            await page.waitForSelector('#solution-name', { timeout: 10000 })
-            
-            // Enter solution name
-            await page.fill('#solution-name', testData.title)
+            await page.waitForSelector('#solution-name', { timeout: 60000 })
+
+            // Enter solution name - use pressSequentially to trigger React onChange naturally
+            const input = page.locator('#solution-name')
+            await input.click()
+            await input.fill('')  // Clear first
+            await input.pressSequentially(testData.title, { delay: 50 })  // Type character by character
             
             // Wait for dropdown to appear AND for loading to complete
             try {
