@@ -252,14 +252,39 @@ export function createFormTest(config: FormTestConfig) {
           
           // Wait for success
           await waitForSuccessPage(page)
-          
-          // Wait a moment for data to be saved
-          await page.waitForTimeout(2000)
-          
-          // Verify data was actually saved to Supabase
-          console.log(`🔍 Verifying data in Supabase for ${testData.title}...`)
-          const supabaseData = await verifyDataInSupabase(testData.title, testData.goalId)
-          
+
+          // Retry verification up to 3 times with increasing waits (handles timing issues)
+          let supabaseData;
+          let attempt = 0;
+          const maxAttempts = 3;
+
+          while (attempt < maxAttempts) {
+            attempt++;
+            await page.waitForTimeout(2000 * attempt)  // 2s, 4s, 6s
+
+            console.log(`🔍 Verification attempt ${attempt}/${maxAttempts} for ${testData.title}...`)
+            supabaseData = await verifyDataInSupabase(testData.title, testData.goalId)
+
+            // Log verification details for debugging
+            console.log('🔍 Supabase verification details:', {
+              success: supabaseData.success,
+              error: supabaseData.error,
+              solutionId: supabaseData.solution?.id,
+              variantCount: supabaseData.variants?.length,
+              linkCount: supabaseData.summary.linkCount,
+              ratingCount: supabaseData.summary.ratingCount
+            })
+
+            if (supabaseData.success) {
+              console.log(`✅ Verified on attempt ${attempt}`)
+              break
+            }
+
+            if (attempt < maxAttempts) {
+              console.log(`⚠️ Attempt ${attempt} failed, retrying... (${supabaseData.error})`)
+            }
+          }
+
           // Check that data was saved
           expect(supabaseData.success).toBe(true)
           expect(supabaseData.summary.hasLinks).toBe(true)
