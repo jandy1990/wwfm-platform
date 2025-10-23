@@ -79,7 +79,7 @@ export default function HelpPage() {
                   Is my data private?
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300">
-                  Yes! Your individual contributions are private. We only display aggregated statistics (averages, counts) publicly. Other users cannot see your specific ratings or personal details. See our <a href="/privacy" className="text-blue-600 dark:text-blue-400 hover:underline">Privacy Policy</a> for details.
+                  Yes! Your individual contributions are private. We only display aggregated statistics (averages, counts) publicly. Other users cannot see your specific ratings or personal details. See our <a href="/privacy" className="text-purple-600 dark:text-purple-400 hover:underline">Privacy Policy</a> for details.
                 </p>
               </div>
 
@@ -137,7 +137,7 @@ export default function HelpPage() {
                 ⚠️ Remember: This is NOT Medical Advice
               </h3>
               <p className="text-gray-700 dark:text-gray-300 mb-3">
-                WWFM shares people's experiences. Always consult healthcare professionals before making health decisions. See our <a href="/disclaimer" className="text-blue-600 dark:text-blue-400 hover:underline">Medical Disclaimer</a>.
+                WWFM shares people's experiences. Always consult healthcare professionals before making health decisions. See our <a href="/disclaimer" className="text-purple-600 dark:text-purple-400 hover:underline">Medical Disclaimer</a>.
               </p>
             </div>
 
@@ -162,7 +162,7 @@ export default function HelpPage() {
             <p className="text-gray-700 dark:text-gray-300 mb-4">
               Can't find what you're looking for? We're here to help!
             </p>
-            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-blue-800 rounded-lg p-6">
               <ul className="list-none text-gray-700 dark:text-gray-300 space-y-3">
                 <li className="flex items-start gap-3">
                   <span className="text-xl">📧</span>
@@ -182,7 +182,7 @@ export default function HelpPage() {
                   <span className="text-xl">📝</span>
                   <div>
                     <strong>Contact Form:</strong><br />
-                    <a href="/contact" className="text-blue-600 dark:text-blue-400 hover:underline">Submit a detailed inquiry</a>
+                    <a href="/contact" className="text-purple-600 dark:text-purple-400 hover:underline">Submit a detailed inquiry</a>
                   </div>
                 </li>
               </ul>

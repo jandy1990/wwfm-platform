@@ -16,8 +16,8 @@ export const SimplifiedMetricField: React.FC<SimplifiedMetricFieldProps> = ({
   totalReports
 }) => {
   const getBarColor = (percentage: number): string => {
-    if (percentage >= 40) return 'bg-green-500 dark:bg-green-600';
-    if (percentage >= 30) return 'bg-blue-500 dark:bg-blue-600';
+    if (percentage >= 40) return 'bg-purple-500 dark:bg-green-600';
+    if (percentage >= 30) return 'bg-purple-500 dark:bg-purple-600';
     return 'bg-gray-400 dark:bg-gray-500';
   };
 

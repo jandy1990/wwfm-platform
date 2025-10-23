@@ -23,7 +23,7 @@ export default function ContactPage() {
               </p>
               <a
                 href="mailto:support@whatworkedforme.com"
-                className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                className="text-purple-600 dark:text-purple-400 hover:underline font-medium"
               >
                 support@whatworkedforme.com
               </a>
@@ -40,7 +40,7 @@ export default function ContactPage() {
               </p>
               <a
                 href="mailto:privacy@whatworkedforme.com"
-                className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                className="text-purple-600 dark:text-purple-400 hover:underline font-medium"
               >
                 privacy@whatworkedforme.com
               </a>
@@ -57,7 +57,7 @@ export default function ContactPage() {
               </p>
               <a
                 href="mailto:safety@whatworkedforme.com"
-                className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                className="text-purple-600 dark:text-purple-400 hover:underline font-medium"
               >
                 safety@whatworkedforme.com
               </a>
@@ -74,7 +74,7 @@ export default function ContactPage() {
               </p>
               <a
                 href="mailto:business@whatworkedforme.com"
-                className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                className="text-purple-600 dark:text-purple-400 hover:underline font-medium"
               >
                 business@whatworkedforme.com
               </a>
@@ -100,7 +100,7 @@ export default function ContactPage() {
                     name="name"
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                             focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -118,7 +118,7 @@ export default function ContactPage() {
                     name="email"
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                             focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -135,7 +135,7 @@ export default function ContactPage() {
                     name="subject"
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                             focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     required
                   >
                     <option value="">Select a topic...</option>
@@ -161,15 +161,15 @@ export default function ContactPage() {
                     rows={6}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                             focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     required
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full md:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg
-                           transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="w-full md:w-auto px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg
+                           transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                 >
                   Send Message
                 </button>
@@ -227,25 +227,25 @@ export default function ContactPage() {
             </p>
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
               <li>
-                <a href="/help" className="text-blue-600 dark:text-blue-400 hover:underline">
+                <a href="/help" className="text-purple-600 dark:text-purple-400 hover:underline">
                   Help Center
                 </a>{' '}
                 - Common questions and how-to guides
               </li>
               <li>
-                <a href="/privacy" className="text-blue-600 dark:text-blue-400 hover:underline">
+                <a href="/privacy" className="text-purple-600 dark:text-purple-400 hover:underline">
                   Privacy Policy
                 </a>{' '}
                 - How we handle your data
               </li>
               <li>
-                <a href="/terms" className="text-blue-600 dark:text-blue-400 hover:underline">
+                <a href="/terms" className="text-purple-600 dark:text-purple-400 hover:underline">
                   Terms of Service
                 </a>{' '}
                 - Platform rules and guidelines
               </li>
               <li>
-                <a href="/disclaimer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                <a href="/disclaimer" className="text-purple-600 dark:text-purple-400 hover:underline">
                   Medical Disclaimer
                 </a>{' '}
                 - Important health information

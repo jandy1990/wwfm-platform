@@ -47,12 +47,12 @@ export default function SignInForm() {
         <div className="space-y-2">
           <p>
             Don&apos;t have an account?{' '}
-            <Link href="/auth/signup" className="text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/auth/signup" className="text-purple-600 dark:text-purple-400 hover:underline">
               Sign Up
             </Link>
           </p>
           <p>
-            <Link href="/auth/reset-password" className="text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/auth/reset-password" className="text-purple-600 dark:text-purple-400 hover:underline">
               Forgot your password?
             </Link>
           </p>
@@ -74,7 +74,7 @@ export default function SignInForm() {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
           required
         />
       </div>
@@ -88,7 +88,7 @@ export default function SignInForm() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
           required
         />
       </div>
@@ -96,7 +96,7 @@ export default function SignInForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-2 px-4 bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 disabled:bg-blue-400 dark:disabled:bg-blue-800 text-white font-medium rounded-md transition-colors"
+        className="w-full py-2 px-4 bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-600 disabled:bg-purple-400 dark:disabled:bg-blue-800 text-white font-medium rounded-md transition-colors"
       >
         {loading ? 'Signing In...' : 'Sign In'}
       </button>

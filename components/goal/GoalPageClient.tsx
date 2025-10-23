@@ -81,9 +81,9 @@ const CATEGORY_CONFIG: Record<string, {
   },
   supplements_vitamins: {
     icon: '💊',
-    color: 'text-blue-700',
-    borderColor: 'border-blue-200',
-    bgColor: 'bg-blue-50',
+    color: 'text-purple-700',
+    borderColor: 'border-purple-200',
+    bgColor: 'bg-purple-50',
     keyFields: ['time_to_results', 'frequency', 'length_of_use', 'cost'],
     fieldLabels: {
       cost: 'Cost',
@@ -329,9 +329,9 @@ const CATEGORY_CONFIG: Record<string, {
   // APP FORM (1 category)
   apps_software: {
     icon: '📱',
-    color: 'text-blue-700',
-    borderColor: 'border-blue-200',
-    bgColor: 'bg-blue-50',
+    color: 'text-purple-700',
+    borderColor: 'border-purple-200',
+    bgColor: 'bg-purple-50',
     keyFields: ['time_to_results', 'usage_frequency', 'subscription_type', 'cost'],
     fieldLabels: {
       cost: 'Cost',
@@ -999,7 +999,7 @@ export default function GoalPageClient({
             </div>
             <button
               onClick={dismissBanner}
-              className="text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 text-xl leading-none font-semibold"
+              className="text-amber-600 dark:text-purple-500 hover:text-amber-700 dark:hover:text-amber-300 text-xl leading-none font-semibold"
               aria-label="Dismiss banner"
             >
               ×
@@ -1177,8 +1177,8 @@ export default function GoalPageClient({
 
                   return (
                     <React.Fragment key={solution.id}>
-                      <article 
-                        className={`solution-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border ${
+                      <article
+                        className={`solution-card bg-white dark:bg-gray-800 rounded-lg shadow-lg border ${
                           solution.source_type === 'ai_foundation' 
                             ? 'border-purple-200 dark:border-purple-700 bg-purple-50/30 dark:bg-purple-900/10' 
                             : 'border-gray-200 dark:border-gray-700'
@@ -1880,16 +1880,16 @@ export default function GoalPageClient({
         )}
 
         {/* Add What Worked CTA */}
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 sm:p-6 text-center mt-8">
-          <h3 className="text-base sm:text-lg font-medium text-blue-900 dark:text-blue-100 mb-2">
+        <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-blue-800 rounded-lg p-4 sm:p-6 text-center mt-8">
+          <h3 className="text-base sm:text-lg font-medium text-purple-900 dark:text-blue-100 mb-2">
             Tried something for this goal?
           </h3>
-          <p className="text-sm sm:text-base text-blue-700 dark:text-blue-200 mb-4">
+          <p className="text-sm sm:text-base text-purple-700 dark:text-purple-200 mb-4">
             Share what worked (or didn&apos;t work) for you and help others on their journey.
           </p>
           <Link
             href={`/goal/${goal.id}/add-solution`}
-            className="inline-block w-full sm:w-auto px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 font-semibold"
+            className="inline-block w-full sm:w-auto px-6 py-3 bg-purple-600 dark:bg-purple-700 text-white rounded-md hover:bg-purple-700 dark:hover:bg-purple-600 font-semibold"
           >
             Share What Worked
           </Link>
@@ -1929,7 +1929,7 @@ export default function GoalPageClient({
 
                   <button
                     onClick={() => {/* Open add discussion modal */}}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-semibold transition-colors"
+                    className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md font-semibold transition-colors"
                   >
                     Add Post
                   </button>

@@ -444,15 +444,15 @@ export function CommunityForm({
         )}
         
         {/* Quick context card */}
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
-                      border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-          <p className="text-sm text-blue-800 dark:text-blue-200">
+        <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 
+                      border border-purple-200 dark:border-blue-800 rounded-lg p-4">
+          <p className="text-sm text-blue-800 dark:text-purple-200">
             Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
           </p>
         </div>
 
         {/* Category-specific description */}
-        <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+        <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
           <p className="text-sm text-gray-700 dark:text-gray-300">
             {category === 'support_groups' ? (
               <>
@@ -484,12 +484,12 @@ export function CommunityForm({
                   onClick={() => setEffectiveness(rating)}
                   className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
                     effectiveness === rating
-                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-105 shadow-lg'
+                      ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 scale-105 shadow-lg'
                       : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                   }`}
                 >
                   {effectiveness === rating && (
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center animate-bounce-in">
+                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center animate-bounce-in">
                       <Check className="w-4 h-4 text-white" />
                     </div>
                   )}
@@ -731,7 +731,7 @@ export function CommunityForm({
               className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
                         transition-all transform hover:scale-[1.02] ${
                 selectedChallenges.includes(challenge)
-                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
+                  ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-md'
                   : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
               }`}
             >
@@ -744,7 +744,7 @@ export function CommunityForm({
               <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 
                             transition-all ${
                 selectedChallenges.includes(challenge)
-                  ? 'border-blue-500 bg-blue-500'
+                  ? 'border-purple-500 bg-purple-500'
                   : 'border-gray-300 dark:border-gray-600 group-hover:border-gray-400'
               }`}>
                 {selectedChallenges.includes(challenge) && (
@@ -779,14 +779,14 @@ export function CommunityForm({
               onKeyDown={(e) => e.key === 'Enter' && addCustomChallenge()}
               placeholder="Describe the challenge"
               maxLength={500}
-              className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
-                       focus:ring-2 focus:ring-blue-500 focus:border-transparent
+              className="flex-1 px-3 py-2 border border-purple-500 rounded-lg 
+                       focus:ring-2 focus:ring-purple-500 focus:border-transparent
                        dark:bg-gray-800 dark:text-white"
               autoFocus
             />
             <button
               onClick={addCustomChallenge}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
+              className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white 
                        rounded-lg transition-colors"
             >
               Add
@@ -809,12 +809,12 @@ export function CommunityForm({
             <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Added:</p>
             <div className="flex flex-wrap gap-2">
               {selectedChallenges.filter(c => !challengeOptions.includes(c) && c !== 'None').map((challenge) => (
-                <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
-                                             text-blue-700 dark:text-blue-300 rounded-full text-sm">
+                <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
+                                             text-purple-700 dark:text-blue-300 rounded-full text-sm">
                   {challenge}
                   <button
                     onClick={() => setSelectedChallenges(selectedChallenges.filter(c => c !== challenge))}
-                    className="hover:text-blue-900 dark:hover:text-blue-100"
+                    className="hover:text-purple-900 dark:hover:text-blue-100"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -827,8 +827,8 @@ export function CommunityForm({
         {/* Selected count indicator */}
         {selectedChallenges.length > 0 && selectedChallenges[0] !== 'None' && (
           <div className="text-center">
-            <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
-                           text-blue-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
+            <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
+                           text-purple-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
               <Check className="w-4 h-4" />
               {selectedChallenges.length} selected
             </span>
@@ -918,7 +918,7 @@ export function CommunityForm({
                 value={commitmentType}
                 onChange={(e) => setCommitmentType(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                          appearance-none text-sm"
               >
@@ -933,7 +933,7 @@ export function CommunityForm({
                 value={accessibilityLevel}
                 onChange={(e) => setAccessibilityLevel(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                          appearance-none text-sm"
               >
@@ -950,7 +950,7 @@ export function CommunityForm({
                   value={leadershipStyle}
                   onChange={(e) => setLeadershipStyle(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                            appearance-none text-sm"
                 >
@@ -969,7 +969,7 @@ export function CommunityForm({
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                          appearance-none text-sm"
               />
@@ -977,7 +977,7 @@ export function CommunityForm({
               {(commitmentType || accessibilityLevel || leadershipStyle || notes) && (
                 <button
                   onClick={updateAdditionalInfo}
-                  className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
+                  className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg 
                          text-sm font-semibold transition-colors"
                 >
                   Submit
@@ -1022,7 +1022,7 @@ export function CommunityForm({
         </div>
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
           <div 
-            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+            className="bg-purple-600 h-2 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -1055,7 +1055,7 @@ export function CommunityForm({
               disabled={!canProceedToNextStep()}
               className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
                 canProceedToNextStep()
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                  ? 'bg-purple-600 hover:bg-purple-700 text-white'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
               }`}
             >

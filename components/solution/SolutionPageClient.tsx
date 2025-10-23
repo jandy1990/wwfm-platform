@@ -520,7 +520,7 @@ export default function SolutionPageClient({
         <div>
             {/* Arena Performance Insights - Show if multiple arenas */}
             {arenaEffectiveness && arenaEffectiveness.length > 1 && (
-              <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/10 dark:to-blue-900/10 rounded-lg px-6 py-4 mb-6">
+              <div className="bg-gradient-to-r from-purple-50 to-purple-50 dark:from-purple-900/10 dark:to-purple-900/10 rounded-lg px-6 py-4 mb-6">
                 <div className="flex items-center gap-4">
                   <span className="text-xl">🎯</span>
                   <div className="flex items-center gap-6 flex-wrap">
@@ -679,16 +679,16 @@ export default function SolutionPageClient({
             )}
 
             {/* CTA Section */}
-            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 sm:p-6 text-center mt-8">
-              <h3 className="text-base sm:text-lg font-medium text-blue-900 dark:text-blue-100 mb-2">
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-blue-800 rounded-lg p-4 sm:p-6 text-center mt-8">
+              <h3 className="text-base sm:text-lg font-medium text-purple-900 dark:text-blue-100 mb-2">
                 Used {solution.title}?
               </h3>
-              <p className="text-sm sm:text-base text-blue-700 dark:text-blue-200 mb-4">
+              <p className="text-sm sm:text-base text-purple-700 dark:text-purple-200 mb-4">
                 Share what it worked (or didn't work) for you
               </p>
               <Link
                 href="/browse"
-                className="inline-block w-full sm:w-auto px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 font-medium transition-colors"
+                className="inline-block w-full sm:w-auto px-6 py-3 bg-purple-600 dark:bg-purple-700 text-white rounded-md hover:bg-purple-700 dark:hover:bg-purple-600 font-medium transition-colors"
               >
                 Find Your Goal & Rate
               </Link>

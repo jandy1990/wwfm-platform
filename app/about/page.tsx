@@ -42,7 +42,7 @@ export default function AboutPage() {
               We flip the model: instead of organizing by products, we organize by goals. Here's how it works:
             </p>
 
-            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 mb-6">
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-blue-800 rounded-lg p-6 mb-6">
               <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100 mb-4">
                 Traditional Approach
               </h3>
@@ -135,7 +135,7 @@ export default function AboutPage() {
             </h2>
             <div className="grid sm:grid-cols-3 gap-6">
               <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
-                <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                <div className="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2">
                   228
                 </div>
                 <div className="text-gray-600 dark:text-gray-400">
@@ -144,7 +144,7 @@ export default function AboutPage() {
               </div>
 
               <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
-                <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                <div className="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2">
                   3,850+
                 </div>
                 <div className="text-gray-600 dark:text-gray-400">
@@ -153,7 +153,7 @@ export default function AboutPage() {
               </div>
 
               <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
-                <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                <div className="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2">
                   4.15
                 </div>
                 <div className="text-gray-600 dark:text-gray-400">
@@ -217,7 +217,7 @@ export default function AboutPage() {
               </p>
               <p className="text-gray-600 dark:text-gray-400">
                 We provide a platform for sharing experiences, not medical guidance. Individual results vary, and what worked for others may not work for you. Read our full{' '}
-                <a href="/disclaimer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                <a href="/disclaimer" className="text-purple-600 dark:text-purple-400 hover:underline">
                   Medical Disclaimer
                 </a>
                 .
@@ -233,7 +233,7 @@ export default function AboutPage() {
               WWFM works because people like you share what worked for them. Every contribution helps someone discover a solution that could change their life.
             </p>
 
-            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-blue-800 rounded-lg p-6">
               <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-3">
                 How You Can Help
               </h3>
@@ -260,7 +260,7 @@ export default function AboutPage() {
                 <span className="text-2xl">📧</span>
                 <div>
                   <strong className="text-gray-900 dark:text-gray-100">Email:</strong>{' '}
-                  <a href="mailto:hello@whatworkedforme.com" className="text-blue-600 dark:text-blue-400 hover:underline">
+                  <a href="mailto:hello@whatworkedforme.com" className="text-purple-600 dark:text-purple-400 hover:underline">
                     hello@whatworkedforme.com
                   </a>
                 </div>
@@ -270,7 +270,7 @@ export default function AboutPage() {
                 <span className="text-2xl">🐦</span>
                 <div>
                   <strong className="text-gray-900 dark:text-gray-100">Twitter:</strong>{' '}
-                  <a href="https://twitter.com/wwfm" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                  <a href="https://twitter.com/wwfm" target="_blank" rel="noopener noreferrer" className="text-purple-600 dark:text-purple-400 hover:underline">
                     @wwfm
                   </a>
                 </div>
@@ -280,7 +280,7 @@ export default function AboutPage() {
                 <span className="text-2xl">💻</span>
                 <div>
                   <strong className="text-gray-900 dark:text-gray-100">GitHub:</strong>{' '}
-                  <a href="https://github.com/wwfm" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                  <a href="https://github.com/wwfm" target="_blank" rel="noopener noreferrer" className="text-purple-600 dark:text-purple-400 hover:underline">
                     github.com/wwfm
                   </a>
                 </div>

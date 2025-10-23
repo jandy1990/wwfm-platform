@@ -61,7 +61,7 @@ export default function RatingDisplay({
         
         {/* Fully filled stars */}
         {[...Array(filledStars)].map((_, i) => (
-          <Star key={`filled-${i}`} className={`${config.star} fill-yellow-400 text-yellow-400 mr-0.5`} />
+          <Star key={`filled-${i}`} className={`${config.star} fill-purple-600 text-purple-600 mr-0.5`} />
         ))}
         
         {/* Partial star with gradient */}
@@ -107,7 +107,7 @@ export default function RatingDisplay({
           </span>
           {isHigherThanAverage && (
             <div className="flex items-center space-x-1">
-              <svg className="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-3 h-3 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" />
               </svg>
               <span className="text-xs text-green-600 font-medium">

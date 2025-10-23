@@ -14,7 +14,7 @@ function VerbatimCard({ verbatim }: VerbatimCardProps) {
       case 'today':
         return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
       case 'this week':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
+        return 'bg-blue-100 text-blue-800 dark:bg-purple-900 dark:text-purple-200';
       case 'this month':
         return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
       default:
@@ -23,7 +23,7 @@ function VerbatimCard({ verbatim }: VerbatimCardProps) {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border-2 border-gray-200 dark:border-gray-700 shadow-lg">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center space-x-2">
           <div className="text-lg">{verbatim.goalEmoji}</div>
@@ -60,7 +60,7 @@ export default function FeaturedVerbatims({ verbatims }: FeaturedVerbatimsProps)
             Community Insights
           </h2>
           <div className="text-center text-gray-400">
-            <div className="bg-gray-800 rounded-lg p-8 border border-gray-700">
+            <div className="bg-gray-800 rounded-lg p-8 border-2 border-gray-700">
               <div className="text-4xl mb-4">💭</div>
               <p className="text-lg mb-2 text-white">Building community...</p>
               <p className="text-sm text-gray-400">Join discussions and share your experiences!</p>

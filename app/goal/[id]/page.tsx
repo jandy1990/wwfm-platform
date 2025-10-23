@@ -134,7 +134,7 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Something went wrong</h1>
           <p className="text-gray-600">{error}</p>
-          <Link href="/browse" className="mt-4 inline-block text-blue-600 hover:text-blue-700">
+          <Link href="/browse" className="mt-4 inline-block text-purple-600 hover:text-purple-700">
             Back to Browse
           </Link>
         </div>

@@ -32,7 +32,7 @@ export default function TestFailedPicker() {
         </div>
       </div>
       
-      <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+      <div className="mt-8 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
         <p className="text-sm">
           Try typing: "vitamin", "therapy", "meditation", "running", etc.
         </p>

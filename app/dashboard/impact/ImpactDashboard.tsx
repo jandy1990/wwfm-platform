@@ -52,7 +52,7 @@ export function ImpactDashboard() {
   const hasAnyActivity = stats && (stats.ratingsCount > 0 || stats.commentsCount > 0 || stats.solutionsCount > 0)
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+    <div className="bg-white dark:bg-gray-800 shadow rounded-lg border-2 border-gray-300 dark:border-gray-700 p-6">
       <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
         💡 Your Community Impact
       </h2>
@@ -74,16 +74,16 @@ export function ImpactDashboard() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+          <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
             <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Solutions Rated</div>
-            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+            <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
               {stats?.ratingsCount || 0}
             </div>
           </div>
 
-          <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+          <div className="p-4 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
             <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Discussions</div>
-            <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+            <div className="text-2xl font-bold text-purple-700 dark:text-purple-300">
               {stats?.commentsCount || 0}
             </div>
           </div>
@@ -96,9 +96,9 @@ export function ImpactDashboard() {
             </div>
           </div>
 
-          <div className="p-4 bg-pink-50 dark:bg-pink-900/20 rounded-lg">
+          <div className="p-4 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
             <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Solutions Shared</div>
-            <div className="text-2xl font-bold text-pink-600 dark:text-pink-400">
+            <div className="text-2xl font-bold text-purple-700 dark:text-purple-300">
               {stats?.solutionsCount || 0}
             </div>
           </div>
@@ -116,7 +116,7 @@ export function ImpactDashboard() {
             </p>
             <a
               href="/browse"
-              className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              className="inline-block px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium"
             >
               Browse Goals to Share
             </a>
@@ -125,8 +125,8 @@ export function ImpactDashboard() {
 
         {/* Encouragement for active users */}
         {hasAnyActivity && stats && pointsData?.nextMilestone && (
-          <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800/30">
-            <p className="text-sm text-blue-800 dark:text-blue-300">
+          <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800/30">
+            <p className="text-sm text-purple-800 dark:text-purple-300">
               <span className="font-semibold">Keep going!</span> You're {pointsData.nextMilestone.threshold - stats.contributionPoints} points away from {pointsData.nextMilestone.emoji} {pointsData.nextMilestone.name}! 🎯
             </p>
           </div>

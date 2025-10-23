@@ -178,9 +178,9 @@ export default function MobileSearchModal({ isOpen, onClose }: MobileSearchModal
               disabled={isLoading}
               className="w-full h-10 pl-3 pr-10
                          text-base text-gray-900 dark:text-gray-100
-                         bg-gray-100 dark:bg-gray-800
-                         border-0 rounded-lg
-                         focus:ring-2 focus:ring-blue-500 focus:outline-none
+                         bg-white dark:bg-gray-800
+                         border-2 border-gray-300 dark:border-gray-600 rounded-lg
+                         focus:ring-2 focus:ring-purple-500 focus:outline-none
                          disabled:opacity-50"
             />
 
@@ -228,8 +228,8 @@ export default function MobileSearchModal({ isOpen, onClose }: MobileSearchModal
           {/* Search Results */}
           {searchQuery && suggestions.length > 0 && (
             <div className="py-2">
-              <div className="px-4 py-2 bg-blue-50 dark:bg-blue-900/20">
-                <p className="text-xs font-medium text-blue-700 dark:text-blue-300">
+              <div className="px-4 py-2 bg-purple-50 dark:bg-purple-900/20">
+                <p className="text-xs font-medium text-purple-700 dark:text-purple-300">
                   {suggestions.length} results
                 </p>
               </div>
@@ -307,7 +307,7 @@ export default function MobileSearchModal({ isOpen, onClose }: MobileSearchModal
                     </div>
                     <button
                       onClick={handleClearRecent}
-                      className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+                      className="text-xs text-purple-600 dark:text-purple-400 hover:underline"
                     >
                       Clear
                     </button>

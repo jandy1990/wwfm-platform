@@ -101,7 +101,7 @@ export default function SwipeableRating({
           <span className="text-base font-semibold text-gray-900 dark:text-gray-100">
             {initialRating.toFixed(1)}
           </span>
-          <div className="flex text-yellow-400">
+          <div className="flex text-purple-600">
             {[...Array(5)].map((_, i) => (
               <svg
                 key={i}
@@ -140,7 +140,7 @@ export default function SwipeableRating({
               <svg
                 className={`w-6 h-6 ${
                   star <= hoveredStar 
-                    ? 'fill-yellow-400 text-yellow-400' 
+                    ? 'fill-purple-600 text-purple-600' 
                     : 'text-gray-300 dark:text-gray-600'
                 } transition-colors`}
                 fill="none"

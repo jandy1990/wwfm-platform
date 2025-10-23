@@ -29,7 +29,7 @@ export function TransitionAnimation({
               <span className="text-lg">{from}★ AI-Generated</span>
             </div>
             <div className="flex items-center justify-center animate-in fade-in duration-1000 delay-1000">
-              <CheckCircle className="w-8 h-8 text-green-500 mr-2" />
+              <CheckCircle className="w-8 h-8 text-purple-500 mr-2" />
               <span className="text-lg">{to}★ Community Verified</span>
             </div>
           </div>

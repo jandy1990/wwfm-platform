@@ -64,7 +64,7 @@ export default function TestServerAction() {
           <button
             onClick={testSubmission}
             disabled={isLoading}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium disabled:opacity-50"
+            className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium disabled:opacity-50"
           >
             {isLoading ? 'Testing...' : 'Test Server Action'}
           </button>

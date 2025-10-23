@@ -34,7 +34,7 @@ function StarRating({ value, onChange, size = 'md' }: StarRatingProps) {
         >
           <svg
             className={`${sizes[size]} ${
-              rating <= value ? 'fill-yellow-400 text-yellow-400' : 'fill-gray-200 text-gray-300'
+              rating <= value ? 'fill-purple-600 text-purple-600' : 'fill-gray-200 text-gray-300'
             }`}
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -133,7 +133,7 @@ export function FormTemplate({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Solution title display */}
-      <div className="bg-blue-50 p-4 rounded-lg">
+      <div className="bg-purple-50 p-4 rounded-lg">
         <h3 className="font-semibold text-lg">{solutionTitle}</h3>
         <p className="text-sm text-gray-600 mt-1">
           Category: {solutionCategory.replace(/_/g, ' ')}
@@ -165,7 +165,7 @@ export function FormTemplate({
           value={timeToResults}
           onChange={(e) => setTimeToResults(e.target.value)}
           className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 
-                   focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                   focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent
                    bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                    appearance-none"
           required

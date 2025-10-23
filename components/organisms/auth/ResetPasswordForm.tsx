@@ -67,7 +67,7 @@ export default function ResetPasswordForm() {
         </form>
         
         <div className="mt-6 text-center">
-          <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
+          <Link href="/sign-in" className="text-purple-600 hover:text-blue-800">
             Back to sign in
           </Link>
         </div>

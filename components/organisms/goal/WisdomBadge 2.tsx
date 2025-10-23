@@ -37,9 +37,9 @@ export default function WisdomBadge({ goalId, wisdom, minResponses = 1 }: Props)
     }
     if (value >= 3) {
       return {
-        textColor: 'text-blue-700 dark:text-blue-400',
-        borderColor: 'border-blue-300 dark:border-blue-700',
-        bgColor: 'bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/30'
+        textColor: 'text-purple-700 dark:text-purple-400',
+        borderColor: 'border-blue-300 dark:border-purple-700',
+        bgColor: 'bg-gradient-to-r from-purple-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/30'
       }
     }
     if (value >= 2) {

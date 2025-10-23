@@ -80,7 +80,7 @@ export default function Mailbox({ userId }: { userId: string }) {
           key={item.id}
           className={`
             border rounded-lg p-4 transition-all
-            ${item.is_read ? 'bg-white border-gray-200' : 'bg-blue-50 border-blue-200'}
+            ${item.is_read ? 'bg-white border-gray-200' : 'bg-purple-50 border-purple-200'}
             hover:shadow-md
           `}
         >
@@ -88,7 +88,7 @@ export default function Mailbox({ userId }: { userId: string }) {
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
                 {!item.is_read && (
-                  <span className="inline-block w-2 h-2 bg-blue-600 rounded-full"></span>
+                  <span className="inline-block w-2 h-2 bg-purple-600 rounded-full"></span>
                 )}
                 <h3 className="font-semibold text-gray-900">
                   6-Month Reflection
@@ -111,7 +111,7 @@ export default function Mailbox({ userId }: { userId: string }) {
                 <Link
                   href={`/retrospective/${item.retrospective_schedule_id}`}
                   onClick={() => handleOpen(item)}
-                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
                 >
                   Share Reflection
                 </Link>

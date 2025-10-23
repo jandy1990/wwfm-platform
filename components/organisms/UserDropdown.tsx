@@ -75,12 +75,12 @@ export default function UserDropdown({ user, onSignOut, retrospectiveCount = 0 }
                    bg-gray-100 dark:bg-gray-700
                    hover:bg-gray-200 dark:hover:bg-gray-600
                    rounded-md transition-colors
-                   focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   focus:outline-none focus:ring-2 focus:ring-purple-500"
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
         {/* Avatar */}
-        <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
+        <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold">
           {userInitial}
         </div>
 
@@ -127,7 +127,7 @@ export default function UserDropdown({ user, onSignOut, retrospectiveCount = 0 }
                   <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
                     Contribution Points
                   </span>
-                  <span className="text-sm font-semibold text-amber-600 dark:text-amber-400">
+                  <span className="text-sm font-semibold text-amber-600 dark:text-purple-500">
                     {pointsData.points.toLocaleString()}
                   </span>
                 </div>
@@ -136,7 +136,7 @@ export default function UserDropdown({ user, onSignOut, retrospectiveCount = 0 }
                   <>
                     <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5 mb-1">
                       <div
-                        className="bg-gradient-to-r from-amber-400 to-yellow-400 h-1.5 rounded-full transition-all duration-500"
+                        className="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-500"
                         style={{ width: `${pointsData.nextMilestone.progress}%` }}
                       />
                     </div>

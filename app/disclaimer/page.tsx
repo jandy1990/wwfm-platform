@@ -43,7 +43,7 @@ export default function DisclaimerPage() {
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
               2. Always Consult Healthcare Professionals
             </h2>
-            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 mb-4">
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-blue-800 rounded-lg p-6 mb-4">
               <p className="text-gray-700 dark:text-gray-300 font-medium mb-3">
                 Before making ANY health-related decisions based on WWFM content:
               </p>

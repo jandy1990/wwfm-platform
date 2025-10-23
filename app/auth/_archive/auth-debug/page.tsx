@@ -57,8 +57,8 @@ export default async function AuthDebugPage() {
       </div>
       
       <div className="mt-8 space-x-4">
-        <a href="/auth/signin" className="text-blue-600 underline">Sign In</a>
-        <a href="/browse" className="text-blue-600 underline">Browse</a>
+        <a href="/auth/signin" className="text-purple-600 underline">Sign In</a>
+        <a href="/browse" className="text-purple-600 underline">Browse</a>
       </div>
     </div>
   )

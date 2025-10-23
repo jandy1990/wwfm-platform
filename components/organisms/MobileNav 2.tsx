@@ -53,7 +53,7 @@ export default function MobileNav({
   // Helper to get link classes
   const getLinkClasses = (path: string) => {
     const base = "block px-4 py-4 text-base font-medium transition-colors border-l-4"
-    const active = "border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+    const active = "border-purple-600 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400"
     const inactive = "border-transparent text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
 
     return `${base} ${isActive(path) ? active : inactive}`
@@ -162,7 +162,7 @@ export default function MobileNav({
           {user ? (
             <div className="space-y-3">
               <div className="flex items-center gap-3 px-3 py-2">
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold">
                   {user.email?.[0].toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -210,9 +210,9 @@ export default function MobileNav({
                 onClick={onClose}
                 className="block w-full px-4 py-2 text-sm font-medium text-center
                          text-white
-                         bg-blue-600
+                         bg-purple-600
                          rounded-md
-                         hover:bg-blue-700
+                         hover:bg-purple-700
                          transition-colors"
               >
                 Sign Up

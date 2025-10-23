@@ -20,7 +20,7 @@ export default function PlatformTransitionBadge({
       {/* Progress Bar (no percentage number shown) */}
       <div className="w-32 h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden shadow-inner">
         <div
-          className="h-full bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-500 ease-out"
+          className="h-full bg-gradient-to-r from-purple-500 to-purple-500 transition-all duration-500 ease-out"
           style={{ width: `${visualProgress}%` }}
         />
       </div>

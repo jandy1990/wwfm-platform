@@ -83,7 +83,7 @@ export function CategoryPicker({ onSelectCategory, onBack }: CategoryPickerProps
                   <button
                     key={category}
                     onClick={() => onSelectCategory(category)}
-                    className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 hover:text-blue-700 transition-colors"
+                    className="w-full text-left px-4 py-3 rounded-lg hover:bg-purple-50 hover:text-purple-700 transition-colors"
                   >
                     {getCategoryDisplayName(category)}
                   </button>

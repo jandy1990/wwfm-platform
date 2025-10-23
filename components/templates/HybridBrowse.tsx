@@ -302,7 +302,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
               <button
                 onClick={clearSearch}
                 aria-label="Clear search"
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1 min-h-[44px] min-w-[44px] flex items-center justify-center transition-all duration-200 hover:scale-110 focus:ring-2 focus:ring-blue-500 focus:outline-none rounded-full"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1 min-h-[44px] min-w-[44px] flex items-center justify-center transition-all duration-200 hover:scale-110 focus:ring-2 focus:ring-purple-500 focus:outline-none rounded-full"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -330,7 +330,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                         <div className="font-semibold text-gray-900">
                           {highlightText(goal.title, searchQuery)}
                         </div>
-                        <div className="text-xs text-gray-500 mt-0.5">
+                        <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
                           {arena.name} → {category.name}
                         </div>
                       </Link>
@@ -338,7 +338,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                   </>
                 ) : searchQuery.length >= 3 ? (
                   <div className="p-4 text-center">
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       No goals found for &quot;{searchQuery}&quot;
                     </p>
                   </div>
@@ -413,7 +413,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                       <Link
                         key={category.id}
                         href={`/category/${category.slug}`}
-                        className={`${colors.bg} ${colors.border} border rounded-xl shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6 min-h-[120px] flex flex-col focus:ring-2 focus:ring-blue-500 focus:outline-none ${colors.hover}`}
+                        className={`${colors.bg} ${colors.border} border rounded-xl shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6 min-h-[120px] flex flex-col focus:ring-2 focus:ring-purple-500 focus:outline-none ${colors.hover}`}
                       >
                         <div className="flex items-start mb-4">
                           <span className={`text-3xl ${colors.icon} mr-4`}>
@@ -441,8 +441,11 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
               {/* Empty state for super-category */}
               {filteredCategories.length === 0 && (
                 <div className="text-center py-12">
-                  <p className="text-gray-500">
+                  <p className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     No categories available in this area yet.
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Check back soon for more goals to explore!
                   </p>
                 </div>
               )}

@@ -17,10 +17,10 @@ export default function NotificationBell({ count }: NotificationBellProps) {
       href="/mailbox"
       className="relative p-2
                  text-gray-700 dark:text-gray-300
-                 hover:text-blue-600 dark:hover:text-blue-400
+                 hover:text-purple-600 dark:hover:text-purple-400
                  hover:bg-gray-100 dark:hover:bg-gray-700
                  rounded-md transition-colors
-                 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                 focus:outline-none focus:ring-2 focus:ring-purple-500"
       aria-label={`${count} pending retrospective${count !== 1 ? 's' : ''}`}
       title="Pending reflections"
     >

@@ -28,7 +28,7 @@ export default function ProfilePage() {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin h-12 w-12 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+          <div className="animate-spin h-12 w-12 border-4 border-purple-600 border-t-transparent rounded-full mx-auto mb-4"></div>
           <p className="text-gray-600 dark:text-gray-400">Loading...</p>
         </div>
       </div>
@@ -51,7 +51,7 @@ export default function ProfilePage() {
           <div className="px-6 py-8 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-6">
               {/* Avatar */}
-              <div className="w-20 h-20 rounded-full bg-blue-600 flex items-center justify-center text-white text-3xl font-semibold">
+              <div className="w-20 h-20 rounded-full bg-purple-600 flex items-center justify-center text-white text-3xl font-semibold">
                 {user.email?.[0].toUpperCase()}
               </div>
 
@@ -89,7 +89,7 @@ export default function ProfilePage() {
 
           {/* Actions */}
           <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-200 dark:border-gray-700">
-            <button className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+            <button className="text-sm text-purple-600 dark:text-purple-400 hover:underline">
               Edit Profile (Coming Soon)
             </button>
           </div>

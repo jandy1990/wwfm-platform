@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Check } from 'lucide-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Skeleton } from '@/components/atoms/skeleton';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
@@ -406,9 +407,9 @@ export function LifestyleForm({
         )}
         
         {/* Quick context card */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
-                          border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-              <p className="text-sm text-blue-800 dark:text-blue-200">
+            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 
+                          border border-purple-200 dark:border-blue-800 rounded-lg p-4">
+              <p className="text-sm text-blue-800 dark:text-purple-200">
                 Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
               </p>
             </div>
@@ -446,13 +447,13 @@ export function LifestyleForm({
                       onClick={() => setEffectiveness(rating)}
                       className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
                         effectiveness === rating
-                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-105 shadow-lg'
+                          ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 scale-105 shadow-lg'
                           : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                       }`}
                     >
                       {/* Animated selection indicator */}
                       {effectiveness === rating && (
-                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center animate-bounce-in">
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center animate-bounce-in">
                           <Check className="w-4 h-4 text-white" />
                         </div>
                       )}
@@ -493,7 +494,7 @@ export function LifestyleForm({
                   value={timeToResults}
                   onChange={(e) => setTimeToResults(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                            appearance-none transition-all"
                 >
@@ -538,7 +539,7 @@ export function LifestyleForm({
                   value={costImpact}
                   onChange={(e) => setCostImpact(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                            appearance-none"
                 >
@@ -573,7 +574,7 @@ export function LifestyleForm({
                     value={weeklyPrepTime}
                     onChange={(e) => setWeeklyPrepTime(e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             focus:ring-2 focus:ring-purple-500 focus:border-transparent
                              bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                              appearance-none"
                   >
@@ -598,7 +599,7 @@ export function LifestyleForm({
                     value={previousSleepHours}
                     onChange={(e) => setPreviousSleepHours(e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             focus:ring-2 focus:ring-purple-500 focus:border-transparent
                              bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                              appearance-none"
                   >
@@ -624,7 +625,7 @@ export function LifestyleForm({
                   <div className="space-y-2">
                     <label className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
                       stillFollowing === true
-                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
+                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30'
                         : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                     }`}>
                       <input
@@ -635,14 +636,14 @@ export function LifestyleForm({
                           setStillFollowing(true);
                           setSustainabilityReason(''); // Reset reason when changing selection
                         }}
-                        className="mr-2 text-blue-600 focus:ring-blue-500"
+                        className="mr-2 text-purple-600 focus:ring-purple-500"
                       />
                       <span className="text-sm">Yes, still following it</span>
                     </label>
                     
                     <label className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
                       stillFollowing === false
-                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
+                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30'
                         : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                     }`}>
                       <input
@@ -653,7 +654,7 @@ export function LifestyleForm({
                           setStillFollowing(false);
                           setSustainabilityReason(''); // Reset reason when changing selection
                         }}
-                        className="mr-2 text-blue-600 focus:ring-blue-500"
+                        className="mr-2 text-purple-600 focus:ring-purple-500"
                       />
                       <span className="text-sm">No, I stopped</span>
                     </label>
@@ -671,7 +672,7 @@ export function LifestyleForm({
                       value={sustainabilityReason}
                       onChange={(e) => setSustainabilityReason(e.target.value)}
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               focus:ring-2 focus:ring-purple-500 focus:border-transparent
                                bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                                appearance-none"
                     >
@@ -693,7 +694,7 @@ export function LifestyleForm({
                       value={sustainabilityReason}
                       onChange={(e) => setSustainabilityReason(e.target.value)}
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               focus:ring-2 focus:ring-purple-500 focus:border-transparent
                                bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                                appearance-none"
                     >
@@ -736,10 +737,15 @@ export function LifestyleForm({
 
             {/* Challenges grid */}
             {challengesLoading ? (
-              <div className="space-y-2">
-                <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-                <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-                <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -749,7 +755,7 @@ export function LifestyleForm({
                     className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
                               transition-all transform hover:scale-[1.02] ${
                       selectedChallenges.includes(challenge)
-                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
+                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-md'
                         : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
                     }`}
                   >
@@ -762,7 +768,7 @@ export function LifestyleForm({
                     <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 
                                   transition-all ${
                       selectedChallenges.includes(challenge)
-                        ? 'border-blue-500 bg-blue-500'
+                        ? 'border-purple-500 bg-purple-500'
                         : 'border-gray-300 dark:border-gray-600 group-hover:border-gray-400'
                     }`}>
                       {selectedChallenges.includes(challenge) && (
@@ -785,14 +791,14 @@ export function LifestyleForm({
                   onKeyDown={(e) => e.key === 'Enter' && addCustomChallenge()}
                   placeholder="Describe the challenge"
                   maxLength={500}
-                  className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                  className="flex-1 px-3 py-2 border border-purple-500 rounded-lg 
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            dark:bg-gray-800 dark:text-white"
                   autoFocus
                 />
                 <button
                   onClick={addCustomChallenge}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white 
                            rounded-lg transition-colors"
                 >
                   +
@@ -818,7 +824,7 @@ export function LifestyleForm({
               return customChallenges.length > 0 && (
                 <div className="mt-3 space-y-2">
                   {customChallenges.map((challenge) => (
-                    <div key={challenge} className="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/30 
+                    <div key={challenge} className="flex items-center gap-2 bg-purple-50 dark:bg-purple-900/30 
                                                   px-3 py-2 rounded-lg animate-fade-in">
                       <span className="text-sm flex-1">{challenge}</span>
                       <button
@@ -839,8 +845,8 @@ export function LifestyleForm({
             {/* Selected count indicator */}
             {selectedChallenges.length > 0 && selectedChallenges[0] !== 'None' && (
               <div className="text-center">
-                <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
-                               text-blue-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
+                <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
+                               text-purple-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
                   <Check className="w-4 h-4" />
                   {selectedChallenges.filter(c => c !== 'Other (please describe)').length} selected
                 </span>
@@ -941,7 +947,7 @@ export function LifestyleForm({
                     value={socialImpact}
                     onChange={(e) => setSocialImpact(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             focus:ring-2 focus:ring-purple-500 focus:border-transparent
                              bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                              appearance-none text-sm"
                   >
@@ -962,7 +968,7 @@ export function LifestyleForm({
                     value={sleepQualityChange}
                     onChange={(e) => setSleepQualityChange(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             focus:ring-2 focus:ring-purple-500 focus:border-transparent
                              bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                              appearance-none text-sm"
                   >
@@ -984,7 +990,7 @@ export function LifestyleForm({
                   value={specificApproach}
                   onChange={(e) => setSpecificApproach(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            dark:bg-gray-700 dark:text-white text-sm"
                 />
               )}
@@ -995,7 +1001,7 @@ export function LifestyleForm({
                 value={resources}
                 onChange={(e) => setResources(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          dark:bg-gray-700 dark:text-white text-sm"
               />
               
@@ -1005,14 +1011,14 @@ export function LifestyleForm({
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          dark:bg-gray-700 dark:text-white text-sm"
               />
               
               {(socialImpact || sleepQualityChange || (category === 'sleep' && specificApproach) || resources || notes) && (
                 <button
                   onClick={updateAdditionalInfo}
-                  className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
+                  className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg 
                          text-sm font-semibold transition-colors"
                 >
                   Submit
@@ -1057,7 +1063,7 @@ export function LifestyleForm({
         </div>
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
           <div 
-            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+            className="bg-purple-600 h-2 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -1101,7 +1107,7 @@ export function LifestyleForm({
               disabled={!canProceedToNextStep()}
               className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
                 canProceedToNextStep()
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                  ? 'bg-purple-600 hover:bg-purple-700 text-white'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
               }`}
             >

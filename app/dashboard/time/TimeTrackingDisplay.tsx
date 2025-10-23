@@ -105,7 +105,7 @@ export function TimeTrackingDisplay() {
             onClick={() => setTimePeriod('all-time')}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
               timePeriod === 'all-time'
-                ? 'bg-blue-600 text-white'
+                ? 'bg-purple-600 text-white'
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
             }`}
           >
@@ -115,7 +115,7 @@ export function TimeTrackingDisplay() {
             onClick={() => setTimePeriod('last-30-days')}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
               timePeriod === 'last-30-days'
-                ? 'bg-blue-600 text-white'
+                ? 'bg-purple-600 text-white'
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
             }`}
           >
@@ -133,7 +133,7 @@ export function TimeTrackingDisplay() {
           </div>
           <div className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Most Visited</div>
-            <div className="text-xl font-bold text-blue-600 dark:text-blue-400">{summary.most_visited_arena || 'None yet'}</div>
+            <div className="text-xl font-bold text-purple-600 dark:text-purple-400">{summary.most_visited_arena || 'None yet'}</div>
           </div>
           <div className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Areas Explored</div>
@@ -160,7 +160,7 @@ export function TimeTrackingDisplay() {
 
               {/* Click hint */}
               <div className="mt-4 text-center">
-                <button className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+                <button className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-blue-300 font-medium">
                   {showDetails ? '▲ Hide detailed breakdown' : '▼ Click for detailed breakdown'}
                 </button>
               </div>
@@ -182,7 +182,7 @@ export function TimeTrackingDisplay() {
                     <div key={stat.arena_name} className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                       <div className="flex justify-between items-center mb-2">
                         <div className="flex items-center gap-2">
-                          <span className={`font-medium ${isTopArena ? 'text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100'}`}>
+                          <span className={`font-medium ${isTopArena ? 'text-purple-600 dark:text-purple-400' : 'text-gray-900 dark:text-gray-100'}`}>
                             {stat.arena_name}
                           </span>
                           {tooltipText && <InfoTooltip text={tooltipText} />}
@@ -202,7 +202,7 @@ export function TimeTrackingDisplay() {
                         <div
                           className={`h-2 rounded-full transition-all duration-500 ${
                             isTopArena
-                              ? 'bg-blue-500 dark:bg-blue-400'
+                              ? 'bg-purple-500 dark:bg-purple-400'
                               : 'bg-gray-400 dark:bg-gray-500'
                           }`}
                           style={{ width: `${progressWidth}%` }}
@@ -217,7 +217,7 @@ export function TimeTrackingDisplay() {
               {stats.length > INITIAL_DISPLAY_COUNT && (
                 <button
                   onClick={() => setShowAll(!showAll)}
-                  className="mt-4 w-full py-2 px-4 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
+                  className="mt-4 w-full py-2 px-4 text-sm font-medium text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-blue-300 bg-purple-50 dark:bg-purple-900/20 hover:bg-blue-100 dark:hover:bg-purple-900/30 rounded-lg transition-colors"
                 >
                   {showAll ? '↑ Show Less' : `↓ Show ${stats.length - INITIAL_DISPLAY_COUNT} More`}
                 </button>

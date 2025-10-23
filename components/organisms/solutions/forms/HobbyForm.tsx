@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-// import { supabase } from '@/lib/database/client'; // Removed: unused after migrating to server actions
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { ChevronLeft, Check } from 'lucide-react';
+import { Skeleton } from '@/components/atoms/skeleton';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
@@ -65,7 +66,11 @@ export function HobbyForm({
   const [challenges, setChallenges] = useState<string[]>(['None']);
   const [customChallenge, setCustomChallenge] = useState('');
   const [showCustomChallenge, setShowCustomChallenge] = useState(false);
-  
+
+  // Loading state and options for database fetch
+  const [loadingChallenges, setLoadingChallenges] = useState(false);
+  const [challengeOptionsState, setChallengeOptionsState] = useState<string[]>([]);
+
   // Step 3 - Failed solutions
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
   
@@ -150,8 +155,36 @@ export function HobbyForm({
     }
   }, [currentStep, highestStepReached]);
 
-  // Hobby-specific challenge options
-  const challengeOptions = DROPDOWN_OPTIONS.hobby_challenges ?? ['None'];
+  // Fetch challenge options from database
+  useEffect(() => {
+    const fetchChallengeOptions = async () => {
+      setLoadingChallenges(true);
+      try {
+        const supabase = createClientComponentClient();
+        const { data, error } = await supabase
+          .from('challenge_options')
+          .select('label')
+          .eq('category', 'hobbies_activities')
+          .eq('is_active', true)
+          .order('display_order');
+
+        if (!error && data && data.length > 0) {
+          setChallengeOptionsState(data.map(item => item.label));
+        } else {
+          // Fallback to hardcoded options
+          setChallengeOptionsState(DROPDOWN_OPTIONS.hobby_challenges ?? ['None']);
+        }
+      } catch (err) {
+        console.error('Error fetching challenge options:', err);
+        // Fallback to hardcoded options on error
+        setChallengeOptionsState(DROPDOWN_OPTIONS.hobby_challenges ?? ['None']);
+      } finally {
+        setLoadingChallenges(false);
+      }
+    };
+
+    fetchChallengeOptions();
+  }, []);
 
   const handleChallengeToggle = (challenge: string) => {
     if (challenge === 'None') {
@@ -325,9 +358,9 @@ export function HobbyForm({
             )}
             
             {/* Quick context card */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
-                          border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-              <p className="text-sm text-blue-800 dark:text-blue-200">
+            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 
+                          border border-purple-200 dark:border-blue-800 rounded-lg p-4">
+              <p className="text-sm text-blue-800 dark:text-purple-200">
                 Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
               </p>
             </div>
@@ -350,12 +383,12 @@ export function HobbyForm({
                       onClick={() => setEffectiveness(rating)}
                       className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
                         effectiveness === rating
-                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-105 shadow-lg'
+                          ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 scale-105 shadow-lg'
                           : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                       }`}
                     >
                       {effectiveness === rating && (
-                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center animate-bounce-in">
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center animate-bounce-in">
                           <Check className="w-4 h-4 text-white" />
                         </div>
                       )}
@@ -396,7 +429,7 @@ export function HobbyForm({
                   value={timeToResults}
                   onChange={(e) => setTimeToResults(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                            appearance-none transition-all"
                 >
@@ -450,7 +483,7 @@ export function HobbyForm({
                   value={startupCost}
                   onChange={(e) => setStartupCost(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                            appearance-none"
                 >
@@ -477,7 +510,7 @@ export function HobbyForm({
                   value={ongoingCost}
                   onChange={(e) => setOngoingCost(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                            appearance-none"
                 >
@@ -502,7 +535,7 @@ export function HobbyForm({
                   value={timeCommitment}
                   onChange={(e) => setTimeCommitment(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                            appearance-none"
                 >
@@ -526,7 +559,7 @@ export function HobbyForm({
                   value={frequency}
                   onChange={(e) => setFrequency(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                            appearance-none"
                 >
@@ -564,56 +597,69 @@ export function HobbyForm({
               </p>
             </div>
 
-            {/* Challenges grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {challengeOptions.map((challenge) => (
-                <label
-                  key={challenge}
-                  className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
-                            transition-all transform hover:scale-[1.02] ${
-                    challenges.includes(challenge)
-                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
-                      : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={challenges.includes(challenge)}
-                    onChange={() => handleChallengeToggle(challenge)}
-                    className="sr-only"
-                  />
-                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 
-                                transition-all ${
-                    challenges.includes(challenge)
-                      ? 'border-blue-500 bg-blue-500'
-                      : 'border-gray-300 dark:border-gray-600 group-hover:border-gray-400'
-                  }`}>
-                    {challenges.includes(challenge) && (
-                      <Check className="w-3 h-3 text-white animate-scale-in" />
-                    )}
-                  </div>
-                  <span className="text-sm">{challenge}</span>
-                </label>
-              ))}
-              
-              {/* Add Other button */}
-              {!showCustomChallenge && (
-                <button
-                  onClick={() => setShowCustomChallenge(true)}
-                  className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
-                            transition-all transform hover:scale-[1.02] border-dashed
-                            border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-sm"
-                >
-                  <div className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 
-                                group-hover:border-gray-400 flex items-center justify-center">
-                    <span className="text-gray-500 group-hover:text-gray-700">+</span>
-                  </div>
-                  <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200">
-                    Add other challenge
-                  </span>
-                </button>
-              )}
-            </div>
+            {/* Challenges grid with loading state */}
+            {loadingChallenges ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {challengeOptionsState.map((challenge) => (
+                  <label
+                    key={challenge}
+                    className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer
+                              transition-all transform hover:scale-[1.02] ${
+                      challenges.includes(challenge)
+                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-md'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={challenges.includes(challenge)}
+                      onChange={() => handleChallengeToggle(challenge)}
+                      className="sr-only"
+                    />
+                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0
+                                  transition-all ${
+                      challenges.includes(challenge)
+                        ? 'border-purple-500 bg-purple-500'
+                        : 'border-gray-300 dark:border-gray-600 group-hover:border-gray-400'
+                    }`}>
+                      {challenges.includes(challenge) && (
+                        <Check className="w-3 h-3 text-white animate-scale-in" />
+                      )}
+                    </div>
+                    <span className="text-sm">{challenge}</span>
+                  </label>
+                ))}
+
+                {/* Add Other button */}
+                {!showCustomChallenge && (
+                  <button
+                    onClick={() => setShowCustomChallenge(true)}
+                    className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer
+                              transition-all transform hover:scale-[1.02] border-dashed
+                              border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-sm"
+                  >
+                    <div className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600
+                                  group-hover:border-gray-400 flex items-center justify-center">
+                      <span className="text-gray-500 group-hover:text-gray-700">+</span>
+                    </div>
+                    <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200">
+                      Add other challenge
+                    </span>
+                  </button>
+                )}
+              </div>
+            )}
 
             {/* Custom challenge input */}
             {showCustomChallenge && (
@@ -625,14 +671,14 @@ export function HobbyForm({
                   onKeyDown={(e) => e.key === 'Enter' && addCustomChallenge()}
                   placeholder="Describe the challenge"
                   maxLength={500}
-                  className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                  className="flex-1 px-3 py-2 border border-purple-500 rounded-lg 
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            dark:bg-gray-800 dark:text-white"
                   autoFocus
                 />
                 <button
                   onClick={addCustomChallenge}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white 
                            rounded-lg transition-colors"
                 >
                   Add
@@ -650,17 +696,17 @@ export function HobbyForm({
             )}
 
             {/* Show custom challenges */}
-            {challenges.filter(c => !challengeOptions.includes(c) && c !== 'None').length > 0 && (
+            {challenges.filter(c => !challengeOptionsState.includes(c) && c !== 'None').length > 0 && (
               <div className="mt-2">
                 <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Added:</p>
                 <div className="flex flex-wrap gap-2">
-                  {challenges.filter(c => !challengeOptions.includes(c) && c !== 'None').map((challenge) => (
-                    <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
-                                                 text-blue-700 dark:text-blue-300 rounded-full text-sm">
+                  {challenges.filter(c => !challengeOptionsState.includes(c) && c !== 'None').map((challenge) => (
+                    <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
+                                                 text-purple-700 dark:text-blue-300 rounded-full text-sm">
                       {challenge}
                       <button
                         onClick={() => setChallenges(challenges.filter(c => c !== challenge))}
-                        className="hover:text-blue-900 dark:hover:text-blue-100"
+                        className="hover:text-purple-900 dark:hover:text-blue-100"
                       >
                         <span className="text-lg leading-none">×</span>
                       </button>
@@ -673,8 +719,8 @@ export function HobbyForm({
             {/* Selected count indicator */}
             {challenges.length > 0 && challenges[0] !== 'None' && (
               <div className="text-center">
-                <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
-                               text-blue-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
+                <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
+                               text-purple-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
                   <Check className="w-4 h-4" />
                   {challenges.length} selected
                 </span>
@@ -757,7 +803,7 @@ export function HobbyForm({
                 value={communityName}
                 onChange={(e) => setCommunityName(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          dark:bg-gray-700 dark:text-white text-sm"
               />
               
@@ -767,14 +813,14 @@ export function HobbyForm({
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          dark:bg-gray-700 dark:text-white text-sm"
               />
               
               {(communityName || notes) && (
                 <button
                   onClick={updateAdditionalInfo}
-                  className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
+                  className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg 
                          text-sm font-semibold transition-colors"
                 >
                   Submit
@@ -819,7 +865,7 @@ export function HobbyForm({
         </div>
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
           <div 
-            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+            className="bg-purple-600 h-2 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -862,7 +908,7 @@ export function HobbyForm({
               disabled={!canProceedToNextStep()}
               className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
                 canProceedToNextStep()
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                  ? 'bg-purple-600 hover:bg-purple-700 text-white'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
               }`}
             >

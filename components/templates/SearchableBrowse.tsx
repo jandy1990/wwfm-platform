@@ -278,7 +278,7 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
               }}
               placeholder={`Search ${totalGoals} goals...`}
               aria-describedby="search-description"
-              className="w-full px-4 py-4 pl-12 pr-12 text-base text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-transparent min-h-[44px] transition-all duration-200"
+              className="w-full px-4 py-4 pl-12 pr-12 text-base text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none focus:border-transparent min-h-[44px] transition-all duration-200"
             />
             <div id="search-description" className="sr-only">
               Search through {totalGoals} goals across different life areas
@@ -314,7 +314,7 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
               <button
                 onClick={clearSearch}
                 aria-label="Clear search"
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1 min-h-[44px] min-w-[44px] flex items-center justify-center transition-all duration-200 hover:scale-110 focus:ring-2 focus:ring-blue-500 focus:outline-none rounded-full"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1 min-h-[44px] min-w-[44px] flex items-center justify-center transition-all duration-200 hover:scale-110 focus:ring-2 focus:ring-purple-500 focus:outline-none rounded-full"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -329,8 +329,8 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
                           transition-all duration-200 ease-out">
                 {filteredData.suggestions?.length > 0 ? (
                   <>
-                    <div className="p-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800">
-                      <p className="text-xs text-blue-700 dark:text-blue-300 font-medium">
+                    <div className="p-2 bg-purple-50 dark:bg-purple-900/20 border-b border-purple-200 dark:border-blue-800">
+                      <p className="text-xs text-purple-700 dark:text-blue-300 font-medium">
                         Top {filteredData.suggestions.length} matching goals
                       </p>
                     </div>
@@ -340,7 +340,7 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
                         href={`/goal/${goal.id}`}
                         className="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 
                                  transition-colors border-b border-gray-100 dark:border-gray-700 
-                                 last:border-b-0 focus:outline-none focus:bg-blue-50 dark:focus:bg-blue-900/20"
+                                 last:border-b-0 focus:outline-none focus:bg-purple-50 dark:focus:bg-purple-900/20"
                         onClick={() => setShowDropdown(false)}
                       >
                         <div className="font-medium text-gray-900 dark:text-gray-100">
@@ -375,7 +375,7 @@ export default function SearchableBrowse({ arenas, totalGoals, isLoading = false
               <Link
                 key={arena.id}
                 href={`/arena/${arena.slug}`}
-                className="flex bg-white rounded-lg shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 min-h-[120px] flex-col focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="flex bg-white rounded-lg shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 min-h-[120px] flex-col focus:ring-2 focus:ring-purple-500 focus:outline-none"
               >
                 <div className="p-4 sm:p-6 flex-1">
                   <div className="flex items-center mb-3 sm:mb-4">

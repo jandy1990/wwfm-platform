@@ -18,7 +18,7 @@ export default function SolutionSearchResults({
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-        <CheckCircle2 className="w-4 h-4 text-green-500" />
+        <CheckCircle2 className="w-4 h-4 text-purple-500" />
         <span>Found {solutions.length} existing solution{solutions.length > 1 ? 's' : ''}:</span>
       </div>
       
@@ -27,13 +27,13 @@ export default function SolutionSearchResults({
           <button
             key={solution.id}
             onClick={() => onSelectSolution(solution)}
-            className="w-full text-left p-4 rounded-lg border border-gray-200 dark:border-gray-700 
-                     hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-200
-                     bg-white dark:bg-gray-800 group hover:shadow-md"
+            className="w-full text-left p-4 rounded-lg border-2 border-gray-300 dark:border-gray-700
+                     hover:border-purple-500 dark:hover:border-purple-400 transition-all duration-200
+                     bg-white dark:bg-gray-800 group hover:shadow-lg"
           >
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <h4 className="font-medium text-gray-900 dark:text-white text-lg">
+                <h4 className="font-bold text-gray-900 dark:text-white text-lg">
                   {solution.title}
                 </h4>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -46,7 +46,7 @@ export default function SolutionSearchResults({
                   </span>
                 )}
               </div>
-              <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 
+              <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400 
                             group-hover:translate-x-1 transition-transform">
                 <span className="text-sm font-medium hidden sm:inline">
                   Share your experience

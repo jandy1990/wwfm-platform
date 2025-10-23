@@ -95,7 +95,7 @@ export default function ContentGateOverlay({
           rounded-xl shadow-2xl
           px-8 py-6
           max-w-md mx-4
-          border-2 border-purple-200 dark:border-purple-800
+          border-2 border-purple-400 dark:border-purple-800
           transform group-hover:scale-105
           transition-transform duration-200
         ">
@@ -123,12 +123,13 @@ export default function ContentGateOverlay({
             onClick={onAttemptAccess}
             className="
               w-full
-              bg-gradient-to-r from-purple-600 to-blue-600
-              hover:from-purple-700 hover:to-blue-700
+              bg-gradient-to-r from-purple-600 to-purple-600
+              hover:from-purple-700 hover:to-purple-700
               text-white
               font-medium
               py-3 px-6
               rounded-lg
+              border-2 border-purple-700
               transition-all duration-200
               shadow-md hover:shadow-xl
               transform hover:-translate-y-0.5

@@ -126,7 +126,7 @@ export default function FormsTestPage() {
         <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
           <button
             onClick={handleBack}
-            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 
+            className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-blue-300 
                      font-medium flex items-center gap-2"
           >
             ← Back to categories
@@ -171,7 +171,7 @@ export default function FormsTestPage() {
         {/* Summary Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">23</div>
+            <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">23</div>
             <div className="text-sm text-gray-600 dark:text-gray-400">Total Categories</div>
           </div>
           <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
@@ -205,7 +205,7 @@ export default function FormsTestPage() {
                     key={category}
                     onClick={() => setSelectedCategory(category)}
                     className="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-lg border 
-                             border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400
+                             border-gray-200 dark:border-gray-700 hover:border-purple-500 dark:hover:border-purple-400
                              hover:shadow-md transition-all text-left group"
                   >
                     <span className="text-2xl group-hover:scale-110 transition-transform">{icon}</span>
@@ -215,7 +215,7 @@ export default function FormsTestPage() {
                       </div>
                       <div className="text-sm text-gray-500 dark:text-gray-400">{form}</div>
                     </div>
-                    <div className="text-blue-500 dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="text-purple-500 dark:text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">
                       →
                     </div>
                   </button>
@@ -226,9 +226,9 @@ export default function FormsTestPage() {
         </div>
 
         {/* Instructions */}
-        <div className="mt-12 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-          <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">Testing Instructions</h3>
-          <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
+        <div className="mt-12 p-6 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-blue-800">
+          <h3 className="font-semibold text-purple-900 dark:text-blue-100 mb-2">Testing Instructions</h3>
+          <ul className="text-sm text-blue-800 dark:text-purple-200 space-y-1">
             <li>• Click any category above to test its 3-step wizard form</li>
             <li>• Each form collects effectiveness rating and time-to-results (Step 1)</li>
             <li>• Step 2 varies by form type (side effects, challenges, issues, etc.)</li>

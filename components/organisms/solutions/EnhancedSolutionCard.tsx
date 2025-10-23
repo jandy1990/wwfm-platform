@@ -33,9 +33,9 @@ export default function EnhancedSolutionCard({ solution, link }: Props) {
   const benefitIndicator = getBenefitIndicator()
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div className="bg-white rounded-lg border-2 border-gray-300 p-6 shadow-lg hover:shadow-xl hover:border-purple-400 transition-all">
       {/* Solution Title */}
-      <h3 className="text-lg font-semibold mb-3">{solution.title}</h3>
+      <h3 className="text-xl font-bold mb-3">{solution.title}</h3>
 
       {/* Metrics Grid */}
       <div className="space-y-3">
@@ -47,7 +47,7 @@ export default function EnhancedSolutionCard({ solution, link }: Props) {
               {[1, 2, 3, 4, 5].map((star) => (
                 <span
                   key={star}
-                  className={star <= Math.round(effectiveness) ? 'text-yellow-400' : 'text-gray-300'}
+                  className={star <= Math.round(effectiveness) ? 'text-purple-600' : 'text-gray-300'}
                 >
                   ★
                 </span>

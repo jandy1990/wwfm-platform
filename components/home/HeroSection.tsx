@@ -196,7 +196,7 @@ export default function HeroSection({ stats }: HeroSectionProps) {
 
               <button
                 type="submit"
-                className="absolute right-2 top-2 bottom-2 px-6 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors duration-200 font-medium"
+                className="absolute right-2 top-2 bottom-2 px-6 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors duration-200 font-semibold"
               >
                 Search
               </button>
@@ -284,7 +284,7 @@ export default function HeroSection({ stats }: HeroSectionProps) {
         <div className="flex flex-wrap justify-center gap-4 mt-8">
           <button
             onClick={() => router.push('/browse')}
-            className="px-6 py-3 bg-transparent text-white border-2 border-white rounded-full font-medium shadow-md transition-all duration-300 ease-in-out hover:bg-white hover:text-gray-900 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] active:scale-95"
+            className="px-6 py-3 bg-transparent text-white border-2 border-white rounded-full font-semibold shadow-md transition-all duration-300 ease-in-out hover:bg-white hover:text-gray-900 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] active:scale-95"
           >
             Browse All Goals
           </button>

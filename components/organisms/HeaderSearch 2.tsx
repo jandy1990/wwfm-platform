@@ -114,7 +114,7 @@ export default function HeaderSearch({ className = '' }: HeaderSearchProps) {
             bg-gray-100 dark:bg-gray-700
             border border-gray-300 dark:border-gray-600
             rounded-lg
-            focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-transparent
+            focus:ring-2 focus:ring-purple-500 focus:outline-none focus:border-transparent
             disabled:opacity-50 disabled:cursor-not-allowed
             transition-all duration-200
             ${isFocused ? 'w-96' : 'w-72'}
@@ -188,8 +188,8 @@ export default function HeaderSearch({ className = '' }: HeaderSearchProps) {
                      rounded-lg shadow-lg border border-gray-200 dark:border-gray-700
                      max-h-96 overflow-auto"
         >
-          <div className="p-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800">
-            <p className="text-xs text-blue-700 dark:text-blue-300 font-medium">
+          <div className="p-2 bg-purple-50 dark:bg-purple-900/20 border-b border-purple-200 dark:border-blue-800">
+            <p className="text-xs text-purple-700 dark:text-blue-300 font-medium">
               Top {suggestions.length} results
             </p>
           </div>

@@ -119,7 +119,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
                 {item.href && !isLast ? (
                   <Link
                     href={item.href}
-                    className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:underline transition-all duration-200 py-1 px-1 -mx-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 min-h-[32px] flex items-center focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:underline transition-all duration-200 py-1 px-1 -mx-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 min-h-[32px] flex items-center focus:ring-2 focus:ring-purple-500 focus:outline-none"
                   >
                     {item.label}
                   </Link>

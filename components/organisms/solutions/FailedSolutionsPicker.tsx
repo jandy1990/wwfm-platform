@@ -400,13 +400,13 @@ export function FailedSolutionsPicker({
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Type to search..."
               className="w-full px-4 py-3 pr-10 border border-gray-300 dark:border-gray-600 
-                       rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                       rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent
                        dark:bg-gray-700 dark:text-white text-base"
               autoFocus
             />
             {isSearching && (
               <div className="absolute right-3 top-3.5">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500" />
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-purple-500" />
               </div>
             )}
           </div>
@@ -448,7 +448,7 @@ export function FailedSolutionsPicker({
                 className="w-full text-left p-4 -mx-4 hover:bg-gray-50 dark:hover:bg-gray-700 
                          transition-colors flex items-center gap-2"
               >
-                <Plus className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                <Plus className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                 <div>
                   <div className="font-medium">Add &quot;{searchTerm}&quot;</div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">
@@ -508,12 +508,12 @@ export function FailedSolutionsPicker({
               }}
               placeholder={isMobile ? "Tap to search solutions..." : "Search for solutions you tried..."}
               className="w-full px-4 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-lg 
-                       focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                       focus:ring-2 focus:ring-purple-500 focus:border-transparent
                        dark:bg-gray-800 dark:text-white"
             />
             {isSearching && !isMobile && (
               <div className="absolute right-3 top-2.5">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500" />
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-purple-500" />
               </div>
             )}
             {!isSearching && searchTerm.length >= 3 && !isMobile && (
@@ -555,8 +555,8 @@ export function FailedSolutionsPicker({
                 ) : suggestions.length > 0 ? (
                   // Results
                   <>
-                    <div className="p-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800">
-                      <p className="text-xs text-blue-700 dark:text-blue-300 font-medium">
+                    <div className="p-2 bg-purple-50 dark:bg-purple-900/20 border-b border-purple-200 dark:border-blue-800">
+                      <p className="text-xs text-purple-700 dark:text-blue-300 font-medium">
                         {suggestions.length} solution{suggestions.length > 1 ? 's' : ''} found
                       </p>
                     </div>
@@ -571,9 +571,9 @@ export function FailedSolutionsPicker({
                         className={`w-full px-4 py-3 text-left transition-all duration-150 ease-out
                                  border-b border-gray-100 dark:border-gray-700 last:border-b-0 ${
                           selectedIndex === index
-                            ? 'bg-blue-50 dark:bg-blue-900/20 shadow-sm'
+                            ? 'bg-purple-50 dark:bg-purple-900/20 shadow-sm'
                             : 'hover:bg-gray-50 dark:hover:bg-gray-700'
-                        } focus:outline-none focus:bg-blue-50 dark:focus:bg-blue-900/20`}
+                        } focus:outline-none focus:bg-purple-50 dark:focus:bg-purple-900/20`}
                       >
                         <div className="font-medium text-gray-900 dark:text-gray-100">
                           {highlightMatch(suggestion.title, searchTerm)}
@@ -589,14 +589,14 @@ export function FailedSolutionsPicker({
                   <div className="p-4">
                     <button
                       onClick={addCustomSolution}
-                      className="w-full py-3 px-4 bg-white dark:bg-gray-800 hover:bg-blue-50 
-                               dark:hover:bg-blue-900/20 transition-colors text-left group"
+                      className="w-full py-3 px-4 bg-white dark:bg-gray-800 hover:bg-purple-50 
+                               dark:hover:bg-purple-900/20 transition-colors text-left group"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full 
-                                      flex items-center justify-center group-hover:bg-blue-200 
-                                      dark:group-hover:bg-blue-900/50 transition-colors">
-                          <span className="text-blue-600 dark:text-blue-400 text-lg">+</span>
+                        <div className="w-8 h-8 bg-blue-100 dark:bg-purple-900/30 rounded-full 
+                                      flex items-center justify-center group-hover:bg-purple-200 
+                                      dark:group-hover:bg-purple-900/50 transition-colors">
+                          <span className="text-purple-600 dark:text-purple-400 text-lg">+</span>
                         </div>
                         <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                           Add "{searchTerm}" as a solution
@@ -638,7 +638,7 @@ export function FailedSolutionsPicker({
             <div 
               key={index} 
               className={`flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg
-                       ${ratingIndex === index ? 'ring-2 ring-blue-500' : ''}`}
+                       ${ratingIndex === index ? 'ring-2 ring-purple-500' : ''}`}
             >
               <span className="flex-1 font-medium">{failed.name}</span>
               
@@ -669,7 +669,7 @@ export function FailedSolutionsPicker({
           ))}
           
           {ratingIndex !== null && (
-            <p className="text-xs text-blue-600 dark:text-blue-400 text-center animate-pulse">
+            <p className="text-xs text-purple-600 dark:text-purple-400 text-center animate-pulse">
               Press 1-5 to rate quickly
             </p>
           )}

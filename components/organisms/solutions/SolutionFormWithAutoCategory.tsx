@@ -557,7 +557,7 @@ export default function SolutionFormWithAutoCategory({
             </p>
             <button
               onClick={handleBack}
-              className="mt-4 text-blue-600 hover:text-blue-700 dark:text-blue-400 
+              className="mt-4 text-purple-600 hover:text-purple-700 dark:text-purple-400 
                        dark:hover:text-blue-300 font-medium"
             >
               Go back
@@ -677,7 +677,7 @@ export default function SolutionFormWithAutoCategory({
                 }, 200); // Increased from typical 100ms to 200ms like Step 3
               }}
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                       focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                       focus:ring-2 focus:ring-purple-500 focus:border-transparent
                        dark:bg-gray-800 dark:text-white"
               placeholder="e.g., Headspace, Vitamin D, Running, Therapy..."
               autoFocus
@@ -686,7 +686,7 @@ export default function SolutionFormWithAutoCategory({
             {/* Category badge when detected */}
             {formState.selectedCategory && (
               <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 
+                <span className="text-xs bg-blue-100 dark:bg-purple-900 text-purple-700 dark:text-blue-300 
                                px-2 py-1 rounded-md font-medium">
                   {detectionResult?.categories.find(c => c.category === formState.selectedCategory)?.displayName || formState.selectedCategory}
                 </span>
@@ -716,8 +716,8 @@ export default function SolutionFormWithAutoCategory({
               ) : sortedResults.length > 0 ? (
                 // Results
                 <>
-                  <div className="p-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800">
-                    <p className="text-xs text-blue-700 dark:text-blue-300 font-medium">
+                  <div className="p-2 bg-purple-50 dark:bg-purple-900/20 border-b border-purple-200 dark:border-blue-800">
+                    <p className="text-xs text-purple-700 dark:text-blue-300 font-medium">
                       {sortedResults.length} solution{sortedResults.length > 1 ? 's' : ''} found
                     </p>
                   </div>
@@ -738,7 +738,7 @@ export default function SolutionFormWithAutoCategory({
                       }}
                       className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 
                                transition-colors border-b border-gray-100 dark:border-gray-700 
-                               last:border-b-0 focus:outline-none focus:bg-blue-50 dark:focus:bg-blue-900/20"
+                               last:border-b-0 focus:outline-none focus:bg-purple-50 dark:focus:bg-purple-900/20"
                     >
                       <div className="font-medium text-gray-900 dark:text-gray-100">
                         {highlightMatch(result.title, formState.solutionName)}
@@ -759,14 +759,14 @@ export default function SolutionFormWithAutoCategory({
                       setShowDropdown(false);
                       handleContinue();
                     }}
-                    className="w-full py-3 px-4 bg-white dark:bg-gray-800 hover:bg-blue-50 
-                             dark:hover:bg-blue-900/20 transition-colors text-left group"
+                    className="w-full py-3 px-4 bg-white dark:bg-gray-800 hover:bg-purple-50 
+                             dark:hover:bg-purple-900/20 transition-colors text-left group"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full 
-                                    flex items-center justify-center group-hover:bg-blue-200 
-                                    dark:group-hover:bg-blue-900/50 transition-colors">
-                        <span className="text-blue-600 dark:text-blue-400 text-lg">+</span>
+                      <div className="w-8 h-8 bg-blue-100 dark:bg-purple-900/30 rounded-full 
+                                    flex items-center justify-center group-hover:bg-purple-200 
+                                    dark:group-hover:bg-purple-900/50 transition-colors">
+                        <span className="text-purple-600 dark:text-purple-400 text-lg">+</span>
                       </div>
                       <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                         Add "{formState.solutionName}" as a solution
@@ -856,7 +856,7 @@ export default function SolutionFormWithAutoCategory({
             data-testid="continue-button"
             className={`px-6 py-2 rounded-lg font-medium transition-all ${
               canContinue
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                ? 'bg-purple-600 hover:bg-purple-700 text-white'
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
             }`}
           >

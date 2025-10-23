@@ -23,7 +23,7 @@ export default function ArenaValueInsights({
   if (insights.length === 0) {
     return (
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+        <h2 className="text-2xl font-black tracking-tight text-gray-900 dark:text-gray-100">
           Time & Long-term Value by Arena
         </h2>
       </div>
@@ -33,9 +33,9 @@ export default function ArenaValueInsights({
   const totalGoals = insights.reduce((sum, i) => sum + i.goal_count, 0)
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow border-2 border-gray-300 dark:border-gray-700">
       <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+        <h2 className="text-2xl font-black tracking-tight text-gray-900 dark:text-gray-100">
           Time & Long-term Value by Arena
         </h2>
       </div>
@@ -86,7 +86,7 @@ function InsightRow({ insight }: { insight: ArenaValueInsight }) {
         </div>
         <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2">
           <div
-            className="bg-blue-500 dark:bg-blue-400 h-2 rounded-full transition-all duration-500"
+            className="bg-purple-500 dark:bg-purple-400 h-2 rounded-full transition-all duration-500"
             style={{ width: `${insight.time_percentage}%` }}
           />
         </div>
@@ -102,7 +102,7 @@ function InsightRow({ insight }: { insight: ArenaValueInsight }) {
         </div>
         <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2">
           <div
-            className="bg-green-500 dark:bg-green-400 h-2 rounded-full transition-all duration-500"
+            className="bg-purple-600 dark:bg-purple-400 h-2 rounded-full transition-all duration-500"
             style={{ width: `${valuePercentage}%` }}
           />
         </div>

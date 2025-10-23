@@ -66,8 +66,8 @@ export function ContributionsFeed() {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-3 mb-6">
-        <div className="text-center p-3 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg">
-          <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+        <div className="text-center p-3 bg-gradient-to-br from-purple-50 to-blue-100 dark:from-purple-900/20 dark:to-blue-800/20 rounded-lg">
+          <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
             {ratings?.length || 0}
           </div>
           <div className="text-xs text-gray-600 dark:text-gray-400">Solutions Rated</div>
@@ -115,7 +115,7 @@ export function ContributionsFeed() {
             </div>
             <div className="flex items-center gap-0.5 flex-shrink-0">
               {[...Array(5)].map((_, i) => (
-                <span key={i} className={`text-sm ${i < rating.effectiveness_score ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}>
+                <span key={i} className={`text-sm ${i < rating.effectiveness_score ? 'text-purple-600' : 'text-gray-300 dark:text-gray-600'}`}>
                   ⭐
                 </span>
               ))}
@@ -163,7 +163,7 @@ export function ContributionsFeed() {
             </p>
             <a
               href="/browse"
-              className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              className="inline-block px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium"
             >
               Browse Goals
             </a>

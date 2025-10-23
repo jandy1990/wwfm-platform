@@ -90,7 +90,7 @@ export function RelatedGoalsNavigation({
                     "relative px-4 py-2 rounded-lg transition-all duration-200",
                     "border hover:shadow-md",
                     isActive
-                      ? "bg-blue-50 border-blue-300 text-blue-700"
+                      ? "bg-purple-50 border-blue-300 text-purple-700"
                       : "bg-white border-gray-200 hover:border-gray-300"
                   )}
                 >
@@ -103,13 +103,13 @@ export function RelatedGoalsNavigation({
                     
                     <span className={cn(
                       "font-medium",
-                      isActive ? "text-blue-700" : "text-gray-700"
+                      isActive ? "text-purple-700" : "text-gray-700"
                     )}>
                       {goal.title}
                     </span>
                     
                     {isCurrentGoal && (
-                      <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">
+                      <span className="text-xs bg-blue-100 text-purple-700 px-2 py-0.5 rounded-full">
                         Current
                       </span>
                     )}

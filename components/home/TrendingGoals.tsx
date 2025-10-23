@@ -28,14 +28,14 @@ function TrendingGoalCard({ goal }: TrendingGoalCardProps) {
       case 'rising':
         return 'text-orange-500';
       default:
-        return 'text-blue-500';
+        return 'text-purple-500';
     }
   };
 
   return (
     <Link
       href={`/goal/${goal.id}`}
-      className="block p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-200 dark:border-gray-700 group"
+      className="block p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl hover:border-purple-300 dark:hover:border-purple-600 transition-all duration-200 border-2 border-gray-200 dark:border-gray-700 group"
     >
       <div className="flex items-start justify-between mb-3">
         <div className="text-2xl">{goal.emoji}</div>
@@ -56,7 +56,7 @@ function TrendingGoalCard({ goal }: TrendingGoalCardProps) {
 
         <div className="flex justify-between">
           <span>Avg Rating:</span>
-          <span className="font-medium text-yellow-600 dark:text-yellow-400">
+          <span className="font-medium text-yellow-600 dark:text-purple-600">
             {goal.avgEffectiveness}★
           </span>
         </div>

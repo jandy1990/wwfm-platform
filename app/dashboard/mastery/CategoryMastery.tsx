@@ -81,7 +81,7 @@ export function CategoryMastery() {
   if (showBlurred) {
     const remaining = MINIMUM_ACTIVITY_THRESHOLD - totalActivity
     return (
-      <div className="bg-white dark:bg-gray-800 shadow rounded-lg border border-gray-200 dark:border-gray-700 p-6 relative overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg border-2 border-gray-300 dark:border-gray-700 p-6 relative overflow-hidden">
         {/* Blurred content preview */}
         <div className="filter blur-sm pointer-events-none select-none">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
@@ -97,7 +97,7 @@ export function CategoryMastery() {
                   Apps & Software
                 </div>
                 <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div className="bg-blue-500 h-2 rounded-full" style={{ width: '80%' }}></div>
+                  <div className="bg-purple-500 h-2 rounded-full" style={{ width: '80%' }}></div>
                 </div>
               </div>
               <div className="ml-4 text-right">
@@ -110,7 +110,7 @@ export function CategoryMastery() {
                   Therapists & Counselors
                 </div>
                 <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div className="bg-blue-500 h-2 rounded-full" style={{ width: '60%' }}></div>
+                  <div className="bg-purple-500 h-2 rounded-full" style={{ width: '60%' }}></div>
                 </div>
               </div>
               <div className="ml-4 text-right">
@@ -135,7 +135,7 @@ export function CategoryMastery() {
             </div>
             <a
               href="/browse"
-              className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm"
+              className="inline-block px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium text-sm"
             >
               Browse Solutions
             </a>
@@ -147,7 +147,7 @@ export function CategoryMastery() {
 
   // Normal display when threshold is met
   return (
-    <div className="bg-white dark:bg-gray-800 shadow rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+    <div className="bg-white dark:bg-gray-800 shadow rounded-lg border-2 border-gray-300 dark:border-gray-700 p-6">
       <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
         🧩 How You Solve Problems
       </h2>
@@ -179,7 +179,7 @@ export function CategoryMastery() {
 
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                 <div
-                  className="bg-blue-500 dark:bg-blue-400 h-2 rounded-full transition-all duration-500"
+                  className="bg-purple-500 dark:bg-purple-400 h-2 rounded-full transition-all duration-500"
                   style={{ width: `${percentage}%` }}
                 ></div>
               </div>

@@ -84,8 +84,8 @@ export default function Header() {
                 href="/browse"
                 className={`pb-1 transition-colors border-b-2 ${
                   pathname === '/browse'
-                    ? 'border-blue-600 text-blue-600 dark:text-blue-400 font-semibold'
-                    : 'border-transparent text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:border-gray-300 dark:hover:border-gray-600'
+                    ? 'border-purple-600 text-purple-600 dark:text-purple-400 font-semibold'
+                    : 'border-transparent text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:border-gray-300 dark:hover:border-gray-600'
                 }`}
                 aria-current={pathname === '/browse' ? 'page' : undefined}
               >
@@ -95,8 +95,8 @@ export default function Header() {
                 href="/dashboard"
                 className={`pb-1 transition-colors border-b-2 ${
                   pathname === '/dashboard'
-                    ? 'border-blue-600 text-blue-600 dark:text-blue-400 font-semibold'
-                    : 'border-transparent text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:border-gray-300 dark:hover:border-gray-600'
+                    ? 'border-purple-600 text-purple-600 dark:text-purple-400 font-semibold'
+                    : 'border-transparent text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:border-gray-300 dark:hover:border-gray-600'
                 }`}
                 aria-current={pathname === '/dashboard' ? 'page' : undefined}
               >
@@ -107,8 +107,8 @@ export default function Header() {
                   href="/contribute"
                   className={`pb-1 transition-colors border-b-2 ${
                     pathname === '/contribute'
-                      ? 'border-blue-600 text-blue-600 dark:text-blue-400 font-semibold'
-                      : 'border-transparent text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:border-gray-300 dark:hover:border-gray-600'
+                      ? 'border-purple-600 text-purple-600 dark:text-purple-400 font-semibold'
+                      : 'border-transparent text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:border-gray-300 dark:hover:border-gray-600'
                   }`}
                   aria-current={pathname === '/contribute' ? 'page' : undefined}
                 >
@@ -123,7 +123,7 @@ export default function Header() {
               {!shouldHideSearch && (
                 <button
                   onClick={() => setShowMobileSearch(true)}
-                  className="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  className="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   aria-label="Search"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -145,13 +145,13 @@ export default function Header() {
               <div className="flex items-center space-x-3">
                 <Link
                   href="/auth/signin"
-                  className="text-sm text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  className="text-sm text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/auth/signup"
-                  className="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md transition-colors"
+                  className="text-sm bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 rounded-md transition-colors"
                 >
                   Sign Up
                 </Link>
@@ -164,7 +164,7 @@ export default function Header() {
               <button
                 type="button"
                 onClick={() => setShowMobileNav(true)}
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2"
+                className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded-md p-2"
                 aria-label="Open menu"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

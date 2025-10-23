@@ -205,7 +205,7 @@ export default function TestDosageForm() {
           <button
             onClick={runTests}
             disabled={isRunning}
-            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium disabled:opacity-50"
+            className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium disabled:opacity-50"
           >
             {isRunning ? 'Running Tests...' : 'Run All Tests'}
           </button>

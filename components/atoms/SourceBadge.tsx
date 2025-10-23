@@ -28,9 +28,9 @@ export default function SourceBadge({ sourceType, size = 'sm', className = '' }:
       case 'ai_enhanced':
         return {
           text: 'AI+Human',
-          bgColor: 'bg-blue-100 dark:bg-blue-900/30',
+          bgColor: 'bg-blue-100 dark:bg-purple-900/30',
           textColor: 'text-blue-800 dark:text-blue-300',
-          borderColor: 'border-blue-200 dark:border-blue-700',
+          borderColor: 'border-purple-200 dark:border-purple-700',
           icon: '🤝'
         }
       case 'expert_verified':

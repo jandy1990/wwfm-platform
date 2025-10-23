@@ -56,7 +56,7 @@ export default function YourGoals() {
       <div className="bg-white dark:bg-gray-800 shadow rounded-lg border border-gray-200 dark:border-gray-700 p-6">
         <div className="flex items-center gap-2 mb-4">
           <Target className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+          <h2 className="text-2xl font-black tracking-tight text-gray-900 dark:text-gray-100">
             Your Goals
           </h2>
         </div>
@@ -76,12 +76,12 @@ export default function YourGoals() {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+    <div className="bg-white dark:bg-gray-800 shadow rounded-lg border-2 border-gray-300 dark:border-gray-700 p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <Target className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+          <h2 className="text-2xl font-black tracking-tight text-gray-900 dark:text-gray-100">
             Your Goals
           </h2>
           <span className="text-sm font-semibold text-gray-500 dark:text-gray-400">

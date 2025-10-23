@@ -3,8 +3,9 @@
 // Force recompile
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-// import { supabase } from '@/lib/database/client'; // Removed: unused after migrating to server actions
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { ChevronLeft, Check, X, Plus } from 'lucide-react';
+import { Skeleton } from '@/components/atoms/skeleton';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { FormSectionHeader } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
@@ -115,7 +116,11 @@ export function DosageForm({
   const [sideEffects, setSideEffects] = useState<string[]>(['None']);
   const [customSideEffect, setCustomSideEffect] = useState('');
   const [showCustomSideEffect, setShowCustomSideEffect] = useState(false);
-  
+
+  // Loading state and options for database fetch
+  const [loadingSideEffects, setLoadingSideEffects] = useState(false);
+  const [sideEffectOptionsState, setSideEffectOptionsState] = useState<string[]>([]);
+
   // Step 3 - Failed solutions
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
   
@@ -225,6 +230,39 @@ export function DosageForm({
     }
   }, [currentStep, highestStepReached]);
 
+  // Fetch side effect options from database
+  useEffect(() => {
+    const fetchSideEffectOptions = async () => {
+      setLoadingSideEffects(true);
+      try {
+        const supabase = createClientComponentClient();
+        const { data, error } = await supabase
+          .from('side_effect_options')
+          .select('label')
+          .eq('category', category)
+          .eq('is_active', true)
+          .order('display_order');
+
+        if (!error && data && data.length > 0) {
+          setSideEffectOptionsState(data.map(item => item.label));
+        } else {
+          // Fallback to hardcoded options
+          const fallback = DROPDOWN_OPTIONS[category as keyof typeof DROPDOWN_OPTIONS];
+          setSideEffectOptionsState(fallback || ['None']);
+        }
+      } catch (err) {
+        console.error('Error fetching side effect options:', err);
+        // Fallback to hardcoded options on error
+        const fallback = DROPDOWN_OPTIONS[category as keyof typeof DROPDOWN_OPTIONS];
+        setSideEffectOptionsState(fallback || ['None']);
+      } finally {
+        setLoadingSideEffects(false);
+      }
+    };
+
+    fetchSideEffectOptions();
+  }, [category]);
+
   // Search for solutions as user types
 
   // Helper functions
@@ -245,33 +283,32 @@ export function DosageForm({
     return result;
   };
 
-  // Category-specific side effects
-  const sideEffectOptions = {
+  // Category-specific side effects (FALLBACK - database is source of truth)
+  const DROPDOWN_OPTIONS = {
     supplements_vitamins: [
-      'None', 'Upset stomach', 'Nausea', 'Constipation', 'Diarrhea', 
-      'Headache', 'Metallic taste', 'Fatigue', 'Skin reaction', 
-      'Increased energy', 'Sleep changes', 'Morning grogginess', 
-      'Vivid dreams', 'Acne/breakouts', 'Gas/bloating', 
+      'None', 'Upset stomach', 'Nausea', 'Constipation', 'Diarrhea',
+      'Headache', 'Metallic taste', 'Fatigue', 'Skin reaction',
+      'Increased energy', 'Sleep changes', 'Morning grogginess',
+      'Vivid dreams', 'Acne/breakouts', 'Gas/bloating',
       'Initially worse before better'
     ],
     medications: [
-      'None', 'Nausea', 'Headache', 'Dizziness', 'Drowsiness', 
-      'Insomnia', 'Dry mouth', 'Weight gain', 'Weight loss', 
-      'Sexual side effects', 'Mood changes', 'Appetite changes', 
-      'Sweating', 'Tremor', 'Constipation', 'Blurred vision', 
+      'None', 'Nausea', 'Headache', 'Dizziness', 'Drowsiness',
+      'Insomnia', 'Dry mouth', 'Weight gain', 'Weight loss',
+      'Sexual side effects', 'Mood changes', 'Appetite changes',
+      'Sweating', 'Tremor', 'Constipation', 'Blurred vision',
       'Initially worse before better'
     ],
     natural_remedies: [
-      'None', 'Drowsiness', 'Upset stomach', 'Headache', 
-      'Allergic reaction', 'Vivid dreams', 'Changes in appetite', 
-      'Mild anxiety', 'Digestive changes', 'Skin reaction', 
+      'None', 'Drowsiness', 'Upset stomach', 'Headache',
+      'Allergic reaction', 'Vivid dreams', 'Changes in appetite',
+      'Mild anxiety', 'Digestive changes', 'Skin reaction',
       'Interactions with medications', 'Initially worse before better'
     ],
     beauty_skincare: [
-      'None', 'Dryness/peeling', 'Redness/irritation', 
-      'Purging (initial breakouts)', 'Burning/stinging', 'Itching', 
-      'Photosensitivity', 'Discoloration', 'Allergic reaction', 
-      'Oiliness', 'Clogged pores', 'Texture changes', 
+      'None', 'Dryness/peeling', 'Redness/irritation', 'Purging (initial breakouts)', 'Burning/stinging', 'Itching',
+      'Photosensitivity', 'Discoloration', 'Allergic reaction',
+      'Oiliness', 'Clogged pores', 'Texture changes',
       'Initially worse before better'
     ]
   };
@@ -420,9 +457,9 @@ export function DosageForm({
         return (
           <div className="space-y-8 animate-slide-in">
             {/* Quick context card */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 
-                          border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-              <p className="text-sm text-blue-800 dark:text-blue-200">
+            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 
+                          border border-purple-200 dark:border-blue-800 rounded-lg p-4">
+              <p className="text-sm text-blue-800 dark:text-purple-200">
                 Let's capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
               </p>
             </div>
@@ -447,12 +484,12 @@ export function DosageForm({
                           onClick={() => setEffectiveness(rating)}
                           className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
                             effectiveness === rating
-                              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-105 shadow-lg'
+                              ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 scale-105 shadow-lg'
                               : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                           }`}
                         >
                           {effectiveness === rating && (
-                            <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center animate-bounce-in">
+                            <div className="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center animate-bounce-in">
                               <Check className="w-4 h-4 text-white" />
                             </div>
                           )}
@@ -493,7 +530,7 @@ export function DosageForm({
                       value={timeToResults}
                       onChange={(e) => setTimeToResults(e.target.value)}
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               focus:ring-2 focus:ring-purple-500 focus:border-transparent
                                bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                                appearance-none transition-all"
                     >
@@ -520,7 +557,7 @@ export function DosageForm({
                 {/* Application Details Section */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-blue-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
                       <span className="text-lg">✨</span>
                     </div>
                     <h2 className="text-xl font-semibold">Application details</h2>
@@ -534,7 +571,7 @@ export function DosageForm({
                       value={skincareFrequency}
                       onChange={(e) => setSkincareFrequency(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               focus:ring-2 focus:ring-purple-500 focus:border-transparent
                                bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                                appearance-none"
                     >
@@ -554,7 +591,7 @@ export function DosageForm({
                       value={lengthOfUse}
                       onChange={(e) => setLengthOfUse(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               focus:ring-2 focus:ring-purple-500 focus:border-transparent
                                bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                                appearance-none"
                     >
@@ -576,7 +613,7 @@ export function DosageForm({
                 {/* Dosage Section for other categories */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-blue-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
                       <span className="text-lg">💊</span>
                     </div>
                     <h2 className="text-xl font-semibold">Your dosage</h2>
@@ -600,7 +637,7 @@ export function DosageForm({
                         }}
                         placeholder="e.g., 500"
                         className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                                 focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                                 focus:ring-2 focus:ring-purple-500 focus:border-transparent
                                  bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                                  appearance-none"
                         autoFocus
@@ -618,7 +655,7 @@ export function DosageForm({
                           setShowCustomUnit(e.target.value === 'other');
                         }}
                         className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                                 focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                                 focus:ring-2 focus:ring-purple-500 focus:border-transparent
                                  bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                                  appearance-none"
                       >
@@ -638,8 +675,8 @@ export function DosageForm({
                         value={customUnit}
                         onChange={(e) => setCustomUnit(e.target.value)}
                         placeholder="Enter unit (e.g., 'sachets', 'lozenges', 'patches')"
-                        className="w-full px-3 py-2 border border-blue-500 rounded-lg 
-                                 focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                        className="w-full px-3 py-2 border border-purple-500 rounded-lg 
+                                 focus:ring-2 focus:ring-purple-500 focus:border-transparent
                                  dark:bg-gray-800 dark:text-white"
                         autoFocus
                       />
@@ -655,7 +692,7 @@ export function DosageForm({
                       value={frequency}
                       onChange={(e) => setFrequency(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               focus:ring-2 focus:ring-purple-500 focus:border-transparent
                                bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                                appearance-none"
                     >
@@ -690,7 +727,7 @@ export function DosageForm({
                     value={lengthOfUse}
                     onChange={(e) => setLengthOfUse(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                             focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                             focus:ring-2 focus:ring-purple-500 focus:border-transparent
                              bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                              appearance-none"
                   >
@@ -731,12 +768,12 @@ export function DosageForm({
                           onClick={() => setEffectiveness(rating)}
                           className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
                             effectiveness === rating
-                              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-105 shadow-lg'
+                              ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 scale-105 shadow-lg'
                               : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                           }`}
                         >
                           {effectiveness === rating && (
-                            <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center animate-bounce-in">
+                            <div className="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center animate-bounce-in">
                               <Check className="w-4 h-4 text-white" />
                             </div>
                           )}
@@ -777,7 +814,7 @@ export function DosageForm({
                       value={timeToResults}
                       onChange={(e) => setTimeToResults(e.target.value)}
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               focus:ring-2 focus:ring-purple-500 focus:border-transparent
                                bg-white dark:bg-gray-800 text-gray-900 dark:text-white
                                appearance-none transition-all"
                     >
@@ -818,50 +855,63 @@ export function DosageForm({
             </div>
 
             {/* Side effects grid with hover effects */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {sideEffectOptions[category as keyof typeof sideEffectOptions]?.map((effect) => (
-                <label
-                  key={effect}
-                  className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
-                            transition-all transform hover:scale-[1.02] ${
-                    sideEffects.includes(effect)
-                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md'
-                      : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
-                  }`}
+            {loadingSideEffects ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {sideEffectOptionsState.map((effect) => (
+                  <label
+                    key={effect}
+                    className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer
+                              transition-all transform hover:scale-[1.02] ${
+                      sideEffects.includes(effect)
+                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-md'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={sideEffects.includes(effect)}
+                      onChange={() => handleSideEffectToggle(effect)}
+                      className="sr-only"
+                    />
+                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0
+                                  transition-all ${
+                      sideEffects.includes(effect)
+                        ? 'border-purple-500 bg-purple-500'
+                        : 'border-gray-300 dark:border-gray-600 group-hover:border-gray-400'
+                    }`}>
+                      {sideEffects.includes(effect) && (
+                        <Check className="w-3 h-3 text-white animate-scale-in" />
+                      )}
+                    </div>
+                    <span className="text-sm">{effect}</span>
+                  </label>
+                ))}
+
+                {/* Add Other button with animation */}
+                <button
+                  onClick={() => setShowCustomSideEffect(true)}
+                  className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer
+                            transition-all transform hover:scale-[1.02] border-dashed
+                            border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-sm"
                 >
-                  <input
-                    type="checkbox"
-                    checked={sideEffects.includes(effect)}
-                    onChange={() => handleSideEffectToggle(effect)}
-                    className="sr-only"
-                  />
-                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 
-                                transition-all ${
-                    sideEffects.includes(effect)
-                      ? 'border-blue-500 bg-blue-500'
-                      : 'border-gray-300 dark:border-gray-600 group-hover:border-gray-400'
-                  }`}>
-                    {sideEffects.includes(effect) && (
-                      <Check className="w-3 h-3 text-white animate-scale-in" />
-                    )}
-                  </div>
-                  <span className="text-sm">{effect}</span>
-                </label>
-              ))}
-              
-              {/* Add Other button with animation */}
-              <button
-                onClick={() => setShowCustomSideEffect(true)}
-                className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
-                          transition-all transform hover:scale-[1.02] border-dashed
-                          border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-sm"
-              >
-                <Plus className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors" />
-                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200">
-                  Add other side effect
-                </span>
-              </button>
-            </div>
+                  <Plus className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors" />
+                  <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200">
+                    Add other side effect
+                  </span>
+                </button>
+              </div>
+            )}
 
             {/* Custom side effect input */}
             {showCustomSideEffect && (
@@ -873,14 +923,14 @@ export function DosageForm({
                   onKeyDown={(e) => e.key === 'Enter' && addCustomSideEffect()}
                   placeholder="Describe the side effect"
                   maxLength={500}
-                  className="flex-1 px-3 py-2 border border-blue-500 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                  className="flex-1 px-3 py-2 border border-purple-500 rounded-lg 
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            dark:bg-gray-800 dark:text-white"
                   autoFocus
                 />
                 <button
                   onClick={addCustomSideEffect}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white 
                            rounded-lg transition-colors"
                 >
                   Add
@@ -898,17 +948,17 @@ export function DosageForm({
             )}
 
             {/* Show custom side effects */}
-            {sideEffects.filter(e => !sideEffectOptions[category as keyof typeof sideEffectOptions]?.includes(e) && e !== 'None').length > 0 && (
+            {sideEffects.filter(e => !sideEffectOptionsState.includes(e) && e !== 'None').length > 0 && (
               <div className="mt-2">
                 <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Added:</p>
                 <div className="flex flex-wrap gap-2">
-                  {sideEffects.filter(e => !sideEffectOptions[category as keyof typeof sideEffectOptions]?.includes(e) && e !== 'None').map((effect) => (
-                    <span key={effect} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
-                                                 text-blue-700 dark:text-blue-300 rounded-full text-sm">
+                  {sideEffects.filter(e => !sideEffectOptionsState.includes(e) && e !== 'None').map((effect) => (
+                    <span key={effect} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
+                                                 text-purple-700 dark:text-blue-300 rounded-full text-sm">
                       {effect}
                       <button
                         onClick={() => setSideEffects(sideEffects.filter(e => e !== effect))}
-                        className="hover:text-blue-900 dark:hover:text-blue-100"
+                        className="hover:text-purple-900 dark:hover:text-blue-100"
                       >
                         <X className="w-3 h-3" />
                       </button>
@@ -921,8 +971,8 @@ export function DosageForm({
             {/* Selected count indicator */}
             {sideEffects.length > 0 && sideEffects[0] !== 'None' && (
               <div className="text-center">
-                <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 
-                               text-blue-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
+                <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
+                               text-purple-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
                   <Check className="w-4 h-4" />
                   {sideEffects.length} selected
                 </span>
@@ -1056,7 +1106,7 @@ export function DosageForm({
                       onClick={() => setCostType('monthly')}
                       className={`flex-1 py-1.5 px-3 rounded text-xs font-semibold transition-colors ${
                         costType === 'monthly'
-                          ? 'bg-blue-600 text-white'
+                          ? 'bg-purple-600 text-white'
                           : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
                       }`}
                     >
@@ -1066,7 +1116,7 @@ export function DosageForm({
                       onClick={() => setCostType('one_time')}
                       className={`flex-1 py-1.5 px-3 rounded text-xs font-semibold transition-colors ${
                         costType === 'one_time'
-                          ? 'bg-blue-600 text-white'
+                          ? 'bg-purple-600 text-white'
                           : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
                       }`}
                     >
@@ -1078,7 +1128,7 @@ export function DosageForm({
                   value={costRange}
                   onChange={(e) => setCostRange(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                            appearance-none text-sm"
                 >
@@ -1116,7 +1166,7 @@ export function DosageForm({
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          dark:bg-gray-700 dark:text-white text-sm"
                 disabled={category === 'beauty_skincare'}
               />
@@ -1126,7 +1176,7 @@ export function DosageForm({
                   value={form}
                   onChange={(e) => setForm(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                            appearance-none text-sm"
                 >
@@ -1161,7 +1211,7 @@ export function DosageForm({
                   onChange={(e) => setNotes(e.target.value)}
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            dark:bg-gray-700 dark:text-white text-sm"
                 />
                 <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -1172,7 +1222,7 @@ export function DosageForm({
               {(brand || form || notes || costRange !== 'dont_remember') && (
                 <button
                   onClick={updateAdditionalInfo}
-                  className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
+                  className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg 
                          text-sm font-semibold transition-colors"
                 >
                   Submit
@@ -1198,8 +1248,8 @@ export function DosageForm({
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Restore notification */}
       {restoredFromBackup && (
-        <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg animate-fade-in">
-          <p className="text-sm text-blue-800 dark:text-blue-200 flex items-center gap-2">
+        <div className="mb-4 p-3 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-blue-800 rounded-lg animate-fade-in">
+          <p className="text-sm text-blue-800 dark:text-purple-200 flex items-center gap-2">
             <span className="text-lg">✨</span>
             Your previous progress has been restored
           </p>
@@ -1227,7 +1277,7 @@ export function DosageForm({
         </div>
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
           <div 
-            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+            className="bg-purple-600 h-2 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -1276,7 +1326,7 @@ export function DosageForm({
               disabled={!canProceedToNextStep()}
               className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
                 canProceedToNextStep()
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                  ? 'bg-purple-600 hover:bg-purple-700 text-white'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
               }`}
             >

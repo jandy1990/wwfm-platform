@@ -308,7 +308,7 @@ export default function CommunityDiscussions({ goalId, goalTitle, sortBy = 'newe
                 setShowAddForm(true)
                 setReplyToId(null)
               }}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors"
+              className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-md transition-colors"
             >
               {discussions.length > 0 ? 'Start a new discussion' : 'Share your experience'}
             </button>
@@ -418,7 +418,7 @@ function DiscussionPost({
       {/* Post Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+          <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
             {discussion.users?.username?.charAt(0).toUpperCase() || 'A'}
           </div>
           <div>
@@ -497,7 +497,7 @@ function DiscussionPost({
           <textarea
             value={editContent}
             onChange={(e) => setEditContent(e.target.value)}
-            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-100 resize-none"
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-100 resize-none"
             rows={4}
           />
           <div className="flex justify-end space-x-2 mt-2">
@@ -509,7 +509,7 @@ function DiscussionPost({
             </button>
             <button
               onClick={saveEdit}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm font-medium"
+              className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded text-sm font-medium"
             >
               Save
             </button>
@@ -529,8 +529,8 @@ function DiscussionPost({
             onClick={() => onUpvote(discussion.id, discussion.upvotes)}
             className={`flex items-center space-x-1 transition-colors group ${
               userVotes.has(discussion.id)
-                ? 'text-blue-600 dark:text-blue-400'
-                : 'hover:text-blue-600 dark:hover:text-blue-400'
+                ? 'text-purple-600 dark:text-purple-400'
+                : 'hover:text-purple-600 dark:hover:text-purple-400'
             }`}
           >
             <svg 
@@ -548,7 +548,7 @@ function DiscussionPost({
           
           <button
             onClick={() => onReply(discussion.id)}
-            className="flex items-center space-x-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            className="flex items-center space-x-1 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -559,7 +559,7 @@ function DiscussionPost({
           {discussion.reply_count > 0 && (
             <button
               onClick={() => setShowReplies(!showReplies)}
-              className="flex items-center space-x-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              className="flex items-center space-x-1 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={showReplies ? "M19 9l-7 7-7-7" : "M9 5l7 7-7 7"} />
@@ -586,27 +586,27 @@ function DiscussionPost({
       {showReplies && discussion.replies && discussion.replies.length > 0 && (
         <div className="mt-6 relative">
           {/* Threading line */}
-          <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-200 to-transparent dark:from-blue-800"></div>
+          <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-200 to-transparent dark:from-blue-800"></div>
           
           <div className="pl-8 space-y-4">
             {discussion.replies.map((reply) => (
               <div key={reply.id} className="relative">
                 {/* Threading connector */}
-                <div className="absolute -left-8 top-4 w-6 h-0.5 bg-blue-200 dark:bg-blue-800"></div>
-                <div className="absolute -left-8 top-4 w-1.5 h-1.5 bg-blue-400 dark:bg-blue-600 rounded-full transform -translate-x-0.5 -translate-y-0.5"></div>
+                <div className="absolute -left-8 top-4 w-6 h-0.5 bg-purple-200 dark:bg-blue-800"></div>
+                <div className="absolute -left-8 top-4 w-1.5 h-1.5 bg-purple-400 dark:bg-purple-600 rounded-full transform -translate-x-0.5 -translate-y-0.5"></div>
                 
-                <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4 border-l-2 border-blue-200 dark:border-blue-800">
+                <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4 border-l-2 border-purple-200 dark:border-blue-800">
                   {/* Reply Header */}
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center space-x-2">
-                      <div className="w-6 h-6 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-medium">
+                      <div className="w-6 h-6 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-medium">
                         {reply.users?.username?.charAt(0).toUpperCase() || 'A'}
                       </div>
                       <div className="flex items-center space-x-2">
                         <span className="font-medium text-sm text-gray-900 dark:text-gray-100">
                           {reply.users?.username || 'Anonymous'}
                         </span>
-                        <span className="text-xs text-blue-600 dark:text-blue-400">↳ replying</span>
+                        <span className="text-xs text-purple-600 dark:text-purple-400">↳ replying</span>
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -617,7 +617,7 @@ function DiscussionPost({
                         <div className="flex space-x-1">
                           <button
                             onClick={() => onEdit(reply.id, reply.content)}
-                            className="text-xs text-gray-500 hover:text-blue-600 transition-colors"
+                            className="text-xs text-gray-500 hover:text-purple-600 transition-colors"
                           >
                             Edit
                           </button>
@@ -639,7 +639,7 @@ function DiscussionPost({
                       <textarea
                         value={editContent}
                         onChange={(e) => setEditContent(e.target.value)}
-                        className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-100 resize-none"
+                        className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-100 resize-none"
                         rows={3}
                       />
                       <div className="flex justify-end space-x-2 mt-2">
@@ -651,7 +651,7 @@ function DiscussionPost({
                         </button>
                         <button
                           onClick={saveEdit}
-                          className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs font-medium"
+                          className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded text-xs font-medium"
                         >
                           Save
                         </button>
@@ -669,8 +669,8 @@ function DiscussionPost({
                       onClick={() => onUpvote(reply.id, reply.upvotes)}
                       className={`flex items-center space-x-1 text-xs transition-colors ${
                         userVotes.has(reply.id)
-                          ? 'text-blue-600 dark:text-blue-400'
-                          : 'text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400'
+                          ? 'text-purple-600 dark:text-purple-400'
+                          : 'text-gray-500 hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400'
                       }`}
                     >
                       <svg 

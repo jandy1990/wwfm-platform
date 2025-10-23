@@ -19,7 +19,7 @@ function ArenaCard({ arena, rank }: ArenaCardProps) {
   return (
     <Link
       href={`/arena/${arena.slug}`}
-      className="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 border-2 border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-600 group relative"
+      className="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 border-2 border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-600 group relative"
     >
       {/* Rank Badge */}
       <div className="absolute -top-3 -left-3 w-8 h-8 bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-lg">

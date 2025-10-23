@@ -29,7 +29,7 @@ export function DataSourceBadge({
     return (
       <div className="relative inline-block">
         <div
-          className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-green-100 text-green-800 border border-green-200 cursor-help ${className || ''}`}
+          className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-md bg-green-100 text-green-800 border border-green-200 cursor-help ${className || ''}`}
           onMouseEnter={() => setShowTooltip(true)}
           onMouseLeave={() => setShowTooltip(false)}
         >
@@ -53,7 +53,7 @@ export function DataSourceBadge({
   return (
     <div className="relative inline-block">
       <div
-        className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-orange-100 text-orange-800 border border-orange-200 cursor-help ${className || ''}`}
+        className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-md bg-orange-100 text-orange-800 border border-orange-200 cursor-help ${className || ''}`}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
       >

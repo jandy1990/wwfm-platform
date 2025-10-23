@@ -30,7 +30,7 @@ export default function GoalWisdom({ goalId, wisdom, minResponses = 1 }: Props) 
   // Determine sentiment styling
   const getSentiment = (value: number) => {
     if (value >= 4) return { text: 'Very High Impact', color: 'text-green-600', bg: 'bg-green-50', darkBg: 'dark:bg-green-900/20' }
-    if (value >= 3) return { text: 'Moderate Impact', color: 'text-blue-600', bg: 'bg-blue-50', darkBg: 'dark:bg-blue-900/20' }
+    if (value >= 3) return { text: 'Moderate Impact', color: 'text-purple-600', bg: 'bg-purple-50', darkBg: 'dark:bg-purple-900/20' }
     if (value >= 2) return { text: 'Low Impact', color: 'text-orange-600', bg: 'bg-orange-50', darkBg: 'dark:bg-orange-900/20' }
     return { text: 'Minimal Impact', color: 'text-red-600', bg: 'bg-red-50', darkBg: 'dark:bg-red-900/20' }
   }
@@ -40,7 +40,7 @@ export default function GoalWisdom({ goalId, wisdom, minResponses = 1 }: Props) 
   // COMPACT VIEW - Single line, this is the default
   if (!isExpanded) {
     return (
-      <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/10 dark:to-blue-900/10 rounded-lg px-6 py-4 mb-6">
+      <div className="bg-gradient-to-r from-purple-50 to-purple-50 dark:from-purple-900/10 dark:to-purple-900/10 rounded-lg px-6 py-4 mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4 flex-wrap">
             <span className="text-xl">💭</span>
@@ -77,7 +77,7 @@ export default function GoalWisdom({ goalId, wisdom, minResponses = 1 }: Props) 
 
   // EXPANDED VIEW - Only when user clicks "View details"
   return (
-    <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/10 dark:to-blue-900/10 rounded-xl p-6 mb-6">
+    <div className="bg-gradient-to-r from-purple-50 to-purple-50 dark:from-purple-900/10 dark:to-purple-900/10 rounded-xl p-6 mb-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <span className="text-2xl">💭</span>

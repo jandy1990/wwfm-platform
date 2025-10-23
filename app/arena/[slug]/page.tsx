@@ -141,7 +141,7 @@ export default async function ArenaPage({ params }: ArenaPageProps) {
             <Link
               key={goal.id}
               href={`/goal/${goal.id}`}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-4 sm:p-6 min-h-[120px] flex flex-col focus:ring-2 focus:ring-blue-500 focus:outline-none border border-gray-200 dark:border-gray-700"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-4 sm:p-6 min-h-[120px] flex flex-col focus:ring-2 focus:ring-purple-500 focus:outline-none border border-gray-200 dark:border-gray-700"
             >
               <div className="flex items-center gap-3 mb-3">
                 {goal.emoji && (
@@ -155,7 +155,7 @@ export default async function ArenaPage({ params }: ArenaPageProps) {
               </div>
               <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-auto">
                 <span>{goal.solution_count} solution{goal.solution_count !== 1 ? 's' : ''} • {goal.view_count || 0} views</span>
-                <span className="text-blue-600 dark:text-blue-400">View solutions →</span>
+                <span className="text-purple-600 dark:text-purple-400">View solutions →</span>
               </div>
             </Link>
           ))}

@@ -63,10 +63,10 @@ export function MilestonesCard({ userId }: MilestonesCardProps) {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow border-2 border-gray-300 dark:border-gray-700 p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+        <h2 className="text-2xl font-black tracking-tight text-gray-900 dark:text-gray-100">
           Your Journey
         </h2>
         <div className="text-sm font-semibold text-gray-500 dark:text-gray-400">
@@ -104,7 +104,7 @@ export function MilestonesCard({ userId }: MilestonesCardProps) {
           </div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
             <div
-              className="bg-gradient-to-r from-amber-400 to-yellow-400 h-2 rounded-full transition-all duration-500"
+              className="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full transition-all duration-500"
               style={{ width: `${pointsData.nextMilestone.progress}%` }}
             />
           </div>
@@ -151,7 +151,7 @@ export function MilestonesCard({ userId }: MilestonesCardProps) {
                     : achieved
                     ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800'
                     : isNextToUnlock
-                    ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800'
+                    ? 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800'
                     : 'bg-gray-50 dark:bg-gray-900/20 border-gray-200 dark:border-gray-700 opacity-60'
                 }`}
               >
@@ -168,12 +168,12 @@ export function MilestonesCard({ userId }: MilestonesCardProps) {
                           <>
                             {milestone.name}
                             {isCurrent && (
-                              <span className="text-xs px-2 py-0.5 bg-amber-400 text-white rounded-full">
+                              <span className="text-xs px-2 py-0.5 bg-purple-500 text-white rounded-full">
                                 Current
                               </span>
                             )}
                             {isNextToUnlock && (
-                              <span className="text-xs px-2 py-0.5 bg-blue-500 text-white rounded-full">
+                              <span className="text-xs px-2 py-0.5 bg-purple-500 text-white rounded-full">
                                 Next
                               </span>
                             )}

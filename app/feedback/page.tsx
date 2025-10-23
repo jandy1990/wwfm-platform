@@ -25,7 +25,7 @@ export default function FeedbackPage() {
                   name="type"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   required
                 >
                   <option value="">Select type...</option>
@@ -52,7 +52,7 @@ export default function FeedbackPage() {
                   placeholder="Brief summary of your feedback..."
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   required
                 />
               </div>
@@ -71,7 +71,7 @@ export default function FeedbackPage() {
                   placeholder="Please provide as much detail as possible..."
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   required
                 />
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
@@ -93,7 +93,7 @@ export default function FeedbackPage() {
                   placeholder="your@email.com"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 />
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                   Provide your email if you'd like us to follow up with you.
@@ -102,8 +102,8 @@ export default function FeedbackPage() {
 
               <button
                 type="submit"
-                className="w-full md:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg
-                         transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="w-full md:w-auto px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg
+                         transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
                 Submit Feedback
               </button>

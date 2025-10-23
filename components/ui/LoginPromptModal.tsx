@@ -85,7 +85,7 @@ export default function LoginPromptModal({
           aria-labelledby="login-modal-title"
         >
           {/* Header */}
-          <div className="relative bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/10 dark:to-blue-900/10 px-6 py-5 rounded-t-xl border-b border-gray-200 dark:border-gray-700">
+          <div className="relative bg-gradient-to-r from-purple-50 to-purple-50 dark:from-purple-900/10 dark:to-purple-900/10 px-6 py-5 rounded-t-xl border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <span className="text-3xl">🔓</span>
@@ -120,7 +120,7 @@ export default function LoginPromptModal({
                   key={index}
                   className="flex items-start gap-3 text-sm text-gray-700 dark:text-gray-300"
                 >
-                  <span className="flex-shrink-0 mt-0.5 text-green-500 dark:text-green-400">✓</span>
+                  <span className="flex-shrink-0 mt-0.5 text-purple-500 dark:text-green-400">✓</span>
                   <span>{benefit}</span>
                 </div>
               ))}
@@ -136,12 +136,13 @@ export default function LoginPromptModal({
                 }}
                 className="
                   w-full
-                  bg-gradient-to-r from-purple-600 to-blue-600
-                  hover:from-purple-700 hover:to-blue-700
+                  bg-gradient-to-r from-purple-600 to-purple-600
+                  hover:from-purple-700 hover:to-purple-700
                   text-white
                   font-semibold
                   py-3.5 px-6
                   rounded-lg
+                  border-2 border-purple-700
                   transition-all duration-200
                   shadow-md hover:shadow-xl
                   transform hover:-translate-y-0.5
@@ -162,7 +163,7 @@ export default function LoginPromptModal({
                   border-2 border-gray-300 dark:border-gray-600
                   hover:border-purple-300 dark:hover:border-purple-700
                   text-gray-700 dark:text-gray-200
-                  font-medium
+                  font-semibold
                   py-3 px-6
                   rounded-lg
                   transition-all duration-200

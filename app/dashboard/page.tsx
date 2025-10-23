@@ -190,7 +190,7 @@ export default function DashboardPage() {
                   <div className="flex items-center gap-2">
                     <span className="font-medium">Member:</span>
                     <div className="flex items-center gap-2">
-                      <span className={`font-mono font-semibold ${getMemberBadge(memberNumber).color || 'text-blue-600 dark:text-blue-400'}`}>
+                      <span className={`font-mono font-semibold ${getMemberBadge(memberNumber).color || 'text-purple-600 dark:text-purple-400'}`}>
                         {formatMemberNumber(memberNumber)}
                       </span>
                       {getMemberBadge(memberNumber).emoji && (
@@ -201,7 +201,7 @@ export default function DashboardPage() {
                       {getMemberBadge(memberNumber).label && (
                         <span className={`text-xs px-2 py-0.5 rounded-full ${
                           getMemberBadge(memberNumber).special
-                            ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold'
+                            ? 'bg-gradient-to-r from-purple-600 to-orange-500 text-white font-semibold'
                             : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
                         }`}>
                           {getMemberBadge(memberNumber).label}

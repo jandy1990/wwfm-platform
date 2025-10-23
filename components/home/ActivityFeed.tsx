@@ -44,7 +44,7 @@ function ActivityCard({ event }: ActivityCardProps) {
             Someone rated <span className="font-medium text-purple-600 dark:text-purple-400">{event.solutionTitle}</span> for{' '}
             <span className="font-medium">{event.goalTitle}</span>
             {event.rating && (
-              <span className="ml-2 text-yellow-600 dark:text-yellow-400">
+              <span className="ml-2 text-yellow-600 dark:text-purple-600">
                 {event.rating}★
               </span>
             )}
@@ -74,7 +74,7 @@ function ActivityCard({ event }: ActivityCardProps) {
             New solution added: <span className="font-medium text-purple-600 dark:text-purple-400">{event.solutionTitle}</span> for{' '}
             <span className="font-medium">{event.goalTitle}</span>
             {event.rating && (
-              <span className="ml-2 text-yellow-600 dark:text-yellow-400">
+              <span className="ml-2 text-yellow-600 dark:text-purple-600">
                 {event.rating}★ avg
               </span>
             )}
@@ -86,7 +86,7 @@ function ActivityCard({ event }: ActivityCardProps) {
   };
 
   return (
-    <div className="flex items-start space-x-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+    <div className="flex items-start space-x-3 p-4 bg-white dark:bg-gray-800 rounded-lg border-2 border-gray-200 dark:border-gray-700">
       <div className="flex-shrink-0 flex items-center space-x-2">
         <div className="text-lg">{event.goalEmoji}</div>
         <div className="text-sm">{getActivityIcon(event.activityType)}</div>
@@ -113,7 +113,7 @@ export default function ActivityFeed({ events }: ActivityFeedProps) {
             Recent Activity
           </h2>
           <div className="text-center text-gray-600 dark:text-gray-400">
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-8 border border-gray-200 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-8 border-2 border-gray-200 dark:border-gray-700">
               <div className="text-4xl mb-4">🌱</div>
               <p className="text-lg mb-2">Getting started...</p>
               <p className="text-sm">Be the first to rate a solution or join a discussion!</p>

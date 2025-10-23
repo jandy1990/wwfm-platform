@@ -49,7 +49,7 @@ export default function GoalActionBar({
                 id="sort-solutions"
                 value={currentSort}
                 onChange={(e) => onSortChange(e.target.value)}
-                className="text-sm border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[40px]"
+                className="text-sm border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-purple-500 focus:border-transparent min-h-[40px]"
               >
                 {sortOptions.map(option => (
                   <option key={option.value} value={option.value}>
@@ -72,7 +72,7 @@ export default function GoalActionBar({
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
                 aria-label="Copy goal link"
-                className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors min-h-[40px] min-w-[40px] flex items-center justify-center focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors min-h-[40px] min-w-[40px] flex items-center justify-center focus:ring-2 focus:ring-purple-500 focus:outline-none"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -114,7 +114,7 @@ export default function GoalActionBar({
             {/* Share What Worked button - Always visible */}
             <Link
               href={`/goal/${goalId}/add-solution`}
-              className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white text-sm font-medium rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-blue-500 focus:outline-none min-h-[40px]"
+              className="inline-flex items-center px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white text-sm font-medium rounded-md hover:bg-purple-700 dark:hover:bg-purple-600 transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-purple-500 focus:outline-none min-h-[40px]"
             >
               <svg className="w-4 h-4 mr-2 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

@@ -126,7 +126,7 @@ export default function AddDiscussionForm({
             ? "Share your thoughts..."
             : "Share your experience, insights, challenges, or advice about working toward this goal..."
           }
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-gray-100 resize-y min-h-[120px]"
+          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-800 dark:text-gray-100 resize-y min-h-[120px]"
           disabled={isSubmitting}
         />
         <div className="flex justify-between items-center mt-2">
@@ -159,7 +159,7 @@ export default function AddDiscussionForm({
         <button
           type="submit"
           disabled={isSubmitting || content.trim().length < 10}
-          className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
+          className="px-6 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
         >
           {isSubmitting ? 'Posting...' : (parentId ? 'Reply' : 'Post Discussion')}
         </button>

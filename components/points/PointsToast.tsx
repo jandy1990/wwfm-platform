@@ -68,7 +68,7 @@ export function PointsToast({ data, onDismiss }: PointsToastProps) {
               </div>
 
               {multiplier && multiplier > 1 && (
-                <div className="mt-2 text-xs text-amber-600 dark:text-amber-400 font-medium">
+                <div className="mt-2 text-xs text-amber-600 dark:text-purple-500 font-medium">
                   Early adopter: ×{multiplier.toFixed(1)} multiplier
                 </div>
               )}
@@ -95,7 +95,7 @@ export function PointsToast({ data, onDismiss }: PointsToastProps) {
         {/* Progress Bar */}
         <div className="h-1 bg-gray-100 dark:bg-gray-700">
           <div
-            className="h-full bg-gradient-to-r from-amber-400 to-yellow-400 transition-all duration-100"
+            className="h-full bg-gradient-to-r from-purple-500 to-purple-600 transition-all duration-100"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -113,7 +113,7 @@ export function PointsToast({ data, onDismiss }: PointsToastProps) {
               animationDelay: `${i * 100}ms`
             }}
           >
-            <span className="text-amber-400 text-xs">✨</span>
+            <span className="text-purple-500 text-xs">✨</span>
           </div>
         ))}
       </div>

@@ -27,7 +27,7 @@ export const SustainabilityMetricField: React.FC<SustainabilityMetricFieldProps>
   
   // Color logic based on percentage
   const getBarColor = (percentage: number): string => {
-    if (percentage >= 60) return 'bg-green-500';
+    if (percentage >= 60) return 'bg-purple-500';
     if (percentage >= 40) return 'bg-yellow-500';
     return 'bg-orange-500';
   };
