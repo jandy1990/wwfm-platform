@@ -49,7 +49,7 @@ export default function ContributePage() {
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="max-w-md mx-auto px-4 text-center">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+            <h1 className="text-3xl md:text-4xl font-black tracking-tight text-gray-900 dark:text-gray-100 mb-4">
               Select a Goal First
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
@@ -57,7 +57,7 @@ export default function ContributePage() {
             </p>
             <button
               onClick={() => router.push('/browse')}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
             >
               Browse Goals
             </button>
@@ -72,10 +72,10 @@ export default function ContributePage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+          <h1 className="text-4xl md:text-5xl font-black tracking-tight text-gray-900 dark:text-gray-100 mb-4">
             Share What Worked For You
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-lg text-gray-600 dark:text-gray-400">
             Help others by sharing solutions that made a real difference in your life.
             Your experience could be exactly what someone else needs to hear.
           </p>

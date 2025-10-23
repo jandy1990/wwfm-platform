@@ -23,7 +23,7 @@ export default function ArenaValueInsights({
   if (insights.length === 0) {
     return (
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
           Time & Long-term Value by Arena
         </h2>
       </div>
@@ -35,7 +35,7 @@ export default function ArenaValueInsights({
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
       <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
           Time & Long-term Value by Arena
         </h2>
       </div>

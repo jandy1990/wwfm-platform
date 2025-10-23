@@ -15,12 +15,20 @@ async function waitForFormSuccess(page: Page): Promise<void> {
     await page.waitForSelector('text="Thank you for sharing!"', { timeout: 60000 })
     console.log('✅ Success screen appeared')
   } catch (error) {
-    console.log('⚠️ Success screen did not appear within 60 seconds')
+    console.log('❌ Success screen did not appear within 60 seconds')
     // Log what's on the page for debugging
     const pageText = await page.textContent('body')
     if (pageText?.includes('already rated')) {
       console.log('Note: Solution was already rated')
+      throw new Error('Form submission failed: Solution was already rated for this goal')
     }
+    // Check for other error indicators
+    if (pageText?.includes('error') || pageText?.includes('Error') || pageText?.includes('failed')) {
+      console.log('Error detected on page:', pageText?.substring(0, 500))
+      throw new Error('Form submission failed: Error message detected on page')
+    }
+    // If no specific error found, throw generic timeout error
+    throw new Error('Success screen did not appear within 60 seconds - submission likely failed')
   }
 }
 
@@ -670,28 +678,55 @@ export async function fillSessionForm(page: Page, category: string) {
   
   // Select cost range using the Shadcn Select component
   console.log('Looking for cost range Select trigger...');
-  
+
   // The cost range Select should be visible now
-  // Look for the SelectTrigger that contains cost range placeholder text
-  const costRangeTrigger = page.locator('button[role="combobox"]').filter({ hasText: 'Select cost range' }).first();
-  const hasCostRangeTrigger = await costRangeTrigger.isVisible().catch(() => false);
+  // Strategy: Find the first combobox button (cost range) vs second (session frequency)
+  // Cost range has no label, session frequency has label "Session frequency" or "How often?"
+  // So we find all comboboxes and take the one that does NOT have "How often" text
+  const allComboboxes = page.locator('button[role="combobox"]');
+  const comboboxCount = await allComboboxes.count();
+  console.log(`Found ${comboboxCount} total comboboxes on page`);
+
+  // Find cost range by process of elimination - it's NOT the one with "How often" placeholder
+  let costRangeTrigger = null;
+  for (let i = 0; i < comboboxCount; i++) {
+    const box = allComboboxes.nth(i);
+    const text = await box.textContent().catch(() => '');
+    console.log(`Combobox ${i}: "${text}"`);
+
+    // Cost range shows either "Select cost range" or the selected value like "Under $50"
+    // Skip boxes that have recognizable other placeholders
+    if (!text.includes('How often') &&
+        !text.includes('Select format') &&
+        !text.includes('How long') &&
+        !text.includes('Select service type') &&
+        !text.includes('How quickly')) {
+      console.log(`Matched cost range combobox at index ${i}`);
+      costRangeTrigger = box;
+      break;
+    }
+  }
+
+  const hasCostRangeTrigger = costRangeTrigger ? await costRangeTrigger.isVisible().catch(() => false) : false;
   
   if (hasCostRangeTrigger) {
     console.log('Found cost range Select trigger, clicking...');
     await costRangeTrigger.click();
     await page.waitForTimeout(500);
-    
+
     // Wait for dropdown content to appear
     await page.waitForSelector('[role="option"]', { timeout: 3000 });
-    
+
     // Select appropriate option based on category
     let selectedOption = false;
-    
+    let expectedValue = '';
+
     if (category === 'crisis_resources') {
       // crisis_resources has different options: Free, Donation-based, Sliding scale, Don't remember
       const freeOption = page.locator('[role="option"]').filter({ hasText: 'Free' }).first();
       if (await freeOption.isVisible().catch(() => false)) {
         await freeOption.click();
+        expectedValue = 'Free';
         console.log('Selected cost range: Free');
         selectedOption = true;
       }
@@ -701,18 +736,67 @@ export async function fillSessionForm(page: Page, category: string) {
       const costOption = page.locator('[role="option"]').filter({ hasText: 'Under $50' }).first();
       if (await costOption.isVisible().catch(() => false)) {
         await costOption.click();
+        expectedValue = 'Under $50';
         console.log('Selected cost range: Under $50');
         selectedOption = true;
       }
     }
-    
+
     if (!selectedOption) {
       // Fallback: click first available option
       const firstOption = page.locator('[role="option"]').first();
       await firstOption.click();
+      expectedValue = 'first option';
       console.log('Selected first available cost range option');
     }
+
+    // CRITICAL: Wait for the dropdown to close and verify selection persisted
     await page.waitForTimeout(500);
+
+    // Verify the selection by looking for a combobox with the selected value
+    // Create a fresh locator instead of reusing the old one (which may be stale)
+    const verificationLocator = page.locator('button[role="combobox"]').filter({ hasText: expectedValue });
+    const isSelected = await verificationLocator.isVisible().catch(() => false);
+
+    console.log(`Cost range verification: ${isSelected ? '✅ Found' : '❌ Not found'} combobox with "${expectedValue}"`);
+
+    if (!isSelected) {
+      console.log('⚠️  WARNING: Cost range selection did not persist - attempting re-selection');
+
+      // Re-find the cost range combobox using same process-of-elimination logic
+      let retryTrigger = null;
+      for (let i = 0; i < comboboxCount; i++) {
+        const box = allComboboxes.nth(i);
+        const text = await box.textContent().catch(() => '');
+
+        if (!text.includes('How often') &&
+            !text.includes('Select format') &&
+            !text.includes('How long') &&
+            !text.includes('Select service type') &&
+            !text.includes('How quickly')) {
+          retryTrigger = box;
+          break;
+        }
+      }
+
+      if (retryTrigger) {
+        await retryTrigger.click();
+        await page.waitForTimeout(500);
+        if (category === 'crisis_resources') {
+          await page.locator('[role="option"]').filter({ hasText: 'Free' }).first().click();
+        } else {
+          await page.locator('[role="option"]').filter({ hasText: 'Under $50' }).first().click();
+        }
+        await page.waitForTimeout(500);
+
+        // Re-verify with fresh locator
+        const retryVerification = page.locator('button[role="combobox"]').filter({ hasText: expectedValue });
+        const retrySuccess = await retryVerification.isVisible().catch(() => false);
+        console.log(`Cost range re-verification: ${retrySuccess ? '✅ Success' : '❌ Still failed'}`);
+      }
+    } else {
+      console.log(`✅ Cost range selection verified successfully`);
+    }
   } else {
     console.log('ERROR: Cost range Select trigger not found');
     // Take a screenshot for debugging
@@ -949,105 +1033,46 @@ export async function fillSessionForm(page: Page, category: string) {
     }
 
     console.log('Response time selection completed');
+    console.log(`⏱️ Timestamp after responseTime: ${Date.now()}`);
+    // Reduced from 2000ms - testing showed timeout issue is not React re-render delay
     await page.waitForTimeout(500);
+    console.log(`⏱️ Timestamp after wait: ${Date.now()}`);
   }
-  
-  // Debug: Check form field states before clicking Continue
-  console.log('\n=== DEBUGGING FORM STATE BEFORE CONTINUE ===')
-  
-  // Check if Continue button is enabled/disabled
-  const continueBtn = page.locator('button:has-text("Continue")')
-  const isDisabled = await continueBtn.getAttribute('disabled')
-  console.log(`Continue button disabled attribute: ${isDisabled}`)
-  
-  // Check effectiveness state via DOM
-  const effectivenessSelected = await page.evaluate(() => {
-    const buttons = document.querySelectorAll('.grid.grid-cols-5 button');
-    for (let i = 0; i < buttons.length; i++) {
-      const classes = buttons[i].className;
-      if (classes.includes('border-blue-500') || classes.includes('bg-blue-50')) {
-        return i + 1; // Return 1-based rating
-      }
-    }
-    return null;
-  });
-  console.log(`Effectiveness rating from DOM: ${effectivenessSelected}`);
-  
-  // Check select field values
-  const selectCount = await page.locator('select').count();
-  console.log(`Found ${selectCount} native select elements`);
-  
-  for (let i = 0; i < selectCount; i++) {
-    const value = await page.locator('select').nth(i).inputValue();
-    console.log(`Select ${i} value: "${value}"`);
-  }
-  
-  // Check radio button state
-  const checkedRadio = await page.locator('input[type="radio"]:checked').inputValue().catch(() => 'none');
-  console.log(`Checked radio button value: ${checkedRadio}`);
-  
-  // Check cost range field specifically since it's required
-  let costRangeValue = 'skipped';
-  if (category !== 'crisis_resources') {
-    const costRangeCombobox = await page.locator('button[role="combobox"]').first();
-    costRangeValue = await costRangeCombobox.textContent().catch(() => 'error');
-    console.log(`Cost range field text: "${costRangeValue}"`);
-  } else {
-    console.log('Skipping cost range text check for crisis_resources to avoid timeout');
-  }
-  
-  // Check all required fields for validation
-  console.log(`\n=== CHECKING REQUIRED FIELDS FOR ${category} ===`);
-  console.log(`✓ Effectiveness: ${effectivenessSelected} (required: not null)`);
-  console.log(`✓ Time to results: "${timeToResults}" (required: not empty)`);
-  console.log(`✓ Cost type: "${checkedRadio}" (affects cost range visibility)`);
-  
-  if (costRangeValue && !costRangeValue.includes('Select cost range') && costRangeValue !== 'error' && costRangeValue !== 'skipped') {
-    console.log(`✅ Cost range: "${costRangeValue}" (required: not empty) - SELECTED VALUE FOUND`);
-  } else if (costRangeValue !== 'skipped') {
-    console.log(`❌ Cost range: "${costRangeValue}" (required: not empty) - PLACEHOLDER OR MISSING`);
-  }
-  console.log('=== END REQUIRED FIELDS CHECK ===\n');
-  
-  if (costRangeValue && costRangeValue.includes('Select cost range')) {
-    console.log('🔍 ISSUE IDENTIFIED: Cost range dropdown shows placeholder, not selected value');
-    console.log('    This means the cost range selection in the test is not working properly.');
-  }
-  
-  console.log('=== END DEBUG INFO ===\n')
-  
-  const continueButton = page.locator('button').filter({ hasText: /Continue/i }).first()
 
   console.log('Preparing to click Continue and advance to Step 2')
 
+  // Ultra-simple Continue button click - just find and click it
   try {
-    await continueButton.waitFor({ state: 'visible', timeout: 5000 })
+    console.log('Looking for Continue button...')
+
+    // Find ALL Continue buttons and click the first one
+    const allContinueButtons = page.locator('button:has-text("Continue")')
+    const count = await Promise.race([
+      allContinueButtons.count(),
+      new Promise<number>((_, reject) => setTimeout(() => reject(new Error('count() timed out after 2s')), 2000))
+    ])
+
+    console.log(`Found ${count} Continue buttons`)
+
+    if (count === 0) {
+      throw new Error('No Continue buttons found')
+    }
+
+    // Just click the first Continue button with force
+    console.log('Clicking first Continue button with force...')
+    await Promise.race([
+      allContinueButtons.first().click({ force: true }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('click() timed out after 3s')), 3000))
+    ])
+
+    console.log('✅ Continue button clicked')
   } catch (error) {
     if (page.isClosed()) {
-      throw new Error('Page context closed before Continue button became visible')
+      throw new Error('Page context closed before Continue button interaction')
     }
-    console.log('Continue button not visible within timeout:', error instanceof Error ? error.message : error)
-    await page.screenshot({ path: `session-form-no-continue-${category}.png` }).catch(() => {})
-    throw new Error('Continue button not available for Step 2 transition')
-  }
-
-  const continueDisabled = await continueButton.isDisabled().catch(() => false)
-  if (continueDisabled) {
-    console.log('Continue button remains disabled after filling required fields')
-    await page.screenshot({ path: 'session-form-validation-failed.png' }).catch(() => {})
-    throw new Error('Continue button remains disabled after filling all fields')
-  }
-
-  console.log('Clicking Continue with noWaitAfter and waiting for Step 2 marker')
-
-  try {
-    await continueButton.click({ noWaitAfter: true })
-  } catch (error) {
-    if (page.isClosed()) {
-      throw new Error('Page context closed while clicking Continue')
-    }
-    console.log('Regular click failed, retrying with force:', error instanceof Error ? error.message : error)
-    await continueButton.click({ force: true, noWaitAfter: true })
+    console.log('Continue button interaction failed:', error instanceof Error ? error.message : error)
+    await page.screenshot({ path: `session-form-step1-missing-${category}.png` }).catch(() => {})
+    throw new Error(`Continue button not available: ${error instanceof Error ? error.message : 'Unknown error'}`)
   }
 
   const step2Reached = await waitForStepTwo(page, category)

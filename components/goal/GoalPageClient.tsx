@@ -999,7 +999,7 @@ export default function GoalPageClient({
             </div>
             <button
               onClick={dismissBanner}
-              className="text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 text-xl leading-none"
+              className="text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 text-xl leading-none font-semibold"
               aria-label="Dismiss banner"
             >
               ×
@@ -1008,13 +1008,13 @@ export default function GoalPageClient({
         </div>
       )}
 
-      {/* Goal Header with Gradient */}
-      <div className="bg-gradient-to-b from-purple-50 to-white dark:from-purple-950/20 dark:to-gray-900 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-6 mb-0">
+      {/* Goal Header - Dark Background */}
+      <div className="bg-gray-900 dark:bg-black -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-12 mb-0">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2 flex items-center gap-2">
-                <span className="text-2xl sm:text-3xl lg:text-4xl">{goal.arenas.icon}</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-4 flex items-center gap-3">
+                <span className="text-4xl sm:text-5xl lg:text-6xl">{goal.arenas.icon}</span>
                 <span>{goal.title}</span>
               </h1>
               {/* Description removed - it was just duplicating the title with different icon */}
@@ -1033,32 +1033,32 @@ export default function GoalPageClient({
               </div>
               {/* Ratings Count */}
               <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">
+                <div className="text-2xl sm:text-3xl font-bold text-white">
                   {totalRatings}
                 </div>
-                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Ratings</div>
+                <div className="text-xs sm:text-sm text-gray-300">Ratings</div>
               </div>
             </div>
           </div>
           
           {/* Tabs */}
-          <div className="flex gap-6 mt-4 border-b border-gray-200 dark:border-gray-700">
-            <button 
+          <div className="flex gap-6 mt-6 border-b border-gray-700">
+            <button
               onClick={() => setActiveTab('solutions')}
-              className={`pb-3 text-sm font-medium transition-colors ${
+              className={`pb-3 text-sm font-semibold transition-colors ${
                 activeTab === 'solutions'
-                  ? 'text-purple-600 dark:text-purple-400 border-b-2 border-purple-600 dark:border-purple-400'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                  ? 'text-purple-400 border-b-2 border-purple-400'
+                  : 'text-gray-400 hover:text-gray-200'
               }`}
             >
               What Worked {solutions.length > 0 && `(${solutions.length})`}
             </button>
-            <button 
+            <button
               onClick={() => setActiveTab('discussions')}
-              className={`pb-3 text-sm font-medium transition-colors ${
+              className={`pb-3 text-sm font-semibold transition-colors ${
                 activeTab === 'discussions'
-                  ? 'text-purple-600 dark:text-purple-400 border-b-2 border-purple-600 dark:border-purple-400'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                  ? 'text-purple-400 border-b-2 border-purple-400'
+                  : 'text-gray-400 hover:text-gray-200'
               }`}
             >
               Community
@@ -1121,7 +1121,7 @@ export default function GoalPageClient({
                     <div className="hidden sm:flex border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden">
                       <button
                         onClick={() => setViewMode('simple')}
-                        className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+                        className={`px-3 py-1.5 text-sm font-semibold transition-colors ${
                           viewMode === 'simple'
                             ? 'bg-purple-600 text-white'
                             : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
@@ -1131,7 +1131,7 @@ export default function GoalPageClient({
                       </button>
                       <button
                         onClick={() => setViewMode('detailed')}
-                        className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+                        className={`px-3 py-1.5 text-sm font-semibold transition-colors ${
                           viewMode === 'detailed'
                             ? 'bg-purple-600 text-white'
                             : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
@@ -1810,7 +1810,7 @@ export default function GoalPageClient({
                               {relatedGoals.length > 5 && (
                                 <button
                                   onClick={() => setShowAllRelated(true)}
-                                  className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                                  className="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors font-semibold"
                                 >
                                   + {relatedGoals.length - 5} more
                                 </button>
@@ -1828,7 +1828,7 @@ export default function GoalPageClient({
               <div className="text-center py-6">
                 <button
                   onClick={() => setDisplayedSolutionsCount(prev => prev + SOLUTIONS_PER_PAGE)}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-semibold"
                   aria-label="Load more solutions"
                 >
                   <span>Load More Solutions</span>
@@ -1846,7 +1846,7 @@ export default function GoalPageClient({
                   <h3 className="font-semibold text-gray-700 dark:text-gray-300">All Related Goals</h3>
                   <button
                     onClick={() => setShowAllRelated(false)}
-                    className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                    className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 font-semibold"
                     aria-label="Show fewer related goals"
                   >
                     Show less
@@ -1887,9 +1887,9 @@ export default function GoalPageClient({
           <p className="text-sm sm:text-base text-blue-700 dark:text-blue-200 mb-4">
             Share what worked (or didn&apos;t work) for you and help others on their journey.
           </p>
-          <Link 
+          <Link
             href={`/goal/${goal.id}/add-solution`}
-            className="inline-block w-full sm:w-auto px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 font-medium"
+            className="inline-block w-full sm:w-auto px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 font-semibold"
           >
             Share What Worked
           </Link>
@@ -1907,7 +1907,7 @@ export default function GoalPageClient({
                   <div className="flex items-center gap-4">
                     <button
                       onClick={() => setDiscussionSort('newest')}
-                      className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                      className={`px-3 py-1.5 text-sm font-semibold rounded-md transition-colors ${
                         discussionSort === 'newest'
                           ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
@@ -1917,7 +1917,7 @@ export default function GoalPageClient({
                     </button>
                     <button
                       onClick={() => setDiscussionSort('most_helpful')}
-                      className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                      className={`px-3 py-1.5 text-sm font-semibold rounded-md transition-colors ${
                         discussionSort === 'most_helpful'
                           ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
@@ -1926,10 +1926,10 @@ export default function GoalPageClient({
                       Most Helpful
                     </button>
                   </div>
-                  
+
                   <button
                     onClick={() => {/* Open add discussion modal */}}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium transition-colors"
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-semibold transition-colors"
                   >
                     Add Post
                   </button>
@@ -1950,7 +1950,7 @@ export default function GoalPageClient({
       {/* Floating Share Button */}
       <Link
         href={`/goal/${goal.id}/add-solution`}
-        className="fixed bottom-6 right-6 bg-purple-600 hover:bg-purple-700 text-white px-5 py-3 rounded-full shadow-lg font-medium flex items-center gap-2 transition-all hover:scale-105"
+        className="fixed bottom-6 right-6 bg-purple-600 hover:bg-purple-700 text-white px-5 py-3 rounded-full shadow-lg font-semibold flex items-center gap-2 transition-all hover:scale-105"
       >
         <span>+</span>
         <span className="hidden sm:inline">Share What Worked</span>

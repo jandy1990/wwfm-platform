@@ -69,11 +69,9 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-16 relative">
             {/* Logo */}
-            <Link href="/" className="flex items-center space-x-2 group">
-              <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100">WWFM</span>
-              <span className="relative">
-                <span className="text-2xl">🏔️</span>
-                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white dark:via-gray-300 to-transparent opacity-0 group-hover:opacity-30 animate-shimmer"></span>
+            <Link href="/" className="flex items-center group">
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-gray-900 dark:text-gray-100">
+                WWFM<sup className="text-[0.5em] font-normal ml-0.5">™</sup>
               </span>
             </Link>
 

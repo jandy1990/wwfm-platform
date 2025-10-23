@@ -520,7 +520,7 @@ export function CommunityForm({
 
           {/* Time to results */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               When did you notice results? <span className="text-red-500">*</span>
             </label>
             <Select value={timeToResults} onValueChange={setTimeToResults} required>
@@ -557,7 +557,7 @@ export function CommunityForm({
 
           {/* Payment Frequency - Step 1 */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Payment type <span className="text-red-500">*</span>
             </label>
             <Select value={paymentFrequency} onValueChange={(value) => {
@@ -579,7 +579,7 @@ export function CommunityForm({
           {/* Cost Range - Step 2 (conditional) */}
           {paymentFrequency && (
             <div className="space-y-2 animate-slide-in">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 {paymentFrequency === 'free' ? 'Type' : 'Amount'} <span className="text-red-500">*</span>
               </label>
               <Select value={costRange} onValueChange={setCostRange} required>
@@ -631,7 +631,7 @@ export function CommunityForm({
 
           {/* Meeting frequency */}
           <div>
-            <label htmlFor="meeting_frequency" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label htmlFor="meeting_frequency" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Meeting frequency <span className="text-red-500">*</span>
             </label>
             <Select value={meetingFrequency} onValueChange={setMeetingFrequency} required>
@@ -652,7 +652,7 @@ export function CommunityForm({
 
           {/* Format */}
           <div>
-            <label htmlFor="format" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label htmlFor="format" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Format <span className="text-red-500">*</span>
             </label>
             <Select value={format} onValueChange={setFormat} required>
@@ -670,7 +670,7 @@ export function CommunityForm({
 
           {/* Group size */}
           <div>
-            <label htmlFor="group_size" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label htmlFor="group_size" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Group size <span className="text-red-500">*</span>
             </label>
             <Select value={groupSize} onValueChange={setGroupSize} required>
@@ -909,7 +909,7 @@ export function CommunityForm({
 
           {/* Optional fields in a subtle card */}
           <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 text-left max-w-md mx-auto mb-6 opacity-0 animate-[slideUp_0.5s_ease-out_0.7s_forwards]">
-            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
               Add more details (optional):
             </p>
             
@@ -978,7 +978,7 @@ export function CommunityForm({
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
-                         text-sm font-medium transition-colors"
+                         text-sm font-semibold transition-colors"
                 >
                   Submit
                 </button>
@@ -989,7 +989,7 @@ export function CommunityForm({
           <button
             onClick={() => router.push(`/goal/${goalId}`)}
             className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 
-                     rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-100 
+                     rounded-lg font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 
                      transition-all transform hover:scale-105"
           >
             Back to goal page
@@ -1040,7 +1040,7 @@ export function CommunityForm({
           <button
             onClick={() => setCurrentStep(currentStep - 1)}
             className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                     dark:hover:text-gray-200 font-medium transition-colors"
+                     dark:hover:text-gray-200 font-semibold transition-colors"
           >
             Back
           </button>
@@ -1053,7 +1053,7 @@ export function CommunityForm({
             <button
               onClick={() => setCurrentStep(currentStep + 1)}
               disabled={!canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
                 canProceedToNextStep()
                   ? 'bg-blue-600 hover:bg-blue-700 text-white'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
@@ -1065,7 +1065,7 @@ export function CommunityForm({
             <button
               onClick={handleSubmit}
               disabled={isSubmitting || !canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
                 !isSubmitting
                   ? 'bg-green-600 hover:bg-green-700 text-white'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'

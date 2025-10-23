@@ -77,10 +77,10 @@ function TrendingGoalCard({ goal }: TrendingGoalCardProps) {
 export default function TrendingGoals({ goals }: TrendingGoalsProps) {
   if (goals.length === 0) {
     return (
-      <section className="py-12 px-4">
+      <section className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-            Goals Trending This Week
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-gray-900 dark:text-white mb-6 text-center">
+            Trending Goals
           </h2>
           <div className="text-center text-gray-600 dark:text-gray-400">
             <p>Check back soon for trending goals!</p>
@@ -91,11 +91,11 @@ export default function TrendingGoals({ goals }: TrendingGoalsProps) {
   }
 
   return (
-    <section className="py-12 px-4">
+    <section className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-            Goals Trending This Week
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-gray-900 dark:text-white">
+            Trending Goals
           </h2>
           <Link
             href="/browse"
@@ -110,15 +110,6 @@ export default function TrendingGoals({ goals }: TrendingGoalsProps) {
             <TrendingGoalCard key={goal.id} goal={goal} />
           ))}
         </div>
-
-        {/* Show activity stats if we have trending data */}
-        {goals.some(g => g.recentRatings > 0) && (
-          <div className="mt-8 text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              {goals.reduce((sum, g) => sum + g.recentRatings, 0)} new ratings this week across trending goals
-            </p>
-          </div>
-        )}
       </div>
     </section>
   );

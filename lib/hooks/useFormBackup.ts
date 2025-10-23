@@ -16,6 +16,12 @@ export function useFormBackup<T extends Record<string, unknown>>(
   const { debounceMs = 500, excludeFields = [], onRestore } = options || {};
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const hasRestoredRef = useRef(false);
+  const formDataRef = useRef<T>(formData);
+
+  // Update ref when formData changes (doesn't trigger re-renders)
+  useEffect(() => {
+    formDataRef.current = formData;
+  });
 
   // Save data to sessionStorage (debounced)
   const saveBackup = useCallback(() => {
@@ -25,8 +31,8 @@ export function useFormBackup<T extends Record<string, unknown>>(
 
     timeoutRef.current = setTimeout(() => {
       try {
-        // Filter out excluded fields
-        const dataToSave = Object.entries(formData).reduce<Partial<T>>((acc, [field, value]) => {
+        // Filter out excluded fields - use ref to access latest formData
+        const dataToSave = Object.entries(formDataRef.current).reduce<Partial<T>>((acc, [field, value]) => {
           if (!excludeFields.includes(field)) {
             (acc as Record<string, unknown>)[field] = value;
           }
@@ -35,7 +41,7 @@ export function useFormBackup<T extends Record<string, unknown>>(
 
         // Only save if there's actual data
         const hasData = Object.values(dataToSave).some(
-          value => value !== null && value !== undefined && value !== '' && 
+          value => value !== null && value !== undefined && value !== '' &&
           (Array.isArray(value) ? value.length > 0 : true)
         );
 
@@ -46,7 +52,7 @@ export function useFormBackup<T extends Record<string, unknown>>(
         console.error('Failed to save form backup:', error);
       }
     }, debounceMs);
-  }, [key, formData, excludeFields, debounceMs]);
+  }, [key, excludeFields, debounceMs]);
 
   // Restore data from sessionStorage
   const restoreBackup = useCallback((): Partial<T> | null => {
@@ -97,9 +103,11 @@ export function useFormBackup<T extends Record<string, unknown>>(
   }, [restoreBackup, onRestore]);
 
   // Save backup whenever form data changes
+  // Note: saveBackup is stable (doesn't depend on formData), so only formData in deps
   useEffect(() => {
     saveBackup();
-  }, [formData, saveBackup]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData]);
 
   // Cleanup on unmount
   useEffect(() => {

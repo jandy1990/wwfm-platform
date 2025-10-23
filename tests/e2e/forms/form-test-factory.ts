@@ -271,8 +271,8 @@ export function createFormTest(config: FormTestConfig) {
               error: supabaseData.error,
               solutionId: supabaseData.solution?.id,
               variantCount: supabaseData.variants?.length,
-              linkCount: supabaseData.summary.linkCount,
-              ratingCount: supabaseData.summary.ratingCount
+              linkCount: supabaseData.summary?.linkCount ?? 0,
+              ratingCount: supabaseData.summary?.ratingCount ?? 0
             })
 
             if (supabaseData.success) {
@@ -287,12 +287,12 @@ export function createFormTest(config: FormTestConfig) {
 
           // Check that data was saved
           expect(supabaseData.success).toBe(true)
-          expect(supabaseData.summary.hasLinks).toBe(true)
-          expect(supabaseData.summary.hasRatings).toBe(true)
-          
+          expect(supabaseData.summary?.hasLinks ?? false).toBe(true)
+          expect(supabaseData.summary?.hasRatings ?? false).toBe(true)
+
           console.log(`✅ Verified in Supabase:`, {
-            links: supabaseData.summary.linkCount,
-            ratings: supabaseData.summary.ratingCount
+            links: supabaseData.summary?.linkCount ?? 0,
+            ratings: supabaseData.summary?.ratingCount ?? 0
           })
           
           // Also run original verification

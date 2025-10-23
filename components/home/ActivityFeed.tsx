@@ -107,9 +107,9 @@ function ActivityCard({ event }: ActivityCardProps) {
 export default function ActivityFeed({ events }: ActivityFeedProps) {
   if (events.length === 0) {
     return (
-      <section className="py-12 px-4 bg-gray-50 dark:bg-gray-900">
+      <section className="py-20 px-4 bg-white dark:bg-gray-50">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-gray-900 dark:text-gray-900 mb-6 text-center">
             Recent Activity
           </h2>
           <div className="text-center text-gray-600 dark:text-gray-400">
@@ -125,9 +125,9 @@ export default function ActivityFeed({ events }: ActivityFeedProps) {
   }
 
   return (
-    <section className="py-12 px-4 bg-gray-50 dark:bg-gray-900">
+    <section className="py-20 px-4 bg-white dark:bg-gray-50">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+        <h2 className="text-3xl md:text-4xl font-black tracking-tight text-gray-900 dark:text-gray-900 mb-6">
           Recent Activity
         </h2>
 
@@ -136,14 +136,6 @@ export default function ActivityFeed({ events }: ActivityFeedProps) {
             <ActivityCard key={`${event.activityType}-${event.createdAt.getTime()}-${idx}`} event={event} />
           ))}
         </div>
-
-        {events.length >= 10 && (
-          <div className="mt-8 text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Showing recent activity from the last 24 hours
-            </p>
-          </div>
-        )}
       </div>
     </section>
   );

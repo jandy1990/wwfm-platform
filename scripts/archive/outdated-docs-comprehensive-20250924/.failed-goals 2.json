@@ -1,0 +1,3986 @@
+[
+  {
+    "goalId": "2dfb4085-c5f3-484f-868f-062abb371077",
+    "title": "Mentor young people",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-08-30T23:09:45.911Z"
+  },
+  {
+    "goalId": "75f672d2-518a-4587-b8b5-b2914d9ed3ba",
+    "title": "Create will/estate plan",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:24.892Z"
+  },
+  {
+    "goalId": "f54b624a-33d1-4ad2-8de5-15b6d458e2bc",
+    "title": "Date after divorce",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:24.896Z"
+  },
+  {
+    "goalId": "4dbf47c6-8077-4441-a536-9d459c2436b2",
+    "title": "Deal with body odor",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:24.900Z"
+  },
+  {
+    "goalId": "c06ce272-50b1-424d-ac13-fade70b170b6",
+    "title": "Deal with excessive sweating",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:24.903Z"
+  },
+  {
+    "goalId": "9ece109e-ccc4-4010-b4ae-b216074843dd",
+    "title": "Deal with hair loss",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:24.906Z"
+  },
+  {
+    "goalId": "668a9ad9-8748-443c-ac4b-4eef8ee0c70d",
+    "title": "Deal with rosacea",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:24.908Z"
+  },
+  {
+    "goalId": "1331079c-b7d7-4196-91b8-5c9aece78ac1",
+    "title": "Deal with tinnitus",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:24.910Z"
+  },
+  {
+    "goalId": "4aedae73-e27d-4ed0-b261-1e725c494abb",
+    "title": "Develop growth mindset",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:24.912Z"
+  },
+  {
+    "goalId": "d6f8f5df-c34b-4239-b978-18d702f5936a",
+    "title": "Develop morning routine",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:26.919Z"
+  },
+  {
+    "goalId": "5ceb513d-b531-4e35-ad74-221cb6dff539",
+    "title": "Develop perseverance",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:26.924Z"
+  },
+  {
+    "goalId": "d8ea6191-431a-4629-8609-3ef21c0f53e0",
+    "title": "Develop social ease",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:26.927Z"
+  },
+  {
+    "goalId": "3aa0902d-a5bd-4d6e-aaff-767a826b13a5",
+    "title": "Do a pull-up",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:26.929Z"
+  },
+  {
+    "goalId": "06055c70-39d2-4a95-9347-b7bd9696041e",
+    "title": "Drink more water",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:26.932Z"
+  },
+  {
+    "goalId": "8e859cbe-1a95-4d5d-b494-888fe85d9374",
+    "title": "Entertain on budget",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:26.937Z"
+  },
+  {
+    "goalId": "684b6862-cce5-49dd-9b1a-9f1703d76bd3",
+    "title": "Even out skin tone",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:26.940Z"
+  },
+  {
+    "goalId": "789c75b4-daf7-4a80-96c2-8dc2c0875fbc",
+    "title": "Express emotions healthily",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:26.943Z"
+  },
+  {
+    "goalId": "c833eca2-b877-46fc-9728-102e2c282904",
+    "title": "Fade scars and marks",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:26.945Z"
+  },
+  {
+    "goalId": "4bc9eecd-0815-46a8-812f-5745ae369b3e",
+    "title": "Fall asleep faster",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-04T05:53:26.947Z"
+  },
+  {
+    "goalId": "668a9ad9-8748-443c-ac4b-4eef8ee0c70d",
+    "title": "Deal with rosacea",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:49.888Z"
+  },
+  {
+    "goalId": "1331079c-b7d7-4196-91b8-5c9aece78ac1",
+    "title": "Deal with tinnitus",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:49.889Z"
+  },
+  {
+    "goalId": "4aedae73-e27d-4ed0-b261-1e725c494abb",
+    "title": "Develop growth mindset",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:49.890Z"
+  },
+  {
+    "goalId": "d6f8f5df-c34b-4239-b978-18d702f5936a",
+    "title": "Develop morning routine",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:49.890Z"
+  },
+  {
+    "goalId": "5ceb513d-b531-4e35-ad74-221cb6dff539",
+    "title": "Develop perseverance",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:49.891Z"
+  },
+  {
+    "goalId": "d8ea6191-431a-4629-8609-3ef21c0f53e0",
+    "title": "Develop social ease",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:49.891Z"
+  },
+  {
+    "goalId": "3aa0902d-a5bd-4d6e-aaff-767a826b13a5",
+    "title": "Do a pull-up",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:51.895Z"
+  },
+  {
+    "goalId": "06055c70-39d2-4a95-9347-b7bd9696041e",
+    "title": "Drink more water",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:51.896Z"
+  },
+  {
+    "goalId": "8e859cbe-1a95-4d5d-b494-888fe85d9374",
+    "title": "Entertain on budget",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:51.897Z"
+  },
+  {
+    "goalId": "684b6862-cce5-49dd-9b1a-9f1703d76bd3",
+    "title": "Even out skin tone",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:51.899Z"
+  },
+  {
+    "goalId": "789c75b4-daf7-4a80-96c2-8dc2c0875fbc",
+    "title": "Express emotions healthily",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:51.900Z"
+  },
+  {
+    "goalId": "c833eca2-b877-46fc-9728-102e2c282904",
+    "title": "Fade scars and marks",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:51.900Z"
+  },
+  {
+    "goalId": "4bc9eecd-0815-46a8-812f-5745ae369b3e",
+    "title": "Fall asleep faster",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:51.901Z"
+  },
+  {
+    "goalId": "cf23e088-e507-4160-a5bb-92152f445e78",
+    "title": "Find causes I care about",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:51.901Z"
+  },
+  {
+    "goalId": "18b9a15c-0da1-4ad4-b122-7c32de779d6e",
+    "title": "Find exercise I enjoy",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:51.902Z"
+  },
+  {
+    "goalId": "7f10f31f-5ba4-4be7-a2c0-d4d244f7aa94",
+    "title": "Find job openings",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:51.903Z"
+  },
+  {
+    "goalId": "d8855dce-d45b-4212-8ae5-19e12ec4ebb3",
+    "title": "Fix dry skin",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:53.906Z"
+  },
+  {
+    "goalId": "99981e39-0c39-4806-867d-62d36b2230ec",
+    "title": "Follow through on commitments",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:53.906Z"
+  },
+  {
+    "goalId": "f609b584-d74f-4b42-94a0-db56d1f32d3a",
+    "title": "Gain healthy weight",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:53.906Z"
+  },
+  {
+    "goalId": "b20c1a4d-cedb-4913-8864-9b31ae612e07",
+    "title": "Get a sunless tan",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:53.907Z"
+  },
+  {
+    "goalId": "0606e912-64a2-4276-8426-e11b90eef1b3",
+    "title": "Get glowing skin",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:53.907Z"
+  },
+  {
+    "goalId": "49a8e45d-6732-4738-a705-5b9f35e3a184",
+    "title": "Get more dating matches",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:53.907Z"
+  },
+  {
+    "goalId": "60c2201f-6e19-46f1-8314-7bff985af1f8",
+    "title": "Get out of debt",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:53.908Z"
+  },
+  {
+    "goalId": "c826834a-bf7e-45d4-9888-7526b8d6cba2",
+    "title": "Get over dating anxiety",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:53.908Z"
+  },
+  {
+    "goalId": "417d36d6-a456-46ab-bf73-85fa8a32bc50",
+    "title": "Get proper insurance",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:53.908Z"
+  },
+  {
+    "goalId": "ff95245c-8cd5-4dc2-a253-93dfb52b55b8",
+    "title": "Get ready for events quickly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:53.909Z"
+  },
+  {
+    "goalId": "fec1af39-041c-4fab-ae59-d827fc09063b",
+    "title": "Get second dates",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:55.912Z"
+  },
+  {
+    "goalId": "723f006e-10fa-4c09-9270-927915a46037",
+    "title": "Get stronger",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:55.914Z"
+  },
+  {
+    "goalId": "979cd4a1-ca35-4e20-aa7a-baf390264a6f",
+    "title": "Get to ideal weight",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:55.914Z"
+  },
+  {
+    "goalId": "23f16afa-0166-44c5-94ce-00797409ed92",
+    "title": "Get toned body",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:55.915Z"
+  },
+  {
+    "goalId": "6436959e-8859-46e8-af4a-139484b6f966",
+    "title": "Give back effectively",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:55.916Z"
+  },
+  {
+    "goalId": "51daef31-1271-4128-ad38-11c686598e07",
+    "title": "Grow thicker hair",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:55.916Z"
+  },
+  {
+    "goalId": "2f8b2a3e-ec14-4ac3-9fd4-faf9effe970a",
+    "title": "Handle job uncertainty",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:55.917Z"
+  },
+  {
+    "goalId": "ed1f08b5-1e65-447c-a3af-e4f6e594a7ab",
+    "title": "Handle social rejection",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:55.917Z"
+  },
+  {
+    "goalId": "cea54b7e-3d17-47f4-964a-e8e4cd06d116",
+    "title": "Have a flatter stomach",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:55.918Z"
+  },
+  {
+    "goalId": "111adb63-1916-48d4-9599-4b074c10f894",
+    "title": "Have healthier hair",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:55.918Z"
+  },
+  {
+    "goalId": "54101067-5731-4744-9b47-ce95f90a62b5",
+    "title": "Have healthy nails",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:57.923Z"
+  },
+  {
+    "goalId": "965430b3-6caf-489a-8be3-fc7930951198",
+    "title": "Heal from heartbreak",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:57.924Z"
+  },
+  {
+    "goalId": "1f467a6d-a3be-48dd-a763-049166d9a15f",
+    "title": "Help those in need",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:57.925Z"
+  },
+  {
+    "goalId": "34a3de93-f47c-4167-8ae3-e3db3a3f40d6",
+    "title": "Host confidently",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:57.926Z"
+  },
+  {
+    "goalId": "43d81f73-c2b4-4c5d-9ee0-ea44e7d2c5ae",
+    "title": "Improve balance",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:57.926Z"
+  },
+  {
+    "goalId": "f5dd1ba0-7141-4e74-a036-42ea76c01f3a",
+    "title": "Improve emotional regulation",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:57.927Z"
+  },
+  {
+    "goalId": "cf920463-3968-4813-815f-613ad1c48926",
+    "title": "Improve flexibility",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:57.927Z"
+  },
+  {
+    "goalId": "bc0e64fb-56e1-4b30-a9e8-3b80e90f650f",
+    "title": "Improve heart health",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:57.928Z"
+  },
+  {
+    "goalId": "a865f143-eec8-4e00-9300-4c34910a933b",
+    "title": "Improve home lighting",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:57.928Z"
+  },
+  {
+    "goalId": "8050920c-de2f-41bc-be0b-0a411fbfa502",
+    "title": "Improve posture",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:57.929Z"
+  },
+  {
+    "goalId": "c156fc35-fd76-4d7f-a253-59105975b58c",
+    "title": "Improve posture",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:59.932Z"
+  },
+  {
+    "goalId": "b279c24b-2032-425d-989e-105bd59240e1",
+    "title": "Keep conversations going",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:59.933Z"
+  },
+  {
+    "goalId": "6bbadd73-26d7-4e75-9248-9db7c8599e21",
+    "title": "Keep plants thriving",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:59.934Z"
+  },
+  {
+    "goalId": "a660050e-780c-44c8-be6a-1cfdfeaaf82d",
+    "title": "Land dream job",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:59.935Z"
+  },
+  {
+    "goalId": "1723df8a-dd75-4c99-8b63-29c24e36d89f",
+    "title": "Learn an instrument",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:59.935Z"
+  },
+  {
+    "goalId": "9c5ecdf7-b473-489b-9c98-866a03417710",
+    "title": "Learn new skills",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:59.936Z"
+  },
+  {
+    "goalId": "eebc1755-2d21-484c-ab4d-59eb86ac0143",
+    "title": "Learn pottery",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:59.936Z"
+  },
+  {
+    "goalId": "8b6c106c-dc95-4367-b5a2-1578a3775d35",
+    "title": "Learn self-defense",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:59.937Z"
+  },
+  {
+    "goalId": "82d7b9f1-fda0-435d-b982-d1975c75dbbf",
+    "title": "Learn to code",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:59.938Z"
+  },
+  {
+    "goalId": "e4b12be3-9570-46d1-8b0b-dbc3f2a48fe6",
+    "title": "Learn to draw",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:06:59.939Z"
+  },
+  {
+    "goalId": "1f5a3dba-9aad-4c0a-932b-7657a3842b40",
+    "title": "Learn to paint",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:01.943Z"
+  },
+  {
+    "goalId": "10ca44ca-6797-43a9-bcc6-be80d2858c8d",
+    "title": "Learn to use AI tools",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:01.944Z"
+  },
+  {
+    "goalId": "28a9df62-1511-4d0a-aebc-3b8d303f33d4",
+    "title": "Leave toxic situation",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:01.945Z"
+  },
+  {
+    "goalId": "1be300b4-6945-45c0-946e-934f1443053e",
+    "title": "Lift heavier weights",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:01.945Z"
+  },
+  {
+    "goalId": "f053571e-8118-44a4-a5c2-c3cd49a08a69",
+    "title": "Look fit in clothes",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:01.946Z"
+  },
+  {
+    "goalId": "bf74d2f1-3c7e-43b4-bf93-748afec276e9",
+    "title": "Look put together",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:01.947Z"
+  },
+  {
+    "goalId": "5c398aef-3019-4d41-a5cb-9dedaacda4ab",
+    "title": "Lose weight sustainably",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:01.947Z"
+  },
+  {
+    "goalId": "a2f36f44-eef3-4ecb-8558-18015468c04a",
+    "title": "Lower blood pressure",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:01.948Z"
+  },
+  {
+    "goalId": "f36c91a3-bb0f-4cd4-906c-337e3d8a5f3c",
+    "title": "Maintain deep focus",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:01.948Z"
+  },
+  {
+    "goalId": "a198e840-8672-4c58-99fa-51245a5492d5",
+    "title": "Maintain home value",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:01.949Z"
+  },
+  {
+    "goalId": "1187609c-fca9-4793-8ca5-3fc34ecfaf78",
+    "title": "Make guests comfortable",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:03.952Z"
+  },
+  {
+    "goalId": "bfdedb5e-b7d1-4dc8-b2ff-30cda27d6eb8",
+    "title": "Manage ADHD symptoms",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:03.954Z"
+  },
+  {
+    "goalId": "13a6540f-d793-4007-ba52-b964e35e89ee",
+    "title": "Manage autoimmune conditions",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:03.955Z"
+  },
+  {
+    "goalId": "d5f5b5c7-12d0-49ec-97be-5e97ce51a9ad",
+    "title": "Manage business finances",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:03.956Z"
+  },
+  {
+    "goalId": "3a8eae50-6c90-4fce-b069-156862871cfe",
+    "title": "Manage chronic fatigue",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:03.957Z"
+  },
+  {
+    "goalId": "dcb86734-1bbc-4ab0-8ffb-b82d75fdcd64",
+    "title": "Manage chronic pain",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:03.957Z"
+  },
+  {
+    "goalId": "98195b10-f901-4fa5-9ec1-a42b293eaed3",
+    "title": "Manage depression symptoms",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:03.958Z"
+  },
+  {
+    "goalId": "bbe1b334-f430-4722-b994-1916341d3e1a",
+    "title": "Manage eczema/psoriasis",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:03.958Z"
+  },
+  {
+    "goalId": "8747b8d3-96ff-42cf-8b9f-70a3c27a90c7",
+    "title": "Manage fibromyalgia",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:03.958Z"
+  },
+  {
+    "goalId": "d6ac7810-8b70-4c72-b23d-b33da6eb3fb5",
+    "title": "Manage frustration without outbursts",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:03.959Z"
+  },
+  {
+    "goalId": "db8a2938-5fe7-48b4-bb95-5b97747f91d7",
+    "title": "Manage IBS and gut issues",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:05.963Z"
+  },
+  {
+    "goalId": "ca9d28b4-ad04-4a0c-9cbd-5bdf9699968f",
+    "title": "Manage PCOS",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:05.964Z"
+  },
+  {
+    "goalId": "867d2275-157c-4b2c-8160-c8d3b8e641fe",
+    "title": "Manage seasonal depression",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:05.965Z"
+  },
+  {
+    "goalId": "affe3528-b5bd-4a3f-a755-37cfba95335e",
+    "title": "Manage sensitive skin",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:05.966Z"
+  },
+  {
+    "goalId": "00c29c5e-4dd3-4462-890a-d8d04d1196b1",
+    "title": "Manage thyroid issues",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:05.966Z"
+  },
+  {
+    "goalId": "31b43af1-fb4d-4c27-bb97-91ba77c3e02e",
+    "title": "Manage vertigo and dizziness",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:05.967Z"
+  },
+  {
+    "goalId": "f182860d-f579-4704-9bc6-42ebcec532f5",
+    "title": "Master everyday hairstyling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:05.968Z"
+  },
+  {
+    "goalId": "84dd439a-19c9-4a2d-ac3d-bd268d90c963",
+    "title": "Master makeup basics",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:05.968Z"
+  },
+  {
+    "goalId": "0f025c14-a321-4579-b47c-6eb01ec800e1",
+    "title": "Master phone photography",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:05.969Z"
+  },
+  {
+    "goalId": "2dfb4085-c5f3-484f-868f-062abb371077",
+    "title": "Mentor young people",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:05.969Z"
+  },
+  {
+    "goalId": "96cad06d-1aa6-4f24-89b8-f1901bd10c5d",
+    "title": "Minimize pores",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:07.971Z"
+  },
+  {
+    "goalId": "e049b4c5-6d7c-4988-b205-b6f24d1362fd",
+    "title": "Navigate autism challenges",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:07.973Z"
+  },
+  {
+    "goalId": "bbfa8698-398c-40e6-8bf5-c7dce0104c77",
+    "title": "Navigate insurance options",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:07.973Z"
+  },
+  {
+    "goalId": "552e81a6-7580-4956-a0cb-8893ce9e55b7",
+    "title": "Navigate menopause",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:07.974Z"
+  },
+  {
+    "goalId": "d652351e-6a68-4940-b79b-8e62d9f86588",
+    "title": "Network effectively",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:07.975Z"
+  },
+  {
+    "goalId": "a409f987-6ab6-4e6f-b657-85b26901d562",
+    "title": "Overcome drug abuse",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:07.975Z"
+  },
+  {
+    "goalId": "b640da48-e674-4e7d-a335-8ea29b7cb22d",
+    "title": "Overcome eating disorders",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:07.976Z"
+  },
+  {
+    "goalId": "a1bc5222-9eac-475f-b646-be07b9e052fa",
+    "title": "Pay off credit cards",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:07.976Z"
+  },
+  {
+    "goalId": "148cf4b8-c1fc-4cdb-81a1-56d62593386f",
+    "title": "Plan for emergencies",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:07.977Z"
+  },
+  {
+    "goalId": "888693d9-7498-410b-ac31-cea63ee12078",
+    "title": "Plan for healthcare costs",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:07.978Z"
+  },
+  {
+    "goalId": "6016ad82-8b88-4776-9da9-e609e61d96a7",
+    "title": "Plan for long-term care",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:09.982Z"
+  },
+  {
+    "goalId": "39790d9d-9cb3-4fda-8851-9105ad8ac7cf",
+    "title": "Practice meditation",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:09.983Z"
+  },
+  {
+    "goalId": "e6ddd417-0e78-4f20-a043-08a7de10c801",
+    "title": "Practice mindfulness",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:09.984Z"
+  },
+  {
+    "goalId": "7b0d1a0a-f65a-41d9-b1cd-afedf41d52b9",
+    "title": "Practice self-compassion",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:09.985Z"
+  },
+  {
+    "goalId": "97b7334e-74c7-44ff-a8c0-fc9643fb3789",
+    "title": "Prepare for baby",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:09.985Z"
+  },
+  {
+    "goalId": "0bceed44-3db4-4c7b-9ed4-3286ee4008b0",
+    "title": "Prepare for job loss",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:09.986Z"
+  },
+  {
+    "goalId": "287d5b7e-4fc2-40c3-94f2-500d120bc522",
+    "title": "Prevent injuries",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:09.987Z"
+  },
+  {
+    "goalId": "bf4e99ad-7afa-46f0-aab6-627a03649c64",
+    "title": "Prioritize effectively",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:09.988Z"
+  },
+  {
+    "goalId": "cfc96452-e4b1-47e2-a286-8d1d834b2af7",
+    "title": "Quiet racing mind",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:09.988Z"
+  },
+  {
+    "goalId": "6e15bc27-d903-4126-ac8c-1720f99ab561",
+    "title": "Quit drinking",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:09.989Z"
+  },
+  {
+    "goalId": "b41d3f03-a5f4-4a91-8a59-951fa97f82a8",
+    "title": "Quit marijuana dependency",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:11.991Z"
+  },
+  {
+    "goalId": "74ba0f3b-8dd8-445b-9a3b-f74271daf504",
+    "title": "Quit smoking",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:11.992Z"
+  },
+  {
+    "goalId": "cf73ce7b-8e8f-40aa-908c-6900209878a0",
+    "title": "Quit vaping",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:11.993Z"
+  },
+  {
+    "goalId": "90484cf6-5e0b-4a49-b129-ff205f1aad6f",
+    "title": "Read more books",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:11.994Z"
+  },
+  {
+    "goalId": "8616f324-f280-4902-be87-87aa7122f1f8",
+    "title": "Reduce dark circles",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:11.994Z"
+  },
+  {
+    "goalId": "35483ae2-65df-434a-a2ef-ab563e48cea9",
+    "title": "Reduce household expenses",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:11.995Z"
+  },
+  {
+    "goalId": "915e6f73-dce8-4b1d-8443-5d95d002d097",
+    "title": "Reduce household waste",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:11.996Z"
+  },
+  {
+    "goalId": "769a0120-666e-4713-a988-16ed49516158",
+    "title": "Reduce joint pain",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:11.996Z"
+  },
+  {
+    "goalId": "fd3be08f-54a8-4f4f-81f6-1ece40895b15",
+    "title": "Reduce social media use",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:11.997Z"
+  },
+  {
+    "goalId": "104d626b-eba7-4452-96e3-9cdc872e643f",
+    "title": "Relax in social settings",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:11.997Z"
+  },
+  {
+    "goalId": "f0583121-dbd5-4ebe-87c3-f8fbc1f6d13c",
+    "title": "Remember names and faces",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:14.001Z"
+  },
+  {
+    "goalId": "0cbdcf5f-a24a-46ce-b0f2-03d2d6651c72",
+    "title": "Remove age spots",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:14.003Z"
+  },
+  {
+    "goalId": "32d14d31-6384-459b-9de8-a6a436b8ff03",
+    "title": "Remove unwanted hair",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:14.004Z"
+  },
+  {
+    "goalId": "d76a03d4-27fb-4d52-960f-2791898e42d6",
+    "title": "Respond not react",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:14.005Z"
+  },
+  {
+    "goalId": "6ea319a6-88a1-4e98-8cf2-9c04ef260ed7",
+    "title": "Return after maternity/leave",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:14.005Z"
+  },
+  {
+    "goalId": "765ac51f-ca85-4d01-8711-77041fc2aedd",
+    "title": "Run my first 5K",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:14.006Z"
+  },
+  {
+    "goalId": "4a3acbc1-9ba5-430b-9ac8-d0fd53810e88",
+    "title": "Save for house",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:14.007Z"
+  },
+  {
+    "goalId": "af1e1baf-3379-43aa-a2be-6cf621d35bd6",
+    "title": "Save money consistently",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:14.007Z"
+  },
+  {
+    "goalId": "b682e7c6-4ed9-4b54-98ec-b6c84bda73d4",
+    "title": "Save on utilities",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:14.008Z"
+  },
+  {
+    "goalId": "64dedad8-83f2-41f4-af75-8af1f0a24e73",
+    "title": "Set social boundaries",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:14.008Z"
+  },
+  {
+    "goalId": "fe5c92b9-574a-4f73-940b-f312be38c181",
+    "title": "Share opinions confidently",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:16.011Z"
+  },
+  {
+    "goalId": "2869fdad-5412-44d6-99a4-bd6ba736139b",
+    "title": "Shop smarter for home",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:16.013Z"
+  },
+  {
+    "goalId": "d46ce9bb-3d80-4d94-b402-8d389e27781f",
+    "title": "Sleep peacefully",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:16.014Z"
+  },
+  {
+    "goalId": "e8fe3af7-49b9-4a54-8466-ca4775c37884",
+    "title": "Spot layoff signs",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:16.015Z"
+  },
+  {
+    "goalId": "6be41ee3-9d04-4aad-a43d-6672c90964ad",
+    "title": "Stand out from applicants",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:16.015Z"
+  },
+  {
+    "goalId": "e783dbdf-c1c7-43a3-9751-06ab573240e5",
+    "title": "Start exercising regularly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:16.016Z"
+  },
+  {
+    "goalId": "ce72cfad-9062-4e86-acad-d9a0bec51acc",
+    "title": "Start grassroots movement",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:16.017Z"
+  },
+  {
+    "goalId": "fc4cebae-2920-4b10-b89b-dcfa5ccc4f7d",
+    "title": "Start investing",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:16.017Z"
+  },
+  {
+    "goalId": "1e792f27-966f-4968-bae4-c84c84989fed",
+    "title": "Start journaling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:16.018Z"
+  },
+  {
+    "goalId": "e416cef3-ff8a-4bc1-a467-8cab2855344e",
+    "title": "Start over at 40+",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:16.019Z"
+  },
+  {
+    "goalId": "8227b511-30b7-48b5-a482-1ba46a15af9d",
+    "title": "Start side business",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:18.022Z"
+  },
+  {
+    "goalId": "91f8cf27-c3f2-47af-ad88-c39ccaea72d4",
+    "title": "Start side hustle",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:18.024Z"
+  },
+  {
+    "goalId": "41c58331-a79f-406b-a049-1abd1f8c4d6f",
+    "title": "Start support groups",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:18.025Z"
+  },
+  {
+    "goalId": "01a258a6-2414-4a12-a79d-4c58d090aabe",
+    "title": "Start writing regularly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:18.025Z"
+  },
+  {
+    "goalId": "0bfa9bd6-794a-4663-9262-9f2aa640f34e",
+    "title": "Start yoga practice",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:18.026Z"
+  },
+  {
+    "goalId": "eddd32ce-f951-4232-a80f-f1a80ec50f96",
+    "title": "Stay flexible as I age",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:18.027Z"
+  },
+  {
+    "goalId": "091e4035-81cf-4bbf-bd75-ebbeff6cab47",
+    "title": "Stay indispensable",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:18.028Z"
+  },
+  {
+    "goalId": "9522f755-f58a-4b4b-bd24-c154166a8d05",
+    "title": "Stop abusing painkillers",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:18.028Z"
+  },
+  {
+    "goalId": "016eebd2-5cb4-4e10-ba6e-1483aae4dc87",
+    "title": "Stop breakouts",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:18.029Z"
+  },
+  {
+    "goalId": "2755c4b7-7156-429e-89e9-55dca536c474",
+    "title": "Stop doomscrolling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:18.030Z"
+  },
+  {
+    "goalId": "e6de646e-9a2d-4935-a785-df4dc098684d",
+    "title": "Stop emotional eating",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:20.032Z"
+  },
+  {
+    "goalId": "fd47e075-e2e3-4f83-8f05-096bfa7585d3",
+    "title": "Stop emotional exhaustion",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:20.034Z"
+  },
+  {
+    "goalId": "2c2be634-4586-4b4b-8da8-b1a2795eb3bc",
+    "title": "Stop gambling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:20.035Z"
+  },
+  {
+    "goalId": "0f89cae2-cc94-47ef-ab16-1ad45a79b746",
+    "title": "Stop insomnia",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:20.036Z"
+  },
+  {
+    "goalId": "f7c595e0-b4bf-42ee-b93e-31cf6222c5c2",
+    "title": "Stop junk food binges",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:20.037Z"
+  },
+  {
+    "goalId": "712a1cd8-0a7b-4530-9711-d4ebff42243f",
+    "title": "Stop losing it",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:20.038Z"
+  },
+  {
+    "goalId": "823cb2dc-1b96-4f64-8de8-2ee71974ba08",
+    "title": "Stop migraines",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:20.039Z"
+  },
+  {
+    "goalId": "580ab7cb-63ae-4234-9fe4-b7e0f0fe7d9c",
+    "title": "Stop news addiction",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:20.039Z"
+  },
+  {
+    "goalId": "5a6203f4-f94f-4b2f-9e12-e980e908f0f7",
+    "title": "Stop overspending",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:20.040Z"
+  },
+  {
+    "goalId": "47a38ad8-447a-448e-868a-abedfcaa8743",
+    "title": "Stop procrastinating",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:20.041Z"
+  },
+  {
+    "goalId": "a5169243-f97b-4cc7-98ce-79c2a5ac9997",
+    "title": "Stop self-harm",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:22.044Z"
+  },
+  {
+    "goalId": "86794c43-865c-41aa-a51f-8ea77699aba1",
+    "title": "Stop yo-yo dieting",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:22.045Z"
+  },
+  {
+    "goalId": "27cf196e-c0d2-461b-94b2-89f6143f189b",
+    "title": "Study philosophy",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:22.046Z"
+  },
+  {
+    "goalId": "9b2827a2-09df-40c0-8c64-e2bc998c55ec",
+    "title": "Support education",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:22.047Z"
+  },
+  {
+    "goalId": "a0473f4c-8367-45e3-9d43-ef99858a95b7",
+    "title": "Support refugees and immigrants",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:22.047Z"
+  },
+  {
+    "goalId": "be505954-61b9-46b1-81ec-3c7ca0fefde0",
+    "title": "Support youth programs",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:22.048Z"
+  },
+  {
+    "goalId": "dca1334b-c2b4-417c-a880-43a7c5a39081",
+    "title": "Swim regularly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:22.049Z"
+  },
+  {
+    "goalId": "91d4a950-bb87-4570-b32d-cf4f4a4bb20d",
+    "title": "TEST - Automated Testing Goal",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:22.049Z"
+  },
+  {
+    "goalId": "45ececcb-85ed-4537-8206-4b5c541d050e",
+    "title": "Think more positively",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:22.050Z"
+  },
+  {
+    "goalId": "18fad592-e777-403d-b9b6-e9eca1e98fc2",
+    "title": "Tone my body",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:22.051Z"
+  },
+  {
+    "goalId": "97fe516b-0d28-40a4-9fbb-221e00c31d1d",
+    "title": "Track all expenses",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:24.055Z"
+  },
+  {
+    "goalId": "e8849402-8d41-48a9-9497-bb0ac1be433f",
+    "title": "Track spending",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:24.056Z"
+  },
+  {
+    "goalId": "77682cc2-1fc5-4781-a1db-e8bc10834e10",
+    "title": "Treat wrinkles",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:24.057Z"
+  },
+  {
+    "goalId": "28ee14b7-fab1-46d3-82c5-54b1004e2fe7",
+    "title": "Understand cryptocurrency",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:24.058Z"
+  },
+  {
+    "goalId": "9cbd3fad-755f-450f-8f45-a822955ab89b",
+    "title": "Understand investing",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:24.058Z"
+  },
+  {
+    "goalId": "02cdeb6e-d240-4189-9637-f020d0827287",
+    "title": "Understand personal finance basics",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:24.059Z"
+  },
+  {
+    "goalId": "d920d47a-4e2d-4499-9893-3e110fc04a23",
+    "title": "Understand taxes",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:24.060Z"
+  },
+  {
+    "goalId": "9f8f2896-177e-4414-b37a-d4345f5a22ea",
+    "title": "Update my wardrobe",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:24.060Z"
+  },
+  {
+    "goalId": "16bbe856-4eae-45f7-ae3f-2bec6185d351",
+    "title": "Update outdated skills",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:24.061Z"
+  },
+  {
+    "goalId": "fcbd935e-6531-4bd2-8410-7077674c65a5",
+    "title": "Use skills for good",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:24.062Z"
+  },
+  {
+    "goalId": "749d9acb-b15a-4d27-993e-a9ac5fc71319",
+    "title": "Volunteer meaningfully",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:26.065Z"
+  },
+  {
+    "goalId": "27f38396-bd04-4d86-9af8-5a7a8240c2ae",
+    "title": "Worry less",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:26.067Z"
+  },
+  {
+    "goalId": "94a5d0ef-fae8-4cb1-bbfa-d6a3bd8dec14",
+    "title": "Write compelling resume",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:26.067Z"
+  },
+  {
+    "goalId": "3799465a-aa48-4185-99da-459ec40579ec",
+    "title": "Write music",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-04T06:07:26.068Z"
+  },
+  {
+    "goalId": "417d36d6-a456-46ab-bf73-85fa8a32bc50",
+    "title": "Get proper insurance",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: [503 Service Unavailable] The model is overloaded. Please try again later.",
+    "timestamp": "2025-09-05T02:05:06.762Z"
+  },
+  {
+    "goalId": "ff95245c-8cd5-4dc2-a253-93dfb52b55b8",
+    "title": "Get ready for events quickly",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: [503 Service Unavailable] The model is overloaded. Please try again later.",
+    "timestamp": "2025-09-05T02:05:07.679Z"
+  },
+  {
+    "goalId": "111adb63-1916-48d4-9599-4b074c10f894",
+    "title": "Have healthier hair",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:22.052Z"
+  },
+  {
+    "goalId": "54101067-5731-4744-9b47-ce95f90a62b5",
+    "title": "Have healthy nails",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:24.064Z"
+  },
+  {
+    "goalId": "965430b3-6caf-489a-8be3-fc7930951198",
+    "title": "Heal from heartbreak",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:24.071Z"
+  },
+  {
+    "goalId": "1f467a6d-a3be-48dd-a763-049166d9a15f",
+    "title": "Help those in need",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:24.073Z"
+  },
+  {
+    "goalId": "34a3de93-f47c-4167-8ae3-e3db3a3f40d6",
+    "title": "Host confidently",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:24.076Z"
+  },
+  {
+    "goalId": "43d81f73-c2b4-4c5d-9ee0-ea44e7d2c5ae",
+    "title": "Improve balance",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:24.078Z"
+  },
+  {
+    "goalId": "f5dd1ba0-7141-4e74-a036-42ea76c01f3a",
+    "title": "Improve emotional regulation",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:24.079Z"
+  },
+  {
+    "goalId": "cf920463-3968-4813-815f-613ad1c48926",
+    "title": "Improve flexibility",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:24.081Z"
+  },
+  {
+    "goalId": "bc0e64fb-56e1-4b30-a9e8-3b80e90f650f",
+    "title": "Improve heart health",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:24.083Z"
+  },
+  {
+    "goalId": "a865f143-eec8-4e00-9300-4c34910a933b",
+    "title": "Improve home lighting",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:24.085Z"
+  },
+  {
+    "goalId": "8050920c-de2f-41bc-be0b-0a411fbfa502",
+    "title": "Improve posture",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:24.086Z"
+  },
+  {
+    "goalId": "c156fc35-fd76-4d7f-a253-59105975b58c",
+    "title": "Improve posture",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:26.094Z"
+  },
+  {
+    "goalId": "b279c24b-2032-425d-989e-105bd59240e1",
+    "title": "Keep conversations going",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:26.098Z"
+  },
+  {
+    "goalId": "6bbadd73-26d7-4e75-9248-9db7c8599e21",
+    "title": "Keep plants thriving",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:26.103Z"
+  },
+  {
+    "goalId": "a660050e-780c-44c8-be6a-1cfdfeaaf82d",
+    "title": "Land dream job",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:26.106Z"
+  },
+  {
+    "goalId": "1723df8a-dd75-4c99-8b63-29c24e36d89f",
+    "title": "Learn an instrument",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:26.110Z"
+  },
+  {
+    "goalId": "9c5ecdf7-b473-489b-9c98-866a03417710",
+    "title": "Learn new skills",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:26.112Z"
+  },
+  {
+    "goalId": "eebc1755-2d21-484c-ab4d-59eb86ac0143",
+    "title": "Learn pottery",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:26.115Z"
+  },
+  {
+    "goalId": "8b6c106c-dc95-4367-b5a2-1578a3775d35",
+    "title": "Learn self-defense",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:26.116Z"
+  },
+  {
+    "goalId": "82d7b9f1-fda0-435d-b982-d1975c75dbbf",
+    "title": "Learn to code",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:26.118Z"
+  },
+  {
+    "goalId": "e4b12be3-9570-46d1-8b0b-dbc3f2a48fe6",
+    "title": "Learn to draw",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:26.120Z"
+  },
+  {
+    "goalId": "1f5a3dba-9aad-4c0a-932b-7657a3842b40",
+    "title": "Learn to paint",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:28.129Z"
+  },
+  {
+    "goalId": "10ca44ca-6797-43a9-bcc6-be80d2858c8d",
+    "title": "Learn to use AI tools",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:28.135Z"
+  },
+  {
+    "goalId": "28a9df62-1511-4d0a-aebc-3b8d303f33d4",
+    "title": "Leave toxic situation",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:28.141Z"
+  },
+  {
+    "goalId": "1be300b4-6945-45c0-946e-934f1443053e",
+    "title": "Lift heavier weights",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:28.145Z"
+  },
+  {
+    "goalId": "f053571e-8118-44a4-a5c2-c3cd49a08a69",
+    "title": "Look fit in clothes",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:28.148Z"
+  },
+  {
+    "goalId": "bf74d2f1-3c7e-43b4-bf93-748afec276e9",
+    "title": "Look put together",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:28.151Z"
+  },
+  {
+    "goalId": "5c398aef-3019-4d41-a5cb-9dedaacda4ab",
+    "title": "Lose weight sustainably",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:28.153Z"
+  },
+  {
+    "goalId": "a2f36f44-eef3-4ecb-8558-18015468c04a",
+    "title": "Lower blood pressure",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:28.155Z"
+  },
+  {
+    "goalId": "f36c91a3-bb0f-4cd4-906c-337e3d8a5f3c",
+    "title": "Maintain deep focus",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:28.156Z"
+  },
+  {
+    "goalId": "a198e840-8672-4c58-99fa-51245a5492d5",
+    "title": "Maintain home value",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:28.158Z"
+  },
+  {
+    "goalId": "1187609c-fca9-4793-8ca5-3fc34ecfaf78",
+    "title": "Make guests comfortable",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:30.168Z"
+  },
+  {
+    "goalId": "bfdedb5e-b7d1-4dc8-b2ff-30cda27d6eb8",
+    "title": "Manage ADHD symptoms",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:30.172Z"
+  },
+  {
+    "goalId": "13a6540f-d793-4007-ba52-b964e35e89ee",
+    "title": "Manage autoimmune conditions",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:30.175Z"
+  },
+  {
+    "goalId": "d5f5b5c7-12d0-49ec-97be-5e97ce51a9ad",
+    "title": "Manage business finances",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:30.177Z"
+  },
+  {
+    "goalId": "3a8eae50-6c90-4fce-b069-156862871cfe",
+    "title": "Manage chronic fatigue",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:30.179Z"
+  },
+  {
+    "goalId": "dcb86734-1bbc-4ab0-8ffb-b82d75fdcd64",
+    "title": "Manage chronic pain",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:30.182Z"
+  },
+  {
+    "goalId": "98195b10-f901-4fa5-9ec1-a42b293eaed3",
+    "title": "Manage depression symptoms",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:30.183Z"
+  },
+  {
+    "goalId": "bbe1b334-f430-4722-b994-1916341d3e1a",
+    "title": "Manage eczema/psoriasis",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:30.185Z"
+  },
+  {
+    "goalId": "8747b8d3-96ff-42cf-8b9f-70a3c27a90c7",
+    "title": "Manage fibromyalgia",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:30.187Z"
+  },
+  {
+    "goalId": "d6ac7810-8b70-4c72-b23d-b33da6eb3fb5",
+    "title": "Manage frustration without outbursts",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:30.189Z"
+  },
+  {
+    "goalId": "db8a2938-5fe7-48b4-bb95-5b97747f91d7",
+    "title": "Manage IBS and gut issues",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:32.197Z"
+  },
+  {
+    "goalId": "ca9d28b4-ad04-4a0c-9cbd-5bdf9699968f",
+    "title": "Manage PCOS",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:32.203Z"
+  },
+  {
+    "goalId": "867d2275-157c-4b2c-8160-c8d3b8e641fe",
+    "title": "Manage seasonal depression",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:32.207Z"
+  },
+  {
+    "goalId": "affe3528-b5bd-4a3f-a755-37cfba95335e",
+    "title": "Manage sensitive skin",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:32.211Z"
+  },
+  {
+    "goalId": "00c29c5e-4dd3-4462-890a-d8d04d1196b1",
+    "title": "Manage thyroid issues",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:32.214Z"
+  },
+  {
+    "goalId": "31b43af1-fb4d-4c27-bb97-91ba77c3e02e",
+    "title": "Manage vertigo and dizziness",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:32.217Z"
+  },
+  {
+    "goalId": "f182860d-f579-4704-9bc6-42ebcec532f5",
+    "title": "Master everyday hairstyling",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:32.220Z"
+  },
+  {
+    "goalId": "84dd439a-19c9-4a2d-ac3d-bd268d90c963",
+    "title": "Master makeup basics",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:32.221Z"
+  },
+  {
+    "goalId": "0f025c14-a321-4579-b47c-6eb01ec800e1",
+    "title": "Master phone photography",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:32.223Z"
+  },
+  {
+    "goalId": "2dfb4085-c5f3-484f-868f-062abb371077",
+    "title": "Mentor young people",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:32.225Z"
+  },
+  {
+    "goalId": "96cad06d-1aa6-4f24-89b8-f1901bd10c5d",
+    "title": "Minimize pores",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:34.233Z"
+  },
+  {
+    "goalId": "e049b4c5-6d7c-4988-b205-b6f24d1362fd",
+    "title": "Navigate autism challenges",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:34.239Z"
+  },
+  {
+    "goalId": "bbfa8698-398c-40e6-8bf5-c7dce0104c77",
+    "title": "Navigate insurance options",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:34.244Z"
+  },
+  {
+    "goalId": "552e81a6-7580-4956-a0cb-8893ce9e55b7",
+    "title": "Navigate menopause",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:34.248Z"
+  },
+  {
+    "goalId": "d652351e-6a68-4940-b79b-8e62d9f86588",
+    "title": "Network effectively",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:34.251Z"
+  },
+  {
+    "goalId": "a409f987-6ab6-4e6f-b657-85b26901d562",
+    "title": "Overcome drug abuse",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:34.253Z"
+  },
+  {
+    "goalId": "b640da48-e674-4e7d-a335-8ea29b7cb22d",
+    "title": "Overcome eating disorders",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:34.255Z"
+  },
+  {
+    "goalId": "a1bc5222-9eac-475f-b646-be07b9e052fa",
+    "title": "Pay off credit cards",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:34.257Z"
+  },
+  {
+    "goalId": "148cf4b8-c1fc-4cdb-81a1-56d62593386f",
+    "title": "Plan for emergencies",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:34.259Z"
+  },
+  {
+    "goalId": "888693d9-7498-410b-ac31-cea63ee12078",
+    "title": "Plan for healthcare costs",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:12:34.261Z"
+  },
+  {
+    "goalId": "6016ad82-8b88-4776-9da9-e609e61d96a7",
+    "title": "Plan for long-term care",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:20.453Z"
+  },
+  {
+    "goalId": "39790d9d-9cb3-4fda-8851-9105ad8ac7cf",
+    "title": "Practice meditation",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:20.458Z"
+  },
+  {
+    "goalId": "e6ddd417-0e78-4f20-a043-08a7de10c801",
+    "title": "Practice mindfulness",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:20.466Z"
+  },
+  {
+    "goalId": "7b0d1a0a-f65a-41d9-b1cd-afedf41d52b9",
+    "title": "Practice self-compassion",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:20.470Z"
+  },
+  {
+    "goalId": "97b7334e-74c7-44ff-a8c0-fc9643fb3789",
+    "title": "Prepare for baby",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:20.472Z"
+  },
+  {
+    "goalId": "0bceed44-3db4-4c7b-9ed4-3286ee4008b0",
+    "title": "Prepare for job loss",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:20.474Z"
+  },
+  {
+    "goalId": "287d5b7e-4fc2-40c3-94f2-500d120bc522",
+    "title": "Prevent injuries",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:20.477Z"
+  },
+  {
+    "goalId": "bf4e99ad-7afa-46f0-aab6-627a03649c64",
+    "title": "Prioritize effectively",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:20.479Z"
+  },
+  {
+    "goalId": "cfc96452-e4b1-47e2-a286-8d1d834b2af7",
+    "title": "Quiet racing mind",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:20.480Z"
+  },
+  {
+    "goalId": "6e15bc27-d903-4126-ac8c-1720f99ab561",
+    "title": "Quit drinking",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:20.482Z"
+  },
+  {
+    "goalId": "b41d3f03-a5f4-4a91-8a59-951fa97f82a8",
+    "title": "Quit marijuana dependency",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:22.524Z"
+  },
+  {
+    "goalId": "74ba0f3b-8dd8-445b-9a3b-f74271daf504",
+    "title": "Quit smoking",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:22.537Z"
+  },
+  {
+    "goalId": "cf73ce7b-8e8f-40aa-908c-6900209878a0",
+    "title": "Quit vaping",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:22.542Z"
+  },
+  {
+    "goalId": "90484cf6-5e0b-4a49-b129-ff205f1aad6f",
+    "title": "Read more books",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:22.547Z"
+  },
+  {
+    "goalId": "8616f324-f280-4902-be87-87aa7122f1f8",
+    "title": "Reduce dark circles",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:22.551Z"
+  },
+  {
+    "goalId": "35483ae2-65df-434a-a2ef-ab563e48cea9",
+    "title": "Reduce household expenses",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:22.554Z"
+  },
+  {
+    "goalId": "915e6f73-dce8-4b1d-8443-5d95d002d097",
+    "title": "Reduce household waste",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:22.556Z"
+  },
+  {
+    "goalId": "769a0120-666e-4713-a988-16ed49516158",
+    "title": "Reduce joint pain",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:22.557Z"
+  },
+  {
+    "goalId": "fd3be08f-54a8-4f4f-81f6-1ece40895b15",
+    "title": "Reduce social media use",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:22.560Z"
+  },
+  {
+    "goalId": "104d626b-eba7-4452-96e3-9cdc872e643f",
+    "title": "Relax in social settings",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:22.564Z"
+  },
+  {
+    "goalId": "f0583121-dbd5-4ebe-87c3-f8fbc1f6d13c",
+    "title": "Remember names and faces",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:24.570Z"
+  },
+  {
+    "goalId": "0cbdcf5f-a24a-46ce-b0f2-03d2d6651c72",
+    "title": "Remove age spots",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:24.577Z"
+  },
+  {
+    "goalId": "32d14d31-6384-459b-9de8-a6a436b8ff03",
+    "title": "Remove unwanted hair",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:24.581Z"
+  },
+  {
+    "goalId": "d76a03d4-27fb-4d52-960f-2791898e42d6",
+    "title": "Respond not react",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:24.585Z"
+  },
+  {
+    "goalId": "6ea319a6-88a1-4e98-8cf2-9c04ef260ed7",
+    "title": "Return after maternity/leave",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:24.589Z"
+  },
+  {
+    "goalId": "765ac51f-ca85-4d01-8711-77041fc2aedd",
+    "title": "Run my first 5K",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:24.591Z"
+  },
+  {
+    "goalId": "4a3acbc1-9ba5-430b-9ac8-d0fd53810e88",
+    "title": "Save for house",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:24.593Z"
+  },
+  {
+    "goalId": "af1e1baf-3379-43aa-a2be-6cf621d35bd6",
+    "title": "Save money consistently",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:24.595Z"
+  },
+  {
+    "goalId": "b682e7c6-4ed9-4b54-98ec-b6c84bda73d4",
+    "title": "Save on utilities",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:24.598Z"
+  },
+  {
+    "goalId": "64dedad8-83f2-41f4-af75-8af1f0a24e73",
+    "title": "Set social boundaries",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:24.600Z"
+  },
+  {
+    "goalId": "fe5c92b9-574a-4f73-940b-f312be38c181",
+    "title": "Share opinions confidently",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:26.606Z"
+  },
+  {
+    "goalId": "2869fdad-5412-44d6-99a4-bd6ba736139b",
+    "title": "Shop smarter for home",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:26.608Z"
+  },
+  {
+    "goalId": "d46ce9bb-3d80-4d94-b402-8d389e27781f",
+    "title": "Sleep peacefully",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:26.610Z"
+  },
+  {
+    "goalId": "e8fe3af7-49b9-4a54-8466-ca4775c37884",
+    "title": "Spot layoff signs",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:26.612Z"
+  },
+  {
+    "goalId": "6be41ee3-9d04-4aad-a43d-6672c90964ad",
+    "title": "Stand out from applicants",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:26.614Z"
+  },
+  {
+    "goalId": "e783dbdf-c1c7-43a3-9751-06ab573240e5",
+    "title": "Start exercising regularly",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:26.616Z"
+  },
+  {
+    "goalId": "ce72cfad-9062-4e86-acad-d9a0bec51acc",
+    "title": "Start grassroots movement",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:26.618Z"
+  },
+  {
+    "goalId": "fc4cebae-2920-4b10-b89b-dcfa5ccc4f7d",
+    "title": "Start investing",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:26.620Z"
+  },
+  {
+    "goalId": "1e792f27-966f-4968-bae4-c84c84989fed",
+    "title": "Start journaling",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:26.621Z"
+  },
+  {
+    "goalId": "e416cef3-ff8a-4bc1-a467-8cab2855344e",
+    "title": "Start over at 40+",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:26.623Z"
+  },
+  {
+    "goalId": "8227b511-30b7-48b5-a482-1ba46a15af9d",
+    "title": "Start side business",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:28.630Z"
+  },
+  {
+    "goalId": "91f8cf27-c3f2-47af-ad88-c39ccaea72d4",
+    "title": "Start side hustle",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:28.636Z"
+  },
+  {
+    "goalId": "41c58331-a79f-406b-a049-1abd1f8c4d6f",
+    "title": "Start support groups",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:28.644Z"
+  },
+  {
+    "goalId": "01a258a6-2414-4a12-a79d-4c58d090aabe",
+    "title": "Start writing regularly",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:28.650Z"
+  },
+  {
+    "goalId": "0bfa9bd6-794a-4663-9262-9f2aa640f34e",
+    "title": "Start yoga practice",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:28.654Z"
+  },
+  {
+    "goalId": "eddd32ce-f951-4232-a80f-f1a80ec50f96",
+    "title": "Stay flexible as I age",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:28.656Z"
+  },
+  {
+    "goalId": "091e4035-81cf-4bbf-bd75-ebbeff6cab47",
+    "title": "Stay indispensable",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:28.658Z"
+  },
+  {
+    "goalId": "9522f755-f58a-4b4b-bd24-c154166a8d05",
+    "title": "Stop abusing painkillers",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:28.660Z"
+  },
+  {
+    "goalId": "016eebd2-5cb4-4e10-ba6e-1483aae4dc87",
+    "title": "Stop breakouts",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:28.662Z"
+  },
+  {
+    "goalId": "2755c4b7-7156-429e-89e9-55dca536c474",
+    "title": "Stop doomscrolling",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:28.664Z"
+  },
+  {
+    "goalId": "e6de646e-9a2d-4935-a785-df4dc098684d",
+    "title": "Stop emotional eating",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:30.671Z"
+  },
+  {
+    "goalId": "fd47e075-e2e3-4f83-8f05-096bfa7585d3",
+    "title": "Stop emotional exhaustion",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:30.677Z"
+  },
+  {
+    "goalId": "2c2be634-4586-4b4b-8da8-b1a2795eb3bc",
+    "title": "Stop gambling",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:30.682Z"
+  },
+  {
+    "goalId": "0f89cae2-cc94-47ef-ab16-1ad45a79b746",
+    "title": "Stop insomnia",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:30.686Z"
+  },
+  {
+    "goalId": "f7c595e0-b4bf-42ee-b93e-31cf6222c5c2",
+    "title": "Stop junk food binges",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:30.689Z"
+  },
+  {
+    "goalId": "712a1cd8-0a7b-4530-9711-d4ebff42243f",
+    "title": "Stop losing it",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:30.691Z"
+  },
+  {
+    "goalId": "823cb2dc-1b96-4f64-8de8-2ee71974ba08",
+    "title": "Stop migraines",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:30.694Z"
+  },
+  {
+    "goalId": "580ab7cb-63ae-4234-9fe4-b7e0f0fe7d9c",
+    "title": "Stop news addiction",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:30.696Z"
+  },
+  {
+    "goalId": "5a6203f4-f94f-4b2f-9e12-e980e908f0f7",
+    "title": "Stop overspending",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:30.698Z"
+  },
+  {
+    "goalId": "47a38ad8-447a-448e-868a-abedfcaa8743",
+    "title": "Stop procrastinating",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:30.700Z"
+  },
+  {
+    "goalId": "a5169243-f97b-4cc7-98ce-79c2a5ac9997",
+    "title": "Stop self-harm",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:32.706Z"
+  },
+  {
+    "goalId": "86794c43-865c-41aa-a51f-8ea77699aba1",
+    "title": "Stop yo-yo dieting",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:32.713Z"
+  },
+  {
+    "goalId": "27cf196e-c0d2-461b-94b2-89f6143f189b",
+    "title": "Study philosophy",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:32.719Z"
+  },
+  {
+    "goalId": "9b2827a2-09df-40c0-8c64-e2bc998c55ec",
+    "title": "Support education",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:32.724Z"
+  },
+  {
+    "goalId": "a0473f4c-8367-45e3-9d43-ef99858a95b7",
+    "title": "Support refugees and immigrants",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:32.727Z"
+  },
+  {
+    "goalId": "be505954-61b9-46b1-81ec-3c7ca0fefde0",
+    "title": "Support youth programs",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:32.730Z"
+  },
+  {
+    "goalId": "dca1334b-c2b4-417c-a880-43a7c5a39081",
+    "title": "Swim regularly",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:32.732Z"
+  },
+  {
+    "goalId": "91d4a950-bb87-4570-b32d-cf4f4a4bb20d",
+    "title": "TEST - Automated Testing Goal",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:32.734Z"
+  },
+  {
+    "goalId": "45ececcb-85ed-4537-8206-4b5c541d050e",
+    "title": "Think more positively",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:32.736Z"
+  },
+  {
+    "goalId": "18fad592-e777-403d-b9b6-e9eca1e98fc2",
+    "title": "Tone my body",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:32.738Z"
+  },
+  {
+    "goalId": "97fe516b-0d28-40a4-9fbb-221e00c31d1d",
+    "title": "Track all expenses",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:34.742Z"
+  },
+  {
+    "goalId": "e8849402-8d41-48a9-9497-bb0ac1be433f",
+    "title": "Track spending",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:34.746Z"
+  },
+  {
+    "goalId": "77682cc2-1fc5-4781-a1db-e8bc10834e10",
+    "title": "Treat wrinkles",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:34.748Z"
+  },
+  {
+    "goalId": "28ee14b7-fab1-46d3-82c5-54b1004e2fe7",
+    "title": "Understand cryptocurrency",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:34.751Z"
+  },
+  {
+    "goalId": "9cbd3fad-755f-450f-8f45-a822955ab89b",
+    "title": "Understand investing",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:34.754Z"
+  },
+  {
+    "goalId": "02cdeb6e-d240-4189-9637-f020d0827287",
+    "title": "Understand personal finance basics",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:34.756Z"
+  },
+  {
+    "goalId": "d920d47a-4e2d-4499-9893-3e110fc04a23",
+    "title": "Understand taxes",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:34.758Z"
+  },
+  {
+    "goalId": "9f8f2896-177e-4414-b37a-d4345f5a22ea",
+    "title": "Update my wardrobe",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:34.760Z"
+  },
+  {
+    "goalId": "16bbe856-4eae-45f7-ae3f-2bec6185d351",
+    "title": "Update outdated skills",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:34.762Z"
+  },
+  {
+    "goalId": "fcbd935e-6531-4bd2-8410-7077674c65a5",
+    "title": "Use skills for good",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:34.764Z"
+  },
+  {
+    "goalId": "749d9acb-b15a-4d27-993e-a9ac5fc71319",
+    "title": "Volunteer meaningfully",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:36.777Z"
+  },
+  {
+    "goalId": "27f38396-bd04-4d86-9af8-5a7a8240c2ae",
+    "title": "Worry less",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:36.783Z"
+  },
+  {
+    "goalId": "94a5d0ef-fae8-4cb1-bbfa-d6a3bd8dec14",
+    "title": "Write compelling resume",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:36.788Z"
+  },
+  {
+    "goalId": "3799465a-aa48-4185-99da-459ec40579ec",
+    "title": "Write music",
+    "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: fetch failed",
+    "timestamp": "2025-09-05T03:17:36.790Z"
+  },
+  {
+    "goalId": "51daef31-1271-4128-ad38-11c686598e07",
+    "title": "Grow thicker hair",
+    "error": "Failed to parse JSON even after repair: Expected ',' or '}' after property value in JSON at position 1633 (line 1 column 1634)",
+    "timestamp": "2025-09-05T14:45:01.930Z"
+  },
+  {
+    "goalId": "8050920c-de2f-41bc-be0b-0a411fbfa502",
+    "title": "Improve posture",
+    "error": "Failed to parse JSON even after repair: Expected ',' or '}' after property value in JSON at position 208 (line 1 column 209)",
+    "timestamp": "2025-09-07T04:28:31.343Z"
+  },
+  {
+    "goalId": "00c29c5e-4dd3-4462-890a-d8d04d1196b1",
+    "title": "Manage thyroid issues",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:20.299Z"
+  },
+  {
+    "goalId": "31b43af1-fb4d-4c27-bb97-91ba77c3e02e",
+    "title": "Manage vertigo and dizziness",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:20.301Z"
+  },
+  {
+    "goalId": "f182860d-f579-4704-9bc6-42ebcec532f5",
+    "title": "Master everyday hairstyling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:22.306Z"
+  },
+  {
+    "goalId": "84dd439a-19c9-4a2d-ac3d-bd268d90c963",
+    "title": "Master makeup basics",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:22.308Z"
+  },
+  {
+    "goalId": "0f025c14-a321-4579-b47c-6eb01ec800e1",
+    "title": "Master phone photography",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:22.311Z"
+  },
+  {
+    "goalId": "2dfb4085-c5f3-484f-868f-062abb371077",
+    "title": "Mentor young people",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:22.314Z"
+  },
+  {
+    "goalId": "96cad06d-1aa6-4f24-89b8-f1901bd10c5d",
+    "title": "Minimize pores",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:22.315Z"
+  },
+  {
+    "goalId": "e049b4c5-6d7c-4988-b205-b6f24d1362fd",
+    "title": "Navigate autism challenges",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:22.318Z"
+  },
+  {
+    "goalId": "bbfa8698-398c-40e6-8bf5-c7dce0104c77",
+    "title": "Navigate insurance options",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:22.320Z"
+  },
+  {
+    "goalId": "552e81a6-7580-4956-a0cb-8893ce9e55b7",
+    "title": "Navigate menopause",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:22.322Z"
+  },
+  {
+    "goalId": "d652351e-6a68-4940-b79b-8e62d9f86588",
+    "title": "Network effectively",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:22.324Z"
+  },
+  {
+    "goalId": "a409f987-6ab6-4e6f-b657-85b26901d562",
+    "title": "Overcome drug abuse",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:22.325Z"
+  },
+  {
+    "goalId": "b640da48-e674-4e7d-a335-8ea29b7cb22d",
+    "title": "Overcome eating disorders",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:24.328Z"
+  },
+  {
+    "goalId": "a1bc5222-9eac-475f-b646-be07b9e052fa",
+    "title": "Pay off credit cards",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:24.328Z"
+  },
+  {
+    "goalId": "148cf4b8-c1fc-4cdb-81a1-56d62593386f",
+    "title": "Plan for emergencies",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:24.329Z"
+  },
+  {
+    "goalId": "888693d9-7498-410b-ac31-cea63ee12078",
+    "title": "Plan for healthcare costs",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:24.330Z"
+  },
+  {
+    "goalId": "6016ad82-8b88-4776-9da9-e609e61d96a7",
+    "title": "Plan for long-term care",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:24.330Z"
+  },
+  {
+    "goalId": "39790d9d-9cb3-4fda-8851-9105ad8ac7cf",
+    "title": "Practice meditation",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:24.330Z"
+  },
+  {
+    "goalId": "e6ddd417-0e78-4f20-a043-08a7de10c801",
+    "title": "Practice mindfulness",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:24.331Z"
+  },
+  {
+    "goalId": "7b0d1a0a-f65a-41d9-b1cd-afedf41d52b9",
+    "title": "Practice self-compassion",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:24.332Z"
+  },
+  {
+    "goalId": "97b7334e-74c7-44ff-a8c0-fc9643fb3789",
+    "title": "Prepare for baby",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:24.332Z"
+  },
+  {
+    "goalId": "0bceed44-3db4-4c7b-9ed4-3286ee4008b0",
+    "title": "Prepare for job loss",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:24.332Z"
+  },
+  {
+    "goalId": "287d5b7e-4fc2-40c3-94f2-500d120bc522",
+    "title": "Prevent injuries",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:26.338Z"
+  },
+  {
+    "goalId": "bf4e99ad-7afa-46f0-aab6-627a03649c64",
+    "title": "Prioritize effectively",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:26.340Z"
+  },
+  {
+    "goalId": "cfc96452-e4b1-47e2-a286-8d1d834b2af7",
+    "title": "Quiet racing mind",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:26.342Z"
+  },
+  {
+    "goalId": "6e15bc27-d903-4126-ac8c-1720f99ab561",
+    "title": "Quit drinking",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:26.343Z"
+  },
+  {
+    "goalId": "b41d3f03-a5f4-4a91-8a59-951fa97f82a8",
+    "title": "Quit marijuana dependency",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:26.344Z"
+  },
+  {
+    "goalId": "74ba0f3b-8dd8-445b-9a3b-f74271daf504",
+    "title": "Quit smoking",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:26.345Z"
+  },
+  {
+    "goalId": "cf73ce7b-8e8f-40aa-908c-6900209878a0",
+    "title": "Quit vaping",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:26.347Z"
+  },
+  {
+    "goalId": "90484cf6-5e0b-4a49-b129-ff205f1aad6f",
+    "title": "Read more books",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:26.348Z"
+  },
+  {
+    "goalId": "8616f324-f280-4902-be87-87aa7122f1f8",
+    "title": "Reduce dark circles",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:26.349Z"
+  },
+  {
+    "goalId": "35483ae2-65df-434a-a2ef-ab563e48cea9",
+    "title": "Reduce household expenses",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:26.350Z"
+  },
+  {
+    "goalId": "915e6f73-dce8-4b1d-8443-5d95d002d097",
+    "title": "Reduce household waste",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:28.355Z"
+  },
+  {
+    "goalId": "769a0120-666e-4713-a988-16ed49516158",
+    "title": "Reduce joint pain",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:28.357Z"
+  },
+  {
+    "goalId": "fd3be08f-54a8-4f4f-81f6-1ece40895b15",
+    "title": "Reduce social media use",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:28.359Z"
+  },
+  {
+    "goalId": "104d626b-eba7-4452-96e3-9cdc872e643f",
+    "title": "Relax in social settings",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:28.362Z"
+  },
+  {
+    "goalId": "f0583121-dbd5-4ebe-87c3-f8fbc1f6d13c",
+    "title": "Remember names and faces",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:28.365Z"
+  },
+  {
+    "goalId": "0cbdcf5f-a24a-46ce-b0f2-03d2d6651c72",
+    "title": "Remove age spots",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:28.367Z"
+  },
+  {
+    "goalId": "32d14d31-6384-459b-9de8-a6a436b8ff03",
+    "title": "Remove unwanted hair",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:28.370Z"
+  },
+  {
+    "goalId": "d76a03d4-27fb-4d52-960f-2791898e42d6",
+    "title": "Respond not react",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:28.371Z"
+  },
+  {
+    "goalId": "6ea319a6-88a1-4e98-8cf2-9c04ef260ed7",
+    "title": "Return after maternity/leave",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:28.373Z"
+  },
+  {
+    "goalId": "765ac51f-ca85-4d01-8711-77041fc2aedd",
+    "title": "Run my first 5K",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:28.375Z"
+  },
+  {
+    "goalId": "4a3acbc1-9ba5-430b-9ac8-d0fd53810e88",
+    "title": "Save for house",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:30.379Z"
+  },
+  {
+    "goalId": "af1e1baf-3379-43aa-a2be-6cf621d35bd6",
+    "title": "Save money consistently",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:30.381Z"
+  },
+  {
+    "goalId": "b682e7c6-4ed9-4b54-98ec-b6c84bda73d4",
+    "title": "Save on utilities",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:30.383Z"
+  },
+  {
+    "goalId": "64dedad8-83f2-41f4-af75-8af1f0a24e73",
+    "title": "Set social boundaries",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:30.384Z"
+  },
+  {
+    "goalId": "fe5c92b9-574a-4f73-940b-f312be38c181",
+    "title": "Share opinions confidently",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:30.386Z"
+  },
+  {
+    "goalId": "2869fdad-5412-44d6-99a4-bd6ba736139b",
+    "title": "Shop smarter for home",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:30.388Z"
+  },
+  {
+    "goalId": "d46ce9bb-3d80-4d94-b402-8d389e27781f",
+    "title": "Sleep peacefully",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:30.390Z"
+  },
+  {
+    "goalId": "e8fe3af7-49b9-4a54-8466-ca4775c37884",
+    "title": "Spot layoff signs",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:30.392Z"
+  },
+  {
+    "goalId": "6be41ee3-9d04-4aad-a43d-6672c90964ad",
+    "title": "Stand out from applicants",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:30.393Z"
+  },
+  {
+    "goalId": "e783dbdf-c1c7-43a3-9751-06ab573240e5",
+    "title": "Start exercising regularly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:30.394Z"
+  },
+  {
+    "goalId": "ce72cfad-9062-4e86-acad-d9a0bec51acc",
+    "title": "Start grassroots movement",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:32.399Z"
+  },
+  {
+    "goalId": "fc4cebae-2920-4b10-b89b-dcfa5ccc4f7d",
+    "title": "Start investing",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:32.402Z"
+  },
+  {
+    "goalId": "1e792f27-966f-4968-bae4-c84c84989fed",
+    "title": "Start journaling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:32.403Z"
+  },
+  {
+    "goalId": "e416cef3-ff8a-4bc1-a467-8cab2855344e",
+    "title": "Start over at 40+",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:32.405Z"
+  },
+  {
+    "goalId": "8227b511-30b7-48b5-a482-1ba46a15af9d",
+    "title": "Start side business",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:32.406Z"
+  },
+  {
+    "goalId": "91f8cf27-c3f2-47af-ad88-c39ccaea72d4",
+    "title": "Start side hustle",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:32.408Z"
+  },
+  {
+    "goalId": "41c58331-a79f-406b-a049-1abd1f8c4d6f",
+    "title": "Start support groups",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:32.409Z"
+  },
+  {
+    "goalId": "01a258a6-2414-4a12-a79d-4c58d090aabe",
+    "title": "Start writing regularly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:32.412Z"
+  },
+  {
+    "goalId": "0bfa9bd6-794a-4663-9262-9f2aa640f34e",
+    "title": "Start yoga practice",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:32.413Z"
+  },
+  {
+    "goalId": "eddd32ce-f951-4232-a80f-f1a80ec50f96",
+    "title": "Stay flexible as I age",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:32.416Z"
+  },
+  {
+    "goalId": "091e4035-81cf-4bbf-bd75-ebbeff6cab47",
+    "title": "Stay indispensable",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:34.421Z"
+  },
+  {
+    "goalId": "9522f755-f58a-4b4b-bd24-c154166a8d05",
+    "title": "Stop abusing painkillers",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:34.424Z"
+  },
+  {
+    "goalId": "016eebd2-5cb4-4e10-ba6e-1483aae4dc87",
+    "title": "Stop breakouts",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:34.426Z"
+  },
+  {
+    "goalId": "2755c4b7-7156-429e-89e9-55dca536c474",
+    "title": "Stop doomscrolling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:34.429Z"
+  },
+  {
+    "goalId": "e6de646e-9a2d-4935-a785-df4dc098684d",
+    "title": "Stop emotional eating",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:34.430Z"
+  },
+  {
+    "goalId": "fd47e075-e2e3-4f83-8f05-096bfa7585d3",
+    "title": "Stop emotional exhaustion",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:34.433Z"
+  },
+  {
+    "goalId": "2c2be634-4586-4b4b-8da8-b1a2795eb3bc",
+    "title": "Stop gambling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:34.434Z"
+  },
+  {
+    "goalId": "0f89cae2-cc94-47ef-ab16-1ad45a79b746",
+    "title": "Stop insomnia",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:34.437Z"
+  },
+  {
+    "goalId": "f7c595e0-b4bf-42ee-b93e-31cf6222c5c2",
+    "title": "Stop junk food binges",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:34.438Z"
+  },
+  {
+    "goalId": "712a1cd8-0a7b-4530-9711-d4ebff42243f",
+    "title": "Stop losing it",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:34.440Z"
+  },
+  {
+    "goalId": "823cb2dc-1b96-4f64-8de8-2ee71974ba08",
+    "title": "Stop migraines",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:36.444Z"
+  },
+  {
+    "goalId": "580ab7cb-63ae-4234-9fe4-b7e0f0fe7d9c",
+    "title": "Stop news addiction",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:36.447Z"
+  },
+  {
+    "goalId": "5a6203f4-f94f-4b2f-9e12-e980e908f0f7",
+    "title": "Stop overspending",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:36.449Z"
+  },
+  {
+    "goalId": "47a38ad8-447a-448e-868a-abedfcaa8743",
+    "title": "Stop procrastinating",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:36.451Z"
+  },
+  {
+    "goalId": "a5169243-f97b-4cc7-98ce-79c2a5ac9997",
+    "title": "Stop self-harm",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:36.453Z"
+  },
+  {
+    "goalId": "86794c43-865c-41aa-a51f-8ea77699aba1",
+    "title": "Stop yo-yo dieting",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:36.454Z"
+  },
+  {
+    "goalId": "27cf196e-c0d2-461b-94b2-89f6143f189b",
+    "title": "Study philosophy",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:36.456Z"
+  },
+  {
+    "goalId": "9b2827a2-09df-40c0-8c64-e2bc998c55ec",
+    "title": "Support education",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:36.458Z"
+  },
+  {
+    "goalId": "a0473f4c-8367-45e3-9d43-ef99858a95b7",
+    "title": "Support refugees and immigrants",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:36.460Z"
+  },
+  {
+    "goalId": "be505954-61b9-46b1-81ec-3c7ca0fefde0",
+    "title": "Support youth programs",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:36.462Z"
+  },
+  {
+    "goalId": "dca1334b-c2b4-417c-a880-43a7c5a39081",
+    "title": "Swim regularly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:38.468Z"
+  },
+  {
+    "goalId": "91d4a950-bb87-4570-b32d-cf4f4a4bb20d",
+    "title": "TEST - Automated Testing Goal",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:38.470Z"
+  },
+  {
+    "goalId": "45ececcb-85ed-4537-8206-4b5c541d050e",
+    "title": "Think more positively",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:38.473Z"
+  },
+  {
+    "goalId": "18fad592-e777-403d-b9b6-e9eca1e98fc2",
+    "title": "Tone my body",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:38.474Z"
+  },
+  {
+    "goalId": "97fe516b-0d28-40a4-9fbb-221e00c31d1d",
+    "title": "Track all expenses",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:38.476Z"
+  },
+  {
+    "goalId": "e8849402-8d41-48a9-9497-bb0ac1be433f",
+    "title": "Track spending",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:38.477Z"
+  },
+  {
+    "goalId": "77682cc2-1fc5-4781-a1db-e8bc10834e10",
+    "title": "Treat wrinkles",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:38.480Z"
+  },
+  {
+    "goalId": "28ee14b7-fab1-46d3-82c5-54b1004e2fe7",
+    "title": "Understand cryptocurrency",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:38.482Z"
+  },
+  {
+    "goalId": "9cbd3fad-755f-450f-8f45-a822955ab89b",
+    "title": "Understand investing",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:38.483Z"
+  },
+  {
+    "goalId": "02cdeb6e-d240-4189-9637-f020d0827287",
+    "title": "Understand personal finance basics",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:38.485Z"
+  },
+  {
+    "goalId": "d920d47a-4e2d-4499-9893-3e110fc04a23",
+    "title": "Understand taxes",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:40.489Z"
+  },
+  {
+    "goalId": "9f8f2896-177e-4414-b37a-d4345f5a22ea",
+    "title": "Update my wardrobe",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:40.491Z"
+  },
+  {
+    "goalId": "16bbe856-4eae-45f7-ae3f-2bec6185d351",
+    "title": "Update outdated skills",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:40.492Z"
+  },
+  {
+    "goalId": "fcbd935e-6531-4bd2-8410-7077674c65a5",
+    "title": "Use skills for good",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:40.494Z"
+  },
+  {
+    "goalId": "749d9acb-b15a-4d27-993e-a9ac5fc71319",
+    "title": "Volunteer meaningfully",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:40.495Z"
+  },
+  {
+    "goalId": "27f38396-bd04-4d86-9af8-5a7a8240c2ae",
+    "title": "Worry less",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:40.497Z"
+  },
+  {
+    "goalId": "94a5d0ef-fae8-4cb1-bbfa-d6a3bd8dec14",
+    "title": "Write compelling resume",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:40.499Z"
+  },
+  {
+    "goalId": "3799465a-aa48-4185-99da-459ec40579ec",
+    "title": "Write music",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T06:01:40.501Z"
+  },
+  {
+    "goalId": "8747b8d3-96ff-42cf-8b9f-70a3c27a90c7",
+    "title": "Manage fibromyalgia",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:56.627Z"
+  },
+  {
+    "goalId": "d6ac7810-8b70-4c72-b23d-b33da6eb3fb5",
+    "title": "Manage frustration without outbursts",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:56.628Z"
+  },
+  {
+    "goalId": "db8a2938-5fe7-48b4-bb95-5b97747f91d7",
+    "title": "Manage IBS and gut issues",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:56.629Z"
+  },
+  {
+    "goalId": "ca9d28b4-ad04-4a0c-9cbd-5bdf9699968f",
+    "title": "Manage PCOS",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:56.630Z"
+  },
+  {
+    "goalId": "867d2275-157c-4b2c-8160-c8d3b8e641fe",
+    "title": "Manage seasonal depression",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:56.630Z"
+  },
+  {
+    "goalId": "affe3528-b5bd-4a3f-a755-37cfba95335e",
+    "title": "Manage sensitive skin",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:56.631Z"
+  },
+  {
+    "goalId": "00c29c5e-4dd3-4462-890a-d8d04d1196b1",
+    "title": "Manage thyroid issues",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:56.632Z"
+  },
+  {
+    "goalId": "31b43af1-fb4d-4c27-bb97-91ba77c3e02e",
+    "title": "Manage vertigo and dizziness",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:56.633Z"
+  },
+  {
+    "goalId": "f182860d-f579-4704-9bc6-42ebcec532f5",
+    "title": "Master everyday hairstyling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:56.634Z"
+  },
+  {
+    "goalId": "84dd439a-19c9-4a2d-ac3d-bd268d90c963",
+    "title": "Master makeup basics",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:56.634Z"
+  },
+  {
+    "goalId": "0f025c14-a321-4579-b47c-6eb01ec800e1",
+    "title": "Master phone photography",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:58.636Z"
+  },
+  {
+    "goalId": "2dfb4085-c5f3-484f-868f-062abb371077",
+    "title": "Mentor young people",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:58.637Z"
+  },
+  {
+    "goalId": "96cad06d-1aa6-4f24-89b8-f1901bd10c5d",
+    "title": "Minimize pores",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:58.638Z"
+  },
+  {
+    "goalId": "e049b4c5-6d7c-4988-b205-b6f24d1362fd",
+    "title": "Navigate autism challenges",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:58.639Z"
+  },
+  {
+    "goalId": "bbfa8698-398c-40e6-8bf5-c7dce0104c77",
+    "title": "Navigate insurance options",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:58.640Z"
+  },
+  {
+    "goalId": "552e81a6-7580-4956-a0cb-8893ce9e55b7",
+    "title": "Navigate menopause",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:58.640Z"
+  },
+  {
+    "goalId": "d652351e-6a68-4940-b79b-8e62d9f86588",
+    "title": "Network effectively",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:58.641Z"
+  },
+  {
+    "goalId": "a409f987-6ab6-4e6f-b657-85b26901d562",
+    "title": "Overcome drug abuse",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:58.641Z"
+  },
+  {
+    "goalId": "b640da48-e674-4e7d-a335-8ea29b7cb22d",
+    "title": "Overcome eating disorders",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:58.642Z"
+  },
+  {
+    "goalId": "a1bc5222-9eac-475f-b646-be07b9e052fa",
+    "title": "Pay off credit cards",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:07:58.642Z"
+  },
+  {
+    "goalId": "148cf4b8-c1fc-4cdb-81a1-56d62593386f",
+    "title": "Plan for emergencies",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:00.644Z"
+  },
+  {
+    "goalId": "888693d9-7498-410b-ac31-cea63ee12078",
+    "title": "Plan for healthcare costs",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:00.647Z"
+  },
+  {
+    "goalId": "6016ad82-8b88-4776-9da9-e609e61d96a7",
+    "title": "Plan for long-term care",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:00.650Z"
+  },
+  {
+    "goalId": "39790d9d-9cb3-4fda-8851-9105ad8ac7cf",
+    "title": "Practice meditation",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:00.653Z"
+  },
+  {
+    "goalId": "e6ddd417-0e78-4f20-a043-08a7de10c801",
+    "title": "Practice mindfulness",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:00.656Z"
+  },
+  {
+    "goalId": "7b0d1a0a-f65a-41d9-b1cd-afedf41d52b9",
+    "title": "Practice self-compassion",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:00.658Z"
+  },
+  {
+    "goalId": "97b7334e-74c7-44ff-a8c0-fc9643fb3789",
+    "title": "Prepare for baby",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:00.665Z"
+  },
+  {
+    "goalId": "0bceed44-3db4-4c7b-9ed4-3286ee4008b0",
+    "title": "Prepare for job loss",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:00.667Z"
+  },
+  {
+    "goalId": "287d5b7e-4fc2-40c3-94f2-500d120bc522",
+    "title": "Prevent injuries",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:00.668Z"
+  },
+  {
+    "goalId": "bf4e99ad-7afa-46f0-aab6-627a03649c64",
+    "title": "Prioritize effectively",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:00.669Z"
+  },
+  {
+    "goalId": "cfc96452-e4b1-47e2-a286-8d1d834b2af7",
+    "title": "Quiet racing mind",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:02.672Z"
+  },
+  {
+    "goalId": "6e15bc27-d903-4126-ac8c-1720f99ab561",
+    "title": "Quit drinking",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:02.672Z"
+  },
+  {
+    "goalId": "b41d3f03-a5f4-4a91-8a59-951fa97f82a8",
+    "title": "Quit marijuana dependency",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:02.673Z"
+  },
+  {
+    "goalId": "74ba0f3b-8dd8-445b-9a3b-f74271daf504",
+    "title": "Quit smoking",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:02.674Z"
+  },
+  {
+    "goalId": "cf73ce7b-8e8f-40aa-908c-6900209878a0",
+    "title": "Quit vaping",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:02.674Z"
+  },
+  {
+    "goalId": "90484cf6-5e0b-4a49-b129-ff205f1aad6f",
+    "title": "Read more books",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:02.675Z"
+  },
+  {
+    "goalId": "8616f324-f280-4902-be87-87aa7122f1f8",
+    "title": "Reduce dark circles",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:02.675Z"
+  },
+  {
+    "goalId": "35483ae2-65df-434a-a2ef-ab563e48cea9",
+    "title": "Reduce household expenses",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:02.676Z"
+  },
+  {
+    "goalId": "915e6f73-dce8-4b1d-8443-5d95d002d097",
+    "title": "Reduce household waste",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:02.676Z"
+  },
+  {
+    "goalId": "769a0120-666e-4713-a988-16ed49516158",
+    "title": "Reduce joint pain",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:02.677Z"
+  },
+  {
+    "goalId": "fd3be08f-54a8-4f4f-81f6-1ece40895b15",
+    "title": "Reduce social media use",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:04.679Z"
+  },
+  {
+    "goalId": "104d626b-eba7-4452-96e3-9cdc872e643f",
+    "title": "Relax in social settings",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:04.680Z"
+  },
+  {
+    "goalId": "f0583121-dbd5-4ebe-87c3-f8fbc1f6d13c",
+    "title": "Remember names and faces",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:04.682Z"
+  },
+  {
+    "goalId": "0cbdcf5f-a24a-46ce-b0f2-03d2d6651c72",
+    "title": "Remove age spots",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:04.683Z"
+  },
+  {
+    "goalId": "32d14d31-6384-459b-9de8-a6a436b8ff03",
+    "title": "Remove unwanted hair",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:04.686Z"
+  },
+  {
+    "goalId": "d76a03d4-27fb-4d52-960f-2791898e42d6",
+    "title": "Respond not react",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:04.689Z"
+  },
+  {
+    "goalId": "6ea319a6-88a1-4e98-8cf2-9c04ef260ed7",
+    "title": "Return after maternity/leave",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:04.691Z"
+  },
+  {
+    "goalId": "765ac51f-ca85-4d01-8711-77041fc2aedd",
+    "title": "Run my first 5K",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:04.693Z"
+  },
+  {
+    "goalId": "4a3acbc1-9ba5-430b-9ac8-d0fd53810e88",
+    "title": "Save for house",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:04.695Z"
+  },
+  {
+    "goalId": "af1e1baf-3379-43aa-a2be-6cf621d35bd6",
+    "title": "Save money consistently",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:04.696Z"
+  },
+  {
+    "goalId": "b682e7c6-4ed9-4b54-98ec-b6c84bda73d4",
+    "title": "Save on utilities",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:06.700Z"
+  },
+  {
+    "goalId": "64dedad8-83f2-41f4-af75-8af1f0a24e73",
+    "title": "Set social boundaries",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:06.703Z"
+  },
+  {
+    "goalId": "fe5c92b9-574a-4f73-940b-f312be38c181",
+    "title": "Share opinions confidently",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:06.704Z"
+  },
+  {
+    "goalId": "2869fdad-5412-44d6-99a4-bd6ba736139b",
+    "title": "Shop smarter for home",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:06.706Z"
+  },
+  {
+    "goalId": "d46ce9bb-3d80-4d94-b402-8d389e27781f",
+    "title": "Sleep peacefully",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:06.707Z"
+  },
+  {
+    "goalId": "e8fe3af7-49b9-4a54-8466-ca4775c37884",
+    "title": "Spot layoff signs",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:06.709Z"
+  },
+  {
+    "goalId": "6be41ee3-9d04-4aad-a43d-6672c90964ad",
+    "title": "Stand out from applicants",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:06.710Z"
+  },
+  {
+    "goalId": "e783dbdf-c1c7-43a3-9751-06ab573240e5",
+    "title": "Start exercising regularly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:06.711Z"
+  },
+  {
+    "goalId": "ce72cfad-9062-4e86-acad-d9a0bec51acc",
+    "title": "Start grassroots movement",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:06.712Z"
+  },
+  {
+    "goalId": "fc4cebae-2920-4b10-b89b-dcfa5ccc4f7d",
+    "title": "Start investing",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:06.713Z"
+  },
+  {
+    "goalId": "1e792f27-966f-4968-bae4-c84c84989fed",
+    "title": "Start journaling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:08.717Z"
+  },
+  {
+    "goalId": "e416cef3-ff8a-4bc1-a467-8cab2855344e",
+    "title": "Start over at 40+",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:08.719Z"
+  },
+  {
+    "goalId": "8227b511-30b7-48b5-a482-1ba46a15af9d",
+    "title": "Start side business",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:08.721Z"
+  },
+  {
+    "goalId": "91f8cf27-c3f2-47af-ad88-c39ccaea72d4",
+    "title": "Start side hustle",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:08.724Z"
+  },
+  {
+    "goalId": "41c58331-a79f-406b-a049-1abd1f8c4d6f",
+    "title": "Start support groups",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:08.730Z"
+  },
+  {
+    "goalId": "01a258a6-2414-4a12-a79d-4c58d090aabe",
+    "title": "Start writing regularly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:08.734Z"
+  },
+  {
+    "goalId": "0bfa9bd6-794a-4663-9262-9f2aa640f34e",
+    "title": "Start yoga practice",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:08.736Z"
+  },
+  {
+    "goalId": "eddd32ce-f951-4232-a80f-f1a80ec50f96",
+    "title": "Stay flexible as I age",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:08.737Z"
+  },
+  {
+    "goalId": "091e4035-81cf-4bbf-bd75-ebbeff6cab47",
+    "title": "Stay indispensable",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:08.739Z"
+  },
+  {
+    "goalId": "9522f755-f58a-4b4b-bd24-c154166a8d05",
+    "title": "Stop abusing painkillers",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:08.740Z"
+  },
+  {
+    "goalId": "016eebd2-5cb4-4e10-ba6e-1483aae4dc87",
+    "title": "Stop breakouts",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:10.743Z"
+  },
+  {
+    "goalId": "2755c4b7-7156-429e-89e9-55dca536c474",
+    "title": "Stop doomscrolling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:10.746Z"
+  },
+  {
+    "goalId": "e6de646e-9a2d-4935-a785-df4dc098684d",
+    "title": "Stop emotional eating",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:10.748Z"
+  },
+  {
+    "goalId": "fd47e075-e2e3-4f83-8f05-096bfa7585d3",
+    "title": "Stop emotional exhaustion",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:10.750Z"
+  },
+  {
+    "goalId": "2c2be634-4586-4b4b-8da8-b1a2795eb3bc",
+    "title": "Stop gambling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:10.751Z"
+  },
+  {
+    "goalId": "0f89cae2-cc94-47ef-ab16-1ad45a79b746",
+    "title": "Stop insomnia",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:10.754Z"
+  },
+  {
+    "goalId": "f7c595e0-b4bf-42ee-b93e-31cf6222c5c2",
+    "title": "Stop junk food binges",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:10.755Z"
+  },
+  {
+    "goalId": "712a1cd8-0a7b-4530-9711-d4ebff42243f",
+    "title": "Stop losing it",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:10.756Z"
+  },
+  {
+    "goalId": "823cb2dc-1b96-4f64-8de8-2ee71974ba08",
+    "title": "Stop migraines",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:10.758Z"
+  },
+  {
+    "goalId": "580ab7cb-63ae-4234-9fe4-b7e0f0fe7d9c",
+    "title": "Stop news addiction",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:10.759Z"
+  },
+  {
+    "goalId": "5a6203f4-f94f-4b2f-9e12-e980e908f0f7",
+    "title": "Stop overspending",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:12.762Z"
+  },
+  {
+    "goalId": "47a38ad8-447a-448e-868a-abedfcaa8743",
+    "title": "Stop procrastinating",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:12.764Z"
+  },
+  {
+    "goalId": "a5169243-f97b-4cc7-98ce-79c2a5ac9997",
+    "title": "Stop self-harm",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:12.766Z"
+  },
+  {
+    "goalId": "86794c43-865c-41aa-a51f-8ea77699aba1",
+    "title": "Stop yo-yo dieting",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:12.769Z"
+  },
+  {
+    "goalId": "27cf196e-c0d2-461b-94b2-89f6143f189b",
+    "title": "Study philosophy",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:12.774Z"
+  },
+  {
+    "goalId": "9b2827a2-09df-40c0-8c64-e2bc998c55ec",
+    "title": "Support education",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:12.776Z"
+  },
+  {
+    "goalId": "a0473f4c-8367-45e3-9d43-ef99858a95b7",
+    "title": "Support refugees and immigrants",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:12.778Z"
+  },
+  {
+    "goalId": "be505954-61b9-46b1-81ec-3c7ca0fefde0",
+    "title": "Support youth programs",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:12.780Z"
+  },
+  {
+    "goalId": "dca1334b-c2b4-417c-a880-43a7c5a39081",
+    "title": "Swim regularly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:12.781Z"
+  },
+  {
+    "goalId": "91d4a950-bb87-4570-b32d-cf4f4a4bb20d",
+    "title": "TEST - Automated Testing Goal",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:12.783Z"
+  },
+  {
+    "goalId": "45ececcb-85ed-4537-8206-4b5c541d050e",
+    "title": "Think more positively",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:14.789Z"
+  },
+  {
+    "goalId": "18fad592-e777-403d-b9b6-e9eca1e98fc2",
+    "title": "Tone my body",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:14.790Z"
+  },
+  {
+    "goalId": "97fe516b-0d28-40a4-9fbb-221e00c31d1d",
+    "title": "Track all expenses",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:14.790Z"
+  },
+  {
+    "goalId": "e8849402-8d41-48a9-9497-bb0ac1be433f",
+    "title": "Track spending",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:14.792Z"
+  },
+  {
+    "goalId": "77682cc2-1fc5-4781-a1db-e8bc10834e10",
+    "title": "Treat wrinkles",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:14.793Z"
+  },
+  {
+    "goalId": "28ee14b7-fab1-46d3-82c5-54b1004e2fe7",
+    "title": "Understand cryptocurrency",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:14.795Z"
+  },
+  {
+    "goalId": "9cbd3fad-755f-450f-8f45-a822955ab89b",
+    "title": "Understand investing",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:14.798Z"
+  },
+  {
+    "goalId": "02cdeb6e-d240-4189-9637-f020d0827287",
+    "title": "Understand personal finance basics",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:14.799Z"
+  },
+  {
+    "goalId": "d920d47a-4e2d-4499-9893-3e110fc04a23",
+    "title": "Understand taxes",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:14.800Z"
+  },
+  {
+    "goalId": "9f8f2896-177e-4414-b37a-d4345f5a22ea",
+    "title": "Update my wardrobe",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:14.801Z"
+  },
+  {
+    "goalId": "16bbe856-4eae-45f7-ae3f-2bec6185d351",
+    "title": "Update outdated skills",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:16.808Z"
+  },
+  {
+    "goalId": "fcbd935e-6531-4bd2-8410-7077674c65a5",
+    "title": "Use skills for good",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:16.811Z"
+  },
+  {
+    "goalId": "749d9acb-b15a-4d27-993e-a9ac5fc71319",
+    "title": "Volunteer meaningfully",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:16.813Z"
+  },
+  {
+    "goalId": "27f38396-bd04-4d86-9af8-5a7a8240c2ae",
+    "title": "Worry less",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:16.816Z"
+  },
+  {
+    "goalId": "94a5d0ef-fae8-4cb1-bbfa-d6a3bd8dec14",
+    "title": "Write compelling resume",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:16.818Z"
+  },
+  {
+    "goalId": "3799465a-aa48-4185-99da-459ec40579ec",
+    "title": "Write music",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:08:16.820Z"
+  },
+  {
+    "goalId": "bbe1b334-f430-4722-b994-1916341d3e1a",
+    "title": "Manage eczema/psoriasis",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:05.272Z"
+  },
+  {
+    "goalId": "8747b8d3-96ff-42cf-8b9f-70a3c27a90c7",
+    "title": "Manage fibromyalgia",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:05.274Z"
+  },
+  {
+    "goalId": "d6ac7810-8b70-4c72-b23d-b33da6eb3fb5",
+    "title": "Manage frustration without outbursts",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:05.275Z"
+  },
+  {
+    "goalId": "db8a2938-5fe7-48b4-bb95-5b97747f91d7",
+    "title": "Manage IBS and gut issues",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:05.276Z"
+  },
+  {
+    "goalId": "ca9d28b4-ad04-4a0c-9cbd-5bdf9699968f",
+    "title": "Manage PCOS",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:05.277Z"
+  },
+  {
+    "goalId": "867d2275-157c-4b2c-8160-c8d3b8e641fe",
+    "title": "Manage seasonal depression",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:05.278Z"
+  },
+  {
+    "goalId": "affe3528-b5bd-4a3f-a755-37cfba95335e",
+    "title": "Manage sensitive skin",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:05.279Z"
+  },
+  {
+    "goalId": "00c29c5e-4dd3-4462-890a-d8d04d1196b1",
+    "title": "Manage thyroid issues",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:05.280Z"
+  },
+  {
+    "goalId": "31b43af1-fb4d-4c27-bb97-91ba77c3e02e",
+    "title": "Manage vertigo and dizziness",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:05.281Z"
+  },
+  {
+    "goalId": "f182860d-f579-4704-9bc6-42ebcec532f5",
+    "title": "Master everyday hairstyling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:05.282Z"
+  },
+  {
+    "goalId": "84dd439a-19c9-4a2d-ac3d-bd268d90c963",
+    "title": "Master makeup basics",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:07.284Z"
+  },
+  {
+    "goalId": "0f025c14-a321-4579-b47c-6eb01ec800e1",
+    "title": "Master phone photography",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:07.286Z"
+  },
+  {
+    "goalId": "2dfb4085-c5f3-484f-868f-062abb371077",
+    "title": "Mentor young people",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:07.287Z"
+  },
+  {
+    "goalId": "96cad06d-1aa6-4f24-89b8-f1901bd10c5d",
+    "title": "Minimize pores",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:07.288Z"
+  },
+  {
+    "goalId": "e049b4c5-6d7c-4988-b205-b6f24d1362fd",
+    "title": "Navigate autism challenges",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:07.289Z"
+  },
+  {
+    "goalId": "bbfa8698-398c-40e6-8bf5-c7dce0104c77",
+    "title": "Navigate insurance options",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:07.290Z"
+  },
+  {
+    "goalId": "552e81a6-7580-4956-a0cb-8893ce9e55b7",
+    "title": "Navigate menopause",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:07.291Z"
+  },
+  {
+    "goalId": "d652351e-6a68-4940-b79b-8e62d9f86588",
+    "title": "Network effectively",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:07.292Z"
+  },
+  {
+    "goalId": "a409f987-6ab6-4e6f-b657-85b26901d562",
+    "title": "Overcome drug abuse",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:07.293Z"
+  },
+  {
+    "goalId": "b640da48-e674-4e7d-a335-8ea29b7cb22d",
+    "title": "Overcome eating disorders",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:07.294Z"
+  },
+  {
+    "goalId": "a1bc5222-9eac-475f-b646-be07b9e052fa",
+    "title": "Pay off credit cards",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:09.298Z"
+  },
+  {
+    "goalId": "148cf4b8-c1fc-4cdb-81a1-56d62593386f",
+    "title": "Plan for emergencies",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:09.299Z"
+  },
+  {
+    "goalId": "888693d9-7498-410b-ac31-cea63ee12078",
+    "title": "Plan for healthcare costs",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:09.300Z"
+  },
+  {
+    "goalId": "6016ad82-8b88-4776-9da9-e609e61d96a7",
+    "title": "Plan for long-term care",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:09.300Z"
+  },
+  {
+    "goalId": "39790d9d-9cb3-4fda-8851-9105ad8ac7cf",
+    "title": "Practice meditation",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:09.302Z"
+  },
+  {
+    "goalId": "e6ddd417-0e78-4f20-a043-08a7de10c801",
+    "title": "Practice mindfulness",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:09.302Z"
+  },
+  {
+    "goalId": "7b0d1a0a-f65a-41d9-b1cd-afedf41d52b9",
+    "title": "Practice self-compassion",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:09.303Z"
+  },
+  {
+    "goalId": "97b7334e-74c7-44ff-a8c0-fc9643fb3789",
+    "title": "Prepare for baby",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:09.304Z"
+  },
+  {
+    "goalId": "0bceed44-3db4-4c7b-9ed4-3286ee4008b0",
+    "title": "Prepare for job loss",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:09.306Z"
+  },
+  {
+    "goalId": "287d5b7e-4fc2-40c3-94f2-500d120bc522",
+    "title": "Prevent injuries",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:09.306Z"
+  },
+  {
+    "goalId": "bf4e99ad-7afa-46f0-aab6-627a03649c64",
+    "title": "Prioritize effectively",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:11.308Z"
+  },
+  {
+    "goalId": "cfc96452-e4b1-47e2-a286-8d1d834b2af7",
+    "title": "Quiet racing mind",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:11.309Z"
+  },
+  {
+    "goalId": "6e15bc27-d903-4126-ac8c-1720f99ab561",
+    "title": "Quit drinking",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:11.309Z"
+  },
+  {
+    "goalId": "b41d3f03-a5f4-4a91-8a59-951fa97f82a8",
+    "title": "Quit marijuana dependency",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:11.310Z"
+  },
+  {
+    "goalId": "74ba0f3b-8dd8-445b-9a3b-f74271daf504",
+    "title": "Quit smoking",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:11.310Z"
+  },
+  {
+    "goalId": "cf73ce7b-8e8f-40aa-908c-6900209878a0",
+    "title": "Quit vaping",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:11.311Z"
+  },
+  {
+    "goalId": "90484cf6-5e0b-4a49-b129-ff205f1aad6f",
+    "title": "Read more books",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:11.311Z"
+  },
+  {
+    "goalId": "8616f324-f280-4902-be87-87aa7122f1f8",
+    "title": "Reduce dark circles",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:11.312Z"
+  },
+  {
+    "goalId": "35483ae2-65df-434a-a2ef-ab563e48cea9",
+    "title": "Reduce household expenses",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:11.312Z"
+  },
+  {
+    "goalId": "915e6f73-dce8-4b1d-8443-5d95d002d097",
+    "title": "Reduce household waste",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:11.313Z"
+  },
+  {
+    "goalId": "769a0120-666e-4713-a988-16ed49516158",
+    "title": "Reduce joint pain",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:13.317Z"
+  },
+  {
+    "goalId": "fd3be08f-54a8-4f4f-81f6-1ece40895b15",
+    "title": "Reduce social media use",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:13.319Z"
+  },
+  {
+    "goalId": "104d626b-eba7-4452-96e3-9cdc872e643f",
+    "title": "Relax in social settings",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:13.322Z"
+  },
+  {
+    "goalId": "f0583121-dbd5-4ebe-87c3-f8fbc1f6d13c",
+    "title": "Remember names and faces",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:13.324Z"
+  },
+  {
+    "goalId": "0cbdcf5f-a24a-46ce-b0f2-03d2d6651c72",
+    "title": "Remove age spots",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:13.326Z"
+  },
+  {
+    "goalId": "32d14d31-6384-459b-9de8-a6a436b8ff03",
+    "title": "Remove unwanted hair",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:13.328Z"
+  },
+  {
+    "goalId": "d76a03d4-27fb-4d52-960f-2791898e42d6",
+    "title": "Respond not react",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:13.329Z"
+  },
+  {
+    "goalId": "6ea319a6-88a1-4e98-8cf2-9c04ef260ed7",
+    "title": "Return after maternity/leave",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:13.330Z"
+  },
+  {
+    "goalId": "765ac51f-ca85-4d01-8711-77041fc2aedd",
+    "title": "Run my first 5K",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:13.331Z"
+  },
+  {
+    "goalId": "4a3acbc1-9ba5-430b-9ac8-d0fd53810e88",
+    "title": "Save for house",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:13.334Z"
+  },
+  {
+    "goalId": "af1e1baf-3379-43aa-a2be-6cf621d35bd6",
+    "title": "Save money consistently",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:15.338Z"
+  },
+  {
+    "goalId": "b682e7c6-4ed9-4b54-98ec-b6c84bda73d4",
+    "title": "Save on utilities",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:15.340Z"
+  },
+  {
+    "goalId": "64dedad8-83f2-41f4-af75-8af1f0a24e73",
+    "title": "Set social boundaries",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:15.342Z"
+  },
+  {
+    "goalId": "fe5c92b9-574a-4f73-940b-f312be38c181",
+    "title": "Share opinions confidently",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:15.344Z"
+  },
+  {
+    "goalId": "2869fdad-5412-44d6-99a4-bd6ba736139b",
+    "title": "Shop smarter for home",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:15.345Z"
+  },
+  {
+    "goalId": "d46ce9bb-3d80-4d94-b402-8d389e27781f",
+    "title": "Sleep peacefully",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:15.346Z"
+  },
+  {
+    "goalId": "e8fe3af7-49b9-4a54-8466-ca4775c37884",
+    "title": "Spot layoff signs",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:15.349Z"
+  },
+  {
+    "goalId": "6be41ee3-9d04-4aad-a43d-6672c90964ad",
+    "title": "Stand out from applicants",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:15.351Z"
+  },
+  {
+    "goalId": "e783dbdf-c1c7-43a3-9751-06ab573240e5",
+    "title": "Start exercising regularly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:15.353Z"
+  },
+  {
+    "goalId": "ce72cfad-9062-4e86-acad-d9a0bec51acc",
+    "title": "Start grassroots movement",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:15.355Z"
+  },
+  {
+    "goalId": "fc4cebae-2920-4b10-b89b-dcfa5ccc4f7d",
+    "title": "Start investing",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:17.361Z"
+  },
+  {
+    "goalId": "1e792f27-966f-4968-bae4-c84c84989fed",
+    "title": "Start journaling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:17.365Z"
+  },
+  {
+    "goalId": "e416cef3-ff8a-4bc1-a467-8cab2855344e",
+    "title": "Start over at 40+",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:17.369Z"
+  },
+  {
+    "goalId": "8227b511-30b7-48b5-a482-1ba46a15af9d",
+    "title": "Start side business",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:17.370Z"
+  },
+  {
+    "goalId": "91f8cf27-c3f2-47af-ad88-c39ccaea72d4",
+    "title": "Start side hustle",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:17.371Z"
+  },
+  {
+    "goalId": "41c58331-a79f-406b-a049-1abd1f8c4d6f",
+    "title": "Start support groups",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:17.372Z"
+  },
+  {
+    "goalId": "01a258a6-2414-4a12-a79d-4c58d090aabe",
+    "title": "Start writing regularly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:17.373Z"
+  },
+  {
+    "goalId": "0bfa9bd6-794a-4663-9262-9f2aa640f34e",
+    "title": "Start yoga practice",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:17.375Z"
+  },
+  {
+    "goalId": "eddd32ce-f951-4232-a80f-f1a80ec50f96",
+    "title": "Stay flexible as I age",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:17.377Z"
+  },
+  {
+    "goalId": "091e4035-81cf-4bbf-bd75-ebbeff6cab47",
+    "title": "Stay indispensable",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:17.378Z"
+  },
+  {
+    "goalId": "9522f755-f58a-4b4b-bd24-c154166a8d05",
+    "title": "Stop abusing painkillers",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:19.382Z"
+  },
+  {
+    "goalId": "016eebd2-5cb4-4e10-ba6e-1483aae4dc87",
+    "title": "Stop breakouts",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:19.384Z"
+  },
+  {
+    "goalId": "2755c4b7-7156-429e-89e9-55dca536c474",
+    "title": "Stop doomscrolling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:19.386Z"
+  },
+  {
+    "goalId": "e6de646e-9a2d-4935-a785-df4dc098684d",
+    "title": "Stop emotional eating",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:19.387Z"
+  },
+  {
+    "goalId": "fd47e075-e2e3-4f83-8f05-096bfa7585d3",
+    "title": "Stop emotional exhaustion",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:19.389Z"
+  },
+  {
+    "goalId": "2c2be634-4586-4b4b-8da8-b1a2795eb3bc",
+    "title": "Stop gambling",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:19.391Z"
+  },
+  {
+    "goalId": "0f89cae2-cc94-47ef-ab16-1ad45a79b746",
+    "title": "Stop insomnia",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:19.392Z"
+  },
+  {
+    "goalId": "f7c595e0-b4bf-42ee-b93e-31cf6222c5c2",
+    "title": "Stop junk food binges",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:19.393Z"
+  },
+  {
+    "goalId": "712a1cd8-0a7b-4530-9711-d4ebff42243f",
+    "title": "Stop losing it",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:19.394Z"
+  },
+  {
+    "goalId": "823cb2dc-1b96-4f64-8de8-2ee71974ba08",
+    "title": "Stop migraines",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:19.395Z"
+  },
+  {
+    "goalId": "580ab7cb-63ae-4234-9fe4-b7e0f0fe7d9c",
+    "title": "Stop news addiction",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:21.399Z"
+  },
+  {
+    "goalId": "5a6203f4-f94f-4b2f-9e12-e980e908f0f7",
+    "title": "Stop overspending",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:21.401Z"
+  },
+  {
+    "goalId": "47a38ad8-447a-448e-868a-abedfcaa8743",
+    "title": "Stop procrastinating",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:21.403Z"
+  },
+  {
+    "goalId": "a5169243-f97b-4cc7-98ce-79c2a5ac9997",
+    "title": "Stop self-harm",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:21.404Z"
+  },
+  {
+    "goalId": "86794c43-865c-41aa-a51f-8ea77699aba1",
+    "title": "Stop yo-yo dieting",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:21.405Z"
+  },
+  {
+    "goalId": "27cf196e-c0d2-461b-94b2-89f6143f189b",
+    "title": "Study philosophy",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:21.406Z"
+  },
+  {
+    "goalId": "9b2827a2-09df-40c0-8c64-e2bc998c55ec",
+    "title": "Support education",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:21.408Z"
+  },
+  {
+    "goalId": "a0473f4c-8367-45e3-9d43-ef99858a95b7",
+    "title": "Support refugees and immigrants",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:21.409Z"
+  },
+  {
+    "goalId": "be505954-61b9-46b1-81ec-3c7ca0fefde0",
+    "title": "Support youth programs",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:21.410Z"
+  },
+  {
+    "goalId": "dca1334b-c2b4-417c-a880-43a7c5a39081",
+    "title": "Swim regularly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:21.411Z"
+  },
+  {
+    "goalId": "91d4a950-bb87-4570-b32d-cf4f4a4bb20d",
+    "title": "TEST - Automated Testing Goal",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:23.413Z"
+  },
+  {
+    "goalId": "45ececcb-85ed-4537-8206-4b5c541d050e",
+    "title": "Think more positively",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:23.415Z"
+  },
+  {
+    "goalId": "18fad592-e777-403d-b9b6-e9eca1e98fc2",
+    "title": "Tone my body",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:23.416Z"
+  },
+  {
+    "goalId": "97fe516b-0d28-40a4-9fbb-221e00c31d1d",
+    "title": "Track all expenses",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:23.417Z"
+  },
+  {
+    "goalId": "e8849402-8d41-48a9-9497-bb0ac1be433f",
+    "title": "Track spending",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:23.418Z"
+  },
+  {
+    "goalId": "77682cc2-1fc5-4781-a1db-e8bc10834e10",
+    "title": "Treat wrinkles",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:23.419Z"
+  },
+  {
+    "goalId": "28ee14b7-fab1-46d3-82c5-54b1004e2fe7",
+    "title": "Understand cryptocurrency",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:23.420Z"
+  },
+  {
+    "goalId": "9cbd3fad-755f-450f-8f45-a822955ab89b",
+    "title": "Understand investing",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:23.421Z"
+  },
+  {
+    "goalId": "02cdeb6e-d240-4189-9637-f020d0827287",
+    "title": "Understand personal finance basics",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:23.422Z"
+  },
+  {
+    "goalId": "d920d47a-4e2d-4499-9893-3e110fc04a23",
+    "title": "Understand taxes",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:23.423Z"
+  },
+  {
+    "goalId": "9f8f2896-177e-4414-b37a-d4345f5a22ea",
+    "title": "Update my wardrobe",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:25.425Z"
+  },
+  {
+    "goalId": "16bbe856-4eae-45f7-ae3f-2bec6185d351",
+    "title": "Update outdated skills",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:25.426Z"
+  },
+  {
+    "goalId": "fcbd935e-6531-4bd2-8410-7077674c65a5",
+    "title": "Use skills for good",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:25.426Z"
+  },
+  {
+    "goalId": "749d9acb-b15a-4d27-993e-a9ac5fc71319",
+    "title": "Volunteer meaningfully",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:25.427Z"
+  },
+  {
+    "goalId": "27f38396-bd04-4d86-9af8-5a7a8240c2ae",
+    "title": "Worry less",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:25.427Z"
+  },
+  {
+    "goalId": "94a5d0ef-fae8-4cb1-bbfa-d6a3bd8dec14",
+    "title": "Write compelling resume",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:25.428Z"
+  },
+  {
+    "goalId": "3799465a-aa48-4185-99da-459ec40579ec",
+    "title": "Write music",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-07T22:10:25.428Z"
+  },
+  {
+    "goalId": "be505954-61b9-46b1-81ec-3c7ca0fefde0",
+    "title": "Support youth programs",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-09T05:17:25.322Z"
+  },
+  {
+    "goalId": "dca1334b-c2b4-417c-a880-43a7c5a39081",
+    "title": "Swim regularly",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-09T05:17:25.329Z"
+  },
+  {
+    "goalId": "4b721437-85db-4ca5-8a4c-e1a54affad85",
+    "title": "Clear up acne",
+    "error": "Daily limit reached (1000 requests). Resume tomorrow or continue with --start-from=1000",
+    "timestamp": "2025-09-09T06:26:24.663Z"
+  }
+]

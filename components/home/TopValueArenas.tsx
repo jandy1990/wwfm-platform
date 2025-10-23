@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { TopValueArena } from '@/types/home';
-import { Sparkles } from 'lucide-react';
 
 interface TopValueArenasProps {
   arenas: TopValueArena[];
@@ -74,17 +73,22 @@ export default function TopValueArenas({ arenas }: TopValueArenasProps) {
   }
 
   return (
-    <section className="py-12 px-4 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+    <section className="bg-gray-900 dark:bg-black py-20 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <Sparkles className="w-6 h-6 text-purple-600 dark:text-purple-400" />
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-              Life Areas with Lasting Impact
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">
+              Impact Areas
             </h2>
+            <Link
+              href="/browse"
+              className="text-purple-400 hover:text-purple-300 font-medium text-sm"
+            >
+              View All →
+            </Link>
           </div>
-          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-gray-300">
             Ranked by long-term benefit 6+ months after goal achievement
           </p>
         </div>
@@ -94,14 +98,6 @@ export default function TopValueArenas({ arenas }: TopValueArenasProps) {
           {arenas.map((arena, index) => (
             <ArenaCard key={arena.id} arena={arena} rank={index + 1} />
           ))}
-        </div>
-
-        {/* Info Footer */}
-        <div className="mt-8 text-center">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Scores based on {arenas.reduce((sum, a) => sum + a.goalCount, 0)} goals.
-            Reflects AI estimates of lasting impact 6+ months after goal achievement.
-          </p>
         </div>
       </div>
     </section>

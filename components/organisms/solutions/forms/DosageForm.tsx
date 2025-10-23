@@ -62,7 +62,7 @@ const ProgressCelebration = ({ step }: { step: number }) => {
   
   return (
     <div className="text-center mb-4 opacity-0 animate-[fadeIn_0.5s_ease-in_forwards]">
-      <p className="text-green-600 dark:text-green-400 font-medium text-lg">
+      <p className="text-green-600 dark:text-green-400 font-semibold text-lg">
         {celebrations[step - 2]}
       </p>
     </div>
@@ -485,7 +485,7 @@ export function DosageForm({
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
                       <span className="text-lg">⏱️</span>
-                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                         When did you notice results? <span className="text-red-500">*</span>
                       </label>
                     </div>
@@ -527,7 +527,7 @@ export function DosageForm({
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                       How often did you use it? <span className="text-red-500">*</span>
                     </label>
                     <select
@@ -547,7 +547,7 @@ export function DosageForm({
 
                   {/* Length of use */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       How long did you use it? <span className="text-red-500">*</span>
                     </label>
                     <select
@@ -648,7 +648,7 @@ export function DosageForm({
 
                   {/* Frequency */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       How often? <span className="text-red-500">*</span>
                     </label>
                     <select
@@ -683,7 +683,7 @@ export function DosageForm({
 
                 {/* Length of use for other categories */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     How long did you use it? <span className="text-red-500">*</span>
                   </label>
                   <select
@@ -769,7 +769,7 @@ export function DosageForm({
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
                       <span className="text-lg">⏱️</span>
-                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                         When did you notice results? <span className="text-red-500">*</span>
                       </label>
                     </div>
@@ -1041,7 +1041,7 @@ export function DosageForm({
 
           {/* Optional fields in a subtle card */}
           <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 text-left max-w-md mx-auto mb-6 opacity-0 animate-[slideUp_0.5s_ease-out_0.7s_forwards]">
-            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
               Add more details (optional):
             </p>
             
@@ -1054,7 +1054,7 @@ export function DosageForm({
                   <div className="flex gap-2 mb-2">
                     <button
                       onClick={() => setCostType('monthly')}
-                      className={`flex-1 py-1.5 px-3 rounded text-xs font-medium transition-colors ${
+                      className={`flex-1 py-1.5 px-3 rounded text-xs font-semibold transition-colors ${
                         costType === 'monthly'
                           ? 'bg-blue-600 text-white'
                           : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
@@ -1064,7 +1064,7 @@ export function DosageForm({
                     </button>
                     <button
                       onClick={() => setCostType('one_time')}
-                      className={`flex-1 py-1.5 px-3 rounded text-xs font-medium transition-colors ${
+                      className={`flex-1 py-1.5 px-3 rounded text-xs font-semibold transition-colors ${
                         costType === 'one_time'
                           ? 'bg-blue-600 text-white'
                           : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
@@ -1152,7 +1152,7 @@ export function DosageForm({
               )}
               
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                   What should other people know about trying to {goalTitle}?
                 </label>
                 <textarea
@@ -1173,7 +1173,7 @@ export function DosageForm({
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
-                         text-sm font-medium transition-colors"
+                         text-sm font-semibold transition-colors"
                 >
                   Submit
                 </button>
@@ -1184,7 +1184,7 @@ export function DosageForm({
           <button
             onClick={() => router.push(`/goal/${goalId}`)}
             className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 
-                     rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-100 
+                     rounded-lg font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 
                      transition-all transform hover:scale-105"
           >
             Back to goal page
@@ -1245,7 +1245,7 @@ export function DosageForm({
           <button
             onClick={() => setCurrentStep(currentStep - 1)}
             className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                     dark:hover:text-gray-200 font-medium transition-colors"
+                     dark:hover:text-gray-200 font-semibold transition-colors"
           >
             Back
           </button>
@@ -1264,7 +1264,7 @@ export function DosageForm({
             <button
               onClick={() => setCurrentStep(currentStep + 1)}
               className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                       dark:hover:text-gray-200 font-medium transition-colors"
+                       dark:hover:text-gray-200 font-semibold transition-colors"
             >
               Forward
             </button>
@@ -1274,7 +1274,7 @@ export function DosageForm({
             <button
               onClick={() => setCurrentStep(currentStep + 1)}
               disabled={!canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
                 canProceedToNextStep()
                   ? 'bg-blue-600 hover:bg-blue-700 text-white'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
@@ -1286,7 +1286,7 @@ export function DosageForm({
             <button
               onClick={handleSubmit}
               disabled={isSubmitting || !canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
                 !isSubmitting
                   ? 'bg-green-600 hover:bg-green-700 text-white'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'

@@ -416,7 +416,7 @@ export function FinancialForm({
               
               {/* Cost Type */}
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Cost type <span className="text-red-500">*</span>
                 </label>
                 <select
@@ -439,7 +439,7 @@ export function FinancialForm({
 
               {/* Financial Benefit */}
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Financial benefit? <span className="text-red-500">*</span>
                 </label>
                 <select
@@ -464,7 +464,7 @@ export function FinancialForm({
 
               {/* Access time */}
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Access time <span className="text-red-500">*</span>
                 </label>
                 <select
@@ -549,7 +549,7 @@ export function FinancialForm({
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <span className="text-lg">⏱️</span>
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                     When did you notice an impact?
                   </label>
                 </div>
@@ -782,7 +782,7 @@ export function FinancialForm({
 
           {/* Optional fields in a subtle card */}
           <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 text-left max-w-md mx-auto mb-6 opacity-0 animate-[slideUp_0.5s_ease-out_0.7s_forwards]">
-            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
               Add more details (optional):
             </p>
             
@@ -860,7 +860,7 @@ export function FinancialForm({
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
-                         text-sm font-medium transition-colors"
+                         text-sm font-semibold transition-colors"
                 >
                   Submit
                 </button>
@@ -871,7 +871,7 @@ export function FinancialForm({
           <button
             onClick={() => router.push(`/goal/${goalId}`)}
             className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 
-                     rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-100 
+                     rounded-lg font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 
                      transition-all transform hover:scale-105"
           >
             Back to goal page
@@ -922,7 +922,7 @@ export function FinancialForm({
           <button
             onClick={() => setCurrentStep(currentStep - 1)}
             className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                     dark:hover:text-gray-200 font-medium transition-colors"
+                     dark:hover:text-gray-200 font-semibold transition-colors"
           >
             Back
           </button>
@@ -936,7 +936,7 @@ export function FinancialForm({
             <button
               onClick={() => setCurrentStep(currentStep + 1)}
               className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                       dark:hover:text-gray-200 font-medium transition-colors"
+                       dark:hover:text-gray-200 font-semibold transition-colors"
             >
               Forward
             </button>
@@ -946,7 +946,7 @@ export function FinancialForm({
             <button
               onClick={() => setCurrentStep(currentStep + 1)}
               disabled={!canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
                 canProceedToNextStep()
                   ? 'bg-blue-600 hover:bg-blue-700 text-white'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
@@ -963,7 +963,7 @@ export function FinancialForm({
                 handleSubmit();
               }}
               disabled={isSubmitting || !canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
                 !isSubmitting
                   ? 'bg-green-600 hover:bg-green-700 text-white'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'

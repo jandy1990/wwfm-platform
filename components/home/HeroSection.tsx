@@ -157,12 +157,13 @@ export default function HeroSection({ stats }: HeroSectionProps) {
   };
 
   return (
-    <section className="bg-gradient-to-b from-purple-50 to-white dark:from-gray-900 dark:to-gray-800 py-16 px-4">
+    <section className="bg-gray-900 dark:bg-black py-20 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Main Heading */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-            Stop guessing. Start solving.
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-white mb-6">
+            Stop guessing.<br className="hidden sm:block" />
+            Start solving.
           </h1>
         </div>
 
@@ -180,7 +181,7 @@ export default function HeroSection({ stats }: HeroSectionProps) {
                   }
                 }}
                 placeholder="Try 'Reduce anxiety' or 'Sleep better'"
-                className="w-full px-6 py-4 text-lg border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none shadow-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                className="w-full px-6 py-4 text-lg bg-white border-2 border-gray-700 rounded-full focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none shadow-lg text-gray-900 placeholder-gray-500"
               />
 
               {/* Loading Spinner */}
@@ -249,32 +250,32 @@ export default function HeroSection({ stats }: HeroSectionProps) {
         {/* Live Stats Ticker */}
         <div className="flex flex-wrap justify-center gap-8 text-center">
           <div className="flex flex-col items-center">
-            <div className="text-2xl md:text-3xl font-bold text-purple-600 dark:text-purple-400">
+            <div className="text-2xl md:text-3xl font-bold text-white">
               {stats.totalSolutions.toLocaleString()}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Solutions</div>
+            <div className="text-sm text-gray-400">Solutions</div>
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="text-2xl md:text-3xl font-bold text-purple-600 dark:text-purple-400">
+            <div className="text-2xl md:text-3xl font-bold text-white">
               {stats.avgEffectiveness}★
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Avg Rating</div>
+            <div className="text-sm text-gray-400">Avg Rating</div>
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="text-2xl md:text-3xl font-bold text-purple-600 dark:text-purple-400">
+            <div className="text-2xl md:text-3xl font-bold text-white">
               {stats.totalGoals.toLocaleString()}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Life Goals</div>
+            <div className="text-sm text-gray-400">Life Goals</div>
           </div>
 
           {stats.activeUsersToday > 0 && (
             <div className="flex flex-col items-center">
-              <div className="text-2xl md:text-3xl font-bold text-green-600 dark:text-green-400">
+              <div className="text-2xl md:text-3xl font-bold text-white">
                 {stats.activeUsersToday.toLocaleString()}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Active Today</div>
+              <div className="text-sm text-gray-400">Active Today</div>
             </div>
           )}
         </div>
@@ -283,13 +284,13 @@ export default function HeroSection({ stats }: HeroSectionProps) {
         <div className="flex flex-wrap justify-center gap-4 mt-8">
           <button
             onClick={() => router.push('/browse')}
-            className="px-6 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-full font-medium shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] active:scale-95"
+            className="px-6 py-3 bg-transparent text-white border-2 border-white rounded-full font-medium shadow-md transition-all duration-300 ease-in-out hover:bg-white hover:text-gray-900 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] active:scale-95"
           >
             Browse All Goals
           </button>
           <button
             onClick={() => router.push('/contribute')}
-            className="px-6 py-3 bg-purple-600 text-white rounded-full font-medium shadow-md transition-all duration-300 ease-in-out hover:bg-purple-700 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] active:scale-95"
+            className="px-6 py-3 bg-purple-600 text-white rounded-full font-semibold shadow-md transition-all duration-300 ease-in-out hover:bg-purple-700 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] active:scale-95"
           >
             Share What Worked
           </button>

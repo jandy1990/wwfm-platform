@@ -66,10 +66,10 @@ export function MilestonesCard({ userId }: MilestonesCardProps) {
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
           Your Journey
         </h2>
-        <div className="text-sm text-gray-500 dark:text-gray-400">
+        <div className="text-sm font-semibold text-gray-500 dark:text-gray-400">
           {pointsData?.points.toLocaleString()} points
         </div>
       </div>
@@ -114,7 +114,7 @@ export function MilestonesCard({ userId }: MilestonesCardProps) {
       {/* Achievement History Toggle */}
       <button
         onClick={() => setShowAllMilestones(!showAllMilestones)}
-        className="w-full text-left text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors mb-3 flex items-center justify-between"
+        className="w-full text-left text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors mb-3 flex items-center justify-between"
       >
         <span>Achievement History ({history.length} unlocked)</span>
         <svg

@@ -229,32 +229,37 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-            {selectedSuperCategory ? 
-              categoryGroups.find(g => g.superCategory.id === selectedSuperCategory)?.superCategory.name || 'Browse Goals'
-              : 'Browse Goals by Life Area'
-            }
-          </h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">
-            {selectedSuperCategory ?
-              categoryGroups.find(g => g.superCategory.id === selectedSuperCategory)?.superCategory.description || 'Discover what has worked for others'
-              : 'Discover what has worked for others in achieving their goals'
-            }
-          </p>
-          {selectedSuperCategory && (
-            <button
-              onClick={() => setSelectedSuperCategory(null)}
-              className="mt-4 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium"
-            >
-              ← Back to all areas
-            </button>
-          )}
-        </header>
+    <div className="min-h-screen bg-white dark:bg-gray-900">
+      {/* Header Section - Dark Background */}
+      <div className="bg-gray-900 dark:bg-black py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <header>
+            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
+              {selectedSuperCategory ?
+                categoryGroups.find(g => g.superCategory.id === selectedSuperCategory)?.superCategory.name || 'Browse Goals'
+                : 'Browse Goals by Life Area'
+              }
+            </h1>
+            <p className="text-lg text-gray-300">
+              {selectedSuperCategory ?
+                categoryGroups.find(g => g.superCategory.id === selectedSuperCategory)?.superCategory.description || 'Discover what has worked for others'
+                : 'Discover what has worked for others in achieving their goals'
+              }
+            </p>
+            {selectedSuperCategory && (
+              <button
+                onClick={() => setSelectedSuperCategory(null)}
+                className="mt-4 text-purple-400 hover:text-purple-300 text-sm font-medium"
+              >
+                ← Back to all areas
+              </button>
+            )}
+          </header>
+        </div>
+      </div>
 
+      {/* Main Content Area */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Search Bar */}
         <section className="mb-8" aria-label="Search goals">
           <div className="relative" ref={searchContainerRef}>
@@ -270,7 +275,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                 }
               }}
               placeholder={`Search ${totalGoals} goals...`}
-              className="w-full px-4 py-4 pl-12 pr-12 text-base text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-transparent min-h-[44px] transition-all duration-200"
+              className="w-full px-4 py-4 pl-12 pr-12 text-base text-gray-900 bg-white border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none focus:border-transparent min-h-[44px] transition-all duration-200 shadow-md"
             />
             
             {/* Search Icon */}
@@ -305,13 +310,13 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
               </button>
             )}
             
-            {/* Search Dropdown (same as original) */}
+            {/* Search Dropdown */}
             {showDropdown && (
-              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 max-h-96 overflow-auto transition-all duration-200 ease-out">
+              <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-xl border-2 border-gray-200 max-h-96 overflow-auto transition-all duration-200 ease-out">
                 {filteredData.suggestions?.length > 0 ? (
                   <>
-                    <div className="p-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800">
-                      <p className="text-xs text-blue-700 dark:text-blue-300 font-medium">
+                    <div className="p-2 bg-purple-50 border-b border-purple-200">
+                      <p className="text-xs text-purple-700 font-semibold">
                         Top {filteredData.suggestions.length} matching goals
                       </p>
                     </div>
@@ -319,13 +324,13 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                       <Link
                         key={`${goal.id}-${index}`}
                         href={`/goal/${goal.id}`}
-                        className="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-b-0"
+                        className="block px-4 py-3 hover:bg-purple-50 transition-colors border-b border-gray-100 last:border-b-0"
                         onClick={() => setShowDropdown(false)}
                       >
-                        <div className="font-medium text-gray-900 dark:text-gray-100">
+                        <div className="font-semibold text-gray-900">
                           {highlightText(goal.title, searchQuery)}
                         </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                        <div className="text-xs text-gray-500 mt-0.5">
                           {arena.name} → {category.name}
                         </div>
                       </Link>
@@ -333,7 +338,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                   </>
                 ) : searchQuery.length >= 3 ? (
                   <div className="p-4 text-center">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                    <p className="text-sm text-gray-500">
                       No goals found for &quot;{searchQuery}&quot;
                     </p>
                   </div>
@@ -372,17 +377,17 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                           {group.superCategory.icon}
                         </span>
                         <div className="flex-1">
-                          <h2 className={`text-xl font-bold ${colors.text} mb-2`}>
+                          <h2 className={`text-2xl font-black tracking-tight ${colors.text} mb-2`}>
                             {group.superCategory.name}
                           </h2>
                           <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
                             {group.superCategory.description}
                           </p>
                           <div className="flex items-center justify-between text-sm">
-                            <span className={`${colors.text} font-medium`}>
+                            <span className={`${colors.text} font-semibold`}>
                               {group.totalGoals} goals
                             </span>
-                            <span className={`${colors.text} text-xs`}>
+                            <span className={`${colors.text} text-lg`}>
                               →
                             </span>
                           </div>
@@ -415,14 +420,14 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                             {getCategoryIcon(category.slug)}
                           </span>
                           <div className="flex-1">
-                            <h3 className={`text-lg font-semibold ${colors.text} mb-2`}>
+                            <h3 className={`text-lg font-bold tracking-tight ${colors.text} mb-2`}>
                               {category.name}
                             </h3>
                             <div className="flex items-center justify-between text-sm">
-                              <span className={`${colors.text} font-medium`}>
+                              <span className={`${colors.text} font-semibold`}>
                                 {category.goalCount} goals
                               </span>
-                              <span className={`${colors.text} text-xs`}>
+                              <span className={`${colors.text} text-base`}>
                                 →
                               </span>
                             </div>
@@ -436,7 +441,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
               {/* Empty state for super-category */}
               {filteredCategories.length === 0 && (
                 <div className="text-center py-12">
-                  <p className="text-gray-500 dark:text-gray-400">
+                  <p className="text-gray-500">
                     No categories available in this area yet.
                   </p>
                 </div>

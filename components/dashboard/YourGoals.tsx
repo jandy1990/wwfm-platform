@@ -56,7 +56,7 @@ export default function YourGoals() {
       <div className="bg-white dark:bg-gray-800 shadow rounded-lg border border-gray-200 dark:border-gray-700 p-6">
         <div className="flex items-center gap-2 mb-4">
           <Target className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
             Your Goals
           </h2>
         </div>
@@ -81,10 +81,10 @@ export default function YourGoals() {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <Target className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
             Your Goals
           </h2>
-          <span className="text-sm text-gray-500 dark:text-gray-400">
+          <span className="text-sm font-semibold text-gray-500 dark:text-gray-400">
             ({goals.length})
           </span>
         </div>
@@ -94,7 +94,7 @@ export default function YourGoals() {
       <div className="flex gap-2 mb-6 border-b border-gray-200 dark:border-gray-700">
         <button
           onClick={() => setFilter('all')}
-          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+          className={`px-4 py-2 text-sm font-semibold border-b-2 transition-colors ${
             filter === 'all'
               ? 'border-purple-600 text-purple-600 dark:border-purple-400 dark:text-purple-400'
               : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
@@ -104,7 +104,7 @@ export default function YourGoals() {
         </button>
         <button
           onClick={() => setFilter('following')}
-          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+          className={`px-4 py-2 text-sm font-semibold border-b-2 transition-colors ${
             filter === 'following'
               ? 'border-purple-600 text-purple-600 dark:border-purple-400 dark:text-purple-400'
               : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
@@ -114,7 +114,7 @@ export default function YourGoals() {
         </button>
         <button
           onClick={() => setFilter('achieved')}
-          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+          className={`px-4 py-2 text-sm font-semibold border-b-2 transition-colors ${
             filter === 'achieved'
               ? 'border-purple-600 text-purple-600 dark:border-purple-400 dark:text-purple-400'
               : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'

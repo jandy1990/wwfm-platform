@@ -13,6 +13,6 @@ export const FormSectionHeader = ({ icon, title, bgColorClassName }: FormSection
     >
       <span className="text-lg">{icon}</span>
     </div>
-    <h2 className="text-xl font-semibold">{title}</h2>
+    <h2 className="text-xl font-bold tracking-tight">{title}</h2>
   </div>
 );

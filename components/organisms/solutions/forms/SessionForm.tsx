@@ -176,30 +176,27 @@ export function SessionForm({
     }
   );
   
-  // Handle browser back button
+  // Handle browser back button and history management (consolidated to prevent race conditions)
   useEffect(() => {
+    // Initial history pushState
+    window.history.pushState({ step: currentStep }, '');
+
     const handlePopState = (e: PopStateEvent) => {
       e.preventDefault();
-      
+
       if (currentStep > 1) {
         setCurrentStep(currentStep - 1);
-        window.history.pushState({ step: currentStep - 1 }, '');
       } else {
         onBack();
       }
     };
 
     window.addEventListener('popstate', handlePopState);
-    
+
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
   }, [currentStep, onBack]);
-  
-  // Update history when step changes
-  useEffect(() => {
-    window.history.pushState({ step: currentStep }, '');
-  }, [currentStep]);
   
   // Track highest step reached
   useEffect(() => {
@@ -219,22 +216,23 @@ export function SessionForm({
           .eq('category', category)
           .eq('is_active', true)
           .order('display_order');
-        
+
         if (!error && data) {
           const rows = data as LabelRow[];
           setSideEffectOptions(rows.map((item) => item.label));
         }
         setLoading(false);
       };
-      
+
       fetchOptions();
     }
-  }, [category, showSideEffects]);
+    // Note: showSideEffects is derived from category, so only category in deps
+  }, [category]);
   
   useEffect(() => {
     if (showChallenges) {
       setChallengesLoading(true);
-      
+
       const fallbackKeyMap: Record<string, keyof typeof DROPDOWN_OPTIONS> = {
         therapists_counselors: 'therapy_challenges',
         coaches_mentors: 'coaching_challenges',
@@ -254,7 +252,7 @@ export function SessionForm({
           .eq('category', category)
           .eq('is_active', true)
           .order('display_order');
-        
+
         if (!error && data && data.length > 0) {
           const rows = data as LabelRow[];
           setChallengeOptions(rows.map((item) => item.label));
@@ -264,10 +262,11 @@ export function SessionForm({
         }
         setChallengesLoading(false);
       };
-      
+
       fetchChallenges();
     }
-  }, [category, showChallenges]);
+    // Note: showChallenges is derived from category, so only category in deps
+  }, [category]);
   
   const handleSideEffectToggle = (effect: string) => {
     if (effect === 'None') {
@@ -429,7 +428,7 @@ export function SessionForm({
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <span className="text-lg">⏱️</span>
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                 When did you notice results?
               </label>
             </div>
@@ -469,7 +468,7 @@ export function SessionForm({
 
       {/* Cost field */}
       <div className="space-y-2">
-        <Label className="text-base font-medium">
+        <Label className="text-base font-semibold">
           Cost? <span className="text-red-500">*</span>
         </Label>
 
@@ -1259,7 +1258,7 @@ export function SessionForm({
 
           {/* Optional fields in a subtle card */}
           <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 text-left max-w-md mx-auto mb-6 opacity-0 animate-[slideUp_0.5s_ease-out_0.7s_forwards]">
-            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
               Add more details (optional):
             </p>
             
@@ -1337,7 +1336,7 @@ export function SessionForm({
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
-                         text-sm font-medium transition-colors"
+                         text-sm font-semibold transition-colors"
                 >
                   Submit
                 </button>
@@ -1348,7 +1347,7 @@ export function SessionForm({
           <button
             onClick={() => router.push(`/goal/${goalId}`)}
             className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 
-                     rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-100 
+                     rounded-lg font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 
                      transition-all transform hover:scale-105"
           >
             Back to goal page
@@ -1399,7 +1398,7 @@ export function SessionForm({
           <button
             onClick={() => setCurrentStep(currentStep - 1)}
             className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                     dark:hover:text-gray-200 font-medium transition-colors"
+                     dark:hover:text-gray-200 font-semibold transition-colors"
           >
             Back
           </button>
@@ -1412,7 +1411,7 @@ export function SessionForm({
             <button
               onClick={() => setCurrentStep(currentStep + 1)}
               disabled={!canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
                 canProceedToNextStep()
                   ? 'bg-blue-600 hover:bg-blue-700 text-white'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
@@ -1424,7 +1423,7 @@ export function SessionForm({
             <button
               onClick={handleSubmit}
               disabled={isSubmitting || !canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
                 !isSubmitting
                   ? 'bg-green-600 hover:bg-green-700 text-white'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'

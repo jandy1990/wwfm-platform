@@ -54,16 +54,16 @@ function VerbatimCard({ verbatim }: VerbatimCardProps) {
 export default function FeaturedVerbatims({ verbatims }: FeaturedVerbatimsProps) {
   if (verbatims.length === 0) {
     return (
-      <section className="py-12 px-4">
+      <section className="bg-gray-900 dark:bg-black py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white mb-6 text-center">
             Community Insights
           </h2>
-          <div className="text-center text-gray-600 dark:text-gray-400">
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-8 border border-gray-200 dark:border-gray-700">
+          <div className="text-center text-gray-400">
+            <div className="bg-gray-800 rounded-lg p-8 border border-gray-700">
               <div className="text-4xl mb-4">💭</div>
-              <p className="text-lg mb-2">Building community...</p>
-              <p className="text-sm">Join discussions and share your experiences!</p>
+              <p className="text-lg mb-2 text-white">Building community...</p>
+              <p className="text-sm text-gray-400">Join discussions and share your experiences!</p>
             </div>
           </div>
         </div>
@@ -72,13 +72,13 @@ export default function FeaturedVerbatims({ verbatims }: FeaturedVerbatimsProps)
   }
 
   return (
-    <section className="py-12 px-4">
+    <section className="bg-gray-900 dark:bg-black py-20 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white mb-2">
             Community Insights
           </h2>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-300 dark:text-gray-400">
             Real experiences from our community members
           </p>
         </div>
@@ -88,17 +88,6 @@ export default function FeaturedVerbatims({ verbatims }: FeaturedVerbatimsProps)
             <VerbatimCard key={`${verbatim.goalTitle}-${verbatim.createdAt.getTime()}-${idx}`} verbatim={verbatim} />
           ))}
         </div>
-
-        {verbatims.length > 0 && (
-          <div className="mt-8 text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              These insights have received {verbatims.reduce((sum, v) => sum + v.upvotes, 0)} total upvotes from the community
-            </p>
-            <button className="px-6 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors duration-200 font-medium">
-              Join the Discussion
-            </button>
-          </div>
-        )}
       </div>
     </section>
   );

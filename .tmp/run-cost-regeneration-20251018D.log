@@ -1,0 +1,734 @@
+
+=== Build emotional intelligence (2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1) — startup_cost,ongoing_cost,cost,cost_type ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: 2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1
+Solution limit: 0
+Field filter: startup_cost,ongoing_cost,cost,cost_type
+Mode: LIVE
+📊 Loading goal data: 2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1
+✅ Loaded 23 solutions for "Build emotional intelligence"
+
+📋 Processing "Build emotional intelligence" (23 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/23 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 1.1s
+
+🔧 Processing: Pilates Reformer Training (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Pilates Reformer Training...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Pilates Reformer Training...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Empathy Training Workshops (professional_services)
+  Fields to check: cost
+    🤖 Generating cost for Empathy Training Workshops...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Mindfulness-Based Stress Reduction (MBSR) (meditation_mindfulness)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Mindfulness-Based Stress Reduction (MBSR)...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Mindfulness-Based Stress Reduction (MBSR)...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The 5 Love Languages (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 5 Love Languages...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Emotion Code by Dr. Bradley Nelson (alternative_practitioners)
+  Fields to check: cost
+    🤖 Generating cost for The Emotion Code by Dr. Bradley Nelson...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Emotional Intelligence Coaching (coaches_mentors)
+  Fields to check: cost
+    🤖 Generating cost for Emotional Intelligence Coaching...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Brene Brown's 'The Power of Vulnerability' TED Talk and related work (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Brene Brown's 'The Power of Vulnerability' TED Talk and related work...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Emotional Agility by Susan David (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Emotional Agility by Susan David...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Active Listening Practice (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Active Listening Practice...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Active Listening Practice...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+📍 Checkpoint: Processed 10/23 solutions
+   Progress: 10/23 solutions
+   Fields: 13 generated, 6 skipped, 0 errors
+   API calls: 13, Elapsed: 93.5s
+
+🔧 Processing: Cognitive Behavioral Therapy (CBT) with a Licensed Therapist (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for Cognitive Behavioral Therapy (CBT) with a Licensed Therapist...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Yoga with Adriene - 'Yoga For Complete Beginners' (exercise_movement)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Yoga with Adriene - 'Yoga For Complete Beginners'...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Yoga with Adriene - 'Yoga For Complete Beginners'...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Headspace App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Headspace App...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: SMART Goals Setting (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for SMART Goals Setting...
+    ✅ Generated 7 options for startup_cost
+    🤖 Generating ongoing_cost for SMART Goals Setting...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Insight Timer App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Insight Timer App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Five Love Languages by Gary Chapman (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Five Love Languages by Gary Chapman...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Power of Habit by Charles Duhigg (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Power of Habit by Charles Duhigg...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Gong.io (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Gong.io...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Gottman Method Couples Therapy (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for The Gottman Method Couples Therapy...
+    ✅ Generated 7 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Mindful Scrolling Practice (meditation_mindfulness)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Mindful Scrolling Practice...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Mindful Scrolling Practice...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+📍 Checkpoint: Processed 20/23 solutions
+   Progress: 20/23 solutions
+   Fields: 26 generated, 12 skipped, 0 errors
+   API calls: 26, Elapsed: 186.6s
+
+🔧 Processing: Dialectical Behavior Therapy (DBT) Skills Training (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Dialectical Behavior Therapy (DBT) Skills Training...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Journaling (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Journaling...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Journaling...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Acceptance and Commitment Therapy (ACT) (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for Acceptance and Commitment Therapy (ACT)...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processing completed
+   Progress: 23/23 solutions
+   Fields: 30 generated, 14 skipped, 0 errors
+   API calls: 30, Elapsed: 215.0s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 23/23
+   Fields generated: 30
+   Fields skipped: 14
+   Fields errored: 0
+   API calls made: 30
+   Total time: 215.0s
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Build emotional intelligence (2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1) — fields startup_cost,ongoing_cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1
+✅ Loaded 23 solutions for "Build emotional intelligence"
+Validating 7 solutions after filters
+
+🔍 Validating exercise_movement (2 solutions)
+  ✅ Pilates Reformer Training: startup_cost - OK
+  ✅ Pilates Reformer Training: ongoing_cost - OK
+  ✅ Yoga with Adriene - 'Yoga For Complete Beginners': startup_cost - OK
+  ✅ Yoga with Adriene - 'Yoga For Complete Beginners': ongoing_cost - OK
+
+🔍 Validating meditation_mindfulness (2 solutions)
+  ✅ Mindfulness-Based Stress Reduction (MBSR): startup_cost - OK
+  ✅ Mindfulness-Based Stress Reduction (MBSR): ongoing_cost - OK
+  ✅ Mindful Scrolling Practice: startup_cost - OK
+  ✅ Mindful Scrolling Practice: ongoing_cost - OK
+
+🔍 Validating habits_routines (3 solutions)
+  ✅ Active Listening Practice: startup_cost - OK
+  ✅ Active Listening Practice: ongoing_cost - OK
+  ✅ SMART Goals Setting: startup_cost - OK
+  ✅ SMART Goals Setting: ongoing_cost - OK
+  ✅ Journaling: startup_cost - OK
+  ✅ Journaling: ongoing_cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Build emotional intelligence"
+   Solutions: 7
+   Categories: 3 (exercise_movement, meditation_mindfulness, habits_routines)
+   Fields checked: 14
+
+📈 Quality Metrics:
+   ✅ Valid fields: 14
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   exercise_movement: 0/4 issues (0.0%)
+   meditation_mindfulness: 0/4 issues (0.0%)
+   habits_routines: 0/6 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend
+
+=== Build emotional intelligence (2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1) — cost ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: 2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1
+Solution limit: 0
+Field filter: cost
+Mode: LIVE
+📊 Loading goal data: 2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1
+✅ Loaded 23 solutions for "Build emotional intelligence"
+
+📋 Processing "Build emotional intelligence" (23 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/23 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 1.0s
+
+🔧 Processing: Pilates Reformer Training (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Empathy Training Workshops (professional_services)
+  Fields to check: cost
+    🤖 Generating cost for Empathy Training Workshops...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Mindfulness-Based Stress Reduction (MBSR) (meditation_mindfulness)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The 5 Love Languages (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 5 Love Languages...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Emotion Code by Dr. Bradley Nelson (alternative_practitioners)
+  Fields to check: cost
+    🤖 Generating cost for The Emotion Code by Dr. Bradley Nelson...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Emotional Intelligence Coaching (coaches_mentors)
+  Fields to check: cost
+    🤖 Generating cost for Emotional Intelligence Coaching...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Brene Brown's 'The Power of Vulnerability' TED Talk and related work (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Brene Brown's 'The Power of Vulnerability' TED Talk and related work...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Emotional Agility by Susan David (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Emotional Agility by Susan David...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Active Listening Practice (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+📍 Checkpoint: Processed 10/23 solutions
+   Progress: 10/23 solutions
+   Fields: 7 generated, 3 skipped, 0 errors
+   API calls: 7, Elapsed: 50.3s
+
+🔧 Processing: Cognitive Behavioral Therapy (CBT) with a Licensed Therapist (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for Cognitive Behavioral Therapy (CBT) with a Licensed Therapist...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Yoga with Adriene - 'Yoga For Complete Beginners' (exercise_movement)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Headspace App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Headspace App...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: SMART Goals Setting (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Insight Timer App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Insight Timer App...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Five Love Languages by Gary Chapman (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Five Love Languages by Gary Chapman...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Power of Habit by Charles Duhigg (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Power of Habit by Charles Duhigg...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Gong.io (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Gong.io...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Gottman Method Couples Therapy (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for The Gottman Method Couples Therapy...
+    ✅ Generated 7 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Mindful Scrolling Practice (meditation_mindfulness)
+  Fields to check: cost
+  ⏭️  All fields up to date
+📍 Checkpoint: Processed 20/23 solutions
+   Progress: 20/23 solutions
+   Fields: 14 generated, 6 skipped, 0 errors
+   API calls: 14, Elapsed: 99.4s
+
+🔧 Processing: Dialectical Behavior Therapy (DBT) Skills Training (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Dialectical Behavior Therapy (DBT) Skills Training...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Journaling (habits_routines)
+  Fields to check: cost
+  ⏭️  All fields up to date
+
+🔧 Processing: Acceptance and Commitment Therapy (ACT) (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for Acceptance and Commitment Therapy (ACT)...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processing completed
+   Progress: 23/23 solutions
+   Fields: 16 generated, 7 skipped, 0 errors
+   API calls: 16, Elapsed: 114.8s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 23/23
+   Fields generated: 16
+   Fields skipped: 7
+   Fields errored: 0
+   API calls made: 16
+   Total time: 114.8s
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Build emotional intelligence (2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1) — fields cost
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 2244e53d-d88b-4e9f-98e7-3bbb3ca6dfc1
+✅ Loaded 23 solutions for "Build emotional intelligence"
+Validating 23 solutions after filters
+
+🔍 Validating exercise_movement (2 solutions)
+
+🔍 Validating professional_services (1 solutions)
+  ✅ Empathy Training Workshops: cost - OK
+
+🔍 Validating meditation_mindfulness (2 solutions)
+
+🔍 Validating books_courses (7 solutions)
+  ✅ Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves: cost - OK
+  ✅ The 5 Love Languages: cost - OK
+  ✅ Brene Brown's 'The Power of Vulnerability' TED Talk and related work: cost - OK
+  ✅ Emotional Agility by Susan David: cost - OK
+  ✅ The Five Love Languages by Gary Chapman: cost - OK
+  ✅ The Power of Habit by Charles Duhigg: cost - OK
+  ✅ Dialectical Behavior Therapy (DBT) Skills Training: cost - OK
+
+🔍 Validating alternative_practitioners (1 solutions)
+  ✅ The Emotion Code by Dr. Bradley Nelson: cost - OK
+
+🔍 Validating coaches_mentors (1 solutions)
+  ✅ Emotional Intelligence Coaching: cost - OK
+
+🔍 Validating habits_routines (3 solutions)
+
+🔍 Validating therapists_counselors (3 solutions)
+  ✅ Cognitive Behavioral Therapy (CBT) with a Licensed Therapist: cost - OK
+  ✅ The Gottman Method Couples Therapy: cost - OK
+  ✅ Acceptance and Commitment Therapy (ACT): cost - OK
+
+🔍 Validating apps_software (3 solutions)
+  ✅ Headspace App: cost - OK
+  ✅ Insight Timer App: cost - OK
+  ✅ Gong.io: cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Build emotional intelligence"
+   Solutions: 23
+   Categories: 9 (exercise_movement, professional_services, meditation_mindfulness, books_courses, alternative_practitioners, coaches_mentors, habits_routines, therapists_counselors, apps_software)
+   Fields checked: 23
+
+📈 Quality Metrics:
+   ✅ Valid fields: 16
+   ❌ Invalid fields: 7
+   ⚠️  Missing fields: 0
+   📊 Error rate: 30.4%
+
+📂 Category Breakdown:
+   exercise_movement: 2/2 issues (100.0%)
+   professional_services: 0/1 issues (0.0%)
+   meditation_mindfulness: 2/2 issues (100.0%)
+   books_courses: 0/7 issues (0.0%)
+   alternative_practitioners: 0/1 issues (0.0%)
+   coaches_mentors: 0/1 issues (0.0%)
+   habits_routines: 3/3 issues (100.0%)
+   therapists_counselors: 0/3 issues (0.0%)
+   apps_software: 0/3 issues (0.0%)
+
+💡 Recommendations:
+   • HIGH ERROR RATE: 30.4% of fields have issues - consider V3 regeneration
+   • exercise_movement category has 100.0% error rate - focus regeneration here
+   • meditation_mindfulness category has 100.0% error rate - focus regeneration here
+   • habits_routines category has 100.0% error rate - focus regeneration here
+   • cost field has 7 issues across solutions - regenerate this field specifically
+
+🎯 Next Steps:
+   1. Run V3 generation to fix identified issues
+   2. Focus on problematic categories/fields
+   3. Re-validate after regeneration
+
+=== Create good habits (e9569309-a911-4045-a416-a74827827c7c) — startup_cost,ongoing_cost,cost,cost_type ===
+🚀 WWFM Field Generation V3
+=====================================
+Goal ID: e9569309-a911-4045-a416-a74827827c7c
+Solution limit: 0
+Field filter: startup_cost,ongoing_cost,cost,cost_type
+Mode: LIVE
+📊 Loading goal data: e9569309-a911-4045-a416-a74827827c7c
+✅ Loaded 30 solutions for "Create good habits"
+
+📋 Processing "Create good habits" (30 solutions)
+
+💾 Backup creation temporarily disabled for testing
+📍 Checkpoint: Processing started
+   Progress: 0/30 solutions
+   Fields: 0 generated, 0 skipped, 0 errors
+   API calls: 0, Elapsed: 1.1s
+
+🔧 Processing: Stickk (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Stickk...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: mindful.org (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for mindful.org...
+    ✅ Generated 7 options for startup_cost
+    🤖 Generating ongoing_cost for mindful.org...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: The 7 Habits of Highly Effective Teens by Sean Covey (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 7 Habits of Highly Effective Teens by Sean Covey...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: IBS-Friendly Meal Prep (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for IBS-Friendly Meal Prep...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for IBS-Friendly Meal Prep...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Public Goods Water Filter Pitcher (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Public Goods Water Filter Pitcher...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Glucose Revolution by Jessie Inchauspé (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Glucose Revolution by Jessie Inchauspé...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Acne Diet by Dr. Whitney Bowe (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Acne Diet by Dr. Whitney Bowe...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Streaks Habit Tracker App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Streaks Habit Tracker App...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Eat What You Love (diet_nutrition)
+  Fields to check: cost
+    🤖 Generating cost for Eat What You Love...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Book - 'Feeling Good: The New Mood Therapy' by David D. Burns (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Book - 'Feeling Good: The New Mood Therapy' by David D. Burns...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 10/30 solutions
+   Progress: 10/30 solutions
+   Fields: 12 generated, 4 skipped, 0 errors
+   API calls: 12, Elapsed: 86.7s
+
+🔧 Processing: Duolingo Language Learning App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Duolingo Language Learning App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: CoveyLink Coaching (coaches_mentors)
+  Fields to check: cost
+    🤖 Generating cost for CoveyLink Coaching...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: SMART Goals Framework (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for SMART Goals Framework...
+    🤖 Generating ongoing_cost for SMART Goals Framework...
+  ⏭️  All fields up to date
+
+🔧 Processing: Sleep Cycle App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Sleep Cycle App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: BetterHelp Online Therapy (therapists_counselors)
+  Fields to check: cost
+    🤖 Generating cost for BetterHelp Online Therapy...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: MyFitnessPal (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for MyFitnessPal...
+  ⏭️  All fields up to date
+
+🔧 Processing: Daily Affirmations (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Daily Affirmations...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Hashimoto's Protocol (by Izabella Wentz) (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Hashimoto's Protocol (by Izabella Wentz)...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Habit Stacking (from Atomic Habits) (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Habit Stacking (from Atomic Habits)...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Habit Stacking (from Atomic Habits)...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Calm App (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Calm App...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+📍 Checkpoint: Processed 20/30 solutions
+   Progress: 20/30 solutions
+   Fields: 21 generated, 8 skipped, 3 errors
+   API calls: 24, Elapsed: 172.1s
+
+🔧 Processing: The 5 AM Club by Robin Sharma (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 5 AM Club by Robin Sharma...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Power of Habit by Charles Duhigg (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Power of Habit by Charles Duhigg...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Commit Action Plan (from 'The 7 Habits of Highly Effective People') (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Commit Action Plan (from 'The 7 Habits of Highly Effective People')...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Commit Action Plan (from 'The 7 Habits of Highly Effective People')...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: The 7 Habits of Highly Effective People (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The 7 Habits of Highly Effective People...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: The Feeling Good Handbook by David D. Burns, MD (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for The Feeling Good Handbook by David D. Burns, MD...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Fitbit Charge 6 (products_devices)
+  Fields to check: cost
+    🤖 Generating cost for Fitbit Charge 6...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Noom Psychology-Based Weight Loss (apps_software)
+  Fields to check: cost
+    🤖 Generating cost for Noom Psychology-Based Weight Loss...
+    ✅ Generated 6 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Savor (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Savor...
+    ✅ Generated 5 options for startup_cost
+    🤖 Generating ongoing_cost for Savor...
+    ✅ Generated 5 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+
+🔧 Processing: Atomic Habits by James Clear (books_courses)
+  Fields to check: cost
+    🤖 Generating cost for Atomic Habits by James Clear...
+    ✅ Generated 5 options for cost
+  ✅ Updated 1 fields, skipped 0
+
+🔧 Processing: Habit Stacking (James Clear's 'Atomic Habits') (habits_routines)
+  Fields to check: startup_cost, ongoing_cost, cost, cost_type
+    🤖 Generating startup_cost for Habit Stacking (James Clear's 'Atomic Habits')...
+    ✅ Generated 6 options for startup_cost
+    🤖 Generating ongoing_cost for Habit Stacking (James Clear's 'Atomic Habits')...
+    ✅ Generated 6 options for ongoing_cost
+  ✅ Updated 2 fields, skipped 2
+📍 Checkpoint: Processed 30/30 solutions
+   Progress: 30/30 solutions
+   Fields: 34 generated, 14 skipped, 3 errors
+   API calls: 37, Elapsed: 265.4s
+📍 Checkpoint: Processing completed
+   Progress: 30/30 solutions
+   Fields: 34 generated, 14 skipped, 3 errors
+   API calls: 37, Elapsed: 265.4s
+
+🎉 Processing Complete!
+
+📊 Final Statistics:
+   Solutions processed: 30/30
+   Fields generated: 34
+   Fields skipped: 14
+   Fields errored: 3
+   API calls made: 37
+   Total time: 265.4s
+   Error rate: 8.1%
+
+✅ Database updated successfully
+🌐 Check the frontend to verify data quality
+
+>>> Validator: Create good habits (e9569309-a911-4045-a416-a74827827c7c) — fields startup_cost,ongoing_cost
