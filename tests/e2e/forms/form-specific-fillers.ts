@@ -537,27 +537,29 @@ export async function fillSessionForm(page: Page, category: string) {
     await veryButton.click();
     console.log('Selected "Very effective" using button UI');
   } else {
-    // Original star rating UI
+    // Original star rating UI - use semantic selector for 4-star button
     const ratingButtonsLocator = page.locator('.grid.grid-cols-5 button');
     const ratingButtonCount = await ratingButtonsLocator.count();
     console.log(`Found ${ratingButtonCount} rating buttons`);
-    
+
     if (ratingButtonCount >= 4) {
-      await ratingButtonsLocator.nth(3).click(); // 4 stars (index 3 = 4th button)
+      // Semantic selector: find button with text "4" (more resilient than .nth(3))
+      const fourStarButton = ratingButtonsLocator.filter({ hasText: /^4$/ });
+      await fourStarButton.click();
       console.log('Selected 4-star effectiveness rating');
       await page.waitForTimeout(500);
-      
+
       // Verify the button was clicked and effectiveness is set
-      const isSelected = await ratingButtonsLocator.nth(3).getAttribute('class');
+      const isSelected = await fourStarButton.getAttribute('class');
       console.log(`4-star button classes: ${isSelected}`);
     } else {
       console.log('ERROR: Could not find effectiveness rating buttons');
-      // Try alternative selector
-      const alternativeButtonsLocator = page.locator('button').filter({ hasText: /^\d+$/ });
-      const alternativeCount = await alternativeButtonsLocator.count();
-      console.log(`Found ${alternativeCount} alternative rating buttons`);
-      if (alternativeCount >= 4) {
-        await alternativeButtonsLocator.nth(3).click();
+      // Try alternative selector - find any button with text "4"
+      const fourStarButton = page.locator('button').filter({ hasText: /^4$/ });
+      const fourStarCount = await fourStarButton.count();
+      console.log(`Found ${fourStarCount} buttons with text "4"`);
+      if (fourStarCount > 0) {
+        await fourStarButton.first().click();
         console.log('Selected 4-star effectiveness rating (alternative selector)');
       }
     }
@@ -690,6 +692,8 @@ export async function fillSessionForm(page: Page, category: string) {
   // Find cost range by process of elimination - it's NOT the one with "How often" placeholder
   let costRangeTrigger = null;
   for (let i = 0; i < comboboxCount; i++) {
+    // NOTE: .nth(i) is acceptable here - used in loop for process-of-elimination when no other semantic selector exists
+    // We can't use a label-based selector because SessionForm has multiple unlabeled comboboxes
     const box = allComboboxes.nth(i);
     const text = await box.textContent().catch(() => '');
     console.log(`Combobox ${i}: "${text}"`);
@@ -766,6 +770,7 @@ export async function fillSessionForm(page: Page, category: string) {
       // Re-find the cost range combobox using same process-of-elimination logic
       let retryTrigger = null;
       for (let i = 0; i < comboboxCount; i++) {
+        // NOTE: .nth(i) is acceptable here - used in loop for process-of-elimination retry logic
         const box = allComboboxes.nth(i);
         const text = await box.textContent().catch(() => '');
 
