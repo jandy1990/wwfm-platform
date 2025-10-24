@@ -13,6 +13,7 @@ import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
 import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 
 interface PracticeFormProps {
   goalId: string;
@@ -266,8 +267,9 @@ export function PracticeForm({
   };
 
   const handleSubmit = async () => {
+    console.log('[PracticeForm] handleSubmit called - category:', category);
     setIsSubmitting(true);
-    
+
     try {
       // Primary cost field for cross-category filtering
       const hasUnknownCost = ongoingCost === "Don't remember" || startupCost === "Don't remember";
@@ -325,7 +327,9 @@ export function PracticeForm({
 
 
       // Call server action to submit the solution
+      console.log('[PracticeForm] Calling submitSolution with data:', { category, solutionName, fieldsCount: Object.keys(solutionFields).length });
       const result = await submitSolution(submissionData);
+      console.log('[PracticeForm] submitSolution returned:', result);
       
       
       if (result.success) {
@@ -480,24 +484,24 @@ export function PracticeForm({
                     When did you notice results?
                   </label>
                 </div>
-                <select
-                  value={timeToResults}
-                  onChange={(e) => setTimeToResults(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={timeToResults} onValueChange={setTimeToResults}>
+                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none transition-all"
-                >
-                  <option value="">Select timeframe</option>
-                  <option value="Immediately">Immediately</option>
-                  <option value="Within days">Within days</option>
-                  <option value="1-2 weeks">1-2 weeks</option>
-                  <option value="3-4 weeks">3-4 weeks</option>
-                  <option value="1-2 months">1-2 months</option>
-                  <option value="3-6 months">3-6 months</option>
-                  <option value="6+ months">6+ months</option>
-                  <option value="Still evaluating">Still evaluating</option>
-                </select>
+                           transition-all">
+                    <SelectValue placeholder="Select timeframe" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Immediately">Immediately</SelectItem>
+                    <SelectItem value="Within days">Within days</SelectItem>
+                    <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
+                    <SelectItem value="3-4 weeks">3-4 weeks</SelectItem>
+                    <SelectItem value="1-2 months">1-2 months</SelectItem>
+                    <SelectItem value="3-6 months">3-6 months</SelectItem>
+                    <SelectItem value="6+ months">6+ months</SelectItem>
+                    <SelectItem value="Still evaluating">Still evaluating</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
@@ -526,24 +530,23 @@ export function PracticeForm({
                   <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                     Initial startup cost
                   </label>
-                  <select
-                    value={startupCost}
-                    onChange={(e) => setStartupCost(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                  <Select value={startupCost} onValueChange={setStartupCost}>
+                    <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                             appearance-none"
-                  >
-                    <option value="">Select startup cost</option>
-                    <option value="Free/No startup cost">Free/No startup cost</option>
-                    <option value="Don't remember">Don't remember</option>
-                    <option value="Under $50">Under $50</option>
-                    <option value="$50-$99.99">$50-$99.99</option>
-                    <option value="$100-$249.99">$100-$249.99</option>
-                    <option value="$250-$499.99">$250-$499.99</option>
-                    <option value="$500-$999.99">$500-$999.99</option>
-                    <option value="$1000+">$1000+</option>
-                  </select>
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                      <SelectValue placeholder="Select startup cost" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Free/No startup cost">Free/No startup cost</SelectItem>
+                      <SelectItem value="Don't remember">Don't remember</SelectItem>
+                      <SelectItem value="Under $50">Under $50</SelectItem>
+                      <SelectItem value="$50-$99.99">$50-$99.99</SelectItem>
+                      <SelectItem value="$100-$249.99">$100-$249.99</SelectItem>
+                      <SelectItem value="$250-$499.99">$250-$499.99</SelectItem>
+                      <SelectItem value="$500-$999.99">$500-$999.99</SelectItem>
+                      <SelectItem value="$1000+">$1000+</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 {/* Ongoing cost */}
@@ -551,24 +554,23 @@ export function PracticeForm({
                   <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                     Monthly ongoing cost
                   </label>
-                  <select
-                    value={ongoingCost}
-                    onChange={(e) => setOngoingCost(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                  <Select value={ongoingCost} onValueChange={setOngoingCost}>
+                    <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                             appearance-none"
-                  >
-                    <option value="">Select ongoing cost</option>
-                    <option value="Free/No ongoing cost">Free/No ongoing cost</option>
-                    <option value="Don't remember">Don't remember</option>
-                    <option value="Under $10/month">Under $10/month</option>
-                    <option value="$10-$24.99/month">$10-$24.99/month</option>
-                    <option value="$25-$49.99/month">$25-$49.99/month</option>
-                    <option value="$50-$99.99/month">$50-$99.99/month</option>
-                    <option value="$100-$199.99/month">$100-$199.99/month</option>
-                    <option value="$200+/month">$200+/month</option>
-                  </select>
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                      <SelectValue placeholder="Select ongoing cost" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Free/No ongoing cost">Free/No ongoing cost</SelectItem>
+                      <SelectItem value="Don't remember">Don't remember</SelectItem>
+                      <SelectItem value="Under $10/month">Under $10/month</SelectItem>
+                      <SelectItem value="$10-$24.99/month">$10-$24.99/month</SelectItem>
+                      <SelectItem value="$25-$49.99/month">$25-$49.99/month</SelectItem>
+                      <SelectItem value="$50-$99.99/month">$50-$99.99/month</SelectItem>
+                      <SelectItem value="$100-$199.99/month">$100-$199.99/month</SelectItem>
+                      <SelectItem value="$200+/month">$200+/month</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
@@ -577,23 +579,22 @@ export function PracticeForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   How often do you practice? <span className="text-red-500">*</span>
                 </label>
-                <select
-                  value={frequency}
-                  onChange={(e) => setFrequency(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={frequency} onValueChange={setFrequency}>
+                  <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none"
-                >
-                  <option value="">Select frequency</option>
-                  <option value="Daily">Daily</option>
-                  <option value="5-6 times per week">5-6 times per week</option>
-                  <option value="3-4 times per week">3-4 times per week</option>
-                  <option value="1-2 times per week">1-2 times per week</option>
-                  <option value="Weekly">Weekly</option>
-                  <option value="Few times a month">Few times a month</option>
-                  <option value="As needed">As needed</option>
-                </select>
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                    <SelectValue placeholder="Select frequency" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Daily">Daily</SelectItem>
+                    <SelectItem value="5-6 times per week">5-6 times per week</SelectItem>
+                    <SelectItem value="3-4 times per week">3-4 times per week</SelectItem>
+                    <SelectItem value="1-2 times per week">1-2 times per week</SelectItem>
+                    <SelectItem value="Weekly">Weekly</SelectItem>
+                    <SelectItem value="Few times a month">Few times a month</SelectItem>
+                    <SelectItem value="As needed">As needed</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Category-specific field */}
@@ -602,23 +603,22 @@ export function PracticeForm({
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Practice length <span className="text-red-500">*</span>
                   </label>
-                  <select
-                    value={practiceLength}
-                    onChange={(e) => setPracticeLength(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                  <Select value={practiceLength} onValueChange={setPracticeLength}>
+                    <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                             appearance-none"
-                  >
-                    <option value="">Select practice length</option>
-                    <option value="Under 5 minutes">Under 5 minutes</option>
-                    <option value="5-10 minutes">5-10 minutes</option>
-                    <option value="10-20 minutes">10-20 minutes</option>
-                    <option value="20-30 minutes">20-30 minutes</option>
-                    <option value="30-45 minutes">30-45 minutes</option>
-                    <option value="45-60 minutes">45-60 minutes</option>
-                    <option value="Over 1 hour">Over 1 hour</option>
-                  </select>
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                      <SelectValue placeholder="Select practice length" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Under 5 minutes">Under 5 minutes</SelectItem>
+                      <SelectItem value="5-10 minutes">5-10 minutes</SelectItem>
+                      <SelectItem value="10-20 minutes">10-20 minutes</SelectItem>
+                      <SelectItem value="20-30 minutes">20-30 minutes</SelectItem>
+                      <SelectItem value="30-45 minutes">30-45 minutes</SelectItem>
+                      <SelectItem value="45-60 minutes">45-60 minutes</SelectItem>
+                      <SelectItem value="Over 1 hour">Over 1 hour</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               )}
 
@@ -627,23 +627,22 @@ export function PracticeForm({
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Session duration <span className="text-red-500">*</span>
                   </label>
-                  <select
-                    value={duration}
-                    onChange={(e) => setDuration(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                  <Select value={duration} onValueChange={setDuration}>
+                    <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                             appearance-none"
-                  >
-                    <option value="">Select duration</option>
-                    <option value="Under 15 minutes">Under 15 minutes</option>
-                    <option value="15-30 minutes">15-30 minutes</option>
-                    <option value="30-45 minutes">30-45 minutes</option>
-                    <option value="45-60 minutes">45-60 minutes</option>
-                    <option value="60-90 minutes">60-90 minutes</option>
-                    <option value="90-120 minutes">90-120 minutes</option>
-                    <option value="Over 2 hours">Over 2 hours</option>
-                  </select>
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                      <SelectValue placeholder="Select duration" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Under 15 minutes">Under 15 minutes</SelectItem>
+                      <SelectItem value="15-30 minutes">15-30 minutes</SelectItem>
+                      <SelectItem value="30-45 minutes">30-45 minutes</SelectItem>
+                      <SelectItem value="45-60 minutes">45-60 minutes</SelectItem>
+                      <SelectItem value="60-90 minutes">60-90 minutes</SelectItem>
+                      <SelectItem value="90-120 minutes">90-120 minutes</SelectItem>
+                      <SelectItem value="Over 2 hours">Over 2 hours</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               )}
 
@@ -652,27 +651,26 @@ export function PracticeForm({
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Daily time commitment <span className="text-red-500">*</span>
                   </label>
-                  <select
-                    value={timeCommitment}
-                    onChange={(e) => setTimeCommitment(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                  <Select value={timeCommitment} onValueChange={setTimeCommitment}>
+                    <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                             appearance-none"
-                  >
-                    <option value="">Select time commitment</option>
-                    <option value="Under 5 minutes">Under 5 minutes</option>
-                    <option value="5-10 minutes">5-10 minutes</option>
-                    <option value="10-20 minutes">10-20 minutes</option>
-                    <option value="20-30 minutes">20-30 minutes</option>
-                    <option value="30-45 minutes">30-45 minutes</option>
-                    <option value="45-60 minutes">45-60 minutes</option>
-                    <option value="1-2 hours">1-2 hours</option>
-                    <option value="2-3 hours">2-3 hours</option>
-                    <option value="More than 3 hours">More than 3 hours</option>
-                    <option value="Multiple times throughout the day">Multiple times throughout the day</option>
-                    <option value="Ongoing/Background habit">Ongoing/Background habit</option>
-                  </select>
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                      <SelectValue placeholder="Select time commitment" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Under 5 minutes">Under 5 minutes</SelectItem>
+                      <SelectItem value="5-10 minutes">5-10 minutes</SelectItem>
+                      <SelectItem value="10-20 minutes">10-20 minutes</SelectItem>
+                      <SelectItem value="20-30 minutes">20-30 minutes</SelectItem>
+                      <SelectItem value="30-45 minutes">30-45 minutes</SelectItem>
+                      <SelectItem value="45-60 minutes">45-60 minutes</SelectItem>
+                      <SelectItem value="1-2 hours">1-2 hours</SelectItem>
+                      <SelectItem value="2-3 hours">2-3 hours</SelectItem>
+                      <SelectItem value="More than 3 hours">More than 3 hours</SelectItem>
+                      <SelectItem value="Multiple times throughout the day">Multiple times throughout the day</SelectItem>
+                      <SelectItem value="Ongoing/Background habit">Ongoing/Background habit</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               )}
             </div>
@@ -892,11 +890,11 @@ export function PracticeForm({
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
             {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
-              <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'}</>
+              <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'} around the world</>
             ) : existingSolutionId ? (
-              <>Your experience with {solutionName} has been recorded</>
+              <>Your experience with {solutionName} has been recorded and will help people worldwide</>
             ) : (
-              <>You're the first to review {solutionName}! It needs 2 more reviews to go live.</>
+              <>You're the first to review {solutionName}! It needs 2 more reviews to go live and help people worldwide.</>
             )}
           </p>
 
@@ -907,41 +905,41 @@ export function PracticeForm({
             </p>
             
             <div className="space-y-4">
-              <select
-                value={bestTime}
-                onChange={(e) => setBestTime(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+              <Select value={bestTime} onValueChange={setBestTime}>
+                <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                         appearance-none text-sm"
-              >
-                <option value="">Best time of day?</option>
-                <option value="Early morning (5-7am)">Early morning (5-7am)</option>
-                <option value="Morning (7-10am)">Morning (7-10am)</option>
-                <option value="Midday (10am-2pm)">Midday (10am-2pm)</option>
-                <option value="Afternoon (2-5pm)">Afternoon (2-5pm)</option>
-                <option value="Evening (5-8pm)">Evening (5-8pm)</option>
-                <option value="Night (8pm+)">Night (8pm+)</option>
-                <option value="Anytime">Anytime</option>
-              </select>
+                         text-sm">
+                  <SelectValue placeholder="Best time of day?" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Early morning (5-7am)">Early morning (5-7am)</SelectItem>
+                  <SelectItem value="Morning (7-10am)">Morning (7-10am)</SelectItem>
+                  <SelectItem value="Midday (10am-2pm)">Midday (10am-2pm)</SelectItem>
+                  <SelectItem value="Afternoon (2-5pm)">Afternoon (2-5pm)</SelectItem>
+                  <SelectItem value="Evening (5-8pm)">Evening (5-8pm)</SelectItem>
+                  <SelectItem value="Night (8pm+)">Night (8pm+)</SelectItem>
+                  <SelectItem value="Anytime">Anytime</SelectItem>
+                </SelectContent>
+              </Select>
 
               {category !== 'habits_routines' && (
-                <select
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={location} onValueChange={setLocation}>
+                  <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                           appearance-none text-sm"
-                >
-                  <option value="">Where do you practice?</option>
-                  <option value="Home">Home</option>
-                  <option value="Gym/Studio">Gym/Studio</option>
-                  <option value="Outdoors">Outdoors</option>
-                  <option value="Office/Work">Office/Work</option>
-                  <option value="Online/Virtual">Online/Virtual</option>
-                  <option value="Multiple locations">Multiple locations</option>
-                </select>
+                           text-sm">
+                    <SelectValue placeholder="Where do you practice?" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Home">Home</SelectItem>
+                    <SelectItem value="Gym/Studio">Gym/Studio</SelectItem>
+                    <SelectItem value="Outdoors">Outdoors</SelectItem>
+                    <SelectItem value="Office/Work">Office/Work</SelectItem>
+                    <SelectItem value="Online/Virtual">Online/Virtual</SelectItem>
+                    <SelectItem value="Multiple locations">Multiple locations</SelectItem>
+                  </SelectContent>
+                </Select>
               )}
               
               <textarea

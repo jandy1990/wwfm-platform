@@ -1248,11 +1248,11 @@ export function SessionForm({
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
             {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
-              <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'}</>
+              <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'} around the world</>
             ) : existingSolutionId ? (
-              <>Your experience with {solutionName} has been recorded</>
+              <>Your experience with {solutionName} has been recorded and will help people worldwide</>
             ) : (
-              <>You're the first to review {solutionName}! It needs 2 more reviews to go live.</>
+              <>You're the first to review {solutionName}! It needs 2 more reviews to go live and help people worldwide.</>
             )}
           </p>
 

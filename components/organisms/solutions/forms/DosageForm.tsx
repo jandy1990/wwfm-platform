@@ -12,6 +12,7 @@ import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-so
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 
 interface DosageFormProps {
   goalId: string;
@@ -526,24 +527,24 @@ export function DosageForm({
                         When did you notice results? <span className="text-red-500">*</span>
                       </label>
                     </div>
-                    <select
-                      value={timeToResults}
-                      onChange={(e) => setTimeToResults(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                    <Select value={timeToResults} onValueChange={setTimeToResults}>
+                      <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                                focus:ring-2 focus:ring-purple-500 focus:border-transparent
                                bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                               appearance-none transition-all"
-                    >
-                      <option value="">Select timeframe</option>
-                      <option value="Immediately">Immediately</option>
-                      <option value="Within days">Within days</option>
-                      <option value="1-2 weeks">1-2 weeks</option>
-                      <option value="3-4 weeks">3-4 weeks</option>
-                      <option value="1-2 months">1-2 months</option>
-                      <option value="3-6 months">3-6 months</option>
-                      <option value="6+ months">6+ months</option>
-                      <option value="Still evaluating">Still evaluating</option>
-                    </select>
+                               transition-all">
+                        <SelectValue placeholder="Select timeframe" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Immediately">Immediately</SelectItem>
+                        <SelectItem value="Within days">Within days</SelectItem>
+                        <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
+                        <SelectItem value="3-4 weeks">3-4 weeks</SelectItem>
+                        <SelectItem value="1-2 months">1-2 months</SelectItem>
+                        <SelectItem value="3-6 months">3-6 months</SelectItem>
+                        <SelectItem value="6+ months">6+ months</SelectItem>
+                        <SelectItem value="Still evaluating">Still evaluating</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 
@@ -567,19 +568,18 @@ export function DosageForm({
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                       How often did you use it? <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      value={skincareFrequency}
-                      onChange={(e) => setSkincareFrequency(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                    <Select value={skincareFrequency} onValueChange={setSkincareFrequency}>
+                      <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                                focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                               appearance-none"
-                    >
-                      <option value="">Select frequency</option>
-                      {skincareFrequencies.map(freq => (
-                        <option key={freq.value} value={freq.value}>{freq.label}</option>
-                      ))}
-                    </select>
+                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                        <SelectValue placeholder="Select frequency" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {skincareFrequencies.map(freq => (
+                          <SelectItem key={freq.value} value={freq.value}>{freq.label}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   {/* Length of use */}
@@ -587,24 +587,23 @@ export function DosageForm({
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       How long did you use it? <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      value={lengthOfUse}
-                      onChange={(e) => setLengthOfUse(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                    <Select value={lengthOfUse} onValueChange={setLengthOfUse}>
+                      <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                                focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                               appearance-none"
-                    >
-                      <option value="">Select duration</option>
-                      <option value="Less than 1 month">Less than 1 month</option>
-                      <option value="1-3 months">1-3 months</option>
-                      <option value="3-6 months">3-6 months</option>
-                      <option value="6-12 months">6-12 months</option>
-                      <option value="1-2 years">1-2 years</option>
-                      <option value="Over 2 years">Over 2 years</option>
-                      <option value="As needed">As needed</option>
-                      <option value="Still using">Still using</option>
-                    </select>
+                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                        <SelectValue placeholder="Select duration" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Less than 1 month">Less than 1 month</SelectItem>
+                        <SelectItem value="1-3 months">1-3 months</SelectItem>
+                        <SelectItem value="3-6 months">3-6 months</SelectItem>
+                        <SelectItem value="6-12 months">6-12 months</SelectItem>
+                        <SelectItem value="1-2 years">1-2 years</SelectItem>
+                        <SelectItem value="Over 2 years">Over 2 years</SelectItem>
+                        <SelectItem value="As needed">As needed</SelectItem>
+                        <SelectItem value="Still using">Still using</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
               </>
@@ -648,22 +647,24 @@ export function DosageForm({
                       <label className="text-xs text-gray-600 dark:text-gray-400">
                         Unit <span className="text-red-500">*</span>
                       </label>
-                      <select
+                      <Select
                         value={doseUnit}
-                        onChange={(e) => {
-                          setDoseUnit(e.target.value);
-                          setShowCustomUnit(e.target.value === 'other');
+                        onValueChange={(value) => {
+                          setDoseUnit(value);
+                          setShowCustomUnit(value === 'other');
                         }}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                                 focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                                 bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                                 appearance-none"
                       >
-                        <option value="">Select unit</option>
-                        {unitOptions[category as keyof typeof unitOptions]?.map(unit => (
-                          <option key={unit} value={unit}>{unit}</option>
-                        ))}
-                      </select>
+                        <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                                 focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                                 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                          <SelectValue placeholder="Select unit" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {unitOptions[category as keyof typeof unitOptions]?.map(unit => (
+                            <SelectItem key={unit} value={unit}>{unit}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
 
@@ -688,25 +689,24 @@ export function DosageForm({
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       How often? <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      value={frequency}
-                      onChange={(e) => setFrequency(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                    <Select value={frequency} onValueChange={setFrequency}>
+                      <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                                focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                               appearance-none"
-                    >
-                      <option value="">Select frequency</option>
-                      <option value="once daily">Once daily</option>
-                      <option value="twice daily">Twice daily</option>
-                      <option value="three times daily">Three times daily</option>
-                      <option value="four times daily">Four times daily</option>
-                      <option value="as needed">As needed</option>
-                      <option value="every other day">Every other day</option>
-                      <option value="twice weekly">Twice weekly</option>
-                      <option value="weekly">Weekly</option>
-                      <option value="monthly">Monthly</option>
-                    </select>
+                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                        <SelectValue placeholder="Select frequency" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="once daily">Once daily</SelectItem>
+                        <SelectItem value="twice daily">Twice daily</SelectItem>
+                        <SelectItem value="three times daily">Three times daily</SelectItem>
+                        <SelectItem value="four times daily">Four times daily</SelectItem>
+                        <SelectItem value="as needed">As needed</SelectItem>
+                        <SelectItem value="every other day">Every other day</SelectItem>
+                        <SelectItem value="twice weekly">Twice weekly</SelectItem>
+                        <SelectItem value="weekly">Weekly</SelectItem>
+                        <SelectItem value="monthly">Monthly</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   {/* Preview */}
@@ -723,24 +723,23 @@ export function DosageForm({
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     How long did you use it? <span className="text-red-500">*</span>
                   </label>
-                  <select
-                    value={lengthOfUse}
-                    onChange={(e) => setLengthOfUse(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                  <Select value={lengthOfUse} onValueChange={setLengthOfUse}>
+                    <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                             appearance-none"
-                  >
-                    <option value="">Select duration</option>
-                    <option value="Less than 1 month">Less than 1 month</option>
-                    <option value="1-3 months">1-3 months</option>
-                    <option value="3-6 months">3-6 months</option>
-                    <option value="6-12 months">6-12 months</option>
-                    <option value="1-2 years">1-2 years</option>
-                    <option value="Over 2 years">Over 2 years</option>
-                    <option value="As needed">As needed</option>
-                    <option value="Still using">Still using</option>
-                  </select>
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                      <SelectValue placeholder="Select duration" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Less than 1 month">Less than 1 month</SelectItem>
+                      <SelectItem value="1-3 months">1-3 months</SelectItem>
+                      <SelectItem value="3-6 months">3-6 months</SelectItem>
+                      <SelectItem value="6-12 months">6-12 months</SelectItem>
+                      <SelectItem value="1-2 years">1-2 years</SelectItem>
+                      <SelectItem value="Over 2 years">Over 2 years</SelectItem>
+                      <SelectItem value="As needed">As needed</SelectItem>
+                      <SelectItem value="Still using">Still using</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 {/* Visual separator */}
@@ -810,24 +809,24 @@ export function DosageForm({
                         When did you notice results? <span className="text-red-500">*</span>
                       </label>
                     </div>
-                    <select
-                      value={timeToResults}
-                      onChange={(e) => setTimeToResults(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                    <Select value={timeToResults} onValueChange={setTimeToResults}>
+                      <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                                focus:ring-2 focus:ring-purple-500 focus:border-transparent
                                bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                               appearance-none transition-all"
-                    >
-                      <option value="">Select timeframe</option>
-                      <option value="Immediately">Immediately</option>
-                      <option value="Within days">Within days</option>
-                      <option value="1-2 weeks">1-2 weeks</option>
-                      <option value="3-4 weeks">3-4 weeks</option>
-                      <option value="1-2 months">1-2 months</option>
-                      <option value="3-6 months">3-6 months</option>
-                      <option value="6+ months">6+ months</option>
-                      <option value="Still evaluating">Still evaluating</option>
-                    </select>
+                               transition-all">
+                        <SelectValue placeholder="Select timeframe" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Immediately">Immediately</SelectItem>
+                        <SelectItem value="Within days">Within days</SelectItem>
+                        <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
+                        <SelectItem value="3-4 weeks">3-4 weeks</SelectItem>
+                        <SelectItem value="1-2 months">1-2 months</SelectItem>
+                        <SelectItem value="3-6 months">3-6 months</SelectItem>
+                        <SelectItem value="6+ months">6+ months</SelectItem>
+                        <SelectItem value="Still evaluating">Still evaluating</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
               </>
@@ -1081,11 +1080,11 @@ export function DosageForm({
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
             {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
-              <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'}</>
+              <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'} around the world</>
             ) : existingSolutionId ? (
-              <>Your experience with {solutionName} has been recorded</>
+              <>Your experience with {solutionName} has been recorded and will help people worldwide</>
             ) : (
-              <>You're the first to review {solutionName}! It needs 2 more reviews to go live.</>
+              <>You're the first to review {solutionName}! It needs 2 more reviews to go live and help people worldwide.</>
             )}
           </p>
 
@@ -1124,40 +1123,40 @@ export function DosageForm({
                     </button>
                   </div>
                 )}
-                <select
-                  value={costRange}
-                  onChange={(e) => setCostRange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={costRange} onValueChange={setCostRange}>
+                  <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                           appearance-none text-sm"
-                >
-                  <option value="">Select cost range...</option>
-                  <option value="Free">Free</option>
-                  <option value="dont_remember">I don't remember</option>
-                  {costType === 'monthly' ? (
-                    <>
-                      <option value="Under $10/month">Under $10/month</option>
-                      <option value="$10-25/month">$10-25/month</option>
-                      <option value="$25-50/month">$25-50/month</option>
-                      <option value="$50-100/month">$50-100/month</option>
-                      <option value="$100-200/month">$100-200/month</option>
-                      <option value="$200-500/month">$200-500/month</option>
-                      <option value="$500-1000/month">$500-1000/month</option>
-                      <option value="Over $1000/month">Over $1000/month</option>
-                    </>
-                  ) : (
-                    <>
-                      <option value="Under $20">Under $20</option>
-                      <option value="$20-50">$20-50</option>
-                      <option value="$50-100">$50-100</option>
-                      <option value="$100-250">$100-250</option>
-                      <option value="$250-500">$250-500</option>
-                      <option value="$500-1000">$500-1000</option>
-                      <option value="Over $1000">Over $1000</option>
-                    </>
-                  )}
-                </select>
+                           text-sm">
+                    <SelectValue placeholder="Select cost range..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Free">Free</SelectItem>
+                    <SelectItem value="dont_remember">I don't remember</SelectItem>
+                    {costType === 'monthly' ? (
+                      <>
+                        <SelectItem value="Under $10/month">Under $10/month</SelectItem>
+                        <SelectItem value="$10-25/month">$10-25/month</SelectItem>
+                        <SelectItem value="$25-50/month">$25-50/month</SelectItem>
+                        <SelectItem value="$50-100/month">$50-100/month</SelectItem>
+                        <SelectItem value="$100-200/month">$100-200/month</SelectItem>
+                        <SelectItem value="$200-500/month">$200-500/month</SelectItem>
+                        <SelectItem value="$500-1000/month">$500-1000/month</SelectItem>
+                        <SelectItem value="Over $1000/month">Over $1000/month</SelectItem>
+                      </>
+                    ) : (
+                      <>
+                        <SelectItem value="Under $20">Under $20</SelectItem>
+                        <SelectItem value="$20-50">$20-50</SelectItem>
+                        <SelectItem value="$50-100">$50-100</SelectItem>
+                        <SelectItem value="$100-250">$100-250</SelectItem>
+                        <SelectItem value="$250-500">$250-500</SelectItem>
+                        <SelectItem value="$500-1000">$500-1000</SelectItem>
+                        <SelectItem value="Over $1000">Over $1000</SelectItem>
+                      </>
+                    )}
+                  </SelectContent>
+                </Select>
               </div>
 
               <input
@@ -1172,33 +1171,33 @@ export function DosageForm({
               />
               
               {category !== 'beauty_skincare' && (
-                <select
-                  value={form}
-                  onChange={(e) => setForm(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={form} onValueChange={setForm}>
+                  <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                           appearance-none text-sm"
-                >
-                  <option value="">Form factor</option>
-                  <option value="tablet">Tablet/Pill</option>
-                  <option value="capsule">Capsule</option>
-                  <option value="softgel">Softgel</option>
-                  <option value="liquid">Liquid/Syrup</option>
-                  <option value="powder">Powder</option>
-                  <option value="gummy">Gummy</option>
-                  <option value="chewable">Chewable</option>
-                  <option value="sublingual">Sublingual</option>
-                  <option value="lozenge">Lozenge</option>
-                  <option value="drops">Drops</option>
-                  <option value="spray">Spray</option>
-                  <option value="patch">Patch</option>
-                  <option value="cream">Cream/Gel</option>
-                  <option value="injection">Injection</option>
-                  <option value="tea">Tea/Infusion</option>
-                  <option value="tincture">Tincture</option>
-                  <option value="other">Other</option>
-                </select>
+                           text-sm">
+                    <SelectValue placeholder="Form factor" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="tablet">Tablet/Pill</SelectItem>
+                    <SelectItem value="capsule">Capsule</SelectItem>
+                    <SelectItem value="softgel">Softgel</SelectItem>
+                    <SelectItem value="liquid">Liquid/Syrup</SelectItem>
+                    <SelectItem value="powder">Powder</SelectItem>
+                    <SelectItem value="gummy">Gummy</SelectItem>
+                    <SelectItem value="chewable">Chewable</SelectItem>
+                    <SelectItem value="sublingual">Sublingual</SelectItem>
+                    <SelectItem value="lozenge">Lozenge</SelectItem>
+                    <SelectItem value="drops">Drops</SelectItem>
+                    <SelectItem value="spray">Spray</SelectItem>
+                    <SelectItem value="patch">Patch</SelectItem>
+                    <SelectItem value="cream">Cream/Gel</SelectItem>
+                    <SelectItem value="injection">Injection</SelectItem>
+                    <SelectItem value="tea">Tea/Infusion</SelectItem>
+                    <SelectItem value="tincture">Tincture</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
               )}
               
               <div className="space-y-2">
