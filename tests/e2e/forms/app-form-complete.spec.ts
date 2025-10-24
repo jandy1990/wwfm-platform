@@ -85,38 +85,55 @@ test.describe('AppForm - Complete E2E Tests', () => {
         await page.waitForTimeout(2000)
       }
     }
-    
-    // Wait for form to be visible
-    await page.waitForSelector('select:visible', { timeout: 10000 })
-    
+
+    // Wait for Portal hydration and data loading (CRITICAL for shadcn Select)
+    console.log('Waiting for Portal hydration and data loading...')
+    await page.waitForTimeout(1000)
+    // Wait for the first Select field label to be fully visible and interactive
+    await page.locator('text="When did you notice results?"').waitFor({ state: 'visible', timeout: 15000 })
+    await page.waitForTimeout(500) // Additional wait for Select component to be fully interactive
+    console.log('Portal hydration complete, starting form fill...')
+
     // Step 1: Fill all required fields in order
-    
+
     // 1. Effectiveness rating (required) - look for the emoji button for 4 stars (😊)
     const rating4Button = page.locator('button:has-text("😊")')
     await rating4Button.click()
     console.log('Selected 4-star rating')
-    
-    // 2. Time to results (select index 0)
-    const timeSelect = page.locator('select:visible').nth(0)
-    await timeSelect.selectOption('1-2 weeks')
+    await page.waitForTimeout(300)
+
+    // 2. Time to results (first Select component)
+    const timeSelectTrigger = page.locator('button[role="combobox"]').first()
+    await timeSelectTrigger.click()
+    await page.waitForTimeout(300)
+    await page.click('text="1-2 weeks"')
     console.log('Selected time to results')
-    
-    // 3. Usage frequency (select index 1)
-    const usageSelect = page.locator('select:visible').nth(1)
-    await usageSelect.selectOption('Daily')
+    await page.waitForTimeout(300)
+
+    // 3. Usage frequency (second Select component)
+    const usageSelectTrigger = page.locator('button[role="combobox"]').nth(1)
+    await usageSelectTrigger.click()
+    await page.waitForTimeout(300)
+    await page.click('text="Daily"')
     console.log('Selected usage frequency')
-    
-    // 4. Subscription type (select index 2)
-    const subscriptionSelect = page.locator('select:visible').nth(2)
-    await subscriptionSelect.selectOption('Monthly subscription')
+    await page.waitForTimeout(300)
+
+    // 4. Subscription type (third Select component)
+    const subscriptionSelectTrigger = page.locator('button[role="combobox"]').nth(2)
+    await subscriptionSelectTrigger.click()
+    await page.waitForTimeout(300)
+    await page.click('text="Monthly subscription"')
     console.log('Selected subscription type')
     await page.waitForTimeout(500) // Wait for cost field to appear
-    
-    // 5. Cost (should appear as select index 3 after subscription type is set)
-    const costSelect = page.locator('select:visible').nth(3)
-    await costSelect.waitFor({ state: 'visible', timeout: 5000 })
-    await costSelect.selectOption('$10-$19.99/month')
+
+    // 5. Cost (fourth Select component - appears after subscription type is set)
+    const costSelectTrigger = page.locator('button[role="combobox"]').nth(3)
+    await costSelectTrigger.waitFor({ state: 'visible', timeout: 5000 })
+    await costSelectTrigger.click()
+    await page.waitForTimeout(300)
+    await page.click('text="$10-$19.99/month"')
     console.log('Selected cost: $10-$19.99/month')
+    await page.waitForTimeout(300)
     
     // Click Continue to Step 2
     await page.waitForTimeout(1000)

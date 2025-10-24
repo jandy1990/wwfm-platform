@@ -490,24 +490,23 @@ export function PurchaseForm({
                 When did you notice results?
               </label>
             </div>
-            <select
-              value={timeToResults}
-              onChange={(e) => setTimeToResults(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+            <Select value={timeToResults} onValueChange={setTimeToResults}>
+              <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                        focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                       appearance-none transition-all"
-            >
-              <option value="">Select timeframe</option>
-              <option value="Immediately">Immediately</option>
-              <option value="Within days">Within days</option>
-              <option value="1-2 weeks">1-2 weeks</option>
-              <option value="3-4 weeks">3-4 weeks</option>
-              <option value="1-2 months">1-2 months</option>
-              <option value="3-6 months">3-6 months</option>
-              <option value="6+ months">6+ months</option>
-              <option value="Still evaluating">Still evaluating</option>
-            </select>
+                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                <SelectValue placeholder="Select timeframe" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Immediately">Immediately</SelectItem>
+                <SelectItem value="Within days">Within days</SelectItem>
+                <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
+                <SelectItem value="3-4 weeks">3-4 weeks</SelectItem>
+                <SelectItem value="1-2 months">1-2 months</SelectItem>
+                <SelectItem value="3-6 months">3-6 months</SelectItem>
+                <SelectItem value="6+ months">6+ months</SelectItem>
+                <SelectItem value="Still evaluating">Still evaluating</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 

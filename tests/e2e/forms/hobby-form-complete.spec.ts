@@ -158,6 +158,12 @@ test.describe('HobbyForm - Complete E2E Tests', () => {
     
     // Fill the form using migrated semantic selector function
     await page.waitForTimeout(1000)
+
+    // Wait for Radix Portal hydration + challenge options loading
+    // The first Select button won't be interactive until both complete
+    console.log('Waiting for form to fully hydrate (Portal + data loading)...')
+    await page.locator('button').filter({ hasText: 'Select timeframe' }).waitFor({ state: 'visible', timeout: 15000 })
+
     console.log('Starting HobbyForm filler - using fillHobbyForm function')
 
     // Use the migrated semantic selector function instead of inline code

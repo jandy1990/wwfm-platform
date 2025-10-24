@@ -119,7 +119,15 @@ test.describe('DosageForm End-to-End Tests', () => {
       console.log('Form did not load - screenshot saved')
       throw error
     }
-    
+
+    // Wait for Portal hydration and data loading (CRITICAL for shadcn Select)
+    console.log('Waiting for Portal hydration and data loading...')
+    await page.waitForTimeout(1000)
+    // Wait for the first Select field label to be fully visible and interactive
+    await page.locator('text="Unit"').waitFor({ state: 'visible', timeout: 15000 })
+    await page.waitForTimeout(500) // Additional wait for Select component to be fully interactive
+    console.log('Portal hydration complete, starting form fill...')
+
     // Fill the DosageForm
     await fillDosageForm(page, 'supplements_vitamins');
     

@@ -7,6 +7,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 // import { supabase } from '@/lib/database/client'; // Removed: unused after migrating to server actions
 import { ChevronLeft, Check, X, Plus } from 'lucide-react';
 import { Skeleton } from '@/components/atoms/skeleton';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
@@ -434,24 +435,23 @@ export function AppForm({
                     When did you notice results?
                   </label>
                 </div>
-                <select
-                  value={timeToResults}
-                  onChange={(e) => setTimeToResults(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={timeToResults} onValueChange={setTimeToResults}>
+                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none transition-all"
-                >
-                  <option value="">Select timeframe</option>
-                  <option value="Immediately">Immediately</option>
-                  <option value="Within days">Within days</option>
-                  <option value="1-2 weeks">1-2 weeks</option>
-                  <option value="3-4 weeks">3-4 weeks</option>
-                  <option value="1-2 months">1-2 months</option>
-                  <option value="3-6 months">3-6 months</option>
-                  <option value="6+ months">6+ months</option>
-                  <option value="Still evaluating">Still evaluating</option>
-                </select>
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all">
+                    <SelectValue placeholder="Select timeframe" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Immediately">Immediately</SelectItem>
+                    <SelectItem value="Within days">Within days</SelectItem>
+                    <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
+                    <SelectItem value="3-4 weeks">3-4 weeks</SelectItem>
+                    <SelectItem value="1-2 months">1-2 months</SelectItem>
+                    <SelectItem value="3-6 months">3-6 months</SelectItem>
+                    <SelectItem value="6+ months">6+ months</SelectItem>
+                    <SelectItem value="Still evaluating">Still evaluating</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
@@ -474,21 +474,20 @@ export function AppForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   How often do you use it? <span className="text-red-500">*</span>
                 </label>
-                <select
-                  value={usageFrequency}
-                  onChange={(e) => setUsageFrequency(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={usageFrequency} onValueChange={setUsageFrequency}>
+                  <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none"
-                >
-                  <option value="">Select frequency</option>
-                  <option value="Multiple times daily">Multiple times daily</option>
-                  <option value="Daily">Daily</option>
-                  <option value="Few times a week">Few times a week</option>
-                  <option value="Weekly">Weekly</option>
-                  <option value="As needed">As needed</option>
-                </select>
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                    <SelectValue placeholder="Select frequency" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Multiple times daily">Multiple times daily</SelectItem>
+                    <SelectItem value="Daily">Daily</SelectItem>
+                    <SelectItem value="Few times a week">Few times a week</SelectItem>
+                    <SelectItem value="Weekly">Weekly</SelectItem>
+                    <SelectItem value="As needed">As needed</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Subscription type */}
@@ -496,24 +495,26 @@ export function AppForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   What version do you use? <span className="text-red-500">*</span>
                 </label>
-                <select
+                <Select
                   value={subscriptionType}
-                  onChange={(e) => {
-                    setSubscriptionType(e.target.value);
+                  onValueChange={(value) => {
+                    setSubscriptionType(value);
                     // Reset cost when subscription type changes
                     setCost('');
                   }}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none"
                 >
-                  <option value="">Select type</option>
-                  <option value="Free version">Free version</option>
-                  <option value="Monthly subscription">Monthly subscription</option>
-                  <option value="Annual subscription">Annual subscription</option>
-                  <option value="One-time purchase">One-time purchase</option>
-                </select>
+                  <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                    <SelectValue placeholder="Select type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Free version">Free version</SelectItem>
+                    <SelectItem value="Monthly subscription">Monthly subscription</SelectItem>
+                    <SelectItem value="Annual subscription">Annual subscription</SelectItem>
+                    <SelectItem value="One-time purchase">One-time purchase</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Cost - conditional based on subscription type */}
@@ -522,47 +523,46 @@ export function AppForm({
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Cost <span className="text-red-500">*</span>
                   </label>
-                  <select
-                    value={cost}
-                    onChange={(e) => setCost(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                  <Select value={cost} onValueChange={setCost}>
+                    <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                             appearance-none"
-                  >
-                    <option value="">Select cost</option>
-                    {subscriptionType === 'Monthly subscription' && (
-                      <>
-                        <option value="Under $5/month">Under $5/month</option>
-                        <option value="$5-$9.99/month">$5-$9.99/month</option>
-                        <option value="$10-$19.99/month">$10-$19.99/month</option>
-                        <option value="$20-$49.99/month">$20-$49.99/month</option>
-                        <option value="$50-$99.99/month">$50-$99.99/month</option>
-                        <option value="$100+/month">$100+/month</option>
-                      </>
-                    )}
-                    {subscriptionType === 'Annual subscription' && (
-                      <>
-                        <option value="Under $50/year">Under $50/year</option>
-                        <option value="$50-$99.99/year">$50-$99.99/year</option>
-                        <option value="$100-$199.99/year">$100-$199.99/year</option>
-                        <option value="$200-$499.99/year">$200-$499.99/year</option>
-                        <option value="$500-$999.99/year">$500-$999.99/year</option>
-                        <option value="$1000+/year">$1000+/year</option>
-                      </>
-                    )}
-                    {subscriptionType === 'One-time purchase' && (
-                      <>
-                        <option value="Under $5">Under $5</option>
-                        <option value="$5-$9.99">$5-$9.99</option>
-                        <option value="$10-$24.99">$10-$24.99</option>
-                        <option value="$25-$49.99">$25-$49.99</option>
-                        <option value="$50-$99.99">$50-$99.99</option>
-                        <option value="$100-$249.99">$100-$249.99</option>
-                        <option value="$250+">$250+</option>
-                      </>
-                    )}
-                  </select>
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                      <SelectValue placeholder="Select cost" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {subscriptionType === 'Monthly subscription' && (
+                        <>
+                          <SelectItem value="Under $5/month">Under $5/month</SelectItem>
+                          <SelectItem value="$5-$9.99/month">$5-$9.99/month</SelectItem>
+                          <SelectItem value="$10-$19.99/month">$10-$19.99/month</SelectItem>
+                          <SelectItem value="$20-$49.99/month">$20-$49.99/month</SelectItem>
+                          <SelectItem value="$50-$99.99/month">$50-$99.99/month</SelectItem>
+                          <SelectItem value="$100+/month">$100+/month</SelectItem>
+                        </>
+                      )}
+                      {subscriptionType === 'Annual subscription' && (
+                        <>
+                          <SelectItem value="Under $50/year">Under $50/year</SelectItem>
+                          <SelectItem value="$50-$99.99/year">$50-$99.99/year</SelectItem>
+                          <SelectItem value="$100-$199.99/year">$100-$199.99/year</SelectItem>
+                          <SelectItem value="$200-$499.99/year">$200-$499.99/year</SelectItem>
+                          <SelectItem value="$500-$999.99/year">$500-$999.99/year</SelectItem>
+                          <SelectItem value="$1000+/year">$1000+/year</SelectItem>
+                        </>
+                      )}
+                      {subscriptionType === 'One-time purchase' && (
+                        <>
+                          <SelectItem value="Under $5">Under $5</SelectItem>
+                          <SelectItem value="$5-$9.99">$5-$9.99</SelectItem>
+                          <SelectItem value="$10-$24.99">$10-$24.99</SelectItem>
+                          <SelectItem value="$25-$49.99">$25-$49.99</SelectItem>
+                          <SelectItem value="$50-$99.99">$50-$99.99</SelectItem>
+                          <SelectItem value="$100-$249.99">$100-$249.99</SelectItem>
+                          <SelectItem value="$250+">$250+</SelectItem>
+                        </>
+                      )}
+                    </SelectContent>
+                  </Select>
                 </div>
               )}
             </div>
@@ -799,24 +799,23 @@ export function AppForm({
             </p>
             
             <div className="space-y-4">
-              <select
-                value={platform}
-                onChange={(e) => setPlatform(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+              <Select value={platform} onValueChange={setPlatform}>
+                <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                         appearance-none text-sm"
-              >
-                <option value="">Select platform</option>
-                <option value="iOS">iOS (iPhone/iPad)</option>
-                <option value="Android">Android</option>
-                <option value="Web">Web/Browser</option>
-                <option value="Windows">Windows</option>
-                <option value="Mac">Mac</option>
-                <option value="Cross-platform">Multiple platforms</option>
-                <option value="Chrome Extension">Chrome Extension</option>
-                <option value="Other">Other</option>
-              </select>
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                  <SelectValue placeholder="Select platform" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="iOS">iOS (iPhone/iPad)</SelectItem>
+                  <SelectItem value="Android">Android</SelectItem>
+                  <SelectItem value="Web">Web/Browser</SelectItem>
+                  <SelectItem value="Windows">Windows</SelectItem>
+                  <SelectItem value="Mac">Mac</SelectItem>
+                  <SelectItem value="Cross-platform">Multiple platforms</SelectItem>
+                  <SelectItem value="Chrome Extension">Chrome Extension</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
               
               <textarea
                 placeholder="What do others need to know?"

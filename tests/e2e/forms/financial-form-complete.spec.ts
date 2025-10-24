@@ -146,14 +146,23 @@ test.describe('FinancialForm - Complete E2E Tests', () => {
       await page.screenshot({ path: 'test-debug-screenshot.png' })
       console.log('Form did not load - screenshot saved to test-debug-screenshot.png')
       console.log('Current URL:', page.url())
-      
+
       // Check what's visible on the page
       const pageContent = await page.textContent('body')
       console.log('Page contains:', pageContent?.substring(0, 500))
-      
+
       throw error
     }
-    
+
+    // Wait for Radix Portal hydration + challenge options loading (CRITICAL for shadcn Select)
+    // FinancialForm now uses shadcn Select which requires Portal hydration before interacting
+    console.log('Waiting for Portal hydration and data loading...')
+    await page.waitForTimeout(1000)
+    // Wait for the first SelectTrigger button (costType field) to be fully visible and interactive
+    await page.locator('text="Cost type"').waitFor({ state: 'visible', timeout: 15000 })
+    await page.waitForTimeout(500) // Additional wait for Select component to be fully interactive
+    console.log('Portal hydration complete, starting form fill...')
+
     // Fill the form using the shared filler function
     await fillFinancialForm(page);
     

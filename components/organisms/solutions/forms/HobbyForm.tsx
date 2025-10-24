@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { ChevronLeft, Check } from 'lucide-react';
 import { Skeleton } from '@/components/atoms/skeleton';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
@@ -425,24 +426,23 @@ export function HobbyForm({
                     How long until you enjoyed it?
                   </label>
                 </div>
-                <select
-                  value={timeToResults}
-                  onChange={(e) => setTimeToResults(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={timeToResults} onValueChange={setTimeToResults}>
+                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none transition-all"
-                >
-                  <option value="">Select timeframe</option>
-                  <option value="Immediately">Immediately</option>
-                  <option value="Within days">Within days</option>
-                  <option value="1-2 weeks">1-2 weeks</option>
-                  <option value="3-4 weeks">3-4 weeks</option>
-                  <option value="1-2 months">1-2 months</option>
-                  <option value="3-6 months">3-6 months</option>
-                  <option value="6+ months">6+ months</option>
-                  <option value="Still learning">Still learning to enjoy it</option>
-                </select>
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all">
+                    <SelectValue placeholder="Select timeframe" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Immediately">Immediately</SelectItem>
+                    <SelectItem value="Within days">Within days</SelectItem>
+                    <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
+                    <SelectItem value="3-4 weeks">3-4 weeks</SelectItem>
+                    <SelectItem value="1-2 months">1-2 months</SelectItem>
+                    <SelectItem value="3-6 months">3-6 months</SelectItem>
+                    <SelectItem value="6+ months">6+ months</SelectItem>
+                    <SelectItem value="Still learning to enjoy it">Still learning to enjoy it</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
@@ -479,26 +479,25 @@ export function HobbyForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Initial startup cost <span className="text-red-500">*</span>
                 </label>
-                <select
-                  value={startupCost}
-                  onChange={(e) => setStartupCost(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={startupCost} onValueChange={setStartupCost}>
+                  <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none"
-                >
-                  <option value="">Select startup cost</option>
-                  <option value="Free/No startup cost">Free/No startup cost</option>
-                  <option value="Don't remember">Don't remember</option>
-                  <option value="Under $50">Under $50</option>
-                  <option value="$50-$100">$50-$100</option>
-                  <option value="$100-$250">$100-$250</option>
-                  <option value="$250-$500">$250-$500</option>
-                  <option value="$500-$1,000">$500-$1,000</option>
-                  <option value="$1,000-$2,500">$1,000-$2,500</option>
-                  <option value="$2,500-$5,000">$2,500-$5,000</option>
-                  <option value="Over $5,000">Over $5,000</option>
-                </select>
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                    <SelectValue placeholder="Select startup cost" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Free/No startup cost">Free/No startup cost</SelectItem>
+                    <SelectItem value="Don't remember">Don't remember</SelectItem>
+                    <SelectItem value="Under $50">Under $50</SelectItem>
+                    <SelectItem value="$50-$100">$50-$100</SelectItem>
+                    <SelectItem value="$100-$250">$100-$250</SelectItem>
+                    <SelectItem value="$250-$500">$250-$500</SelectItem>
+                    <SelectItem value="$500-$1,000">$500-$1,000</SelectItem>
+                    <SelectItem value="$1,000-$2,500">$1,000-$2,500</SelectItem>
+                    <SelectItem value="$2,500-$5,000">$2,500-$5,000</SelectItem>
+                    <SelectItem value="Over $5,000">Over $5,000</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Ongoing Monthly Cost */}
@@ -506,24 +505,23 @@ export function HobbyForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Typical monthly cost <span className="text-red-500">*</span>
                 </label>
-                <select
-                  value={ongoingCost}
-                  onChange={(e) => setOngoingCost(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={ongoingCost} onValueChange={setOngoingCost}>
+                  <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none"
-                >
-                  <option value="">Select monthly cost</option>
-                  <option value="Free/No ongoing cost">Free/No ongoing cost</option>
-                  <option value="Don't remember">Don't remember</option>
-                  <option value="Under $25/month">Under $25/month</option>
-                  <option value="$25-$50/month">$25-$50/month</option>
-                  <option value="$50-$100/month">$50-$100/month</option>
-                  <option value="$100-$200/month">$100-$200/month</option>
-                  <option value="$200-$500/month">$200-$500/month</option>
-                  <option value="Over $500/month">Over $500/month</option>
-                </select>
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                    <SelectValue placeholder="Select monthly cost" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Free/No ongoing cost">Free/No ongoing cost</SelectItem>
+                    <SelectItem value="Don't remember">Don't remember</SelectItem>
+                    <SelectItem value="Under $25/month">Under $25/month</SelectItem>
+                    <SelectItem value="$25-$50/month">$25-$50/month</SelectItem>
+                    <SelectItem value="$50-$100/month">$50-$100/month</SelectItem>
+                    <SelectItem value="$100-$200/month">$100-$200/month</SelectItem>
+                    <SelectItem value="$200-$500/month">$200-$500/month</SelectItem>
+                    <SelectItem value="Over $500/month">Over $500/month</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Time commitment */}
@@ -531,23 +529,22 @@ export function HobbyForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Time per session? <span className="text-red-500">*</span>
                 </label>
-                <select
-                  value={timeCommitment}
-                  onChange={(e) => setTimeCommitment(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={timeCommitment} onValueChange={setTimeCommitment}>
+                  <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none"
-                >
-                  <option value="">Select time</option>
-                  <option value="15-30 minutes">15-30 minutes</option>
-                  <option value="30-60 minutes">30-60 minutes</option>
-                  <option value="1-2 hours">1-2 hours</option>
-                  <option value="2-4 hours">2-4 hours</option>
-                  <option value="Half day">Half day</option>
-                  <option value="Full day">Full day</option>
-                  <option value="Varies significantly">Varies significantly</option>
-                </select>
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                    <SelectValue placeholder="Select time" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="15-30 minutes">15-30 minutes</SelectItem>
+                    <SelectItem value="30-60 minutes">30-60 minutes</SelectItem>
+                    <SelectItem value="1-2 hours">1-2 hours</SelectItem>
+                    <SelectItem value="2-4 hours">2-4 hours</SelectItem>
+                    <SelectItem value="Half day">Half day</SelectItem>
+                    <SelectItem value="Full day">Full day</SelectItem>
+                    <SelectItem value="Varies significantly">Varies significantly</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Frequency */}
@@ -555,22 +552,21 @@ export function HobbyForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   How often do you do it? <span className="text-red-500">*</span>
                 </label>
-                <select
-                  value={frequency}
-                  onChange={(e) => setFrequency(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={frequency} onValueChange={setFrequency}>
+                  <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none"
-                >
-                  <option value="">Select frequency</option>
-                  <option value="Daily">Daily</option>
-                  <option value="Few times a week">Few times a week</option>
-                  <option value="Weekly">Weekly</option>
-                  <option value="Few times a month">Few times a month</option>
-                  <option value="Monthly">Monthly</option>
-                  <option value="Occasionally">Occasionally</option>
-                </select>
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                    <SelectValue placeholder="Select frequency" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Daily">Daily</SelectItem>
+                    <SelectItem value="Few times a week">Few times a week</SelectItem>
+                    <SelectItem value="Weekly">Weekly</SelectItem>
+                    <SelectItem value="Few times a month">Few times a month</SelectItem>
+                    <SelectItem value="Monthly">Monthly</SelectItem>
+                    <SelectItem value="Occasionally">Occasionally</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 

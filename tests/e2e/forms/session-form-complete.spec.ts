@@ -125,7 +125,16 @@ test.describe('SessionForm End-to-End Tests', () => {
       console.log('Form did not load - screenshot saved')
       throw error
     }
-    
+
+    // Wait for Radix Portal hydration + challenge options loading (CRITICAL for shadcn Select)
+    // SessionForm now uses shadcn Select which requires Portal hydration before interacting
+    console.log('Waiting for Portal hydration and data loading...')
+    await page.waitForTimeout(1000)
+    // Wait for the first Select field label to be fully visible and interactive
+    await page.locator('text="When did you notice results?"').waitFor({ state: 'visible', timeout: 15000 })
+    await page.waitForTimeout(500) // Additional wait for Select component to be fully interactive
+    console.log('Portal hydration complete, starting form fill...')
+
     // Fill the SessionForm
     await fillSessionForm(page, 'therapists_counselors');
     
@@ -204,7 +213,14 @@ test.describe('SessionForm End-to-End Tests', () => {
       console.log('Form did not load - screenshot saved')
       throw error
     }
-    
+
+    // Wait for Radix Portal hydration + challenge options loading (CRITICAL for shadcn Select)
+    console.log('Waiting for Portal hydration and data loading...')
+    await page.waitForTimeout(1000)
+    await page.locator('text="When did you notice results?"').waitFor({ state: 'visible', timeout: 15000 })
+    await page.waitForTimeout(500)
+    console.log('Portal hydration complete, starting form fill...')
+
     // Fill the SessionForm for doctors_specialists
     // Based on code inspection, doctors_specialists requires:
     // - effectiveness, timeToResults, costType, costRange
@@ -258,7 +274,14 @@ test.describe('SessionForm End-to-End Tests', () => {
     
     await page.waitForSelector('text="How well it worked"', { timeout: 5000 })
     console.log('SessionForm loaded successfully')
-    
+
+    // Wait for Radix Portal hydration + challenge options loading (CRITICAL for shadcn Select)
+    console.log('Waiting for Portal hydration and data loading...')
+    await page.waitForTimeout(1000)
+    await page.locator('text="When did you notice results?"').waitFor({ state: 'visible', timeout: 15000 })
+    await page.waitForTimeout(500)
+    console.log('Portal hydration complete, starting form fill...')
+
     // Based on code inspection, coaches_mentors requires:
     // - effectiveness, timeToResults, costType, costRange, sessionFrequency
     await fillSessionForm(page, 'coaches_mentors');
@@ -303,7 +326,14 @@ test.describe('SessionForm End-to-End Tests', () => {
     
     await page.waitForSelector('text="How well it worked"', { timeout: 5000 })
     console.log('SessionForm loaded successfully')
-    
+
+    // Wait for Radix Portal hydration + challenge options loading (CRITICAL for shadcn Select)
+    console.log('Waiting for Portal hydration and data loading...')
+    await page.waitForTimeout(1000)
+    await page.locator('text="When did you notice results?"').waitFor({ state: 'visible', timeout: 15000 })
+    await page.waitForTimeout(500)
+    console.log('Portal hydration complete, starting form fill...')
+
     // Based on code inspection, alternative_practitioners requires:
     // - effectiveness, timeToResults, costType, costRange, sessionFrequency
     // - Has SIDE EFFECTS step instead of challenges
@@ -349,7 +379,14 @@ test.describe('SessionForm End-to-End Tests', () => {
     
     await page.waitForSelector('text="How well it worked"', { timeout: 5000 })
     console.log('SessionForm loaded successfully')
-    
+
+    // Wait for Radix Portal hydration + challenge options loading (CRITICAL for shadcn Select)
+    console.log('Waiting for Portal hydration and data loading...')
+    await page.waitForTimeout(1000)
+    await page.locator('text="When did you notice results?"').waitFor({ state: 'visible', timeout: 15000 })
+    await page.waitForTimeout(500)
+    console.log('Portal hydration complete, starting form fill...')
+
     // Based on code inspection, professional_services requires:
     // - effectiveness, timeToResults, costType, costRange
     // - specialty (REQUIRED)
@@ -414,7 +451,14 @@ test.describe('SessionForm End-to-End Tests', () => {
     // Wait for form to load
     await page.waitForSelector('text="How well it worked"', { timeout: 5000 })
     console.log('SessionForm loaded successfully')
-    
+
+    // Wait for Radix Portal hydration + challenge options loading (CRITICAL for shadcn Select)
+    console.log('Waiting for Portal hydration and data loading...')
+    await page.waitForTimeout(1000)
+    await page.locator('text="When did you notice results?"').waitFor({ state: 'visible', timeout: 15000 })
+    await page.waitForTimeout(500)
+    console.log('Portal hydration complete, starting form fill...')
+
     // Based on code inspection, crisis_resources:
     // - Does NOT need costType (special case)
     // - Does NOT need sessionFrequency

@@ -141,22 +141,35 @@ export async function fillDosageForm(page: Page, category: string) {
     console.log(`Entered dosage amount: ${dosageAmount}`)
     await page.waitForTimeout(300)
     
-    // Select unit (semantic selector: find label, navigate to select)
-    const unitSelect = page.locator('label:has-text("Unit")').locator('..').locator('select')
-    await unitSelect.selectOption(dosageUnit)
+    // Select unit (shadcn Select - first Select component)
+    const unitSelectTrigger = page.locator('button[role="combobox"]').first()
+    await unitSelectTrigger.click()
+    await page.waitForTimeout(500)
+    // Click the option in the portal dropdown
+    await page.locator('[role="option"]').filter({ hasText: dosageUnit }).click()
     console.log(`Selected unit: ${dosageUnit}`)
-    await page.waitForTimeout(300)
-    
-    // Select frequency (semantic selector: find label, navigate to select)
-    const frequencySelect = page.locator('label:has-text("How often?")').locator('..').locator('select')
-    await frequencySelect.selectOption(frequencyValue)
+    // Wait for dropdown portal to disappear
+    await page.waitForTimeout(800)
+
+    // Select frequency (shadcn Select - second Select component)
+    const frequencySelectTrigger = page.locator('button[role="combobox"]').nth(1)
+    await frequencySelectTrigger.click()
+    await page.waitForTimeout(500)
+    // Click the option in the portal dropdown
+    await page.locator('[role="option"]').filter({ hasText: frequencyValue }).click()
     console.log(`Selected frequency: ${frequencyValue}`)
-    await page.waitForTimeout(300)
-    
-    // Select length of use (semantic selector: find label, navigate to select)
-    const lengthSelect = page.locator('label:has-text("How long did you use it?")').locator('..').locator('select')
-    await lengthSelect.selectOption(lengthValue)
+    // Wait for dropdown portal to disappear
+    await page.waitForTimeout(800)
+
+    // Select length of use (shadcn Select - third Select component)
+    const lengthSelectTrigger = page.locator('button[role="combobox"]').nth(2)
+    await lengthSelectTrigger.click()
+    await page.waitForTimeout(500)
+    // Click the option in the portal dropdown
+    await page.locator('[role="option"]').filter({ hasText: lengthValue }).click()
     console.log(`Selected length of use: ${lengthValue}`)
+    // Wait for dropdown portal to disappear
+    await page.waitForTimeout(800)
   }
   await page.waitForTimeout(500)
   
@@ -174,28 +187,32 @@ export async function fillDosageForm(page: Page, category: string) {
   
   // For beauty_skincare, handle application details AFTER effectiveness
   if (category === 'beauty_skincare') {
-    // Time to results (semantic selector: label is nested in flex container)
-    const timeSelect = page.locator('label:has-text("When did you notice results?")').locator('../..').locator('select')
-    await timeSelect.selectOption('3-4 weeks')  // Retinol takes time
+    // Time to results (shadcn Select - fourth Select component after unit/frequency/length)
+    const timeSelectTrigger = page.locator('button[role="combobox"]').nth(3)
+    await timeSelectTrigger.click()
+    await page.waitForTimeout(500)
+    await page.locator('[role="option"]').filter({ hasText: '3-4 weeks' }).click()
     console.log('Selected time to results: 3-4 weeks')
-    await page.waitForTimeout(300)
+    await page.waitForTimeout(800)
 
-    // Skincare frequency (semantic selector - different label for beauty)
-    const skincareFrequencySelect = page.locator('label:has-text("How often did you use it?")').locator('..').locator('select')
-    await skincareFrequencySelect.selectOption('once_daily_pm')  // Night use for retinol
+    // Skincare frequency (shadcn Select - fifth Select component)
+    const skincareFrequencySelectTrigger = page.locator('button[role="combobox"]').nth(4)
+    await skincareFrequencySelectTrigger.click()
+    await page.waitForTimeout(500)
+    await page.locator('[role="option"]').filter({ hasText: 'Once daily (night)' }).click()
     console.log('Selected skincare frequency: Once daily (night)')
-    await page.waitForTimeout(300)
+    await page.waitForTimeout(800)
 
-    // Length of use (semantic selector - appears later in beauty_skincare section)
-    // Note: This appears in "Application details" section for beauty_skincare
-    const lengthSelect = page.locator('label:has-text("How long did you use it?")').locator('..').locator('select').last()
-    await lengthSelect.selectOption('3-6 months')  // Longer trial period
+    // Length of use (shadcn Select - sixth Select component)
+    const lengthSelectTrigger = page.locator('button[role="combobox"]').nth(5)
+    await lengthSelectTrigger.click()
+    await page.waitForTimeout(500)
+    await page.locator('[role="option"]').filter({ hasText: '3-6 months' }).click()
     console.log('Selected length of use: 3-6 months')
-    await page.waitForTimeout(300)
+    await page.waitForTimeout(800)
   } else {
-    // Select time to results (semantic selector: label is nested in flex container)
-    // DOM: div.space-y-3 > div.flex > label, followed by select
-    const timeSelect = page.locator('label:has-text("When did you notice results?")').locator('../..').locator('select')
+    // Time to results (shadcn Select - fourth Select component for non-beauty)
+    const timeSelectTrigger = page.locator('button[role="combobox"]').nth(3)
 
     // Use category-specific time to results value
     let timeToResultsValue = '1-2 weeks'  // Default
@@ -205,9 +222,11 @@ export async function fillDosageForm(page: Page, category: string) {
       timeToResultsValue = 'Immediately'  // Essential oils work quickly
     }
 
-    await timeSelect.selectOption(timeToResultsValue)
+    await timeSelectTrigger.click()
+    await page.waitForTimeout(500)
+    await page.locator('[role="option"]').filter({ hasText: timeToResultsValue }).click()
     console.log(`Selected time to results: ${timeToResultsValue}`)
-    await page.waitForTimeout(300)
+    await page.waitForTimeout(800)
   }
 
   // Note: Cost field has been moved to success screen (not in Step 1 anymore)
@@ -268,29 +287,37 @@ export async function fillAppForm(page: Page) {
   // Wait a moment for the selection to register
   await page.waitForTimeout(500)
 
-  // Select time to results - use semantic selector based on placeholder text
-  const timeSelect = page.locator('select').filter({ hasText: 'Select timeframe' })
-  await timeSelect.selectOption('1-2 weeks')
+  // Select time to results - shadcn Select component
+  await page.locator('button').filter({ hasText: 'Select timeframe' }).click()
+  await page.waitForTimeout(500)
+  await page.getByRole('option', { name: '1-2 weeks' }).click()
   console.log('Selected time to results: 1-2 weeks')
+  await page.waitForTimeout(300)
 
-  // Select usage frequency - use semantic selector based on placeholder text
-  const frequencySelect = page.locator('select').filter({ hasText: 'Select frequency' })
-  await frequencySelect.selectOption('Daily')
+  // Select usage frequency - shadcn Select component
+  await page.locator('button').filter({ hasText: 'Select frequency' }).click()
+  await page.waitForTimeout(500)
+  await page.getByRole('option', { name: 'Daily' }).click()
   console.log('Selected usage frequency: Daily')
+  await page.waitForTimeout(300)
 
-  // Select subscription type - use semantic selector based on placeholder text
-  const subscriptionSelect = page.locator('select').filter({ hasText: 'Select type' })
-  await subscriptionSelect.selectOption('Monthly subscription')
+  // Select subscription type - shadcn Select component
+  await page.locator('button').filter({ hasText: 'Select type' }).click()
+  await page.waitForTimeout(500)
+  await page.getByRole('option', { name: 'Monthly subscription' }).click()
   console.log('Selected subscription type: Monthly subscription')
 
   // Wait for cost dropdown to appear (it's conditional based on subscription type)
   await page.waitForTimeout(500)
 
-  // Select cost - use semantic selector based on placeholder text
-  const costSelect = page.locator('select').filter({ hasText: 'Select cost' })
-  if (await costSelect.isVisible()) {
-    await costSelect.selectOption('$10-$19.99/month')
+  // Select cost - shadcn Select component (conditional)
+  const costTrigger = page.locator('button').filter({ hasText: 'Select cost' })
+  if (await costTrigger.isVisible()) {
+    await costTrigger.click()
+    await page.waitForTimeout(500)
+    await page.getByRole('option', { name: '$10-$19.99/month' }).click()
     console.log('Selected cost: $10-$19.99/month')
+    await page.waitForTimeout(300)
   }
   
   // Click Continue to Step 2
@@ -303,6 +330,10 @@ export async function fillAppForm(page: Page) {
   // Wait for Step 2 to load
   await page.waitForSelector('text="Any challenges?"', { timeout: 5000 })
   console.log('Step 2: Selecting challenges')
+
+  // CRITICAL: Wait for challenge options to finish loading (not just the heading)
+  await page.waitForSelector('label:has-text("None")', { timeout: 10000 })
+  console.log('Challenge options loaded')
 
   // Select "None" as a valid challenge option
   const noneLabel = await page.locator('label:has-text("None")').first()
@@ -454,60 +485,110 @@ export async function fillHobbyForm(page: Page) {
     await page.waitForTimeout(500)
   }
   
-  // Time to results - native select with placeholder "Select timeframe"
-  const timeToResultsSelect = page.locator('select').filter({ hasText: 'Select timeframe' })
+  // Time to results - shadcn Select component
   console.log('Selecting time to results')
-  await timeToResultsSelect.selectOption('1-2 weeks')
+  await page.locator('button').filter({ hasText: 'Select timeframe' }).click()
+  await page.waitForTimeout(500)
+  await page.getByRole('option', { name: '1-2 weeks' }).click()
   await page.waitForTimeout(300)
 
-  // Startup cost - native select with placeholder "Select startup cost"
-  const startupCostSelect = page.locator('select').filter({ hasText: 'Select startup cost' })
+  // Startup cost - shadcn Select component
   console.log('Selecting startup cost')
-  await startupCostSelect.selectOption('$50-$100')
+  const startupCostBtn = page.locator('button').filter({ hasText: 'Select startup cost' })
+  await startupCostBtn.waitFor({ state: 'visible', timeout: 10000 })
+  await startupCostBtn.click()
+  await page.waitForTimeout(500)
+  await page.getByRole('option', { name: '$50-$100' }).click()
   await page.waitForTimeout(300)
 
-  // Ongoing cost - native select with placeholder "Select monthly cost"
-  const ongoingCostSelect = page.locator('select').filter({ hasText: 'Select monthly cost' })
+  // Ongoing cost - shadcn Select component
   console.log('Selecting ongoing cost')
-  await ongoingCostSelect.selectOption('Under $25/month')
+  const ongoingCostBtn = page.locator('button').filter({ hasText: 'Select monthly cost' })
+  await ongoingCostBtn.waitFor({ state: 'visible', timeout: 10000 })
+  await ongoingCostBtn.click()
+  await page.waitForTimeout(500)
+  await page.getByRole('option', { name: 'Under $25/month' }).click()
   await page.waitForTimeout(300)
 
-  // Time commitment - navigate from label "Time per session?" to avoid duplicate "Select time"
-  const timeCommitmentSelect = page.locator('label').filter({ hasText: 'Time per session?' }).locator('..').locator('select')
+  // Time commitment - shadcn Select component
   console.log('Selecting time investment')
-  await timeCommitmentSelect.selectOption('1-2 hours')
+  const timeCommitmentBtn = page.locator('button').filter({ hasText: 'Select time' })
+  await timeCommitmentBtn.waitFor({ state: 'visible', timeout: 10000 })
+  await timeCommitmentBtn.click()
+  await page.waitForTimeout(500)
+  await page.getByRole('option', { name: '1-2 hours' }).click()
   await page.waitForTimeout(300)
 
-  // Frequency - native select with placeholder "Select frequency"
-  const frequencySelect = page.locator('select').filter({ hasText: 'Select frequency' })
+  // Frequency - shadcn Select component
   console.log('Selecting frequency')
-  await frequencySelect.selectOption('Daily')
+  const frequencyBtn = page.locator('button').filter({ hasText: 'Select frequency' })
+  await frequencyBtn.waitFor({ state: 'visible', timeout: 10000 })
+  await frequencyBtn.click()
+  await page.waitForTimeout(500)
+  await page.getByRole('option', { name: 'Daily' }).click()
   await page.waitForTimeout(300)
   
   // Click Continue to Step 2
   console.log('Clicking Continue to Step 2')
-  await page.waitForTimeout(1000)
+  await page.waitForTimeout(500)
   const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn1.click()
-  await page.waitForTimeout(500)
-  
-  // Step 2: Challenges  
+
+  // ============ STEP 2: Challenges ============
+  // Wait for Step 2 to load
+  await page.waitForSelector('text="Any challenges?"', { timeout: 5000 })
   console.log('Step 2: Selecting challenges')
-  // Select "None" for challenges (should be default but make sure)
-  await page.click('label:has-text("None")')
-  await page.waitForTimeout(500)
+
+  // CRITICAL: Wait for challenge options to finish loading (not just the heading)
+  await page.waitForSelector('label:has-text("None")', { timeout: 10000 })
+  console.log('Challenge options loaded')
+
+  // Select "None" as a valid challenge option
+  const noneLabel = await page.locator('label:has-text("None")').first()
+  await noneLabel.click({ force: true })
+  console.log('Selected challenge: None')
   
   // Click Continue to Step 3
-  console.log('Clicking Continue to Step 3')
+  await page.waitForTimeout(500)
   const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
   await continueBtn2.click()
+  console.log('Clicked Continue to Step 3')
+
+  // ============ STEP 3: Failed Solutions (Optional) ============
+  // Wait for Step 3 to load
+  await page.waitForSelector('text="What else did you try?"', { timeout: 5000 })
+  console.log('Step 3: Skipping failed solutions')
+
+  // Skip this step and submit the form
   await page.waitForTimeout(500)
-  
-  // Step 3: Skip failed solutions
-  console.log('Step 3: Submitting form')
-  const submitBtn = page.locator('button:has-text("Submit")')
+
+  // Set up network monitoring to capture the submission request
+  const responsePromise = page.waitForResponse(
+    response => response.url().includes('/api/') || response.url().includes('submit'),
+    { timeout: 10000 }
+  ).catch(() => null)
+
+  // Set up console monitoring
+  page.on('console', msg => {
+    console.log(`Browser console [${msg.type()}]:`, msg.text())
+  })
+
+  // Set up error monitoring
+  page.on('pageerror', error => {
+    console.log('Page error:', error.message)
+  })
+
+  const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
+  console.log('Submit button found, clicking...')
   await submitBtn.click()
-  
+  console.log('Submit button clicked')
+
+  // Wait for the response
+  const response = await responsePromise
+  if (response) {
+    console.log('Form submission response received:', response.status())
+  }
+
   // Wait for success screen
   await waitForFormSuccess(page)
 }
@@ -578,18 +659,16 @@ export async function fillSessionForm(page: Page, category: string) {
     timeToResults = 'Immediate';
     console.log('Selected "Immediate" time to results using button UI');
   } else {
-    // SessionForm uses native <select> for time_to_results
-    // The select has a distinctive placeholder - use that for reliable selection
-    const timeSelect = page.locator('select').filter({ hasText: 'Select timeframe' });
-    const hasTimeSelect = await timeSelect.isVisible().catch(() => false);
-
-    if (hasTimeSelect) {
-      // Use native select element with semantic selector
-      await timeSelect.selectOption(timeToResults);
-      console.log('Selected time to results using semantic selector: 1-2 weeks');
-    } else {
-      console.log('WARNING: Time to results selector not found');
-    }
+    // SessionForm uses shadcn Select for time_to_results
+    // Use the established [role="option"] pattern
+    const timeSelectTrigger = page.locator('button[role="combobox"]').first()
+    await timeSelectTrigger.click()
+    await page.waitForTimeout(500)
+    // Click the option in the portal dropdown
+    await page.locator('[role="option"]').filter({ hasText: timeToResults }).click()
+    console.log(`Selected time to results using shadcn Select: ${timeToResults}`)
+    // Wait for dropdown portal to disappear
+    await page.waitForTimeout(800)
   }
   await page.waitForTimeout(300)
   
@@ -699,12 +778,15 @@ export async function fillSessionForm(page: Page, category: string) {
     console.log(`Combobox ${i}: "${text}"`);
 
     // Cost range shows either "Select cost range" or the selected value like "Under $50"
-    // Skip boxes that have recognizable other placeholders
+    // Skip boxes that have recognizable other placeholders or known values
+    // CRITICAL: Also skip time-to-results values (1-2 weeks, etc) which appear first
+    const isTimeToResults = text.includes('week') || text.includes('month') || text.includes('Immediate');
     if (!text.includes('How often') &&
         !text.includes('Select format') &&
         !text.includes('How long') &&
         !text.includes('Select service type') &&
-        !text.includes('How quickly')) {
+        !text.includes('How quickly') &&
+        !isTimeToResults) {
       console.log(`Matched cost range combobox at index ${i}`);
       costRangeTrigger = box;
       break;
@@ -774,11 +856,14 @@ export async function fillSessionForm(page: Page, category: string) {
         const box = allComboboxes.nth(i);
         const text = await box.textContent().catch(() => '');
 
+        // CRITICAL: Also skip time-to-results values in retry logic
+        const isTimeToResults = text.includes('week') || text.includes('month') || text.includes('Immediate');
         if (!text.includes('How often') &&
             !text.includes('Select format') &&
             !text.includes('How long') &&
             !text.includes('Select service type') &&
-            !text.includes('How quickly')) {
+            !text.includes('How quickly') &&
+            !isTimeToResults) {
           retryTrigger = box;
           break;
         }
@@ -1151,46 +1236,63 @@ export async function fillPracticeForm(page: Page, category: string) {
   }
   await page.waitForTimeout(500)
   
-  // Select time to results (first select after effectiveness) - SEMANTIC SELECTOR
-  const timeSelect = page.locator('select').filter({ hasText: 'Select timeframe' })
-  await timeSelect.selectOption('1-2 weeks')
+  // Select time to results (shadcn Select - first Select component)
+  const timeSelectTrigger = page.locator('button[role="combobox"]').first()
+  await timeSelectTrigger.click()
+  await page.waitForTimeout(500)
+  await page.locator('[role="option"]').filter({ hasText: '1-2 weeks' }).click()
   console.log('Selected time to results: 1-2 weeks')
-  await page.waitForTimeout(300)
-  
-  // Select startup cost (second select) - SEMANTIC SELECTOR
-  const startupSelect = page.locator('select').filter({ hasText: 'Select startup cost' })
-  await startupSelect.selectOption('Free/No startup cost')
+  await page.waitForTimeout(800)
+
+  // Select startup cost (shadcn Select - second Select component)
+  const startupSelectTrigger = page.locator('button[role="combobox"]').nth(1)
+  await startupSelectTrigger.click()
+  await page.waitForTimeout(500)
+  await page.locator('[role="option"]').filter({ hasText: 'Free/No startup cost' }).click()
   console.log('Selected startup cost: Free/No startup cost')
-  await page.waitForTimeout(300)
+  await page.waitForTimeout(800)
 
-  // Select ongoing cost (third select) - SEMANTIC SELECTOR
-  const ongoingSelect = page.locator('select').filter({ hasText: 'Select ongoing cost' })
-  await ongoingSelect.selectOption('Free/No ongoing cost')
+  // Select ongoing cost (shadcn Select - third Select component)
+  const ongoingSelectTrigger = page.locator('button[role="combobox"]').nth(2)
+  await ongoingSelectTrigger.click()
+  await page.waitForTimeout(500)
+  await page.locator('[role="option"]').filter({ hasText: 'Free/No ongoing cost' }).click()
   console.log('Selected ongoing cost: Free/No ongoing cost')
-  await page.waitForTimeout(300)
+  await page.waitForTimeout(800)
 
-  // Select frequency (fourth select) - SEMANTIC SELECTOR
-  const frequencySelect = page.locator('select').filter({ hasText: 'Select frequency' })
-  await frequencySelect.selectOption('3-4 times per week')
+  // Select frequency (shadcn Select - fourth Select component)
+  const frequencySelectTrigger = page.locator('button[role="combobox"]').nth(3)
+  await frequencySelectTrigger.click()
+  await page.waitForTimeout(500)
+  await page.locator('[role="option"]').filter({ hasText: '3-4 times per week' }).click()
   console.log('Selected frequency: 3-4 times per week')
-  await page.waitForTimeout(300)
-  
-  // Category-specific field (fifth select) - SEMANTIC SELECTOR
+  await page.waitForTimeout(800)
+
+  // Category-specific field (shadcn Select - fifth Select component)
   if (category === 'meditation_mindfulness') {
     // Practice length for meditation
-    const categorySelect = page.locator('select').filter({ hasText: 'Select practice length' })
-    await categorySelect.selectOption('10-20 minutes')
+    const categorySelectTrigger = page.locator('button[role="combobox"]').nth(4)
+    await categorySelectTrigger.click()
+    await page.waitForTimeout(500)
+    await page.locator('[role="option"]').filter({ hasText: '10-20 minutes' }).click()
     console.log('Selected practice length: 10-20 minutes')
+    await page.waitForTimeout(800)
   } else if (category === 'exercise_movement') {
     // Session duration for exercise
-    const categorySelect = page.locator('select').filter({ hasText: 'Select duration' })
-    await categorySelect.selectOption('30-45 minutes')
+    const categorySelectTrigger = page.locator('button[role="combobox"]').nth(4)
+    await categorySelectTrigger.click()
+    await page.waitForTimeout(500)
+    await page.locator('[role="option"]').filter({ hasText: '30-45 minutes' }).click()
     console.log('Selected session duration: 30-45 minutes')
+    await page.waitForTimeout(800)
   } else if (category === 'habits_routines') {
     // Daily time commitment for habits
-    const categorySelect = page.locator('select').filter({ hasText: 'Select time commitment' })
-    await categorySelect.selectOption('10-20 minutes')
+    const categorySelectTrigger = page.locator('button[role="combobox"]').nth(4)
+    await categorySelectTrigger.click()
+    await page.waitForTimeout(500)
+    await page.locator('[role="option"]').filter({ hasText: '10-20 minutes' }).click()
     console.log('Selected daily time commitment: 10-20 minutes')
+    await page.waitForTimeout(800)
   }
   await page.waitForTimeout(500)
   
@@ -1247,12 +1349,18 @@ export async function fillPurchaseForm(page: Page, category: string) {
     console.log('Selected 4-star rating')
   }
   await page.waitForTimeout(500)
-  
-  // Select time to results (regular select dropdown) - SEMANTIC SELECTOR
-  const timeSelect = page.locator('select').filter({ hasText: 'Select timeframe' })
-  await timeSelect.selectOption('1-2 weeks')
-  console.log('Selected time to results: 1-2 weeks')
-  await page.waitForTimeout(300)
+
+  // Select time to results using shadcn Select
+  // PurchaseForm uses shadcn Select for time_to_results
+  // Use the established [role="option"] pattern
+  const timeSelectTrigger = page.locator('button[role="combobox"]').first()
+  await timeSelectTrigger.click()
+  await page.waitForTimeout(500)
+  // Click the option in the portal dropdown
+  await page.locator('[role="option"]').filter({ hasText: '1-2 weeks' }).click()
+  console.log('Selected time to results using shadcn Select: 1-2 weeks')
+  // Wait for dropdown portal to disappear
+  await page.waitForTimeout(800)
   
   // Select cost type first (RadioGroup)
   console.log('Selecting cost type: one_time')
@@ -1551,38 +1659,47 @@ export async function fillLifestyleForm(page: Page, category: string) {
   }
   await page.waitForTimeout(500)
   
-  // Select time to results (required) using semantic selector
-  const timeSelect = page.locator('select').filter({ hasText: 'Select timeframe' })
-  await timeSelect.selectOption('1-2 weeks')
-  console.log('Selected time to results: 1-2 weeks')
-  await page.waitForTimeout(300)
+  // Select time to results (required) using shadcn Select
+  // LifestyleForm uses shadcn Select for time_to_results
+  const timeSelectTrigger = page.locator('button[role="combobox"]').first()
+  await timeSelectTrigger.click()
+  await page.waitForTimeout(500)
+  await page.locator('[role="option"]').filter({ hasText: '1-2 weeks' }).click()
+  console.log('Selected time to results using shadcn Select: 1-2 weeks')
+  await page.waitForTimeout(800)
 
-  // Select cost impact (required) using semantic selector with conditional placeholder
-  const costSelect = page.locator('select').filter({
-    hasText: category === 'diet_nutrition' ? 'Compared to previous diet' : 'Any costs'
-  })
+  // Select cost impact (required) using shadcn Select
+  // This is the 2nd Select component
+  const costSelectTrigger = page.locator('button[role="combobox"]').nth(1)
+  await costSelectTrigger.click()
+  await page.waitForTimeout(500)
   if (category === 'diet_nutrition') {
-    await costSelect.selectOption('About the same')
-    console.log('Selected cost impact: About the same')
+    await page.locator('[role="option"]').filter({ hasText: 'About the same' }).click()
+    console.log('Selected cost impact using shadcn Select: About the same')
   } else {
-    await costSelect.selectOption('Free')
-    console.log('Selected cost impact: Free')
+    await page.locator('[role="option"]').filter({ hasText: 'Free' }).click()
+    console.log('Selected cost impact using shadcn Select: Free')
   }
-  await page.waitForTimeout(300)
+  await page.waitForTimeout(800)
 
-  // Category-specific required fields using semantic selectors
+  // Category-specific required fields using shadcn Select
   if (category === 'diet_nutrition') {
-    // Weekly prep time (required for diet_nutrition)
-    const prepTimeSelect = page.locator('select').filter({ hasText: 'Time spent on meal planning' })
-    await prepTimeSelect.selectOption('1-2 hours/week')
-    console.log('Selected weekly prep time: 1-2 hours/week')
+    // Weekly prep time (required for diet_nutrition) - 3rd Select component
+    const prepTimeSelectTrigger = page.locator('button[role="combobox"]').nth(2)
+    await prepTimeSelectTrigger.click()
+    await page.waitForTimeout(500)
+    await page.locator('[role="option"]').filter({ hasText: '1-2 hours/week' }).click()
+    console.log('Selected weekly prep time using shadcn Select: 1-2 hours/week')
+    await page.waitForTimeout(800)
   } else if (category === 'sleep') {
-    // Previous sleep hours (required for sleep)
-    const sleepSelect = page.locator('select').filter({ hasText: 'Before this change' })
-    await sleepSelect.selectOption('6-7 hours')
-    console.log('Selected previous sleep hours: 6-7 hours')
+    // Previous sleep hours (required for sleep) - 3rd Select component
+    const sleepSelectTrigger = page.locator('button[role="combobox"]').nth(2)
+    await sleepSelectTrigger.click()
+    await page.waitForTimeout(500)
+    await page.locator('[role="option"]').filter({ hasText: '6-7 hours' }).click()
+    console.log('Selected previous sleep hours using shadcn Select: 6-7 hours')
+    await page.waitForTimeout(800)
   }
-  await page.waitForTimeout(300)
   
   // Select stillFollowing (required) - "Yes, still following it"
   // Click the label instead of the hidden radio input
@@ -1636,25 +1753,31 @@ export async function fillFinancialForm(page: Page) {
   
   // ============ STEP 1: Product Details + Effectiveness + Time to Impact ============
   console.log('Step 1: Filling product details and effectiveness')
-  
-  // Select cost type (required field) - SEMANTIC SELECTOR
-  const costTypeSelect = page.locator('select').filter({ hasText: 'Select cost type' })
-  await costTypeSelect.selectOption('Free to use')
-  console.log('Selected cost type: Free to use')
-  await page.waitForTimeout(300)
-  
-  // Select financial benefit (required field) - SEMANTIC SELECTOR
-  const benefitSelect = page.locator('select').filter({ hasText: 'Select savings or earnings' })
-  await benefitSelect.selectOption('$25-100/month saved/earned')
-  console.log('Selected financial benefit: $25-100/month saved/earned')
-  await page.waitForTimeout(300)
-  
-  // Select access time (required field) - SEMANTIC SELECTOR
-  const accessSelect = page.locator('select').filter({ hasText: 'Select access time' })
-  await accessSelect.selectOption('Same day')
-  console.log('Selected access time: Same day')
-  await page.waitForTimeout(300)
-  
+
+  // Select cost type (required field) using shadcn Select - 1st Select component
+  const costTypeSelectTrigger = page.locator('button[role="combobox"]').first()
+  await costTypeSelectTrigger.click()
+  await page.waitForTimeout(500)
+  await page.locator('[role="option"]').filter({ hasText: 'Free to use' }).click()
+  console.log('Selected cost type using shadcn Select: Free to use')
+  await page.waitForTimeout(800)
+
+  // Select financial benefit (required field) using shadcn Select - 2nd Select component
+  const benefitSelectTrigger = page.locator('button[role="combobox"]').nth(1)
+  await benefitSelectTrigger.click()
+  await page.waitForTimeout(500)
+  await page.locator('[role="option"]').filter({ hasText: '$25-100/month saved/earned' }).click()
+  console.log('Selected financial benefit using shadcn Select: $25-100/month saved/earned')
+  await page.waitForTimeout(800)
+
+  // Select access time (required field) using shadcn Select - 3rd Select component
+  const accessSelectTrigger = page.locator('button[role="combobox"]').nth(2)
+  await accessSelectTrigger.click()
+  await page.waitForTimeout(500)
+  await page.locator('[role="option"]').filter({ hasText: 'Same day' }).click()
+  console.log('Selected access time using shadcn Select: Same day')
+  await page.waitForTimeout(800)
+
   // Click effectiveness rating (4 stars)
   const ratingButtons = await page.locator('.grid.grid-cols-5 button').all()
   if (ratingButtons.length >= 4) {
@@ -1662,18 +1785,14 @@ export async function fillFinancialForm(page: Page) {
     console.log('Selected 4-star rating')
   }
   await page.waitForTimeout(500)
-  
-  // Select time to impact (required field) - SEMANTIC SELECTOR
-  const timeToImpactSelect = page.locator('select').filter({ hasText: 'Select timeframe' })
-  await timeToImpactSelect.selectOption('1-2 weeks')
-  console.log('Selected time to impact: 1-2 weeks')
-  await page.waitForTimeout(300)
 
-  // Verify all required fields are filled before continuing
-  console.log('Verifying Step 1 required fields...')
-  const costTypeValue = await costTypeSelect.inputValue()
-  const benefitValue = await timeToImpactSelect.inputValue()
-  console.log('Cost type:', costTypeValue, 'Time to impact:', benefitValue)
+  // Select time to impact (required field) using shadcn Select - 4th Select component
+  const timeToImpactSelectTrigger = page.locator('button[role="combobox"]').nth(3)
+  await timeToImpactSelectTrigger.click()
+  await page.waitForTimeout(500)
+  await page.locator('[role="option"]').filter({ hasText: '1-2 weeks' }).click()
+  console.log('Selected time to impact using shadcn Select: 1-2 weeks')
+  await page.waitForTimeout(800)
 
   // Click Continue to Step 2
   console.log('Attempting to continue to Step 2...')

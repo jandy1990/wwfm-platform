@@ -12,6 +12,7 @@ import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
 import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 
 interface FinancialFormProps {
   goalId: string;
@@ -420,22 +421,22 @@ export function FinancialForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Cost type <span className="text-red-500">*</span>
                 </label>
-                <select
-                  value={costType}
-                  onChange={(e) => setCostType(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={costType} onValueChange={setCostType}>
+                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none transition-all"
-                >
-                  <option value="">Select cost type</option>
-                  <option value="Free to use">Free to use</option>
-                  <option value="Subscription fee">Subscription fee</option>
-                  <option value="Transaction/usage fees">Transaction/usage fees</option>
-                  <option value="Interest charged (loans/credit)">Interest charged (loans/credit)</option>
-                  <option value="Account maintenance fees">Account maintenance fees</option>
-                  <option value="One-time purchase/setup fee">One-time purchase/setup fee</option>
-                </select>
+                           transition-all">
+                    <SelectValue placeholder="Select cost type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Free to use">Free to use</SelectItem>
+                    <SelectItem value="Subscription fee">Subscription fee</SelectItem>
+                    <SelectItem value="Transaction/usage fees">Transaction/usage fees</SelectItem>
+                    <SelectItem value="Interest charged (loans/credit)">Interest charged (loans/credit)</SelectItem>
+                    <SelectItem value="Account maintenance fees">Account maintenance fees</SelectItem>
+                    <SelectItem value="One-time purchase/setup fee">One-time purchase/setup fee</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Financial Benefit */}
@@ -443,24 +444,24 @@ export function FinancialForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Financial benefit? <span className="text-red-500">*</span>
                 </label>
-                <select
-                  value={financialBenefit}
-                  onChange={(e) => setFinancialBenefit(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={financialBenefit} onValueChange={setFinancialBenefit}>
+                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none transition-all"
-                >
-                  <option value="">Select savings or earnings...</option>
-                  <option value="No direct financial benefit">No direct financial benefit</option>
-                  <option value="Under $25/month saved/earned">Under $25/month saved/earned</option>
-                  <option value="$25-100/month saved/earned">$25-100/month saved/earned</option>
-                  <option value="$100-250/month saved/earned">$100-250/month saved/earned</option>
-                  <option value="$250-500/month saved/earned">$250-500/month saved/earned</option>
-                  <option value="$500-1000/month saved/earned">$500-1000/month saved/earned</option>
-                  <option value="Over $1000/month saved/earned">Over $1000/month saved/earned</option>
-                  <option value="Varies significantly">Varies significantly (explain in notes)</option>
-                </select>
+                           transition-all">
+                    <SelectValue placeholder="Select savings or earnings..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="No direct financial benefit">No direct financial benefit</SelectItem>
+                    <SelectItem value="Under $25/month saved/earned">Under $25/month saved/earned</SelectItem>
+                    <SelectItem value="$25-100/month saved/earned">$25-100/month saved/earned</SelectItem>
+                    <SelectItem value="$100-250/month saved/earned">$100-250/month saved/earned</SelectItem>
+                    <SelectItem value="$250-500/month saved/earned">$250-500/month saved/earned</SelectItem>
+                    <SelectItem value="$500-1000/month saved/earned">$500-1000/month saved/earned</SelectItem>
+                    <SelectItem value="Over $1000/month saved/earned">Over $1000/month saved/earned</SelectItem>
+                    <SelectItem value="Varies significantly">Varies significantly (explain in notes)</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Access time */}
@@ -468,22 +469,22 @@ export function FinancialForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Access time <span className="text-red-500">*</span>
                 </label>
-                <select
-                  value={accessTime}
-                  onChange={(e) => setAccessTime(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={accessTime} onValueChange={setAccessTime}>
+                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none transition-all"
-                >
-                  <option value="">Select access time...</option>
-                  <option value="Instant approval">Instant approval</option>
-                  <option value="Same day">Same day</option>
-                  <option value="1-3 business days">1-3 business days</option>
-                  <option value="1-2 weeks">1-2 weeks</option>
-                  <option value="2-4 weeks">2-4 weeks</option>
-                  <option value="Over a month">Over a month</option>
-                </select>
+                           transition-all">
+                    <SelectValue placeholder="Select access time..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Instant approval">Instant approval</SelectItem>
+                    <SelectItem value="Same day">Same day</SelectItem>
+                    <SelectItem value="1-3 business days">1-3 business days</SelectItem>
+                    <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
+                    <SelectItem value="2-4 weeks">2-4 weeks</SelectItem>
+                    <SelectItem value="Over a month">Over a month</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
@@ -554,24 +555,24 @@ export function FinancialForm({
                     When did you notice an impact?
                   </label>
                 </div>
-                <select
-                  value={timeToImpact}
-                  onChange={(e) => setTimeToImpact(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={timeToImpact} onValueChange={setTimeToImpact}>
+                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none transition-all"
-                >
-                  <option value="">Select timeframe</option>
-                  <option value="Immediately">Immediately</option>
-                  <option value="Within days">Within days</option>
-                  <option value="1-2 weeks">1-2 weeks</option>
-                  <option value="3-4 weeks">3-4 weeks</option>
-                  <option value="1-2 months">1-2 months</option>
-                  <option value="3-6 months">3-6 months</option>
-                  <option value="6+ months">6+ months</option>
-                  <option value="Still evaluating">Still evaluating</option>
-                </select>
+                           transition-all">
+                    <SelectValue placeholder="Select timeframe" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Immediately">Immediately</SelectItem>
+                    <SelectItem value="Within days">Within days</SelectItem>
+                    <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
+                    <SelectItem value="3-4 weeks">3-4 weeks</SelectItem>
+                    <SelectItem value="1-2 months">1-2 months</SelectItem>
+                    <SelectItem value="3-6 months">3-6 months</SelectItem>
+                    <SelectItem value="6+ months">6+ months</SelectItem>
+                    <SelectItem value="Still evaluating">Still evaluating</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>
@@ -837,21 +838,21 @@ export function FinancialForm({
                 </div>
               </div>
 
-              <select
-                value={easeOfUse}
-                onChange={(e) => setEaseOfUse(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+              <Select value={easeOfUse} onValueChange={setEaseOfUse}>
+                <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                         appearance-none text-sm"
-              >
-                <option value="">Ease of use</option>
-                <option value="Very easy">Very easy</option>
-                <option value="Easy">Easy</option>
-                <option value="Moderate">Moderate</option>
-                <option value="Complex">Complex</option>
-                <option value="Very complex">Very complex</option>
-              </select>
+                         text-sm">
+                  <SelectValue placeholder="Ease of use" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Very easy">Very easy</SelectItem>
+                  <SelectItem value="Easy">Easy</SelectItem>
+                  <SelectItem value="Moderate">Moderate</SelectItem>
+                  <SelectItem value="Complex">Complex</SelectItem>
+                  <SelectItem value="Very complex">Very complex</SelectItem>
+                </SelectContent>
+              </Select>
               
               <textarea
                 placeholder="What do others need to know?"

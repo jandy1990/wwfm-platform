@@ -128,7 +128,16 @@ test.describe('LifestyleForm End-to-End Tests', () => {
       console.log('Form did not load - screenshot saved to lifestyle-test-debug-screenshot.png')
       throw error
     }
-    
+
+    // Wait for Radix Portal hydration + challenge options loading (CRITICAL for shadcn Select)
+    // LifestyleForm now uses shadcn Select which requires Portal hydration before interacting
+    console.log('Waiting for Portal hydration and data loading...')
+    await page.waitForTimeout(1000)
+    // Wait for the first SelectTrigger button (timeToResults field) to be fully visible and interactive
+    await page.locator('text="When did you notice results?"').waitFor({ state: 'visible', timeout: 15000 })
+    await page.waitForTimeout(500) // Additional wait for Select component to be fully interactive
+    console.log('Portal hydration complete, starting form fill...')
+
     // Fill the LifestyleForm
     await fillLifestyleForm(page, 'diet_nutrition');
     
@@ -266,7 +275,16 @@ test.describe('LifestyleForm End-to-End Tests', () => {
       console.log('Form did not load - screenshot saved to lifestyle-test-debug-screenshot.png')
       throw error
     }
-    
+
+    // Wait for Radix Portal hydration + challenge options loading (CRITICAL for shadcn Select)
+    // LifestyleForm now uses shadcn Select which requires Portal hydration before interacting
+    console.log('Waiting for Portal hydration and data loading...')
+    await page.waitForTimeout(1000)
+    // Wait for the first SelectTrigger button (timeToResults field) to be fully visible and interactive
+    await page.locator('text="When did you notice results?"').waitFor({ state: 'visible', timeout: 15000 })
+    await page.waitForTimeout(500) // Additional wait for Select component to be fully interactive
+    console.log('Portal hydration complete, starting form fill...')
+
     // Fill the LifestyleForm
     await fillLifestyleForm(page, 'sleep');
     

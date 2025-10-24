@@ -432,23 +432,23 @@ export function SessionForm({
                 When did you notice results?
               </label>
             </div>
-            <select
-              value={timeToResults}
-              onChange={(e) => setTimeToResults(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+            <Select value={timeToResults} onValueChange={setTimeToResults}>
+              <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                        focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                       dark:bg-gray-800 dark:text-white transition-all"
-            >
-              <option value="">Select timeframe</option>
-              <option value="Immediately">Immediately</option>
-              <option value="Within days">Within days</option>
-              <option value="1-2 weeks">1-2 weeks</option>
-              <option value="3-4 weeks">3-4 weeks</option>
-              <option value="1-2 months">1-2 months</option>
-              <option value="3-6 months">3-6 months</option>
-              <option value="6+ months">6+ months</option>
-              <option value="Still evaluating">Still evaluating</option>
-            </select>
+                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all">
+                <SelectValue placeholder="Select timeframe" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Immediately">Immediately</SelectItem>
+                <SelectItem value="Within days">Within days</SelectItem>
+                <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
+                <SelectItem value="3-4 weeks">3-4 weeks</SelectItem>
+                <SelectItem value="1-2 months">1-2 months</SelectItem>
+                <SelectItem value="3-6 months">3-6 months</SelectItem>
+                <SelectItem value="6+ months">6+ months</SelectItem>
+                <SelectItem value="Still evaluating">Still evaluating</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
@@ -1264,39 +1264,39 @@ export function SessionForm({
             
             <div className="space-y-4">
               {['therapists_counselors', 'coaches_mentors', 'medical_procedures'].includes(category) && (
-                <select
-                  value={completedTreatment}
-                  onChange={(e) => setCompletedTreatment(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={completedTreatment} onValueChange={setCompletedTreatment}>
+                  <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           dark:bg-gray-700 dark:text-white text-sm"
-                >
-                  <option value="">Completed full treatment?</option>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                  <option value="Still ongoing">Still ongoing</option>
-                </select>
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                    <SelectValue placeholder="Completed full treatment?" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Yes">Yes</SelectItem>
+                    <SelectItem value="No">No</SelectItem>
+                    <SelectItem value="Still ongoing">Still ongoing</SelectItem>
+                  </SelectContent>
+                </Select>
               )}
-              
+
               {!['professional_services', 'crisis_resources'].includes(category) && (
-                <select
-                  value={typicalLength}
-                  onChange={(e) => setTypicalLength(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={typicalLength} onValueChange={setTypicalLength}>
+                  <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           dark:bg-gray-700 dark:text-white text-sm"
-                >
-                  <option value="">Typical treatment length</option>
-                  <option value="Single session only">Single session only</option>
-                  <option value="2-4 sessions">2-4 sessions</option>
-                  <option value="5-8 sessions">5-8 sessions</option>
-                  <option value="8-12 sessions">8-12 sessions</option>
-                  <option value="3-6 months">3-6 months</option>
-                  <option value="6-12 months">6-12 months</option>
-                  <option value="1-2 years">1-2 years</option>
-                  <option value="Ongoing/Indefinite">Ongoing/Indefinite</option>
-                  <option value="Varies by condition">Varies by condition</option>
-                </select>
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                    <SelectValue placeholder="Typical treatment length" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Single session only">Single session only</SelectItem>
+                    <SelectItem value="2-4 sessions">2-4 sessions</SelectItem>
+                    <SelectItem value="5-8 sessions">5-8 sessions</SelectItem>
+                    <SelectItem value="8-12 sessions">8-12 sessions</SelectItem>
+                    <SelectItem value="3-6 months">3-6 months</SelectItem>
+                    <SelectItem value="6-12 months">6-12 months</SelectItem>
+                    <SelectItem value="1-2 years">1-2 years</SelectItem>
+                    <SelectItem value="Ongoing/Indefinite">Ongoing/Indefinite</SelectItem>
+                    <SelectItem value="Varies by condition">Varies by condition</SelectItem>
+                  </SelectContent>
+                </Select>
               )}
               
               {category === 'crisis_resources' && (

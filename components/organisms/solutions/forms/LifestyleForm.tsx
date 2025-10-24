@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ChevronLeft, Check } from 'lucide-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Skeleton } from '@/components/atoms/skeleton';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
@@ -490,24 +491,24 @@ export function LifestyleForm({
                     When did you notice results?
                   </label>
                 </div>
-                <select
-                  value={timeToResults}
-                  onChange={(e) => setTimeToResults(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={timeToResults} onValueChange={setTimeToResults}>
+                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none transition-all"
-                >
-                  <option value="">Select timeframe</option>
-                  <option value="Immediately">Immediately</option>
-                  <option value="Within days">Within days</option>
-                  <option value="1-2 weeks">1-2 weeks</option>
-                  <option value="3-4 weeks">3-4 weeks</option>
-                  <option value="1-2 months">1-2 months</option>
-                  <option value="3-6 months">3-6 months</option>
-                  <option value="6+ months">6+ months</option>
-                  <option value="Still evaluating">Still evaluating</option>
-                </select>
+                           transition-all">
+                    <SelectValue placeholder="Select timeframe" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Immediately">Immediately</SelectItem>
+                    <SelectItem value="Within days">Within days</SelectItem>
+                    <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
+                    <SelectItem value="3-4 weeks">3-4 weeks</SelectItem>
+                    <SelectItem value="1-2 months">1-2 months</SelectItem>
+                    <SelectItem value="3-6 months">3-6 months</SelectItem>
+                    <SelectItem value="6+ months">6+ months</SelectItem>
+                    <SelectItem value="Still evaluating">Still evaluating</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
@@ -535,33 +536,32 @@ export function LifestyleForm({
                 <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Cost impact <span className="text-red-500">*</span>
                 </label>
-                <select
-                  value={costImpact}
-                  onChange={(e) => setCostImpact(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                <Select value={costImpact} onValueChange={setCostImpact}>
+                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           appearance-none"
-                >
-                  <option value="">{category === 'diet_nutrition' ? "Compared to previous diet" : "Any costs?"}</option>
-                  {category === 'diet_nutrition' ? (
-                    <>
-                      <option value="Significantly more expensive">Significantly more expensive</option>
-                      <option value="Somewhat more expensive">Somewhat more expensive</option>
-                      <option value="About the same">About the same</option>
-                      <option value="Somewhat less expensive">Somewhat less expensive</option>
-                      <option value="Significantly less expensive">Significantly less expensive</option>
-                    </>
-                  ) : (
-                    <>
-                      <option value="Free">Free</option>
-                      <option value="Under $50">Under $50</option>
-                      <option value="$50-$100">$50-$100</option>
-                      <option value="$100-$200">$100-$200</option>
-                      <option value="Over $200">Over $200</option>
-                    </>
-                  )}
-                </select>
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                    <SelectValue placeholder={category === 'diet_nutrition' ? "Compared to previous diet" : "Any costs?"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {category === 'diet_nutrition' ? (
+                      <>
+                        <SelectItem value="Significantly more expensive">Significantly more expensive</SelectItem>
+                        <SelectItem value="Somewhat more expensive">Somewhat more expensive</SelectItem>
+                        <SelectItem value="About the same">About the same</SelectItem>
+                        <SelectItem value="Somewhat less expensive">Somewhat less expensive</SelectItem>
+                        <SelectItem value="Significantly less expensive">Significantly less expensive</SelectItem>
+                      </>
+                    ) : (
+                      <>
+                        <SelectItem value="Free">Free</SelectItem>
+                        <SelectItem value="Under $50">Under $50</SelectItem>
+                        <SelectItem value="$50-$100">$50-$100</SelectItem>
+                        <SelectItem value="$100-$200">$100-$200</SelectItem>
+                        <SelectItem value="Over $200">Over $200</SelectItem>
+                      </>
+                    )}
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Category-specific required fields */}
@@ -570,23 +570,22 @@ export function LifestyleForm({
                   <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                     Weekly prep time <span className="text-red-500">*</span>
                   </label>
-                  <select
-                    value={weeklyPrepTime}
-                    onChange={(e) => setWeeklyPrepTime(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                  <Select value={weeklyPrepTime} onValueChange={setWeeklyPrepTime}>
+                    <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                             appearance-none"
-                  >
-                    <option value="">Time spent on meal planning/prep</option>
-                    <option value="No extra time">No extra time</option>
-                    <option value="Under 1 hour/week">Under 1 hour/week</option>
-                    <option value="1-2 hours/week">1-2 hours/week</option>
-                    <option value="2-4 hours/week">2-4 hours/week</option>
-                    <option value="4-6 hours/week">4-6 hours/week</option>
-                    <option value="6-8 hours/week">6-8 hours/week</option>
-                    <option value="Over 8 hours/week">Over 8 hours/week</option>
-                  </select>
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                      <SelectValue placeholder="Time spent on meal planning/prep" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="No extra time">No extra time</SelectItem>
+                      <SelectItem value="Under 1 hour/week">Under 1 hour/week</SelectItem>
+                      <SelectItem value="1-2 hours/week">1-2 hours/week</SelectItem>
+                      <SelectItem value="2-4 hours/week">2-4 hours/week</SelectItem>
+                      <SelectItem value="4-6 hours/week">4-6 hours/week</SelectItem>
+                      <SelectItem value="6-8 hours/week">6-8 hours/week</SelectItem>
+                      <SelectItem value="Over 8 hours/week">Over 8 hours/week</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               )}
 
@@ -595,23 +594,22 @@ export function LifestyleForm({
                   <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                     Previous sleep hours <span className="text-red-500">*</span>
                   </label>
-                  <select
-                    value={previousSleepHours}
-                    onChange={(e) => setPreviousSleepHours(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                  <Select value={previousSleepHours} onValueChange={setPreviousSleepHours}>
+                    <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                             appearance-none"
-                  >
-                    <option value="">Before this change</option>
-                    <option value="Under 4 hours">Under 4 hours</option>
-                    <option value="4-5 hours">4-5 hours</option>
-                    <option value="5-6 hours">5-6 hours</option>
-                    <option value="6-7 hours">6-7 hours</option>
-                    <option value="7-8 hours">7-8 hours</option>
-                    <option value="Over 8 hours">Over 8 hours</option>
-                    <option value="Highly variable">Highly variable</option>
-                  </select>
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                      <SelectValue placeholder="Before this change" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Under 4 hours">Under 4 hours</SelectItem>
+                      <SelectItem value="4-5 hours">4-5 hours</SelectItem>
+                      <SelectItem value="5-6 hours">5-6 hours</SelectItem>
+                      <SelectItem value="6-7 hours">6-7 hours</SelectItem>
+                      <SelectItem value="7-8 hours">7-8 hours</SelectItem>
+                      <SelectItem value="Over 8 hours">Over 8 hours</SelectItem>
+                      <SelectItem value="Highly variable">Highly variable</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               )}
 
@@ -668,20 +666,19 @@ export function LifestyleForm({
                     <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                       How's it going? <span className="text-gray-500 text-xs">(optional)</span>
                     </label>
-                    <select
-                      value={sustainabilityReason}
-                      onChange={(e) => setSustainabilityReason(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                    <Select value={sustainabilityReason} onValueChange={setSustainabilityReason}>
+                      <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                                focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                               appearance-none"
-                    >
-                      <option value="">Select (optional)</option>
-                      <option value="Easy to maintain now">Easy to maintain now</option>
-                      <option value="Takes effort but manageable">Takes effort but manageable</option>
-                      <option value="Getting harder over time">Getting harder over time</option>
-                      <option value="Struggling but continuing">Struggling but continuing</option>
-                    </select>
+                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                        <SelectValue placeholder="Select (optional)" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Easy to maintain now">Easy to maintain now</SelectItem>
+                        <SelectItem value="Takes effort but manageable">Takes effort but manageable</SelectItem>
+                        <SelectItem value="Getting harder over time">Getting harder over time</SelectItem>
+                        <SelectItem value="Struggling but continuing">Struggling but continuing</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 )}
 
@@ -690,21 +687,20 @@ export function LifestyleForm({
                     <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                       Main reason you stopped? <span className="text-gray-500 text-xs">(optional)</span>
                     </label>
-                    <select
-                      value={sustainabilityReason}
-                      onChange={(e) => setSustainabilityReason(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                    <Select value={sustainabilityReason} onValueChange={setSustainabilityReason}>
+                      <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
                                focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                               appearance-none"
-                    >
-                      <option value="">Select (optional)</option>
-                      <option value="Too hard to sustain">Too hard to sustain</option>
-                      <option value="No longer needed (problem solved)">No longer needed (problem solved)</option>
-                      <option value="Found something better">Found something better</option>
-                      <option value="Life circumstances changed">Life circumstances changed</option>
-                      <option value="Other">Other</option>
-                    </select>
+                               bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                        <SelectValue placeholder="Select (optional)" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Too hard to sustain">Too hard to sustain</SelectItem>
+                        <SelectItem value="No longer needed (problem solved)">No longer needed (problem solved)</SelectItem>
+                        <SelectItem value="Found something better">Found something better</SelectItem>
+                        <SelectItem value="Life circumstances changed">Life circumstances changed</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 )}
               </div>
@@ -943,43 +939,41 @@ export function LifestyleForm({
               {category === 'diet_nutrition' && (
                 <div>
                   <label className="text-xs text-gray-600 dark:text-gray-400 mb-1 block">Social impact</label>
-                  <select
-                    value={socialImpact}
-                    onChange={(e) => setSocialImpact(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                  <Select value={socialImpact} onValueChange={setSocialImpact}>
+                    <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                             appearance-none text-sm"
-                  >
-                    <option value="">Social challenges?</option>
-                    <option value="No impact">No impact</option>
-                    <option value="Slightly challenging">Slightly challenging</option>
-                    <option value="Moderately challenging">Moderately challenging</option>
-                    <option value="Very challenging">Very challenging</option>
-                    <option value="Deal breaker">Deal breaker</option>
-                  </select>
+                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                      <SelectValue placeholder="Social challenges?" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="No impact">No impact</SelectItem>
+                      <SelectItem value="Slightly challenging">Slightly challenging</SelectItem>
+                      <SelectItem value="Moderately challenging">Moderately challenging</SelectItem>
+                      <SelectItem value="Very challenging">Very challenging</SelectItem>
+                      <SelectItem value="Deal breaker">Deal breaker</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               )}
 
               {category === 'sleep' && (
                 <div>
                   <label className="text-xs text-gray-600 dark:text-gray-400 mb-1 block">Sleep quality change</label>
-                  <select
-                    value={sleepQualityChange}
-                    onChange={(e) => setSleepQualityChange(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                  <Select value={sleepQualityChange} onValueChange={setSleepQualityChange}>
+                    <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                             appearance-none text-sm"
-                  >
-                    <option value="">Quality improvement?</option>
-                    <option value="Dramatically better">Dramatically better</option>
-                    <option value="Significantly better">Significantly better</option>
-                    <option value="Somewhat better">Somewhat better</option>
-                    <option value="No change">No change</option>
-                    <option value="Somewhat worse">Somewhat worse</option>
-                    <option value="Much worse">Much worse</option>
-                  </select>
+                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                      <SelectValue placeholder="Quality improvement?" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Dramatically better">Dramatically better</SelectItem>
+                      <SelectItem value="Significantly better">Significantly better</SelectItem>
+                      <SelectItem value="Somewhat better">Somewhat better</SelectItem>
+                      <SelectItem value="No change">No change</SelectItem>
+                      <SelectItem value="Somewhat worse">Somewhat worse</SelectItem>
+                      <SelectItem value="Much worse">Much worse</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               )}
 
