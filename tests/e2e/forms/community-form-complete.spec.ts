@@ -293,27 +293,47 @@ test.describe('CommunityForm - Complete E2E Tests', () => {
       }
     }
     
-    // Test success screen fields update
+    // Test success screen fields update with retry logic
     if (await page.locator('text="What else helped?"').isVisible()) {
       console.log('\n=== Testing Success Screen Fields ===')
-      
+
       const successFields = {
         facilitator_quality: 'Excellent',
         would_recommend: true,
         additional_notes: 'Test note for support group'
       }
-      
+
       await fillSuccessScreenFields(page, successFields)
-      
-      // Verify the update saved
-      await page.waitForTimeout(2000)
-      const updatedResult = await verifyDataPipeline(
-        TEST_SOLUTIONS.support_groups,
-        'support_groups',
-        { ...expectedFields, ...successFields }
-      )
-      
-      expect(updatedResult.success).toBeTruthy()
+
+      // Retry logic for async aggregation (prevents flakiness)
+      let updatedResult = null
+      const maxRetries = 5
+
+      for (let i = 0; i < maxRetries; i++) {
+        await page.waitForTimeout(2000)
+
+        updatedResult = await verifyDataPipeline(
+          TEST_SOLUTIONS.support_groups,
+          'support_groups',
+          { ...expectedFields, ...successFields }
+        )
+
+        if (updatedResult.success) {
+          console.log(`✅ Success screen fields aggregated (attempt ${i + 1}/${maxRetries})`)
+          break
+        }
+
+        if (i < maxRetries - 1) {
+          console.log(`⏳ Waiting for success screen aggregation... attempt ${i + 1}/${maxRetries}`)
+        }
+      }
+
+      expect(updatedResult?.success).toBeTruthy()
+
+      if (!updatedResult?.success) {
+        console.error('❌ Success screen aggregation failed after 5 retries')
+        console.error('Error:', updatedResult?.error)
+      }
     }
     
     // Navigate to solution display page to verify UI

@@ -3,6 +3,7 @@
 import { getServiceSupabaseClient } from '@/lib/database'
 import { logger } from '@/lib/utils/logger'
 import { MILESTONES } from '@/lib/milestones'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 /**
  * Backfill milestone records for users who already have points
@@ -10,6 +11,7 @@ import { MILESTONES } from '@/lib/milestones'
  */
 export async function backfillUserMilestones(userId: string): Promise<{ success: boolean; milestonesAdded: number; error?: string }> {
   const supabase = getServiceSupabaseClient()
+  const milestoneClient = supabase as unknown as SupabaseClient<any>
 
   try {
     // 1. Get user's current points
@@ -30,7 +32,7 @@ export async function backfillUserMilestones(userId: string): Promise<{ success:
     const currentPoints = userData.contribution_points || 0
 
     // 2. Get existing milestone records
-    const { data: existingMilestones, error: milestonesError } = await supabase
+    const { data: existingMilestones, error: milestonesError } = await milestoneClient
       .from('user_milestones')
       .select('milestone_key')
       .eq('user_id', userId)
@@ -44,7 +46,9 @@ export async function backfillUserMilestones(userId: string): Promise<{ success:
       }
     }
 
-    const existingKeys = new Set(existingMilestones?.map(m => m.milestone_key) || [])
+    const existingKeys = new Set(
+      ((existingMilestones as Array<{ milestone_key: string }> | null) ?? []).map(m => m.milestone_key)
+    )
 
     // 3. Find all milestones that should be awarded based on current points
     const missingMilestones = MILESTONES.filter(
@@ -68,7 +72,7 @@ export async function backfillUserMilestones(userId: string): Promise<{ success:
       achieved_at: new Date().toISOString() // Backfilled timestamp
     }))
 
-    const { error: insertError } = await supabase
+    const { error: insertError } = await milestoneClient
       .from('user_milestones')
       .insert(milestoneRecords)
 

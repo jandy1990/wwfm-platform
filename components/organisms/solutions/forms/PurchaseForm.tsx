@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { ChevronLeft, Check } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Check, Plus, AlertCircle, Info } from 'lucide-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { toast } from 'sonner';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS, TestModeCountdown, scrollToFirstError } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
@@ -13,6 +14,7 @@ import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
 import { Skeleton } from '@/components/atoms/skeleton';
+import { Alert, AlertDescription } from '@/components/atoms/alert';
 import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 
 interface PurchaseFormProps {
@@ -57,6 +59,8 @@ export function PurchaseForm({
 }: PurchaseFormProps) {
   console.log('PurchaseForm initialized with existingSolutionId:', existingSolutionId);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isTestMode = searchParams.get('testMode') === 'true';
   const { triggerPoints } = usePointsAnimation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -85,7 +89,9 @@ export function PurchaseForm({
   const [selectedChallenges, setSelectedChallenges] = useState<string[]>(['None']);
   const [challengeOptions, setChallengeOptions] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  
+  const [customChallenge, setCustomChallenge] = useState('');
+  const [showCustomChallenge, setShowCustomChallenge] = useState(false);
+
   // Step 3 - Failed solutions
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
   
@@ -93,7 +99,11 @@ export function PurchaseForm({
   const [brand, setBrand] = useState('');
   const [completionStatus, setCompletionStatus] = useState('');
   const [notes, setNotes] = useState('');
-  
+
+  // Validation state
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
   const supabaseClient = createClientComponentClient();
   
   // Progress indicator
@@ -111,6 +121,7 @@ export function PurchaseForm({
     format,
     learningDifficulty,
     selectedChallenges,
+    customChallenge,
     failedSolutions,
     brand,
     completionStatus,
@@ -134,6 +145,7 @@ export function PurchaseForm({
         setFormat(data.format || '');
         setLearningDifficulty(data.learningDifficulty || '');
         setSelectedChallenges(data.selectedChallenges || ['None']);
+        setCustomChallenge(data.customChallenge || '');
         setFailedSolutions(data.failedSolutions || []);
         setBrand(data.brand || '');
         setCompletionStatus(data.completionStatus || '');
@@ -222,7 +234,140 @@ export function PurchaseForm({
       });
     }
   };
-  
+
+  const addCustomChallenge = () => {
+    if (customChallenge.trim()) {
+      setSelectedChallenges(selectedChallenges.filter(c => c !== 'None').concat(customChallenge.trim()));
+      setCustomChallenge('');
+      setShowCustomChallenge(false);
+    }
+  };
+
+  // Field validation helper
+  const validateField = (fieldName: string, value: any) => {
+    let error = '';
+
+    switch (fieldName) {
+      case 'effectiveness':
+        if (value === null || value === '') {
+          error = 'Please rate the effectiveness';
+        }
+        break;
+      case 'timeToResults':
+        if (!value || value === '') {
+          error = 'Please select when you noticed results';
+        }
+        break;
+      case 'costType':
+        if (!value || value === '') {
+          error = 'Please select cost type';
+        }
+        break;
+      case 'costRange':
+        if (!value || value === '') {
+          error = 'Please select cost range';
+        }
+        break;
+      case 'productType':
+        if (category === 'products_devices' && (!value || value === '')) {
+          error = 'Please select product type';
+        }
+        break;
+      case 'easeOfUse':
+        if (category === 'products_devices' && (!value || value === '')) {
+          error = 'Please select ease of use';
+        }
+        break;
+      case 'format':
+        if (category === 'books_courses' && (!value || value === '')) {
+          error = 'Please select format';
+        }
+        break;
+      case 'learningDifficulty':
+        if (category === 'books_courses' && (!value || value === '')) {
+          error = 'Please select learning difficulty';
+        }
+        break;
+    }
+
+    setValidationErrors(prev => {
+      const updated = { ...prev };
+      if (error) {
+        updated[fieldName] = error;
+      } else {
+        delete updated[fieldName];
+      }
+      return updated;
+    });
+  };
+
+  // Mark field as touched (for showing validation errors)
+  const markTouched = (fieldName: string) => {
+    setTouched(prev => ({ ...prev, [fieldName]: true }));
+  };
+
+  // Touch all required fields for current step (to show validation errors)
+  const touchAllRequiredFields = () => {
+    switch (currentStep) {
+      case 1: // Step 1 validation
+        // Universal fields
+        markTouched('effectiveness');
+        validateField('effectiveness', effectiveness);
+
+        markTouched('timeToResults');
+        validateField('timeToResults', timeToResults);
+
+        markTouched('costType');
+        validateField('costType', costType);
+
+        markTouched('costRange');
+        validateField('costRange', costRange);
+
+        // Category-specific fields
+        if (category === 'products_devices') {
+          markTouched('productType');
+          validateField('productType', productType);
+
+          markTouched('easeOfUse');
+          validateField('easeOfUse', easeOfUse);
+        } else if (category === 'books_courses') {
+          markTouched('format');
+          validateField('format', format);
+
+          markTouched('learningDifficulty');
+          validateField('learningDifficulty', learningDifficulty);
+        }
+        break;
+      case 2: // Challenges
+        // Challenges use array validation - no individual fields
+        if (selectedChallenges.length === 0) {
+          toast.error('Please select at least one challenge');
+        }
+        break;
+      case 3: // Failed solutions (optional, always valid)
+        break;
+    }
+  };
+
+  // Handle Continue button click with validation feedback
+  const handleContinue = () => {
+    if (!canProceedToNextStep()) {
+      // Show validation errors on all required fields
+      touchAllRequiredFields();
+
+      // Scroll to first error
+      scrollToFirstError(validationErrors);
+
+      // Toast notification
+      toast.error('Please fill all required fields');
+
+      return; // Block navigation
+    }
+
+    // Validation passed - proceed to next step
+    setCurrentStep(currentStep + 1);
+  };
+
   const canProceedToNextStep = () => {
     switch (currentStep) {
       case 1:
@@ -257,6 +402,14 @@ export function PurchaseForm({
   };
   
   const handleSubmit = async () => {
+    // Validate before submission
+    if (!canProceedToNextStep()) {
+      touchAllRequiredFields();
+      scrollToFirstError(validationErrors);
+      toast.error('Please fill all required fields before submitting');
+      return;
+    }
+
     console.log('[PurchaseForm] handleSubmit called');
     setIsSubmitting(true);
     console.log('[PurchaseForm] State set to submitting');
@@ -350,11 +503,15 @@ export function PurchaseForm({
       } else {
         // Handle error
         console.error('[PurchaseForm] Error submitting solution:', result.error);
-        alert(result.error || 'Failed to submit solution. Please try again.');
+        toast.error('Failed to submit solution', {
+          description: result.error || 'Please try again or contact support if the problem persists.'
+        });
       }
     } catch (error) {
       console.error('[PurchaseForm] Error submitting form:', error);
-      alert('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred', {
+        description: 'Please try again or contact support if the problem persists.'
+      });
     } finally {
       console.log('[PurchaseForm] Setting isSubmitting to false');
       setIsSubmitting(false);
@@ -386,14 +543,20 @@ export function PurchaseForm({
       
       if (result.success) {
         console.log('Successfully updated additional information');
-        alert('Additional information saved successfully!');
+        toast.success('Additional information saved!', {
+          description: 'Thank you for providing more details.'
+        });
       } else {
         console.error('Failed to update:', result.error);
-        alert('Failed to save additional information. Please try again.');
+        toast.error('Failed to save additional information', {
+          description: 'Please try again or contact support if the problem persists.'
+        });
       }
     } catch (error) {
       console.error('Error updating additional info:', error);
-      alert('An error occurred. Please try again.');
+      toast.error('An error occurred', {
+        description: 'Please try again or contact support if the problem persists.'
+      });
     }
   };
   
@@ -423,9 +586,9 @@ export function PurchaseForm({
         )}
         
         {/* Quick context card */}
-        <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 
-                      border border-purple-200 dark:border-blue-800 rounded-lg p-4">
-          <p className="text-sm text-blue-800 dark:text-purple-200">
+        <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20
+                      border border-purple-200 dark:border-purple-800 rounded-lg p-4">
+          <p className="text-sm text-purple-800 dark:text-purple-200">
             Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
           </p>
         </div>
@@ -436,7 +599,7 @@ export function PurchaseForm({
             <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
               <span className="text-lg">⭐</span>
             </div>
-            <h2 className="text-xl font-semibold">How well it worked</h2>
+            <h2 className="text-xl font-bold">How well it worked</h2>
           </div>
           
           {/* 5-star rating */}
@@ -445,10 +608,16 @@ export function PurchaseForm({
               {[1, 2, 3, 4, 5].map((rating) => (
                 <button
                   key={rating}
-                  onClick={() => setEffectiveness(rating)}
+                  onClick={() => {
+                    setEffectiveness(rating);
+                    validateField('effectiveness', rating);
+                    markTouched('effectiveness');
+                  }}
                   className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
                     effectiveness === rating
                       ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 scale-105 shadow-lg'
+                      : touched.effectiveness && validationErrors.effectiveness
+                      ? 'border-red-300 dark:border-red-700 hover:border-red-400'
                       : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                   }`}
                 >
@@ -480,6 +649,12 @@ export function PurchaseForm({
               <span className="text-xs text-gray-500">Not at all</span>
               <span className="text-xs text-gray-500">Extremely</span>
             </div>
+            {touched.effectiveness && validationErrors.effectiveness && (
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {validationErrors.effectiveness}
+              </p>
+            )}
           </div>
 
           {/* Time to results */}
@@ -490,10 +665,21 @@ export function PurchaseForm({
                 When did you notice results?
               </label>
             </div>
-            <Select value={timeToResults} onValueChange={setTimeToResults}>
-              <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+            <Select
+              value={timeToResults}
+              onValueChange={(value) => {
+                setTimeToResults(value);
+                validateField('timeToResults', value);
+                markTouched('timeToResults');
+              }}
+            >
+              <SelectTrigger className={`w-full px-4 py-3 border rounded-lg
                        focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all ${
+                        touched.timeToResults && validationErrors.timeToResults
+                          ? 'border-red-300 dark:border-red-700'
+                          : 'border-gray-300 dark:border-gray-600'
+                      }`}>
                 <SelectValue placeholder="Select timeframe" />
               </SelectTrigger>
               <SelectContent>
@@ -507,6 +693,12 @@ export function PurchaseForm({
                 <SelectItem value="Still evaluating">Still evaluating</SelectItem>
               </SelectContent>
             </Select>
+            {touched.timeToResults && validationErrors.timeToResults && (
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {validationErrors.timeToResults}
+              </p>
+            )}
           </div>
         </div>
 
@@ -529,7 +721,14 @@ export function PurchaseForm({
             <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Cost <span className="text-red-500">*</span>
             </label>
-            <RadioGroup value={costType} onValueChange={(value) => setCostType(value as 'one_time' | 'subscription')}>
+            <RadioGroup
+              value={costType}
+              onValueChange={(value) => {
+                setCostType(value as 'one_time' | 'subscription');
+                validateField('costType', value);
+                markTouched('costType');
+              }}
+            >
               <div className="flex gap-4">
                 <div className="flex items-center">
                   <RadioGroupItem value="one_time" id="one_time_purchase" />
@@ -543,9 +742,29 @@ export function PurchaseForm({
                 </div>
               </div>
             </RadioGroup>
-            
-            <Select value={costRange} onValueChange={setCostRange} required>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+            {touched.costType && validationErrors.costType && (
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {validationErrors.costType}
+              </p>
+            )}
+
+            <Select
+              value={costRange}
+              onValueChange={(value) => {
+                setCostRange(value);
+                validateField('costRange', value);
+                markTouched('costRange');
+              }}
+              required
+            >
+              <SelectTrigger className={`w-full px-4 py-2 border rounded-lg
+                       focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all ${
+                        touched.costRange && validationErrors.costRange
+                          ? 'border-red-300 dark:border-red-700'
+                          : 'border-gray-300 dark:border-gray-600'
+                      }`}>
                 <SelectValue placeholder="Select cost range" />
               </SelectTrigger>
               <SelectContent>
@@ -572,6 +791,12 @@ export function PurchaseForm({
                 )}
               </SelectContent>
             </Select>
+            {touched.costRange && validationErrors.costRange && (
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {validationErrors.costRange}
+              </p>
+            )}
           </div>
 
           {/* Product type/Format */}
@@ -580,12 +805,29 @@ export function PurchaseForm({
               {category === 'products_devices' ? 'Product type' : 'Format'}
               <span className="text-red-500"> *</span>
             </label>
-            <Select 
-              value={category === 'products_devices' ? productType : format} 
-              onValueChange={category === 'products_devices' ? setProductType : setFormat}
+            <Select
+              value={category === 'products_devices' ? productType : format}
+              onValueChange={(value) => {
+                if (category === 'products_devices') {
+                  setProductType(value);
+                  validateField('productType', value);
+                  markTouched('productType');
+                } else {
+                  setFormat(value);
+                  validateField('format', value);
+                  markTouched('format');
+                }
+              }}
               required
             >
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+              <SelectTrigger className={`w-full px-4 py-2 border rounded-lg
+                       focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all ${
+                        ((category === 'products_devices' && touched.productType && validationErrors.productType) ||
+                         (category === 'books_courses' && touched.format && validationErrors.format))
+                          ? 'border-red-300 dark:border-red-700'
+                          : 'border-gray-300 dark:border-gray-600'
+                      }`}>
                 <SelectValue placeholder="Select type" />
               </SelectTrigger>
               <SelectContent>
@@ -612,14 +854,42 @@ export function PurchaseForm({
                 )}
               </SelectContent>
             </Select>
+            {category === 'products_devices' && touched.productType && validationErrors.productType && (
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {validationErrors.productType}
+              </p>
+            )}
+            {category === 'books_courses' && touched.format && validationErrors.format && (
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {validationErrors.format}
+              </p>
+            )}
           </div>
 
           {/* Category-specific required fields */}
           {category === 'products_devices' && (
             <div>
-              <label htmlFor="ease_of_use" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Ease of use <span className="text-red-500">*</span></label>
-              <Select value={easeOfUse} onValueChange={setEaseOfUse} required>
-                <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+              <label htmlFor="ease_of_use" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                Ease of use <span className="text-red-500">*</span>
+              </label>
+              <Select
+                value={easeOfUse}
+                onValueChange={(value) => {
+                  setEaseOfUse(value);
+                  validateField('easeOfUse', value);
+                  markTouched('easeOfUse');
+                }}
+                required
+              >
+                <SelectTrigger className={`w-full px-4 py-2 border rounded-lg
+                         focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                         bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all ${
+                          touched.easeOfUse && validationErrors.easeOfUse
+                            ? 'border-red-300 dark:border-red-700'
+                            : 'border-gray-300 dark:border-gray-600'
+                        }`}>
                   <SelectValue placeholder="How easy to use?" />
                 </SelectTrigger>
                 <SelectContent>
@@ -630,14 +900,36 @@ export function PurchaseForm({
                   <SelectItem value="Very difficult to use">Very difficult to use</SelectItem>
                 </SelectContent>
               </Select>
+              {touched.easeOfUse && validationErrors.easeOfUse && (
+                <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  {validationErrors.easeOfUse}
+                </p>
+              )}
             </div>
           )}
 
           {category === 'books_courses' && (
             <div>
-              <label htmlFor="learning_difficulty" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Learning difficulty <span className="text-red-500">*</span></label>
-              <Select value={learningDifficulty} onValueChange={setLearningDifficulty} required>
-                <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+              <label htmlFor="learning_difficulty" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                Learning difficulty <span className="text-red-500">*</span>
+              </label>
+              <Select
+                value={learningDifficulty}
+                onValueChange={(value) => {
+                  setLearningDifficulty(value);
+                  validateField('learningDifficulty', value);
+                  markTouched('learningDifficulty');
+                }}
+                required
+              >
+                <SelectTrigger className={`w-full px-4 py-2 border rounded-lg
+                         focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                         bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all ${
+                          touched.learningDifficulty && validationErrors.learningDifficulty
+                            ? 'border-red-300 dark:border-red-700'
+                            : 'border-gray-300 dark:border-gray-600'
+                        }`}>
                   <SelectValue placeholder="How challenging?" />
                 </SelectTrigger>
                 <SelectContent>
@@ -648,6 +940,12 @@ export function PurchaseForm({
                   <SelectItem value="Expert level">Expert level</SelectItem>
                 </SelectContent>
               </Select>
+              {touched.learningDifficulty && validationErrors.learningDifficulty && (
+                <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  {validationErrors.learningDifficulty}
+                </p>
+              )}
             </div>
           )}
         </div>
@@ -676,7 +974,7 @@ export function PurchaseForm({
           <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center">
             <span className="text-lg">⚡</span>
           </div>
-          <h2 className="text-xl font-semibold">Any challenges?</h2>
+          <h2 className="text-xl font-bold">Any challenges?</h2>
         </div>
 
         {/* Quick tip */}
@@ -694,8 +992,8 @@ export function PurchaseForm({
               className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
                         transition-all transform hover:scale-[1.02] ${
                 selectedChallenges.includes(challenge)
-                  ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-md'
-                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
+                  ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-lg'
+                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-lg'
               }`}
             >
               <input
@@ -719,11 +1017,84 @@ export function PurchaseForm({
           ))}
         </div>
 
+        {/* Add other button */}
+        {!showCustomChallenge && (
+          <button
+            type="button"
+            onClick={() => setShowCustomChallenge(true)}
+            className="flex items-center gap-2 px-4 py-2 text-sm text-purple-600 dark:text-purple-400
+                     hover:bg-purple-50 dark:hover:bg-purple-900/30 rounded-lg transition-colors button-focus-tight"
+          >
+            <Plus className="w-4 h-4" />
+            Add other
+          </button>
+        )}
+
+        {/* Custom challenge input */}
+        {showCustomChallenge && (
+          <div className="flex gap-2 animate-slide-in">
+            <input
+              type="text"
+              value={customChallenge}
+              onChange={(e) => setCustomChallenge(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && addCustomChallenge()}
+              placeholder="Enter challenge..."
+              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                       bg-white dark:bg-gray-800 text-sm
+                       focus:outline-none focus:ring-2 focus:ring-purple-500"
+              autoFocus
+            />
+            <button
+              type="button"
+              onClick={addCustomChallenge}
+              className="px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700
+                       transition-colors text-sm font-medium"
+            >
+              Add
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setShowCustomChallenge(false);
+                setCustomChallenge('');
+              }}
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                       hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
+
+        {/* Custom challenges display */}
+        {selectedChallenges.filter(c => !challengeOptions.includes(c)).length > 0 && (
+          <div className="flex flex-wrap gap-2 animate-fade-in">
+            {selectedChallenges
+              .filter(c => !challengeOptions.includes(c))
+              .map((challenge, index) => (
+                <span
+                  key={index}
+                  className="inline-flex items-center gap-2 px-3 py-1 bg-purple-100 dark:bg-purple-900/30
+                           text-purple-700 dark:text-purple-300 rounded-full text-sm"
+                >
+                  {challenge}
+                  <button
+                    type="button"
+                    onClick={() => setSelectedChallenges(selectedChallenges.filter(c => c !== challenge))}
+                    className="hover:bg-purple-200 dark:hover:bg-purple-800 rounded-full p-0.5"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+          </div>
+        )}
+
         {/* Selected count indicator */}
         {selectedChallenges.length > 0 && selectedChallenges[0] !== 'None' && (
           <div className="text-center">
-            <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
-                           text-purple-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
+            <span className="inline-flex items-center gap-2 px-3 py-1 bg-purple-100 dark:bg-purple-900/30
+                           text-purple-700 dark:text-purple-300 rounded-full text-sm animate-fade-in">
               <Check className="w-4 h-4" />
               {selectedChallenges.length} selected
             </span>
@@ -742,7 +1113,7 @@ export function PurchaseForm({
           <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
             <span className="text-lg">🔍</span>
           </div>
-          <h2 className="text-xl font-semibold">What else did you try?</h2>
+          <h2 className="text-xl font-bold">What else did you try?</h2>
         </div>
 
         {/* Context card */}
@@ -851,7 +1222,7 @@ export function PurchaseForm({
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg 
-                         text-sm font-semibold transition-colors"
+                         text-sm font-semibold transition-colors button-focus-tight"
                 >
                   Submit
                 </button>
@@ -867,28 +1238,23 @@ export function PurchaseForm({
           >
             Back to goal page
           </button>
+
+          {/* Test Mode Auto-Return */}
+          <TestModeCountdown isTestMode={isTestMode} />
         </div>
       </div>
     );
   }
   
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Progress Bar */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-2">
-          <button
-            onClick={() => {
-              if (currentStep > 1) {
-                setCurrentStep(currentStep - 1);
-              } else {
-                onBack();
-              }
-            }}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      {/* Progress Bar - Sticky */}
+      <div className="sticky top-0 z-10
+                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                      border-b border-gray-200 dark:border-gray-700
+                      px-4 sm:px-6 py-3 mb-8 -mx-4 sm:-mx-6 shadow-md
+                      safe-area-inset-top">
+        <div className="flex items-center justify-end mb-2">
           <span className="text-sm text-gray-600 dark:text-gray-400">
             Step {currentStep} of {totalSteps}
           </span>
@@ -902,56 +1268,88 @@ export function PurchaseForm({
       </div>
 
       {/* Form Content */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200
                     dark:border-gray-700 p-4 sm:p-6 overflow-visible">
         {renderStep()}
       </div>
 
-      {/* Navigation */}
-      <div className="flex justify-between mt-6">
-        {currentStep > 1 ? (
-          <button
-            onClick={() => setCurrentStep(currentStep - 1)}
-            className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                     dark:hover:text-gray-200 font-semibold transition-colors"
-          >
-            Back
-          </button>
-        ) : (
-          <div />
-        )}
-        
-        <div className="flex gap-2">
-          {currentStep < totalSteps ? (
+      {/* Step Navigation Helper Alert */}
+      {!canProceedToNextStep() && currentStep === 1 && (
+        <Alert className="mb-4 border-purple-200 bg-purple-50 dark:bg-purple-900/20 dark:border-purple-800">
+          <Info className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+          <AlertDescription>
+            <p className="font-semibold text-purple-900 dark:text-purple-100 mb-1">Required to continue:</p>
+            <ul className="list-disc list-inside text-sm text-purple-800 dark:text-purple-200 space-y-0.5">
+              {!effectiveness && <li>Effectiveness rating</li>}
+              {!timeToResults && <li>Time to results</li>}
+              {!costType && <li>Cost type (one-time or subscription)</li>}
+              {!costRange && <li>Cost range</li>}
+              {category === 'products_devices' && !productType && <li>Product type</li>}
+              {category === 'products_devices' && !easeOfUse && <li>Ease of use</li>}
+              {category === 'books_courses' && !format && <li>Format</li>}
+              {category === 'books_courses' && !learningDifficulty && <li>Learning difficulty</li>}
+            </ul>
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Navigation - Sticky for mobile keyboard accessibility */}
+      <div className="sticky bottom-0 left-0 right-0
+                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                      border-t border-gray-200 dark:border-gray-700
+                      px-4 sm:px-6 py-3 mt-6 -mx-4 sm:-mx-6 shadow-lg z-10
+                      safe-area-inset-bottom">
+        <div className="flex justify-between">
+          {currentStep > 1 ? (
             <button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              disabled={!canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
-                canProceedToNextStep()
-                  ? 'bg-purple-600 hover:bg-purple-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
+              onClick={() => setCurrentStep(currentStep - 1)}
+              className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                       dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
             >
-              {currentStep === 3 ? 'Skip' : 'Continue'}
+              Back
             </button>
           ) : (
-            <button
-              onClick={() => {
-                console.log('[PurchaseForm] Submit button CLICKED');
-                console.log('[PurchaseForm] isSubmitting:', isSubmitting);
-                console.log('[PurchaseForm] canProceed:', canProceedToNextStep());
-                handleSubmit();
-              }}
-              disabled={isSubmitting || !canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
-                !isSubmitting
-                  ? 'bg-green-600 hover:bg-green-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {isSubmitting ? 'Submitting...' : 'Submit'}
-            </button>
+            <div />
           )}
+
+          <div className="flex gap-2">
+            {/* Forward button - only show if we've been to a higher step */}
+            {currentStep < highestStepReached && currentStep < totalSteps && (
+              <button
+                onClick={() => setCurrentStep(currentStep + 1)}
+                className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                         dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
+              >
+                Forward
+              </button>
+            )}
+
+            {currentStep < totalSteps ? (
+              <button
+                onClick={handleContinue}
+                className="px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                {currentStep === 3 ? 'Skip' : 'Continue'}
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  console.log('[PurchaseForm] Submit button CLICKED');
+                  console.log('[PurchaseForm] isSubmitting:', isSubmitting);
+                  console.log('[PurchaseForm] canProceed:', canProceedToNextStep());
+                  handleSubmit();
+                }}
+                disabled={isSubmitting}
+                className={`px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors ${
+                  !isSubmitting
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

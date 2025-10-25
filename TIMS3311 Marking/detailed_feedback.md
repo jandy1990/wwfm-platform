@@ -1,0 +1,1036 @@
+# TIMS3311 Assessment 2 - Detailed Marking Feedback
+**Date:** October 25, 2025
+**Marker:** Claude Code
+**Total Submissions:** 43
+
+---
+
+## Alvaro Rayyanza Widarmana (s48379351)
+
+**Total Mark:** 23/30 (Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 6/8
+  - Personal lessons: 4/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 14/19
+  - Prior knowledge: 2/3
+  - Key learnings: 6/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good reflection on teamwork challenges with honest insights about team dynamics and the "pie analogy" showing leadership growth. Your application of Build-Measure-Learn thinking to team experimentation and empathy toward teammates demonstrates practical framework usage. The Eclipse lab visit and reconnection with your former supervisor show networking initiative.
+
+To have achieved a higher grade, you would have needed to describe specific research outcomes, pivot decisions based on interview data, or hypothesis tests with evidence from the Eclipse work. More quantitative results (number of investors contacted, response rates) would add significant depth to your analysis.
+
+Your growth in understanding that teamwork requires flexibility rather than equal contribution is valuable. The adaptability and leadership skills developed will serve you well in startup or collaborative environments.
+
+---
+
+## Amirpasha Gholami (s4784792)
+
+**Total Mark:** 26/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 15/19
+  - Prior knowledge: 3/3
+  - Key learnings: 6/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work with technical achievement and practical application. Your 20 teacher interviews across multiple countries and WebRTC development despite no coding background demonstrate initiative and persistence. The $150 budget constraint (affordable loss) shows resource-conscious decision-making. Citations to Sarasvathy, Ries, and Brown strengthen theoretical grounding.
+
+To have achieved a higher grade, you would have needed to validate the problem before investing heavily in building the solution. You spent significant time on WebRTC technical development and coding challenges without first establishing through sufficient problem interviews whether teachers genuinely needed a new platform versus existing solutions. Lean Startup emphasizes problem validation before solution building—more evidence that the pain point justified your technical investment would strengthen the work.
+
+Your technical persistence and willingness to learn new skills represent valuable growth. The combination of user-centered thinking and hands-on experimentation will be useful in future ventures, especially when paired with stronger problem validation.
+
+---
+
+## Amy Hillis (s4800630)
+
+**Total Mark:** 25/30 (Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 6/8
+  - Personal lessons: 4/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 15/19
+  - Prior knowledge: 2/3
+  - Key learnings: 7/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+You've demonstrated good initiative through Eclipse work, including skincare influencer interviews and MVP ideation. Your realization about combining analytical and creative skills shows self-awareness. The divide-and-conquer team strategy and honest reflection on articulation challenges demonstrate practical problem-solving. Your connection to current healthcare career shows transfer of learning.
+
+To have achieved a higher grade, you would have needed deeper theoretical integration with specific examples showing HOW frameworks shaped your decisions. Describing specific Build-Measure-Learn cycles, pivot decisions, or hypothesis tests with evidence would strengthen the work significantly. The essay structure could be improved—diary entries should be clearly separated from the critical reflection. Course feedback suggestions lack specificity.
+
+Your growth in adaptability and understanding of rapid ideation will be valuable. The skills developed in navigating difficult conversations and formulating creative solutions are transferable to healthcare contexts.
+
+---
+
+## Benoit Menigoz (s4809422)
+
+**Total Mark:** 28/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 17/19
+  - Prior knowledge: 3/3
+  - Key learnings: 7/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent reflection with sophisticated Lean Startup integration. Your "fail fast, fail hard, fail cheap" principle applied through Google and Meta campaigns demonstrates genuine experimentation. The discovery of untapped customer segments (new boat buyers) through data analysis shows strong Build-Measure-Learn application. Citations to Ries and Blank strengthen theoretical grounding. The solo founders network with clear reciprocal value demonstrates meaningful ecosystem engagement.
+
+Your "strong predictions, lightly held" mindset and growth in delegation represent meaningful professional development. The discipline and adaptability skills developed through managing startup alongside studies will be valuable in future ventures. Your clear entrepreneurial trajectory is well-articulated.
+
+---
+
+## Andres Martinez Harris (s4647159)
+
+**Total Mark:** 26/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 15/19
+  - Prior knowledge: 3/3
+  - Key learnings: 6/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work with strong Effectuation application and practical experimentation. Your AlgaePharm partnership securing free microalgae and successful MVP iteration (powder-in-oil to powder-in-water pivot) demonstrate resourcefulness. The bird-in-hand principle application (starting with hair hydration struggle) and affordable loss through kitchen equipment usage show solid understanding with proper citations to Sarasvathy. Your honest reflection on procrastination ("no more excuses") and shift from theory to action is insightful.
+
+To have achieved a higher grade, you would have needed more rigorous problem validation before building your solution. Ten interviews is insufficient to validate whether this problem is widespread and worth solving at scale. You invested significant time in MVP development and technical iteration without establishing through extensive problem interviews that teachers, hair care users, or other stakeholders face this challenge acutely enough to justify the solution. More problem validation evidence would strengthen your entrepreneurial approach.
+
+Your evolution from feeling stuck in theory to taking action represents meaningful growth. The iteration and adaptability skills developed will be valuable in future ventures when combined with thorough problem validation.
+
+---
+
+## Chang Lu (s4793232)
+
+**Total Mark:** 28/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 17/19
+  - Prior knowledge: 3/3
+  - Key learnings: 9/9
+  - Career impact: 3/4
+  - Course feedback: 2/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent work with exceptional theoretical depth and sophisticated analysis. Your 27 interviews across 11 market organizers and 16 vendors demonstrate rigorous methodology. The profound insights about student thinking versus entrepreneur execution ("using complexity of theory to cover emptiness of execution") show remarkable self-awareness. Multiple academic citations (Nzembayie, Veisdal, Kabir, Tselepis, Bosatto) strengthen theoretical grounding. The two-sided market discovery and lemonade principle application (Denis rejection becoming valuable insight) demonstrate deep understanding.
+
+The progression from abstract methodology to concrete 5W2H execution plans shows transformative learning. Your distinction between discovery versus validation and discussion of empathy requiring "immersion rather than imagination" demonstrates sophisticated framework integration. The synthesis table comparing Sepal's assumed versus actual pain points is excellent analytical work.
+
+Your evolution from defending with theory to executing with specificity represents meaningful professional growth. The evidence-driven approach and stakeholder heterogeneity understanding will be valuable in consulting or venture contexts.
+
+---
+
+## Chelsea Baker (s47445857)
+
+**Total Mark:** 28/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 7/8
+  - Personal lessons: 4/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 17/19
+  - Prior knowledge: 3/3
+  - Key learnings: 8/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Strong work with rigorous methodology. Your 71 surveys and 15 interviews demonstrate substantial evidence-gathering. The reframing from functional beverage to lifestyle brand based on data (taste and "old-fashioned" concerns) demonstrates clear Build-Measure-Learn application. Citations to Ries, Sarasvathy, and Brown strengthen theoretical grounding.
+
+Your honest reflection on seeking clarity versus embracing uncertainty shows growth. The skills in challenging assumptions and designing lean experiments are highly transferable to marketing and strategy roles.
+
+---
+
+## Christopher-Jun Lionsatos (s4702240)
+
+**Total Mark:** 28/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 18/19
+  - Prior knowledge: 3/3
+  - Key learnings: 8/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent work with sophisticated theoretical integration. Your shift from perfect planning to evidence-seeking moves shows deep understanding. Specific examples—empathy wording changes ("what feels tricky online?"), weekly hypothesis sheets, affordable loss boundaries—demonstrate strong application. Seven diary entries with exceptional reflective quality.
+
+Your synthesis approach grouping by tension rather than stakeholder type and honest reflection on framework obsession hindering problem identification show transformative learning. The practical mechanics (testable hypotheses, observation-based measurement) are clearly articulated. The balance of empathy and evidence-driven decision-making will be valuable in consulting contexts.
+
+---
+
+## Cooper Perkins (s4697751)
+
+**Total Mark:** 28/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 18/19
+  - Prior knowledge: 3/3
+  - Key learnings: 8/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent work with strong practical application. Your discovery of confidence in professional communication and ability to handle ambiguity demonstrates significant personal growth. The parent-licensed MVP pivot (schools fund, parents manage) based on stakeholder interviews shows clear Build-Measure-Learn cycles. The hypothesis matrix prioritizing customer segments demonstrates sophisticated empathy-driven design.
+
+The progression from uncertainty to contributing ideas that influenced Chatstat's direction is well-documented. Successfully using this experience in job interviews (Construction Management Graduate role) demonstrates excellent career integration. Your development of skills in creating and testing assumptions quickly will serve you well in project management contexts.
+
+---
+
+## Crystal-Rose Paul (s4748425)
+
+**Total Mark:** 24.5/30 (Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 6/8
+  - Personal lessons: 4/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 14/19
+  - Prior knowledge: 2/3
+  - Key learnings: 6/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+You've demonstrated good initiative through Eclipse work including 30+ customer interviews and empathy mapping across three demographics. Your self-awareness about preferring structure and learning to handle feedback constructively shows growth. The skincare influencer sister interview and in-person Mecca/Sephora survey work demonstrate practical engagement. Your honest reflection on team communication challenges is valuable.
+
+To have achieved a higher grade, you would have needed deeper theoretical integration with specific examples of HOW frameworks shaped decisions. While you mention Lean Startup, Design Thinking and Business Model Canvas, the discussion remains descriptive rather than analytical. Describing specific Build-Measure-Learn cycles, pivot decisions based on interview data, or hypothesis tests with outcomes would strengthen the work significantly. Course feedback could be more specific about implementation.
+
+Your growth in confidence, interviewing skills and collaborative problem-solving will be valuable. The practical research and design skills developed are transferable to innovation-focused roles.
+
+---
+
+## Donglin Lian (s48648329)
+
+**Total Mark:** 26/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 15/19
+  - Prior knowledge: 3/3
+  - Key learnings: 6/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work with honest self-awareness. Your insights about choosing paid recruitment to avoid discomfort and the consultant dilemma show strong reflection. The discussion of say-do gap and shift to behavior-based questions demonstrates practical understanding.
+
+Your resourcefulness and self-awareness about strengths and limitations will serve you well professionally.
+
+---
+
+## Eloise Mildenhall (s4734343)
+
+**Total Mark:** 23/30 (Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 6/8
+  - Personal lessons: 4/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 12/19
+  - Prior knowledge: 2/3
+  - Key learnings: 6/9
+  - Career impact: 2/4
+  - Course feedback: 2/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+You've demonstrated good initiative through Eclipse work including interview question design and conducting three male interviews with diverse age ranges. Your self-awareness about preferring structure and clear deadlines is valuable. The empathy mapping work using IDEO's guide shows practical engagement.
+
+To have achieved a higher grade, you would have needed much deeper theoretical integration with specific examples showing HOW frameworks shaped your decisions. The key learnings section is largely descriptive (what you did) rather than reflective (how theory changed your approach). Describing specific Build-Measure-Learn cycles, pivot decisions, or hypothesis tests with evidence would add significant depth.
+
+Your growth in research skills and collaborative problem-solving will be valuable in future work.
+
+---
+
+## Guoqiang Li (s47358210)
+
+**Total Mark:** 27/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 17/19
+  - Prior knowledge: 3/3
+  - Key learnings: 7/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work with strong theoretical integration. Your discussion of conflict resolution and major pivot (80% direction change) shows maturity. The FaBA Growth Hub attendance and empathy maps driving qualitative interview design demonstrate practical application.
+
+The honest reflection on team conflict becoming "better results than any one particular point of view" through structured collaboration is insightful. The career connection to family business management with specific application plans is well-articulated. Your transformation to agile, experimental mindset will serve you well.
+
+---
+
+## Haoyan Sun (s47985223)
+
+**Total Mark:** 27/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 17/19
+  - Prior knowledge: 3/3
+  - Key learnings: 7/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work with strong theoretical integration. Your progression from abstract ideas to concrete behavioral testing demonstrates understanding. The specific examples—fake-door tests, message tile comparisons, shelf placement experiments—show Build-Measure-Learn application.
+
+The pivot from beauty-led to health-led messaging based on behavioral signals demonstrates evidence-based decision-making. Your honest reflection on struggling with uncertainty and realization that validation comes from choices rather than stated preferences shows sophisticated research understanding.
+
+Your transformation from viewing innovation as creative exercise to structured iterative process will be valuable in product strategy roles.
+
+---
+
+## Hong Khanh Linh Nguyen (s49148358)
+
+**Total Mark:** 26/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 16/19
+  - Prior knowledge: 3/3
+  - Key learnings: 6/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work with strong methodology. Your 27 interviews (11 organizers, 16 stallholders) achieved through snowball warm introduction technique demonstrate rigorous approach. The progression from low cold email response to in-person networking shows clear adaptability. Your discussion of five Effectuation principles with specific examples demonstrates practical understanding.
+
+The honest reflection on cold email failure prompting strategic pivot and realization that "adapting the method instead of iterating the same approach is the meaning of persistence" is insightful. Your evolution in confidence and stakeholder relationship building will serve you well in innovation management contexts.
+
+---
+
+## Isabella Galt (s4801762)
+
+**Total Mark:** 29/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 18/19
+  - Prior knowledge: 3/3
+  - Key learnings: 8/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent work with strong theoretical integration. Your empathy mapping revealing emotional and practical factors across three segments demonstrates rigorous Design Thinking application. The store observations at Mecca/Sephora/Chemist Warehouse informing interview design shows strong empathize-define stages. Your discussion of Lean Startup Build-Measure-Learn with specific MVP survey testing (language simplification from "lactoferrin" to "fermented protein complex") demonstrates clear iteration cycles.
+
+Your honest reflection on performing best in uncertainty and career shift from viewing marketing as communication to understanding it as experimentation/empathy/value creation demonstrates transformative learning. The balance of empathy, iteration, and resourcefulness will be valuable in innovation management roles.
+
+---
+
+## Jess Callaghan (s46988106)
+
+**Total Mark:** 23/30 (Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 6/8
+  - Personal lessons: 4/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 14/19
+  - Prior knowledge: 3/3
+  - Key learnings: 5/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+You've demonstrated good initiative through Eclipse work including lab tour attendance, Gold Coast gym MVP testing, and SomethingQ innovation event participation. Your honest reflection on passion driving productivity and discovering fascination with food science shows self-awareness.
+
+To have achieved a higher grade, you would have needed deeper theoretical integration with specific examples of HOW frameworks shaped decisions. Describing specific Build-Measure-Learn cycles with quantitative outcomes, interview insights, and pivot decisions would add depth.
+
+Your growth in agile adaptation and career interest in food science innovation will serve you well.
+
+---
+
+## Joaquin Garces (s48820563)
+
+**Total Mark:** 21/30 (Credit)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 7/8
+  - Personal lessons: 5/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 10/19
+  - Prior knowledge: 2/3
+  - Key learnings: 6/9
+  - Career impact: 2/4
+  - Course feedback: 0/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Exceptional honesty about building before interviewing. Your remarkable persistence (80+ cold approaches) and realization that "no is data" demonstrates valuable learning. The leadership test appendix connected to your build-first tendency shows excellent self-awareness.
+
+To have achieved a higher grade, you would have needed a complete course feedback section (currently missing, costing 3 marks) and more detailed analysis of specific experiments with outcomes. The future impact section is very brief.
+
+Your growth in understanding problem validation before solution building is valuable. The persistence will serve you well.
+
+---
+
+## Jonathan Wang (s46959160)
+
+**Total Mark:** 28/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 18/19
+  - Prior knowledge: 3/3
+  - Key learnings: 8/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 2/3
+
+**Feedback:**
+
+Excellent work with strong ethical reasoning. Your progression from viewing entrepreneurship as innovation/hustle to understanding empathy and ethical design demonstrates profound learning. The parent-licensed model development addressing privacy versus protection tension shows sophisticated stakeholder analysis. Your discussion of reframing language ("monitoring" → "digital wellbeing") demonstrates strong application.
+
+Your honest reflection on discomfort with presenting unpolished ideas transforming to seeing "imperfection as progress" is insightful. The balance of commercial viability with human-centered design will serve you well in innovation/ethics/technology roles.
+
+---
+
+## Kayden Canty (s48742348)
+
+**Total Mark:** 20/30 (Credit)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 7/8
+  - Personal lessons: 4/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 12/19
+  - Prior knowledge: 2/3
+  - Key learnings: 5/9
+  - Career impact: 3/4
+  - Course feedback: 2/3
+- Reflective Diary Entries: 1/3
+
+**Feedback:**
+
+Good reflection on persistence through repetitive investor research. Your honest discussion of feeling demotivated and discovering preference for strategic synthesis shows self-awareness. The Precinct event attendance demonstrates networking initiative.
+
+To have achieved a higher grade, you would have needed to submit all 5 required diary entries—you only provided 2, which significantly impacted your mark. Deeper theoretical integration with specific examples of Build-Measure-Learn cycles, pivot decisions, or hypothesis tests would strengthen the work.
+
+Your growth in understanding startup discipline will be valuable.
+
+---
+
+## Lara Petersen (s47428542)
+
+**Total Mark:** 23/30 (Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 5/8
+  - Personal lessons: 3/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 13/19
+  - Prior knowledge: 2/3
+  - Key learnings: 6/9
+  - Career impact: 2/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+You've demonstrated initiative through PillFlow work including beta platform testing and doctor dinner conversation. Your realization about difficulty integrating into hospital settings shows practical observation. The Fred IT platform collaboration idea demonstrates creative problem-solving.
+
+To have achieved a higher grade, you would have needed much deeper theoretical integration with specific examples of HOW frameworks shaped decisions. The key learnings section is very brief and largely descriptive rather than reflective about theory-practice connection. Describing specific Build-Measure-Learn cycles, pivot decisions, or hypothesis tests would add depth.
+
+Your growth in adaptability across different industries will be valuable.
+
+---
+
+## Leonardo Ope Yauri (s4908451)
+
+**Total Mark:** 24/30 (Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 7/8
+  - Personal lessons: 4/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 14/19
+  - Prior knowledge: 2/3
+  - Key learnings: 6/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work with practical methodology and honest self-awareness. Your dispatch center visits and LinkedIn networking securing a Canadian Distribution Leader contact demonstrate initiative. The progression from 10% cold approach success to snowball method expansion shows clear adaptability. Your honest reflection on social anxiety and learning from CEO's demonstration interview is valuable.
+
+To have achieved a higher grade, you would have needed deeper theoretical analysis showing HOW frameworks specifically changed your decisions. While you mention 9 Deadly Sins and Design Thinking empathy, the discussion lacks detailed examples of specific Build-Measure-Learn cycles with outcomes. More analysis of what you discovered from driver interviews, how those insights led to pivot decisions, and quantitative results from your validation work would add significant depth. The prior knowledge section is very brief.
+
+Your development of confidence and resilience will serve you well in entrepreneurial contexts.
+
+---
+
+## Matisse Brown (s4800788)
+
+**Total Mark:** 25/30 (Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 7/8
+  - Personal lessons: 5/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 15/19
+  - Prior knowledge: 2/3
+  - Key learnings: 7/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good reflection with strong framework integration. Your honest discussion of forgetting to record an interview and building better habits shows self-awareness. The specific examples—concierge MVP with manual swing reviews, evidence log tracking goals/workarounds/willingness to pay—demonstrate good Build-Measure-Learn application. The pivot from golfers who wouldn't pay to those valuing personalized guidance shows validated learning.
+
+Your transformation from efficiency-focused to evidence-driven practice represents meaningful growth. The empathy-led conversation skills will be valuable in client-facing roles.
+
+---
+
+## Maya Cvetinovic (s4744741)
+
+**Total Mark:** 28.5/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 18/19
+  - Prior knowledge: 3/3
+  - Key learnings: 8/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent work with sophisticated systemic analysis. Your transformation from efficiency thinking to system-oriented innovation demonstrates profound learning. The comprehensive Business Model Canvas revealing gaps (digital scalability, CRM, sustainability, recurring revenue) shows advanced analytical thinking. Your discussion of Design Thinking empathy with store observations, Lean Startup Build-Measure-Learn with UaaS MVP testing, and Effectuation principles demonstrates strong integration.
+
+The progression from my feedback ("solving efficiency problems not creating opportunities") to reframing with "How Might We" shows transformative learning. The UaaS concept development from client pain points (minimum orders) through validation demonstrates rigorous application.
+
+Your evolution from fixing to reimagining and courage to propose change in traditional businesses represents meaningful growth. The systemic thinking will be valuable in circular economy innovation contexts.
+
+---
+
+## Michelle Phan (s4816201)
+
+**Total Mark:** 21/30 (Credit)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 5/8
+  - Personal lessons: 3/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 13/19
+  - Prior knowledge: 2/3
+  - Key learnings: 5/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+You've demonstrated initiative through Eclipse work including Tyson Jennings interview. Your realization that finance involves networking beyond numbers shows growth. The honest reflection on communication challenges demonstrates self-awareness.
+
+To have achieved a higher grade, you would have needed deeper theoretical integration with specific examples. The key learnings section lacks analytical depth about HOW frameworks shaped decisions. Describing specific Build-Measure-Learn cycles, pivot decisions, or hypothesis tests would strengthen the work.
+
+Your growth in understanding that finance involves relationships will be valuable.
+
+---
+
+## Mitchell Buist (s4784872)
+
+**Total Mark:** 24/30 (Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 6/8
+  - Personal lessons: 4/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 15/19
+  - Prior knowledge: 3/3
+  - Key learnings: 6/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work with practical methodology. Your persistence through pharmaceutical industry reluctance (emailing every Brisbane pharmacy with zero responses) and pivot to indirect stakeholders demonstrates adaptability. The Chempro pharmacists interviews revealing pain points show good problem discovery.
+
+The honest reflection on feeling like a burden to startup and success depending on outside factors is valuable. Your development of confidence and stakeholder communication skills will serve you well.
+
+---
+
+## Paddy OToole (s4742347)
+
+**Total Mark:** 26.5/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 6/8
+  - Personal lessons: 4/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 16/19
+  - Prior knowledge: 3/3
+  - Key learnings: 7/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work with strong theoretical integration applied to corporate innovation. Your synergistic framework application (Design Thinking HMW for internal empathy, Lean Startup Problem Interviews for executive confidence, Effectuation Bird-in-Hand for securing commitments) demonstrates understanding of organizational alignment challenges. The specific examples—HMW revealing leader disagreement, client quotes validating priorities—show rigorous methodology.
+
+Your career shift from service provider to innovation leader is well-articulated. The structured process for managing change in risk-averse environments will be valuable in corporate innovation roles.
+
+---
+
+## Paige Pomeroy (s48024709)
+
+**Total Mark:** 28.5/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 7/8
+  - Personal lessons: 4/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 18/19
+  - Prior knowledge: 3/3
+  - Key learnings: 8/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent work with strong theoretical integration. Your 30 interviews and 53 survey responses demonstrate rigorous methodology. Your Lean Startup Build-Measure-Learn application—BMC hypothesis about scientific novelty, measurement revealing hydration/trust priority, learning replacing assumptions with data—demonstrates sophisticated understanding.
+
+Your honest reflection on thriving in ambiguity and recognition that trust/effectiveness trumped scientific novelty shows transformative learning. The adaptability and customer discovery skills will be valuable in marketing strategy roles.
+
+---
+
+## Ruby Gilmour Tenorio (s48005100)
+
+**Total Mark:** 29/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 7/8
+  - Personal lessons: 4/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 19/19
+  - Prior knowledge: 3/3
+  - Key learnings: 9/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent work with strong theoretical integration. Your means inventory and 30 interviews across demographics demonstrate rigorous methodology. Your Lean Startup Build-Measure-Learn application—BMC capturing scientific novelty hypothesis, measurement revealing hydration/trust priority—demonstrates sophisticated understanding.
+
+Your progression from initial apprehension about biotech to discovering meaningful commercial insights ($500 face cream niche) demonstrates growth. The adaptability and empathy-driven problem-solving skills will be valuable in consulting roles.
+
+---
+
+## Ruoqi Hong (s47665187)
+
+**Total Mark:** 27/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 7/8
+  - Personal lessons: 4/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 17/19
+  - Prior knowledge: 3/3
+  - Key learnings: 7/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work with strong theoretical integration. Your reframing from "selling aloe drink" to "helping women feel good" demonstrates Design Thinking empathy. The 52 HEXPO survey responses (32% conversion) and transformation from "student who likes branding" to "venture designer who can take messy insight into testable value" demonstrates depth.
+
+Your evolution from perfection-seeking to adaptive experimentation represents meaningful growth. The skills in translating user knowledge into branding strategy will be valuable.
+
+---
+
+## Saiyi Zhou (s48981978)
+
+**Total Mark:** 28/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 17/19
+  - Prior knowledge: 3/3
+  - Key learnings: 7/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent work with strong theoretical integration. Your discovery of coordinator role ("not the loudest voice but the one who creates calm") and realization that "leadership involves invisible work" demonstrates exceptional self-awareness. The loneliness project pivot from $5 Zoom planning to small consistent gatherings based on 21 survey responses shows clear Build-Measure-Learn application.
+
+Your transformation from viewing entrepreneurship as "doing startups" to "feeling startups" and understanding the human emotional dimension demonstrates profound learning. The balance of empathy and reflection will be valuable in social enterprise contexts.
+
+---
+
+## Sean Cunningham (s47449378)
+
+**Total Mark:** 26/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 7/8
+  - Personal lessons: 5/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 15/19
+  - Prior knowledge: 2/3
+  - Key learnings: 7/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work with strong practical application. Your shift to "doing first" mindset influenced by peer Benoit demonstrates valuable learning. The detailed iterative testing (tallow, Yaki Sugi, raw linseed oil sealants) shows strong Build-Measure-Learn application. Your tree lopping partnership and honest reflection on pivoting from 100% eucalyptus dream demonstrates practical problem-solving.
+
+Your transformation from planning-focused to action-oriented and growth in confidence engaging with Brisbane entrepreneurial ecosystem represents meaningful development. The resilience and hands-on experimentation skills will be valuable in design entrepreneurship contexts.
+
+---
+
+## Shanelle van der Merwe (s4747680)
+
+**Total Mark:** 23/30 (Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 5/8
+  - Personal lessons: 4/5
+  - Networks established: 1/3
+- New Knowledge, Insights & Skills: 14/19
+  - Prior knowledge: 2/3
+  - Key learnings: 7/9
+  - Career impact: 2/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work with honest reflection on perfectionism and team management challenges. Your $15 revenue from first MVP demonstrates action-taking. The survey-driven pivot from planning sessions to pre-planned small group events shows Build-Measure-Learn application.
+
+To have achieved a higher grade, you would have needed deeper theoretical integration and stronger networking. The networks section is very limited—you mention no startup ecosystem engagement or specific networks built. The key learnings focus more on team management than entrepreneurial framework application. The future impact section is brief. More detailed analysis of specific experiments with outcomes and specific examples of HOW theory shaped decisions would add depth.
+
+Your growth in understanding team leadership challenges will serve you well.
+
+---
+
+## Shiyu Long (s48117795)
+
+**Total Mark:** 27/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 17/19
+  - Prior knowledge: 3/3
+  - Key learnings: 7/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent work representing fantastic improvement from Assessment 1. Your transformation from assuming marketing = exposure to understanding donation decisions based on emotion/trust demonstrates deep learning. The 20 donor interviews and four MVP mockups testing emotional narratives show strong Build-Measure-Learn cycles. Your survey iteration from hypothetical to behavior-based questions demonstrates sophisticated research understanding.
+
+The progression from focusing on Facebook metrics to understanding donor trust root cause shows transformative learning. Your career shift from marketing practitioner to combining innovation with social impact is well-articulated. Your evolution to insight-driven mindset will be valuable in social entrepreneurship roles.
+
+---
+
+## William Emery (s4744077)
+
+**Total Mark:** 29/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 18/19
+  - Prior knowledge: 3/3
+  - Key learnings: 8/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent work with strong practical methodology. Your $1500 UQ Ventures Validate funding and 9 device iterations demonstrate significant progress. The bird-in-hand principle choosing Acuity over journaling app based on existing passions/experience/skills shows clear Effectuation application. Specific examples—users preferring compact handheld over tabletop, button spacing/ergonomics adjustments—demonstrate Build-Measure-Learn cycles.
+
+Your honest reflection on overcoming "didn't know enough" paralysis demonstrates self-awareness. The technical persistence combined with validated learning approach will be valuable in product design contexts.
+
+---
+
+## Yasmine Nathifa Zahira (s49076590)
+
+**Total Mark:** 27.5/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 16/19
+  - Prior knowledge: 2/3
+  - Key learnings: 8/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent work with strong operational sophistication. Your honest identification of 5 pain points with specific solutions (BLUF agendas, live captions, 24hr WIP screenshots, hypothesis templates) demonstrates remarkable self-awareness. The 70 organizers contacted securing 13 interviews through cold email expansion shows rigorous methodology. Your Lean Startup single-variable MVP prototypes (A1 story vs A4 transparency) with pre-registered decision thresholds (≥70% trust) demonstrate sophisticated integration.
+
+Your progression from fuzzy meetings to "decisions made" metric shows transformative learning. Your evolution from low confidence to structure as scaffolding represents meaningful professional growth.
+
+---
+
+## Yue Chen (s46077167)
+
+**Total Mark:** 27/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 16/19
+  - Prior knowledge: 3/3
+  - Key learnings: 8/9
+  - Career impact: 3/4
+  - Course feedback: 2/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent work with strong theoretical depth. Your 27 interviews across 11 market organizers and 16 vendors demonstrate rigorous methodology. The profound insights about student thinking versus entrepreneur execution ("using complexity of theory to cover emptiness of execution") show remarkable self-awareness. The two-sided market discovery and lemonade principle (Denis rejection becoming valuable insight) demonstrate sophisticated application.
+
+The progression from abstract methodology to concrete 5W2H execution plans shows transformative learning. Your evolution from defending with theory to executing with specificity represents meaningful professional growth.
+
+---
+
+## Zechen Zheng (s48116837)
+
+**Total Mark:** 27/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 7/8
+  - Personal lessons: 4/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 15/19
+  - Prior knowledge: 2/3
+  - Key learnings: 8/9
+  - Career impact: 3/4
+  - Course feedback: 2/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work representing marked improvement from Assessment 1. Your honest identification of 5 pain points with specific systematic solutions demonstrates exceptional problem-solving. The 4 MVP Canva ads testing (A1 story vs A4 transparency) with pre-registered thresholds (≥70% trust) shows rigorous Build-Measure-Learn application. Your progression from mistake (implying Chipo had T1D) to consent-first workflows demonstrates learning from failure.
+
+Your shift from "minutes discussed" to "decisions made" meeting metric demonstrates maturity. Your evolution from low confidence to structure-as-scaffolding represents meaningful growth.
+
+---
+
+## Zhong Bao (s47987692)
+
+**Total Mark:** 20/30 (Credit)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 5/8
+  - Personal lessons: 3/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 12/19
+  - Prior knowledge: 2/3
+  - Key learnings: 4/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+You've demonstrated initiative through Aloe Vita work including questionnaire design and FaBA forum attendance. Your realization that entrepreneurship involves execution beyond creativity shows self-awareness.
+
+To have achieved a higher grade, you would have needed much deeper theoretical integration with specific examples of HOW frameworks shaped decisions. The key learnings section is largely descriptive (what you did) rather than reflective about theory-practice connection. Describing specific Build-Measure-Learn cycles, pivot decisions, or hypothesis tests would strengthen the work.
+
+Your growth in understanding market validation will be valuable.
+
+---
+
+## Zishan Lin (s4761487)
+
+**Total Mark:** 23/30 (Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 7/8
+  - Personal lessons: 4/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 13/19
+  - Prior knowledge: 2/3
+  - Key learnings: 5/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Good work with practical methodology development. Your progression from long/leading questionnaire to short behavioral questions shows empathy application. The honest reflection on presentation nervousness and keyword pacing technique demonstrates self-awareness. The think-aloud pilot testing demonstrates practical engagement.
+
+To have achieved a higher grade, you would have needed deeper theoretical integration showing HOW frameworks specifically changed your decisions. The key learnings section focuses heavily on questionnaire mechanics rather than entrepreneurial framework application. More analysis of what you discovered from interviews, how those insights led to specific pivot decisions, and evidence of Build-Measure-Learn cycles with outcomes would add significant depth. The prior knowledge section is very brief.
+
+Your development of survey design skills and presentation confidence will be valuable.
+
+---
+
+## Lily Fokas (s45924198)
+
+**Total Mark:** 29/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 8/8
+  - Personal lessons: 5/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 18/19
+  - Prior knowledge: 3/3
+  - Key learnings: 8/9
+  - Career impact: 4/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Excellent work with rigorous methodology and strong theoretical integration. Your 17 interviews across diverse stakeholders demonstrate exceptional research scope. The progression from over-preparation hindering experimentation to creating visual mock-ups after Assessment 1 feedback shows learning agility. Well cited throughout.
+
+The honest reflection on cautiousness stemming from fear of mistakes and reframing from offering options to providing clarity ("travellers lack clarity, not options") shows transformative learning. Your appendix organizing interview insights by stakeholder type demonstrates analytical rigor. The realization that negative feedback became "evidence to iterate" rather than personal criticism shows maturity.
+
+Your transformation from seeking precision to embracing disciplined curiosity represents meaningful professional growth. The Cold Start problem solution (focusing on boutique Southeast Asia niche) demonstrates strategic thinking.
+
+---
+
+## Ambryn Parenti (s4804089)
+
+**Total Mark:** 26/30 (High Distinction)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 7/8
+  - Personal lessons: 4/5
+  - Networks established: 3/3
+- New Knowledge, Insights & Skills: 16/19
+  - Prior knowledge: 3/3
+  - Key learnings: 7/9
+  - Career impact: 3/4
+  - Course feedback: 3/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+Strong work with thorough evidence-based methodology. Your 70 surveys and 30 interviews demonstrate substantial research effort. The specific recommendations for Aloe Vita—sample-sized drinks to overcome consumption hesitation, "healthy indulgence" positioning, targeting aligned retailers—are well-supported by validation data. Your honest discussion of team dynamics challenges and proposed solutions (regular non-Leah meetings, assigning specific roles) shows leadership maturity. The Faba event networking and Tea Industries connection introduction demonstrate initiative beyond core requirements.
+
+Your structured approach to assumption validation and confidence building will serve you well in future entrepreneurial endeavors. The practical research skills and ability to translate insights into actionable recommendations are highly transferable.
+
+---
+
+## Elliott Smyth (s4883007)
+
+**Total Mark:** 21/30 (Credit)
+
+**Rubric Breakdown:**
+- Overall WIL Experience: 6/8
+  - Personal lessons: 4/5
+  - Networks established: 2/3
+- New Knowledge, Insights & Skills: 13/19
+  - Prior knowledge: 3/3
+  - Key learnings: 5/9
+  - Career impact: 3/4
+  - Course feedback: 2/3
+- Reflective Diary Entries: 3/3
+
+**Feedback:**
+
+You've demonstrated good initiative through Eclipse lab tour, MVP concept poster creation, and overcoming interview discomfort. Your honest reflection on communication challenges and realization that "acting makes fears disappear" shows self-awareness.
+
+To have achieved a higher grade, you would have needed deeper theoretical integration with specific examples. Describing specific Build-Measure-Learn cycles with outcomes, detailed pain points from interviews, or how you iterated posters based on feedback would add significant depth. The key learnings discussion remains surface-level without detailed analysis of HOW frameworks changed your approach.
+
+Your growth in communication confidence will be transferable to product management or innovation consulting roles.
+
+---
+

@@ -5,6 +5,7 @@ import Header from "@/components/templates/Header/Header";
 import Footer from "@/components/organisms/Footer";
 import FeedbackWidget from "@/components/feedback/FeedbackWidget";
 import { PointsContainer } from "@/components/points/PointsContainer";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +39,14 @@ export default function RootLayout({
         <Footer />
         <FeedbackWidget />
         <PointsContainer />
+        <Toaster
+          position="top-center"
+          richColors
+          closeButton
+          toastOptions={{
+            className: 'safe-area-inset-top'
+          }}
+        />
       </body>
     </html>
   );

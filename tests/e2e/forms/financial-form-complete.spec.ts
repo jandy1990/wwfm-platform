@@ -1,6 +1,19 @@
 import { test, expect } from '@playwright/test';
 import { clearTestRatingsForSolution } from '../utils/test-cleanup';
 import { fillFinancialForm } from './form-specific-fillers';
+import { verifyDataPipeline, waitForSuccessPage } from '../utils/test-helpers';
+
+// Test solution name for database verification
+const TEST_SOLUTION = 'High Yield Savings (Test)'
+
+// Expected fields for database verification (matches form filler values)
+const EXPECTED_FIELDS = {
+  cost_type: 'Free to use',
+  financial_benefit: '$25-100/month saved/earned',
+  access_time: 'Same day',
+  time_to_results: '1-2 weeks',
+  challenges: ['None']
+}
 
 test.describe('FinancialForm - Complete E2E Tests', () => {
   test.beforeEach(async () => {
@@ -159,41 +172,40 @@ test.describe('FinancialForm - Complete E2E Tests', () => {
     console.log('Waiting for Portal hydration and data loading...')
     await page.waitForTimeout(1000)
     // Wait for the first SelectTrigger button (costType field) to be fully visible and interactive
-    await page.locator('text="Cost type"').waitFor({ state: 'visible', timeout: 15000 })
+    // Use label selector to avoid matching Step Navigation Helper list items
+    await page.locator('label:has-text("Cost type")').waitFor({ state: 'visible', timeout: 15000 })
     await page.waitForTimeout(500) // Additional wait for Select component to be fully interactive
     console.log('Portal hydration complete, starting form fill...')
 
     // Fill the form using the shared filler function
     await fillFinancialForm(page);
     
-    // Verify the form was processed (success, duplicate, or any completion message)
-    const pageContent = await page.textContent('body')
-    const wasProcessed = pageContent?.includes('Thank you') || 
-                        pageContent?.includes('already') || 
-                        pageContent?.includes('recorded') ||
-                        pageContent?.includes('success') ||
-                        pageContent?.includes('submitted') ||
-                        pageContent?.includes('added')
-    
-    // Also check if we're still on Step 3 (which means submission failed)
-    const stillOnStep3 = await page.locator('text="What else did you try?"').isVisible().catch(() => false)
-    
-    if (stillOnStep3) {
-      // Check for any error alerts
-      const alerts = await page.locator('[role="alert"]').all()
-      for (const alert of alerts) {
-        const alertText = await alert.textContent()
-        console.log('Alert found:', alertText || '(empty)')
+    // Verify successful submission - UI check
+    console.log('Verifying successful submission...')
+    await waitForSuccessPage(page)
+
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTION,
+      'financial_products',
+      EXPECTED_FIELDS
+    )
+
+    if (!result.success) {
+      console.error(`❌ financial_products verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
       }
-      
+
       // Take a screenshot for debugging
       await page.screenshot({ path: 'financial-test-failure-screenshot.png' })
       console.log('Screenshot saved to financial-test-failure-screenshot.png')
-      
-      throw new Error('FinancialForm submission failed - still on Step 3')
     }
-    
-    expect(wasProcessed).toBeTruthy()
+
+    expect(result.success).toBeTruthy()
+
     console.log('Test completed successfully!')
   })
 });

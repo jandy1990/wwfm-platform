@@ -1,0 +1,872 @@
+VERIFIED TOP 250 GOAL GAPS FOR WWFM
+Generated: 2025-10-25T23:23:10.601Z
+Methodology: Manual semantic verification against existing WWFM goals
+
+After double-checking for semantic equivalents, these 250 goals are
+confirmed to be missing or insufficiently covered by WWFM.
+
+Total Reclassified as Covered: 26
+Total Confirmed Gaps: 225
+Showing Top 250 by Confidence Score
+
+=================================================================
+
+1. make new friends
+   Original Rank: #7 | Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Closest WWFM: "Learn new skills" (20% similar - but not semantic match)
+
+2. improve communication with partner
+   Original Rank: #11 | Score: 7 | Sources: web_research, reddit, autocomplete
+   Closest WWFM: "Improve balance" (20% similar - but not semantic match)
+
+3. improve productivity
+   Original Rank: #13 | Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Closest WWFM: "Improve balance" (33% similar - but not semantic match)
+
+4. manage stress
+   Original Rank: #17 | Score: 6 | Sources: web_research, ai_synthesis
+   Closest WWFM: "Manage eczema/psoriasis" (33% similar - but not semantic match)
+
+5. improve endurance
+   Original Rank: #23 | Score: 6 | Sources: web_research, reddit
+   Closest WWFM: "Improve balance" (33% similar - but not semantic match)
+
+6. find compatible partner
+   Original Rank: #24 | Score: 6 | Sources: web_research, reddit
+   Closest WWFM: "Find job openings" (20% similar - but not semantic match)
+
+7. increase productivity
+   Original Rank: #27 | Score: 6 | Sources: web_research, reddit
+
+8. negotiate salary
+   Original Rank: #30 | Score: 6 | Sources: reddit, ai_synthesis, autocomplete
+
+9. improve credit score
+   Original Rank: #32 | Score: 6 | Sources: reddit, ai_synthesis, autocomplete
+   Closest WWFM: "Improve balance" (25% similar - but not semantic match)
+
+10. increase income
+   Original Rank: #33 | Score: 6 | Sources: reddit, ai_synthesis, autocomplete
+
+11. boost metabolism
+   Original Rank: #34 | Score: 5 | Sources: web_research, autocomplete
+
+12. lower cholesterol
+   Original Rank: #35 | Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Lower blood pressure" (25% similar - but not semantic match)
+
+13. improve self-esteem
+   Original Rank: #36 | Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Improve balance" (33% similar - but not semantic match)
+
+14. build resilience
+   Original Rank: #37 | Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Build confidence" (33% similar - but not semantic match)
+
+15. strengthen marriage
+   Original Rank: #40 | Score: 5 | Sources: web_research, autocomplete
+
+16. build self-confidence
+   Original Rank: #42 | Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Build confidence" (33% similar - but not semantic match)
+
+17. minimize distractions
+   Original Rank: #45 | Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Minimize pores" (33% similar - but not semantic match)
+
+18. manage time better
+   Original Rank: #46 | Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Manage eczema/psoriasis" (25% similar - but not semantic match)
+
+19. improve public speaking
+   Original Rank: #47 | Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Improve balance" (25% similar - but not semantic match)
+
+20. stop hair loss
+   Original Rank: #48 | Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Deal with hair loss" (40% similar - but not semantic match)
+
+21. reduce burnout
+   Original Rank: #50 | Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Reduce anxiety" (33% similar - but not semantic match)
+
+22. overcome fear of rejection
+   Original Rank: #52 | Score: 5 | Sources: reddit, ai_synthesis
+   Closest WWFM: "Handle social rejection" (17% similar - but not semantic match)
+
+23. improve communication with spouse
+   Original Rank: #53 | Score: 5 | Sources: reddit, ai_synthesis
+   Closest WWFM: "Improve balance" (20% similar - but not semantic match)
+
+24. build wealth
+   Original Rank: #56 | Score: 5 | Sources: reddit, ai_synthesis
+   Closest WWFM: "Build confidence" (33% similar - but not semantic match)
+
+25. improve communication skills
+   Original Rank: #60 | Score: 4 | Sources: reddit, autocomplete
+   Closest WWFM: "Improve balance" (25% similar - but not semantic match)
+
+26. reduce sugar intake
+   Original Rank: #62 | Score: 4 | Sources: reddit, autocomplete
+   Closest WWFM: "Reduce anxiety" (25% similar - but not semantic match)
+
+27. wake up earlier
+   Original Rank: #66 | Score: 4 | Sources: reddit, autocomplete
+   Closest WWFM: "Clear up acne" (20% similar - but not semantic match)
+
+28. manage bipolar disorder
+   Original Rank: #72 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Manage eczema/psoriasis" (25% similar - but not semantic match)
+
+29. overcome perfectionism
+   Original Rank: #73 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Overcome drug abuse" (25% similar - but not semantic match)
+
+30. stop self-sabotage
+   Original Rank: #74 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Stop breakouts" (33% similar - but not semantic match)
+
+31. manage diabetes
+   Original Rank: #77 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Manage eczema/psoriasis" (33% similar - but not semantic match)
+
+32. reduce inflammation
+   Original Rank: #78 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Control inflammation" (33% similar - but not semantic match)
+
+33. reduce bloating
+   Original Rank: #79 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Reduce anxiety" (33% similar - but not semantic match)
+
+34. reduce headaches
+   Original Rank: #81 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Reduce anxiety" (33% similar - but not semantic match)
+
+35. improve immune system
+   Original Rank: #82 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Improve balance" (25% similar - but not semantic match)
+
+36. quit caffeine
+   Original Rank: #85 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Quit drinking" (33% similar - but not semantic match)
+
+37. quit energy drinks
+   Original Rank: #86 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Quit drinking" (25% similar - but not semantic match)
+
+38. quit junk food
+   Original Rank: #87 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Stop junk food binges" (40% similar - but not semantic match)
+
+39. improve family relationships
+   Original Rank: #88 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Improve balance" (25% similar - but not semantic match)
+
+40. get promoted
+   Original Rank: #89 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Get stronger" (33% similar - but not semantic match)
+
+41. improve time management at work
+   Original Rank: #91 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Improve balance" (17% similar - but not semantic match)
+
+42. achieve financial independence
+   Original Rank: #93 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Build financial stability" (20% similar - but not semantic match)
+
+43. overcome fear of failure
+   Original Rank: #96 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Overcome drug abuse" (17% similar - but not semantic match)
+
+44. improve self-awareness
+   Original Rank: #97 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Improve balance" (33% similar - but not semantic match)
+
+45. improve skin texture
+   Original Rank: #98 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Improve balance" (25% similar - but not semantic match)
+
+46. stop teeth grinding
+   Original Rank: #99 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Stop breakouts" (25% similar - but not semantic match)
+
+47. reduce brain fog
+   Original Rank: #100 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Reduce anxiety" (25% similar - but not semantic match)
+
+48. stop sweating excessively
+   Original Rank: #101 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Stop breakouts" (25% similar - but not semantic match)
+
+49. stop snoring
+   Original Rank: #102 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Stop breakouts" (33% similar - but not semantic match)
+
+50. reduce screen time
+   Original Rank: #103 | Score: 4 | Sources: ai_synthesis, autocomplete
+   Closest WWFM: "Reduce anxiety" (25% similar - but not semantic match)
+
+51. is bronchitis contagious
+   Original Rank: #104 | Score: 3 | Sources: web_research
+
+52. is pneumonia contagious
+   Original Rank: #105 | Score: 3 | Sources: web_research
+
+53. what is lupus
+   Original Rank: #106 | Score: 3 | Sources: web_research
+
+54. how much water should i drink each day
+   Original Rank: #107 | Score: 3 | Sources: web_research
+   Closest WWFM: "Drink more water" (22% similar - but not semantic match)
+
+55. is strep throat contagious
+   Original Rank: #108 | Score: 3 | Sources: web_research
+
+56. how long does the flu last
+   Original Rank: #109 | Score: 3 | Sources: web_research
+   Closest WWFM: "Bike long distances" (13% similar - but not semantic match)
+
+57. what causes high blood pressure
+   Original Rank: #110 | Score: 3 | Sources: web_research
+   Closest WWFM: "Lower blood pressure" (33% similar - but not semantic match)
+
+58. hair loss
+   Original Rank: #111 | Score: 3 | Sources: web_research
+   Closest WWFM: "Deal with hair loss" (47% similar - but not semantic match)
+
+59. fatigue
+   Original Rank: #112 | Score: 3 | Sources: web_research
+   Closest WWFM: "Manage chronic fatigue" (32% similar - but not semantic match)
+
+60. bloating
+   Original Rank: #113 | Score: 3 | Sources: web_research
+
+61. congestion
+   Original Rank: #114 | Score: 3 | Sources: web_research
+
+62. lower my cholesterol
+   Original Rank: #115 | Score: 3 | Sources: web_research
+   Closest WWFM: "Control my drinking" (20% similar - but not semantic match)
+
+63. what causes kidney stones
+   Original Rank: #116 | Score: 3 | Sources: web_research
+   Closest WWFM: "Find causes I care about" (13% similar - but not semantic match)
+
+64. why do i have a headache
+   Original Rank: #117 | Score: 3 | Sources: web_research
+   Closest WWFM: "Do a pull-up" (29% similar - but not semantic match)
+
+65. reduce dandruff
+   Original Rank: #118 | Score: 3 | Sources: web_research
+   Closest WWFM: "Reduce anxiety" (33% similar - but not semantic match)
+
+66. boost your immune system
+   Original Rank: #119 | Score: 3 | Sources: web_research
+
+67. how much sodium per day
+   Original Rank: #120 | Score: 3 | Sources: web_research
+
+68. what is the difference between a cold and the flu
+   Original Rank: #121 | Score: 3 | Sources: web_research
+   Closest WWFM: "Complete a marathon" (9% similar - but not semantic match)
+
+69. what are the symptoms of anxiety
+   Original Rank: #122 | Score: 3 | Sources: web_research
+   Closest WWFM: "Reduce anxiety" (14% similar - but not semantic match)
+
+70. lower my a1c
+   Original Rank: #123 | Score: 3 | Sources: web_research
+   Closest WWFM: "Control my drinking" (20% similar - but not semantic match)
+
+71. prevent kidney stones
+   Original Rank: #125 | Score: 3 | Sources: web_research
+   Closest WWFM: "Prevent injuries" (25% similar - but not semantic match)
+
+72. treat strep throat
+   Original Rank: #126 | Score: 3 | Sources: web_research
+   Closest WWFM: "Treat wrinkles" (25% similar - but not semantic match)
+
+73. recover from bronchitis
+   Original Rank: #127 | Score: 3 | Sources: web_research
+   Closest WWFM: "Heal from heartbreak" (20% similar - but not semantic match)
+
+74. manage codependence
+   Original Rank: #129 | Score: 3 | Sources: web_research
+   Closest WWFM: "Manage eczema/psoriasis" (33% similar - but not semantic match)
+
+75. recognize narcissism
+   Original Rank: #130 | Score: 3 | Sources: web_research
+
+76. identify gaslighting
+   Original Rank: #131 | Score: 3 | Sources: web_research
+
+77. find emotional support
+   Original Rank: #132 | Score: 3 | Sources: web_research
+   Closest WWFM: "Support education" (25% similar - but not semantic match)
+
+78. build social connections
+   Original Rank: #133 | Score: 3 | Sources: web_research
+   Closest WWFM: "Build confidence" (25% similar - but not semantic match)
+
+79. find mental health care professional
+   Original Rank: #134 | Score: 3 | Sources: web_research
+   Closest WWFM: "Find causes I care about" (25% similar - but not semantic match)
+
+80. treat sleep apnea
+   Original Rank: #136 | Score: 3 | Sources: web_research
+   Closest WWFM: "Sleep better" (25% similar - but not semantic match)
+
+81. stop sleep paralysis
+   Original Rank: #137 | Score: 3 | Sources: web_research
+   Closest WWFM: "Sleep better" (25% similar - but not semantic match)
+
+82. stay asleep through the night
+   Original Rank: #139 | Score: 3 | Sources: web_research
+   Closest WWFM: "Stay indispensable" (17% similar - but not semantic match)
+
+83. reduce excessive daytime sleepiness
+   Original Rank: #140 | Score: 3 | Sources: web_research
+   Closest WWFM: "Reduce anxiety" (20% similar - but not semantic match)
+
+84. establish sleep routine
+   Original Rank: #141 | Score: 3 | Sources: web_research
+   Closest WWFM: "Sleep better" (25% similar - but not semantic match)
+
+85. find best way to lose weight
+   Original Rank: #143 | Score: 3 | Sources: web_research
+   Closest WWFM: "Lose weight sustainably" (29% similar - but not semantic match)
+
+86. get a six pack
+   Original Rank: #144 | Score: 3 | Sources: web_research
+   Closest WWFM: "Get a sunless tan" (33% similar - but not semantic match)
+
+87. find best exercise to lose weight
+   Original Rank: #145 | Score: 3 | Sources: web_research
+   Closest WWFM: "Lose weight sustainably" (29% similar - but not semantic match)
+
+88. use cold exposure for weight loss
+   Original Rank: #146 | Score: 3 | Sources: web_research
+   Closest WWFM: "Prepare for job loss" (25% similar - but not semantic match)
+
+89. start using chia seeds for weight loss
+   Original Rank: #147 | Score: 3 | Sources: web_research
+   Closest WWFM: "Prepare for job loss" (22% similar - but not semantic match)
+
+90. improve fitness
+   Original Rank: #148 | Score: 3 | Sources: web_research
+   Closest WWFM: "Improve balance" (33% similar - but not semantic match)
+
+91. increase metabolism
+   Original Rank: #150 | Score: 3 | Sources: web_research
+
+92. lose fat
+   Original Rank: #153 | Score: 3 | Sources: web_research
+   Closest WWFM: "Lose weight sustainably" (25% similar - but not semantic match)
+
+93. follow mediterranean diet
+   Original Rank: #154 | Score: 3 | Sources: web_research
+   Closest WWFM: "Follow through on commitments" (17% similar - but not semantic match)
+
+94. start dash diet
+   Original Rank: #155 | Score: 3 | Sources: web_research
+   Closest WWFM: "Start investing" (25% similar - but not semantic match)
+
+95. follow mind diet for brain health
+   Original Rank: #156 | Score: 3 | Sources: web_research
+   Closest WWFM: "Improve heart health" (13% similar - but not semantic match)
+
+96. eat more plant-based foods
+   Original Rank: #157 | Score: 3 | Sources: web_research
+   Closest WWFM: "Drink more water" (17% similar - but not semantic match)
+
+97. support brain health through nutrition
+   Original Rank: #158 | Score: 3 | Sources: web_research
+   Closest WWFM: "Support education" (17% similar - but not semantic match)
+
+98. plan sustainable eating
+   Original Rank: #159 | Score: 3 | Sources: web_research
+   Closest WWFM: "Create will/estate plan" (20% similar - but not semantic match)
+
+99. support emotional wellness through food
+   Original Rank: #161 | Score: 3 | Sources: web_research
+   Closest WWFM: "Support education" (17% similar - but not semantic match)
+
+100. escape toxic boss
+   Original Rank: #163 | Score: 3 | Sources: web_research
+   Closest WWFM: "Leave toxic situation" (20% similar - but not semantic match)
+
+101. get respect at work
+   Original Rank: #165 | Score: 3 | Sources: web_research
+   Closest WWFM: "Get stronger" (20% similar - but not semantic match)
+
+102. overcome workplace disrespect
+   Original Rank: #166 | Score: 3 | Sources: web_research
+   Closest WWFM: "Overcome drug abuse" (20% similar - but not semantic match)
+
+103. prevent burnout
+   Original Rank: #167 | Score: 3 | Sources: web_research
+   Closest WWFM: "Prevent injuries" (33% similar - but not semantic match)
+
+104. handle difficult coworkers
+   Original Rank: #168 | Score: 3 | Sources: web_research
+   Closest WWFM: "Handle job uncertainty" (20% similar - but not semantic match)
+
+105. find work-life balance
+   Original Rank: #169 | Score: 3 | Sources: web_research
+   Closest WWFM: "Improve balance" (25% similar - but not semantic match)
+
+106. reduce long work hours
+   Original Rank: #170 | Score: 3 | Sources: web_research
+   Closest WWFM: "Reduce anxiety" (20% similar - but not semantic match)
+
+107. manage mental and emotional stress
+   Original Rank: #171 | Score: 3 | Sources: web_research
+   Closest WWFM: "Manage vertigo and dizziness" (29% similar - but not semantic match)
+
+108. lower cost of living
+   Original Rank: #172 | Score: 3 | Sources: web_research
+   Closest WWFM: "Lower blood pressure" (17% similar - but not semantic match)
+
+109. find homeowners insurance
+   Original Rank: #173 | Score: 3 | Sources: web_research
+   Closest WWFM: "Find job openings" (20% similar - but not semantic match)
+
+110. navigate student loan forgiveness
+   Original Rank: #174 | Score: 3 | Sources: web_research
+   Closest WWFM: "Navigate menopause" (20% similar - but not semantic match)
+
+111. find high yield savings account
+   Original Rank: #175 | Score: 3 | Sources: web_research
+   Closest WWFM: "Find job openings" (14% similar - but not semantic match)
+
+112. understand bitcoin
+   Original Rank: #176 | Score: 3 | Sources: web_research
+   Closest WWFM: "Understand cryptocurrency" (33% similar - but not semantic match)
+
+113. understand moneyline bets
+   Original Rank: #177 | Score: 3 | Sources: web_research
+   Closest WWFM: "Understand cryptocurrency" (25% similar - but not semantic match)
+
+114. understand student loans
+   Original Rank: #178 | Score: 3 | Sources: web_research
+   Closest WWFM: "Understand cryptocurrency" (25% similar - but not semantic match)
+
+115. understand open relationships
+   Original Rank: #179 | Score: 3 | Sources: web_research
+   Closest WWFM: "Understand cryptocurrency" (25% similar - but not semantic match)
+
+116. identify gaslighting in relationship
+   Original Rank: #180 | Score: 3 | Sources: web_research
+   Closest WWFM: "Help those in need" (14% similar - but not semantic match)
+
+117. recognize breadcrumbing
+   Original Rank: #181 | Score: 3 | Sources: web_research
+
+118. decide when relationship should be exclusive
+   Original Rank: #182 | Score: 3 | Sources: web_research
+
+119. handle relationship doubts
+   Original Rank: #183 | Score: 3 | Sources: web_research
+   Closest WWFM: "Handle job uncertainty" (20% similar - but not semantic match)
+
+120. identify narcissistic partner
+   Original Rank: #184 | Score: 3 | Sources: web_research
+
+121. recognize codependent relationship
+   Original Rank: #185 | Score: 3 | Sources: web_research
+
+122. understand ethical non-monogamy
+   Original Rank: #186 | Score: 3 | Sources: web_research
+   Closest WWFM: "Understand cryptocurrency" (25% similar - but not semantic match)
+
+123. navigate monogamy questions
+   Original Rank: #187 | Score: 3 | Sources: web_research
+   Closest WWFM: "Navigate menopause" (25% similar - but not semantic match)
+
+124. handle appropriate pda
+   Original Rank: #188 | Score: 3 | Sources: web_research
+   Closest WWFM: "Handle job uncertainty" (20% similar - but not semantic match)
+
+125. determine if relationship is over
+   Original Rank: #189 | Score: 3 | Sources: web_research
+   Closest WWFM: "Get over dating anxiety" (13% similar - but not semantic match)
+
+126. define "hard launch" in relationships
+   Original Rank: #190 | Score: 3 | Sources: web_research
+   Closest WWFM: "Help those in need" (13% similar - but not semantic match)
+
+127. understand karmic relationships
+   Original Rank: #191 | Score: 3 | Sources: web_research
+   Closest WWFM: "Understand cryptocurrency" (25% similar - but not semantic match)
+
+128. learn about autosexual orientation
+   Original Rank: #192 | Score: 3 | Sources: web_research
+   Closest WWFM: "Learn pottery" (20% similar - but not semantic match)
+
+129. build healthy relationships
+   Original Rank: #193 | Score: 3 | Sources: web_research
+   Closest WWFM: "Build confidence" (25% similar - but not semantic match)
+
+130. resolve conflicts
+   Original Rank: #194 | Score: 3 | Sources: web_research
+
+131. date successfully
+   Original Rank: #195 | Score: 3 | Sources: web_research
+   Closest WWFM: "Change careers successfully" (25% similar - but not semantic match)
+
+132. overcome relationship anxiety
+   Original Rank: #196 | Score: 3 | Sources: web_research
+   Closest WWFM: "Reduce anxiety" (25% similar - but not semantic match)
+
+133. handle peer pressure
+   Original Rank: #197 | Score: 3 | Sources: web_research
+   Closest WWFM: "Handle job uncertainty" (20% similar - but not semantic match)
+
+134. do digital detox
+   Original Rank: #198 | Score: 3 | Sources: web_research
+   Closest WWFM: "Do a pull-up" (20% similar - but not semantic match)
+
+135. manage screen time
+   Original Rank: #199 | Score: 3 | Sources: web_research
+   Closest WWFM: "Manage eczema/psoriasis" (25% similar - but not semantic match)
+
+136. use mindfulness apps
+   Original Rank: #200 | Score: 3 | Sources: web_research
+   Closest WWFM: "Practice mindfulness" (25% similar - but not semantic match)
+
+137. meditate regularly
+   Original Rank: #202 | Score: 3 | Sources: web_research
+   Closest WWFM: "Swim regularly" (33% similar - but not semantic match)
+
+138. learn budgeting
+   Original Rank: #203 | Score: 3 | Sources: web_research
+   Closest WWFM: "Learn pottery" (33% similar - but not semantic match)
+
+139. understand investment strategies
+   Original Rank: #204 | Score: 3 | Sources: web_research
+   Closest WWFM: "Understand cryptocurrency" (25% similar - but not semantic match)
+
+140. set meaningful goals
+   Original Rank: #205 | Score: 3 | Sources: web_research
+   Closest WWFM: "Set social boundaries" (20% similar - but not semantic match)
+
+141. find passion
+   Original Rank: #206 | Score: 3 | Sources: web_research
+   Closest WWFM: "Find job openings" (25% similar - but not semantic match)
+
+142. create fulfilling life
+   Original Rank: #207 | Score: 3 | Sources: web_research
+   Closest WWFM: "Create a budget" (20% similar - but not semantic match)
+
+143. master time management
+   Original Rank: #208 | Score: 3 | Sources: web_research
+   Closest WWFM: "Master everyday hairstyling" (20% similar - but not semantic match)
+
+144. learn baking
+   Original Rank: #209 | Score: 3 | Sources: web_research
+   Closest WWFM: "Learn pottery" (33% similar - but not semantic match)
+
+145. use pomodoro technique
+   Original Rank: #210 | Score: 3 | Sources: web_research
+   Closest WWFM: "Reduce social media use" (17% similar - but not semantic match)
+
+146. organize workspace
+   Original Rank: #211 | Score: 3 | Sources: web_research
+
+147. break down large tasks
+   Original Rank: #212 | Score: 3 | Sources: web_research
+   Closest WWFM: "Break bad habits" (17% similar - but not semantic match)
+
+148. maintain consistent sleep schedule
+   Original Rank: #214 | Score: 3 | Sources: web_research
+   Closest WWFM: "Sleep better" (20% similar - but not semantic match)
+
+149. use fidget tools
+   Original Rank: #215 | Score: 3 | Sources: web_research
+   Closest WWFM: "Learn to use AI tools" (33% similar - but not semantic match)
+
+150. build better habits
+   Original Rank: #216 | Score: 3 | Sources: web_research
+   Closest WWFM: "Build confidence" (25% similar - but not semantic match)
+
+151. overcome productive procrastination
+   Original Rank: #217 | Score: 3 | Sources: web_research
+   Closest WWFM: "Overcome drug abuse" (20% similar - but not semantic match)
+
+152. beat perfectionism
+   Original Rank: #218 | Score: 3 | Sources: web_research
+   Closest WWFM: "Beat afternoon slump" (25% similar - but not semantic match)
+
+153. reduce fear of failure
+   Original Rank: #219 | Score: 3 | Sources: web_research
+   Closest WWFM: "Reduce anxiety" (20% similar - but not semantic match)
+
+154. use habit-building apps
+   Original Rank: #220 | Score: 3 | Sources: web_research
+   Closest WWFM: "Reduce social media use" (17% similar - but not semantic match)
+
+155. develop customer service skills
+   Original Rank: #221 | Score: 3 | Sources: web_research
+   Closest WWFM: "Develop perseverance" (20% similar - but not semantic match)
+
+156. build leadership abilities
+   Original Rank: #222 | Score: 3 | Sources: web_research
+   Closest WWFM: "Build confidence" (25% similar - but not semantic match)
+
+157. master project management
+   Original Rank: #223 | Score: 3 | Sources: web_research
+   Closest WWFM: "Master everyday hairstyling" (20% similar - but not semantic match)
+
+158. develop marketing automation
+   Original Rank: #224 | Score: 3 | Sources: web_research
+   Closest WWFM: "Develop perseverance" (25% similar - but not semantic match)
+
+159. learn seo
+   Original Rank: #225 | Score: 3 | Sources: web_research
+   Closest WWFM: "Learn pottery" (33% similar - but not semantic match)
+
+160. master lead generation
+   Original Rank: #226 | Score: 3 | Sources: web_research
+   Closest WWFM: "Master everyday hairstyling" (20% similar - but not semantic match)
+
+161. develop authenticity in speaking
+   Original Rank: #227 | Score: 3 | Sources: web_research
+   Closest WWFM: "Develop perseverance" (20% similar - but not semantic match)
+
+162. improve virtual speaking
+   Original Rank: #228 | Score: 3 | Sources: web_research
+   Closest WWFM: "Improve balance" (25% similar - but not semantic match)
+
+163. use ai for presentations
+   Original Rank: #229 | Score: 3 | Sources: web_research
+   Closest WWFM: "Use skills for good" (33% similar - but not semantic match)
+
+164. understand exfoliation benefits
+   Original Rank: #232 | Score: 3 | Sources: web_research
+   Closest WWFM: "Understand cryptocurrency" (25% similar - but not semantic match)
+
+165. reduce enlarged pores
+   Original Rank: #235 | Score: 3 | Sources: web_research
+   Closest WWFM: "Minimize pores" (25% similar - but not semantic match)
+
+166. prevent razor burn
+   Original Rank: #236 | Score: 3 | Sources: web_research
+   Closest WWFM: "Prevent injuries" (25% similar - but not semantic match)
+
+167. prevent ingrown hairs
+   Original Rank: #237 | Score: 3 | Sources: web_research
+   Closest WWFM: "Prevent injuries" (25% similar - but not semantic match)
+
+168. find hydrating moisturizer
+   Original Rank: #238 | Score: 3 | Sources: web_research
+   Closest WWFM: "Find job openings" (20% similar - but not semantic match)
+
+169. learn contouring techniques
+   Original Rank: #239 | Score: 3 | Sources: web_research
+   Closest WWFM: "Learn pottery" (25% similar - but not semantic match)
+
+170. understand what causes hair loss
+   Original Rank: #241 | Score: 3 | Sources: web_research
+   Closest WWFM: "Deal with hair loss" (29% similar - but not semantic match)
+
+171. make hair grow faster
+   Original Rank: #242 | Score: 3 | Sources: web_research
+   Closest WWFM: "Grow thicker hair" (40% similar - but not semantic match)
+
+172. increase hair growth
+   Original Rank: #243 | Score: 3 | Sources: web_research
+   Closest WWFM: "Cover gray hair" (20% similar - but not semantic match)
+
+173. reduce hair thinning
+   Original Rank: #244 | Score: 3 | Sources: web_research
+   Closest WWFM: "Reduce anxiety" (25% similar - but not semantic match)
+
+174. stop hair shedding
+   Original Rank: #245 | Score: 3 | Sources: web_research
+   Closest WWFM: "Stop breakouts" (25% similar - but not semantic match)
+
+175. stop youth vaping
+   Original Rank: #246 | Score: 3 | Sources: web_research
+   Closest WWFM: "Quit vaping" (25% similar - but not semantic match)
+
+176. find cessation resources
+   Original Rank: #247 | Score: 3 | Sources: web_research
+   Closest WWFM: "Find job openings" (20% similar - but not semantic match)
+
+177. find back pain relief
+   Original Rank: #249 | Score: 3 | Sources: web_research
+   Closest WWFM: "Find job openings" (17% similar - but not semantic match)
+
+178. find pain management solutions
+   Original Rank: #251 | Score: 3 | Sources: web_research
+   Closest WWFM: "Find job openings" (17% similar - but not semantic match)
+
+179. try virtual yoga for back pain
+   Original Rank: #252 | Score: 3 | Sources: web_research
+   Closest WWFM: "Give back effectively" (13% similar - but not semantic match)
+
+180. access neuromodulation techniques
+   Original Rank: #253 | Score: 3 | Sources: web_research
+
+181. explore regenerative medicine
+   Original Rank: #254 | Score: 3 | Sources: web_research
+
+182. use ai-driven physical therapy
+   Original Rank: #255 | Score: 3 | Sources: web_research
+   Closest WWFM: "Reduce social media use" (14% similar - but not semantic match)
+
+183. connect with others
+   Original Rank: #256 | Score: 3 | Sources: web_research
+   Closest WWFM: "Cope with PTSD" (20% similar - but not semantic match)
+
+184. reduce social isolation
+   Original Rank: #257 | Score: 3 | Sources: web_research
+   Closest WWFM: "Reduce social media use" (40% similar - but not semantic match)
+
+185. build friendships
+   Original Rank: #258 | Score: 3 | Sources: web_research
+   Closest WWFM: "Build confidence" (33% similar - but not semantic match)
+
+186. join communities
+   Original Rank: #259 | Score: 3 | Sources: web_research
+
+187. make money online
+   Original Rank: #261 | Score: 3 | Sources: web_research
+   Closest WWFM: "Make guests comfortable" (20% similar - but not semantic match)
+
+188. use chatgpt effectively
+   Original Rank: #262 | Score: 3 | Sources: web_research
+   Closest WWFM: "Network effectively" (25% similar - but not semantic match)
+
+189. invest during inflation
+   Original Rank: #263 | Score: 3 | Sources: web_research
+
+190. delete instagram account
+   Original Rank: #264 | Score: 3 | Sources: web_research
+
+191. tie a tie
+   Original Rank: #265 | Score: 3 | Sources: web_research
+   Closest WWFM: "Complete a marathon" (25% similar - but not semantic match)
+
+192. simplify life
+   Original Rank: #266 | Score: 3 | Sources: web_research
+
+193. achieve digital detox
+   Original Rank: #267 | Score: 3 | Sources: web_research
+
+194. find what to watch
+   Original Rank: #268 | Score: 3 | Sources: web_research
+   Closest WWFM: "Find job openings" (17% similar - but not semantic match)
+
+195. understand current events
+   Original Rank: #269 | Score: 3 | Sources: web_research
+   Closest WWFM: "Understand cryptocurrency" (25% similar - but not semantic match)
+
+196. track weather
+   Original Rank: #270 | Score: 3 | Sources: web_research
+   Closest WWFM: "Track spending" (33% similar - but not semantic match)
+
+197. monitor excessive heat
+   Original Rank: #271 | Score: 3 | Sources: web_research
+   Closest WWFM: "Deal with excessive sweating" (17% similar - but not semantic match)
+
+198. stay informed about news
+   Original Rank: #273 | Score: 3 | Sources: web_research
+   Closest WWFM: "Stay indispensable" (20% similar - but not semantic match)
+
+199. health & medical: 35+ goals
+   Original Rank: #274 | Score: 3 | Sources: web_research
+   Closest WWFM: "Improve heart health" (14% similar - but not semantic match)
+
+200. mental health: 25+ goals
+   Original Rank: #275 | Score: 3 | Sources: web_research
+
+201. sleep: 9 goals
+   Original Rank: #276 | Score: 3 | Sources: web_research
+
+202. fitness & weight: 15+ goals
+   Original Rank: #277 | Score: 3 | Sources: web_research
+
+203. diet & nutrition: 12+ goals
+   Original Rank: #278 | Score: 3 | Sources: web_research
+
+204. career & work: 20+ goals
+   Original Rank: #279 | Score: 3 | Sources: web_research
+   Closest WWFM: "Build freelance career" (14% similar - but not semantic match)
+
+205. financial: 15+ goals
+   Original Rank: #280 | Score: 3 | Sources: web_research
+
+206. relationships: 20+ goals
+   Original Rank: #281 | Score: 3 | Sources: web_research
+
+207. parenting: 12+ goals
+   Original Rank: #282 | Score: 3 | Sources: web_research
+
+208. personal development: 20+ goals
+   Original Rank: #283 | Score: 3 | Sources: web_research
+   Closest WWFM: "Understand personal finance basics" (14% similar - but not semantic match)
+
+209. professional skills: 12+ goals
+   Original Rank: #284 | Score: 3 | Sources: web_research
+
+210. skin & beauty: 15+ goals
+   Original Rank: #285 | Score: 3 | Sources: web_research
+   Closest WWFM: "Control oily skin" (14% similar - but not semantic match)
+
+211. addiction: 6 goals
+   Original Rank: #286 | Score: 3 | Sources: web_research
+
+212. pain management: 10+ goals
+   Original Rank: #287 | Score: 3 | Sources: web_research
+   Closest WWFM: "Manage chronic pain" (17% similar - but not semantic match)
+
+213. social connection: 10+ goals
+   Original Rank: #288 | Score: 3 | Sources: web_research
+   Closest WWFM: "Develop social ease" (17% similar - but not semantic match)
+
+214. "how to lose weight fast" - 486,000 annual searches
+   Original Rank: #289 | Score: 3 | Sources: web_research
+   Closest WWFM: "Lose weight sustainably" (20% similar - but not semantic match)
+
+215. "is bronchitis contagious" - 176,000 monthly searches
+   Original Rank: #290 | Score: 3 | Sources: web_research
+
+216. "how to get a six pack" - 145,200 annual searches
+   Original Rank: #291 | Score: 3 | Sources: web_research
+   Closest WWFM: "Get a sunless tan" (17% similar - but not semantic match)
+
+217. "how to gain weight" - 79,200 annual searches
+   Original Rank: #292 | Score: 3 | Sources: web_research
+   Closest WWFM: "Gain healthy weight" (10% similar - but not semantic match)
+
+218. "hair loss" - 25,945 monthly searches
+   Original Rank: #293 | Score: 3 | Sources: web_research
+
+219. "make hair grow faster" - 14,590 monthly searches
+   Original Rank: #294 | Score: 3 | Sources: web_research
+   Closest WWFM: "Grow thicker hair" (22% similar - but not semantic match)
+
+220. "student loans" - 2,441,000 average searches
+   Original Rank: #295 | Score: 3 | Sources: web_research
+
+221. official google year in search reports
+   Original Rank: #296 | Score: 3 | Sources: web_research
+   Closest WWFM: "Help those in need" (11% similar - but not semantic match)
+
+222. academic institutions and research centers
+   Original Rank: #297 | Score: 3 | Sources: web_research
+   Closest WWFM: "Fade scars and marks" (13% similar - but not semantic match)
+
+223. manage panic attacks
+   Original Rank: #298 | Score: 2 | Sources: reddit
+   Closest WWFM: "Manage eczema/psoriasis" (25% similar - but not semantic match)
+
+224. cope with health anxiety
+   Original Rank: #299 | Score: 2 | Sources: reddit
+   Closest WWFM: "Cope with PTSD" (40% similar - but not semantic match)
+
+225. handle anxiety at work
+   Original Rank: #300 | Score: 2 | Sources: reddit
+   Closest WWFM: "Reduce anxiety" (20% similar - but not semantic match)
+

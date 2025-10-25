@@ -1,5 +1,20 @@
 import { test, expect } from '@playwright/test';
 import { clearTestRatingsForSolution } from '../utils/test-cleanup';
+import { fillPurchaseForm } from './form-specific-fillers';
+import { verifyDataPipeline, waitForSuccessPage } from '../utils/test-helpers';
+
+// Test solution name for database verification
+const TEST_SOLUTION = 'Fitbit (Test)'
+
+// Expected fields for database verification (matches form filler values)
+const EXPECTED_FIELDS = {
+  time_to_results: '1-2 weeks',
+  cost_type: 'one_time',
+  cost_range: '$50-100',
+  product_type: 'Physical device',
+  ease_of_use: 'Easy to use',
+  challenges: ['None']
+}
 
 test.describe('PurchaseForm - Complete E2E Tests', () => {
   test.beforeEach(async () => {
@@ -155,121 +170,8 @@ test.describe('PurchaseForm - Complete E2E Tests', () => {
       throw error
     }
     
-    // Fill the form using our updated filler
-    await page.waitForTimeout(1000)
-    
-    // Step 1: Effectiveness + Time + Cost + Product Details
-    console.log('Starting PurchaseForm filler - 3-step wizard')
-    console.log('Step 1: Filling effectiveness, time, cost, and product details')
-    
-    // Click effectiveness rating (4 stars)
-    const ratingButtons = await page.locator('.grid.grid-cols-5 button').all()
-    if (ratingButtons.length >= 4) {
-      await ratingButtons[3].click() // 4 stars
-      console.log('Selected 4-star rating')
-    }
-    await page.waitForTimeout(500)
-    
-    // Select time to results (regular select dropdown)
-    const timeSelect = page.locator('select').first()
-    await timeSelect.selectOption('1-2 weeks')
-    console.log('Selected time to results: 1-2 weeks')
-    await page.waitForTimeout(300)
-    
-    // Select cost type first (RadioGroup)
-    console.log('Selecting cost type: one_time')
-    // Click on the label text instead of the radio input
-    await page.click('text="One-time purchase"')
-    await page.waitForTimeout(500)
-    
-    // Select cost range using Select component
-    // Find the cost range Select component (it has SelectTrigger)
-    const costRangeSelect = page.locator('[data-state="closed"]').first()
-    await costRangeSelect.click()
-    await page.waitForTimeout(300)
-    
-    // Select from the dropdown options (for one_time, no "/month" suffix)
-    await page.click('text="$50-100"')
-    console.log('Selected cost range: $50-100')
-    await page.waitForTimeout(300)
-    
-    // For products_devices category: need productType and easeOfUse
-    console.log('Filling products_devices specific fields')
-    
-    // Debug: Take screenshot before trying to select product type
-    await page.screenshot({ path: 'before-product-type-screenshot.png' })
-    console.log('Screenshot taken before product type selection')
-    
-    // Wait a bit longer and look for the Select components
-    await page.waitForTimeout(1000)
-    
-    // Try to find all Select components by different methods
-    const selectTriggers = await page.locator('button[role="combobox"]').count()
-    console.log(`Found ${selectTriggers} Select trigger buttons`)
-    
-    if (selectTriggers >= 2) {
-      // Select product type (should be 2nd Select component)
-      console.log('Attempting to click second Select trigger for product type')
-      const productTypeSelect = page.locator('button[role="combobox"]').nth(1)
-      await productTypeSelect.click()
-      await page.waitForTimeout(500)
-      
-      // Wait for dropdown to appear and try to select Physical device
-      try {
-        await page.click('text="Physical device"', { timeout: 3000 })
-        console.log('Selected product type: Physical device')
-      } catch (e) {
-        console.log('Could not find Physical device option, trying alternative approach')
-        // Try clicking first option that contains "device"
-        await page.click('[role="option"]:has-text("device"):first')
-        console.log('Selected first device option')
-      }
-      await page.waitForTimeout(300)
-      
-      // Select ease of use (should be 3rd Select component)
-      console.log('Attempting to click third Select trigger for ease of use')
-      const easeSelect = page.locator('button[role="combobox"]').nth(2)
-      await easeSelect.click()
-      await page.waitForTimeout(500)
-      
-      try {
-        await page.click('text="Easy to use"', { timeout: 3000 })
-        console.log('Selected ease of use: Easy to use')
-      } catch (e) {
-        console.log('Could not find Easy to use option, selecting first available')
-        await page.click('[role="option"]:first')
-        console.log('Selected first ease option')
-      }
-      await page.waitForTimeout(300)
-    } else {
-      console.log('Could not find expected Select components, skipping category-specific fields')
-    }
-    
-    // Click Continue to Step 2
-    console.log('Clicked Continue to Step 2')
-    const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
-    await continueBtn1.click()
-    await page.waitForTimeout(1500)
-    
-    // Step 2: Issues
-    console.log('Step 2: Selecting issues')
-    await page.click('label:has-text("None")')
-    await page.waitForTimeout(500)
-    
-    // Click Continue to Step 3
-    console.log('Clicked Continue to Step 3')
-    const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
-    await continueBtn2.click()
-    await page.waitForTimeout(1500)
-    
-    // Step 3: Failed Solutions (Optional)
-    console.log('Step 3: Skipping failed solutions')
-    // This step is optional - can proceed directly to submit
-    
-    // Submit form
-    console.log('Submit button found, clicking...')
-    const submitBtn = page.locator('button:has-text("Submit")')
-    await submitBtn.click()
+    // Fill the form using the dedicated filler function (uses semantic selectors)
+    await fillPurchaseForm(page, 'products_devices')
 
     // Wait for the success screen rather than sleeping
     const successHeading = page.getByRole('heading', { name: 'Thank you for sharing!' })
@@ -277,6 +179,24 @@ test.describe('PurchaseForm - Complete E2E Tests', () => {
 
     // Ensure the Step 3 content has disappeared to confirm the transition
     await expect(page.locator('text="What else did you try?"')).toHaveCount(0)
+
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTION,
+      'products_devices',
+      EXPECTED_FIELDS
+    )
+
+    if (!result.success) {
+      console.error(`❌ products_devices verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
+      }
+    }
+
+    expect(result.success).toBeTruthy()
 
     console.log('Test completed successfully!')
   })

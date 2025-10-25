@@ -1,0 +1,6865 @@
+{
+  "summary": {
+    "covered": 13,
+    "partial": 36,
+    "gaps": 251,
+    "total": 300
+  },
+  "highPriorityGaps": [
+    {
+      "rank": 2,
+      "goal": "improve sleep quality",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 4,
+      "goal": "improve memory",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 5,
+      "goal": "stop overthinking",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 7,
+      "goal": "make new friends",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Learn new skills",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 9,
+      "goal": "lose belly fat",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 11,
+      "goal": "improve communication with partner",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 12,
+      "goal": "find life purpose",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 13,
+      "goal": "improve productivity",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 16,
+      "goal": "improve social skills",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 17,
+      "goal": "manage stress",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 18,
+      "goal": "overcome depression",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Manage depression symptoms",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 19,
+      "goal": "overcome social anxiety",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 20,
+      "goal": "overcome insomnia",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Stop insomnia",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 21,
+      "goal": "improve sleep hygiene",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "reddit"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 23,
+      "goal": "improve endurance",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "reddit"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 24,
+      "goal": "find compatible partner",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "reddit"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 25,
+      "goal": "improve financial literacy",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 27,
+      "goal": "increase productivity",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "reddit"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 28,
+      "goal": "overcome nicotine addiction",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Break porn addiction",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 30,
+      "goal": "negotiate salary",
+      "score": 6,
+      "sources": [
+        "reddit",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 32,
+      "goal": "improve credit score",
+      "score": 6,
+      "sources": [
+        "reddit",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 33,
+      "goal": "increase income",
+      "score": 6,
+      "sources": [
+        "reddit",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 34,
+      "goal": "boost metabolism",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 35,
+      "goal": "lower cholesterol",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Lower blood pressure",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 36,
+      "goal": "improve self-esteem",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 37,
+      "goal": "build resilience",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 38,
+      "goal": "start working out",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Start investing",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 39,
+      "goal": "tone muscles",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Tone my body",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 40,
+      "goal": "strengthen marriage",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 42,
+      "goal": "build self-confidence",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 43,
+      "goal": "overcome procrastination",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Overcome drug abuse",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 44,
+      "goal": "improve focus with adhd",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 45,
+      "goal": "minimize distractions",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Minimize pores",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 46,
+      "goal": "manage time better",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 47,
+      "goal": "improve public speaking",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 48,
+      "goal": "stop hair loss",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Deal with hair loss",
+      "matchScore": 0.4,
+      "status": "gap"
+    },
+    {
+      "rank": 50,
+      "goal": "reduce burnout",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 52,
+      "goal": "overcome fear of rejection",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Handle social rejection",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 53,
+      "goal": "improve communication with spouse",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 55,
+      "goal": "improve self-discipline",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Build self-discipline",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 56,
+      "goal": "build wealth",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    }
+  ],
+  "mediumPriorityGaps": [
+    {
+      "rank": 60,
+      "goal": "improve communication skills",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 62,
+      "goal": "reduce sugar intake",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 66,
+      "goal": "wake up earlier",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Clear up acne",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 71,
+      "goal": "stop worrying",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 72,
+      "goal": "manage bipolar disorder",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 73,
+      "goal": "overcome perfectionism",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Overcome drug abuse",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 74,
+      "goal": "stop self-sabotage",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 75,
+      "goal": "lose weight",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.4782608695652174,
+      "status": "gap"
+    },
+    {
+      "rank": 77,
+      "goal": "manage diabetes",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 78,
+      "goal": "reduce inflammation",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Control inflammation",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 79,
+      "goal": "reduce bloating",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 81,
+      "goal": "reduce headaches",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 82,
+      "goal": "improve immune system",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 85,
+      "goal": "quit caffeine",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Quit drinking",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 86,
+      "goal": "quit energy drinks",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Quit drinking",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 87,
+      "goal": "quit junk food",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop junk food binges",
+      "matchScore": 0.4,
+      "status": "gap"
+    },
+    {
+      "rank": 88,
+      "goal": "improve family relationships",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 89,
+      "goal": "get promoted",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Get stronger",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 91,
+      "goal": "improve time management at work",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 92,
+      "goal": "save money",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Save money consistently",
+      "matchScore": 0.43478260869565216,
+      "status": "gap"
+    },
+    {
+      "rank": 93,
+      "goal": "achieve financial independence",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Build financial stability",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 94,
+      "goal": "improve confidence",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 95,
+      "goal": "improve focus",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 96,
+      "goal": "overcome fear of failure",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Overcome drug abuse",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 97,
+      "goal": "improve self-awareness",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 98,
+      "goal": "improve skin texture",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 99,
+      "goal": "stop teeth grinding",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 100,
+      "goal": "reduce brain fog",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 101,
+      "goal": "stop sweating excessively",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 102,
+      "goal": "stop snoring",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 103,
+      "goal": "reduce screen time",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 104,
+      "goal": "is bronchitis contagious",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 105,
+      "goal": "is pneumonia contagious",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 106,
+      "goal": "what is lupus",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 107,
+      "goal": "how much water should i drink each day",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Drink more water",
+      "matchScore": 0.2222222222222222,
+      "status": "gap"
+    },
+    {
+      "rank": 108,
+      "goal": "is strep throat contagious",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 109,
+      "goal": "how long does the flu last",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Bike long distances",
+      "matchScore": 0.125,
+      "status": "gap"
+    },
+    {
+      "rank": 110,
+      "goal": "what causes high blood pressure",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lower blood pressure",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 111,
+      "goal": "hair loss",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Deal with hair loss",
+      "matchScore": 0.47368421052631576,
+      "status": "gap"
+    },
+    {
+      "rank": 112,
+      "goal": "fatigue",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Manage chronic fatigue",
+      "matchScore": 0.3181818181818182,
+      "status": "gap"
+    },
+    {
+      "rank": 113,
+      "goal": "bloating",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 114,
+      "goal": "congestion",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 115,
+      "goal": "lower my cholesterol",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Control my drinking",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 116,
+      "goal": "what causes kidney stones",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find causes I care about",
+      "matchScore": 0.125,
+      "status": "gap"
+    },
+    {
+      "rank": 117,
+      "goal": "why do i have a headache",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Do a pull-up",
+      "matchScore": 0.2857142857142857,
+      "status": "gap"
+    },
+    {
+      "rank": 118,
+      "goal": "reduce dandruff",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 119,
+      "goal": "boost your immune system",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 120,
+      "goal": "how much sodium per day",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 121,
+      "goal": "what is the difference between a cold and the flu",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Complete a marathon",
+      "matchScore": 0.09090909090909091,
+      "status": "gap"
+    },
+    {
+      "rank": 122,
+      "goal": "what are the symptoms of anxiety",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 123,
+      "goal": "lower my a1c",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Control my drinking",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 125,
+      "goal": "prevent kidney stones",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Prevent injuries",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 126,
+      "goal": "treat strep throat",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Treat wrinkles",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 127,
+      "goal": "recover from bronchitis",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Heal from heartbreak",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 128,
+      "goal": "overcome ocd",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Control OCD behaviors",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 129,
+      "goal": "manage codependence",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 130,
+      "goal": "recognize narcissism",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 131,
+      "goal": "identify gaslighting",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 132,
+      "goal": "find emotional support",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Support education",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 133,
+      "goal": "build social connections",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 134,
+      "goal": "find mental health care professional",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find causes I care about",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 136,
+      "goal": "treat sleep apnea",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Sleep better",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 137,
+      "goal": "stop sleep paralysis",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Sleep better",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 139,
+      "goal": "stay asleep through the night",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Stay indispensable",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 140,
+      "goal": "reduce excessive daytime sleepiness",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 141,
+      "goal": "establish sleep routine",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Sleep better",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 143,
+      "goal": "find best way to lose weight",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.2857142857142857,
+      "status": "gap"
+    },
+    {
+      "rank": 144,
+      "goal": "get a six pack",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Get a sunless tan",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 145,
+      "goal": "find best exercise to lose weight",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.2857142857142857,
+      "status": "gap"
+    },
+    {
+      "rank": 146,
+      "goal": "use cold exposure for weight loss",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Prepare for job loss",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 147,
+      "goal": "start using chia seeds for weight loss",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Prepare for job loss",
+      "matchScore": 0.2222222222222222,
+      "status": "gap"
+    },
+    {
+      "rank": 148,
+      "goal": "improve fitness",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 150,
+      "goal": "increase metabolism",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 151,
+      "goal": "get in shape",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Get stronger",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 152,
+      "goal": "build strength",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 153,
+      "goal": "lose fat",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 154,
+      "goal": "follow mediterranean diet",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Follow through on commitments",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 155,
+      "goal": "start dash diet",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Start investing",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 156,
+      "goal": "follow mind diet for brain health",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Improve heart health",
+      "matchScore": 0.125,
+      "status": "gap"
+    },
+    {
+      "rank": 157,
+      "goal": "eat more plant-based foods",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Drink more water",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 158,
+      "goal": "support brain health through nutrition",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Support education",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 159,
+      "goal": "plan sustainable eating",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Create will/estate plan",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 161,
+      "goal": "support emotional wellness through food",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Support education",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 163,
+      "goal": "escape toxic boss",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Leave toxic situation",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 165,
+      "goal": "get respect at work",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Get stronger",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 166,
+      "goal": "overcome workplace disrespect",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Overcome drug abuse",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 167,
+      "goal": "prevent burnout",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Prevent injuries",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 168,
+      "goal": "handle difficult coworkers",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Handle job uncertainty",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 169,
+      "goal": "find work-life balance",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 170,
+      "goal": "reduce long work hours",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 171,
+      "goal": "manage mental and emotional stress",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Manage vertigo and dizziness",
+      "matchScore": 0.2857142857142857,
+      "status": "gap"
+    },
+    {
+      "rank": 172,
+      "goal": "lower cost of living",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lower blood pressure",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 173,
+      "goal": "find homeowners insurance",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 174,
+      "goal": "navigate student loan forgiveness",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Navigate menopause",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 175,
+      "goal": "find high yield savings account",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 176,
+      "goal": "understand bitcoin",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 177,
+      "goal": "understand moneyline bets",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 178,
+      "goal": "understand student loans",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 179,
+      "goal": "understand open relationships",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 180,
+      "goal": "identify gaslighting in relationship",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Help those in need",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 181,
+      "goal": "recognize breadcrumbing",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 182,
+      "goal": "decide when relationship should be exclusive",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 183,
+      "goal": "handle relationship doubts",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Handle job uncertainty",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 184,
+      "goal": "identify narcissistic partner",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 185,
+      "goal": "recognize codependent relationship",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 186,
+      "goal": "understand ethical non-monogamy",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 187,
+      "goal": "navigate monogamy questions",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Navigate menopause",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 188,
+      "goal": "handle appropriate pda",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Handle job uncertainty",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 189,
+      "goal": "determine if relationship is over",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Get over dating anxiety",
+      "matchScore": 0.125,
+      "status": "gap"
+    },
+    {
+      "rank": 190,
+      "goal": "define \"hard launch\" in relationships",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Help those in need",
+      "matchScore": 0.125,
+      "status": "gap"
+    },
+    {
+      "rank": 191,
+      "goal": "understand karmic relationships",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 192,
+      "goal": "learn about autosexual orientation",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Learn pottery",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 193,
+      "goal": "build healthy relationships",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 194,
+      "goal": "resolve conflicts",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 195,
+      "goal": "date successfully",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Change careers successfully",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 196,
+      "goal": "overcome relationship anxiety",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 197,
+      "goal": "handle peer pressure",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Handle job uncertainty",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 198,
+      "goal": "do digital detox",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Do a pull-up",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 199,
+      "goal": "manage screen time",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 200,
+      "goal": "use mindfulness apps",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Practice mindfulness",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 202,
+      "goal": "meditate regularly",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Swim regularly",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 203,
+      "goal": "learn budgeting",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Learn pottery",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 204,
+      "goal": "understand investment strategies",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 205,
+      "goal": "set meaningful goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Set social boundaries",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 206,
+      "goal": "find passion",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 207,
+      "goal": "create fulfilling life",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Create a budget",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 208,
+      "goal": "master time management",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Master everyday hairstyling",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 209,
+      "goal": "learn baking",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Learn pottery",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 210,
+      "goal": "use pomodoro technique",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce social media use",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 211,
+      "goal": "organize workspace",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 212,
+      "goal": "break down large tasks",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Break bad habits",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 214,
+      "goal": "maintain consistent sleep schedule",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Sleep better",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 215,
+      "goal": "use fidget tools",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Learn to use AI tools",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 216,
+      "goal": "build better habits",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 217,
+      "goal": "overcome productive procrastination",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Overcome drug abuse",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 218,
+      "goal": "beat perfectionism",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Beat afternoon slump",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 219,
+      "goal": "reduce fear of failure",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 220,
+      "goal": "use habit-building apps",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce social media use",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 221,
+      "goal": "develop customer service skills",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Develop perseverance",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 222,
+      "goal": "build leadership abilities",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 223,
+      "goal": "master project management",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Master everyday hairstyling",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 224,
+      "goal": "develop marketing automation",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Develop perseverance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 225,
+      "goal": "learn seo",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Learn pottery",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 226,
+      "goal": "master lead generation",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Master everyday hairstyling",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 227,
+      "goal": "develop authenticity in speaking",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Develop perseverance",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 228,
+      "goal": "improve virtual speaking",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 229,
+      "goal": "use ai for presentations",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Use skills for good",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 232,
+      "goal": "understand exfoliation benefits",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 234,
+      "goal": "treat acne",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Treat wrinkles",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 235,
+      "goal": "reduce enlarged pores",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Minimize pores",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 236,
+      "goal": "prevent razor burn",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Prevent injuries",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 237,
+      "goal": "prevent ingrown hairs",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Prevent injuries",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 238,
+      "goal": "find hydrating moisturizer",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 239,
+      "goal": "learn contouring techniques",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Learn pottery",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 241,
+      "goal": "understand what causes hair loss",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Deal with hair loss",
+      "matchScore": 0.2857142857142857,
+      "status": "gap"
+    },
+    {
+      "rank": 242,
+      "goal": "make hair grow faster",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Grow thicker hair",
+      "matchScore": 0.4,
+      "status": "gap"
+    },
+    {
+      "rank": 243,
+      "goal": "increase hair growth",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Cover gray hair",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 244,
+      "goal": "reduce hair thinning",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 245,
+      "goal": "stop hair shedding",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 246,
+      "goal": "stop youth vaping",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Quit vaping",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 247,
+      "goal": "find cessation resources",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 249,
+      "goal": "find back pain relief",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 251,
+      "goal": "find pain management solutions",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 252,
+      "goal": "try virtual yoga for back pain",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Give back effectively",
+      "matchScore": 0.125,
+      "status": "gap"
+    },
+    {
+      "rank": 253,
+      "goal": "access neuromodulation techniques",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 254,
+      "goal": "explore regenerative medicine",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 255,
+      "goal": "use ai-driven physical therapy",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce social media use",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 256,
+      "goal": "connect with others",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Cope with PTSD",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 257,
+      "goal": "reduce social isolation",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce social media use",
+      "matchScore": 0.4,
+      "status": "gap"
+    },
+    {
+      "rank": 258,
+      "goal": "build friendships",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 259,
+      "goal": "join communities",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 261,
+      "goal": "make money online",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Make guests comfortable",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 262,
+      "goal": "use chatgpt effectively",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Network effectively",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 263,
+      "goal": "invest during inflation",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 264,
+      "goal": "delete instagram account",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 265,
+      "goal": "tie a tie",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Complete a marathon",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 266,
+      "goal": "simplify life",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 267,
+      "goal": "achieve digital detox",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 268,
+      "goal": "find what to watch",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 269,
+      "goal": "understand current events",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 270,
+      "goal": "track weather",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Track spending",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 271,
+      "goal": "monitor excessive heat",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Deal with excessive sweating",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 273,
+      "goal": "stay informed about news",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Stay indispensable",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 274,
+      "goal": "health & medical: 35+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Improve heart health",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 275,
+      "goal": "mental health: 25+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 276,
+      "goal": "sleep: 9 goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 277,
+      "goal": "fitness & weight: 15+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 278,
+      "goal": "diet & nutrition: 12+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 279,
+      "goal": "career & work: 20+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build freelance career",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 280,
+      "goal": "financial: 15+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 281,
+      "goal": "relationships: 20+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 282,
+      "goal": "parenting: 12+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 283,
+      "goal": "personal development: 20+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand personal finance basics",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 284,
+      "goal": "professional skills: 12+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 285,
+      "goal": "skin & beauty: 15+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Control oily skin",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 286,
+      "goal": "addiction: 6 goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 287,
+      "goal": "pain management: 10+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Manage chronic pain",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 288,
+      "goal": "social connection: 10+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Develop social ease",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 289,
+      "goal": "\"how to lose weight fast\" - 486,000 annual searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 290,
+      "goal": "\"is bronchitis contagious\" - 176,000 monthly searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 291,
+      "goal": "\"how to get a six pack\" - 145,200 annual searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Get a sunless tan",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 292,
+      "goal": "\"how to gain weight\" - 79,200 annual searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Gain healthy weight",
+      "matchScore": 0.1,
+      "status": "gap"
+    },
+    {
+      "rank": 293,
+      "goal": "\"hair loss\" - 25,945 monthly searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 294,
+      "goal": "\"make hair grow faster\" - 14,590 monthly searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Grow thicker hair",
+      "matchScore": 0.2222222222222222,
+      "status": "gap"
+    },
+    {
+      "rank": 295,
+      "goal": "\"student loans\" - 2,441,000 average searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 296,
+      "goal": "official google year in search reports",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Help those in need",
+      "matchScore": 0.1111111111111111,
+      "status": "gap"
+    },
+    {
+      "rank": 297,
+      "goal": "academic institutions and research centers",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Fade scars and marks",
+      "matchScore": 0.125,
+      "status": "gap"
+    }
+  ],
+  "topGaps": [
+    {
+      "rank": 2,
+      "goal": "improve sleep quality",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 4,
+      "goal": "improve memory",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 5,
+      "goal": "stop overthinking",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 7,
+      "goal": "make new friends",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Learn new skills",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 9,
+      "goal": "lose belly fat",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 11,
+      "goal": "improve communication with partner",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 12,
+      "goal": "find life purpose",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 13,
+      "goal": "improve productivity",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 16,
+      "goal": "improve social skills",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 17,
+      "goal": "manage stress",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 18,
+      "goal": "overcome depression",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Manage depression symptoms",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 19,
+      "goal": "overcome social anxiety",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 20,
+      "goal": "overcome insomnia",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Stop insomnia",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 21,
+      "goal": "improve sleep hygiene",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "reddit"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 23,
+      "goal": "improve endurance",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "reddit"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 24,
+      "goal": "find compatible partner",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "reddit"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 25,
+      "goal": "improve financial literacy",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 27,
+      "goal": "increase productivity",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "reddit"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 28,
+      "goal": "overcome nicotine addiction",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Break porn addiction",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 30,
+      "goal": "negotiate salary",
+      "score": 6,
+      "sources": [
+        "reddit",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 32,
+      "goal": "improve credit score",
+      "score": 6,
+      "sources": [
+        "reddit",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 33,
+      "goal": "increase income",
+      "score": 6,
+      "sources": [
+        "reddit",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 34,
+      "goal": "boost metabolism",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 35,
+      "goal": "lower cholesterol",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Lower blood pressure",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 36,
+      "goal": "improve self-esteem",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 37,
+      "goal": "build resilience",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 38,
+      "goal": "start working out",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Start investing",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 39,
+      "goal": "tone muscles",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Tone my body",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 40,
+      "goal": "strengthen marriage",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 42,
+      "goal": "build self-confidence",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 43,
+      "goal": "overcome procrastination",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Overcome drug abuse",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 44,
+      "goal": "improve focus with adhd",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 45,
+      "goal": "minimize distractions",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Minimize pores",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 46,
+      "goal": "manage time better",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 47,
+      "goal": "improve public speaking",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 48,
+      "goal": "stop hair loss",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Deal with hair loss",
+      "matchScore": 0.4,
+      "status": "gap"
+    },
+    {
+      "rank": 50,
+      "goal": "reduce burnout",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 52,
+      "goal": "overcome fear of rejection",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Handle social rejection",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 53,
+      "goal": "improve communication with spouse",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 55,
+      "goal": "improve self-discipline",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Build self-discipline",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 56,
+      "goal": "build wealth",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 60,
+      "goal": "improve communication skills",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 62,
+      "goal": "reduce sugar intake",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 66,
+      "goal": "wake up earlier",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Clear up acne",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 71,
+      "goal": "stop worrying",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 72,
+      "goal": "manage bipolar disorder",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 73,
+      "goal": "overcome perfectionism",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Overcome drug abuse",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 74,
+      "goal": "stop self-sabotage",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 75,
+      "goal": "lose weight",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.4782608695652174,
+      "status": "gap"
+    },
+    {
+      "rank": 77,
+      "goal": "manage diabetes",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    }
+  ],
+  "fullAnalysis": [
+    {
+      "rank": 1,
+      "goal": "build muscle",
+      "score": 9,
+      "sources": [
+        "web_research",
+        "reddit",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Build muscle mass",
+      "matchScore": 0.7058823529411765,
+      "status": "partial"
+    },
+    {
+      "rank": 2,
+      "goal": "improve sleep quality",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 3,
+      "goal": "reduce anxiety",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 1,
+      "status": "covered"
+    },
+    {
+      "rank": 4,
+      "goal": "improve memory",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 5,
+      "goal": "stop overthinking",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 6,
+      "goal": "build confidence",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 1,
+      "status": "covered"
+    },
+    {
+      "rank": 7,
+      "goal": "make new friends",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Learn new skills",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 8,
+      "goal": "fall asleep faster",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Fall asleep faster",
+      "matchScore": 1,
+      "status": "covered"
+    },
+    {
+      "rank": 9,
+      "goal": "lose belly fat",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 10,
+      "goal": "improve gut health",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve heart health",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 11,
+      "goal": "improve communication with partner",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 12,
+      "goal": "find life purpose",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 13,
+      "goal": "improve productivity",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 14,
+      "goal": "stop procrastinating",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop procrastinating",
+      "matchScore": 1,
+      "status": "covered"
+    },
+    {
+      "rank": 15,
+      "goal": "quit smoking",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Quit smoking",
+      "matchScore": 1,
+      "status": "covered"
+    },
+    {
+      "rank": 16,
+      "goal": "improve social skills",
+      "score": 7,
+      "sources": [
+        "web_research",
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 17,
+      "goal": "manage stress",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 18,
+      "goal": "overcome depression",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Manage depression symptoms",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 19,
+      "goal": "overcome social anxiety",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 20,
+      "goal": "overcome insomnia",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Stop insomnia",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 21,
+      "goal": "improve sleep hygiene",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "reddit"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 22,
+      "goal": "gain weight",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Gain healthy weight",
+      "matchScore": 0.6666666666666666,
+      "status": "partial"
+    },
+    {
+      "rank": 23,
+      "goal": "improve endurance",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "reddit"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 24,
+      "goal": "find compatible partner",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "reddit"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 25,
+      "goal": "improve financial literacy",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 26,
+      "goal": "learn to cook",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Learn to code",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 27,
+      "goal": "increase productivity",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "reddit"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 28,
+      "goal": "overcome nicotine addiction",
+      "score": 6,
+      "sources": [
+        "web_research",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Break porn addiction",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 29,
+      "goal": "stop emotional eating",
+      "score": 6,
+      "sources": [
+        "reddit",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop emotional eating",
+      "matchScore": 1,
+      "status": "covered"
+    },
+    {
+      "rank": 30,
+      "goal": "negotiate salary",
+      "score": 6,
+      "sources": [
+        "reddit",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 31,
+      "goal": "get out of debt",
+      "score": 6,
+      "sources": [
+        "reddit",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Get out of debt",
+      "matchScore": 1,
+      "status": "covered"
+    },
+    {
+      "rank": 32,
+      "goal": "improve credit score",
+      "score": 6,
+      "sources": [
+        "reddit",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 33,
+      "goal": "increase income",
+      "score": 6,
+      "sources": [
+        "reddit",
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 34,
+      "goal": "boost metabolism",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 35,
+      "goal": "lower cholesterol",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Lower blood pressure",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 36,
+      "goal": "improve self-esteem",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 37,
+      "goal": "build resilience",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 38,
+      "goal": "start working out",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Start investing",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 39,
+      "goal": "tone muscles",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Tone my body",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 40,
+      "goal": "strengthen marriage",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 41,
+      "goal": "develop emotional intelligence",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Build emotional intelligence",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 42,
+      "goal": "build self-confidence",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 43,
+      "goal": "overcome procrastination",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Overcome drug abuse",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 44,
+      "goal": "improve focus with adhd",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 45,
+      "goal": "minimize distractions",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Minimize pores",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 46,
+      "goal": "manage time better",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 47,
+      "goal": "improve public speaking",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 48,
+      "goal": "stop hair loss",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Deal with hair loss",
+      "matchScore": 0.4,
+      "status": "gap"
+    },
+    {
+      "rank": 49,
+      "goal": "start a business",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Start side business",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 50,
+      "goal": "reduce burnout",
+      "score": 5,
+      "sources": [
+        "web_research",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 51,
+      "goal": "improve emotional intimacy",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Improve emotional regulation",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 52,
+      "goal": "overcome fear of rejection",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Handle social rejection",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 53,
+      "goal": "improve communication with spouse",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 54,
+      "goal": "find a job",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 55,
+      "goal": "improve self-discipline",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Build self-discipline",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 56,
+      "goal": "build wealth",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 57,
+      "goal": "clear acne",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Clear up acne",
+      "matchScore": 0.6666666666666666,
+      "status": "partial"
+    },
+    {
+      "rank": 58,
+      "goal": "manage eczema",
+      "score": 5,
+      "sources": [
+        "reddit",
+        "ai_synthesis"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.5652173913043478,
+      "status": "partial"
+    },
+    {
+      "rank": 59,
+      "goal": "reduce social anxiety",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.6666666666666666,
+      "status": "partial"
+    },
+    {
+      "rank": 60,
+      "goal": "improve communication skills",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 61,
+      "goal": "cope with trauma",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Cope with PTSD",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 62,
+      "goal": "reduce sugar intake",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 63,
+      "goal": "quit drinking alcohol",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Quit drinking",
+      "matchScore": 0.6190476190476191,
+      "status": "partial"
+    },
+    {
+      "rank": 64,
+      "goal": "improve physical health",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve heart health",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 65,
+      "goal": "set healthy boundaries",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Set social boundaries",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 66,
+      "goal": "wake up earlier",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Clear up acne",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 67,
+      "goal": "improve mental health",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve heart health",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 68,
+      "goal": "read more books",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Read more books",
+      "matchScore": 1,
+      "status": "covered"
+    },
+    {
+      "rank": 69,
+      "goal": "reduce sleep anxiety",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.6666666666666666,
+      "status": "partial"
+    },
+    {
+      "rank": 70,
+      "goal": "create better sleep environment",
+      "score": 4,
+      "sources": [
+        "reddit",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Sleep better",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 71,
+      "goal": "stop worrying",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 72,
+      "goal": "manage bipolar disorder",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 73,
+      "goal": "overcome perfectionism",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Overcome drug abuse",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 74,
+      "goal": "stop self-sabotage",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 75,
+      "goal": "lose weight",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.4782608695652174,
+      "status": "gap"
+    },
+    {
+      "rank": 76,
+      "goal": "reduce back pain",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce joint pain",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 77,
+      "goal": "manage diabetes",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 78,
+      "goal": "reduce inflammation",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Control inflammation",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 79,
+      "goal": "reduce bloating",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 80,
+      "goal": "improve posture",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve posture",
+      "matchScore": 1,
+      "status": "covered"
+    },
+    {
+      "rank": 81,
+      "goal": "reduce headaches",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 82,
+      "goal": "improve immune system",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 83,
+      "goal": "quit vaping",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Quit vaping",
+      "matchScore": 1,
+      "status": "covered"
+    },
+    {
+      "rank": 84,
+      "goal": "stop binge eating",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop emotional eating",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 85,
+      "goal": "quit caffeine",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Quit drinking",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 86,
+      "goal": "quit energy drinks",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Quit drinking",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 87,
+      "goal": "quit junk food",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop junk food binges",
+      "matchScore": 0.4,
+      "status": "gap"
+    },
+    {
+      "rank": 88,
+      "goal": "improve family relationships",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 89,
+      "goal": "get promoted",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Get stronger",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 90,
+      "goal": "improve work-life balance",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.6666666666666666,
+      "status": "partial"
+    },
+    {
+      "rank": 91,
+      "goal": "improve time management at work",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 92,
+      "goal": "save money",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Save money consistently",
+      "matchScore": 0.43478260869565216,
+      "status": "gap"
+    },
+    {
+      "rank": 93,
+      "goal": "achieve financial independence",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Build financial stability",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 94,
+      "goal": "improve confidence",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 95,
+      "goal": "improve focus",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 96,
+      "goal": "overcome fear of failure",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Overcome drug abuse",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 97,
+      "goal": "improve self-awareness",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 98,
+      "goal": "improve skin texture",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 99,
+      "goal": "stop teeth grinding",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 100,
+      "goal": "reduce brain fog",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 101,
+      "goal": "stop sweating excessively",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 102,
+      "goal": "stop snoring",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 103,
+      "goal": "reduce screen time",
+      "score": 4,
+      "sources": [
+        "ai_synthesis",
+        "autocomplete"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 104,
+      "goal": "is bronchitis contagious",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 105,
+      "goal": "is pneumonia contagious",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 106,
+      "goal": "what is lupus",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 107,
+      "goal": "how much water should i drink each day",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Drink more water",
+      "matchScore": 0.2222222222222222,
+      "status": "gap"
+    },
+    {
+      "rank": 108,
+      "goal": "is strep throat contagious",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 109,
+      "goal": "how long does the flu last",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Bike long distances",
+      "matchScore": 0.125,
+      "status": "gap"
+    },
+    {
+      "rank": 110,
+      "goal": "what causes high blood pressure",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lower blood pressure",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 111,
+      "goal": "hair loss",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Deal with hair loss",
+      "matchScore": 0.47368421052631576,
+      "status": "gap"
+    },
+    {
+      "rank": 112,
+      "goal": "fatigue",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Manage chronic fatigue",
+      "matchScore": 0.3181818181818182,
+      "status": "gap"
+    },
+    {
+      "rank": 113,
+      "goal": "bloating",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 114,
+      "goal": "congestion",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 115,
+      "goal": "lower my cholesterol",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Control my drinking",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 116,
+      "goal": "what causes kidney stones",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find causes I care about",
+      "matchScore": 0.125,
+      "status": "gap"
+    },
+    {
+      "rank": 117,
+      "goal": "why do i have a headache",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Do a pull-up",
+      "matchScore": 0.2857142857142857,
+      "status": "gap"
+    },
+    {
+      "rank": 118,
+      "goal": "reduce dandruff",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 119,
+      "goal": "boost your immune system",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 120,
+      "goal": "how much sodium per day",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 121,
+      "goal": "what is the difference between a cold and the flu",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Complete a marathon",
+      "matchScore": 0.09090909090909091,
+      "status": "gap"
+    },
+    {
+      "rank": 122,
+      "goal": "what are the symptoms of anxiety",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 123,
+      "goal": "lower my a1c",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Control my drinking",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 124,
+      "goal": "lower high blood pressure",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lower blood pressure",
+      "matchScore": 0.75,
+      "status": "covered"
+    },
+    {
+      "rank": 125,
+      "goal": "prevent kidney stones",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Prevent injuries",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 126,
+      "goal": "treat strep throat",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Treat wrinkles",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 127,
+      "goal": "recover from bronchitis",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Heal from heartbreak",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 128,
+      "goal": "overcome ocd",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Control OCD behaviors",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 129,
+      "goal": "manage codependence",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 130,
+      "goal": "recognize narcissism",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 131,
+      "goal": "identify gaslighting",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 132,
+      "goal": "find emotional support",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Support education",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 133,
+      "goal": "build social connections",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 134,
+      "goal": "find mental health care professional",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find causes I care about",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 135,
+      "goal": "improve emotional intelligence",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build emotional intelligence",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 136,
+      "goal": "treat sleep apnea",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Sleep better",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 137,
+      "goal": "stop sleep paralysis",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Sleep better",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 138,
+      "goal": "get better sleep quality",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Sleep better",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 139,
+      "goal": "stay asleep through the night",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Stay indispensable",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 140,
+      "goal": "reduce excessive daytime sleepiness",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 141,
+      "goal": "establish sleep routine",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Sleep better",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 142,
+      "goal": "lose weight fast",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 143,
+      "goal": "find best way to lose weight",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.2857142857142857,
+      "status": "gap"
+    },
+    {
+      "rank": 144,
+      "goal": "get a six pack",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Get a sunless tan",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 145,
+      "goal": "find best exercise to lose weight",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.2857142857142857,
+      "status": "gap"
+    },
+    {
+      "rank": 146,
+      "goal": "use cold exposure for weight loss",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Prepare for job loss",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 147,
+      "goal": "start using chia seeds for weight loss",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Prepare for job loss",
+      "matchScore": 0.2222222222222222,
+      "status": "gap"
+    },
+    {
+      "rank": 148,
+      "goal": "improve fitness",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 149,
+      "goal": "start exercising regularly",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Start exercising regularly",
+      "matchScore": 1,
+      "status": "covered"
+    },
+    {
+      "rank": 150,
+      "goal": "increase metabolism",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 151,
+      "goal": "get in shape",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Get stronger",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 152,
+      "goal": "build strength",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 153,
+      "goal": "lose fat",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 154,
+      "goal": "follow mediterranean diet",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Follow through on commitments",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 155,
+      "goal": "start dash diet",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Start investing",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 156,
+      "goal": "follow mind diet for brain health",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Improve heart health",
+      "matchScore": 0.125,
+      "status": "gap"
+    },
+    {
+      "rank": 157,
+      "goal": "eat more plant-based foods",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Drink more water",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 158,
+      "goal": "support brain health through nutrition",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Support education",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 159,
+      "goal": "plan sustainable eating",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Create will/estate plan",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 160,
+      "goal": "improve microbiome health",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Improve heart health",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 161,
+      "goal": "support emotional wellness through food",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Support education",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 162,
+      "goal": "handle job loss",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Handle job uncertainty",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 163,
+      "goal": "escape toxic boss",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Leave toxic situation",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 164,
+      "goal": "leave toxic workplace",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Leave toxic situation",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 165,
+      "goal": "get respect at work",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Get stronger",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 166,
+      "goal": "overcome workplace disrespect",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Overcome drug abuse",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 167,
+      "goal": "prevent burnout",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Prevent injuries",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 168,
+      "goal": "handle difficult coworkers",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Handle job uncertainty",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 169,
+      "goal": "find work-life balance",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 170,
+      "goal": "reduce long work hours",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 171,
+      "goal": "manage mental and emotional stress",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Manage vertigo and dizziness",
+      "matchScore": 0.2857142857142857,
+      "status": "gap"
+    },
+    {
+      "rank": 172,
+      "goal": "lower cost of living",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lower blood pressure",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 173,
+      "goal": "find homeowners insurance",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 174,
+      "goal": "navigate student loan forgiveness",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Navigate menopause",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 175,
+      "goal": "find high yield savings account",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 176,
+      "goal": "understand bitcoin",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 177,
+      "goal": "understand moneyline bets",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 178,
+      "goal": "understand student loans",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 179,
+      "goal": "understand open relationships",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 180,
+      "goal": "identify gaslighting in relationship",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Help those in need",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 181,
+      "goal": "recognize breadcrumbing",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 182,
+      "goal": "decide when relationship should be exclusive",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 183,
+      "goal": "handle relationship doubts",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Handle job uncertainty",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 184,
+      "goal": "identify narcissistic partner",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 185,
+      "goal": "recognize codependent relationship",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 186,
+      "goal": "understand ethical non-monogamy",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 187,
+      "goal": "navigate monogamy questions",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Navigate menopause",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 188,
+      "goal": "handle appropriate pda",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Handle job uncertainty",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 189,
+      "goal": "determine if relationship is over",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Get over dating anxiety",
+      "matchScore": 0.125,
+      "status": "gap"
+    },
+    {
+      "rank": 190,
+      "goal": "define \"hard launch\" in relationships",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Help those in need",
+      "matchScore": 0.125,
+      "status": "gap"
+    },
+    {
+      "rank": 191,
+      "goal": "understand karmic relationships",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 192,
+      "goal": "learn about autosexual orientation",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Learn pottery",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 193,
+      "goal": "build healthy relationships",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 194,
+      "goal": "resolve conflicts",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 195,
+      "goal": "date successfully",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Change careers successfully",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 196,
+      "goal": "overcome relationship anxiety",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 197,
+      "goal": "handle peer pressure",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Handle job uncertainty",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 198,
+      "goal": "do digital detox",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Do a pull-up",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 199,
+      "goal": "manage screen time",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 200,
+      "goal": "use mindfulness apps",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Practice mindfulness",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 201,
+      "goal": "practice yoga",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Start yoga practice",
+      "matchScore": 0.6666666666666666,
+      "status": "partial"
+    },
+    {
+      "rank": 202,
+      "goal": "meditate regularly",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Swim regularly",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 203,
+      "goal": "learn budgeting",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Learn pottery",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 204,
+      "goal": "understand investment strategies",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 205,
+      "goal": "set meaningful goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Set social boundaries",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 206,
+      "goal": "find passion",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 207,
+      "goal": "create fulfilling life",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Create a budget",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 208,
+      "goal": "master time management",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Master everyday hairstyling",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 209,
+      "goal": "learn baking",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Learn pottery",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 210,
+      "goal": "use pomodoro technique",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce social media use",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 211,
+      "goal": "organize workspace",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 212,
+      "goal": "break down large tasks",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Break bad habits",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 213,
+      "goal": "practice meditation for focus",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Practice meditation",
+      "matchScore": 0.6551724137931034,
+      "status": "partial"
+    },
+    {
+      "rank": 214,
+      "goal": "maintain consistent sleep schedule",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Sleep better",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 215,
+      "goal": "use fidget tools",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Learn to use AI tools",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 216,
+      "goal": "build better habits",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 217,
+      "goal": "overcome productive procrastination",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Overcome drug abuse",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 218,
+      "goal": "beat perfectionism",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Beat afternoon slump",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 219,
+      "goal": "reduce fear of failure",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 220,
+      "goal": "use habit-building apps",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce social media use",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 221,
+      "goal": "develop customer service skills",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Develop perseverance",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 222,
+      "goal": "build leadership abilities",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 223,
+      "goal": "master project management",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Master everyday hairstyling",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 224,
+      "goal": "develop marketing automation",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Develop perseverance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 225,
+      "goal": "learn seo",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Learn pottery",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 226,
+      "goal": "master lead generation",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Master everyday hairstyling",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 227,
+      "goal": "develop authenticity in speaking",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Develop perseverance",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 228,
+      "goal": "improve virtual speaking",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Improve balance",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 229,
+      "goal": "use ai for presentations",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Use skills for good",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 230,
+      "goal": "minimize pores",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Minimize pores",
+      "matchScore": 1,
+      "status": "covered"
+    },
+    {
+      "rank": 231,
+      "goal": "reduce dark circles under eyes",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce dark circles",
+      "matchScore": 0.6333333333333333,
+      "status": "partial"
+    },
+    {
+      "rank": 232,
+      "goal": "understand exfoliation benefits",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 233,
+      "goal": "achieve glowing skin",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Get glowing skin",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 234,
+      "goal": "treat acne",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Treat wrinkles",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 235,
+      "goal": "reduce enlarged pores",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Minimize pores",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 236,
+      "goal": "prevent razor burn",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Prevent injuries",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 237,
+      "goal": "prevent ingrown hairs",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Prevent injuries",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 238,
+      "goal": "find hydrating moisturizer",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 239,
+      "goal": "learn contouring techniques",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Learn pottery",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 240,
+      "goal": "reduce under-eye circles",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce dark circles",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 241,
+      "goal": "understand what causes hair loss",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Deal with hair loss",
+      "matchScore": 0.2857142857142857,
+      "status": "gap"
+    },
+    {
+      "rank": 242,
+      "goal": "make hair grow faster",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Grow thicker hair",
+      "matchScore": 0.4,
+      "status": "gap"
+    },
+    {
+      "rank": 243,
+      "goal": "increase hair growth",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Cover gray hair",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 244,
+      "goal": "reduce hair thinning",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 245,
+      "goal": "stop hair shedding",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Stop breakouts",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 246,
+      "goal": "stop youth vaping",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Quit vaping",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 247,
+      "goal": "find cessation resources",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 248,
+      "goal": "reduce pain disability",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce joint pain",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 249,
+      "goal": "find back pain relief",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 250,
+      "goal": "manage chronic conditions",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Manage autoimmune conditions",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 251,
+      "goal": "find pain management solutions",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 252,
+      "goal": "try virtual yoga for back pain",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Give back effectively",
+      "matchScore": 0.125,
+      "status": "gap"
+    },
+    {
+      "rank": 253,
+      "goal": "access neuromodulation techniques",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 254,
+      "goal": "explore regenerative medicine",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 255,
+      "goal": "use ai-driven physical therapy",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce social media use",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 256,
+      "goal": "connect with others",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Cope with PTSD",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 257,
+      "goal": "reduce social isolation",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Reduce social media use",
+      "matchScore": 0.4,
+      "status": "gap"
+    },
+    {
+      "rank": 258,
+      "goal": "build friendships",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build confidence",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 259,
+      "goal": "join communities",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 260,
+      "goal": "find support groups",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Start support groups",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 261,
+      "goal": "make money online",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Make guests comfortable",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 262,
+      "goal": "use chatgpt effectively",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Network effectively",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 263,
+      "goal": "invest during inflation",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 264,
+      "goal": "delete instagram account",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 265,
+      "goal": "tie a tie",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Complete a marathon",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 266,
+      "goal": "simplify life",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 267,
+      "goal": "achieve digital detox",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 268,
+      "goal": "find what to watch",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Find job openings",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 269,
+      "goal": "understand current events",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand cryptocurrency",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 270,
+      "goal": "track weather",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Track spending",
+      "matchScore": 0.3333333333333333,
+      "status": "gap"
+    },
+    {
+      "rank": 271,
+      "goal": "monitor excessive heat",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Deal with excessive sweating",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 272,
+      "goal": "prepare for hurricanes",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Prepare for baby",
+      "matchScore": 0.5,
+      "status": "partial"
+    },
+    {
+      "rank": 273,
+      "goal": "stay informed about news",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Stay indispensable",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 274,
+      "goal": "health & medical: 35+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Improve heart health",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 275,
+      "goal": "mental health: 25+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 276,
+      "goal": "sleep: 9 goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 277,
+      "goal": "fitness & weight: 15+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 278,
+      "goal": "diet & nutrition: 12+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 279,
+      "goal": "career & work: 20+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Build freelance career",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 280,
+      "goal": "financial: 15+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 281,
+      "goal": "relationships: 20+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 282,
+      "goal": "parenting: 12+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 283,
+      "goal": "personal development: 20+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Understand personal finance basics",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 284,
+      "goal": "professional skills: 12+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 285,
+      "goal": "skin & beauty: 15+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Control oily skin",
+      "matchScore": 0.14285714285714285,
+      "status": "gap"
+    },
+    {
+      "rank": 286,
+      "goal": "addiction: 6 goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 287,
+      "goal": "pain management: 10+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Manage chronic pain",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 288,
+      "goal": "social connection: 10+ goals",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Develop social ease",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 289,
+      "goal": "\"how to lose weight fast\" - 486,000 annual searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Lose weight sustainably",
+      "matchScore": 0.2,
+      "status": "gap"
+    },
+    {
+      "rank": 290,
+      "goal": "\"is bronchitis contagious\" - 176,000 monthly searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 291,
+      "goal": "\"how to get a six pack\" - 145,200 annual searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Get a sunless tan",
+      "matchScore": 0.16666666666666666,
+      "status": "gap"
+    },
+    {
+      "rank": 292,
+      "goal": "\"how to gain weight\" - 79,200 annual searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Gain healthy weight",
+      "matchScore": 0.1,
+      "status": "gap"
+    },
+    {
+      "rank": 293,
+      "goal": "\"hair loss\" - 25,945 monthly searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 294,
+      "goal": "\"make hair grow faster\" - 14,590 monthly searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Grow thicker hair",
+      "matchScore": 0.2222222222222222,
+      "status": "gap"
+    },
+    {
+      "rank": 295,
+      "goal": "\"student loans\" - 2,441,000 average searches",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Ace interviews",
+      "matchScore": 0,
+      "status": "gap"
+    },
+    {
+      "rank": 296,
+      "goal": "official google year in search reports",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Help those in need",
+      "matchScore": 0.1111111111111111,
+      "status": "gap"
+    },
+    {
+      "rank": 297,
+      "goal": "academic institutions and research centers",
+      "score": 3,
+      "sources": [
+        "web_research"
+      ],
+      "wwfmMatch": "Fade scars and marks",
+      "matchScore": 0.125,
+      "status": "gap"
+    },
+    {
+      "rank": 298,
+      "goal": "manage panic attacks",
+      "score": 2,
+      "sources": [
+        "reddit"
+      ],
+      "wwfmMatch": "Manage eczema/psoriasis",
+      "matchScore": 0.25,
+      "status": "gap"
+    },
+    {
+      "rank": 299,
+      "goal": "cope with health anxiety",
+      "score": 2,
+      "sources": [
+        "reddit"
+      ],
+      "wwfmMatch": "Cope with PTSD",
+      "matchScore": 0.4,
+      "status": "gap"
+    },
+    {
+      "rank": 300,
+      "goal": "handle anxiety at work",
+      "score": 2,
+      "sources": [
+        "reddit"
+      ],
+      "wwfmMatch": "Reduce anxiety",
+      "matchScore": 0.2,
+      "status": "gap"
+    }
+  ]
+}

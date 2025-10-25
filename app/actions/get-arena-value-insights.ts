@@ -8,6 +8,7 @@
  */
 
 import { getServiceSupabaseClient } from '@/lib/database'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 export interface ArenaValueInsight {
   arena_id: string
@@ -35,9 +36,10 @@ export async function getArenaValueInsights(
   daysToAnalyze?: number
 ): Promise<ArenaValueInsight[]> {
   const supabase = getServiceSupabaseClient()
+  const db = supabase as unknown as SupabaseClient<any>
 
   // 1. Fetch user's arena time data (all-time by default, or filtered by days)
-  let query = supabase
+  let query = db
     .from('user_arena_time')
     .select('arena_id, arena_name, seconds_spent')
     .eq('user_id', userId)
@@ -56,7 +58,10 @@ export async function getArenaValueInsights(
     return []
   }
 
-  if (!timeData || timeData.length === 0) {
+  const normalizedTimeData =
+    (timeData as Array<{ arena_id: string; arena_name: string; seconds_spent: number }> | null) ?? []
+
+  if (normalizedTimeData.length === 0) {
     return []
   }
 
@@ -64,7 +69,7 @@ export async function getArenaValueInsights(
   const arenaTimeMap = new Map<string, ArenaTimeData>()
   let totalSeconds = 0
 
-  for (const entry of timeData) {
+  for (const entry of normalizedTimeData) {
     const existing = arenaTimeMap.get(entry.arena_id)
     if (existing) {
       existing.total_seconds += entry.seconds_spent
@@ -79,14 +84,14 @@ export async function getArenaValueInsights(
   }
 
   // 3. Fetch arena value scores (average lasting_value_score per arena)
-  const { data: valueData, error: valueError } = await supabase.rpc(
+  const { data: valueData, error: valueError } = await db.rpc(
     'get_arena_value_scores'
   )
 
   if (valueError) {
     console.error('Error fetching arena value scores:', valueError)
     // If RPC doesn't exist, fall back to manual query
-    const { data: manualValueData, error: manualError } = await supabase
+    const { data: manualValueDataRaw, error: manualError } = await db
       .from('arenas')
       .select(`
         id,
@@ -102,27 +107,35 @@ export async function getArenaValueInsights(
       return []
     }
 
+    const manualValueData = (manualValueDataRaw as any[]) ?? []
+
     // Process manual data
     const arenaValueMap = new Map<string, ArenaValueData>()
-    for (const arena of manualValueData || []) {
+    manualValueData.forEach((arena: any) => {
+      const goals: any[] = Array.isArray(arena?.goals) ? arena.goals : arena?.goals ? [arena.goals] : []
       const scores: number[] = []
-      for (const goal of arena.goals || []) {
-        for (const wisdom of goal.goal_wisdom_scores || []) {
-          if (wisdom.lasting_value_score) {
-            scores.push(wisdom.lasting_value_score)
+      goals.forEach(goal => {
+        const wisdomScores: any[] = Array.isArray(goal?.goal_wisdom_scores)
+          ? goal.goal_wisdom_scores
+          : goal?.goal_wisdom_scores
+          ? [goal.goal_wisdom_scores]
+          : []
+        wisdomScores.forEach(wisdom => {
+          const score = Number(wisdom?.lasting_value_score)
+          if (!Number.isNaN(score)) {
+            scores.push(score)
           }
-        }
-      }
-
-      if (scores.length > 0) {
-        const avg = scores.reduce((sum, s) => sum + s, 0) / scores.length
-        arenaValueMap.set(arena.id, {
-          arena_id: arena.id,
-          avg_lasting_value: avg,
-          goal_count: scores.length
         })
-      }
-    }
+      })
+
+      if (scores.length === 0) return
+      const avg = scores.reduce((sum, s) => sum + s, 0) / scores.length
+      arenaValueMap.set(String(arena.id), {
+        arena_id: String(arena.id),
+        avg_lasting_value: avg,
+        goal_count: scores.length
+      })
+    })
 
     return buildInsights(arenaTimeMap, arenaValueMap, totalSeconds)
   }

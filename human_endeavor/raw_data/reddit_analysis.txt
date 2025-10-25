@@ -1,0 +1,519 @@
+REDDIT SUBREDDIT ANALYSIS - COMMON PROBLEMS AND GOALS
+Generated: October 26, 2025
+Analysis of 16 major subreddits for common life challenges and goals
+
+================================================================================
+MENTAL HEALTH COMMUNITIES
+================================================================================
+
+[r/anxiety] (~1M+ members)
+- manage panic attacks
+- reduce social anxiety
+- cope with health anxiety
+- handle anxiety at work
+- deal with anxiety at school
+- reduce physical symptoms of anxiety (heart racing, sweating)
+- stop catastrophic thinking
+- manage dating anxiety
+- reduce family-related anxiety
+- find medication that works
+- access therapy/counseling
+- cope with fear and anticipation
+- reduce stress behaviors
+- manage anxiety around social media
+- improve communication skills
+- handle interactions with others
+- deal with physical appearance concerns
+
+[r/depression] (~1M+ members)
+- overcome suicidal thoughts
+- find motivation for work
+- find motivation for school
+- get out of bed
+- stop feeling hopeless
+- manage depression symptoms
+- take medications consistently
+- find professional help
+- deal with holiday depression (Christmas, birthdays)
+- cope with isolation
+- handle family stress
+- maintain relationships while depressed
+- overcome painful memories
+- build self-care habits
+- manage depression during major life changes
+
+[r/mentalhealth] (~800K+ members)
+- manage emotions and feelings
+- understand mental illness
+- find coping mechanisms
+- get support for panic attacks
+- deal with family mental health issues
+- access mental health resources
+- understand treatment options
+- improve overall mental well-being
+- cope with trauma
+- manage PTSD symptoms
+- reduce emotional triggers
+- find appropriate medication
+- navigate mental health system
+- balance mental health with daily life
+- reduce stigma and shame
+
+================================================================================
+WEIGHT LOSS & FITNESS
+================================================================================
+
+[r/loseit] (~670K+ members)
+- lose weight sustainably
+- track calories accurately
+- stay accountable to weight loss goals
+- overcome weight loss plateaus
+- develop healthy eating habits
+- lose first 5-10 pounds
+- lose 20+ pounds
+- maintain weight after losing
+- track progress beyond the scale
+- find workout motivation
+- stop emotional eating
+- manage portion sizes
+- meal prep effectively
+- make one small healthy change
+- walk daily/increase steps
+- improve body composition
+- take progress photos
+- find accountability partner
+- celebrate non-scale victories
+- reduce sugar intake
+
+[r/fitness] (~15M+ members)
+- start working out consistently
+- build muscle
+- get stronger
+- learn proper barbell form
+- create workout routine
+- go to gym regularly
+- increase weight on lifts
+- improve endurance
+- learn exercise technique
+- track fitness progress
+- overcome gym intimidation
+- balance cardio and strength training
+- improve athletic performance
+- recover from injuries
+- increase flexibility
+- build healthy gym habit
+
+================================================================================
+ADDICTION & SUBSTANCE USE
+================================================================================
+
+[r/stopdrinking] (~500K+ members)
+- quit drinking alcohol
+- stay sober
+- avoid relapse
+- get through weekends sober
+- handle holidays without drinking (Christmas, Father's Day, Mother's Day, July 4th)
+- complete 30-day sober challenge
+- deal with family issues related to alcohol
+- cope with triggers to drink
+- find accountability for sobriety
+- manage alcohol cravings
+- repair relationships damaged by drinking
+- deal with deceased parents and alcohol
+- stay sober at social events
+- moderate drinking habits
+- overcome alcoholism
+
+[r/stopsmoking] (~200K+ members)
+- quit smoking cigarettes
+- handle nicotine cravings
+- get through withdrawal symptoms
+- stay quit after initial period
+- avoid relapse triggers
+- manage irritability from quitting
+- deal with anxiety from quitting
+- cope with mood changes
+- handle weight gain after quitting
+- find motivation to quit
+- try nicotine replacement therapy
+- quit cold turkey successfully
+- reduce cigarettes gradually
+- improve lung health
+- save money from not smoking
+
+[r/leaves] (~220K+ members)
+- quit marijuana/cannabis
+- overcome psychological addiction to weed
+- break daily smoking habit
+- stop feeling stagnant
+- increase motivation and drive
+- overcome "couch lock"
+- get professional/career growth
+- handle withdrawal symptoms (anxiety, night sweats, insomnia)
+- cope with vivid dreams after quitting
+- improve REM sleep
+- achieve life goals
+- grow personally and emotionally
+- increase productivity
+- improve physical health
+- break decade-long habit
+- find new coping mechanisms
+- deal with boredom without weed
+
+================================================================================
+RELATIONSHIPS & DATING
+================================================================================
+
+[r/relationship_advice] (~3M+ members)
+- improve communication with partner
+- deal with infidelity/cheating
+- handle partner on dating apps
+- rebuild trust after betrayal
+- resolve recurring conflicts
+- make major relationship decisions
+- deal with incompatible values
+- navigate disagreements about marriage
+- resolve conflicts about having children
+- handle religious differences
+- manage family interference in relationship
+- set healthy boundaries
+- know when to end relationship
+- handle breakup
+- recover from toxic relationship
+- improve emotional intimacy
+- balance independence and togetherness
+- navigate open communication
+
+[r/dating_advice] (~3M+ members)
+- understand if someone is interested
+- handle rejection gracefully
+- overcome first date anxiety
+- read mixed signals
+- know when to move on
+- build confidence for dating
+- approach people to ask out
+- have successful first dates
+- avoid saying wrong things on dates
+- overcome fear of rejection
+- find compatible partners
+- balance vulnerability and protection
+- know when relationship will work
+- build trust in new relationship
+- navigate modern dating apps
+- decide on location sharing with partner
+- handle dating anxiety
+
+[r/marriage] (~300K+ members)
+- improve communication with spouse
+- resolve financial conflicts
+- deal with infidelity recovery
+- increase intimacy (sexual and emotional)
+- handle jealousy issues
+- manage porn addiction in marriage
+- balance work and marriage
+- resolve recurring arguments
+- navigate major life disagreements
+- handle in-law problems
+- improve romance in long-term marriage
+- divide household responsibilities fairly
+- manage money together effectively
+- rebuild marriage after crisis
+- prevent divorce
+- seek couples counseling
+- address emotional triggers
+- work as team on problems
+- respect partner's boundaries
+- balance individual needs and couple needs
+
+================================================================================
+CAREER & WORK
+================================================================================
+
+[r/careeradvice] (~500K+ members)
+- find career direction
+- make career change
+- negotiate salary
+- ask for promotion
+- improve job performance
+- build professional skills
+- create career development plan
+- balance work and life
+- handle difficult boss
+- deal with toxic workplace
+- improve leadership abilities
+- master pitching/presentations
+- build network professionally
+- plan for long-term career
+- stay with organization long-term
+- advance in current field
+- transition to new industry
+
+[r/jobs] (~2M+ members)
+- find a job
+- get interviews
+- pass applicant tracking systems (ATS)
+- write effective resume
+- handle job search anxiety
+- overcome lack of experience
+- change careers without experience
+- get past online resume filters
+- understand job descriptions
+- prepare for interviews
+- access hidden job market
+- deal with long interview processes
+- manage time during job search
+- handle rejection from applications
+- build confidence for interviews
+- avoid job search burnout
+- get hired within 3-6 months
+- network effectively
+- negotiate job offers
+
+================================================================================
+PERSONAL DEVELOPMENT & PRODUCTIVITY
+================================================================================
+
+[r/selfimprovement] (~170K+ members)
+- find life purpose
+- stop pushing people away
+- improve social skills
+- get better at socializing
+- build daily habits
+- walk 10,000 steps daily
+- improve sleep cycle
+- drink more water daily
+- reduce sugar intake
+- go to bed earlier
+- wake up earlier
+- complete 75 Hard challenge
+- complete 75 Soft challenge
+- improve mental health
+- manage emotional well-being
+- build time management skills
+- increase productivity
+- read more books
+- develop new skills
+- overcome past trauma
+- find meaning after loss
+
+[r/getdisciplined] (~1.5M+ members)
+- stop procrastinating
+- build self-discipline
+- maintain motivation
+- avoid "zero days" (no progress days)
+- establish meditation practice
+- start exercise routine
+- stick to diet (keto, paleo)
+- take medications consistently
+- brush teeth twice daily
+- maintain habits long-term
+- overcome depression affecting productivity
+- get out of slumps
+- build confidence
+- develop groundedness
+- achieve meaningful goals
+- overcome past failures
+- improve financial situation through discipline
+- break cycles of temporary progress
+- build intention and repetition
+
+[r/productivity] (~1M+ members)
+- stop procrastinating
+- manage time effectively
+- prioritize important tasks
+- reduce distractions
+- avoid multitasking
+- focus on high-value work (80/20 rule)
+- set daily goals
+- break big projects into smaller tasks
+- improve self-discipline
+- take adequate breaks
+- get enough sleep for productivity
+- manage interruptions (50-60 daily)
+- refocus after task switching (23 min average)
+- distinguish being busy from being productive
+- achieve meaningful goals
+- reduce anxiety from lack of progress
+- manage inbox effectively
+- stay concentrated and inspired
+- complete important work
+
+================================================================================
+FINANCIAL
+================================================================================
+
+[r/personalfinance] (~15M+ members)
+- get out of debt
+- build emergency fund (3-12 months expenses)
+- create budget
+- save for retirement
+- invest wisely
+- improve credit score
+- save for house down payment
+- manage money in marriage
+- handle money conflicts with spouse
+- plan for financial future
+- build wealth
+- save for children's education
+- get lower interest rates
+- qualify for better loans
+- track spending effectively
+- increase income
+- make big purchases wisely
+- plan for retirement at different ages (30s, 40s, 50s)
+- understand investment options
+- reduce unnecessary expenses
+
+[r/povertyfinance] (~1M+ members)
+- pay off credit card debt
+- manage medical debt
+- handle student loan debt
+- get extensions on bills
+- access food stamps/SNAP benefits
+- qualify for housing assistance
+- navigate Medicaid system
+- find job opportunities
+- improve job search strategies
+- learn basic financial literacy
+- access essential services (healthcare, childcare, transportation)
+- reduce mental exhaustion from poverty
+- reduce physical exhaustion from poverty
+- stop constantly budgeting/planning
+- find ways to earn extra money
+- complete surveys for pocket change
+- scan receipts for cash back
+- navigate welfare systems
+- overcome financial literacy gaps
+- get out of poverty
+
+================================================================================
+BEAUTY & SKINCARE
+================================================================================
+
+[r/SkincareAddiction] (~1M+ members)
+- clear acne
+- reduce cystic acne
+- treat hormonal breakouts
+- create effective skincare routine
+- find products that work
+- address dry skin
+- reduce oily skin
+- clear closed comedones
+- reduce redness and inflammation
+- prevent skin aging
+- fade acne scars
+- reduce hyperpigmentation
+- understand product ingredients
+- layer products correctly
+- determine skin type
+- find dermatologist
+- treat rosacea
+- manage eczema
+- reduce fine lines and wrinkles
+- improve overall skin health
+- balance skincare spending
+
+[r/acne] (~100K+ members)
+- clear acne completely
+- prevent new acne from forming
+- heal existing acne lesions
+- prevent acne scarring
+- reduce psychological stress from acne
+- find effective treatments
+- understand acne causes
+- try topical treatments
+- consider oral medications
+- maintain patience during treatment (8-12 weeks)
+- stay consistent with treatment
+- combine multiple treatment approaches
+- treat comedonal acne
+- treat inflammatory acne
+- reduce sebum production
+- prevent clogged pores
+- manage acne-related anxiety
+
+================================================================================
+SLEEP
+================================================================================
+
+[r/sleep] (~200K+ members)
+- fall asleep faster
+- stay asleep through night
+- wake up feeling rested
+- establish regular sleep schedule
+- improve sleep quality
+- reduce sleep anxiety
+- create better sleep environment
+- develop bedtime routine
+- reduce caffeine for better sleep
+- manage sleep during life changes
+- sleep through without waking
+- stop waking too early
+- get 7-9 hours consistently
+
+[r/insomnia] (~100K+ members)
+- overcome chronic insomnia
+- fall asleep (initial insomnia)
+- stay asleep without waking (maintenance insomnia)
+- stop waking too early (early morning waking)
+- reduce sleep anxiety
+- manage depression-related insomnia
+- handle stress-related sleep issues
+- improve sleep hygiene
+- reduce night-time anxiety
+- cope with racing thoughts at night
+- avoid sleep medications dependency
+- find natural sleep solutions
+- manage jet lag
+- handle hormonal sleep disruptions
+- cope with digestive issues affecting sleep
+- maintain regular sleep schedule
+- reduce fatigue and exhaustion
+- improve focus and concentration
+- stabilize mood through better sleep
+- enhance decision-making ability
+
+================================================================================
+SUMMARY STATISTICS
+================================================================================
+
+Total Subreddits Analyzed: 16
+Total Approximate Members: 45+ million (with overlap)
+Total Unique Goals/Problems Identified: 350+
+
+Most Common Goal Categories (by frequency across subreddits):
+1. Improve mental health/reduce anxiety (appears in 8+ subreddits)
+2. Build consistent habits (appears in 7+ subreddits)
+3. Improve sleep (appears in 6+ subreddits)
+4. Overcome procrastination (appears in 5+ subreddits)
+5. Lose weight/improve fitness (appears in 4+ subreddits)
+6. Get out of debt (appears in 3+ subreddits)
+7. Quit addictive substances (appears in 3 dedicated subreddits)
+8. Improve relationships (appears in 3 dedicated subreddits)
+9. Find job/advance career (appears in 2 dedicated subreddits)
+10. Clear acne/improve skin (appears in 2 dedicated subreddits)
+
+Life Areas Represented:
+- Mental Health (3 subreddits)
+- Physical Health & Fitness (2 subreddits)
+- Addiction Recovery (3 subreddits)
+- Relationships (3 subreddits)
+- Career (2 subreddits)
+- Personal Development (3 subreddits)
+- Finance (2 subreddits)
+- Beauty/Skincare (2 subreddits)
+- Sleep (2 subreddits)
+
+Key Insights:
+- Mental health challenges permeate multiple communities (anxiety, depression, stress)
+- Habit formation is a universal struggle across many goal types
+- Financial stress appears in both general finance and poverty-specific contexts
+- Sleep issues connect to mental health, productivity, and physical health goals
+- Accountability and community support are common needs across all categories
+- Many goals involve stopping behaviors (drinking, smoking, procrastinating) vs starting new ones
+- Consistency and sustainability are more valued than quick fixes
+- People seek both immediate relief and long-term solutions
+- Stigma and shame reduction are important for mental health and addiction communities
+- Progress tracking and measurement are common challenges across domains
+
+================================================================================

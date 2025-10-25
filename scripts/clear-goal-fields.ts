@@ -348,7 +348,11 @@ async function main(): Promise<void> {
     // Create backup unless skipped
     if (!options.skipBackup && !options.dryRun) {
       console.log(chalk.blue('\n💾 Creating backup...'))
-      await backupGoalFields(options.goalId, 'backups')
+      await backupGoalFields(
+        options.goalId,
+        'backups',
+        Boolean(options.clearSolutionFields)
+      )
       console.log(chalk.green('✅ Backup created'))
     }
 

@@ -1,6 +1,20 @@
 import { test, expect } from '@playwright/test';
 import { clearTestRatingsForSolution } from '../utils/test-cleanup';
 import { fillHobbyForm } from './form-specific-fillers';
+import { verifyDataPipeline, waitForSuccessPage } from '../utils/test-helpers';
+
+// Test solution name for database verification
+const TEST_SOLUTION = 'Painting (Test)'
+
+// Expected fields for database verification (matches form filler values)
+const EXPECTED_FIELDS = {
+  time_to_results: '1-2 weeks',
+  startup_cost: '$50-$100',
+  ongoing_cost: 'Under $25/month',
+  time_commitment: '1-2 hours',
+  frequency: 'Daily',
+  challenges: ['None']
+}
 
 test.describe('HobbyForm - Complete E2E Tests', () => {
   test.beforeEach(async () => {
@@ -170,17 +184,28 @@ test.describe('HobbyForm - Complete E2E Tests', () => {
     // Note: fillHobbyForm handles all 3 steps including submission and waiting for success
     await fillHobbyForm(page, 'hobbies_activities')
 
-    // Verify the form was processed (fillHobbyForm already waits for success screen)
+    // Verify successful submission - UI check
     console.log('Verifying successful submission...')
-    const pageContent = await page.textContent('body')
-    const wasProcessed = pageContent?.includes('Thank you') ||
-                        pageContent?.includes('already') ||
-                        pageContent?.includes('recorded') ||
-                        pageContent?.includes('success') ||
-                        pageContent?.includes('submitted') ||
-                        pageContent?.includes('added')
+    await waitForSuccessPage(page)
 
-    expect(wasProcessed).toBeTruthy()
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTION,
+      'hobbies_activities',
+      EXPECTED_FIELDS
+    )
+
+    if (!result.success) {
+      console.error(`❌ hobbies_activities verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
+      }
+    }
+
+    expect(result.success).toBeTruthy()
+
     console.log('Test completed successfully!')
   })
 });

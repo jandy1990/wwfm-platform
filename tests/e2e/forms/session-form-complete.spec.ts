@@ -2,6 +2,69 @@
 import { test, expect, Page } from '@playwright/test';
 import { fillSessionForm } from './form-specific-fillers';
 import { clearTestRatingsForSolution } from '../utils/test-cleanup';
+import { verifyDataPipeline, waitForSuccessPage } from '../utils/test-helpers';
+
+// Test solution names for database verification
+const TEST_SOLUTIONS = {
+  therapists_counselors: 'CBT Therapy (Test)',
+  doctors_specialists: 'Psychiatrist (Test)',
+  coaches_mentors: 'Life Coach (Test)',
+  alternative_practitioners: 'Acupuncture (Test)',
+  professional_services: 'Financial Advisor (Test)',
+  crisis_resources: 'Crisis Hotline (Test)'
+}
+
+// Expected fields for database verification (matches form filler values)
+const EXPECTED_FIELDS = {
+  therapists_counselors: {
+    time_to_results: '3-6 months',
+    session_frequency: 'Weekly',
+    session_length: '50-60 minutes',
+    cost: '$100-$149.99',
+    challenges: ['None']
+  },
+
+  doctors_specialists: {
+    time_to_results: '1-2 months',
+    session_frequency: 'Monthly',
+    wait_time: '1-2 weeks',
+    insurance_coverage: 'Fully covered by insurance',
+    cost: '$50-$99.99',
+    challenges: ['None']
+  },
+
+  coaches_mentors: {
+    time_to_results: '1-2 months',
+    session_frequency: 'Fortnightly',
+    session_length: '60 minutes',
+    cost: '$100-$199.99/month',
+    challenges: ['None']
+  },
+
+  alternative_practitioners: {
+    time_to_results: '1-2 months',
+    session_frequency: 'Weekly',
+    session_length: '60 minutes',
+    cost: '$50-100',
+    side_effects: ['None']
+  },
+
+  professional_services: {
+    time_to_results: '1-2 weeks',
+    session_frequency: 'As needed',
+    specialty: 'Personal trainer/Fitness coach',
+    cost: '$50-100',
+    challenges: ['None']
+  },
+
+  crisis_resources: {
+    time_to_results: 'Immediately',
+    response_time: 'Immediate',
+    format: 'Phone',
+    cost: 'Free',
+    challenges: ['None']
+  }
+}
 
 /**
  * Helper function to search for and select a test solution
@@ -138,25 +201,28 @@ test.describe('SessionForm End-to-End Tests', () => {
     // Fill the SessionForm
     await fillSessionForm(page, 'therapists_counselors');
     
-    // Verify successful submission
+    // Verify successful submission - UI check
     console.log('Verifying successful submission...')
-    await page.waitForTimeout(3000)
-    
-    const verificationContent = await page.textContent('body')
-    console.log('=== PAGE CONTENT FOR VERIFICATION ===')
-    console.log(verificationContent?.substring(0, 500) + '...')
-    console.log('=== END PAGE CONTENT ===')
-    
-    const wasProcessed = verificationContent?.includes('Thank you') || 
-                        verificationContent?.includes('already') || 
-                        verificationContent?.includes('recorded') ||
-                        verificationContent?.includes('success') ||
-                        verificationContent?.includes('submitted') ||
-                        verificationContent?.includes('added') ||
-                        verificationContent?.includes('Dashboard') // Check if we're redirected to dashboard
-    
-    console.log(`Verification result: ${wasProcessed}`)
-    expect(wasProcessed).toBeTruthy()
+    await waitForSuccessPage(page)
+
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTIONS.therapists_counselors,
+      'therapists_counselors',
+      EXPECTED_FIELDS.therapists_counselors
+    )
+
+    expect(result.success).toBeTruthy()
+
+    if (!result.success) {
+      console.error(`❌ therapists_counselors verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
+      }
+    }
+
     console.log('=== SessionForm therapists_counselors test completed successfully ===');
   });
 
@@ -228,19 +294,28 @@ test.describe('SessionForm End-to-End Tests', () => {
     // - waitTime appears but is OPTIONAL
     await fillSessionForm(page, 'doctors_specialists');
     
-    // Verify successful submission
+    // Verify successful submission - UI check
     console.log('Verifying successful submission...')
-    await page.waitForTimeout(3000)
-    
-    const verificationContent = await page.textContent('body')
-    
-    const wasProcessed = verificationContent?.includes('Thank you') || 
-                        verificationContent?.includes('success') ||
-                        verificationContent?.includes('submitted') ||
-                        verificationContent?.includes('Dashboard')
-    
-    console.log(`Verification result: ${wasProcessed}`)
-    expect(wasProcessed).toBeTruthy()
+    await waitForSuccessPage(page)
+
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTIONS.doctors_specialists,
+      'doctors_specialists',
+      EXPECTED_FIELDS.doctors_specialists
+    )
+
+    expect(result.success).toBeTruthy()
+
+    if (!result.success) {
+      console.error(`❌ doctors_specialists verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
+      }
+    }
+
     console.log('=== SessionForm doctors_specialists test completed successfully ===');
   });
 
@@ -285,14 +360,29 @@ test.describe('SessionForm End-to-End Tests', () => {
     // Based on code inspection, coaches_mentors requires:
     // - effectiveness, timeToResults, costType, costRange, sessionFrequency
     await fillSessionForm(page, 'coaches_mentors');
-    
-    await page.waitForTimeout(3000)
-    const verificationContent = await page.textContent('body')
-    const wasProcessed = verificationContent?.includes('Thank you') || 
-                        verificationContent?.includes('success') ||
-                        verificationContent?.includes('Dashboard')
-    
-    expect(wasProcessed).toBeTruthy()
+
+    // Verify successful submission - UI check
+    console.log('Verifying successful submission...')
+    await waitForSuccessPage(page)
+
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTIONS.coaches_mentors,
+      'coaches_mentors',
+      EXPECTED_FIELDS.coaches_mentors
+    )
+
+    expect(result.success).toBeTruthy()
+
+    if (!result.success) {
+      console.error(`❌ coaches_mentors verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
+      }
+    }
+
     console.log('=== SessionForm coaches_mentors test completed successfully ===');
   });
 
@@ -338,14 +428,29 @@ test.describe('SessionForm End-to-End Tests', () => {
     // - effectiveness, timeToResults, costType, costRange, sessionFrequency
     // - Has SIDE EFFECTS step instead of challenges
     await fillSessionForm(page, 'alternative_practitioners');
-    
-    await page.waitForTimeout(3000)
-    const verificationContent = await page.textContent('body')
-    const wasProcessed = verificationContent?.includes('Thank you') || 
-                        verificationContent?.includes('success') ||
-                        verificationContent?.includes('Dashboard')
-    
-    expect(wasProcessed).toBeTruthy()
+
+    // Verify successful submission - UI check
+    console.log('Verifying successful submission...')
+    await waitForSuccessPage(page)
+
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTIONS.alternative_practitioners,
+      'alternative_practitioners',
+      EXPECTED_FIELDS.alternative_practitioners
+    )
+
+    expect(result.success).toBeTruthy()
+
+    if (!result.success) {
+      console.error(`❌ alternative_practitioners verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
+      }
+    }
+
     console.log('=== SessionForm alternative_practitioners test completed successfully ===');
   });
 
@@ -392,14 +497,29 @@ test.describe('SessionForm End-to-End Tests', () => {
     // - specialty (REQUIRED)
     // - sessionFrequency (REQUIRED)
     await fillSessionForm(page, 'professional_services');
-    
-    await page.waitForTimeout(3000)
-    const verificationContent = await page.textContent('body')
-    const wasProcessed = verificationContent?.includes('Thank you') || 
-                        verificationContent?.includes('success') ||
-                        verificationContent?.includes('Dashboard')
-    
-    expect(wasProcessed).toBeTruthy()
+
+    // Verify successful submission - UI check
+    console.log('Verifying successful submission...')
+    await waitForSuccessPage(page)
+
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTIONS.professional_services,
+      'professional_services',
+      EXPECTED_FIELDS.professional_services
+    )
+
+    expect(result.success).toBeTruthy()
+
+    if (!result.success) {
+      console.error(`❌ professional_services verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
+      }
+    }
+
     console.log('=== SessionForm professional_services test completed successfully ===');
   });
 
@@ -465,14 +585,29 @@ test.describe('SessionForm End-to-End Tests', () => {
     // - REQUIRES responseTime
     // - Has different cost options: Free, Donation-based, Sliding scale, Don't remember
     await fillSessionForm(page, 'crisis_resources');
-    
-    await page.waitForTimeout(3000)
-    const verificationContent = await page.textContent('body')
-    const wasProcessed = verificationContent?.includes('Thank you') || 
-                        verificationContent?.includes('success') ||
-                        verificationContent?.includes('Dashboard')
-    
-    expect(wasProcessed).toBeTruthy()
+
+    // Verify successful submission - UI check
+    console.log('Verifying successful submission...')
+    await waitForSuccessPage(page)
+
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTIONS.crisis_resources,
+      'crisis_resources',
+      EXPECTED_FIELDS.crisis_resources
+    )
+
+    expect(result.success).toBeTruthy()
+
+    if (!result.success) {
+      console.error(`❌ crisis_resources verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
+      }
+    }
+
     console.log('=== SessionForm crisis_resources test completed successfully ===');
   });
 });

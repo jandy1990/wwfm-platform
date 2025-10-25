@@ -70,8 +70,8 @@ export default function Header() {
           <div className="flex items-center h-16 relative">
             {/* Logo */}
             <Link href="/" className="flex items-center group">
-              <span className="text-xl sm:text-2xl font-black tracking-tight text-gray-900 dark:text-gray-100">
-                WWFM<sup className="text-[0.5em] font-normal ml-0.5">™</sup>
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-gray-900 dark:text-gray-100 flex items-start">
+                WWFM<span className="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 ml-0.5 sm:ml-1 mt-1.5 sm:mt-2"></span>
               </span>
             </Link>
 
@@ -123,7 +123,10 @@ export default function Header() {
               {!shouldHideSearch && (
                 <button
                   onClick={() => setShowMobileSearch(true)}
-                  className="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                  className="md:hidden min-w-[44px] min-h-[44px] flex items-center justify-center
+                             text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400
+                             rounded-md transition-colors
+                             focus:outline-none focus:ring-2 focus:ring-purple-500"
                   aria-label="Search"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -145,13 +148,19 @@ export default function Header() {
               <div className="flex items-center space-x-3">
                 <Link
                   href="/auth/signin"
-                  className="text-sm text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                  className="px-4 py-2.5 min-h-[44px] flex items-center
+                             text-sm text-gray-700 dark:text-gray-300
+                             hover:text-purple-600 dark:hover:text-purple-400
+                             hover:bg-gray-100 dark:hover:bg-gray-800
+                             rounded-md transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/auth/signup"
-                  className="text-sm bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 rounded-md transition-colors"
+                  className="px-4 py-3 min-h-[44px] flex items-center
+                             text-sm bg-purple-600 hover:bg-purple-700 text-white
+                             rounded-md transition-colors"
                 >
                   Sign Up
                 </Link>

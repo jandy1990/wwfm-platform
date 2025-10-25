@@ -61,7 +61,10 @@ export default function WisdomModal({ isOpen, onClose, goalId, wisdom }: Props) 
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center
+                         text-gray-400 hover:text-gray-600 dark:hover:text-gray-200
+                         transition-colors rounded-md
+                         focus:outline-none focus:ring-2 focus:ring-purple-500"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" />

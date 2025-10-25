@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function BrandingDemo() {
   return (
     <div className="min-h-screen bg-gray-900 py-12 px-4">
@@ -236,12 +238,12 @@ export default function BrandingDemo() {
 
         {/* Back Button */}
         <div className="text-center mt-12">
-          <a
+          <Link
             href="/"
             className="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-full hover:bg-purple-700 transition-colors"
           >
             ← Back to Home
-          </a>
+          </Link>
         </div>
       </div>
     </div>

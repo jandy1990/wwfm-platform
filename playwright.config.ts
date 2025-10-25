@@ -48,7 +48,11 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,  // Retry once locally too
   workers: process.env.CI ? 2 : 4,  // 4 workers locally, 2 in CI
-  reporter: process.env.CI ? 'github' : 'html',
+  // Multi-reporter setup: Real-time terminal + Complete JSON capture + HTML report
+  // JSON output is ALWAYS generated at test-results/latest.json for Claude/debugging
+  reporter: process.env.CI
+    ? [['github'], ['json', { outputFile: 'test-results/latest.json' }], ['html', { open: 'never' }]]
+    : [['list'], ['json', { outputFile: 'test-results/latest.json' }], ['html', { open: 'never' }]],
   timeout: 60000,  // 60 seconds (reduced from 90s with semantic waits)
   
   // Global setup for authentication

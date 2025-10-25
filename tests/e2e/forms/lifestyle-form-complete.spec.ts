@@ -2,6 +2,32 @@
 import { test, expect } from '@playwright/test';
 import { fillLifestyleForm } from './form-specific-fillers';
 import { clearTestRatingsForSolution } from '../utils/test-cleanup';
+import { verifyDataPipeline, waitForSuccessPage } from '../utils/test-helpers';
+
+// Test solution names for database verification
+const TEST_SOLUTIONS = {
+  diet_nutrition: 'Mediterranean Diet (Test)',
+  sleep: 'Sleep Hygiene (Test)'
+}
+
+// Expected fields for database verification (matches form filler values)
+const EXPECTED_FIELDS = {
+  diet_nutrition: {
+    time_to_results: '1-2 weeks',
+    weekly_prep_time: '1-2 hours/week',
+    still_following: true,
+    cost: 'About the same',
+    challenges: ['None']
+  },
+
+  sleep: {
+    time_to_results: '1-2 weeks',
+    previous_sleep_hours: '6-7 hours',
+    still_following: true,
+    cost: 'Free',
+    challenges: ['None']
+  }
+}
 
 test.describe('LifestyleForm End-to-End Tests', () => {
   test.beforeEach(async () => {
@@ -141,19 +167,28 @@ test.describe('LifestyleForm End-to-End Tests', () => {
     // Fill the LifestyleForm
     await fillLifestyleForm(page, 'diet_nutrition');
     
-    // Verify successful submission
+    // Verify successful submission - UI check
     console.log('Verifying successful submission...')
-    await page.waitForTimeout(3000)
-    
-    const pageContent = await page.textContent('body')
-    const wasProcessed = pageContent?.includes('Thank you') || 
-                        pageContent?.includes('already') || 
-                        pageContent?.includes('recorded') ||
-                        pageContent?.includes('success') ||
-                        pageContent?.includes('submitted') ||
-                        pageContent?.includes('added')
-    
-    expect(wasProcessed).toBeTruthy()
+    await waitForSuccessPage(page)
+
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTIONS.diet_nutrition,
+      'diet_nutrition',
+      EXPECTED_FIELDS.diet_nutrition
+    )
+
+    if (!result.success) {
+      console.error(`❌ diet_nutrition verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
+      }
+    }
+
+    expect(result.success).toBeTruthy()
+
     console.log('=== LifestyleForm diet_nutrition test completed successfully ===');
   });
 
@@ -288,19 +323,28 @@ test.describe('LifestyleForm End-to-End Tests', () => {
     // Fill the LifestyleForm
     await fillLifestyleForm(page, 'sleep');
     
-    // Verify successful submission
+    // Verify successful submission - UI check
     console.log('Verifying successful submission...')
-    await page.waitForTimeout(3000)
-    
-    const pageContent = await page.textContent('body')
-    const wasProcessed = pageContent?.includes('Thank you') || 
-                        pageContent?.includes('already') || 
-                        pageContent?.includes('recorded') ||
-                        pageContent?.includes('success') ||
-                        pageContent?.includes('submitted') ||
-                        pageContent?.includes('added')
-    
-    expect(wasProcessed).toBeTruthy()
+    await waitForSuccessPage(page)
+
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTIONS.sleep,
+      'sleep',
+      EXPECTED_FIELDS.sleep
+    )
+
+    if (!result.success) {
+      console.error(`❌ sleep verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
+      }
+    }
+
+    expect(result.success).toBeTruthy()
+
     console.log('=== LifestyleForm sleep test completed successfully ===');
   });
 });

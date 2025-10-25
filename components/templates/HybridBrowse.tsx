@@ -324,7 +324,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                       <Link
                         key={`${goal.id}-${index}`}
                         href={`/goal/${goal.id}`}
-                        className="block px-4 py-3 hover:bg-purple-50 transition-colors border-b border-gray-100 last:border-b-0"
+                        className="block px-4 py-4 min-h-[44px] hover:bg-purple-50 transition-colors border-b border-gray-100 last:border-b-0"
                         onClick={() => setShowDropdown(false)}
                       >
                         <div className="font-semibold text-gray-900">

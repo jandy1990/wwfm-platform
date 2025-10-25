@@ -154,7 +154,10 @@ export default function MobileSearchModal({ isOpen, onClose }: MobileSearchModal
         <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-200 dark:border-gray-700">
           <button
             onClick={onClose}
-            className="p-2 -ml-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center -ml-2
+                       text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100
+                       rounded-md transition-colors
+                       focus:outline-none focus:ring-2 focus:ring-purple-500"
             aria-label="Close search"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -176,7 +179,7 @@ export default function MobileSearchModal({ isOpen, onClose }: MobileSearchModal
               }}
               placeholder={isLoading ? 'Loading...' : `Search ${totalGoals} goals...`}
               disabled={isLoading}
-              className="w-full h-10 pl-3 pr-10
+              className="w-full min-h-[44px] pl-3 pr-10
                          text-base text-gray-900 dark:text-gray-100
                          bg-white dark:bg-gray-800
                          border-2 border-gray-300 dark:border-gray-600 rounded-lg
@@ -241,7 +244,7 @@ export default function MobileSearchModal({ isOpen, onClose }: MobileSearchModal
                     handleSearchSubmit(searchQuery)
                     onClose()
                   }}
-                  className="block px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-800
+                  className="block px-4 py-4 min-h-[44px] hover:bg-gray-50 dark:hover:bg-gray-800
                              border-b border-gray-100 dark:border-gray-800"
                 >
                   <div className="flex flex-col gap-1.5">
@@ -284,7 +287,7 @@ export default function MobileSearchModal({ isOpen, onClose }: MobileSearchModal
                       key={goal.id}
                       href={`/goal/${goal.id}`}
                       onClick={onClose}
-                      className="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800
+                      className="block px-4 py-4 min-h-[44px] hover:bg-gray-50 dark:hover:bg-gray-800
                                  border-b border-gray-100 dark:border-gray-800"
                     >
                       <p className="text-base text-gray-900 dark:text-gray-100">

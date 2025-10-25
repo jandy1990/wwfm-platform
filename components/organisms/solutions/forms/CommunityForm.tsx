@@ -1,13 +1,15 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import { ChevronLeft, Check, Plus, X } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Check, Plus, X, AlertCircle, Info } from 'lucide-react';
+import { toast } from 'sonner';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
+import { Alert, AlertDescription } from '@/components/atoms/alert';
 import { Skeleton } from '@/components/atoms/skeleton';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS, TestModeCountdown, scrollToFirstError } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
@@ -42,6 +44,8 @@ export function CommunityForm({
 }: CommunityFormProps) {
   console.log('CommunityForm initialized with existingSolutionId:', existingSolutionId);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isTestMode = searchParams.get('testMode') === 'true';
   const { triggerPoints } = usePointsAnimation();
   const isMounted = useRef(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -81,7 +85,11 @@ export function CommunityForm({
   const [accessibilityLevel, setAccessibilityLevel] = useState('');
   const [leadershipStyle, setLeadershipStyle] = useState('');
   const [notes, setNotes] = useState('');
-  
+
+  // Validation state
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
   const supabaseClient = createClientComponentClient();
   
   // Progress indicator
@@ -269,7 +277,15 @@ export function CommunityForm({
       paymentFrequency,
       selectedChallenges
     });
-    
+
+    // Validate before submitting
+    if (!canProceedToNextStep()) {
+      touchAllRequiredFields();
+      scrollToFirstError(validationErrors);
+      toast.error('Please complete all required fields');
+      return;
+    }
+
     // Prevent re-submission if already submitting
     if (isSubmitting) {
       console.log('CommunityForm: Already submitting, ignoring duplicate call');
@@ -294,10 +310,8 @@ export function CommunityForm({
         solutionFields.cost_type = costType;
       }
 
-      if (timeToResults) {
-        solutionFields.time_to_results = timeToResults;
-      }
-      
+      // Note: timeToResults is passed as separate param to submitSolution(), NOT in solutionFields
+
       // Add other fields only if they have values
       if (meetingFrequency) solutionFields.meeting_frequency = meetingFrequency;
       if (format) solutionFields.format = format;
@@ -360,11 +374,15 @@ export function CommunityForm({
       } else {
         // Handle error
         console.error('Error submitting solution:', result.error);
-        alert(result.error || 'Failed to submit solution. Please try again.');
+        toast.error('Failed to submit solution', {
+          description: result.error || 'Please try again or contact support if the problem persists.'
+        });
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred', {
+        description: 'Please try again or contact support if the problem persists.'
+      });
     } finally {
       if (isMounted.current) {
         setIsSubmitting(false);
@@ -399,14 +417,20 @@ export function CommunityForm({
       
       if (result.success) {
         console.log('Successfully updated additional information');
-        alert('Additional information saved successfully!');
+        toast.success('Additional information saved!', {
+          description: 'Thank you for providing more details.'
+        });
       } else {
         console.error('Failed to update:', result.error);
-        alert('Failed to save additional information. Please try again.');
+        toast.error('Failed to save additional information', {
+          description: 'Please try again or contact support if the problem persists.'
+        });
       }
     } catch (error) {
       console.error('Error updating additional info:', error);
-      alert('An error occurred. Please try again.');
+      toast.error('An error occurred', {
+        description: 'Please try again or contact support if the problem persists.'
+      });
     }
   };
   
@@ -416,6 +440,119 @@ export function CommunityForm({
       setCustomChallenge('');
       setShowCustomChallenge(false);
     }
+  };
+
+  // Field validation helper
+  const validateField = (fieldName: string, value: any) => {
+    let error = '';
+
+    switch (fieldName) {
+      case 'effectiveness':
+        if (value === null || value === '') {
+          error = 'Please rate the effectiveness';
+        }
+        break;
+      case 'timeToResults':
+        if (!value || value === '') {
+          error = 'Please select when you noticed results';
+        }
+        break;
+      case 'paymentFrequency':
+        if (!value || value === '') {
+          error = 'Please select payment type';
+        }
+        break;
+      case 'costRange':
+        // Only validate if payment frequency is set and not free
+        if (paymentFrequency && paymentFrequency !== 'free' && (!value || value === '')) {
+          error = 'Please select cost';
+        }
+        break;
+      case 'meetingFrequency':
+        if (!value || value === '') {
+          error = 'Please select meeting frequency';
+        }
+        break;
+      case 'format':
+        if (!value || value === '') {
+          error = 'Please select format';
+        }
+        break;
+      case 'groupSize':
+        if (!value || value === '') {
+          error = 'Please select group size';
+        }
+        break;
+    }
+
+    setValidationErrors(prev => {
+      const updated = { ...prev };
+      if (error) {
+        updated[fieldName] = error;
+      } else {
+        delete updated[fieldName];
+      }
+      return updated;
+    });
+  };
+
+  // Mark field as touched (for showing validation errors)
+  const markTouched = (fieldName: string) => {
+    setTouched(prev => ({ ...prev, [fieldName]: true }));
+  };
+
+  // Touch all required fields for current step (to show validation errors)
+  const touchAllRequiredFields = () => {
+    switch (currentStep) {
+      case 1: // Community details
+        // Mark as touched AND validate to generate errors
+        markTouched('effectiveness');
+        validateField('effectiveness', effectiveness);
+
+        markTouched('timeToResults');
+        validateField('timeToResults', timeToResults);
+
+        markTouched('costRange');
+        validateField('costRange', costRange);
+
+        markTouched('meetingFrequency');
+        validateField('meetingFrequency', meetingFrequency);
+
+        markTouched('format');
+        validateField('format', format);
+
+        markTouched('groupSize');
+        validateField('groupSize', groupSize);
+        break;
+      case 2: // Challenges
+        // Challenges use array validation - no individual fields
+        if (selectedChallenges.length === 0) {
+          toast.error('Please select at least one challenge');
+        }
+        break;
+      case 3: // Failed solutions (optional, always valid)
+        break;
+    }
+  };
+
+  // Handle Continue button click with validation feedback
+  const handleContinue = () => {
+    if (!canProceedToNextStep()) {
+      // Show validation errors on all required fields
+      touchAllRequiredFields();
+
+      // Scroll to first error
+      scrollToFirstError(validationErrors);
+
+      // Toast notification
+      toast.error('Please complete all required fields', {
+        description: 'Fill in the highlighted fields to continue'
+      });
+      return;
+    }
+
+    // Proceed to next step if validation passes
+    setCurrentStep(currentStep + 1);
   };
   
   const renderStep = () => {
@@ -445,8 +582,8 @@ export function CommunityForm({
         
         {/* Quick context card */}
         <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 
-                      border border-purple-200 dark:border-blue-800 rounded-lg p-4">
-          <p className="text-sm text-blue-800 dark:text-purple-200">
+                      border border-purple-200 dark:border-purple-800 rounded-lg p-4">
+          <p className="text-sm text-purple-800 dark:text-purple-200">
             Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
           </p>
         </div>
@@ -472,7 +609,7 @@ export function CommunityForm({
             <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
               <span className="text-lg">⭐</span>
             </div>
-            <h2 className="text-xl font-semibold">How well it worked</h2>
+            <h2 className="text-xl font-bold">How well it worked</h2>
           </div>
           
           {/* 5-star rating */}
@@ -481,10 +618,16 @@ export function CommunityForm({
               {[1, 2, 3, 4, 5].map((rating) => (
                 <button
                   key={rating}
-                  onClick={() => setEffectiveness(rating)}
+                  onClick={() => {
+                    setEffectiveness(rating);
+                    validateField('effectiveness', rating);
+                    markTouched('effectiveness');
+                  }}
                   className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
                     effectiveness === rating
                       ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 scale-105 shadow-lg'
+                      : touched.effectiveness && validationErrors.effectiveness
+                      ? 'border-red-300 dark:border-red-700 hover:border-red-400'
                       : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                   }`}
                 >
@@ -516,15 +659,37 @@ export function CommunityForm({
               <span className="text-xs text-gray-500">Not at all</span>
               <span className="text-xs text-gray-500">Extremely</span>
             </div>
+            {touched.effectiveness && validationErrors.effectiveness && (
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {validationErrors.effectiveness}
+              </p>
+            )}
           </div>
 
           {/* Time to results */}
-          <div className="space-y-2">
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              When did you notice results? <span className="text-red-500">*</span>
-            </label>
-            <Select value={timeToResults} onValueChange={setTimeToResults} required>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">⏱️</span>
+              <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                When did you notice results?
+              </label>
+            </div>
+            <Select
+              value={timeToResults}
+              onValueChange={(value) => {
+                setTimeToResults(value);
+                validateField('timeToResults', value);
+                markTouched('timeToResults');
+              }}
+            >
+              <SelectTrigger className={`w-full px-4 py-3 border rounded-lg
+                       focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all ${
+                        touched.timeToResults && validationErrors.timeToResults
+                          ? 'border-red-300 dark:border-red-700'
+                          : 'border-gray-300 dark:border-gray-600'
+                      }`}>
                 <SelectValue placeholder="Select timeframe" />
               </SelectTrigger>
               <SelectContent>
@@ -538,6 +703,12 @@ export function CommunityForm({
                 <SelectItem value="Still evaluating">Still evaluating</SelectItem>
               </SelectContent>
             </Select>
+            {touched.timeToResults && validationErrors.timeToResults && (
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {validationErrors.timeToResults}
+              </p>
+            )}
           </div>
         </div>
 
@@ -560,11 +731,22 @@ export function CommunityForm({
             <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Payment type <span className="text-red-500">*</span>
             </label>
-            <Select value={paymentFrequency} onValueChange={(value) => {
-              setPaymentFrequency(value);
-              setCostRange(''); // Reset cost when frequency changes
-            }} required>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+            <Select
+              value={paymentFrequency}
+              onValueChange={(value) => {
+                setPaymentFrequency(value);
+                validateField('paymentFrequency', value);
+                markTouched('paymentFrequency');
+                setCostRange(''); // Reset cost when frequency changes
+              }}
+            >
+              <SelectTrigger className={`w-full px-4 py-2 border rounded-lg
+                       focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
+                        touched.paymentFrequency && validationErrors.paymentFrequency
+                          ? 'border-red-300 dark:border-red-700'
+                          : 'border-gray-300 dark:border-gray-600'
+                      }`}>
                 <SelectValue placeholder="How do you pay?" />
               </SelectTrigger>
               <SelectContent>
@@ -574,6 +756,12 @@ export function CommunityForm({
                 <SelectItem value="yearly">Yearly</SelectItem>
               </SelectContent>
             </Select>
+            {touched.paymentFrequency && validationErrors.paymentFrequency && (
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {validationErrors.paymentFrequency}
+              </p>
+            )}
           </div>
 
           {/* Cost Range - Step 2 (conditional) */}
@@ -582,8 +770,21 @@ export function CommunityForm({
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 {paymentFrequency === 'free' ? 'Type' : 'Amount'} <span className="text-red-500">*</span>
               </label>
-              <Select value={costRange} onValueChange={setCostRange} required>
-                <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+              <Select
+                value={costRange}
+                onValueChange={(value) => {
+                  setCostRange(value);
+                  validateField('costRange', value);
+                  markTouched('costRange');
+                }}
+              >
+                <SelectTrigger className={`w-full px-4 py-2 border rounded-lg
+                         focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                         bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
+                          touched.costRange && validationErrors.costRange
+                            ? 'border-red-300 dark:border-red-700'
+                            : 'border-gray-300 dark:border-gray-600'
+                        }`}>
                   <SelectValue placeholder={paymentFrequency === 'free' ? 'Select type' : 'Select amount'} />
                 </SelectTrigger>
                 <SelectContent>
@@ -626,6 +827,12 @@ export function CommunityForm({
                   )}
                 </SelectContent>
               </Select>
+              {touched.costRange && validationErrors.costRange && (
+                <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  {validationErrors.costRange}
+                </p>
+              )}
             </div>
           )}
 
@@ -634,8 +841,21 @@ export function CommunityForm({
             <label htmlFor="meeting_frequency" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Meeting frequency <span className="text-red-500">*</span>
             </label>
-            <Select value={meetingFrequency} onValueChange={setMeetingFrequency} required>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+            <Select
+              value={meetingFrequency}
+              onValueChange={(value) => {
+                setMeetingFrequency(value);
+                validateField('meetingFrequency', value);
+                markTouched('meetingFrequency');
+              }}
+            >
+              <SelectTrigger className={`w-full px-4 py-2 border rounded-lg
+                       focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
+                        touched.meetingFrequency && validationErrors.meetingFrequency
+                          ? 'border-red-300 dark:border-red-700'
+                          : 'border-gray-300 dark:border-gray-600'
+                      }`}>
                 <SelectValue placeholder="How often?" />
               </SelectTrigger>
               <SelectContent>
@@ -648,6 +868,12 @@ export function CommunityForm({
                 <SelectItem value="Special events only">Special events only</SelectItem>
               </SelectContent>
             </Select>
+            {touched.meetingFrequency && validationErrors.meetingFrequency && (
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {validationErrors.meetingFrequency}
+              </p>
+            )}
           </div>
 
           {/* Format */}
@@ -655,8 +881,21 @@ export function CommunityForm({
             <label htmlFor="format" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Format <span className="text-red-500">*</span>
             </label>
-            <Select value={format} onValueChange={setFormat} required>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+            <Select
+              value={format}
+              onValueChange={(value) => {
+                setFormat(value);
+                validateField('format', value);
+                markTouched('format');
+              }}
+            >
+              <SelectTrigger className={`w-full px-4 py-2 border rounded-lg
+                       focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
+                        touched.format && validationErrors.format
+                          ? 'border-red-300 dark:border-red-700'
+                          : 'border-gray-300 dark:border-gray-600'
+                      }`}>
                 <SelectValue placeholder="Meeting format" />
               </SelectTrigger>
               <SelectContent>
@@ -666,6 +905,12 @@ export function CommunityForm({
                 <SelectItem value="Phone/Conference call">Phone/Conference call</SelectItem>
               </SelectContent>
             </Select>
+            {touched.format && validationErrors.format && (
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {validationErrors.format}
+              </p>
+            )}
           </div>
 
           {/* Group size */}
@@ -673,8 +918,21 @@ export function CommunityForm({
             <label htmlFor="group_size" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Group size <span className="text-red-500">*</span>
             </label>
-            <Select value={groupSize} onValueChange={setGroupSize} required>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+            <Select
+              value={groupSize}
+              onValueChange={(value) => {
+                setGroupSize(value);
+                validateField('groupSize', value);
+                markTouched('groupSize');
+              }}
+            >
+              <SelectTrigger className={`w-full px-4 py-2 border rounded-lg
+                       focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
+                        touched.groupSize && validationErrors.groupSize
+                          ? 'border-red-300 dark:border-red-700'
+                          : 'border-gray-300 dark:border-gray-600'
+                      }`}>
                 <SelectValue placeholder="How many people?" />
               </SelectTrigger>
               <SelectContent>
@@ -686,6 +944,12 @@ export function CommunityForm({
                 <SelectItem value="One-on-one">One-on-one</SelectItem>
               </SelectContent>
             </Select>
+            {touched.groupSize && validationErrors.groupSize && (
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {validationErrors.groupSize}
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -713,7 +977,7 @@ export function CommunityForm({
           <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center">
             <span className="text-lg">⚡</span>
           </div>
-          <h2 className="text-xl font-semibold">Any challenges?</h2>
+          <h2 className="text-xl font-bold">Any challenges?</h2>
         </div>
 
         {/* Quick tip */}
@@ -731,8 +995,8 @@ export function CommunityForm({
               className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
                         transition-all transform hover:scale-[1.02] ${
                 selectedChallenges.includes(challenge)
-                  ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-md'
-                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
+                  ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-lg'
+                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-lg'
               }`}
             >
               <input
@@ -760,9 +1024,9 @@ export function CommunityForm({
             onClick={() => setShowCustomChallenge(true)}
             className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
                       transition-all transform hover:scale-[1.02] border-dashed
-                      border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-sm"
+                      border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-lg"
           >
-            <Plus className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors" />
+            <Plus className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors button-focus-tight" />
             <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200">
               Add other challenge
             </span>
@@ -786,8 +1050,8 @@ export function CommunityForm({
             />
             <button
               onClick={addCustomChallenge}
-              className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white 
-                       rounded-lg transition-colors"
+              className="px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white 
+                       rounded-lg transition-colors button-focus-tight"
             >
               Add
             </button>
@@ -809,12 +1073,12 @@ export function CommunityForm({
             <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Added:</p>
             <div className="flex flex-wrap gap-2">
               {selectedChallenges.filter(c => !challengeOptions.includes(c) && c !== 'None').map((challenge) => (
-                <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
-                                             text-purple-700 dark:text-blue-300 rounded-full text-sm">
+                <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 dark:bg-purple-900/30
+                                             text-purple-700 dark:text-purple-300 rounded-full text-sm">
                   {challenge}
                   <button
                     onClick={() => setSelectedChallenges(selectedChallenges.filter(c => c !== challenge))}
-                    className="hover:text-purple-900 dark:hover:text-blue-100"
+                    className="hover:text-purple-900 dark:hover:text-purple-100"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -827,8 +1091,8 @@ export function CommunityForm({
         {/* Selected count indicator */}
         {selectedChallenges.length > 0 && selectedChallenges[0] !== 'None' && (
           <div className="text-center">
-            <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
-                           text-purple-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
+            <span className="inline-flex items-center gap-2 px-3 py-1 bg-purple-100 dark:bg-purple-900/30
+                           text-purple-700 dark:text-purple-300 rounded-full text-sm animate-fade-in">
               <Check className="w-4 h-4" />
               {selectedChallenges.length} selected
             </span>
@@ -847,7 +1111,7 @@ export function CommunityForm({
           <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
             <span className="text-lg">🔍</span>
           </div>
-          <h2 className="text-xl font-semibold">What else did you try?</h2>
+          <h2 className="text-xl font-bold">What else did you try?</h2>
         </div>
 
         {/* Context card */}
@@ -978,7 +1242,7 @@ export function CommunityForm({
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg 
-                         text-sm font-semibold transition-colors"
+                         text-sm font-semibold transition-colors button-focus-tight"
                 >
                   Submit
                 </button>
@@ -994,28 +1258,23 @@ export function CommunityForm({
           >
             Back to goal page
           </button>
+
+          {/* Test Mode Auto-Return */}
+          <TestModeCountdown isTestMode={isTestMode} />
         </div>
       </div>
     );
   }
   
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Progress Bar */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-2">
-          <button
-            onClick={() => {
-              if (currentStep > 1) {
-                setCurrentStep(currentStep - 1);
-              } else {
-                onBack();
-              }
-            }}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      {/* Progress Bar - Sticky */}
+      <div className="sticky top-0 z-10
+                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                      border-b border-gray-200 dark:border-gray-700
+                      px-4 sm:px-6 py-3 mb-8 -mx-4 sm:-mx-6 shadow-md
+                      safe-area-inset-top">
+        <div className="flex items-center justify-end mb-2">
           <span className="text-sm text-gray-600 dark:text-gray-400">
             Step {currentStep} of {totalSteps}
           </span>
@@ -1029,51 +1288,82 @@ export function CommunityForm({
       </div>
 
       {/* Form Content */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200
                     dark:border-gray-700 p-4 sm:p-6 overflow-visible">
         {renderStep()}
       </div>
 
-      {/* Navigation */}
-      <div className="flex justify-between mt-6">
-        {currentStep > 1 ? (
-          <button
-            onClick={() => setCurrentStep(currentStep - 1)}
-            className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                     dark:hover:text-gray-200 font-semibold transition-colors"
-          >
-            Back
-          </button>
-        ) : (
-          <div />
-        )}
-        
-        <div className="flex gap-2">
-          {currentStep < totalSteps ? (
+      {/* Step Navigation Helper Alert */}
+      {!canProceedToNextStep() && currentStep === 1 && (
+        <Alert className="mb-4 border-purple-200 bg-purple-50 dark:bg-purple-900/20 dark:border-purple-800">
+          <Info className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+          <AlertDescription>
+            <p className="font-semibold text-purple-900 dark:text-purple-100 mb-1">Required to continue:</p>
+            <ul className="list-disc list-inside text-sm text-purple-800 dark:text-purple-200 space-y-0.5">
+              {!effectiveness && <li>Effectiveness rating</li>}
+              {!timeToResults && <li>Time to results</li>}
+              {!paymentFrequency && <li>Payment type</li>}
+              {paymentFrequency && paymentFrequency !== 'free' && !costRange && <li>Cost amount</li>}
+              {!meetingFrequency && <li>Meeting frequency</li>}
+              {!format && <li>Format</li>}
+              {!groupSize && <li>Group size</li>}
+            </ul>
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Navigation - Sticky for mobile keyboard accessibility */}
+      <div className="sticky bottom-0 left-0 right-0
+                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                      border-t border-gray-200 dark:border-gray-700
+                      px-4 sm:px-6 py-3 mt-6 -mx-4 sm:-mx-6 shadow-lg z-10
+                      safe-area-inset-bottom">
+        <div className="flex justify-between">
+          {currentStep > 1 ? (
             <button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              disabled={!canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
-                canProceedToNextStep()
-                  ? 'bg-purple-600 hover:bg-purple-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
+              onClick={() => setCurrentStep(currentStep - 1)}
+              className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                       dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
             >
-              {currentStep === 3 ? 'Skip' : 'Continue'}
+              Back
             </button>
           ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={isSubmitting || !canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
-                !isSubmitting
-                  ? 'bg-green-600 hover:bg-green-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {isSubmitting ? 'Submitting...' : 'Submit'}
-            </button>
+            <div />
           )}
+
+          <div className="flex gap-2">
+            {/* Forward button - only show if we've been to a higher step */}
+            {currentStep < highestStepReached && currentStep < totalSteps && (
+              <button
+                onClick={() => setCurrentStep(currentStep + 1)}
+                className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                         dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
+              >
+                Forward
+              </button>
+            )}
+
+            {currentStep < totalSteps ? (
+              <button
+                onClick={handleContinue}
+                className="px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                {currentStep === 3 ? 'Skip' : 'Continue'}
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className={`px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors ${
+                  !isSubmitting
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

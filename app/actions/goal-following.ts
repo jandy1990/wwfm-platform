@@ -3,6 +3,7 @@
 import { createServerSupabaseClient } from '@/lib/database/server'
 import { logger } from '@/lib/utils/logger'
 import { revalidatePath } from 'next/cache'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 export interface FollowActionResult {
   success: boolean
@@ -41,6 +42,7 @@ export async function toggleGoalFollow(
   goalId: string
 ): Promise<FollowActionResult> {
   const supabase = await createServerSupabaseClient()
+  const db = supabase as unknown as SupabaseClient<any>
 
   try {
     // Get current user
@@ -60,7 +62,7 @@ export async function toggleGoalFollow(
     }
 
     // Check if already following
-    const { data: existingFollow, error: checkError } = await supabase
+    const { data: existingFollow, error: checkError } = await db
       .from('goal_followers')
       .select('id')
       .eq('user_id', user.id)
@@ -85,7 +87,7 @@ export async function toggleGoalFollow(
 
     if (existingFollow) {
       // Unfollow
-      const { error: deleteError } = await supabase
+      const { error: deleteError } = await db
         .from('goal_followers')
         .delete()
         .eq('id', existingFollow.id)
@@ -107,7 +109,7 @@ export async function toggleGoalFollow(
       isFollowing = false
     } else {
       // Follow
-      const { error: insertError } = await supabase
+      const { error: insertError } = await db
         .from('goal_followers')
         .insert({
           user_id: user.id,
@@ -134,7 +136,7 @@ export async function toggleGoalFollow(
     }
 
     // Get updated follower count
-    const { count, error: countError } = await supabase
+    const { count, error: countError } = await db
       .from('goal_followers')
       .select('*', { count: 'exact', head: true })
       .eq('goal_id', goalId)
@@ -174,6 +176,7 @@ export async function toggleGoalFollow(
  */
 export async function getFollowStatus(goalId: string): Promise<FollowStatus> {
   const supabase = await createServerSupabaseClient()
+  const db = supabase as unknown as SupabaseClient<any>
 
   try {
     const {
@@ -185,7 +188,7 @@ export async function getFollowStatus(goalId: string): Promise<FollowStatus> {
       return { isFollowing: false }
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('goal_followers')
       .select('status, achieved_at, created_at')
       .eq('user_id', user.id)
@@ -225,9 +228,10 @@ export async function getFollowStatus(goalId: string): Promise<FollowStatus> {
  */
 export async function getFollowerCount(goalId: string): Promise<number> {
   const supabase = await createServerSupabaseClient()
+  const db = supabase as unknown as SupabaseClient<any>
 
   try {
-    const { count, error } = await supabase
+    const { count, error } = await db
       .from('goal_followers')
       .select('*', { count: 'exact', head: true })
       .eq('goal_id', goalId)
@@ -253,6 +257,7 @@ export async function getFollowerCount(goalId: string): Promise<number> {
  */
 export async function getUserFollowedGoals(): Promise<FollowedGoal[]> {
   const supabase = await createServerSupabaseClient()
+  const db = supabase as unknown as SupabaseClient<any>
 
   try {
     const {
@@ -265,7 +270,7 @@ export async function getUserFollowedGoals(): Promise<FollowedGoal[]> {
       return []
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('goal_followers')
       .select(
         `
@@ -315,14 +320,14 @@ export async function getUserFollowedGoals(): Promise<FollowedGoal[]> {
           : category?.arenas
 
         // Get solution count for this goal
-        const { count: solutionCount } = await supabase
+        const { count: solutionCount } = await db
           .from('goal_implementation_links')
           .select('*', { count: 'exact', head: true })
           .eq('goal_id', follow.goal_id)
           .eq('is_approved', true)
 
         // Get rated solution count for this goal by this user
-        const { count: ratedCount } = await supabase
+        const { count: ratedCount } = await db
           .from('ratings')
           .select('*', { count: 'exact', head: true })
           .eq('goal_id', follow.goal_id)
@@ -363,6 +368,7 @@ export async function markGoalAsAchieved(
   goalId: string
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createServerSupabaseClient()
+  const db = supabase as unknown as SupabaseClient<any>
 
   try {
     const {
@@ -382,7 +388,7 @@ export async function markGoalAsAchieved(
     }
 
     // Update the follow status
-    const { error: updateError } = await supabase
+    const { error: updateError } = await db
       .from('goal_followers')
       .update({
         status: 'achieved',

@@ -1,0 +1,1199 @@
+1. build muscle
+   Score: 9 | Sources: web_research, reddit, ai_synthesis, autocomplete
+   Variations: Build muscle; build muscle; build muscle (+1 more)
+
+2. improve sleep quality
+   Score: 7 | Sources: web_research, reddit, autocomplete
+   Variations: How to improve sleep quality; improve sleep quality; improve sleep quality (+1 more)
+
+3. reduce anxiety
+   Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Variations: Reduce anxiety; reduce anxiety; reduce anxiety (+1 more)
+
+4. improve memory
+   Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Variations: Improve memory; improve memory; improve memory
+
+5. stop overthinking
+   Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Variations: Stop overthinking; stop overthinking; stop overthinking
+
+6. build confidence
+   Score: 7 | Sources: web_research, reddit, autocomplete
+   Variations: Build confidence; build confidence; ways to build confidence
+
+7. make new friends
+   Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Variations: Make new friends; make new friends; make new friends
+
+8. fall asleep faster
+   Score: 7 | Sources: web_research, reddit, autocomplete
+   Variations: Fall asleep faster; fall asleep faster; ways to fall asleep faster (+1 more)
+
+9. lose belly fat
+   Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Variations: Lose belly fat; lose belly fat; lose belly fat
+
+10. improve gut health
+   Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Variations: Improve gut health; improve gut health; improve gut health
+
+11. improve communication with partner
+   Score: 7 | Sources: web_research, reddit, autocomplete
+   Variations: Improve communication with partner; improve communication with partner; improve communication with partner
+
+12. find life purpose
+   Score: 7 | Sources: web_research, reddit, autocomplete
+   Variations: Find life purpose; find life purpose; find life purpose
+
+13. improve productivity
+   Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Variations: Improve productivity; improve productivity; improve productivity
+
+14. stop procrastinating
+   Score: 7 | Sources: web_research, reddit, autocomplete
+   Variations: Stop procrastinating; stop procrastinating; stop procrastinating (+1 more)
+
+15. quit smoking
+   Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Variations: Quit smoking; quit smoking; quit smoking
+
+16. improve social skills
+   Score: 7 | Sources: web_research, reddit, autocomplete
+   Variations: Improve social skills; improve social skills; improve social skills
+
+17. manage stress
+   Score: 6 | Sources: web_research, ai_synthesis
+   Variations: How to manage stress; Manage stress; manage stress
+
+18. overcome depression
+   Score: 6 | Sources: web_research, ai_synthesis
+   Variations: Overcome depression; overcome depression
+
+19. overcome social anxiety
+   Score: 6 | Sources: web_research, ai_synthesis
+   Variations: Overcome social anxiety; overcome social anxiety
+
+20. overcome insomnia
+   Score: 6 | Sources: web_research, ai_synthesis
+   Variations: Overcome insomnia; overcome insomnia
+
+21. improve sleep hygiene
+   Score: 6 | Sources: web_research, reddit
+   Variations: Improve sleep hygiene; improve sleep hygiene
+
+22. gain weight
+   Score: 6 | Sources: web_research, ai_synthesis
+   Variations: Gain weight; gain weight
+
+23. improve endurance
+   Score: 6 | Sources: web_research, reddit
+   Variations: Improve endurance; improve endurance
+
+24. find compatible partner
+   Score: 6 | Sources: web_research, reddit
+   Variations: Find compatible partner; find compatible partners
+
+25. improve financial literacy
+   Score: 6 | Sources: web_research, ai_synthesis
+   Variations: Improve financial literacy; improve financial literacy
+
+26. learn to cook
+   Score: 6 | Sources: web_research, ai_synthesis
+   Variations: Learn to cook; learn to cook
+
+27. increase productivity
+   Score: 6 | Sources: web_research, reddit
+   Variations: Increase productivity; increase productivity; increase productivity
+
+28. overcome nicotine addiction
+   Score: 6 | Sources: web_research, ai_synthesis
+   Variations: Overcome nicotine addiction; overcome nicotine addiction
+
+29. stop emotional eating
+   Score: 6 | Sources: reddit, ai_synthesis, autocomplete
+   Variations: stop emotional eating; stop emotional eating; stop emotional eating
+
+30. negotiate salary
+   Score: 6 | Sources: reddit, ai_synthesis, autocomplete
+   Variations: negotiate salary; negotiate salary; negotiate salary
+
+31. get out of debt
+   Score: 6 | Sources: reddit, ai_synthesis, autocomplete
+   Variations: get out of debt; get out of debt; get out of debt
+
+32. improve credit score
+   Score: 6 | Sources: reddit, ai_synthesis, autocomplete
+   Variations: improve credit score; improve credit score; improve credit score
+
+33. increase income
+   Score: 6 | Sources: reddit, ai_synthesis, autocomplete
+   Variations: increase income; increase income; increase income
+
+34. boost metabolism
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: How to boost metabolism; ways to boost metabolism
+
+35. lower cholesterol
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Lower cholesterol; lower cholesterol
+
+36. improve self-esteem
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Improve self-esteem; improve self-esteem; improve self-esteem
+
+37. build resilience
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Build resilience; Build resilience; build resilience
+
+38. start working out
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Start working out; start working out
+
+39. tone muscles
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Tone muscles; tone muscles
+
+40. strengthen marriage
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Strengthen marriage; strengthen marriage
+
+41. develop emotional intelligence
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Develop emotional intelligence; develop emotional intelligence
+
+42. build self-confidence
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Build self-confidence; build self-confidence
+
+43. overcome procrastination
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Overcome procrastination; overcome procrastination
+
+44. improve focus with adhd
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Improve focus with ADHD; improve focus with ADHD
+
+45. minimize distractions
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Minimize distractions; minimize distractions
+
+46. manage time better
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Manage time better; manage time better
+
+47. improve public speaking
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Improve public speaking; improve public speaking
+
+48. stop hair loss
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Stop hair loss; stop hair loss
+
+49. start a business
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Start a business; start a business; start a business
+
+50. reduce burnout
+   Score: 5 | Sources: web_research, autocomplete
+   Variations: Reduce burnout; reduce burnout
+
+51. improve emotional intimacy
+   Score: 5 | Sources: reddit, ai_synthesis
+   Variations: improve emotional intimacy; improve emotional intimacy
+
+52. overcome fear of rejection
+   Score: 5 | Sources: reddit, ai_synthesis
+   Variations: overcome fear of rejection; overcome fear of rejection
+
+53. improve communication with spouse
+   Score: 5 | Sources: reddit, ai_synthesis
+   Variations: improve communication with spouse; improve communication with spouse
+
+54. find a job
+   Score: 5 | Sources: reddit, ai_synthesis
+   Variations: find a job; find a job
+
+55. improve self-discipline
+   Score: 5 | Sources: reddit, ai_synthesis
+   Variations: improve self-discipline; improve self-discipline
+
+56. build wealth
+   Score: 5 | Sources: reddit, ai_synthesis
+   Variations: build wealth; build wealth
+
+57. clear acne
+   Score: 5 | Sources: reddit, ai_synthesis
+   Variations: clear acne; clear acne
+
+58. manage eczema
+   Score: 5 | Sources: reddit, ai_synthesis
+   Variations: manage eczema; manage eczema
+
+59. reduce social anxiety
+   Score: 4 | Sources: reddit, autocomplete
+   Variations: reduce social anxiety; reduce social anxiety
+
+60. improve communication skills
+   Score: 4 | Sources: reddit, autocomplete
+   Variations: improve communication skills; improve communication skills
+
+61. cope with trauma
+   Score: 4 | Sources: reddit, autocomplete
+   Variations: cope with trauma; cope with trauma
+
+62. reduce sugar intake
+   Score: 4 | Sources: reddit, autocomplete
+   Variations: reduce sugar intake; reduce sugar intake; reduce sugar intake
+
+63. quit drinking alcohol
+   Score: 4 | Sources: reddit, autocomplete
+   Variations: quit drinking alcohol; quit drinking alcohol
+
+64. improve physical health
+   Score: 4 | Sources: reddit, autocomplete
+   Variations: improve physical health; improve physical health
+
+65. set healthy boundaries
+   Score: 4 | Sources: reddit, autocomplete
+   Variations: set healthy boundaries; set healthy boundaries
+
+66. wake up earlier
+   Score: 4 | Sources: reddit, autocomplete
+   Variations: wake up earlier; wake up earlier
+
+67. improve mental health
+   Score: 4 | Sources: reddit, autocomplete
+   Variations: improve mental health; improve mental health; ways to improve mental health
+
+68. read more books
+   Score: 4 | Sources: reddit, autocomplete
+   Variations: read more books; read more books
+
+69. reduce sleep anxiety
+   Score: 4 | Sources: reddit, autocomplete
+   Variations: reduce sleep anxiety; reduce sleep anxiety; reduce sleep anxiety
+
+70. create better sleep environment
+   Score: 4 | Sources: reddit, autocomplete
+   Variations: create better sleep environment; create better sleep environment
+
+71. stop worrying
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: stop worrying; stop worrying
+
+72. manage bipolar disorder
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: manage bipolar disorder; manage bipolar disorder
+
+73. overcome perfectionism
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: overcome perfectionism; overcome perfectionism
+
+74. stop self-sabotage
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: stop self-sabotage; stop self-sabotage
+
+75. lose weight
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: lose weight; lose weight; ways to lose weight
+
+76. reduce back pain
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: reduce back pain; get rid of back pain
+
+77. manage diabetes
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: manage diabetes; manage diabetes
+
+78. reduce inflammation
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: reduce inflammation; reduce inflammation
+
+79. reduce bloating
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: reduce bloating; reduce bloating
+
+80. improve posture
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: improve posture; improve posture; improve posture
+
+81. reduce headaches
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: reduce headaches; get rid of headaches
+
+82. improve immune system
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: improve immune system; improve immune system
+
+83. quit vaping
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: quit vaping; quit vaping
+
+84. stop binge eating
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: stop binge eating; stop binge eating
+
+85. quit caffeine
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: quit caffeine; quit caffeine
+
+86. quit energy drinks
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: quit energy drinks; quit energy drinks
+
+87. quit junk food
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: quit junk food; quit junk food
+
+88. improve family relationships
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: improve family relationships; improve family relationships
+
+89. get promoted
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: get promoted; get promoted
+
+90. improve work-life balance
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: improve work-life balance; improve work-life balance
+
+91. improve time management at work
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: improve time management at work; improve time management at work
+
+92. save money
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: save money; ways to save money
+
+93. achieve financial independence
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: achieve financial independence; achieve financial independence
+
+94. improve confidence
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: improve confidence; improve confidence
+
+95. improve focus
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: improve focus; improve focus; ways to improve focus
+
+96. overcome fear of failure
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: overcome fear of failure; overcome fear of failure
+
+97. improve self-awareness
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: improve self-awareness; improve self-awareness
+
+98. improve skin texture
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: improve skin texture; improve skin texture
+
+99. stop teeth grinding
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: stop teeth grinding; stop grinding teeth
+
+100. reduce brain fog
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: reduce brain fog; get rid of brain fog
+
+101. stop sweating excessively
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: stop sweating excessively; stop sweating excessively
+
+102. stop snoring
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: stop snoring; stop snoring
+
+103. reduce screen time
+   Score: 4 | Sources: ai_synthesis, autocomplete
+   Variations: reduce screen time; reduce screen time; reduce screen time
+
+104. is bronchitis contagious
+   Score: 3 | Sources: web_research
+   Variations: Is bronchitis contagious
+
+105. is pneumonia contagious
+   Score: 3 | Sources: web_research
+   Variations: Is pneumonia contagious
+
+106. what is lupus
+   Score: 3 | Sources: web_research
+   Variations: What is lupus
+
+107. how much water should i drink each day
+   Score: 3 | Sources: web_research
+   Variations: How much water should I drink each day
+
+108. is strep throat contagious
+   Score: 3 | Sources: web_research
+   Variations: Is strep throat contagious
+
+109. how long does the flu last
+   Score: 3 | Sources: web_research
+   Variations: How long does the flu last
+
+110. what causes high blood pressure
+   Score: 3 | Sources: web_research
+   Variations: What causes high blood pressure
+
+111. hair loss
+   Score: 3 | Sources: web_research
+   Variations: Hair loss
+
+112. fatigue
+   Score: 3 | Sources: web_research
+   Variations: Fatigue
+
+113. bloating
+   Score: 3 | Sources: web_research
+   Variations: Bloating
+
+114. congestion
+   Score: 3 | Sources: web_research
+   Variations: Congestion
+
+115. lower my cholesterol
+   Score: 3 | Sources: web_research
+   Variations: How do I lower my cholesterol
+
+116. what causes kidney stones
+   Score: 3 | Sources: web_research
+   Variations: What causes kidney stones
+
+117. why do i have a headache
+   Score: 3 | Sources: web_research
+   Variations: Why do I have a headache
+
+118. reduce dandruff
+   Score: 3 | Sources: web_research
+   Variations: How do I get rid of dandruff
+
+119. boost your immune system
+   Score: 3 | Sources: web_research
+   Variations: How to boost your immune system
+
+120. how much sodium per day
+   Score: 3 | Sources: web_research
+   Variations: How much sodium per day
+
+121. what is the difference between a cold and the flu
+   Score: 3 | Sources: web_research
+   Variations: What is the difference between a cold and the flu
+
+122. what are the symptoms of anxiety
+   Score: 3 | Sources: web_research
+   Variations: What are the symptoms of anxiety
+
+123. lower my a1c
+   Score: 3 | Sources: web_research
+   Variations: How do I lower my A1C
+
+124. lower high blood pressure
+   Score: 3 | Sources: web_research
+   Variations: Lower high blood pressure
+
+125. prevent kidney stones
+   Score: 3 | Sources: web_research
+   Variations: Prevent kidney stones
+
+126. treat strep throat
+   Score: 3 | Sources: web_research
+   Variations: Treat strep throat
+
+127. recover from bronchitis
+   Score: 3 | Sources: web_research
+   Variations: Recover from bronchitis
+
+128. overcome ocd
+   Score: 3 | Sources: web_research
+   Variations: Overcome OCD
+
+129. manage codependence
+   Score: 3 | Sources: web_research
+   Variations: Manage codependence
+
+130. recognize narcissism
+   Score: 3 | Sources: web_research
+   Variations: Recognize narcissism
+
+131. identify gaslighting
+   Score: 3 | Sources: web_research
+   Variations: Identify gaslighting
+
+132. find emotional support
+   Score: 3 | Sources: web_research
+   Variations: Find emotional support
+
+133. build social connections
+   Score: 3 | Sources: web_research
+   Variations: Build social connections
+
+134. find mental health care professional
+   Score: 3 | Sources: web_research
+   Variations: Find mental health care professional
+
+135. improve emotional intelligence
+   Score: 3 | Sources: web_research
+   Variations: Improve emotional intelligence
+
+136. treat sleep apnea
+   Score: 3 | Sources: web_research
+   Variations: Treat sleep apnea; Treat sleep apnea
+
+137. stop sleep paralysis
+   Score: 3 | Sources: web_research
+   Variations: Stop sleep paralysis
+
+138. get better sleep quality
+   Score: 3 | Sources: web_research
+   Variations: Get better sleep quality
+
+139. stay asleep through the night
+   Score: 3 | Sources: web_research
+   Variations: Stay asleep through the night
+
+140. reduce excessive daytime sleepiness
+   Score: 3 | Sources: web_research
+   Variations: Reduce excessive daytime sleepiness
+
+141. establish sleep routine
+   Score: 3 | Sources: web_research
+   Variations: Establish sleep routine
+
+142. lose weight fast
+   Score: 3 | Sources: web_research
+   Variations: Lose weight fast
+
+143. find best way to lose weight
+   Score: 3 | Sources: web_research
+   Variations: Find best way to lose weight
+
+144. get a six pack
+   Score: 3 | Sources: web_research
+   Variations: Get a six pack
+
+145. find best exercise to lose weight
+   Score: 3 | Sources: web_research
+   Variations: Find best exercise to lose weight
+
+146. use cold exposure for weight loss
+   Score: 3 | Sources: web_research
+   Variations: Use cold exposure for weight loss
+
+147. start using chia seeds for weight loss
+   Score: 3 | Sources: web_research
+   Variations: Start using chia seeds for weight loss
+
+148. improve fitness
+   Score: 3 | Sources: web_research
+   Variations: Improve fitness
+
+149. start exercising regularly
+   Score: 3 | Sources: web_research
+   Variations: Start exercising regularly
+
+150. increase metabolism
+   Score: 3 | Sources: web_research
+   Variations: Increase metabolism
+
+151. get in shape
+   Score: 3 | Sources: web_research
+   Variations: Get in shape
+
+152. build strength
+   Score: 3 | Sources: web_research
+   Variations: Build strength
+
+153. lose fat
+   Score: 3 | Sources: web_research
+   Variations: Lose fat
+
+154. follow mediterranean diet
+   Score: 3 | Sources: web_research
+   Variations: Follow Mediterranean diet
+
+155. start dash diet
+   Score: 3 | Sources: web_research
+   Variations: Start DASH diet
+
+156. follow mind diet for brain health
+   Score: 3 | Sources: web_research
+   Variations: Follow MIND diet for brain health
+
+157. eat more plant-based foods
+   Score: 3 | Sources: web_research
+   Variations: Eat more plant-based foods
+
+158. support brain health through nutrition
+   Score: 3 | Sources: web_research
+   Variations: Support brain health through nutrition
+
+159. plan sustainable eating
+   Score: 3 | Sources: web_research
+   Variations: Plan sustainable eating
+
+160. improve microbiome health
+   Score: 3 | Sources: web_research
+   Variations: Improve microbiome health
+
+161. support emotional wellness through food
+   Score: 3 | Sources: web_research
+   Variations: Support emotional wellness through food
+
+162. handle job loss
+   Score: 3 | Sources: web_research
+   Variations: Handle job loss
+
+163. escape toxic boss
+   Score: 3 | Sources: web_research
+   Variations: Escape toxic boss
+
+164. leave toxic workplace
+   Score: 3 | Sources: web_research
+   Variations: Leave toxic workplace
+
+165. get respect at work
+   Score: 3 | Sources: web_research
+   Variations: Get respect at work
+
+166. overcome workplace disrespect
+   Score: 3 | Sources: web_research
+   Variations: Overcome workplace disrespect
+
+167. prevent burnout
+   Score: 3 | Sources: web_research
+   Variations: Prevent burnout
+
+168. handle difficult coworkers
+   Score: 3 | Sources: web_research
+   Variations: Handle difficult coworkers
+
+169. find work-life balance
+   Score: 3 | Sources: web_research
+   Variations: Find work-life balance; Find work-life balance
+
+170. reduce long work hours
+   Score: 3 | Sources: web_research
+   Variations: Reduce long work hours
+
+171. manage mental and emotional stress
+   Score: 3 | Sources: web_research
+   Variations: Manage mental and emotional stress
+
+172. lower cost of living
+   Score: 3 | Sources: web_research
+   Variations: Lower cost of living
+
+173. find homeowners insurance
+   Score: 3 | Sources: web_research
+   Variations: Find homeowners insurance
+
+174. navigate student loan forgiveness
+   Score: 3 | Sources: web_research
+   Variations: Navigate student loan forgiveness
+
+175. find high yield savings account
+   Score: 3 | Sources: web_research
+   Variations: Find high yield savings account
+
+176. understand bitcoin
+   Score: 3 | Sources: web_research
+   Variations: Understand bitcoin
+
+177. understand moneyline bets
+   Score: 3 | Sources: web_research
+   Variations: Understand moneyline bets
+
+178. understand student loans
+   Score: 3 | Sources: web_research
+   Variations: Understand student loans
+
+179. understand open relationships
+   Score: 3 | Sources: web_research
+   Variations: Understand open relationships
+
+180. identify gaslighting in relationship
+   Score: 3 | Sources: web_research
+   Variations: Identify gaslighting in relationship
+
+181. recognize breadcrumbing
+   Score: 3 | Sources: web_research
+   Variations: Recognize breadcrumbing
+
+182. decide when relationship should be exclusive
+   Score: 3 | Sources: web_research
+   Variations: Decide when relationship should be exclusive
+
+183. handle relationship doubts
+   Score: 3 | Sources: web_research
+   Variations: Handle relationship doubts
+
+184. identify narcissistic partner
+   Score: 3 | Sources: web_research
+   Variations: Identify narcissistic partner
+
+185. recognize codependent relationship
+   Score: 3 | Sources: web_research
+   Variations: Recognize codependent relationship
+
+186. understand ethical non-monogamy
+   Score: 3 | Sources: web_research
+   Variations: Understand ethical non-monogamy
+
+187. navigate monogamy questions
+   Score: 3 | Sources: web_research
+   Variations: Navigate monogamy questions
+
+188. handle appropriate pda
+   Score: 3 | Sources: web_research
+   Variations: Handle appropriate PDA
+
+189. determine if relationship is over
+   Score: 3 | Sources: web_research
+   Variations: Determine if relationship is over
+
+190. define "hard launch" in relationships
+   Score: 3 | Sources: web_research
+   Variations: Define "hard launch" in relationships
+
+191. understand karmic relationships
+   Score: 3 | Sources: web_research
+   Variations: Understand karmic relationships
+
+192. learn about autosexual orientation
+   Score: 3 | Sources: web_research
+   Variations: Learn about autosexual orientation
+
+193. build healthy relationships
+   Score: 3 | Sources: web_research
+   Variations: Build healthy relationships
+
+194. resolve conflicts
+   Score: 3 | Sources: web_research
+   Variations: Resolve conflicts
+
+195. date successfully
+   Score: 3 | Sources: web_research
+   Variations: Date successfully
+
+196. overcome relationship anxiety
+   Score: 3 | Sources: web_research
+   Variations: Overcome relationship anxiety
+
+197. handle peer pressure
+   Score: 3 | Sources: web_research
+   Variations: Handle peer pressure
+
+198. do digital detox
+   Score: 3 | Sources: web_research
+   Variations: Do digital detox
+
+199. manage screen time
+   Score: 3 | Sources: web_research
+   Variations: Manage screen time
+
+200. use mindfulness apps
+   Score: 3 | Sources: web_research
+   Variations: Use mindfulness apps
+
+201. practice yoga
+   Score: 3 | Sources: web_research
+   Variations: Practice yoga
+
+202. meditate regularly
+   Score: 3 | Sources: web_research
+   Variations: Meditate regularly
+
+203. learn budgeting
+   Score: 3 | Sources: web_research
+   Variations: Learn budgeting
+
+204. understand investment strategies
+   Score: 3 | Sources: web_research
+   Variations: Understand investment strategies
+
+205. set meaningful goals
+   Score: 3 | Sources: web_research
+   Variations: Set meaningful goals
+
+206. find passion
+   Score: 3 | Sources: web_research
+   Variations: Find passion
+
+207. create fulfilling life
+   Score: 3 | Sources: web_research
+   Variations: Create fulfilling life
+
+208. master time management
+   Score: 3 | Sources: web_research
+   Variations: Master time management
+
+209. learn baking
+   Score: 3 | Sources: web_research
+   Variations: Learn baking
+
+210. use pomodoro technique
+   Score: 3 | Sources: web_research
+   Variations: Use Pomodoro technique
+
+211. organize workspace
+   Score: 3 | Sources: web_research
+   Variations: Organize workspace
+
+212. break down large tasks
+   Score: 3 | Sources: web_research
+   Variations: Break down large tasks
+
+213. practice meditation for focus
+   Score: 3 | Sources: web_research
+   Variations: Practice meditation for focus
+
+214. maintain consistent sleep schedule
+   Score: 3 | Sources: web_research
+   Variations: Maintain consistent sleep schedule
+
+215. use fidget tools
+   Score: 3 | Sources: web_research
+   Variations: Use fidget tools
+
+216. build better habits
+   Score: 3 | Sources: web_research
+   Variations: Build better habits
+
+217. overcome productive procrastination
+   Score: 3 | Sources: web_research
+   Variations: Overcome productive procrastination
+
+218. beat perfectionism
+   Score: 3 | Sources: web_research
+   Variations: Beat perfectionism
+
+219. reduce fear of failure
+   Score: 3 | Sources: web_research
+   Variations: Reduce fear of failure
+
+220. use habit-building apps
+   Score: 3 | Sources: web_research
+   Variations: Use habit-building apps
+
+221. develop customer service skills
+   Score: 3 | Sources: web_research
+   Variations: Develop customer service skills
+
+222. build leadership abilities
+   Score: 3 | Sources: web_research
+   Variations: Build leadership abilities
+
+223. master project management
+   Score: 3 | Sources: web_research
+   Variations: Master project management
+
+224. develop marketing automation
+   Score: 3 | Sources: web_research
+   Variations: Develop marketing automation
+
+225. learn seo
+   Score: 3 | Sources: web_research
+   Variations: Learn SEO
+
+226. master lead generation
+   Score: 3 | Sources: web_research
+   Variations: Master lead generation
+
+227. develop authenticity in speaking
+   Score: 3 | Sources: web_research
+   Variations: Develop authenticity in speaking
+
+228. improve virtual speaking
+   Score: 3 | Sources: web_research
+   Variations: Improve virtual speaking
+
+229. use ai for presentations
+   Score: 3 | Sources: web_research
+   Variations: Use AI for presentations
+
+230. minimize pores
+   Score: 3 | Sources: web_research
+   Variations: Minimize pores
+
+231. reduce dark circles under eyes
+   Score: 3 | Sources: web_research
+   Variations: Reduce dark circles under eyes
+
+232. understand exfoliation benefits
+   Score: 3 | Sources: web_research
+   Variations: Understand exfoliation benefits
+
+233. achieve glowing skin
+   Score: 3 | Sources: web_research
+   Variations: Achieve glowing skin
+
+234. treat acne
+   Score: 3 | Sources: web_research
+   Variations: Treat acne
+
+235. reduce enlarged pores
+   Score: 3 | Sources: web_research
+   Variations: Reduce enlarged pores
+
+236. prevent razor burn
+   Score: 3 | Sources: web_research
+   Variations: Prevent razor burn
+
+237. prevent ingrown hairs
+   Score: 3 | Sources: web_research
+   Variations: Prevent ingrown hairs
+
+238. find hydrating moisturizer
+   Score: 3 | Sources: web_research
+   Variations: Find hydrating moisturizer
+
+239. learn contouring techniques
+   Score: 3 | Sources: web_research
+   Variations: Learn contouring techniques
+
+240. reduce under-eye circles
+   Score: 3 | Sources: web_research
+   Variations: Reduce under-eye circles
+
+241. understand what causes hair loss
+   Score: 3 | Sources: web_research
+   Variations: Understand what causes hair loss
+
+242. make hair grow faster
+   Score: 3 | Sources: web_research
+   Variations: Make hair grow faster
+
+243. increase hair growth
+   Score: 3 | Sources: web_research
+   Variations: Increase hair growth
+
+244. reduce hair thinning
+   Score: 3 | Sources: web_research
+   Variations: Reduce hair thinning
+
+245. stop hair shedding
+   Score: 3 | Sources: web_research
+   Variations: Stop hair shedding
+
+246. stop youth vaping
+   Score: 3 | Sources: web_research
+   Variations: Stop youth vaping
+
+247. find cessation resources
+   Score: 3 | Sources: web_research
+   Variations: Find cessation resources
+
+248. reduce pain disability
+   Score: 3 | Sources: web_research
+   Variations: Reduce pain disability
+
+249. find back pain relief
+   Score: 3 | Sources: web_research
+   Variations: Find back pain relief
+
+250. manage chronic conditions
+   Score: 3 | Sources: web_research
+   Variations: Manage chronic conditions
+
+251. find pain management solutions
+   Score: 3 | Sources: web_research
+   Variations: Find pain management solutions
+
+252. try virtual yoga for back pain
+   Score: 3 | Sources: web_research
+   Variations: Try virtual yoga for back pain
+
+253. access neuromodulation techniques
+   Score: 3 | Sources: web_research
+   Variations: Access neuromodulation techniques
+
+254. explore regenerative medicine
+   Score: 3 | Sources: web_research
+   Variations: Explore regenerative medicine
+
+255. use ai-driven physical therapy
+   Score: 3 | Sources: web_research
+   Variations: Use AI-driven physical therapy
+
+256. connect with others
+   Score: 3 | Sources: web_research
+   Variations: Connect with others
+
+257. reduce social isolation
+   Score: 3 | Sources: web_research
+   Variations: Reduce social isolation
+
+258. build friendships
+   Score: 3 | Sources: web_research
+   Variations: Build friendships
+
+259. join communities
+   Score: 3 | Sources: web_research
+   Variations: Join communities
+
+260. find support groups
+   Score: 3 | Sources: web_research
+   Variations: Find support groups
+
+261. make money online
+   Score: 3 | Sources: web_research
+   Variations: Make money online
+
+262. use chatgpt effectively
+   Score: 3 | Sources: web_research
+   Variations: Use ChatGPT effectively
+
+263. invest during inflation
+   Score: 3 | Sources: web_research
+   Variations: Invest during inflation
+
+264. delete instagram account
+   Score: 3 | Sources: web_research
+   Variations: Delete Instagram account
+
+265. tie a tie
+   Score: 3 | Sources: web_research
+   Variations: Tie a tie
+
+266. simplify life
+   Score: 3 | Sources: web_research
+   Variations: Simplify life
+
+267. achieve digital detox
+   Score: 3 | Sources: web_research
+   Variations: Achieve digital detox
+
+268. find what to watch
+   Score: 3 | Sources: web_research
+   Variations: Find what to watch
+
+269. understand current events
+   Score: 3 | Sources: web_research
+   Variations: Understand current events
+
+270. track weather
+   Score: 3 | Sources: web_research
+   Variations: Track weather
+
+271. monitor excessive heat
+   Score: 3 | Sources: web_research
+   Variations: Monitor excessive heat
+
+272. prepare for hurricanes
+   Score: 3 | Sources: web_research
+   Variations: Prepare for hurricanes
+
+273. stay informed about news
+   Score: 3 | Sources: web_research
+   Variations: Stay informed about news
+
+274. health & medical: 35+ goals
+   Score: 3 | Sources: web_research
+   Variations: Health & Medical: 35+ goals
+
+275. mental health: 25+ goals
+   Score: 3 | Sources: web_research
+   Variations: Mental Health: 25+ goals
+
+276. sleep: 9 goals
+   Score: 3 | Sources: web_research
+   Variations: Sleep: 9 goals
+
+277. fitness & weight: 15+ goals
+   Score: 3 | Sources: web_research
+   Variations: Fitness & Weight: 15+ goals
+
+278. diet & nutrition: 12+ goals
+   Score: 3 | Sources: web_research
+   Variations: Diet & Nutrition: 12+ goals
+
+279. career & work: 20+ goals
+   Score: 3 | Sources: web_research
+   Variations: Career & Work: 20+ goals
+
+280. financial: 15+ goals
+   Score: 3 | Sources: web_research
+   Variations: Financial: 15+ goals
+
+281. relationships: 20+ goals
+   Score: 3 | Sources: web_research
+   Variations: Relationships: 20+ goals
+
+282. parenting: 12+ goals
+   Score: 3 | Sources: web_research
+   Variations: Parenting: 12+ goals
+
+283. personal development: 20+ goals
+   Score: 3 | Sources: web_research
+   Variations: Personal Development: 20+ goals
+
+284. professional skills: 12+ goals
+   Score: 3 | Sources: web_research
+   Variations: Professional Skills: 12+ goals
+
+285. skin & beauty: 15+ goals
+   Score: 3 | Sources: web_research
+   Variations: Skin & Beauty: 15+ goals
+
+286. addiction: 6 goals
+   Score: 3 | Sources: web_research
+   Variations: Addiction: 6 goals
+
+287. pain management: 10+ goals
+   Score: 3 | Sources: web_research
+   Variations: Pain Management: 10+ goals
+
+288. social connection: 10+ goals
+   Score: 3 | Sources: web_research
+   Variations: Social Connection: 10+ goals
+
+289. "how to lose weight fast" - 486,000 annual searches
+   Score: 3 | Sources: web_research
+   Variations: "how to lose weight fast" - 486,000 annual searches
+
+290. "is bronchitis contagious" - 176,000 monthly searches
+   Score: 3 | Sources: web_research
+   Variations: "is bronchitis contagious" - 176,000 monthly searches
+
+291. "how to get a six pack" - 145,200 annual searches
+   Score: 3 | Sources: web_research
+   Variations: "how to get a six pack" - 145,200 annual searches
+
+292. "how to gain weight" - 79,200 annual searches
+   Score: 3 | Sources: web_research
+   Variations: "how to gain weight" - 79,200 annual searches
+
+293. "hair loss" - 25,945 monthly searches
+   Score: 3 | Sources: web_research
+   Variations: "hair loss" - 25,945 monthly searches
+
+294. "make hair grow faster" - 14,590 monthly searches
+   Score: 3 | Sources: web_research
+   Variations: "make hair grow faster" - 14,590 monthly searches
+
+295. "student loans" - 2,441,000 average searches
+   Score: 3 | Sources: web_research
+   Variations: "student loans" - 2,441,000 average searches
+
+296. official google year in search reports
+   Score: 3 | Sources: web_research
+   Variations: Official Google Year in Search reports
+
+297. academic institutions and research centers
+   Score: 3 | Sources: web_research
+   Variations: Academic institutions and research centers
+
+298. manage panic attacks
+   Score: 2 | Sources: reddit
+   Variations: manage panic attacks
+
+299. cope with health anxiety
+   Score: 2 | Sources: reddit
+   Variations: cope with health anxiety
+
+300. handle anxiety at work
+   Score: 2 | Sources: reddit
+   Variations: handle anxiety at work

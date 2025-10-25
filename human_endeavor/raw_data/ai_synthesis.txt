@@ -1,0 +1,323 @@
+# AI-Synthesized Human Goals & Problems
+# Generated from patterns in training data (common searches, self-help topics, subreddit themes)
+# Format: Action statements representing what people are trying to achieve
+
+## MENTAL HEALTH (40 goals)
+reduce anxiety
+overcome depression
+manage stress
+stop overthinking
+overcome panic attacks
+manage OCD
+deal with PTSD
+overcome social anxiety
+stop worrying
+manage bipolar disorder
+overcome health anxiety
+deal with intrusive thoughts
+manage seasonal depression
+overcome perfectionism
+stop catastrophizing
+manage performance anxiety
+overcome impostor syndrome
+deal with burnout
+manage test anxiety
+overcome driving anxiety
+stop ruminating
+manage separation anxiety
+overcome phone anxiety
+deal with existential anxiety
+manage guilt
+overcome shame
+stop negative self-talk
+manage anger issues
+overcome jealousy
+deal with loneliness
+manage grief
+overcome abandonment issues
+stop people pleasing
+manage codependency
+overcome fear of rejection
+deal with low self-esteem
+manage emotional regulation
+overcome trauma
+stop self-sabotage
+manage mental exhaustion
+
+## PHYSICAL HEALTH (45 goals)
+lose weight
+sleep better
+reduce chronic pain
+gain weight
+build muscle
+overcome insomnia
+reduce back pain
+manage diabetes
+lower blood pressure
+reduce inflammation
+overcome fatigue
+manage migraines
+reduce knee pain
+improve digestion
+manage IBS
+reduce bloating
+overcome constipation
+manage acid reflux
+reduce neck pain
+improve posture
+manage arthritis
+reduce joint pain
+overcome chronic fatigue
+manage fibromyalgia
+reduce headaches
+improve energy levels
+manage hypothyroidism
+reduce sciatic pain
+overcome vertigo
+manage tinnitus
+reduce TMJ pain
+improve gut health
+manage PCOS
+reduce period cramps
+overcome endometriosis
+manage menopause symptoms
+reduce hot flashes
+improve fertility
+manage eczema
+reduce psoriasis
+overcome rosacea
+manage allergies
+reduce sinus issues
+improve immune system
+overcome long COVID
+
+## ADDICTIONS & HABITS (25 goals)
+quit smoking
+stop drinking alcohol
+quit vaping
+stop binge eating
+overcome porn addiction
+quit marijuana
+stop nail biting
+overcome gambling addiction
+quit caffeine
+stop sugar addiction
+overcome social media addiction
+quit energy drinks
+stop phone addiction
+overcome video game addiction
+quit processed foods
+stop shopping addiction
+overcome Netflix addiction
+quit soda
+stop emotional eating
+overcome nicotine addiction
+quit junk food
+stop late night snacking
+overcome food addiction
+quit alcohol completely
+stop drug use
+
+## RELATIONSHIPS (35 goals)
+find a partner
+improve marriage
+get over ex
+overcome breakup
+stop arguments with partner
+improve communication with spouse
+make new friends
+overcome dating anxiety
+stop toxic relationship patterns
+improve relationship with parents
+overcome trust issues after cheating
+stop being clingy
+improve sex life
+overcome fear of intimacy
+stop attracting wrong partners
+improve family relationships
+overcome attachment issues
+stop codependent relationships
+improve conflict resolution
+overcome fear of commitment
+stop jealousy in relationship
+improve emotional intimacy
+overcome resentment toward partner
+stop enabling behavior
+improve boundaries with family
+overcome divorce
+stop fighting with siblings
+improve relationship with children
+overcome parenting challenges
+stop yelling at kids
+improve co-parenting
+overcome empty nest syndrome
+stop controlling behavior
+improve friendship quality
+overcome social isolation
+
+## CAREER & WORK (30 goals)
+get promoted
+find a job
+change careers
+negotiate salary
+overcome work anxiety
+stop procrastinating at work
+improve productivity
+overcome fear of public speaking
+stop workplace burnout
+improve work-life balance
+overcome job interview anxiety
+stop imposter syndrome at work
+improve leadership skills
+overcome career stagnation
+stop being undervalued at work
+improve networking skills
+overcome fear of asking for raise
+stop toxic work environment
+improve time management at work
+overcome unemployment depression
+stop career indecision
+improve professional confidence
+overcome micromanaging boss
+stop working too much
+improve delegation skills
+overcome fear of career change
+stop job hopping
+improve resume writing
+overcome age discrimination
+stop workplace conflict
+
+## FINANCE (20 goals)
+save money
+get out of debt
+increase income
+stop overspending
+improve credit score
+overcome financial anxiety
+stop impulse buying
+build emergency fund
+overcome money scarcity mindset
+stop living paycheck to paycheck
+improve budgeting
+overcome student loan debt
+stop financial self-sabotage
+build wealth
+overcome credit card debt
+stop spending on unnecessary things
+improve financial literacy
+overcome fear of investing
+stop borrowing money
+achieve financial independence
+
+## PERSONAL DEVELOPMENT (30 goals)
+improve confidence
+increase motivation
+stop procrastination
+improve focus
+overcome laziness
+stop being indecisive
+improve self-discipline
+overcome fear of failure
+stop comparing to others
+improve goal setting
+overcome lack of direction
+stop making excuses
+improve morning routine
+overcome analysis paralysis
+stop being late
+improve consistency
+overcome perfectionism paralysis
+stop quitting too early
+improve decision making
+overcome fear of success
+stop negative thinking
+improve self-awareness
+overcome limiting beliefs
+stop victim mentality
+improve resilience
+overcome fear of change
+stop comfort zone addiction
+improve growth mindset
+overcome fixed mindset
+stop self-doubt
+
+## APPEARANCE (25 goals)
+clear acne
+reduce hair loss
+lose belly fat
+improve skin texture
+overcome body dysmorphia
+stop picking skin
+improve fashion sense
+overcome baldness
+stop premature aging
+improve smile
+overcome dental anxiety
+stop teeth grinding
+improve posture appearance
+overcome rosacea flare-ups
+stop facial wrinkles
+improve dark circles
+overcome adult acne
+stop oily skin
+improve dry skin
+overcome hyperpigmentation
+stop body odor
+improve nail health
+overcome hair thinning
+stop dandruff
+improve overall appearance
+
+## LIFE SKILLS (20 goals)
+learn to cook
+improve organization
+stop clutter
+improve cleaning habits
+overcome messiness
+stop being disorganized
+improve meal planning
+overcome cooking anxiety
+stop wasting food
+improve home maintenance
+overcome decision fatigue
+stop forgetting things
+improve memory
+overcome poor planning
+stop being chronically late
+improve spatial organization
+overcome digital clutter
+stop hoarding
+improve daily routines
+overcome time blindness
+
+## SPECIFIC PROBLEMS (30 goals)
+overcome insomnia naturally
+stop teeth clenching
+reduce brain fog
+overcome writer's block
+stop sweating excessively
+reduce eye strain
+overcome motion sickness
+stop snoring
+reduce bloating after eating
+overcome fear of flying
+stop grinding teeth at night
+reduce stress eating
+overcome Sunday scaries
+stop biting cheeks
+reduce caffeine dependence
+overcome fear of dogs
+stop cracking knuckles
+reduce screen time
+overcome fear of needles
+stop slouching
+reduce sugar cravings
+overcome fear of heights
+stop overthinking at night
+reduce inflammation naturally
+overcome fear of water
+stop picking at nails
+reduce cortisol levels
+overcome fear of driving
+stop emotional numbness
+reduce histamine intolerance

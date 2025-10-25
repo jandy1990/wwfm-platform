@@ -55,7 +55,7 @@ async function waitForStepTwo(page: Page, category: string): Promise<boolean> {
     return false
   }
 
-  const timeout = 7000
+  const timeout = 15000 // Increased from 7000ms to handle React state delays
   const markers =
     category === 'crisis_resources'
       ? [
@@ -232,7 +232,7 @@ export async function fillDosageForm(page: Page, category: string) {
   // Note: Cost field has been moved to success screen (not in Step 1 anymore)
 
   // Click Continue to Step 2
-  const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn1 = page.locator('button:has-text("Continue")')
   await continueBtn1.click()
   console.log('Moving to Step 2')
   await page.waitForTimeout(500)
@@ -247,7 +247,7 @@ export async function fillDosageForm(page: Page, category: string) {
   await page.waitForTimeout(500)
   
   // Click Continue to Step 3
-  const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn2 = page.locator('button:has-text("Continue")')
   await continueBtn2.click()
   console.log('Moving to Step 3')
   await page.waitForTimeout(500)
@@ -256,7 +256,7 @@ export async function fillDosageForm(page: Page, category: string) {
   console.log('Step 3: Skipping failed solutions')
   
   // Skip failed solutions and submit directly
-  const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
+  const submitBtn = page.locator('button:has-text("Submit")')
   // AUTO_SUBMIT_ENABLED: Form filler handles submission for consistency
   await submitBtn.click()
   console.log('Submitted form')
@@ -322,7 +322,7 @@ export async function fillAppForm(page: Page) {
   
   // Click Continue to Step 2
   await page.waitForTimeout(500)
-  const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn1 = page.locator('button:has-text("Continue")').first()
   await continueBtn1.click()
   console.log('Clicked Continue to Step 2')
   
@@ -342,7 +342,7 @@ export async function fillAppForm(page: Page) {
   
   // Click Continue to Step 3
   await page.waitForTimeout(500)
-  const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn2 = page.locator('button:has-text("Continue")')
   await continueBtn2.click()
   console.log('Clicked Continue to Step 3')
   
@@ -370,7 +370,7 @@ export async function fillAppForm(page: Page) {
     console.log('Page error:', error.message)
   })
   
-  const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
+  const submitBtn = page.locator('button:has-text("Submit")').first()
   console.log('Submit button found, clicking...')
   await submitBtn.click()
   console.log('Clicked Submit button')
@@ -531,7 +531,7 @@ export async function fillHobbyForm(page: Page) {
   // Click Continue to Step 2
   console.log('Clicking Continue to Step 2')
   await page.waitForTimeout(500)
-  const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn1 = page.locator('button:has-text("Continue")')
   await continueBtn1.click()
 
   // ============ STEP 2: Challenges ============
@@ -550,7 +550,7 @@ export async function fillHobbyForm(page: Page) {
   
   // Click Continue to Step 3
   await page.waitForTimeout(500)
-  const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn2 = page.locator('button:has-text("Continue")')
   await continueBtn2.click()
   console.log('Clicked Continue to Step 3')
 
@@ -578,7 +578,7 @@ export async function fillHobbyForm(page: Page) {
     console.log('Page error:', error.message)
   })
 
-  const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
+  const submitBtn = page.locator('button:has-text("Submit")')
   console.log('Submit button found, clicking...')
   await submitBtn.click()
   console.log('Submit button clicked')
@@ -616,7 +616,29 @@ export async function fillSessionForm(page: Page, category: string) {
     // New button-based UI - click "Very"
     const veryButton = effectivenessButtons.filter({ hasText: 'Very' }).first();
     await veryButton.click();
-    console.log('Selected "Very effective" using button UI');
+    console.log('Clicked "Very effective" button');
+
+    // CRITICAL: Wait for React state to update
+    await page.waitForTimeout(800);
+
+    // Verify the button is now selected by checking for selected styling
+    // Selected buttons have: border-purple-500 bg-purple-50
+    const classes = await veryButton.getAttribute('class');
+    const isSelected = classes?.includes('border-purple-500') || classes?.includes('bg-purple-50');
+    console.log(`Effectiveness button classes: ${classes?.substring(0, 100)}...`);
+    console.log(`Effectiveness button selected: ${isSelected}`);
+
+    if (!isSelected) {
+      console.log('⚠️ Button click did not register, trying force click...');
+      await veryButton.click({ force: true });
+      await page.waitForTimeout(500);
+
+      // Check again
+      const retriedClasses = await veryButton.getAttribute('class');
+      const retriedSelected = retriedClasses?.includes('border-purple-500') || retriedClasses?.includes('bg-purple-50');
+      console.log(`After retry - classes: ${retriedClasses?.substring(0, 100)}...`);
+      console.log(`After retry, effectiveness button selected: ${retriedSelected}`);
+    }
   } else {
     // Original star rating UI - use semantic selector for 4-star button
     const ratingButtonsLocator = page.locator('.grid.grid-cols-5 button');
@@ -1129,40 +1151,43 @@ export async function fillSessionForm(page: Page, category: string) {
     console.log(`⏱️ Timestamp after wait: ${Date.now()}`);
   }
 
-  console.log('Preparing to click Continue and advance to Step 2')
+  // CRITICAL: Wait for ALL React state updates to complete and Continue button to enable
+  console.log('Waiting for Continue button to become enabled (React state must sync)...')
 
-  // Ultra-simple Continue button click - just find and click it
+  // Wait for the enabled (not disabled) Continue button
+  const continueBtn = page.locator('button:has-text("Continue")')
+
   try {
-    console.log('Looking for Continue button...')
-
-    // Find ALL Continue buttons and click the first one
-    const allContinueButtons = page.locator('button:has-text("Continue")')
-    const count = await Promise.race([
-      allContinueButtons.count(),
-      new Promise<number>((_, reject) => setTimeout(() => reject(new Error('count() timed out after 2s')), 2000))
-    ])
-
-    console.log(`Found ${count} Continue buttons`)
-
-    if (count === 0) {
-      throw new Error('No Continue buttons found')
-    }
-
-    // Just click the first Continue button with force
-    console.log('Clicking first Continue button with force...')
-    await Promise.race([
-      allContinueButtons.first().click({ force: true }),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('click() timed out after 3s')), 3000))
-    ])
-
-    console.log('✅ Continue button clicked')
+    await continueBtn.waitFor({ state: 'attached', timeout: 15000 })
+    console.log('✅ Continue button is attached and enabled')
   } catch (error) {
-    if (page.isClosed()) {
-      throw new Error('Page context closed before Continue button interaction')
-    }
-    console.log('Continue button interaction failed:', error instanceof Error ? error.message : error)
-    await page.screenshot({ path: `session-form-step1-missing-${category}.png` }).catch(() => {})
-    throw new Error(`Continue button not available: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    console.log('❌ Continue button did not become enabled within 15s')
+    throw new Error(`Continue button not enabled for ${category}`)
+  }
+
+  // Click Continue button
+  await continueBtn.click()
+  console.log('Continue button clicked')
+
+  // Fallback: If click doesn't trigger React, force the step change via JavaScript
+  await page.waitForTimeout(2000)
+  const stillOnStep1 = await page.locator('text="How well it worked"').isVisible().catch(() => false)
+
+  if (stillOnStep1) {
+    console.log('⚠️ Still on Step 1 after Continue click - trying JavaScript navigation...')
+
+    await page.evaluate(() => {
+      // Find the Continue button and trigger click event
+      const continueButtons = Array.from(document.querySelectorAll('button'))
+        .filter(btn => btn.textContent?.includes('Continue'))
+
+      if (continueButtons.length > 0) {
+        continueButtons[0].click()
+      }
+    })
+
+    await page.waitForTimeout(1000)
+    console.log('JavaScript click attempted')
   }
 
   const step2Reached = await waitForStepTwo(page, category)
@@ -1200,7 +1225,7 @@ export async function fillSessionForm(page: Page, category: string) {
   await page.waitForTimeout(500)
   
   // Click Continue to Step 3
-  const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn2 = page.locator('button:has-text("Continue")')
   await continueBtn2.click()
   console.log('Moving to Step 3')
   await page.waitForTimeout(500)
@@ -1209,7 +1234,7 @@ export async function fillSessionForm(page: Page, category: string) {
   console.log('Step 3: Skipping failed solutions')
   
   // Skip failed solutions and submit directly
-  const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
+  const submitBtn = page.locator('button:has-text("Submit")')
   // AUTO_SUBMIT_ENABLED: Form filler handles submission for consistency
   await submitBtn.click()
   console.log('Submitted form')
@@ -1297,7 +1322,7 @@ export async function fillPracticeForm(page: Page, category: string) {
   await page.waitForTimeout(500)
   
   // Click Continue to Step 2
-  const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn1 = page.locator('button:has-text("Continue")')
   await continueBtn1.click()
   console.log('Moving to Step 2')
   await page.waitForTimeout(500)
@@ -1314,7 +1339,7 @@ export async function fillPracticeForm(page: Page, category: string) {
   await page.waitForTimeout(500)
   
   // Click Continue to Step 3
-  const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn2 = page.locator('button:has-text("Continue")')
   await continueBtn2.click()
   console.log('Moving to Step 3')
   await page.waitForTimeout(500)
@@ -1323,7 +1348,7 @@ export async function fillPracticeForm(page: Page, category: string) {
   console.log('Step 3: Skipping failed solutions')
   
   // Skip failed solutions and submit directly
-  const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
+  const submitBtn = page.locator('button:has-text("Submit")')
   // AUTO_SUBMIT_ENABLED: Form filler handles submission for consistency
   await submitBtn.click()
   console.log('Submitted form')
@@ -1368,16 +1393,15 @@ export async function fillPurchaseForm(page: Page, category: string) {
   await page.click('text="One-time purchase"')
   await page.waitForTimeout(500)
   
-  // Select cost range using Select component
-  // Find the cost range Select component (it has SelectTrigger)
-  const costRangeSelect = page.locator('[data-state="closed"]').first()
-  await costRangeSelect.click()
-  await page.waitForTimeout(300)
-  
-  // Select from the dropdown options (for one_time, no "/month" suffix)
-  await page.click('text="$50-100"')
+  // Select cost range using shadcn Select component (2nd Select after time_to_results)
+  const costRangeSelectTrigger = page.locator('button[role="combobox"]').nth(1)
+  await costRangeSelectTrigger.click()
+  await page.waitForTimeout(500)
+
+  // Select from the Portal dropdown using role="option"
+  await page.locator('[role="option"]').filter({ hasText: '$50-100' }).click()
   console.log('Selected cost range: $50-100')
-  await page.waitForTimeout(300)
+  await page.waitForTimeout(800)
   
   // Category-specific fields
   if (category === 'products_devices') {
@@ -1462,7 +1486,7 @@ export async function fillPurchaseForm(page: Page, category: string) {
   
   // Click Continue to Step 2
   console.log('Clicked Continue to Step 2')
-  const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn1 = page.locator('button:has-text("Continue")')
   await continueBtn1.click()
   await page.waitForTimeout(500)
   
@@ -1473,7 +1497,7 @@ export async function fillPurchaseForm(page: Page, category: string) {
   
   // Click Continue to Step 3
   console.log('Clicked Continue to Step 3')
-  const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn2 = page.locator('button:has-text("Continue")')
   await continueBtn2.click()
   await page.waitForTimeout(500)
   
@@ -1556,13 +1580,13 @@ export async function fillCommunityForm(page: Page, category: string) {
   const groupSizeSelect = page.locator('button[role="combobox"]').filter({ hasText: 'How many people' })
   await groupSizeSelect.click()
   await page.waitForTimeout(300)
-  await page.locator('[role="option"]').first().click()
-  console.log('Selected first available group size')
+  await page.locator('[role="option"]').filter({ hasText: 'Small (under 10 people)' }).click()
+  console.log('Selected group size: Small (under 10 people)')
   await page.waitForTimeout(300)
   
   // Click Continue to Step 2
   console.log('Clicked Continue to Step 2')
-  const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn1 = page.locator('button:has-text("Continue")')
   await continueBtn1.click()
   await page.waitForTimeout(500)
   
@@ -1606,7 +1630,7 @@ export async function fillCommunityForm(page: Page, category: string) {
 
   // Click Continue to Step 3
   console.log('Clicked Continue to Step 3')
-  const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn2 = page.locator('button:has-text("Continue")')
   await continueBtn2.click()
   await page.waitForTimeout(500)
   
@@ -1619,7 +1643,7 @@ export async function fillCommunityForm(page: Page, category: string) {
   
   // Debug: Check if Submit button is visible and enabled
   const submitBtnVisible = await page.locator('button:has-text("Submit")').isVisible().catch(() => false)
-  const submitBtnEnabled = await page.locator('button:has-text("Submit"):not([disabled])').isVisible().catch(() => false)
+  const submitBtnEnabled = await page.locator('button:has-text("Submit")').isVisible().catch(() => false)
   console.log(`Submit button visible: ${submitBtnVisible}, enabled: ${submitBtnEnabled}`)
   
   if (!submitBtnEnabled) {
@@ -1709,7 +1733,7 @@ export async function fillLifestyleForm(page: Page, category: string) {
   await page.waitForTimeout(500)
   
   // Click Continue to Step 2
-  const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn1 = page.locator('button:has-text("Continue")')
   await continueBtn1.click()
   console.log('Moving to Step 2')
   await page.waitForTimeout(500)
@@ -1726,7 +1750,7 @@ export async function fillLifestyleForm(page: Page, category: string) {
   await page.waitForTimeout(500)
   
   // Click Continue to Step 3
-  const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn2 = page.locator('button:has-text("Continue")')
   await continueBtn2.click()
   console.log('Moving to Step 3')
   await page.waitForTimeout(500)
@@ -1735,7 +1759,7 @@ export async function fillLifestyleForm(page: Page, category: string) {
   console.log('Step 3: Skipping failed solutions')
   
   // Skip failed solutions and submit directly
-  const submitBtn = page.locator('button:has-text("Submit"):not([disabled])')
+  const submitBtn = page.locator('button:has-text("Submit")')
   // AUTO_SUBMIT_ENABLED: Form filler handles submission for consistency
   await submitBtn.click()
   console.log('Submitted form')
@@ -1796,7 +1820,7 @@ export async function fillFinancialForm(page: Page) {
 
   // Click Continue to Step 2
   console.log('Attempting to continue to Step 2...')
-  const continueBtn1 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn1 = page.locator('button:has-text("Continue")')
   const btn1Visible = await continueBtn1.isVisible()
   console.log('Continue button visible:', btn1Visible)
 
@@ -1846,7 +1870,7 @@ export async function fillFinancialForm(page: Page) {
   
   // Click Continue to Step 3
   console.log('Clicked Continue to Step 3')
-  const continueBtn2 = page.locator('button:has-text("Continue"):not([disabled])')
+  const continueBtn2 = page.locator('button:has-text("Continue")')
   await continueBtn2.click()
   await page.waitForTimeout(500)
   

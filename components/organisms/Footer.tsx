@@ -16,7 +16,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/browse"
-                  className="text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
+                  className="inline-block py-2 text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
                 >
                   Browse Goals
                 </Link>
@@ -24,7 +24,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/dashboard"
-                  className="text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
+                  className="inline-block py-2 text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
                 >
                   Dashboard
                 </Link>
@@ -32,7 +32,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/contribute"
-                  className="text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
+                  className="inline-block py-2 text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
                 >
                   Share Your Solution
                 </Link>
@@ -49,7 +49,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/privacy"
-                  className="text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
+                  className="inline-block py-2 text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
                 >
                   Privacy Policy
                 </Link>
@@ -57,7 +57,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/terms"
-                  className="text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
+                  className="inline-block py-2 text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
                 >
                   Terms of Service
                 </Link>
@@ -65,7 +65,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/disclaimer"
-                  className="text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
+                  className="inline-block py-2 text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
                 >
                   Medical Disclaimer
                 </Link>
@@ -82,7 +82,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/help"
-                  className="text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
+                  className="inline-block py-2 text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
                 >
                   Help Center
                 </Link>
@@ -90,7 +90,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/contact"
-                  className="text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
+                  className="inline-block py-2 text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
                 >
                   Contact Us
                 </Link>
@@ -98,7 +98,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/feedback"
-                  className="text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
+                  className="inline-block py-2 text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
                 >
                   Send Feedback
                 </Link>
@@ -115,7 +115,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
+                  className="inline-block py-2 text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
                 >
                   About Us
                 </Link>
@@ -156,8 +156,8 @@ export default function Footer() {
             {/* Logo & Copyright */}
             <div className="flex items-center space-x-2">
               <Link href="/" className="flex items-center group">
-                <span className="text-lg font-black tracking-tight text-white">
-                  WWFM<sup className="text-[0.5em] font-normal ml-0.5">™</sup>
+                <span className="text-lg font-black tracking-tight text-white flex items-start">
+                  WWFM<span className="inline-block w-2 h-2 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 ml-0.5 mt-1"></span>
                 </span>
               </Link>
               <span className="text-sm text-gray-400">

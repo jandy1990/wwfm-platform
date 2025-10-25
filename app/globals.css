@@ -1330,3 +1330,61 @@ button:focus-visible,
   font-variant-numeric: tabular-nums;
   font-feature-settings: 'tnum';
 }
+
+/* ========================================
+   Mobile Form Optimizations (Phase 1)
+   ======================================== */
+
+/* Validation error pulse animation */
+@keyframes validation-error-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+}
+
+.validation-error-pulse {
+  animation: validation-error-pulse 1s ease-out 2;
+}
+
+/* Safe area insets for notched devices (iPhone X+) */
+@supports (padding: max(0px)) {
+  .safe-area-inset-bottom {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .safe-area-inset-top {
+    padding-top: max(0.75rem, env(safe-area-inset-top));
+  }
+}
+
+/* Scroll margin for better keyboard UX on mobile */
+input[type="text"],
+input[type="number"],
+textarea,
+select,
+[role="combobox"] {
+  scroll-margin-top: 100px;
+  scroll-margin-bottom: 100px;
+}
+
+/* Extra margin when field has error */
+.border-red-500 {
+  scroll-margin-top: 120px;
+}
+
+/* ========================================
+   Shared Button Focus States (Phase 4B)
+   ======================================== */
+
+/* Standard button focus for accessibility (keyboard navigation) */
+.button-focus {
+  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2;
+}
+
+/* Tight focus ring (for buttons in constrained spaces) */
+.button-focus-tight {
+  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500;
+}

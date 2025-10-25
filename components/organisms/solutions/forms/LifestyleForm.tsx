@@ -2,13 +2,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { ChevronLeft, Check } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Check, AlertCircle, Info, ChevronLeft } from 'lucide-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Skeleton } from '@/components/atoms/skeleton';
+import { Alert, AlertDescription } from '@/components/atoms/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
+import { toast } from 'sonner';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS ,  TestModeCountdown, scrollToFirstError } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
@@ -44,6 +46,8 @@ export function LifestyleForm({
   // existingSolutionId will be used when updating existing solutions
   console.log('LifestyleForm initialized with solution:', existingSolutionId || 'new');
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isTestMode = searchParams.get('testMode') === 'true';
   const { triggerPoints } = usePointsAnimation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -83,6 +87,10 @@ export function LifestyleForm({
   const [specificApproach, setSpecificApproach] = useState('');
   const [resources, setResources] = useState('');
   const [notes, setNotes] = useState('');
+
+  // Validation state
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   // Progress indicator
   const totalSteps = 3;
@@ -246,6 +254,116 @@ export function LifestyleForm({
     }
   };
 
+  // Field validation helper
+  const validateField = (fieldName: string, value: any) => {
+    let error = '';
+
+    switch (fieldName) {
+      case 'effectiveness':
+        if (value === null || value === '') {
+          error = 'Please rate the effectiveness';
+        }
+        break;
+      case 'timeToResults':
+        if (!value || value === '') {
+          error = 'Please select when you noticed results';
+        }
+        break;
+      case 'costImpact':
+        if (!value || value === '') {
+          error = 'Please select cost impact';
+        }
+        break;
+      case 'stillFollowing':
+        if (value === null) {
+          error = 'Please select if you\'re still following this';
+        }
+        break;
+      case 'weeklyPrepTime':
+        if (category === 'diet_nutrition' && (!value || value === '')) {
+          error = 'Please select weekly prep time';
+        }
+        break;
+      case 'previousSleepHours':
+        if (category === 'sleep' && (!value || value === '')) {
+          error = 'Please select previous sleep hours';
+        }
+        break;
+    }
+
+    setValidationErrors(prev => {
+      const updated = { ...prev };
+      if (error) {
+        updated[fieldName] = error;
+      } else {
+        delete updated[fieldName];
+      }
+      return updated;
+    });
+  };
+
+  // Mark field as touched (for showing validation errors)
+  const markTouched = (fieldName: string) => {
+    setTouched(prev => ({ ...prev, [fieldName]: true }));
+  };
+
+  // Touch all required fields for current step (to show validation errors)
+  const touchAllRequiredFields = () => {
+    switch (currentStep) {
+      case 1: // Universal + Required fields
+        // Mark as touched AND validate to generate errors
+        markTouched('effectiveness');
+        validateField('effectiveness', effectiveness);
+
+        markTouched('timeToResults');
+        validateField('timeToResults', timeToResults);
+
+        markTouched('costImpact');
+        validateField('costImpact', costImpact);
+
+        markTouched('stillFollowing');
+        validateField('stillFollowing', stillFollowing);
+
+        if (category === 'diet_nutrition') {
+          markTouched('weeklyPrepTime');
+          validateField('weeklyPrepTime', weeklyPrepTime);
+        }
+
+        if (category === 'sleep') {
+          markTouched('previousSleepHours');
+          validateField('previousSleepHours', previousSleepHours);
+        }
+        break;
+      case 2: // Challenges
+        // Challenges use array validation - no individual fields
+        if (selectedChallenges.length === 0) {
+          toast.error('Please select at least one challenge');
+        }
+        break;
+      case 3: // Failed solutions (optional, always valid)
+        break;
+    }
+  };
+
+  // Handle Continue button click with validation feedback
+  const handleContinue = () => {
+    if (!canProceedToNextStep()) {
+      // Show validation errors on all required fields
+      touchAllRequiredFields();
+
+      // Scroll to first error
+      scrollToFirstError(validationErrors);
+
+      // Toast notification
+      toast.error('Please fill all required fields');
+
+      return; // Block navigation
+    }
+
+    // Validation passed - proceed to next step
+    setCurrentStep(currentStep + 1);
+  };
+
   const canProceedToNextStep = () => {
     switch (currentStep) {
       case 1: // Universal + Required fields
@@ -267,8 +385,16 @@ export function LifestyleForm({
   };
 
   const handleSubmit = async () => {
+    // Validate before submission
+    if (!canProceedToNextStep()) {
+      touchAllRequiredFields();
+      scrollToFirstError(validationErrors);
+      toast.error('Please fill all required fields before submitting');
+      return;
+    }
+
     setIsSubmitting(true);
-    
+
     try {
       // Keep stillFollowing and sustainabilityReason as separate fields
       
@@ -382,14 +508,20 @@ export function LifestyleForm({
       
       if (result.success) {
         console.log('Successfully updated additional information');
-        alert('Additional information saved successfully!');
+        toast.success('Additional information saved!', {
+          description: 'Your extra details have been added to your review.'
+        });
       } else {
         console.error('Failed to update:', result.error);
-        alert('Failed to save additional information. Please try again.');
+        toast.error('Failed to save additional information', {
+          description: 'Please try again or contact support if the problem persists.'
+        });
       }
     } catch (error) {
       console.error('Error updating additional info:', error);
-      alert('An error occurred. Please try again.');
+      toast.error('An error occurred', {
+        description: 'Please try again or contact support if the problem persists.'
+      });
     }
   };
 
@@ -408,36 +540,19 @@ export function LifestyleForm({
         )}
         
         {/* Quick context card */}
-            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 
-                          border border-purple-200 dark:border-blue-800 rounded-lg p-4">
-              <p className="text-sm text-blue-800 dark:text-purple-200">
+            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20
+                          border border-purple-200 dark:border-purple-800 rounded-lg p-4">
+              <p className="text-sm text-purple-800 dark:text-purple-200">
                 Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
-              </p>
-            </div>
-
-            {/* Category-specific description */}
-            <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-200 dark:border-green-800">
-              <p className="text-sm text-green-800 dark:text-green-200">
-                {category === 'diet_nutrition' ? (
-                  <><strong>Diet/Nutrition:</strong> Changes to eating habits, meal plans, dietary restrictions, or nutritional approaches</>  
-                ) : (
-                  <><strong>Sleep:</strong> Changes to sleep schedule, bedtime routines, sleep environment, or sleep-related habits</>  
-                )}
               </p>
             </div>
 
             {/* Effectiveness Section */}
             <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-                  <span className="text-lg">⭐</span>
-                </div>
-                <FormSectionHeader 
-                  icon="⭐"
-                  title="How well it worked"
-                  bgColorClassName="bg-green-100 dark:bg-green-900"
-                />
-              </div>
+              <FormSectionHeader
+                title="How well it worked"
+                icon={CATEGORY_ICONS[category]}
+              />
               
               {/* 5-star rating */}
               <div className="space-y-4">
@@ -445,10 +560,16 @@ export function LifestyleForm({
                   {[1, 2, 3, 4, 5].map((rating) => (
                     <button
                       key={rating}
-                      onClick={() => setEffectiveness(rating)}
+                      onClick={() => {
+                        setEffectiveness(rating);
+                        validateField('effectiveness', rating);
+                        markTouched('effectiveness');
+                      }}
                       className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
                         effectiveness === rating
                           ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 scale-105 shadow-lg'
+                          : touched.effectiveness && validationErrors.effectiveness
+                          ? 'border-red-500 dark:border-red-600'
                           : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                       }`}
                     >
@@ -481,6 +602,12 @@ export function LifestyleForm({
                   <span className="text-xs text-gray-500">Not at all</span>
                   <span className="text-xs text-gray-500">Extremely</span>
                 </div>
+                {touched.effectiveness && validationErrors.effectiveness && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.effectiveness}
+                  </p>
+                )}
               </div>
 
               {/* Time to results */}
@@ -491,11 +618,21 @@ export function LifestyleForm({
                     When did you notice results?
                   </label>
                 </div>
-                <Select value={timeToResults} onValueChange={setTimeToResults}>
-                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                <Select
+                  value={timeToResults}
+                  onValueChange={(val) => {
+                    setTimeToResults(val);
+                    validateField('timeToResults', val);
+                    markTouched('timeToResults');
+                  }}
+                >
+                  <SelectTrigger className={`w-full px-4 py-3 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           transition-all">
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all ${
+                             touched.timeToResults && validationErrors.timeToResults
+                               ? 'border-2 border-red-500 dark:border-red-600'
+                               : 'border border-gray-300 dark:border-gray-600'
+                           }`}>
                     <SelectValue placeholder="Select timeframe" />
                   </SelectTrigger>
                   <SelectContent>
@@ -509,6 +646,12 @@ export function LifestyleForm({
                     <SelectItem value="Still evaluating">Still evaluating</SelectItem>
                   </SelectContent>
                 </Select>
+                {touched.timeToResults && validationErrors.timeToResults && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.timeToResults}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -521,25 +664,31 @@ export function LifestyleForm({
 
             {/* Required Fields Section */}
             <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
-                  <span className="text-lg">📋</span>
-                </div>
-                <FormSectionHeader 
-                  icon={CATEGORY_ICONS[category as keyof typeof CATEGORY_ICONS] || CATEGORY_ICONS.default}
-                  title="Key details"
-                />
-              </div>
+              <FormSectionHeader
+                title="Key details"
+                icon={CATEGORY_ICONS[category]}
+              />
 
               {/* Cost Impact */}
               <div className="space-y-3">
                 <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Cost impact <span className="text-red-500">*</span>
                 </label>
-                <Select value={costImpact} onValueChange={setCostImpact}>
-                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                <Select
+                  value={costImpact}
+                  onValueChange={(val) => {
+                    setCostImpact(val);
+                    validateField('costImpact', val);
+                    markTouched('costImpact');
+                  }}
+                >
+                  <SelectTrigger className={`w-full px-4 py-3 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all ${
+                             touched.costImpact && validationErrors.costImpact
+                               ? 'border-2 border-red-500 dark:border-red-600'
+                               : 'border border-gray-300 dark:border-gray-600'
+                           }`}>
                     <SelectValue placeholder={category === 'diet_nutrition' ? "Compared to previous diet" : "Any costs?"} />
                   </SelectTrigger>
                   <SelectContent>
@@ -562,6 +711,12 @@ export function LifestyleForm({
                     )}
                   </SelectContent>
                 </Select>
+                {touched.costImpact && validationErrors.costImpact && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.costImpact}
+                  </p>
+                )}
               </div>
 
               {/* Category-specific required fields */}
@@ -570,10 +725,21 @@ export function LifestyleForm({
                   <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                     Weekly prep time <span className="text-red-500">*</span>
                   </label>
-                  <Select value={weeklyPrepTime} onValueChange={setWeeklyPrepTime}>
-                    <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                  <Select
+                    value={weeklyPrepTime}
+                    onValueChange={(val) => {
+                      setWeeklyPrepTime(val);
+                      validateField('weeklyPrepTime', val);
+                      markTouched('weeklyPrepTime');
+                    }}
+                  >
+                    <SelectTrigger className={`w-full px-4 py-3 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all ${
+                               touched.weeklyPrepTime && validationErrors.weeklyPrepTime
+                                 ? 'border-2 border-red-500 dark:border-red-600'
+                                 : 'border border-gray-300 dark:border-gray-600'
+                             }`}>
                       <SelectValue placeholder="Time spent on meal planning/prep" />
                     </SelectTrigger>
                     <SelectContent>
@@ -586,6 +752,12 @@ export function LifestyleForm({
                       <SelectItem value="Over 8 hours/week">Over 8 hours/week</SelectItem>
                     </SelectContent>
                   </Select>
+                  {touched.weeklyPrepTime && validationErrors.weeklyPrepTime && (
+                    <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                      <AlertCircle className="h-3 w-3" />
+                      {validationErrors.weeklyPrepTime}
+                    </p>
+                  )}
                 </div>
               )}
 
@@ -594,10 +766,21 @@ export function LifestyleForm({
                   <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                     Previous sleep hours <span className="text-red-500">*</span>
                   </label>
-                  <Select value={previousSleepHours} onValueChange={setPreviousSleepHours}>
-                    <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                  <Select
+                    value={previousSleepHours}
+                    onValueChange={(val) => {
+                      setPreviousSleepHours(val);
+                      validateField('previousSleepHours', val);
+                      markTouched('previousSleepHours');
+                    }}
+                  >
+                    <SelectTrigger className={`w-full px-4 py-3 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all ${
+                               touched.previousSleepHours && validationErrors.previousSleepHours
+                                 ? 'border-2 border-red-500 dark:border-red-600'
+                                 : 'border border-gray-300 dark:border-gray-600'
+                             }`}>
                       <SelectValue placeholder="Before this change" />
                     </SelectTrigger>
                     <SelectContent>
@@ -610,6 +793,12 @@ export function LifestyleForm({
                       <SelectItem value="Highly variable">Highly variable</SelectItem>
                     </SelectContent>
                   </Select>
+                  {touched.previousSleepHours && validationErrors.previousSleepHours && (
+                    <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                      <AlertCircle className="h-3 w-3" />
+                      {validationErrors.previousSleepHours}
+                    </p>
+                  )}
                 </div>
               )}
 
@@ -624,6 +813,8 @@ export function LifestyleForm({
                     <label className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
                       stillFollowing === true
                         ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30'
+                        : touched.stillFollowing && validationErrors.stillFollowing
+                        ? 'border-red-500 dark:border-red-600'
                         : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                     }`}>
                       <input
@@ -633,15 +824,19 @@ export function LifestyleForm({
                         onChange={() => {
                           setStillFollowing(true);
                           setSustainabilityReason(''); // Reset reason when changing selection
+                          validateField('stillFollowing', true);
+                          markTouched('stillFollowing');
                         }}
-                        className="mr-2 text-purple-600 focus:ring-purple-500"
+                        className="mr-2 text-purple-600 focus:ring-2 focus:ring-purple-500"
                       />
                       <span className="text-sm">Yes, still following it</span>
                     </label>
-                    
+
                     <label className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
                       stillFollowing === false
                         ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30'
+                        : touched.stillFollowing && validationErrors.stillFollowing
+                        ? 'border-red-500 dark:border-red-600'
                         : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                     }`}>
                       <input
@@ -651,12 +846,20 @@ export function LifestyleForm({
                         onChange={() => {
                           setStillFollowing(false);
                           setSustainabilityReason(''); // Reset reason when changing selection
+                          validateField('stillFollowing', false);
+                          markTouched('stillFollowing');
                         }}
-                        className="mr-2 text-purple-600 focus:ring-purple-500"
+                        className="mr-2 text-purple-600 focus:ring-2 focus:ring-purple-500"
                       />
                       <span className="text-sm">No, I stopped</span>
                     </label>
                   </div>
+                  {touched.stillFollowing && validationErrors.stillFollowing && (
+                    <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                      <AlertCircle className="h-3 w-3" />
+                      {validationErrors.stillFollowing}
+                    </p>
+                  )}
                 </div>
 
                 {/* Step B: Conditional dropdown based on selection */}
@@ -712,17 +915,11 @@ export function LifestyleForm({
         return (
           <div className="space-y-6 animate-slide-in">
             <ProgressCelebration step={currentStep} />
-            
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center">
-                <span className="text-lg">⚡</span>
-              </div>
-              <FormSectionHeader 
-                icon="⚡"
-                title="Any challenges?"
-                bgColorClassName="bg-amber-100 dark:bg-amber-900"
-              />
-            </div>
+
+            <FormSectionHeader
+              title="Any challenges?"
+              icon={CATEGORY_ICONS[category]}
+            />
 
             {/* Quick tip */}
             <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3">
@@ -751,8 +948,8 @@ export function LifestyleForm({
                     className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
                               transition-all transform hover:scale-[1.02] ${
                       selectedChallenges.includes(challenge)
-                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-md'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
+                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-lg'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-lg'
                     }`}
                   >
                     <input
@@ -794,8 +991,8 @@ export function LifestyleForm({
                 />
                 <button
                   onClick={addCustomChallenge}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white 
-                           rounded-lg transition-colors"
+                  className="px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white 
+                           rounded-lg transition-colors button-focus-tight"
                 >
                   +
                 </button>
@@ -841,8 +1038,8 @@ export function LifestyleForm({
             {/* Selected count indicator */}
             {selectedChallenges.length > 0 && selectedChallenges[0] !== 'None' && (
               <div className="text-center">
-                <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
-                               text-purple-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
+                <span className="inline-flex items-center gap-2 px-3 py-1 bg-purple-100 dark:bg-purple-900/30
+                               text-purple-700 dark:text-purple-300 rounded-full text-sm animate-fade-in">
                   <Check className="w-4 h-4" />
                   {selectedChallenges.filter(c => c !== 'Other (please describe)').length} selected
                 </span>
@@ -855,17 +1052,11 @@ export function LifestyleForm({
         return (
           <div className="space-y-6 animate-slide-in">
             <ProgressCelebration step={currentStep} />
-            
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
-                <span className="text-lg">🔍</span>
-              </div>
-              <FormSectionHeader 
-                icon="🔍"
-                title="What else did you try?"
-                bgColorClassName="bg-purple-100 dark:bg-purple-900"
-              />
-            </div>
+
+            <FormSectionHeader
+              title="What else did you try?"
+              icon={CATEGORY_ICONS[category]}
+            />
 
             {/* Context card */}
             <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-3">
@@ -1013,7 +1204,7 @@ export function LifestyleForm({
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg 
-                         text-sm font-semibold transition-colors"
+                         text-sm font-semibold transition-colors button-focus-tight"
                 >
                   Submit
                 </button>
@@ -1029,15 +1220,22 @@ export function LifestyleForm({
           >
             Back to goal page
           </button>
+
+          {/* Test Mode Auto-Return */}
+          <TestModeCountdown isTestMode={isTestMode} />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Progress Bar */}
-      <div className="mb-8">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      {/* Progress Bar - Sticky */}
+      <div className="sticky top-0 z-10
+                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                      border-b border-gray-200 dark:border-gray-700
+                      px-4 sm:px-6 py-3 mb-8 -mx-4 sm:-mx-6 shadow-md
+                      safe-area-inset-top">
         <div className="flex items-center justify-between mb-2">
           <button
             onClick={() => {
@@ -1047,7 +1245,7 @@ export function LifestyleForm({
                 onBack();
               }
             }}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors button-focus-tight"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -1064,62 +1262,81 @@ export function LifestyleForm({
       </div>
 
       {/* Form Content */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200
                     dark:border-gray-700 p-4 sm:p-6 overflow-visible">
         {renderStep()}
       </div>
 
-      {/* Navigation */}
-      <div className="flex justify-between mt-6">
-        {currentStep > 1 ? (
-          <button
-            onClick={() => setCurrentStep(currentStep - 1)}
-            className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                     dark:hover:text-gray-200 font-semibold transition-colors"
-          >
-            Back
-          </button>
-        ) : (
-          <div />
-        )}
-        
-        <div className="flex gap-2">
-          {/* Forward button - only show if we've been to a higher step */}
-          {currentStep < highestStepReached && currentStep < totalSteps && (
+      {/* Step Navigation Helper */}
+      {!canProceedToNextStep() && currentStep === 1 && (
+        <Alert className="mt-6 border-purple-200 bg-purple-50 dark:bg-purple-900/20 dark:border-purple-800">
+          <Info className="h-4 w-4 text-purple-600" />
+          <AlertDescription>
+            <p className="font-semibold text-purple-900 dark:text-purple-100 mb-1">Required to continue:</p>
+            <ul className="list-disc list-inside text-sm text-purple-800 dark:text-purple-200">
+              {effectiveness === null && <li>Effectiveness rating</li>}
+              {!timeToResults && <li>Time to results</li>}
+              {!costImpact && <li>Cost impact</li>}
+              {stillFollowing === null && <li>Still following</li>}
+              {category === 'diet_nutrition' && !weeklyPrepTime && <li>Weekly prep time</li>}
+              {category === 'sleep' && !previousSleepHours && <li>Previous sleep hours</li>}
+            </ul>
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Navigation - Sticky for mobile keyboard accessibility */}
+      <div className="sticky bottom-0 left-0 right-0
+                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                      border-t border-gray-200 dark:border-gray-700
+                      px-4 sm:px-6 py-3 mt-6 -mx-4 sm:-mx-6 shadow-lg z-10
+                      safe-area-inset-bottom">
+        <div className="flex justify-between">
+          {currentStep > 1 ? (
             <button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                       dark:hover:text-gray-200 font-semibold transition-colors"
+              onClick={() => setCurrentStep(currentStep - 1)}
+              className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                       dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
             >
-              Forward
-            </button>
-          )}
-          
-          {currentStep < totalSteps ? (
-            <button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              disabled={!canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
-                canProceedToNextStep()
-                  ? 'bg-purple-600 hover:bg-purple-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {currentStep === 3 ? 'Skip' : 'Continue'}
+              Back
             </button>
           ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={isSubmitting || !canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
-                !isSubmitting
-                  ? 'bg-green-600 hover:bg-green-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {isSubmitting ? 'Submitting...' : 'Submit'}
-            </button>
+            <div />
           )}
+
+          <div className="flex gap-2">
+            {/* Forward button - only show if we've been to a higher step */}
+            {currentStep < highestStepReached && currentStep < totalSteps && (
+              <button
+                onClick={() => setCurrentStep(currentStep + 1)}
+                className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                         dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
+              >
+                Forward
+              </button>
+            )}
+
+            {currentStep < totalSteps ? (
+              <button
+                onClick={handleContinue}
+                className="px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                {currentStep === 3 ? 'Skip' : 'Continue'}
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className={`px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors ${
+                  !isSubmitting
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

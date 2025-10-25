@@ -133,8 +133,9 @@ export async function getUserMilestone(userId: string): Promise<Milestone | null
 // Helper to get all user's achieved milestones with dates
 export async function getUserMilestoneHistory(userId: string) {
   const supabase = getServiceSupabaseClient()
+  const milestoneClient = supabase as unknown as SupabaseClient<any>
   try {
-    const { data, error } = await supabase
+    const { data, error } = await milestoneClient
       .from('user_milestones')
       .select('*')
       .eq('user_id', userId)
@@ -144,7 +145,7 @@ export async function getUserMilestoneHistory(userId: string) {
     if (error) throw error
 
     // Map to include full milestone data
-    return data?.map(record => {
+    return (data as Array<{ milestone_key: string }> | null)?.map(record => {
       const milestone = MILESTONES.find(m => m.key === record.milestone_key)
       return {
         ...record,

@@ -26,7 +26,8 @@ const pickFirst = <T>(value: T | T[] | null | undefined): T | undefined => {
 }
 
 export async function getHomePageData(): Promise<HomePageData> {
-  const supabase = await createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient()
+  const db = supabase as unknown as SupabaseClient<any>
 
   // Fetch all data in parallel for performance
   const [
@@ -36,12 +37,12 @@ export async function getHomePageData(): Promise<HomePageData> {
     platformStats,
     topValueArenas
   ] = await Promise.all([
-    getTrendingGoals(supabase),
-    getActivityFeed(supabase),
-    getFeaturedVerbatims(supabase),
-    getPlatformStats(supabase),
-    getTopValueArenas(supabase)
-  ]);
+    getTrendingGoals(db),
+    getActivityFeed(db),
+    getFeaturedVerbatims(db),
+    getPlatformStats(db),
+    getTopValueArenas(db)
+  ])
 
   return {
     trendingGoals,
@@ -49,7 +50,7 @@ export async function getHomePageData(): Promise<HomePageData> {
     featuredVerbatims,
     platformStats,
     topValueArenas
-  };
+  }
 }
 
 export async function searchGoals(query: string): Promise<GoalSuggestion[]> {
@@ -127,7 +128,7 @@ export async function searchGoals(query: string): Promise<GoalSuggestion[]> {
   }
 }
 
-async function getTrendingGoals(supabase: SupabaseClient<Database>): Promise<TrendingGoal[]> {
+async function getTrendingGoals(supabase: SupabaseClient<any>): Promise<TrendingGoal[]> {
   try {
     const args: Database['public']['Functions']['get_trending_goals']['Args'] = {
       timeframe_days: 7,
@@ -163,7 +164,7 @@ async function getTrendingGoals(supabase: SupabaseClient<Database>): Promise<Tre
   }
 }
 
-async function getActivityFeed(supabase: SupabaseClient<Database>): Promise<ActivityEvent[]> {
+async function getActivityFeed(supabase: SupabaseClient<any>): Promise<ActivityEvent[]> {
   try {
     const args: Database['public']['Functions']['get_activity_feed']['Args'] = {
       hours_back: 24,
@@ -197,7 +198,7 @@ async function getActivityFeed(supabase: SupabaseClient<Database>): Promise<Acti
   }
 }
 
-async function getFeaturedVerbatims(supabase: SupabaseClient<Database>): Promise<FeaturedVerbatim[]> {
+async function getFeaturedVerbatims(supabase: SupabaseClient<any>): Promise<FeaturedVerbatim[]> {
   try {
     // Query for high-quality discussion excerpts
     const { data, error } = await supabase
@@ -218,14 +219,15 @@ async function getFeaturedVerbatims(supabase: SupabaseClient<Database>): Promise
       .order('upvotes', { ascending: false })
       .order('created_at', { ascending: false })
       .limit(5)
-      .returns<FeaturedVerbatimRow[] | null>()
 
     if (error) {
       logger.error('home: error fetching featured verbatims', { error })
       return []
     }
 
-    return (data ?? []).map((row): FeaturedVerbatim => {
+    const rows = (data as FeaturedVerbatimRow[] | null) ?? []
+
+    return rows.map((row): FeaturedVerbatim => {
       const createdAt = new Date(row.created_at)
       const now = new Date()
       const hoursDiff = (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60)
@@ -253,13 +255,12 @@ async function getFeaturedVerbatims(supabase: SupabaseClient<Database>): Promise
   }
 }
 
-async function getPlatformStats(supabase: SupabaseClient<Database>): Promise<PlatformStats> {
+async function getPlatformStats(supabase: SupabaseClient<any>): Promise<PlatformStats> {
   try {
     const { data, error } = await supabase
       .from('platform_stats_cache')
       .select('*')
       .single()
-      .returns<Tables<'platform_stats_cache'> | null>()
 
     if (error) {
       logger.error('home: error fetching platform stats', { error })
@@ -274,7 +275,7 @@ async function getPlatformStats(supabase: SupabaseClient<Database>): Promise<Pla
       }
     }
 
-    const row = data ?? {
+    const row = (data as Tables<'platform_stats_cache'> | null) ?? {
       active_users_today: 0,
       avg_effectiveness: 0,
       discussions_today: 0,
@@ -305,22 +306,26 @@ async function getPlatformStats(supabase: SupabaseClient<Database>): Promise<Pla
   }
 }
 
-async function getTopValueArenas(supabase: SupabaseClient<Database>): Promise<TopValueArena[]> {
+async function getTopValueArenas(supabase: SupabaseClient<any>): Promise<TopValueArena[]> {
   try {
     // Use the get_arena_value_scores function we created earlier
     const { data, error } = await supabase.rpc('get_arena_value_scores')
 
     if (error) {
-      logger.error('home: error fetching top value arenas', { error })
+      console.error('home: error fetching top value arenas', error)
       return []
     }
 
-    if (!data || data.length === 0) {
+    const rows =
+      (data as Array<{ arena_id: string; avg_lasting_value: number; goal_count: number; arena_name?: string }> | null) ??
+      []
+
+    if (rows.length === 0) {
       return []
     }
 
     // Get top 5 arenas by lasting value, then fetch full arena details
-    const topArenaIds = data
+    const topArenaIds = rows
       .sort((a, b) => (b.avg_lasting_value || 0) - (a.avg_lasting_value || 0))
       .slice(0, 5)
       .map(a => a.arena_id)
@@ -337,7 +342,7 @@ async function getTopValueArenas(supabase: SupabaseClient<Database>): Promise<To
 
     // Combine the data
     return topArenaIds.map(id => {
-      const valueData = data.find(d => d.arena_id === id)
+      const valueData = rows.find(d => d.arena_id === id)
       const arenaDetail = arenaDetails?.find(a => a.id === id)
 
       return {

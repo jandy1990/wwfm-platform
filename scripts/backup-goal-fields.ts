@@ -54,9 +54,6 @@ program
   .option('--output-dir <path>', 'Output directory for backup', 'backups')
   .option('--include-solution-fields', 'Include solution_fields in backup (not just aggregated_fields)')
   .option('--verbose', 'Verbose output')
-  .parse()
-
-const options = program.opts()
 
 async function createBackupDirectory(outputDir: string): Promise<void> {
   if (!fs.existsSync(outputDir)) {
@@ -79,7 +76,11 @@ async function getGoalTitle(goalId: string): Promise<string> {
   return goal?.title || 'Unknown Goal'
 }
 
-async function backupGoalFields(goalId: string, outputDir: string): Promise<string> {
+async function backupGoalFields(
+  goalId: string,
+  outputDir: string,
+  includeSolutionFields = false
+): Promise<string> {
   console.log(chalk.blue(`📦 Creating backup for goal: ${goalId}`))
 
   // Get goal title for metadata
@@ -121,7 +122,7 @@ async function backupGoalFields(goalId: string, outputDir: string): Promise<stri
     goal_id: link.goal_id,
     implementation_id: link.implementation_id,
     aggregated_fields: link.aggregated_fields,
-    solution_fields: options.includeSolutionFields ? link.solution_fields : null,
+    solution_fields: includeSolutionFields ? link.solution_fields : null,
     effectiveness_rating: link.effectiveness_rating,
     created_at: link.created_at,
     updated_at: link.updated_at,
@@ -157,7 +158,7 @@ async function backupGoalFields(goalId: string, outputDir: string): Promise<stri
   console.log(chalk.green(`✅ Backup created: ${filepath}`))
   console.log(chalk.gray(`   Solutions with aggregated_fields: ${withAggregatedFields}/${backupLinks.length}`))
 
-  if (options.includeSolutionFields) {
+  if (includeSolutionFields) {
     console.log(chalk.gray(`   Solutions with solution_fields: ${withSolutionFields}/${backupLinks.length}`))
   }
 
@@ -202,6 +203,13 @@ async function validateBackup(filepath: string): Promise<void> {
 
 async function main(): Promise<void> {
   try {
+    program.parse()
+    const options = program.opts<{
+      goalId: string
+      outputDir: string
+      includeSolutionFields?: boolean
+    }>()
+
     console.log(chalk.blue('🚀 Goal Field Backup Tool'))
     console.log(chalk.gray('================================'))
 
@@ -217,7 +225,11 @@ async function main(): Promise<void> {
     await createBackupDirectory(outputDir)
 
     // Create backup
-    const backupFilepath = await backupGoalFields(goalId, outputDir)
+    const backupFilepath = await backupGoalFields(
+      goalId,
+      outputDir,
+      Boolean(options.includeSolutionFields)
+    )
 
     // Validate backup
     await validateBackup(backupFilepath)

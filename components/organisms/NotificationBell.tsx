@@ -15,7 +15,7 @@ export default function NotificationBell({ count }: NotificationBellProps) {
   return (
     <Link
       href="/mailbox"
-      className="relative p-2
+      className="relative min-w-[44px] min-h-[44px] flex items-center justify-center
                  text-gray-700 dark:text-gray-300
                  hover:text-purple-600 dark:hover:text-purple-400
                  hover:bg-gray-100 dark:hover:bg-gray-700

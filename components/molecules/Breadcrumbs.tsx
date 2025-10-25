@@ -66,7 +66,10 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
                   <div className="sm:hidden relative" ref={dropdownRef}>
                     <button
                       onClick={() => setShowMobileMenu(!showMobileMenu)}
-                      className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      className="min-w-[44px] min-h-[44px] flex items-center justify-center
+                                 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200
+                                 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors
+                                 focus:outline-none focus:ring-2 focus:ring-purple-500"
                       aria-label="Show hidden breadcrumbs"
                     >
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -119,7 +122,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
                 {item.href && !isLast ? (
                   <Link
                     href={item.href}
-                    className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:underline transition-all duration-200 py-1 px-1 -mx-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 min-h-[32px] flex items-center focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                    className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:underline transition-all duration-200 py-2 px-1 -mx-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 min-h-[44px] flex items-center focus:ring-2 focus:ring-purple-500 focus:outline-none"
                   >
                     {item.label}
                   </Link>

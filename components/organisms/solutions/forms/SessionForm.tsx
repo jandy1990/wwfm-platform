@@ -1,8 +1,8 @@
   'use client';
 // SessionForm - handles session-based solution categories
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { ChevronLeft, Check, X } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Check, X, AlertCircle, Info } from 'lucide-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
 import { Label } from '@/components/atoms/label';
@@ -11,12 +11,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { COST_RANGES } from '@/lib/forms/templates';
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Skeleton } from '@/components/atoms/skeleton';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS ,  TestModeCountdown, scrollToFirstError } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
 import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
+import { Alert, AlertDescription } from '@/components/atoms/alert';
+import { toast } from 'sonner';
 
 interface SessionFormProps {
   goalId: string;
@@ -51,6 +53,8 @@ export function SessionForm({
   // existingSolutionId will be used when updating existing solutions
   console.log('SessionForm initialized with solution:', existingSolutionId || 'new');
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isTestMode = searchParams.get('testMode') === 'true';
   const { triggerPoints } = usePointsAnimation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -103,15 +107,19 @@ export function SessionForm({
   const [typicalLength, setTypicalLength] = useState('');
   const [availability, setAvailability] = useState<string[]>([]);
   const [notes, setNotes] = useState('');
-  
+
+  // Validation state
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
   // const supabaseClient = createClientComponentClient();
-  
+
   // Only show side effects for medical procedures and alternative practitioners
   const showSideEffects = ['medical_procedures', 'alternative_practitioners'].includes(category);
-  
+
   // Show challenges for therapists, coaches, doctors, professional services, and crisis resources
   const showChallenges = ['therapists_counselors', 'coaches_mentors', 'doctors_specialists', 'professional_services', 'crisis_resources'].includes(category);
-  
+
   // Progress indicator
   const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
@@ -365,9 +373,9 @@ export function SessionForm({
         )}
         
         {/* Quick context card */}
-        <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 
-                      border border-purple-200 dark:border-blue-800 rounded-lg p-4">
-          <p className="text-sm text-blue-800 dark:text-purple-200">
+        <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20
+                      border border-purple-200 dark:border-purple-800 rounded-lg p-4">
+          <p className="text-sm text-purple-800 dark:text-purple-200">
             Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
           </p>
         </div>
@@ -378,16 +386,20 @@ export function SessionForm({
             <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
               <span className="text-lg">⭐</span>
             </div>
-            <h2 className="text-xl font-semibold">How well it worked</h2>
+            <h2 className="text-xl font-bold">How well it worked</h2>
           </div>
-          
+
           {/* 5-star rating */}
           <div className="space-y-4">
-            <div className="grid grid-cols-5 gap-2">
+            <div className={`grid grid-cols-5 gap-2 ${touched.effectiveness && validationErrors.effectiveness ? 'ring-2 ring-red-500 rounded-lg p-1' : ''}`}>
               {[1, 2, 3, 4, 5].map((rating) => (
                 <button
                   key={rating}
-                  onClick={() => setEffectiveness(rating)}
+                  onClick={() => {
+                    setEffectiveness(rating);
+                    markTouched('effectiveness');
+                  }}
+                  onBlur={() => markTouched('effectiveness')}
                   className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
                     effectiveness === rating
                       ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 scale-105 shadow-lg'
@@ -418,6 +430,12 @@ export function SessionForm({
                 </button>
               ))}
             </div>
+            {touched.effectiveness && validationErrors.effectiveness && (
+              <Alert variant="destructive" className="mt-2">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{validationErrors.effectiveness}</AlertDescription>
+              </Alert>
+            )}
             <div className="flex justify-between sm:hidden">
               <span className="text-xs text-gray-500">Not at all</span>
               <span className="text-xs text-gray-500">Extremely</span>
@@ -429,13 +447,25 @@ export function SessionForm({
             <div className="flex items-center gap-2">
               <span className="text-lg">⏱️</span>
               <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                When did you notice results?
+                When did you notice results? <span className="text-red-500">*</span>
               </label>
             </div>
-            <Select value={timeToResults} onValueChange={setTimeToResults}>
-              <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+            <Select
+              value={timeToResults}
+              onValueChange={(value) => {
+                setTimeToResults(value);
+                markTouched('timeToResults');
+              }}
+            >
+              <SelectTrigger
+                onBlur={() => markTouched('timeToResults')}
+                className={`w-full px-4 py-3 rounded-lg
                        focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all">
+                       bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all
+                       ${touched.timeToResults && validationErrors.timeToResults
+                         ? 'border-2 border-red-500'
+                         : 'border border-gray-300 dark:border-gray-600'}`}
+              >
                 <SelectValue placeholder="Select timeframe" />
               </SelectTrigger>
               <SelectContent>
@@ -449,6 +479,12 @@ export function SessionForm({
                 <SelectItem value="Still evaluating">Still evaluating</SelectItem>
               </SelectContent>
             </Select>
+            {touched.timeToResults && validationErrors.timeToResults && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{validationErrors.timeToResults}</AlertDescription>
+              </Alert>
+            )}
           </div>
         </div>
 
@@ -474,47 +510,80 @@ export function SessionForm({
 
         {/* Only show radio buttons for categories that support multiple cost types */}
         {category !== 'crisis_resources' && !singleCostCategories.includes(category) && (
-          <div className="flex gap-4" role="radiogroup">
-            <label className="flex items-center cursor-pointer">
-              <input
-                type="radio"
-                name="costType"
-                value="per_session"
-                checked={costType === 'per_session'}
-                onChange={(e) => setCostType(e.target.value as 'per_session' | 'monthly' | 'total')}
-                className="mr-2 text-purple-600 focus:ring-purple-500"
-              />
-              <span>Per session</span>
-            </label>
-            <label className="flex items-center cursor-pointer">
-              <input
-                type="radio"
-                name="costType"
-                value="monthly"
-                checked={costType === 'monthly'}
-                onChange={(e) => setCostType(e.target.value as 'per_session' | 'monthly' | 'total')}
-                className="mr-2 text-purple-600 focus:ring-purple-500"
-              />
-              <span>Monthly</span>
-            </label>
-            {category === 'medical_procedures' && (
+          <>
+            <div className="flex gap-4" role="radiogroup">
               <label className="flex items-center cursor-pointer">
                 <input
                   type="radio"
                   name="costType"
-                  value="total"
-                  checked={costType === 'total'}
-                  onChange={(e) => setCostType(e.target.value as 'per_session' | 'monthly' | 'total')}
-                  className="mr-2 text-purple-600 focus:ring-purple-500"
+                  value="per_session"
+                  checked={costType === 'per_session'}
+                  onChange={(e) => {
+                    setCostType(e.target.value as 'per_session' | 'monthly' | 'total');
+                    markTouched('costType');
+                  }}
+                  onBlur={() => markTouched('costType')}
+                  className="mr-2 text-purple-600 focus:ring-2 focus:ring-purple-500"
                 />
-                <span>Total cost</span>
+                <span>Per session</span>
               </label>
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="radio"
+                  name="costType"
+                  value="monthly"
+                  checked={costType === 'monthly'}
+                  onChange={(e) => {
+                    setCostType(e.target.value as 'per_session' | 'monthly' | 'total');
+                    markTouched('costType');
+                  }}
+                  onBlur={() => markTouched('costType')}
+                  className="mr-2 text-purple-600 focus:ring-2 focus:ring-purple-500"
+                />
+                <span>Monthly</span>
+              </label>
+              {category === 'medical_procedures' && (
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="radio"
+                    name="costType"
+                    value="total"
+                    checked={costType === 'total'}
+                    onChange={(e) => {
+                      setCostType(e.target.value as 'per_session' | 'monthly' | 'total');
+                      markTouched('costType');
+                    }}
+                    onBlur={() => markTouched('costType')}
+                    className="mr-2 text-purple-600 focus:ring-2 focus:ring-purple-500"
+                  />
+                  <span>Total cost</span>
+                </label>
+              )}
+            </div>
+            {touched.costType && validationErrors.costType && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{validationErrors.costType}</AlertDescription>
+              </Alert>
             )}
-          </div>
+          </>
         )}
-        
-        <Select value={costRange} onValueChange={setCostRange} required>
-          <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+
+        <Select
+          value={costRange}
+          onValueChange={(value) => {
+            setCostRange(value);
+            markTouched('costRange');
+          }}
+          required
+        >
+          <SelectTrigger
+            onBlur={() => markTouched('costRange')}
+            className={`w-full px-4 py-2 rounded-lg
+              ${touched.costRange && validationErrors.costRange
+                ? 'border-2 border-red-500'
+                : 'border border-gray-300 dark:border-gray-600'}`}
+          >
             <SelectValue placeholder="Select cost range" />
           </SelectTrigger>
           <SelectContent>
@@ -523,6 +592,12 @@ export function SessionForm({
             ))}
           </SelectContent>
         </Select>
+        {touched.costRange && validationErrors.costRange && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{validationErrors.costRange}</AlertDescription>
+          </Alert>
+        )}
       </div>
 
 
@@ -537,8 +612,20 @@ export function SessionForm({
                 <span className="text-red-500">*</span>
               )}
             </Label>
-            <Select value={sessionFrequency} onValueChange={setSessionFrequency}>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+            <Select
+              value={sessionFrequency}
+              onValueChange={(value) => {
+                setSessionFrequency(value);
+                markTouched('sessionFrequency');
+              }}
+            >
+              <SelectTrigger
+                onBlur={() => markTouched('sessionFrequency')}
+                className={`w-full px-4 py-2 rounded-lg
+                  ${touched.sessionFrequency && validationErrors.sessionFrequency
+                    ? 'border-2 border-red-500'
+                    : 'border border-gray-300 dark:border-gray-600'}`}
+              >
                 <SelectValue placeholder="How often?" />
               </SelectTrigger>
               <SelectContent>
@@ -552,6 +639,12 @@ export function SessionForm({
                 <SelectItem value="Other">Other (please describe)</SelectItem>
               </SelectContent>
             </Select>
+            {touched.sessionFrequency && validationErrors.sessionFrequency && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{validationErrors.sessionFrequency}</AlertDescription>
+              </Alert>
+            )}
           </div>
         )}
 
@@ -559,8 +652,20 @@ export function SessionForm({
           <Label htmlFor="format">
             Format{category === 'crisis_resources' && <span className="text-red-500">*</span>}
           </Label>
-          <Select value={format} onValueChange={setFormat}>
-            <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+          <Select
+            value={format}
+            onValueChange={(value) => {
+              setFormat(value);
+              markTouched('format');
+            }}
+          >
+            <SelectTrigger
+              onBlur={() => markTouched('format')}
+              className={`w-full px-4 py-2 rounded-lg
+                ${touched.format && validationErrors.format
+                  ? 'border-2 border-red-500'
+                  : 'border border-gray-300 dark:border-gray-600'}`}
+            >
               <SelectValue placeholder="Select format" />
             </SelectTrigger>
             <SelectContent>
@@ -587,6 +692,12 @@ export function SessionForm({
               )}
             </SelectContent>
           </Select>
+          {touched.format && validationErrors.format && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{validationErrors.format}</AlertDescription>
+            </Alert>
+          )}
         </div>
 
         {/* Session length REQUIRED for therapists, coaches, alternative practitioners */}
@@ -595,8 +706,21 @@ export function SessionForm({
             <Label htmlFor="session_length">
               Session length <span className="text-red-500">*</span>
             </Label>
-            <Select value={sessionLength} onValueChange={setSessionLength} required>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+            <Select
+              value={sessionLength}
+              onValueChange={(value) => {
+                setSessionLength(value);
+                markTouched('sessionLength');
+              }}
+              required
+            >
+              <SelectTrigger
+                onBlur={() => markTouched('sessionLength')}
+                className={`w-full px-4 py-2 rounded-lg
+                  ${touched.sessionLength && validationErrors.sessionLength
+                    ? 'border-2 border-red-500'
+                    : 'border border-gray-300 dark:border-gray-600'}`}
+              >
                 <SelectValue placeholder="How long?" />
               </SelectTrigger>
               <SelectContent>
@@ -609,6 +733,12 @@ export function SessionForm({
                 <SelectItem value="Varies">Varies</SelectItem>
               </SelectContent>
             </Select>
+            {touched.sessionLength && validationErrors.sessionLength && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{validationErrors.sessionLength}</AlertDescription>
+              </Alert>
+            )}
           </div>
         )}
 
@@ -639,8 +769,21 @@ export function SessionForm({
               Insurance coverage
               {category === 'doctors_specialists' && <span className="text-red-500">*</span>}
             </Label>
-            <Select value={insuranceCoverage} onValueChange={setInsuranceCoverage} required={category === 'doctors_specialists'}>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+            <Select
+              value={insuranceCoverage}
+              onValueChange={(value) => {
+                setInsuranceCoverage(value);
+                markTouched('insuranceCoverage');
+              }}
+              required={category === 'doctors_specialists'}
+            >
+              <SelectTrigger
+                onBlur={() => markTouched('insuranceCoverage')}
+                className={`w-full px-4 py-2 rounded-lg
+                  ${touched.insuranceCoverage && validationErrors.insuranceCoverage
+                    ? 'border-2 border-red-500'
+                    : 'border border-gray-300 dark:border-gray-600'}`}
+              >
                 <SelectValue placeholder="Coverage status" />
               </SelectTrigger>
               <SelectContent>
@@ -652,6 +795,12 @@ export function SessionForm({
                 <SelectItem value="HSA/FSA eligible (US)">HSA/FSA eligible (US)</SelectItem>
               </SelectContent>
             </Select>
+            {touched.insuranceCoverage && validationErrors.insuranceCoverage && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{validationErrors.insuranceCoverage}</AlertDescription>
+              </Alert>
+            )}
           </div>
         )}
 
@@ -661,8 +810,21 @@ export function SessionForm({
             <Label htmlFor="wait_time">
               Wait time <span className="text-red-500">*</span>
             </Label>
-            <Select value={waitTime} onValueChange={setWaitTime} required>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+            <Select
+              value={waitTime}
+              onValueChange={(value) => {
+                setWaitTime(value);
+                markTouched('waitTime');
+              }}
+              required
+            >
+              <SelectTrigger
+                onBlur={() => markTouched('waitTime')}
+                className={`w-full px-4 py-2 rounded-lg
+                  ${touched.waitTime && validationErrors.waitTime
+                    ? 'border-2 border-red-500'
+                    : 'border border-gray-300 dark:border-gray-600'}`}
+              >
                 <SelectValue placeholder="Time to get appointment" />
               </SelectTrigger>
               <SelectContent>
@@ -674,6 +836,12 @@ export function SessionForm({
                 <SelectItem value="2+ months">2+ months</SelectItem>
               </SelectContent>
             </Select>
+            {touched.waitTime && validationErrors.waitTime && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{validationErrors.waitTime}</AlertDescription>
+              </Alert>
+            )}
           </div>
         )}
 
@@ -682,8 +850,21 @@ export function SessionForm({
             <Label htmlFor="wait_time">
               Wait time <span className="text-red-500">*</span>
             </Label>
-            <Select value={waitTime} onValueChange={setWaitTime} required>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+            <Select
+              value={waitTime}
+              onValueChange={(value) => {
+                setWaitTime(value);
+                markTouched('waitTime');
+              }}
+              required
+            >
+              <SelectTrigger
+                onBlur={() => markTouched('waitTime')}
+                className={`w-full px-4 py-2 rounded-lg
+                  ${touched.waitTime && validationErrors.waitTime
+                    ? 'border-2 border-red-500'
+                    : 'border border-gray-300 dark:border-gray-600'}`}
+              >
                 <SelectValue placeholder="Time to get appointment" />
               </SelectTrigger>
               <SelectContent>
@@ -696,6 +877,12 @@ export function SessionForm({
                 <SelectItem value="More than 6 months">More than 6 months</SelectItem>
               </SelectContent>
             </Select>
+            {touched.waitTime && validationErrors.waitTime && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{validationErrors.waitTime}</AlertDescription>
+              </Alert>
+            )}
           </div>
         )}
 
@@ -706,8 +893,21 @@ export function SessionForm({
             <Label htmlFor="specialty">
               Type of service <span className="text-red-500">*</span>
             </Label>
-            <Select value={specialty} onValueChange={setSpecialty} required>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+            <Select
+              value={specialty}
+              onValueChange={(value) => {
+                setSpecialty(value);
+                markTouched('specialty');
+              }}
+              required
+            >
+              <SelectTrigger
+                onBlur={() => markTouched('specialty')}
+                className={`w-full px-4 py-2 rounded-lg
+                  ${touched.specialty && validationErrors.specialty
+                    ? 'border-2 border-red-500'
+                    : 'border border-gray-300 dark:border-gray-600'}`}
+              >
                 <SelectValue placeholder="Select service type" />
               </SelectTrigger>
               <SelectContent>
@@ -727,6 +927,12 @@ export function SessionForm({
                 <SelectItem value="Other">Other professional service</SelectItem>
               </SelectContent>
             </Select>
+            {touched.specialty && validationErrors.specialty && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{validationErrors.specialty}</AlertDescription>
+              </Alert>
+            )}
           </div>
         )}
 
@@ -736,8 +942,21 @@ export function SessionForm({
             <Label htmlFor="response_time">
               Response time <span className="text-red-500">*</span>
             </Label>
-            <Select value={responseTime} onValueChange={setResponseTime} required>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
+            <Select
+              value={responseTime}
+              onValueChange={(value) => {
+                setResponseTime(value);
+                markTouched('responseTime');
+              }}
+              required
+            >
+              <SelectTrigger
+                onBlur={() => markTouched('responseTime')}
+                className={`w-full px-4 py-2 rounded-lg
+                  ${touched.responseTime && validationErrors.responseTime
+                    ? 'border-2 border-red-500'
+                    : 'border border-gray-300 dark:border-gray-600'}`}
+              >
                 <SelectValue placeholder="How quickly did they respond?" />
               </SelectTrigger>
               <SelectContent>
@@ -750,6 +969,12 @@ export function SessionForm({
                 <SelectItem value="More than a couple of days">More than a couple of days</SelectItem>
               </SelectContent>
             </Select>
+            {touched.responseTime && validationErrors.responseTime && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{validationErrors.responseTime}</AlertDescription>
+              </Alert>
+            )}
           </div>
         )}
       </div>
@@ -772,7 +997,7 @@ export function SessionForm({
           <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center">
             <span className="text-lg">⚡</span>
           </div>
-          <h2 className="text-xl font-semibold">
+          <h2 className="text-xl font-bold">
             {showSideEffects ? 'Any side effects?' : 'Any challenges?'}
           </h2>
         </div>
@@ -798,7 +1023,7 @@ export function SessionForm({
           <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
             <span className="text-lg">🔍</span>
           </div>
-          <h2 className="text-xl font-semibold">What else did you try?</h2>
+          <h2 className="text-xl font-bold">What else did you try?</h2>
         </div>
 
         {/* Context card */}
@@ -857,8 +1082,8 @@ export function SessionForm({
           className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
                     transition-all transform hover:scale-[1.02] ${
             selectedSideEffects.includes(effect)
-              ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-md'
-              : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
+              ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-lg'
+              : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-lg'
           }`}
         >
           <input
@@ -902,8 +1127,8 @@ export function SessionForm({
               type="button"
               onClick={addCustomSideEffect}
               disabled={!customSideEffect.trim()}
-              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 
-                       disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 
+                       disabled:opacity-50 disabled:cursor-not-allowed transition-colors button-focus-tight"
             >
               Add
             </button>
@@ -918,7 +1143,7 @@ export function SessionForm({
     console.log('[DEBUG] renderChallenges called, category:', category);
     console.log('[DEBUG] challengesLoading:', challengesLoading);
     console.log('[DEBUG] challengeOptions:', challengeOptions);
-    
+
     if (challengesLoading) {
       return (
         <div className="space-y-2">
@@ -927,29 +1152,29 @@ export function SessionForm({
         </div>
       );
     }
-    
+
     // Safety check for challengeOptions
     if (!Array.isArray(challengeOptions)) {
       console.error('[DEBUG] challengeOptions is not an array:', challengeOptions);
       return <div>Error loading challenges. Please refresh the page.</div>;
     }
-    
+
     // Add "Other" option if not already in the list
-    const allChallenges = (challengeOptions || []).includes('Other (please describe)') 
+    const allChallenges = (challengeOptions || []).includes('Other (please describe)')
       ? (challengeOptions || [])
       : [...(challengeOptions || []), 'Other (please describe)'];
-    
+
     return (
       <>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {allChallenges.map((challenge) => (
         <label
           key={challenge}
-          className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
+          className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer
                     transition-all transform hover:scale-[1.02] ${
             selectedChallenges.includes(challenge)
-              ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-md'
-              : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
+              ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-lg'
+              : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-lg'
           }`}
         >
           <input
@@ -958,7 +1183,7 @@ export function SessionForm({
             onChange={() => handleChallengeToggle(challenge)}
             className="sr-only"
           />
-          <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 
+          <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0
                         transition-all ${
             selectedChallenges.includes(challenge)
               ? 'border-purple-500 bg-purple-500'
@@ -983,7 +1208,7 @@ export function SessionForm({
             onKeyDown={(e) => e.key === 'Enter' && addCustomChallenge()}
             placeholder="Describe the challenge"
             maxLength={500}
-            className="flex-1 px-3 py-2 border border-purple-500 rounded-lg 
+            className="flex-1 px-3 py-2 border border-purple-500 rounded-lg
                      focus:ring-2 focus:ring-purple-500 focus:border-transparent
                      dark:bg-gray-800 dark:text-white"
             autoFocus
@@ -992,7 +1217,7 @@ export function SessionForm({
             type="button"
             onClick={addCustomChallenge}
             disabled={!customChallenge.trim()}
-            className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white 
+            className="px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white
                      rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Add
@@ -1015,12 +1240,12 @@ export function SessionForm({
           <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Added:</p>
           <div className="flex flex-wrap gap-2">
             {selectedChallenges.filter(c => !challengeOptions?.includes(c) && c !== 'None').map((challenge) => (
-              <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
-                                           text-purple-700 dark:text-blue-300 rounded-full text-sm">
+              <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 dark:bg-purple-900/30
+                                           text-purple-700 dark:text-purple-300 rounded-full text-sm">
                 {challenge}
                 <button
                   onClick={() => setSelectedChallenges(selectedChallenges.filter(c => c !== challenge))}
-                  className="hover:text-purple-900 dark:hover:text-blue-100"
+                  className="hover:text-purple-900 dark:hover:text-purple-100"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -1032,7 +1257,174 @@ export function SessionForm({
       </>
     );
   };
-  
+
+  // Validation functions
+  const validateField = (fieldName: string, value: unknown): string => {
+    // Universal required fields
+    if (fieldName === 'effectiveness' && (value === null || value === undefined)) {
+      return 'Please rate how well this worked for you';
+    }
+    if (fieldName === 'timeToResults' && !value) {
+      return 'Please select when you noticed results';
+    }
+    if (fieldName === 'costRange' && !value) {
+      return 'Please select a cost range';
+    }
+    if (fieldName === 'costType' && category !== 'crisis_resources' && !singleCostCategories.includes(category) && !value) {
+      return 'Please select a cost type';
+    }
+
+    // Category-specific required fields
+    if (fieldName === 'sessionLength') {
+      if (['therapists_counselors', 'coaches_mentors', 'alternative_practitioners'].includes(category) && !value) {
+        return 'Session length is required for this category';
+      }
+    }
+    if (fieldName === 'sessionFrequency') {
+      if (['therapists_counselors', 'coaches_mentors', 'alternative_practitioners', 'medical_procedures', 'professional_services'].includes(category) && !value) {
+        return category === 'medical_procedures' ? 'Treatment frequency is required' : 'Session frequency is required';
+      }
+    }
+    if (fieldName === 'waitTime') {
+      if (['doctors_specialists', 'medical_procedures'].includes(category) && !value) {
+        return 'Wait time is required for this category';
+      }
+    }
+    if (fieldName === 'insuranceCoverage' && category === 'doctors_specialists' && !value) {
+      return 'Insurance coverage is required';
+    }
+    if (fieldName === 'specialty' && category === 'professional_services' && !value) {
+      return 'Type of service is required';
+    }
+    if (fieldName === 'responseTime' && category === 'crisis_resources' && !value) {
+      return 'Response time is required';
+    }
+    if (fieldName === 'format' && category === 'crisis_resources' && !value) {
+      return 'Format is required';
+    }
+
+    return '';
+  };
+
+  const markTouched = (fieldName: string) => {
+    setTouched(prev => ({ ...prev, [fieldName]: true }));
+    const error = validateField(fieldName, getFieldValue(fieldName));
+    setValidationErrors(prev => ({
+      ...prev,
+      [fieldName]: error
+    }));
+  };
+
+  // Touch all required fields for current step (to show validation errors)
+  const touchAllRequiredFields = () => {
+    switch (currentStep) {
+      case 1: // Session details
+        // Universal required fields
+        markTouched('effectiveness');
+        validateField('effectiveness', effectiveness);
+
+        markTouched('timeToResults');
+        validateField('timeToResults', timeToResults);
+
+        markTouched('costRange');
+        validateField('costRange', costRange);
+
+        // Cost type (all categories EXCEPT crisis_resources)
+        if (category !== 'crisis_resources') {
+          markTouched('costType');
+          validateField('costType', costType);
+        }
+
+        // Category-specific required fields
+        if (['therapists_counselors', 'coaches_mentors', 'alternative_practitioners'].includes(category)) {
+          // These need sessionLength + sessionFrequency
+          markTouched('sessionLength');
+          validateField('sessionLength', sessionLength);
+
+          markTouched('sessionFrequency');
+          validateField('sessionFrequency', sessionFrequency);
+        } else if (category === 'doctors_specialists') {
+          // Doctors need waitTime + insuranceCoverage
+          markTouched('waitTime');
+          validateField('waitTime', waitTime);
+
+          markTouched('insuranceCoverage');
+          validateField('insuranceCoverage', insuranceCoverage);
+        } else if (category === 'medical_procedures') {
+          // Medical procedures need waitTime + sessionFrequency
+          markTouched('waitTime');
+          validateField('waitTime', waitTime);
+
+          markTouched('sessionFrequency');
+          validateField('sessionFrequency', sessionFrequency);
+        } else if (category === 'professional_services') {
+          // Professional services need specialty + sessionFrequency
+          markTouched('specialty');
+          validateField('specialty', specialty);
+
+          markTouched('sessionFrequency');
+          validateField('sessionFrequency', sessionFrequency);
+        } else if (category === 'crisis_resources') {
+          // Crisis resources need responseTime + format
+          markTouched('responseTime');
+          validateField('responseTime', responseTime);
+
+          markTouched('format');
+          validateField('format', format);
+        }
+        break;
+
+      case 2: // Side effects or challenges
+        // These use array validation - handled separately
+        if (showSideEffects && selectedSideEffects.length === 0) {
+          toast.error('Please select at least one side effect option');
+        }
+        if (showChallenges && selectedChallenges.length === 0) {
+          toast.error('Please select at least one challenge option');
+        }
+        break;
+
+      case 3: // Failed solutions (optional, always valid)
+        break;
+    }
+  };
+
+  // Handle Continue button click with validation feedback
+  const handleContinue = () => {
+    if (!canProceedToNextStep()) {
+      // Show validation errors on all required fields
+      touchAllRequiredFields();
+
+      // Scroll to first error
+      scrollToFirstError(validationErrors);
+
+      // Toast notification
+      toast.error('Please fill all required fields');
+
+      return; // Block navigation
+    }
+
+    // Validation passed - proceed to next step
+    setCurrentStep(currentStep + 1);
+  };
+
+  const getFieldValue = (fieldName: string): unknown => {
+    switch (fieldName) {
+      case 'effectiveness': return effectiveness;
+      case 'timeToResults': return timeToResults;
+      case 'costRange': return costRange;
+      case 'costType': return costType;
+      case 'sessionLength': return sessionLength;
+      case 'sessionFrequency': return sessionFrequency;
+      case 'waitTime': return waitTime;
+      case 'insuranceCoverage': return insuranceCoverage;
+      case 'specialty': return specialty;
+      case 'responseTime': return responseTime;
+      case 'format': return format;
+      default: return undefined;
+    }
+  };
+
   const canProceedToNextStep = () => {
     switch (currentStep) {
       case 1:
@@ -1080,8 +1472,16 @@ export function SessionForm({
   };
   
   const handleSubmit = async () => {
+    // Validate before submission
+    if (!canProceedToNextStep()) {
+      touchAllRequiredFields();
+      scrollToFirstError(validationErrors);
+      toast.error('Please fill all required fields before submitting');
+      return;
+    }
+
     setIsSubmitting(true);
-    
+
     try {
       // Determine primary cost and type
       const hasUnknownCost = costRange === "Don't remember";
@@ -1169,11 +1569,11 @@ export function SessionForm({
       } else {
         // Handle error
         console.error('Error submitting solution:', result.error);
-        alert(result.error || 'Failed to submit solution. Please try again.');
+        toast.error(result.error || 'Failed to submit solution. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -1207,14 +1607,14 @@ export function SessionForm({
         // Show success feedback
         console.log('Successfully updated additional information');
         // Clear the form or show success indicator
-        alert('Additional information saved successfully!');
+        toast.success('Additional information saved successfully!');
       } else {
         console.error('Failed to update:', result.error);
-        alert('Failed to save additional information. Please try again.');
+        toast.error('Failed to save additional information. Please try again.');
       }
     } catch (error) {
       console.error('Error updating additional info:', error);
-      alert('An error occurred. Please try again.');
+      toast.error('An error occurred. Please try again.');
     }
   };
   
@@ -1336,7 +1736,7 @@ export function SessionForm({
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg 
-                         text-sm font-semibold transition-colors"
+                         text-sm font-semibold transition-colors button-focus-tight"
                 >
                   Submit
                 </button>
@@ -1352,28 +1752,23 @@ export function SessionForm({
           >
             Back to goal page
           </button>
+
+          {/* Test Mode Auto-Return */}
+          <TestModeCountdown isTestMode={isTestMode} />
         </div>
       </div>
     );
   }
   
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Progress Bar */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-2">
-          <button
-            onClick={() => {
-              if (currentStep > 1) {
-                setCurrentStep(currentStep - 1);
-              } else {
-                onBack();
-              }
-            }}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      {/* Progress Bar - Sticky */}
+      <div className="sticky top-0 z-10
+                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                      border-b border-gray-200 dark:border-gray-700
+                      px-4 sm:px-6 py-3 mb-8 -mx-4 sm:-mx-6 shadow-md
+                      safe-area-inset-top">
+        <div className="flex items-center justify-end mb-2">
           <span className="text-sm text-gray-600 dark:text-gray-400">
             Step {currentStep} of {totalSteps}
           </span>
@@ -1387,51 +1782,73 @@ export function SessionForm({
       </div>
 
       {/* Form Content */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200
                     dark:border-gray-700 p-4 sm:p-6 overflow-visible">
         {renderStep()}
       </div>
 
-      {/* Navigation */}
-      <div className="flex justify-between mt-6">
-        {currentStep > 1 ? (
-          <button
-            onClick={() => setCurrentStep(currentStep - 1)}
-            className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                     dark:hover:text-gray-200 font-semibold transition-colors"
-          >
-            Back
-          </button>
-        ) : (
-          <div />
-        )}
-        
-        <div className="flex gap-2">
-          {currentStep < totalSteps ? (
+      {/* Step Navigation Helper */}
+      {!canProceedToNextStep() && currentStep === 1 && (
+        <Alert className="mt-4">
+          <Info className="h-4 w-4" />
+          <AlertDescription>
+            Please fill in all required fields (marked with *) to continue
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Navigation - Sticky for mobile keyboard accessibility */}
+      <div className="sticky bottom-0 left-0 right-0
+                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                      border-t border-gray-200 dark:border-gray-700
+                      px-4 sm:px-6 py-3 mt-6 -mx-4 sm:-mx-6 shadow-lg z-10
+                      safe-area-inset-bottom">
+        <div className="flex justify-between">
+          {currentStep > 1 ? (
             <button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              disabled={!canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
-                canProceedToNextStep()
-                  ? 'bg-purple-600 hover:bg-purple-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
+              onClick={() => setCurrentStep(currentStep - 1)}
+              className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                       dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
             >
-              {currentStep === 3 ? 'Skip' : 'Continue'}
+              Back
             </button>
           ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={isSubmitting || !canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
-                !isSubmitting
-                  ? 'bg-green-600 hover:bg-green-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {isSubmitting ? 'Submitting...' : 'Submit'}
-            </button>
+            <div />
           )}
+
+          <div className="flex gap-2">
+            {/* Forward button - only show if we've been to a higher step */}
+            {currentStep < highestStepReached && currentStep < totalSteps && (
+              <button
+                onClick={() => setCurrentStep(currentStep + 1)}
+                className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                         dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
+              >
+                Forward
+              </button>
+            )}
+
+            {currentStep < totalSteps ? (
+              <button
+                onClick={handleContinue}
+                className="px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                {currentStep === 3 ? 'Skip' : 'Continue'}
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className={`px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors ${
+                  !isSubmitting
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

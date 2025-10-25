@@ -198,7 +198,7 @@ export default function HeaderSearch({ className = '' }: HeaderSearchProps) {
             <Link
               key={`${goal.id}-${index}`}
               href={`/goal/${goal.id}`}
-              className="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700
+              className="block px-4 py-4 min-h-[44px] hover:bg-gray-50 dark:hover:bg-gray-700
                          transition-colors border-b border-gray-100 dark:border-gray-700
                          last:border-b-0"
               onMouseDown={(e) => e.preventDefault()} // Prevent blur before navigation

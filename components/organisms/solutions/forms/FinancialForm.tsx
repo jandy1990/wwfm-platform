@@ -1,18 +1,20 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { ChevronLeft, Check } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Check, AlertCircle, Info, ChevronLeft } from 'lucide-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Skeleton } from '@/components/atoms/skeleton';
+import { Alert, AlertDescription } from '@/components/atoms/alert';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS, TestModeCountdown, scrollToFirstError } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
 import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation';
 import { DROPDOWN_OPTIONS } from '@/lib/config/solution-dropdown-options';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
+import { toast } from 'sonner';
 
 interface FinancialFormProps {
   goalId: string;
@@ -42,6 +44,8 @@ export function FinancialForm({
 }: FinancialFormProps) {
   console.log('FinancialForm initialized with solution:', existingSolutionId || 'new', 'category:', category);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isTestMode = searchParams.get('testMode') === 'true';
   const { triggerPoints } = usePointsAnimation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -78,6 +82,10 @@ export function FinancialForm({
   const [selectedRequirements, setSelectedRequirements] = useState<string[]>(['None']);
   const [easeOfUse, setEaseOfUse] = useState('');
   const [notes, setNotes] = useState('');
+
+  // Validation state
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   // Progress indicator
   const totalSteps = 3;
@@ -243,6 +251,100 @@ export function FinancialForm({
     }
   };
 
+  const validateField = (fieldName: string, value: any) => {
+    let error = '';
+    switch (fieldName) {
+      case 'effectiveness':
+        if (value === null || value === '') {
+          error = 'Please rate the effectiveness';
+        }
+        break;
+      case 'costType':
+        if (!value || value === '') {
+          error = 'Please select cost type';
+        }
+        break;
+      case 'financialBenefit':
+        if (!value || value === '') {
+          error = 'Please select financial benefit';
+        }
+        break;
+      case 'accessTime':
+        if (!value || value === '') {
+          error = 'Please select access time';
+        }
+        break;
+      case 'timeToImpact':
+        if (!value || value === '') {
+          error = 'Please select time to impact';
+        }
+        break;
+    }
+    setValidationErrors(prev => {
+      const updated = { ...prev };
+      if (error) {
+        updated[fieldName] = error;
+      } else {
+        delete updated[fieldName];
+      }
+      return updated;
+    });
+  };
+
+  const markTouched = (fieldName: string) => {
+    setTouched(prev => ({ ...prev, [fieldName]: true }));
+  };
+
+  // Touch all required fields for current step (to show validation errors)
+  const touchAllRequiredFields = () => {
+    switch (currentStep) {
+      case 1: // Required fields + effectiveness + TTR
+        // Mark as touched AND validate to generate errors
+        markTouched('effectiveness');
+        validateField('effectiveness', effectiveness);
+
+        markTouched('costType');
+        validateField('costType', costType);
+
+        markTouched('financialBenefit');
+        validateField('financialBenefit', financialBenefit);
+
+        markTouched('accessTime');
+        validateField('accessTime', accessTime);
+
+        markTouched('timeToImpact');
+        validateField('timeToImpact', timeToImpact);
+        break;
+      case 2: // Challenges
+        // Challenges use array validation - no individual fields
+        if (selectedChallenges.length === 0) {
+          toast.error('Please select at least one challenge');
+        }
+        break;
+      case 3: // Failed solutions (optional, always valid)
+        break;
+    }
+  };
+
+  // Handle Continue button click with validation feedback
+  const handleContinue = () => {
+    if (!canProceedToNextStep()) {
+      // Show validation errors on all required fields
+      touchAllRequiredFields();
+
+      // Scroll to first error
+      scrollToFirstError(validationErrors);
+
+      // Toast notification
+      toast.error('Please fill all required fields');
+
+      return; // Block navigation
+    }
+
+    // Validation passed - proceed to next step
+    setCurrentStep(currentStep + 1);
+  };
+
   const canProceedToNextStep = () => {
     switch (currentStep) {
       case 1: // Required fields + effectiveness + TTR
@@ -264,6 +366,14 @@ export function FinancialForm({
   };
 
   const handleSubmit = async () => {
+    // Validate before submission
+    if (!canProceedToNextStep()) {
+      touchAllRequiredFields();
+      scrollToFirstError(validationErrors);
+      toast.error('Please fill all required fields before submitting');
+      return;
+    }
+
     console.log('[FinancialForm] handleSubmit called');
     setIsSubmitting(true);
     console.log('[FinancialForm] State set to submitting');
@@ -331,11 +441,11 @@ export function FinancialForm({
       } else {
         // Handle error
         console.error('Error submitting solution:', result.error);
-        alert(result.error || 'Failed to submit solution. Please try again.');
+        toast.error(result.error || 'Failed to submit solution. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -367,14 +477,14 @@ export function FinancialForm({
       
       if (result.success) {
         console.log('Successfully updated additional information');
-        alert('Additional information saved successfully!');
+        toast.success('Additional information saved successfully!');
       } else {
         console.error('Failed to update:', result.error);
-        alert('Failed to save additional information. Please try again.');
+        toast.error('Failed to save additional information. Please try again.');
       }
     } catch (error) {
       console.error('Error updating additional info:', error);
-      alert('An error occurred. Please try again.');
+      toast.error('An error occurred. Please try again.');
     }
   };
 
@@ -393,9 +503,9 @@ export function FinancialForm({
         )}
         
         {/* Quick context card */}
-            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 
-                          border border-purple-200 dark:border-blue-800 rounded-lg p-4">
-              <p className="text-sm text-blue-800 dark:text-purple-200">
+            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20
+                          border border-purple-200 dark:border-purple-800 rounded-lg p-4">
+              <p className="text-sm text-purple-800 dark:text-purple-200">
                 Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
               </p>
             </div>
@@ -421,11 +531,19 @@ export function FinancialForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Cost type <span className="text-red-500">*</span>
                 </label>
-                <Select value={costType} onValueChange={setCostType}>
-                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                <Select value={costType} onValueChange={(val) => {
+                  setCostType(val);
+                  validateField('costType', val);
+                  markTouched('costType');
+                }}>
+                  <SelectTrigger className={`w-full px-4 py-3 border rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           transition-all">
+                           transition-all ${
+                             touched.costType && validationErrors.costType
+                               ? 'border-red-500'
+                               : 'border-gray-300 dark:border-gray-600'
+                           }`}>
                     <SelectValue placeholder="Select cost type" />
                   </SelectTrigger>
                   <SelectContent>
@@ -437,6 +555,12 @@ export function FinancialForm({
                     <SelectItem value="One-time purchase/setup fee">One-time purchase/setup fee</SelectItem>
                   </SelectContent>
                 </Select>
+                {touched.costType && validationErrors.costType && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.costType}
+                  </p>
+                )}
               </div>
 
               {/* Financial Benefit */}
@@ -444,11 +568,19 @@ export function FinancialForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Financial benefit? <span className="text-red-500">*</span>
                 </label>
-                <Select value={financialBenefit} onValueChange={setFinancialBenefit}>
-                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                <Select value={financialBenefit} onValueChange={(val) => {
+                  setFinancialBenefit(val);
+                  validateField('financialBenefit', val);
+                  markTouched('financialBenefit');
+                }}>
+                  <SelectTrigger className={`w-full px-4 py-3 border rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           transition-all">
+                           transition-all ${
+                             touched.financialBenefit && validationErrors.financialBenefit
+                               ? 'border-red-500'
+                               : 'border-gray-300 dark:border-gray-600'
+                           }`}>
                     <SelectValue placeholder="Select savings or earnings..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -462,6 +594,12 @@ export function FinancialForm({
                     <SelectItem value="Varies significantly">Varies significantly (explain in notes)</SelectItem>
                   </SelectContent>
                 </Select>
+                {touched.financialBenefit && validationErrors.financialBenefit && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.financialBenefit}
+                  </p>
+                )}
               </div>
 
               {/* Access time */}
@@ -469,11 +607,19 @@ export function FinancialForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Access time <span className="text-red-500">*</span>
                 </label>
-                <Select value={accessTime} onValueChange={setAccessTime}>
-                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                <Select value={accessTime} onValueChange={(val) => {
+                  setAccessTime(val);
+                  validateField('accessTime', val);
+                  markTouched('accessTime');
+                }}>
+                  <SelectTrigger className={`w-full px-4 py-3 border rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           transition-all">
+                           transition-all ${
+                             touched.accessTime && validationErrors.accessTime
+                               ? 'border-red-500'
+                               : 'border-gray-300 dark:border-gray-600'
+                           }`}>
                     <SelectValue placeholder="Select access time..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -485,6 +631,12 @@ export function FinancialForm({
                     <SelectItem value="Over a month">Over a month</SelectItem>
                   </SelectContent>
                 </Select>
+                {touched.accessTime && validationErrors.accessTime && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.accessTime}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -497,10 +649,9 @@ export function FinancialForm({
 
             {/* Effectiveness Section */}
             <div className="space-y-6">
-              <FormSectionHeader 
-                icon="⭐"
+              <FormSectionHeader
                 title="How well it worked"
-                bgColorClassName="bg-green-100 dark:bg-green-900"
+                icon={CATEGORY_ICONS[category]}
               />
               
               {/* 5-star rating */}
@@ -509,9 +660,15 @@ export function FinancialForm({
                   {[1, 2, 3, 4, 5].map((rating) => (
                     <button
                       key={rating}
-                      onClick={() => setEffectiveness(rating)}
+                      onClick={() => {
+                        setEffectiveness(rating);
+                        validateField('effectiveness', rating);
+                        markTouched('effectiveness');
+                      }}
                       className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
-                        effectiveness === rating
+                        touched.effectiveness && validationErrors.effectiveness
+                          ? 'border-red-500'
+                          : effectiveness === rating
                           ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 scale-105 shadow-lg'
                           : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                       }`}
@@ -545,6 +702,12 @@ export function FinancialForm({
                   <span className="text-xs text-gray-500">Not at all</span>
                   <span className="text-xs text-gray-500">Extremely</span>
                 </div>
+                {touched.effectiveness && validationErrors.effectiveness && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.effectiveness}
+                  </p>
+                )}
               </div>
 
               {/* Time to results */}
@@ -552,14 +715,22 @@ export function FinancialForm({
                 <div className="flex items-center gap-2">
                   <span className="text-lg">⏱️</span>
                   <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                    When did you notice an impact?
+                    When did you notice results?
                   </label>
                 </div>
-                <Select value={timeToImpact} onValueChange={setTimeToImpact}>
-                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                <Select value={timeToImpact} onValueChange={(val) => {
+                  setTimeToImpact(val);
+                  validateField('timeToImpact', val);
+                  markTouched('timeToImpact');
+                }}>
+                  <SelectTrigger className={`w-full px-4 py-3 border rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                           transition-all">
+                           transition-all ${
+                             touched.timeToImpact && validationErrors.timeToImpact
+                               ? 'border-red-500'
+                               : 'border-gray-300 dark:border-gray-600'
+                           }`}>
                     <SelectValue placeholder="Select timeframe" />
                   </SelectTrigger>
                   <SelectContent>
@@ -573,6 +744,12 @@ export function FinancialForm({
                     <SelectItem value="Still evaluating">Still evaluating</SelectItem>
                   </SelectContent>
                 </Select>
+                {touched.timeToImpact && validationErrors.timeToImpact && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.timeToImpact}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -616,8 +793,8 @@ export function FinancialForm({
                     className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer 
                               transition-all transform hover:scale-[1.02] ${
                       selectedChallenges.includes(challenge)
-                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-md'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
+                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-lg'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-lg'
                     }`}
                   >
                     <input
@@ -659,8 +836,8 @@ export function FinancialForm({
                 />
                 <button
                   onClick={addCustomChallenge}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white 
-                           rounded-lg transition-colors"
+                  className="px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white 
+                           rounded-lg transition-colors button-focus-tight"
                 >
                   +
                 </button>
@@ -706,8 +883,8 @@ export function FinancialForm({
             {/* Selected count indicator */}
             {selectedChallenges.length > 0 && selectedChallenges[0] !== 'None' && (
               <div className="text-center">
-                <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
-                               text-purple-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
+                <span className="inline-flex items-center gap-2 px-3 py-1 bg-purple-100 dark:bg-purple-900/30
+                               text-purple-700 dark:text-purple-300 rounded-full text-sm animate-fade-in">
                   <Check className="w-4 h-4" />
                   {selectedChallenges.filter(c => c !== 'Other').length} selected
                 </span>
@@ -868,7 +1045,7 @@ export function FinancialForm({
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg 
-                         text-sm font-semibold transition-colors"
+                         text-sm font-semibold transition-colors button-focus-tight"
                 >
                   Submit
                 </button>
@@ -884,15 +1061,22 @@ export function FinancialForm({
           >
             Back to goal page
           </button>
+
+          {/* Test Mode Auto-Return */}
+          <TestModeCountdown isTestMode={isTestMode} />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Progress Bar */}
-      <div className="mb-8">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      {/* Progress Bar - Sticky */}
+      <div className="sticky top-0 z-10
+                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                      border-b border-gray-200 dark:border-gray-700
+                      px-4 sm:px-6 py-3 mb-8 -mx-4 sm:-mx-6 shadow-md
+                      safe-area-inset-top">
         <div className="flex items-center justify-between mb-2">
           <button
             onClick={() => {
@@ -902,7 +1086,7 @@ export function FinancialForm({
                 onBack();
               }
             }}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors button-focus-tight"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -919,67 +1103,85 @@ export function FinancialForm({
       </div>
 
       {/* Form Content */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200
                     dark:border-gray-700 p-4 sm:p-6 overflow-visible">
         {renderStep()}
       </div>
 
-      {/* Navigation */}
-      <div className="flex justify-between mt-6">
-        {currentStep > 1 ? (
-          <button
-            onClick={() => setCurrentStep(currentStep - 1)}
-            className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                     dark:hover:text-gray-200 font-semibold transition-colors"
-          >
-            Back
-          </button>
-        ) : (
-          <div />
-        )}
-        
-        <div className="flex gap-2">
-          {/* Forward button - only show if we've been to a higher step */}
-          {currentStep < highestStepReached && currentStep < totalSteps && (
+      {/* Step Navigation Helper */}
+      {!canProceedToNextStep() && currentStep === 1 && (
+        <Alert className="mt-6 border-purple-200 bg-purple-50 dark:bg-purple-900/20 dark:border-purple-800">
+          <Info className="h-4 w-4 text-purple-600" />
+          <AlertDescription>
+            <p className="font-semibold text-purple-900 dark:text-purple-100 mb-1">Required to continue:</p>
+            <ul className="list-disc list-inside text-sm text-purple-800 dark:text-purple-200">
+              {effectiveness === null && <li>Effectiveness rating</li>}
+              {!costType && <li>Cost type</li>}
+              {!financialBenefit && <li>Financial benefit</li>}
+              {!accessTime && <li>Access time</li>}
+              {!timeToImpact && <li>Time to impact</li>}
+            </ul>
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Navigation - Sticky for mobile keyboard accessibility */}
+      <div className="sticky bottom-0 left-0 right-0
+                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                      border-t border-gray-200 dark:border-gray-700
+                      px-4 sm:px-6 py-3 mt-6 -mx-4 sm:-mx-6 shadow-lg z-10
+                      safe-area-inset-bottom">
+        <div className="flex justify-between">
+          {currentStep > 1 ? (
             <button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                       dark:hover:text-gray-200 font-semibold transition-colors"
+              onClick={() => setCurrentStep(currentStep - 1)}
+              className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                       dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
             >
-              Forward
-            </button>
-          )}
-          
-          {currentStep < totalSteps ? (
-            <button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              disabled={!canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
-                canProceedToNextStep()
-                  ? 'bg-purple-600 hover:bg-purple-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {currentStep === 3 ? 'Skip' : 'Continue'}
+              Back
             </button>
           ) : (
-            <button
-              onClick={() => {
-                console.log('[FinancialForm] Submit button CLICKED');
-                console.log('[FinancialForm] isSubmitting:', isSubmitting);
-                console.log('[FinancialForm] canProceed:', canProceedToNextStep());
-                handleSubmit();
-              }}
-              disabled={isSubmitting || !canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
-                !isSubmitting
-                  ? 'bg-green-600 hover:bg-green-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {isSubmitting ? 'Submitting...' : 'Submit'}
-            </button>
+            <div />
           )}
+
+          <div className="flex gap-2">
+            {/* Forward button - only show if we've been to a higher step */}
+            {currentStep < highestStepReached && currentStep < totalSteps && (
+              <button
+                onClick={() => setCurrentStep(currentStep + 1)}
+                className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                         dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
+              >
+                Forward
+              </button>
+            )}
+
+            {currentStep < totalSteps ? (
+              <button
+                onClick={handleContinue}
+                className="px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                {currentStep === 3 ? 'Skip' : 'Continue'}
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  console.log('[FinancialForm] Submit button CLICKED');
+                  console.log('[FinancialForm] isSubmitting:', isSubmitting);
+                  console.log('[FinancialForm] canProceed:', canProceedToNextStep());
+                  handleSubmit();
+                }}
+                disabled={isSubmitting}
+                className={`px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors ${
+                  !isSubmitting
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

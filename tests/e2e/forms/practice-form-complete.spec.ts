@@ -2,6 +2,44 @@
 import { test, expect } from '@playwright/test';
 import { fillPracticeForm } from './form-specific-fillers';
 import { clearTestRatingsForSolution } from '../utils/test-cleanup';
+import { verifyDataPipeline, waitForSuccessPage } from '../utils/test-helpers';
+
+// Test solution names for database verification
+const TEST_SOLUTIONS = {
+  exercise_movement: 'Running (Test)',
+  meditation_mindfulness: 'Mindfulness Meditation (Test)',
+  habits_routines: 'Morning Routine (Test)'
+}
+
+// Expected fields for database verification (matches form filler values)
+const EXPECTED_FIELDS = {
+  meditation_mindfulness: {
+    time_to_results: '1-2 weeks',
+    practice_length: '10-20 minutes',
+    frequency: '3-4 times per week',
+    startup_cost: 'Free/No startup cost',
+    ongoing_cost: 'Free/No ongoing cost',
+    challenges: ['None']
+  },
+
+  exercise_movement: {
+    time_to_results: '1-2 weeks',
+    duration: '30-45 minutes',
+    frequency: '3-4 times per week',
+    startup_cost: 'Free/No startup cost',
+    ongoing_cost: 'Free/No ongoing cost',
+    challenges: ['None']
+  },
+
+  habits_routines: {
+    time_to_results: '1-2 weeks',
+    time_commitment: '10-20 minutes',
+    frequency: '3-4 times per week',
+    startup_cost: 'Free/No startup cost',
+    ongoing_cost: 'Free/No ongoing cost',
+    challenges: ['None']
+  }
+}
 
 test.describe('PracticeForm End-to-End Tests', () => {
 
@@ -141,19 +179,28 @@ test.describe('PracticeForm End-to-End Tests', () => {
     // Fill the PracticeForm (now includes waiting for success)
     await fillPracticeForm(page, 'exercise_movement');
     
-    // The fillPracticeForm now waits for the success screen, 
-    // but let's verify it's actually there
+    // Verify successful submission - UI check
     console.log('Verifying successful submission...')
-    
-    const pageContent = await page.textContent('body')
-    const wasProcessed = pageContent?.includes('Thank you') || 
-                        pageContent?.includes('already') || 
-                        pageContent?.includes('recorded') ||
-                        pageContent?.includes('success') ||
-                        pageContent?.includes('submitted') ||
-                        pageContent?.includes('added')
-    
-    expect(wasProcessed).toBeTruthy()
+    await waitForSuccessPage(page)
+
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTIONS.exercise_movement,
+      'exercise_movement',
+      EXPECTED_FIELDS.exercise_movement
+    )
+
+    if (!result.success) {
+      console.error(`❌ exercise_movement verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
+      }
+    }
+
+    expect(result.success).toBeTruthy()
+
     console.log('=== PracticeForm exercise_movement test completed successfully ===');
   });
 
@@ -284,19 +331,28 @@ test.describe('PracticeForm End-to-End Tests', () => {
     // Fill the PracticeForm
     await fillPracticeForm(page, 'meditation_mindfulness');
     
-    // Verify successful submission
+    // Verify successful submission - UI check
     console.log('Verifying successful submission...')
-    await page.waitForTimeout(3000)
-    
-    const pageContent = await page.textContent('body')
-    const wasProcessed = pageContent?.includes('Thank you') || 
-                        pageContent?.includes('already') || 
-                        pageContent?.includes('recorded') ||
-                        pageContent?.includes('success') ||
-                        pageContent?.includes('submitted') ||
-                        pageContent?.includes('added')
-    
-    expect(wasProcessed).toBeTruthy()
+    await waitForSuccessPage(page)
+
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTIONS.meditation_mindfulness,
+      'meditation_mindfulness',
+      EXPECTED_FIELDS.meditation_mindfulness
+    )
+
+    if (!result.success) {
+      console.error(`❌ meditation_mindfulness verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
+      }
+    }
+
+    expect(result.success).toBeTruthy()
+
     console.log('=== PracticeForm meditation_mindfulness test completed successfully ===');
   });
 
@@ -427,19 +483,28 @@ test.describe('PracticeForm End-to-End Tests', () => {
     // Fill the PracticeForm
     await fillPracticeForm(page, 'habits_routines');
     
-    // Verify successful submission
+    // Verify successful submission - UI check
     console.log('Verifying successful submission...')
-    await page.waitForTimeout(3000)
-    
-    const pageContent = await page.textContent('body')
-    const wasProcessed = pageContent?.includes('Thank you') || 
-                        pageContent?.includes('already') || 
-                        pageContent?.includes('recorded') ||
-                        pageContent?.includes('success') ||
-                        pageContent?.includes('submitted') ||
-                        pageContent?.includes('added')
-    
-    expect(wasProcessed).toBeTruthy()
+    await waitForSuccessPage(page)
+
+    // Verify database pipeline - Full data integrity check
+    console.log('=== Verifying Database Pipeline ===')
+    const result = await verifyDataPipeline(
+      TEST_SOLUTIONS.habits_routines,
+      'habits_routines',
+      EXPECTED_FIELDS.habits_routines
+    )
+
+    if (!result.success) {
+      console.error(`❌ habits_routines verification failed:`, result.error)
+      if (result.fieldMismatches) {
+        console.log('Field mismatches:')
+        console.table(result.fieldMismatches)
+      }
+    }
+
+    expect(result.success).toBeTruthy()
+
     console.log('=== PracticeForm habits_routines test completed successfully ===');
   });
 });

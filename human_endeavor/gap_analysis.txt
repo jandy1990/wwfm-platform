@@ -1,0 +1,402 @@
+WWFM GAP ANALYSIS - Top 300 Internet Goals vs Existing WWFM Goals
+Generated: 2025-10-25T23:17:50.987Z
+
+SUMMARY
+=======
+Total Goals Analyzed: 300
+✅ Covered (75%+ similarity): 13 (4.3%)
+⚠️  Partial (50-75% similarity): 36 (12.0%)
+❌ Gaps (<50% similarity): 251 (83.7%)
+
+GAPS - HIGH-PRIORITY ADDITIONS (Score 5+)
+==========================================
+
+2. improve sleep quality
+   Score: 7 | Sources: web_research, reddit, autocomplete
+   Closest WWFM: "Improve balance" (25% match)
+
+4. improve memory
+   Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Closest WWFM: "Improve balance" (33% match)
+
+5. stop overthinking
+   Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Closest WWFM: "Stop breakouts" (33% match)
+
+7. make new friends
+   Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Closest WWFM: "Learn new skills" (20% match)
+
+9. lose belly fat
+   Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Closest WWFM: "Lose weight sustainably" (20% match)
+
+11. improve communication with partner
+   Score: 7 | Sources: web_research, reddit, autocomplete
+   Closest WWFM: "Improve balance" (20% match)
+
+12. find life purpose
+   Score: 7 | Sources: web_research, reddit, autocomplete
+   Closest WWFM: "Find job openings" (20% match)
+
+13. improve productivity
+   Score: 7 | Sources: web_research, ai_synthesis, autocomplete
+   Closest WWFM: "Improve balance" (33% match)
+
+16. improve social skills
+   Score: 7 | Sources: web_research, reddit, autocomplete
+   Closest WWFM: "Improve balance" (25% match)
+
+17. manage stress
+   Score: 6 | Sources: web_research, ai_synthesis
+   Closest WWFM: "Manage eczema/psoriasis" (33% match)
+
+18. overcome depression
+   Score: 6 | Sources: web_research, ai_synthesis
+   Closest WWFM: "Manage depression symptoms" (25% match)
+
+19. overcome social anxiety
+   Score: 6 | Sources: web_research, ai_synthesis
+   Closest WWFM: "Reduce anxiety" (25% match)
+
+20. overcome insomnia
+   Score: 6 | Sources: web_research, ai_synthesis
+   Closest WWFM: "Stop insomnia" (33% match)
+
+21. improve sleep hygiene
+   Score: 6 | Sources: web_research, reddit
+   Closest WWFM: "Improve balance" (25% match)
+
+23. improve endurance
+   Score: 6 | Sources: web_research, reddit
+   Closest WWFM: "Improve balance" (33% match)
+
+24. find compatible partner
+   Score: 6 | Sources: web_research, reddit
+   Closest WWFM: "Find job openings" (20% match)
+
+25. improve financial literacy
+   Score: 6 | Sources: web_research, ai_synthesis
+   Closest WWFM: "Improve balance" (25% match)
+
+27. increase productivity
+   Score: 6 | Sources: web_research, reddit
+   Closest WWFM: "Ace interviews" (0% match)
+
+28. overcome nicotine addiction
+   Score: 6 | Sources: web_research, ai_synthesis
+   Closest WWFM: "Break porn addiction" (20% match)
+
+30. negotiate salary
+   Score: 6 | Sources: reddit, ai_synthesis, autocomplete
+   Closest WWFM: "Ace interviews" (0% match)
+
+32. improve credit score
+   Score: 6 | Sources: reddit, ai_synthesis, autocomplete
+   Closest WWFM: "Improve balance" (25% match)
+
+33. increase income
+   Score: 6 | Sources: reddit, ai_synthesis, autocomplete
+   Closest WWFM: "Ace interviews" (0% match)
+
+34. boost metabolism
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Ace interviews" (0% match)
+
+35. lower cholesterol
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Lower blood pressure" (25% match)
+
+36. improve self-esteem
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Improve balance" (33% match)
+
+37. build resilience
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Build confidence" (33% match)
+
+38. start working out
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Start investing" (25% match)
+
+39. tone muscles
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Tone my body" (25% match)
+
+40. strengthen marriage
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Ace interviews" (0% match)
+
+42. build self-confidence
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Build confidence" (33% match)
+
+43. overcome procrastination
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Overcome drug abuse" (25% match)
+
+44. improve focus with adhd
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Improve balance" (20% match)
+
+45. minimize distractions
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Minimize pores" (33% match)
+
+46. manage time better
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Manage eczema/psoriasis" (25% match)
+
+47. improve public speaking
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Improve balance" (25% match)
+
+48. stop hair loss
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Deal with hair loss" (40% match)
+
+50. reduce burnout
+   Score: 5 | Sources: web_research, autocomplete
+   Closest WWFM: "Reduce anxiety" (33% match)
+
+52. overcome fear of rejection
+   Score: 5 | Sources: reddit, ai_synthesis
+   Closest WWFM: "Handle social rejection" (17% match)
+
+53. improve communication with spouse
+   Score: 5 | Sources: reddit, ai_synthesis
+   Closest WWFM: "Improve balance" (20% match)
+
+55. improve self-discipline
+   Score: 5 | Sources: reddit, ai_synthesis
+   Closest WWFM: "Build self-discipline" (33% match)
+
+56. build wealth
+   Score: 5 | Sources: reddit, ai_synthesis
+   Closest WWFM: "Build confidence" (33% match)
+
+
+MEDIUM-PRIORITY GAPS (Score 3-4)
+====================================
+
+60. improve communication skills (Score: 4)
+62. reduce sugar intake (Score: 4)
+66. wake up earlier (Score: 4)
+71. stop worrying (Score: 4)
+72. manage bipolar disorder (Score: 4)
+73. overcome perfectionism (Score: 4)
+74. stop self-sabotage (Score: 4)
+75. lose weight (Score: 4)
+77. manage diabetes (Score: 4)
+78. reduce inflammation (Score: 4)
+79. reduce bloating (Score: 4)
+81. reduce headaches (Score: 4)
+82. improve immune system (Score: 4)
+85. quit caffeine (Score: 4)
+86. quit energy drinks (Score: 4)
+87. quit junk food (Score: 4)
+88. improve family relationships (Score: 4)
+89. get promoted (Score: 4)
+91. improve time management at work (Score: 4)
+92. save money (Score: 4)
+93. achieve financial independence (Score: 4)
+94. improve confidence (Score: 4)
+95. improve focus (Score: 4)
+96. overcome fear of failure (Score: 4)
+97. improve self-awareness (Score: 4)
+98. improve skin texture (Score: 4)
+99. stop teeth grinding (Score: 4)
+100. reduce brain fog (Score: 4)
+101. stop sweating excessively (Score: 4)
+102. stop snoring (Score: 4)
+103. reduce screen time (Score: 4)
+104. is bronchitis contagious (Score: 3)
+105. is pneumonia contagious (Score: 3)
+106. what is lupus (Score: 3)
+107. how much water should i drink each day (Score: 3)
+108. is strep throat contagious (Score: 3)
+109. how long does the flu last (Score: 3)
+110. what causes high blood pressure (Score: 3)
+111. hair loss (Score: 3)
+112. fatigue (Score: 3)
+113. bloating (Score: 3)
+114. congestion (Score: 3)
+115. lower my cholesterol (Score: 3)
+116. what causes kidney stones (Score: 3)
+117. why do i have a headache (Score: 3)
+118. reduce dandruff (Score: 3)
+119. boost your immune system (Score: 3)
+120. how much sodium per day (Score: 3)
+121. what is the difference between a cold and the flu (Score: 3)
+122. what are the symptoms of anxiety (Score: 3)
+123. lower my a1c (Score: 3)
+125. prevent kidney stones (Score: 3)
+126. treat strep throat (Score: 3)
+127. recover from bronchitis (Score: 3)
+128. overcome ocd (Score: 3)
+129. manage codependence (Score: 3)
+130. recognize narcissism (Score: 3)
+131. identify gaslighting (Score: 3)
+132. find emotional support (Score: 3)
+133. build social connections (Score: 3)
+134. find mental health care professional (Score: 3)
+136. treat sleep apnea (Score: 3)
+137. stop sleep paralysis (Score: 3)
+139. stay asleep through the night (Score: 3)
+140. reduce excessive daytime sleepiness (Score: 3)
+141. establish sleep routine (Score: 3)
+143. find best way to lose weight (Score: 3)
+144. get a six pack (Score: 3)
+145. find best exercise to lose weight (Score: 3)
+146. use cold exposure for weight loss (Score: 3)
+147. start using chia seeds for weight loss (Score: 3)
+148. improve fitness (Score: 3)
+150. increase metabolism (Score: 3)
+151. get in shape (Score: 3)
+152. build strength (Score: 3)
+153. lose fat (Score: 3)
+154. follow mediterranean diet (Score: 3)
+155. start dash diet (Score: 3)
+156. follow mind diet for brain health (Score: 3)
+157. eat more plant-based foods (Score: 3)
+158. support brain health through nutrition (Score: 3)
+159. plan sustainable eating (Score: 3)
+161. support emotional wellness through food (Score: 3)
+163. escape toxic boss (Score: 3)
+165. get respect at work (Score: 3)
+166. overcome workplace disrespect (Score: 3)
+167. prevent burnout (Score: 3)
+168. handle difficult coworkers (Score: 3)
+169. find work-life balance (Score: 3)
+170. reduce long work hours (Score: 3)
+171. manage mental and emotional stress (Score: 3)
+172. lower cost of living (Score: 3)
+173. find homeowners insurance (Score: 3)
+174. navigate student loan forgiveness (Score: 3)
+175. find high yield savings account (Score: 3)
+176. understand bitcoin (Score: 3)
+177. understand moneyline bets (Score: 3)
+178. understand student loans (Score: 3)
+179. understand open relationships (Score: 3)
+180. identify gaslighting in relationship (Score: 3)
+181. recognize breadcrumbing (Score: 3)
+182. decide when relationship should be exclusive (Score: 3)
+183. handle relationship doubts (Score: 3)
+184. identify narcissistic partner (Score: 3)
+185. recognize codependent relationship (Score: 3)
+186. understand ethical non-monogamy (Score: 3)
+187. navigate monogamy questions (Score: 3)
+188. handle appropriate pda (Score: 3)
+189. determine if relationship is over (Score: 3)
+190. define "hard launch" in relationships (Score: 3)
+191. understand karmic relationships (Score: 3)
+192. learn about autosexual orientation (Score: 3)
+193. build healthy relationships (Score: 3)
+194. resolve conflicts (Score: 3)
+195. date successfully (Score: 3)
+196. overcome relationship anxiety (Score: 3)
+197. handle peer pressure (Score: 3)
+198. do digital detox (Score: 3)
+199. manage screen time (Score: 3)
+200. use mindfulness apps (Score: 3)
+202. meditate regularly (Score: 3)
+203. learn budgeting (Score: 3)
+204. understand investment strategies (Score: 3)
+205. set meaningful goals (Score: 3)
+206. find passion (Score: 3)
+207. create fulfilling life (Score: 3)
+208. master time management (Score: 3)
+209. learn baking (Score: 3)
+210. use pomodoro technique (Score: 3)
+211. organize workspace (Score: 3)
+212. break down large tasks (Score: 3)
+214. maintain consistent sleep schedule (Score: 3)
+215. use fidget tools (Score: 3)
+216. build better habits (Score: 3)
+217. overcome productive procrastination (Score: 3)
+218. beat perfectionism (Score: 3)
+219. reduce fear of failure (Score: 3)
+220. use habit-building apps (Score: 3)
+221. develop customer service skills (Score: 3)
+222. build leadership abilities (Score: 3)
+223. master project management (Score: 3)
+224. develop marketing automation (Score: 3)
+225. learn seo (Score: 3)
+226. master lead generation (Score: 3)
+227. develop authenticity in speaking (Score: 3)
+228. improve virtual speaking (Score: 3)
+229. use ai for presentations (Score: 3)
+232. understand exfoliation benefits (Score: 3)
+234. treat acne (Score: 3)
+235. reduce enlarged pores (Score: 3)
+236. prevent razor burn (Score: 3)
+237. prevent ingrown hairs (Score: 3)
+238. find hydrating moisturizer (Score: 3)
+239. learn contouring techniques (Score: 3)
+241. understand what causes hair loss (Score: 3)
+242. make hair grow faster (Score: 3)
+243. increase hair growth (Score: 3)
+244. reduce hair thinning (Score: 3)
+245. stop hair shedding (Score: 3)
+246. stop youth vaping (Score: 3)
+247. find cessation resources (Score: 3)
+249. find back pain relief (Score: 3)
+251. find pain management solutions (Score: 3)
+252. try virtual yoga for back pain (Score: 3)
+253. access neuromodulation techniques (Score: 3)
+254. explore regenerative medicine (Score: 3)
+255. use ai-driven physical therapy (Score: 3)
+256. connect with others (Score: 3)
+257. reduce social isolation (Score: 3)
+258. build friendships (Score: 3)
+259. join communities (Score: 3)
+261. make money online (Score: 3)
+262. use chatgpt effectively (Score: 3)
+263. invest during inflation (Score: 3)
+264. delete instagram account (Score: 3)
+265. tie a tie (Score: 3)
+266. simplify life (Score: 3)
+267. achieve digital detox (Score: 3)
+268. find what to watch (Score: 3)
+269. understand current events (Score: 3)
+270. track weather (Score: 3)
+271. monitor excessive heat (Score: 3)
+273. stay informed about news (Score: 3)
+274. health & medical: 35+ goals (Score: 3)
+275. mental health: 25+ goals (Score: 3)
+276. sleep: 9 goals (Score: 3)
+277. fitness & weight: 15+ goals (Score: 3)
+278. diet & nutrition: 12+ goals (Score: 3)
+279. career & work: 20+ goals (Score: 3)
+280. financial: 15+ goals (Score: 3)
+281. relationships: 20+ goals (Score: 3)
+282. parenting: 12+ goals (Score: 3)
+283. personal development: 20+ goals (Score: 3)
+284. professional skills: 12+ goals (Score: 3)
+285. skin & beauty: 15+ goals (Score: 3)
+286. addiction: 6 goals (Score: 3)
+287. pain management: 10+ goals (Score: 3)
+288. social connection: 10+ goals (Score: 3)
+289. "how to lose weight fast" - 486,000 annual searches (Score: 3)
+290. "is bronchitis contagious" - 176,000 monthly searches (Score: 3)
+291. "how to get a six pack" - 145,200 annual searches (Score: 3)
+292. "how to gain weight" - 79,200 annual searches (Score: 3)
+293. "hair loss" - 25,945 monthly searches (Score: 3)
+294. "make hair grow faster" - 14,590 monthly searches (Score: 3)
+295. "student loans" - 2,441,000 average searches (Score: 3)
+296. official google year in search reports (Score: 3)
+297. academic institutions and research centers (Score: 3)
+
+PARTIAL MATCHES - CONSIDER REFINEMENT
+======================================
+
+1. "build muscle" → WWFM has "Build muscle mass" (71% match)
+10. "improve gut health" → WWFM has "Improve heart health" (50% match)
+22. "gain weight" → WWFM has "Gain healthy weight" (67% match)
+26. "learn to cook" → WWFM has "Learn to code" (50% match)
+41. "develop emotional intelligence" → WWFM has "Build emotional intelligence" (50% match)
+49. "start a business" → WWFM has "Start side business" (50% match)
+51. "improve emotional intimacy" → WWFM has "Improve emotional regulation" (50% match)
+54. "find a job" → WWFM has "Find job openings" (50% match)
+57. "clear acne" → WWFM has "Clear up acne" (67% match)
+58. "manage eczema" → WWFM has "Manage eczema/psoriasis" (57% match)

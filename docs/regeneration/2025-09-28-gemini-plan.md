@@ -31,6 +31,25 @@
    - Update the Progress Log with audit snapshot, call counts, and note any manual overrides (e.g., source normalization).
 4. **Buffer management**: continue reserving ≥150 calls for retries/QA. Abort runs when validation flags a field absent in `docs/solution-fields-ssot.md`.
 
+## 2025-10-25 Run Plan — Reduce Anxiety Cleanup
+- **Objective**: purge placeholder “(Test)” data from `Calm my anxiety` (`56e2801e-0d78-4abd-a795-869e5b780ae7`) and regenerate all required fields before touching other goals.
+- **Pre-flight**: confirm `.env.local` credentials, inspect `.gemini-usage.json`, and decide whether to archive the current state via `scripts/backup-goal-fields.ts` (only if those test entries are worth retaining).
+- **Cleanup**:  
+  ```bash
+  npx tsx scripts/clear-goal-fields.ts \
+    --goal-id=56e2801e-0d78-4abd-a795-869e5b780ae7 \
+    --clear-all-fields \
+    --clear-solution-fields \
+    --force
+  ```
+  *(Auto-backup runs unless `--skip-backup` is provided; expect 11 solutions cleared.)*
+  - ✅ Completed 2025-10-25 23:12 UTC (see Progress Log entry).
+- **Baseline QA**: `npm run quality:validate -- --goal-id=56e2801e-0d78-4abd-a795-869e5b780ae7 --show-good-quality --verbose` to confirm the goal is ready for regeneration.
+- **Regeneration**: `npx tsx scripts/generate-validated-fields-v3.ts --goal-id=56e2801e-0d78-4abd-a795-869e5b780ae7 --api-delay=4000 --state-file .cache/generate-v3/reduce-anxiety.json --force-regenerate` (no field filter so every category’s required fields rebuild in one pass).
+  - 🔄 Pending — run after solution roster validates (current aggregated fields still single-source).
+- **Post-run QA**: rerun the validator (same flags), review for dropdown/source issues, and append call counts + findings to the Progress Log before resuming broader cost backlog work.
+  - 🔄 Pending — schedule after V3 regeneration replaces placeholder distributions.
+
 ---
 
 ## Historical Snapshot (2025-09-28)
@@ -231,6 +250,11 @@ Continue through goal #35 (`Learn to use AI tools`) to reach the 350-call target
 - Keep daily plan docs up to date so future assistants can resume from recorded progress without re-discovering priorities.
 
 ## Progress Log
+- 2025-10-25 23:12 UTC — Rebuilt `Reduce anxiety` solution roster with quality-first generator.
+  - Purged the `(Test)` placeholder set: `scripts/clear-goal-fields.ts --goal-id=56e2801e-0d78-4abd-a795-869e5b780ae7 --clear-all-fields --clear-solution-fields --skip-backup --force` followed by direct Supabase deletes of the related `solution_variants` and `solutions` rows.
+  - Regenerated solutions via `npx tsx scripts/archive/legacy-ai-solution-generator-20250927/ai-solution-generator/index.ts --goal-id=56e2801e-0d78-4abd-a795-869e5b780ae7 --limit=12 --batch-size=1` (13 Gemini calls); laugh test accepted 12 unique solutions (16 implementations after dosage/device variants).
+  - Aggregated fields now seed with AI placeholders; distributions remain single-source because the legacy writer still targets `ai_field_distributions` (table missing → `Failed to create distribution … undefined`). Next: run `scripts/generate-validated-fields-v3.ts` for this goal to produce SSOT-compliant distributions, then revalidate.
+  - Follow-up: open an issue to align the legacy solution generator with current schema (skip/drop `ai_field_distributions` writes) so future runs stay noise-free.
 - 2025-10-16 22:52 UTC — Cost regeneration: Track spending (`e8849402-8d41-48a9-9497-bb0ac1be433f`, apps_software direct cost).
   - Validation baseline flagged 16/16 cost fields missing; ran `generate-validated-fields-v3.ts --field-filter=cost` twice (36 Gemini calls total) to replace dropdown-safe distributions after first pass rejected an off-spec monthly band.
   - Follow-up `npm run quality:validate -- --category-filter=apps_software` now reports 0% error; no manual overrides needed.
@@ -350,6 +374,10 @@ Continue through goal #35 (`Learn to use AI tools`) to reach the 350-call target
 - 2025-10-17 03:52 UTC — Cost regeneration attempt: Start over at 40+ (`e416cef3-ff8a-4bc1-a467-8cab2855344e`).
   - Generation aborted partway when Gemini daily quota (1000 calls) was exhausted (429 errors after 6 calls); several book/course entries remain unprocessed.
   - Resume tomorrow using `.cache/generate-v3/costs/goal-e416cef3.json` and re-run validator afterward.
+- 2025-10-25 09:32 UTC — QA audit: Calm my anxiety (`56e2801e-0d78-4abd-a795-869e5b780ae7`) populated with placeholder “(Test)” implementations.
+  - Supabase query shows 11/11 linked solutions contain `(Test)` in the title and share synthetic distributions for cost, startup_cost, ongoing_cost, etc., last updated between 2025-10-25 01:27–09:29 UTC.
+  - All required fields now carry junk data; plan is to clear aggregated and solution fields via `scripts/clear-goal-fields.ts` prior to regeneration.
+  - No other goals show fresh edits in the last 24 h; proceed with Reduce Anxiety cleanup before resuming the broader cost backlog.
 
 ## 2025-10-18 Practice-heavy Cost Plan (≈1 050 call allocation)
 

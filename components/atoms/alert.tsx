@@ -1,16 +1,19 @@
+"use client"
+
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
+  "relative w-full rounded-lg border-2 p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
   {
     variants: {
       variant: {
-        default: "bg-card text-card-foreground",
+        default: "bg-background text-foreground border-gray-200 dark:border-gray-700",
         destructive:
-          "text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90",
+          "border-red-500/50 text-red-900 dark:text-red-100 bg-red-50 dark:bg-red-950/30 [&>svg]:text-red-600 dark:[&>svg]:text-red-500",
+        info: "border-purple-200 bg-purple-50 dark:bg-purple-950/30 text-purple-900 dark:text-purple-100 [&>svg]:text-purple-600 dark:[&>svg]:text-purple-500",
       },
     },
     defaultVariants: {
@@ -23,10 +26,10 @@ function Alert({
   className,
   variant,
   ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof alertVariants>) {
+}: React.HTMLAttributes<HTMLDivElement> &
+  VariantProps<typeof alertVariants>) {
   return (
     <div
-      data-slot="alert"
       role="alert"
       className={cn(alertVariants({ variant }), className)}
       {...props}
@@ -34,14 +37,13 @@ function Alert({
   )
 }
 
-function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
+function AlertTitle({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
-    <div
-      data-slot="alert-title"
-      className={cn(
-        "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight",
-        className
-      )}
+    <h5
+      className={cn("mb-1 font-bold leading-none tracking-tight", className)}
       {...props}
     />
   )
@@ -50,14 +52,10 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
 function AlertDescription({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.HTMLAttributes<HTMLParagraphElement>) {
   return (
     <div
-      data-slot="alert-description"
-      className={cn(
-        "text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
-        className
-      )}
+      className={cn("text-sm [&_p]:leading-relaxed", className)}
       {...props}
     />
   )

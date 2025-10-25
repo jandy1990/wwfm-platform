@@ -1,13 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { ChevronLeft, Check } from 'lucide-react';
+import { Check, AlertCircle, Info } from 'lucide-react';
 import { Skeleton } from '@/components/atoms/skeleton';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
+import { Alert, AlertDescription } from '@/components/atoms/alert';
+import { toast } from 'sonner';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS } from './shared/';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS, TestModeCountdown, scrollToFirstError } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
@@ -41,6 +43,8 @@ export function HobbyForm({
 }: HobbyFormProps) {
   console.log('HobbyForm initialized with solution:', existingSolutionId || 'new', 'category:', category);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isTestMode = searchParams.get('testMode') === 'true';
   const { triggerPoints } = usePointsAnimation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -78,6 +82,10 @@ export function HobbyForm({
   // Optional fields (Success screen)
   const [communityName, setCommunityName] = useState('');
   const [notes, setNotes] = useState('');
+
+  // Validation state
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   // Progress indicator
   const totalSteps = 3;
@@ -207,6 +215,84 @@ export function HobbyForm({
     }
   };
 
+  // Field validation helper
+  const validateField = (fieldName: string, value: any) => {
+    let error = '';
+
+    switch (fieldName) {
+      case 'effectiveness':
+        if (value === null || value === '') {
+          error = 'Please rate the effectiveness';
+        }
+        break;
+      case 'timeToResults':
+        if (!value || value === '') {
+          error = 'Please select when you noticed results';
+        }
+        break;
+      case 'startupCost':
+        if (!value || value === '') {
+          error = 'Please select startup cost';
+        }
+        break;
+      case 'ongoingCost':
+        if (!value || value === '') {
+          error = 'Please select ongoing cost';
+        }
+        break;
+      case 'timeCommitment':
+        if (!value || value === '') {
+          error = 'Please select time per session';
+        }
+        break;
+      case 'frequency':
+        if (!value || value === '') {
+          error = 'Please select frequency';
+        }
+        break;
+    }
+
+    setValidationErrors(prev => {
+      const updated = { ...prev };
+      if (error) {
+        updated[fieldName] = error;
+      } else {
+        delete updated[fieldName];
+      }
+      return updated;
+    });
+  };
+
+  // Mark field as touched (for showing validation errors)
+  const markTouched = (fieldName: string) => {
+    setTouched(prev => ({ ...prev, [fieldName]: true }));
+  };
+
+  // Touch all required fields for current step (to show validation errors)
+  const touchAllRequiredFields = () => {
+    if (currentStep === 1) {
+      markTouched('effectiveness'); validateField('effectiveness', effectiveness);
+      markTouched('timeToResults'); validateField('timeToResults', timeToResults);
+      markTouched('startupCost'); validateField('startupCost', startupCost);
+      markTouched('ongoingCost'); validateField('ongoingCost', ongoingCost);
+      markTouched('timeCommitment'); validateField('timeCommitment', timeCommitment);
+      markTouched('frequency'); validateField('frequency', frequency);
+    } else if (currentStep === 2 && challenges.length === 0) {
+      toast.error('Please select at least one challenge');
+    }
+  };
+
+  // Handle Continue button click with validation feedback
+  const handleContinue = () => {
+    if (!canProceedToNextStep()) {
+      touchAllRequiredFields();
+      scrollToFirstError(validationErrors);
+      toast.error('Please fill all required fields');
+      return;
+    }
+    setCurrentStep(currentStep + 1);
+  };
+
   const canProceedToNextStep = () => {
     switch (currentStep) {
       case 1: // Hobby details
@@ -225,9 +311,17 @@ export function HobbyForm({
   };
 
   const handleSubmit = async () => {
+    // Validate before submission
+    if (!canProceedToNextStep()) {
+      touchAllRequiredFields();
+      scrollToFirstError(validationErrors);
+      toast.error('Please fill all required fields before submitting');
+      return;
+    }
+
     setIsSubmitting(true);
-    
-    try {
+
+    try{
       // Prepare solution fields for storage
       // Primary cost field for cross-category filtering
       const hasUnknownCost = ongoingCost === "Don't remember" || startupCost === "Don't remember";
@@ -297,11 +391,11 @@ export function HobbyForm({
       } else {
         // Handle error
         console.error('Error submitting solution:', result.error);
-        alert(result.error || 'Failed to submit solution. Please try again.');
+        toast.error(result.error || 'Failed to submit solution. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -331,14 +425,14 @@ export function HobbyForm({
       
       if (result.success) {
         console.log('Successfully updated additional information');
-        alert('Additional information saved successfully!');
+        toast.success('Additional information saved successfully!');
       } else {
         console.error('Failed to update:', result.error);
-        alert('Failed to save additional information. Please try again.');
+        toast.error('Failed to save additional information. Please try again.');
       }
     } catch (error) {
       console.error('Error updating additional info:', error);
-      alert('An error occurred. Please try again.');
+      toast.error('An error occurred. Please try again.');
     }
   };
 
@@ -359,32 +453,36 @@ export function HobbyForm({
             )}
             
             {/* Quick context card */}
-            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 
-                          border border-purple-200 dark:border-blue-800 rounded-lg p-4">
-              <p className="text-sm text-blue-800 dark:text-purple-200">
+            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20
+                          border border-purple-200 dark:border-purple-800 rounded-lg p-4">
+              <p className="text-sm text-purple-800 dark:text-purple-200">
                 Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
               </p>
             </div>
 
             {/* Effectiveness Section */}
             <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-                  <span className="text-lg">⭐</span>
-                </div>
-                <h2 className="text-xl font-semibold">How well it worked</h2>
-              </div>
-              
+              <FormSectionHeader
+                title="How well it worked"
+                icon={CATEGORY_ICONS[category]}
+              />
+
               {/* 5-star rating */}
               <div className="space-y-4">
                 <div className="grid grid-cols-5 gap-2">
                   {[1, 2, 3, 4, 5].map((rating) => (
                     <button
                       key={rating}
-                      onClick={() => setEffectiveness(rating)}
+                      onClick={() => {
+                        setEffectiveness(rating);
+                        validateField('effectiveness', rating);
+                        markTouched('effectiveness');
+                      }}
                       className={`relative py-4 px-2 rounded-lg border-2 transition-all transform hover:scale-105 ${
                         effectiveness === rating
                           ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 scale-105 shadow-lg'
+                          : touched.effectiveness && validationErrors.effectiveness
+                          ? 'border-red-500 dark:border-red-600'
                           : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                       }`}
                     >
@@ -416,6 +514,12 @@ export function HobbyForm({
                   <span className="text-xs text-gray-500">Not at all</span>
                   <span className="text-xs text-gray-500">Extremely</span>
                 </div>
+                {touched.effectiveness && validationErrors.effectiveness && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.effectiveness}
+                  </p>
+                )}
               </div>
 
               {/* Time to enjoyment */}
@@ -423,13 +527,24 @@ export function HobbyForm({
                 <div className="flex items-center gap-2">
                   <span className="text-lg">⏱️</span>
                   <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                    How long until you enjoyed it?
+                    When did you notice results?
                   </label>
                 </div>
-                <Select value={timeToResults} onValueChange={setTimeToResults}>
-                  <SelectTrigger className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                <Select
+                  value={timeToResults}
+                  onValueChange={(val) => {
+                    setTimeToResults(val);
+                    validateField('timeToResults', val);
+                    markTouched('timeToResults');
+                  }}
+                >
+                  <SelectTrigger className={`w-full px-4 py-3 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all">
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all ${
+                             touched.timeToResults && validationErrors.timeToResults
+                               ? 'border-2 border-red-500 dark:border-red-600'
+                               : 'border border-gray-300 dark:border-gray-600'
+                           }`}>
                     <SelectValue placeholder="Select timeframe" />
                   </SelectTrigger>
                   <SelectContent>
@@ -443,6 +558,12 @@ export function HobbyForm({
                     <SelectItem value="Still learning to enjoy it">Still learning to enjoy it</SelectItem>
                   </SelectContent>
                 </Select>
+                {touched.timeToResults && validationErrors.timeToResults && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.timeToResults}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -479,10 +600,21 @@ export function HobbyForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Initial startup cost <span className="text-red-500">*</span>
                 </label>
-                <Select value={startupCost} onValueChange={setStartupCost}>
-                  <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                <Select
+                  value={startupCost}
+                  onValueChange={(val) => {
+                    setStartupCost(val);
+                    validateField('startupCost', val);
+                    markTouched('startupCost');
+                  }}
+                >
+                  <SelectTrigger className={`w-full px-4 py-2 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
+                             touched.startupCost && validationErrors.startupCost
+                               ? 'border-2 border-red-500 dark:border-red-600'
+                               : 'border border-gray-300 dark:border-gray-600'
+                           }`}>
                     <SelectValue placeholder="Select startup cost" />
                   </SelectTrigger>
                   <SelectContent>
@@ -498,6 +630,12 @@ export function HobbyForm({
                     <SelectItem value="Over $5,000">Over $5,000</SelectItem>
                   </SelectContent>
                 </Select>
+                {touched.startupCost && validationErrors.startupCost && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.startupCost}
+                  </p>
+                )}
               </div>
 
               {/* Ongoing Monthly Cost */}
@@ -505,10 +643,21 @@ export function HobbyForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Typical monthly cost <span className="text-red-500">*</span>
                 </label>
-                <Select value={ongoingCost} onValueChange={setOngoingCost}>
-                  <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                <Select
+                  value={ongoingCost}
+                  onValueChange={(val) => {
+                    setOngoingCost(val);
+                    validateField('ongoingCost', val);
+                    markTouched('ongoingCost');
+                  }}
+                >
+                  <SelectTrigger className={`w-full px-4 py-2 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
+                             touched.ongoingCost && validationErrors.ongoingCost
+                               ? 'border-2 border-red-500 dark:border-red-600'
+                               : 'border border-gray-300 dark:border-gray-600'
+                           }`}>
                     <SelectValue placeholder="Select monthly cost" />
                   </SelectTrigger>
                   <SelectContent>
@@ -522,6 +671,12 @@ export function HobbyForm({
                     <SelectItem value="Over $500/month">Over $500/month</SelectItem>
                   </SelectContent>
                 </Select>
+                {touched.ongoingCost && validationErrors.ongoingCost && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.ongoingCost}
+                  </p>
+                )}
               </div>
 
               {/* Time commitment */}
@@ -529,10 +684,21 @@ export function HobbyForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Time per session? <span className="text-red-500">*</span>
                 </label>
-                <Select value={timeCommitment} onValueChange={setTimeCommitment}>
-                  <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                <Select
+                  value={timeCommitment}
+                  onValueChange={(val) => {
+                    setTimeCommitment(val);
+                    validateField('timeCommitment', val);
+                    markTouched('timeCommitment');
+                  }}
+                >
+                  <SelectTrigger className={`w-full px-4 py-2 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
+                             touched.timeCommitment && validationErrors.timeCommitment
+                               ? 'border-2 border-red-500 dark:border-red-600'
+                               : 'border border-gray-300 dark:border-gray-600'
+                           }`}>
                     <SelectValue placeholder="Select time" />
                   </SelectTrigger>
                   <SelectContent>
@@ -545,6 +711,12 @@ export function HobbyForm({
                     <SelectItem value="Varies significantly">Varies significantly</SelectItem>
                   </SelectContent>
                 </Select>
+                {touched.timeCommitment && validationErrors.timeCommitment && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.timeCommitment}
+                  </p>
+                )}
               </div>
 
               {/* Frequency */}
@@ -552,10 +724,21 @@ export function HobbyForm({
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   How often do you do it? <span className="text-red-500">*</span>
                 </label>
-                <Select value={frequency} onValueChange={setFrequency}>
-                  <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                <Select
+                  value={frequency}
+                  onValueChange={(val) => {
+                    setFrequency(val);
+                    validateField('frequency', val);
+                    markTouched('frequency');
+                  }}
+                >
+                  <SelectTrigger className={`w-full px-4 py-2 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
+                             touched.frequency && validationErrors.frequency
+                               ? 'border-2 border-red-500 dark:border-red-600'
+                               : 'border border-gray-300 dark:border-gray-600'
+                           }`}>
                     <SelectValue placeholder="Select frequency" />
                   </SelectTrigger>
                   <SelectContent>
@@ -567,10 +750,32 @@ export function HobbyForm({
                     <SelectItem value="Occasionally">Occasionally</SelectItem>
                   </SelectContent>
                 </Select>
+                {touched.frequency && validationErrors.frequency && (
+                  <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {validationErrors.frequency}
+                  </p>
+                )}
               </div>
             </div>
 
-
+            {/* Step Navigation Helper */}
+            {!canProceedToNextStep() && currentStep === 1 && (
+              <Alert className="mb-4 border-purple-200 bg-purple-50 dark:border-purple-800 dark:bg-purple-900/20">
+                <Info className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                <AlertDescription>
+                  <p className="font-semibold text-purple-900 dark:text-purple-200 mb-1">Required to continue:</p>
+                  <ul className="list-disc list-inside text-sm text-purple-800 dark:text-purple-300">
+                    {effectiveness === null && <li>Effectiveness rating</li>}
+                    {!timeToResults && <li>Time to results</li>}
+                    {!startupCost && <li>Initial startup cost</li>}
+                    {!ongoingCost && <li>Typical monthly cost</li>}
+                    {!timeCommitment && <li>Time per session</li>}
+                    {!frequency && <li>Frequency</li>}
+                  </ul>
+                </AlertDescription>
+              </Alert>
+            )}
           </div>
         );
 
@@ -583,7 +788,7 @@ export function HobbyForm({
               <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center">
                 <span className="text-lg">⚡</span>
               </div>
-              <h2 className="text-xl font-semibold">Any challenges?</h2>
+              <h2 className="text-xl font-bold">Any challenges?</h2>
             </div>
 
             {/* Quick tip */}
@@ -613,8 +818,8 @@ export function HobbyForm({
                     className={`group flex items-center gap-3 p-3 rounded-lg border cursor-pointer
                               transition-all transform hover:scale-[1.02] ${
                       challenges.includes(challenge)
-                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-md'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-sm'
+                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-lg'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 hover:shadow-lg'
                     }`}
                   >
                     <input
@@ -643,7 +848,7 @@ export function HobbyForm({
                     onClick={() => setShowCustomChallenge(true)}
                     className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer
                               transition-all transform hover:scale-[1.02] border-dashed
-                              border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-sm"
+                              border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-lg"
                   >
                     <div className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600
                                   group-hover:border-gray-400 flex items-center justify-center">
@@ -674,8 +879,8 @@ export function HobbyForm({
                 />
                 <button
                   onClick={addCustomChallenge}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white 
-                           rounded-lg transition-colors"
+                  className="px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white 
+                           rounded-lg transition-colors button-focus-tight"
                 >
                   Add
                 </button>
@@ -697,12 +902,12 @@ export function HobbyForm({
                 <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Added:</p>
                 <div className="flex flex-wrap gap-2">
                   {challenges.filter(c => !challengeOptionsState.includes(c) && c !== 'None').map((challenge) => (
-                    <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
-                                                 text-purple-700 dark:text-blue-300 rounded-full text-sm">
+                    <span key={challenge} className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 dark:bg-purple-900/30
+                                                 text-purple-700 dark:text-purple-300 rounded-full text-sm">
                       {challenge}
                       <button
                         onClick={() => setChallenges(challenges.filter(c => c !== challenge))}
-                        className="hover:text-purple-900 dark:hover:text-blue-100"
+                        className="hover:text-purple-900 dark:hover:text-purple-100"
                       >
                         <span className="text-lg leading-none">×</span>
                       </button>
@@ -715,8 +920,8 @@ export function HobbyForm({
             {/* Selected count indicator */}
             {challenges.length > 0 && challenges[0] !== 'None' && (
               <div className="text-center">
-                <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-purple-900/30 
-                               text-purple-700 dark:text-blue-300 rounded-full text-sm animate-fade-in">
+                <span className="inline-flex items-center gap-2 px-3 py-1 bg-purple-100 dark:bg-purple-900/30
+                               text-purple-700 dark:text-purple-300 rounded-full text-sm animate-fade-in">
                   <Check className="w-4 h-4" />
                   {challenges.length} selected
                 </span>
@@ -734,7 +939,7 @@ export function HobbyForm({
               <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
                 <span className="text-lg">🔍</span>
               </div>
-              <h2 className="text-xl font-semibold">What else did you try?</h2>
+              <h2 className="text-xl font-bold">What else did you try?</h2>
             </div>
 
             {/* Context card */}
@@ -817,7 +1022,7 @@ export function HobbyForm({
                 <button
                   onClick={updateAdditionalInfo}
                   className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg 
-                         text-sm font-semibold transition-colors"
+                         text-sm font-semibold transition-colors button-focus-tight"
                 >
                   Submit
                 </button>
@@ -833,28 +1038,23 @@ export function HobbyForm({
           >
             Back to goal page
           </button>
+
+          {/* Test Mode Auto-Return */}
+          <TestModeCountdown isTestMode={isTestMode} />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Progress Bar */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-2">
-          <button
-            onClick={() => {
-              if (currentStep > 1) {
-                setCurrentStep(currentStep - 1);
-              } else {
-                onBack();
-              }
-            }}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      {/* Progress Bar - Sticky */}
+      <div className="sticky top-0 z-10
+                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                      border-b border-gray-200 dark:border-gray-700
+                      px-4 sm:px-6 py-3 mb-8 -mx-4 sm:-mx-6 shadow-md
+                      safe-area-inset-top">
+        <div className="flex items-center justify-end mb-2">
           <span className="text-sm text-gray-600 dark:text-gray-400">
             Step {currentStep} of {totalSteps}
           </span>
@@ -868,61 +1068,62 @@ export function HobbyForm({
       </div>
 
       {/* Form Content */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200
                     dark:border-gray-700 p-4 sm:p-6 overflow-visible">
         {renderStep()}
       </div>
 
-      {/* Navigation */}
-      <div className="flex justify-between mt-6">
-        {currentStep > 1 ? (
-          <button
-            onClick={() => setCurrentStep(currentStep - 1)}
-            className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                     dark:hover:text-gray-200 font-semibold transition-colors"
-          >
-            Back
-          </button>
-        ) : (
-          <div />
-        )}
-        
-        <div className="flex gap-2">
-          {currentStep < highestStepReached && currentStep < totalSteps && (
+      {/* Navigation - Sticky for mobile keyboard accessibility */}
+      <div className="sticky bottom-0 left-0 right-0
+                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                      border-t border-gray-200 dark:border-gray-700
+                      px-4 sm:px-6 py-3 mt-6 -mx-4 sm:-mx-6 shadow-lg z-10
+                      safe-area-inset-bottom">
+        <div className="flex justify-between">
+          {currentStep > 1 ? (
             <button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              className="px-4 sm:px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 
-                       dark:hover:text-gray-200 font-semibold transition-colors"
+              onClick={() => setCurrentStep(currentStep - 1)}
+              className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                       dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
             >
-              Forward
-            </button>
-          )}
-          
-          {currentStep < totalSteps ? (
-            <button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              disabled={!canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
-                canProceedToNextStep()
-                  ? 'bg-purple-600 hover:bg-purple-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {currentStep === 3 ? 'Skip' : 'Continue'}
+              Back
             </button>
           ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={isSubmitting || !canProceedToNextStep()}
-              className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors ${
-                !isSubmitting
-                  ? 'bg-green-600 hover:bg-green-700 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {isSubmitting ? 'Submitting...' : 'Submit'}
-            </button>
+            <div />
           )}
+
+          <div className="flex gap-2">
+            {currentStep < highestStepReached && currentStep < totalSteps && (
+              <button
+                onClick={() => setCurrentStep(currentStep + 1)}
+                className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                         dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
+              >
+                Forward
+              </button>
+            )}
+
+            {currentStep < totalSteps ? (
+              <button
+                onClick={handleContinue}
+                className="px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                {currentStep === 3 ? 'Skip' : 'Continue'}
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className={`px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors ${
+                  !isSubmitting
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
