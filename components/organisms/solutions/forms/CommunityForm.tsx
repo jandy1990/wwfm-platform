@@ -310,13 +310,14 @@ export function CommunityForm({
         solutionFields.cost_type = costType;
       }
 
-      // Note: timeToResults is passed as separate param to submitSolution(), NOT in solutionFields
-
       // Add other fields only if they have values
       if (meetingFrequency) solutionFields.meeting_frequency = meetingFrequency;
       if (format) solutionFields.format = format;
       if (groupSize) solutionFields.group_size = groupSize;
-      
+
+      // Add time_to_results field (REQUIRED by validator for support_groups)
+      if (timeToResults) solutionFields.time_to_results = timeToResults;
+
       // Always include challenges field (required field)
       // "None" is a valid value meaning no challenges experienced
       if (selectedChallenges.length > 0) {

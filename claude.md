@@ -94,6 +94,19 @@ Email notifications
 User profiles
 Performance optimization
 💡 Common Development Tasks
+
+## ⚠️ CRITICAL: Running Tests
+
+**BEFORE running ANY tests, you MUST run test setup:**
+```bash
+npm run test:setup  # Creates 24 test fixtures - REQUIRED!
+npm run test:critical  # Then run tests
+```
+
+**If you see "Solution [Name] (Test) not found":** You forgot `npm run test:setup`
+
+**Debugging Test Failures:** Read `test-results/failures-summary.md` after running tests (see `/docs/testing/` for guides)
+
 Working with Goals & Solutions
 Goals are user problems ("Stop overthinking")
 Solutions are generic approaches ("Meditation")
@@ -117,6 +130,19 @@ Verify Supabase RLS policies
 Ensure auth state
 Validate TypeScript types
 For search: verify solution is approved and specific
+
+🧪 Test Output Capture (CRITICAL FOR AI ASSISTANTS)
+**Automatic Complete Output:** ALL test runs automatically save complete results to `test-results/latest.json`
+**No Truncation:** Full test output, error messages, and stack traces always captured
+**How to Access:**
+- Read directly: Use Read tool on `/Users/jackandrews/Desktop/wwfm-platform/test-results/latest.json`
+- View in terminal: `npm run test:results` (formatted JSON)
+- Quick summary: `npm run test:results:summary` (pass/fail counts)
+- HTML report: `npm run test:forms:report` (browsable UI)
+
+**For Claude Code:**
+When tests fail or you need complete output, ALWAYS read `test-results/latest.json` instead of relying on truncated terminal output. This file contains the complete test results with full error messages, field mismatches, and diagnostic information.
+
 📝 Key Documentation
 README.md: Setup and overview
 ARCHITECTURE.md: Design decisions and patterns

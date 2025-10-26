@@ -105,7 +105,7 @@ Created logical archive structure:
 ```
 /docs/archive/2025-01-solution-quality/     # Completed work
 /scripts/archive/ai-generation-old/         # Deprecated AI scripts
-/scripts/ai-solution-generator/archive/     # Old generator docs
+/scripts/solution-generator/archive/     # Old generator docs
 ```
 
 ## 🎯 Ready for Implementation

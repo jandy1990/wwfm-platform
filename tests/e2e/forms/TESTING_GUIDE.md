@@ -78,6 +78,12 @@ Each form test validates:
 
 3. **Verify dropdown options**: Check that test data matches actual form options
 
+4. **Review test output**: Check `test-results/latest.json` for detailed results
+   ```bash
+   npm run test:results         # Full JSON output
+   npm run test:results:summary # Concise summary
+   ```
+
 ### Common Issues
 
 - **"Element not found"**: Form structure changed, update selectors in `form-configs.ts`

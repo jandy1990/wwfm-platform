@@ -385,12 +385,12 @@ We now have a comprehensive validation suite to ensure data quality:
 
 ```bash
 # Main validation script - run after any generation
-npx tsx scripts/ai-solution-generator/validate-and-fix.ts
+npx tsx scripts/solution-generator/validate-and-fix.ts
 
 # Specific fixes if needed
-npx tsx scripts/ai-solution-generator/fix-exercise-frequency.ts
-npx tsx scripts/ai-solution-generator/fix-dropdown-mappings.ts
-npx tsx scripts/ai-solution-generator/fix-diet-cost-logic.ts
+npx tsx scripts/solution-generator/fix-exercise-frequency.ts
+npx tsx scripts/solution-generator/fix-dropdown-mappings.ts
+npx tsx scripts/solution-generator/fix-diet-cost-logic.ts
 ```
 
 ### Current Data Quality Metrics
@@ -406,7 +406,7 @@ npx tsx scripts/ai-solution-generator/fix-diet-cost-logic.ts
 **Document maintained by**: WWFM Development Team  
 **Last updated**: August 2025  
 **Related files**: 
-- `/scripts/ai-solution-generator/README.md` - How to run it
-- `/scripts/ai-solution-generator/prompts/master-prompts.ts` - The prompts
-- `/scripts/ai-solution-generator/validate-and-fix.ts` - Validation suite
+- `/scripts/solution-generator/README.md` - How to run it
+- `/scripts/solution-generator/prompts/master-prompts.ts` - The prompts
+- `/scripts/solution-generator/validate-and-fix.ts` - Validation suite
 - This document - Why we built it this way

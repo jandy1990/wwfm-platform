@@ -33,6 +33,10 @@ export class ArenaTimeService {
     })
 
     if (error) {
+      if (error.code === '42P01' || error.code === '42883') {
+        console.warn('Arena stats RPC unavailable; skipping analytics block')
+        return []
+      }
       console.error('Failed to fetch arena stats:', error)
       return []
     }
@@ -50,6 +54,10 @@ export class ArenaTimeService {
     })
 
     if (error) {
+      if (error.code === '42P01' || error.code === '42883') {
+        console.warn('Arena time summary RPC unavailable; skipping analytics block')
+        return null
+      }
       console.error('Failed to fetch time summary:', error)
       return null
     }

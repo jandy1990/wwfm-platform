@@ -250,11 +250,11 @@ Continue through goal #35 (`Learn to use AI tools`) to reach the 350-call target
 - Keep daily plan docs up to date so future assistants can resume from recorded progress without re-discovering priorities.
 
 ## Progress Log
-- 2025-10-25 23:12 UTC — Rebuilt `Reduce anxiety` solution roster with quality-first generator.
-  - Purged the `(Test)` placeholder set: `scripts/clear-goal-fields.ts --goal-id=56e2801e-0d78-4abd-a795-869e5b780ae7 --clear-all-fields --clear-solution-fields --skip-backup --force` followed by direct Supabase deletes of the related `solution_variants` and `solutions` rows.
-  - Regenerated solutions via `npx tsx scripts/archive/legacy-ai-solution-generator-20250927/ai-solution-generator/index.ts --goal-id=56e2801e-0d78-4abd-a795-869e5b780ae7 --limit=12 --batch-size=1` (13 Gemini calls); laugh test accepted 12 unique solutions (16 implementations after dosage/device variants).
-  - Aggregated fields now seed with AI placeholders; distributions remain single-source because the legacy writer still targets `ai_field_distributions` (table missing → `Failed to create distribution … undefined`). Next: run `scripts/generate-validated-fields-v3.ts` for this goal to produce SSOT-compliant distributions, then revalidate.
-  - Follow-up: open an issue to align the legacy solution generator with current schema (skip/drop `ai_field_distributions` writes) so future runs stay noise-free.
+- 2025-10-26 01:20 UTC — Rebuilt `Reduce anxiety` solution roster with the new `scripts/solution-generator` pipeline.
+  - Purged the `(Test)` placeholder set: `scripts/clear-goal-fields.ts --goal-id=56e2801e-0d78-4abd-a795-869e5b780ae7 --clear-all-fields --clear-solution-fields --skip-backup --force` followed by targeted Supabase deletes for orphaned `solution_variants`/`solutions`.
+  - Regenerated solutions via `npx tsx scripts/solution-generator/index.ts --goal-id=56e2801e-0d78-4abd-a795-869e5b780ae7 --limit=30 --batch-size=1 --force-write` (62 Gemini calls across retries); dedupe logic reused existing CBT/medication entries and inserted 23 net-new high-quality solutions.
+  - Validation: `npm run quality:validate -- --goal-id=56e2801e-0d78-4abd-a795-869e5b780ae7 --show-good-quality --assert-zero` → 0 invalid / 0 missing fields. UI spot-check confirms diversified distributions (no more 100%/0% bins).
+  - Follow-up: keep monitoring frequency prompts (practice categories still want to emit “once daily” occasionally); logged backlog item to expand prompt hints.
 - 2025-10-16 22:52 UTC — Cost regeneration: Track spending (`e8849402-8d41-48a9-9497-bb0ac1be433f`, apps_software direct cost).
   - Validation baseline flagged 16/16 cost fields missing; ran `generate-validated-fields-v3.ts --field-filter=cost` twice (36 Gemini calls total) to replace dropdown-safe distributions after first pass rejected an off-spec monthly band.
   - Follow-up `npm run quality:validate -- --category-filter=apps_software` now reports 0% error; no manual overrides needed.

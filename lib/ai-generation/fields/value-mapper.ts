@@ -168,6 +168,56 @@ export function mapFieldToDropdown(
     return value
   }
 
+  const normalizedValue = value.trim()
+  const lowerValue = normalizedValue.toLowerCase()
+
+  const aliasMappings: Record<string, Record<string, string>> = {
+    frequency: {
+      'once daily': 'Daily',
+      'twice daily': 'Daily',
+      'three times daily': '5-6 times per week',
+      'daily practice': 'Daily',
+      'daily sessions': 'Daily',
+      'weekly practice': 'Weekly',
+      'weekly sessions': 'Weekly',
+      'three-four times per week': '3-4 times per week',
+      'three times per week': '3-4 times per week',
+      'four times per week': '3-4 times per week',
+      'five times per week': '5-6 times per week',
+      'six times per week': '5-6 times per week',
+      'multiple times per day': 'Daily',
+      'as-needed practice': 'As needed'
+    },
+    session_frequency: {
+      'weekly sessions': 'Weekly',
+      'once weekly': 'Weekly',
+      'weekly therapy': 'Weekly',
+      'weekly check-ins': 'Weekly',
+      'bi-weekly': 'Fortnightly',
+      'biweekly': 'Fortnightly',
+      'every other week': 'Fortnightly',
+      'twice per month': 'Fortnightly',
+      'monthly check-ins': 'Monthly',
+      'monthly sessions': 'Monthly',
+      'daily check-ins': 'Multiple times per week',
+      'two times per week': 'Multiple times per week',
+      'twice weekly': 'Multiple times per week',
+      'multiple weekly sessions': 'Multiple times per week',
+      'as-needed sessions': 'As needed',
+      'on demand': 'As needed',
+      'one off': 'One-time only',
+      'single session': 'One-time only'
+    },
+    format: {
+      'video/online': 'Virtual/Online',
+      'online (video)': 'Virtual/Online',
+      'online only': 'Virtual/Online',
+      'in-person only': 'In-person',
+      'phone call': 'Phone',
+      'phone session': 'Phone'
+    }
+  }
+
   switch (field) {
     case 'cost':
     case 'startup_cost':
@@ -180,7 +230,20 @@ export function mapFieldToDropdown(
     case 'recovery_time':
       return mapTimeToDropdown(value, options)
     default:
-      return options.find(opt => opt.toLowerCase() === value.toLowerCase()) || options[0]
+      const directMatch = options.find(opt => opt.toLowerCase() === lowerValue)
+      if (directMatch) {
+        return directMatch
+      }
+
+      const fieldAliases = aliasMappings[field]
+      if (fieldAliases) {
+        const alias = fieldAliases[lowerValue]
+        if (alias && options.includes(alias)) {
+          return alias
+        }
+      }
+
+      return options[0]
   }
 }
 

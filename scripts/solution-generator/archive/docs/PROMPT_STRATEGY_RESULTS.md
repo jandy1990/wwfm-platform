@@ -180,7 +180,7 @@ I've created two comprehensive test scripts:
 To run the Gemini test:
 ```bash
 cd /Users/jackandrews/Desktop/wwfm-platform
-npx tsx scripts/ai-solution-generator/test-gemini-strategies.ts
+npx tsx scripts/solution-generator/test-gemini-strategies.ts
 ```
 
 This will:

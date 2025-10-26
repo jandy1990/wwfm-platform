@@ -109,7 +109,7 @@ Should be DistributionData format like human data:
 - **`/docs/implementation/DATA_QUALITY_FIX_GUIDE.md`** - Your main guide
 - **`scripts/analyze-solution-quality.ts`** - Analysis script (ready to run)
 - **`CLAUDE.md`** - Platform overview with data architecture
-- **`/scripts/ai-solution-generator/README.md`** - How AI data is generated
+- **`/scripts/solution-generator/README.md`** - How AI data is generated
 
 ### Implementation Phases (6 phases, ~6-8 hours)
 1. **Preparation** (1h): Run analysis, create backups
@@ -141,7 +141,7 @@ cat docs/implementation/DATA_QUALITY_FIX_GUIDE.md
 cat CLAUDE.md
 
 # Check current AI generator approach
-cat scripts/ai-solution-generator/README.md
+cat scripts/solution-generator/README.md
 ```
 
 ### 3. Set Up Environment
@@ -204,7 +204,7 @@ Display Logic → Checks data_display_mode → Shows appropriate data
 /app/goal/[id]/page.tsx           # Where solutions display
 /components/goal/GoalPageClient.tsx # Display logic
 /lib/services/solution-aggregator.ts # Human data aggregation
-/scripts/ai-solution-generator/   # AI data generation
+/scripts/solution-generator/   # AI data generation
 ```
 
 ### Environment
@@ -221,7 +221,7 @@ Display Logic → Checks data_display_mode → Shows appropriate data
 2. **`docs/implementation/DATA_QUALITY_FIX_GUIDE.md`** - Your implementation plan
 3. **`CLAUDE.md`** - Platform overview and data architecture
 4. **`scripts/analyze-solution-quality.ts`** - Analysis tool (examine the code)
-5. **`scripts/ai-solution-generator/README.md`** - How AI data should work
+5. **`scripts/solution-generator/README.md`** - How AI data should work
 
 ---
 

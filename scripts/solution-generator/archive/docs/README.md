@@ -49,7 +49,7 @@ GEMINI_API_KEY=<your_gemini_api_key>
 ### 3. Add to package.json
 ```json
 "scripts": {
-  "generate:ai-solutions": "tsx scripts/ai-solution-generator/index.ts"
+  "generate:ai-solutions": "tsx scripts/solution-generator/index.ts"
 }
 ```
 
@@ -222,10 +222,10 @@ If you need to switch back to Claude:
 
 ```bash
 # Test the validation system
-npx tsx scripts/ai-solution-generator/validate-specificity-standalone.ts
+npx tsx scripts/solution-generator/validate-specificity-standalone.ts
 
 # Validate solutions during generation
-npx tsx scripts/ai-solution-generator/generate-specific-solutions.ts
+npx tsx scripts/solution-generator/generate-specific-solutions.ts
 ```
 
 ### Automated Validation Scripts
@@ -233,12 +233,12 @@ After generation, run these validation scripts to ensure data quality:
 
 ```bash
 # Comprehensive validation and auto-fix
-npx tsx scripts/ai-solution-generator/validate-and-fix.ts
+npx tsx scripts/solution-generator/validate-and-fix.ts
 
 # Fix specific issues
-npx tsx scripts/ai-solution-generator/fix-exercise-frequency.ts
-npx tsx scripts/ai-solution-generator/fix-dropdown-mappings.ts
-npx tsx scripts/ai-solution-generator/fix-diet-cost-logic.ts
+npx tsx scripts/solution-generator/fix-exercise-frequency.ts
+npx tsx scripts/solution-generator/fix-dropdown-mappings.ts
+npx tsx scripts/solution-generator/fix-diet-cost-logic.ts
 ```
 
 ### Common Issues & Fixes
@@ -277,10 +277,10 @@ curl http://localhost:3000/goal/<goal-id> | grep -o "solution"
 Add these validation scripts:
 ```json
 "scripts": {
-  "generate:validate": "tsx scripts/ai-solution-generator/validate-and-fix.ts",
-  "generate:check": "tsx scripts/ai-solution-generator/check-progress.ts",
-  "generate:fix-frequency": "tsx scripts/ai-solution-generator/fix-exercise-frequency.ts",
-  "generate:fix-diet": "tsx scripts/ai-solution-generator/fix-diet-cost-logic.ts"
+  "generate:validate": "tsx scripts/solution-generator/validate-and-fix.ts",
+  "generate:check": "tsx scripts/solution-generator/check-progress.ts",
+  "generate:fix-frequency": "tsx scripts/solution-generator/fix-exercise-frequency.ts",
+  "generate:fix-diet": "tsx scripts/solution-generator/fix-diet-cost-logic.ts"
 }
 ```
 
@@ -301,7 +301,7 @@ After Gemini generates solutions, Claude evaluates and fixes them across 5 quali
 
 #### Test with 100 Solutions (Full Data Capture)
 ```bash
-npx tsx scripts/ai-solution-generator/quality-test-100.ts
+npx tsx scripts/solution-generator/quality-test-100.ts
 ```
 This creates 4 files in `quality-test-results/`:
 - `BEFORE.md` - Complete data for all 100 solutions pre-review
@@ -372,10 +372,10 @@ npm run generate:ai-solutions -- --goal-id=<uuid>
 ### Step 2: Test Quality System
 ```bash
 # Test with 100 solutions (captures all data)
-npx tsx scripts/ai-solution-generator/quality-test-100.ts
+npx tsx scripts/solution-generator/quality-test-100.ts
 
 # Review the generated markdown files
-open scripts/ai-solution-generator/quality-test-results/
+open scripts/solution-generator/quality-test-results/
 ```
 
 ### Step 3: Run Quality Pipeline
@@ -414,7 +414,7 @@ This system is completely self-contained. To use it:
 3. If daily limit hit, resume with `--start-from=<index>`
 
 ### Quality Process
-1. Test with 100 solutions first: `npx tsx scripts/ai-solution-generator/quality-test-100.ts`
+1. Test with 100 solutions first: `npx tsx scripts/solution-generator/quality-test-100.ts`
 2. Review the markdown files to verify quality improvements
 3. Run full pipeline: `npm run quality:check`
 4. Monitor with dashboard: `npm run quality:dashboard`

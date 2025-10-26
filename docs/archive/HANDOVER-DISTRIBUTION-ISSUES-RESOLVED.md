@@ -127,9 +127,9 @@ For each of the 23 categories:
 ## Files Involved
 
 ### Core Files
-- `/scripts/ai-solution-generator/utils/value-mapper.ts` - Mapping logic
-- `/scripts/ai-solution-generator/config/dropdown-options.ts` - Valid dropdown values
-- `/scripts/ai-solution-generator/config/category-fields.ts` - Category definitions
+- `/scripts/solution-generator/utils/value-mapper.ts` - Mapping logic
+- `/scripts/solution-generator/config/dropdown-options.ts` - Valid dropdown values
+- `/scripts/solution-generator/config/category-fields.ts` - Category definitions
 
 ### Database Tables
 - `ai_field_distributions` - Original varied distribution data (source of truth)

@@ -131,7 +131,9 @@ export interface SessionFormTestData extends BaseTestData {
   format?: string
   insuranceCoverage?: string
   challenges?: string[]
+  sideEffects?: string[]
   cost?: CostRange
+  costType?: 'per_session' | 'monthly' | 'total' | 'free'
 }
 
 // PRACTICE FORM TEST DATA (3 categories)
@@ -145,6 +147,9 @@ export interface PracticeFormTestData extends BaseTestData {
   timeCommitment?: string
   challenges?: string[]
   cost?: CostRange
+  startupCost?: string
+  ongoingCost?: string
+  costType?: 'free' | 'one_time' | 'recurring' | 'dual' | 'unknown'
 }
 
 // APP FORM TEST DATA
@@ -168,6 +173,9 @@ export interface HobbyFormTestData extends BaseTestData {
   timeCommitment?: string
   challenges?: string[]
   cost?: CostRange
+  startupCost?: string
+  ongoingCost?: string
+  costType?: 'free' | 'one_time' | 'recurring' | 'dual' | 'unknown'
 }
 
 // COMMUNITY FORM TEST DATA (2 categories)
@@ -192,17 +200,21 @@ export interface LifestyleFormTestData extends BaseTestData {
   stillFollowing?: string
   challenges?: string[]
   cost?: CostRange
+  costType?: string
 }
 
 // PURCHASE FORM TEST DATA
 export interface PurchaseFormTestData extends BaseTestData {
   template: 'PurchaseForm'
-  category: 'products_devices'
+  category: 'products_devices' | 'books_courses'
 
   productType?: string
+  format?: string
   easeOfUse?: string
+  learningDifficulty?: string
   challenges?: string[]
   cost?: CostRange
+  costType?: 'one_time' | 'subscription'
 }
 
 // FINANCIAL FORM TEST DATA
@@ -214,6 +226,13 @@ export interface FinancialFormTestData extends BaseTestData {
   accessTime?: string
   challenges?: string[]
   cost?: CostRange
+  costType?:
+    | 'Free to use'
+    | 'Subscription fee'
+    | 'Transaction/usage fees'
+    | 'Interest charged (loans/credit)'
+    | 'Account maintenance fees'
+    | 'One-time purchase/setup fee'
 }
 
 // Union type of all test data

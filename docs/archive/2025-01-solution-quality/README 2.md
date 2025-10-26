@@ -44,7 +44,7 @@ The launch blockers and quality improvement documents addressed issues that have
 
 ### Implementation Guides
 - `/docs/implementation/DATA_QUALITY_FIX_GUIDE.md` - Comprehensive fix guide
-- `/scripts/ai-solution-generator/README.md` - Updated generator documentation
+- `/scripts/solution-generator/README.md` - Updated generator documentation
 
 ### Architecture Documentation
 - `/docs/features/ai-to-human-transition.md` - Transition system

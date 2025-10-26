@@ -38,6 +38,7 @@ program
   .option('--category-filter <categories>', 'Only validate specific categories (comma-separated)')
   .option('--verbose', 'Verbose output with detailed issues')
   .option('--show-good-quality', 'Also show good quality fields')
+  .option('--assert-zero', 'Exit with code 1 if any invalid or missing fields are found')
   .parse()
 
 const options = program.opts()
@@ -423,6 +424,18 @@ async function main(): Promise<void> {
     if (options.outputReport) {
       fs.writeFileSync(options.outputReport, JSON.stringify(report, null, 2))
       console.log(chalk.green(`\n💾 Report saved to: ${options.outputReport}`))
+    }
+
+    if (options.assertZero) {
+      const totalIssues = report.summary.invalidFields + report.summary.missingFields
+      if (totalIssues > 0) {
+        console.error(
+          chalk.red(
+            `\n🚨 Validation detected ${totalIssues} issue${totalIssues === 1 ? '' : 's'} (invalid: ${report.summary.invalidFields}, missing: ${report.summary.missingFields}).`
+          )
+        )
+        process.exit(1)
+      }
     }
 
   } catch (error) {

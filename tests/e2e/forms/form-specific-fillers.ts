@@ -6,6 +6,47 @@ import { Page } from '@playwright/test'
  */
 
 /**
+ * Category-specific test values for SessionForm
+ * These values match the EXPECTED_FIELDS in session-form-complete.spec.ts
+ * and provide realistic, category-appropriate test data
+ */
+const SESSION_FORM_TEST_VALUES = {
+  therapists_counselors: {
+    timeToResults: '3-6 months',
+    sessionFrequency: 'Weekly',
+    sessionLength: '50-60 minutes',
+    cost: '$100-$149.99'
+  },
+  doctors_specialists: {
+    timeToResults: '1-2 months',
+    sessionFrequency: 'Monthly',
+    waitTime: '1-2 weeks',
+    cost: '$50-$99.99'
+  },
+  coaches_mentors: {
+    timeToResults: '1-2 months',
+    sessionFrequency: 'Fortnightly',
+    sessionLength: '60 minutes',
+    cost: '$100-$199.99/month'
+  },
+  alternative_practitioners: {
+    timeToResults: '1-2 months',
+    sessionFrequency: 'Weekly',
+    sessionLength: '60 minutes',
+    cost: '$50-100'
+  },
+  professional_services: {
+    timeToResults: '1-2 weeks',
+    sessionFrequency: 'As needed',
+    cost: '$50-100'
+  },
+  crisis_resources: {
+    timeToResults: 'Immediately',
+    cost: 'Free'
+  }
+} as const
+
+/**
  * Helper function to wait for form submission success screen
  * Standardizes the waiting logic across all form fillers
  */
@@ -668,18 +709,19 @@ export async function fillSessionForm(page: Page, category: string) {
     }
   }
   await page.waitForTimeout(500)
-  
+
   // Select time to results - check if using buttons or select/dropdown
-  let timeToResults = '1-2 weeks'; // Define at higher scope for logging
+  // Get category-specific value or default
+  const categoryValues = SESSION_FORM_TEST_VALUES[category as keyof typeof SESSION_FORM_TEST_VALUES];
+  let timeToResults = categoryValues?.timeToResults || '1-2 weeks';
   const timeButtons = page.locator('button').filter({ hasText: /Immediate|days|weeks|months/i });
   const hasTimeButtons = await timeButtons.count() > 0;
-  
+
   if (hasTimeButtons) {
     // Button-based UI for time to results (crisis_resources)
-    const immediateButton = timeButtons.filter({ hasText: /Immediate/i }).first();
-    await immediateButton.click();
-    timeToResults = 'Immediate';
-    console.log('Selected "Immediate" time to results using button UI');
+    const buttonToClick = timeButtons.filter({ hasText: new RegExp(timeToResults, 'i') }).first();
+    await buttonToClick.click();
+    console.log(`Selected "${timeToResults}" time to results using button UI`);
   } else {
     // SessionForm uses shadcn Select for time_to_results
     // Use the established [role="option"] pattern
@@ -825,29 +867,15 @@ export async function fillSessionForm(page: Page, category: string) {
     // Wait for dropdown content to appear
     await page.waitForSelector('[role="option"]', { timeout: 3000 });
 
-    // Select appropriate option based on category
+    // Select appropriate option based on category-specific values
     let selectedOption = false;
-    let expectedValue = '';
+    let expectedValue = categoryValues?.cost || 'Under $50';
 
-    if (category === 'crisis_resources') {
-      // crisis_resources has different options: Free, Donation-based, Sliding scale, Don't remember
-      const freeOption = page.locator('[role="option"]').filter({ hasText: 'Free' }).first();
-      if (await freeOption.isVisible().catch(() => false)) {
-        await freeOption.click();
-        expectedValue = 'Free';
-        console.log('Selected cost range: Free');
-        selectedOption = true;
-      }
-    } else {
-      // Other session-based categories use per_session cost ranges
-      // Try 'Under $50' which is the first non-free option
-      const costOption = page.locator('[role="option"]').filter({ hasText: 'Under $50' }).first();
-      if (await costOption.isVisible().catch(() => false)) {
-        await costOption.click();
-        expectedValue = 'Under $50';
-        console.log('Selected cost range: Under $50');
-        selectedOption = true;
-      }
+    const costOption = page.locator('[role="option"]').filter({ hasText: expectedValue }).first();
+    if (await costOption.isVisible().catch(() => false)) {
+      await costOption.click();
+      console.log(`Selected cost range: ${expectedValue}`);
+      selectedOption = true;
     }
 
     if (!selectedOption) {
@@ -894,11 +922,7 @@ export async function fillSessionForm(page: Page, category: string) {
       if (retryTrigger) {
         await retryTrigger.click();
         await page.waitForTimeout(500);
-        if (category === 'crisis_resources') {
-          await page.locator('[role="option"]').filter({ hasText: 'Free' }).first().click();
-        } else {
-          await page.locator('[role="option"]').filter({ hasText: 'Under $50' }).first().click();
-        }
+        await page.locator('[role="option"]').filter({ hasText: expectedValue }).first().click();
         await page.waitForTimeout(500);
 
         // Re-verify with fresh locator
@@ -928,11 +952,12 @@ export async function fillSessionForm(page: Page, category: string) {
       await freqTrigger.click();
       await page.waitForTimeout(500);
 
-      // Select Weekly option
-      const weeklyOption = page.locator('[role="option"]').filter({ hasText: 'Weekly' });
-      if (await weeklyOption.isVisible()) {
-        await weeklyOption.click();
-        console.log('Selected session frequency: Weekly');
+      // Select category-specific frequency
+      const frequencyValue = categoryValues?.sessionFrequency || 'Weekly';
+      const frequencyOption = page.locator('[role="option"]').filter({ hasText: frequencyValue });
+      if (await frequencyOption.isVisible()) {
+        await frequencyOption.click();
+        console.log(`Selected session frequency: ${frequencyValue}`);
       } else {
         // Fallback to first option
         await page.locator('[role="option"]').first().click();
@@ -991,11 +1016,12 @@ export async function fillSessionForm(page: Page, category: string) {
     await sessionLengthTrigger.click();
     await page.waitForTimeout(500);
 
-    // Select 60 minutes option if available
-    const sixtyMinOption = page.locator('[role="option"]').filter({ hasText: '60 minutes' });
-    if (await sixtyMinOption.isVisible()) {
-      await sixtyMinOption.click();
-      console.log('Selected session length: 60 minutes');
+    // Select category-specific session length
+    const sessionLengthValue = categoryValues?.sessionLength || '60 minutes';
+    const sessionLengthOption = page.locator('[role="option"]').filter({ hasText: sessionLengthValue });
+    if (await sessionLengthOption.isVisible()) {
+      await sessionLengthOption.click();
+      console.log(`Selected session length: ${sessionLengthValue}`);
     } else {
       // Fallback to first option
       await page.locator('[role="option"]').first().click();
@@ -1045,11 +1071,12 @@ export async function fillSessionForm(page: Page, category: string) {
       await waitTrigger.click();
       await page.waitForTimeout(500);
 
-      // Select "Within a week" if available
-      const weekOption = page.locator('[role="option"]').filter({ hasText: 'Within a week' });
-      if (await weekOption.isVisible()) {
-        await weekOption.click();
-        console.log('Selected wait time: Within a week');
+      // Select category-specific wait time
+      const waitTimeValue = categoryValues?.waitTime || 'Within a week';
+      const waitOption = page.locator('[role="option"]').filter({ hasText: waitTimeValue });
+      if (await waitOption.isVisible()) {
+        await waitOption.click();
+        console.log(`Selected wait time: ${waitTimeValue}`);
       } else {
         await page.locator('[role="option"]').first().click();
         console.log('Selected first available wait time');

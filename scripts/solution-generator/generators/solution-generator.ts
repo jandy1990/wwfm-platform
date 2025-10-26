@@ -9,7 +9,7 @@ import {
   mapFieldToDropdown,
   normalizeDistributionData,
   validateFieldData
-} from '../../../../../lib/ai-generation/fields'
+} from '../../../lib/ai-generation/fields'
 import { CATEGORY_FIELDS } from '../config/category-fields'
 import { insertSolutionToDatabase } from '../database/inserter'
 import { getV2SolutionPrompt } from '../prompts/master-prompts-v2'

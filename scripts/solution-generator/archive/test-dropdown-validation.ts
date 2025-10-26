@@ -222,7 +222,7 @@ async function testDropdownValidation() {
   console.log(chalk.gray('  1. If validation passed, run a dry-run test:'))
   console.log(chalk.white('     npm run generate:ai-solutions -- --limit=5 --dry-run\n'))
   console.log(chalk.gray('  2. If validation failed, check the prompts in:'))
-  console.log(chalk.white('     scripts/ai-solution-generator/prompts/master-prompts.ts\n'))
+  console.log(chalk.white('     scripts/solution-generator/prompts/master-prompts.ts\n'))
 }
 
 testDropdownValidation().catch(error => {

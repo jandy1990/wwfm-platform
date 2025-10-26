@@ -39,7 +39,7 @@
 | `/lib` | HIGH | ❌ Not Started | 5 | | Core utilities |
 | `/lib/supabase` | CRITICAL | ❌ Not Started | 5 | | Database client |
 | `/lib/services` | HIGH | ❌ Not Started | 6 | | Business logic |
-| `/scripts/ai-solution-generator` | LOW | ✅ Documented | - | Existing | Well documented |
+| `/scripts/solution-generator` | LOW | ✅ Documented | - | Existing | Well documented |
 | `/hooks` | MEDIUM | ❌ Not Started | 8 | | Custom hooks |
 | `/contexts` | MEDIUM | ❌ Not Started | 8 | | React contexts |
 | `/types` | HIGH | ❌ Not Started | 9 | | TypeScript types |

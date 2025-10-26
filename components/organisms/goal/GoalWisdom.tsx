@@ -52,10 +52,9 @@ export default function GoalWisdom({ goalId, wisdom, minResponses = 1 }: Props) 
               </span>
             </div>
             <DataSourceBadge
-              dataSource={isAIGenerated ? 'ai_training_data' : 'human_aggregated'}
-              currentCount={wisdom.total_retrospectives}
+              mode={isAIGenerated ? 'ai' : 'human'}
+              humanCount={wisdom.total_retrospectives}
               threshold={10}
-              resourceType="retrospective"
             />
             <span className="hidden sm:inline text-sm text-gray-500 dark:text-gray-400">
               From {wisdom.total_retrospectives} reflections • 6+ months after achieving
@@ -83,10 +82,9 @@ export default function GoalWisdom({ goalId, wisdom, minResponses = 1 }: Props) 
           <span className="text-2xl">💭</span>
           <h3 className="text-lg font-semibold">Long-term Perspective</h3>
           <DataSourceBadge
-            dataSource={isAIGenerated ? 'ai_training_data' : 'human_aggregated'}
-            currentCount={wisdom.total_retrospectives}
+            mode={isAIGenerated ? 'ai' : 'human'}
+            humanCount={wisdom.total_retrospectives}
             threshold={10}
-            resourceType="retrospective"
           />
         </div>
         <button

@@ -1,8 +1,26 @@
 # WWFM Testing: The Complete Guide
 
-> **⚠️ THIS IS THE AUTHORITATIVE TESTING GUIDE**  
-> All other testing documentation should reference this document.  
-> Last updated: October 2, 2025 (Disposable Supabase refresh)
+> **⚠️ THIS IS THE AUTHORITATIVE TESTING GUIDE**
+> All other testing documentation should reference this document.
+> Last updated: October 26, 2025 (Added mandatory test setup section)
+
+## 🚨 MANDATORY SETUP FOR PRODUCTION DATABASE TESTS
+
+**IF testing against production database (wqxkhxdbxdtpuvuvgirx.supabase.co):**
+
+```bash
+# REQUIRED STEP 1: Create test fixtures
+npm run test:setup
+
+# STEP 2: Run tests
+npm run test:critical
+```
+
+**Skip `test:setup` and ALL tests fail with "Solution not found"**
+
+This creates 24 test solutions with "(Test)" suffix that tests depend on.
+
+---
 
 ## 📚 Active Documentation
 - **This Guide**: Complete testing reference
@@ -47,6 +65,139 @@ npm run test:db:stop
 Use password `postgres` unless you changed it. The restored data is persisted by Docker; repeat this only if you wipe the volumes.
 
 **If tests fail**, see [Troubleshooting](#troubleshooting) or continue reading for details.
+
+---
+
+## 📊 Complete Test Output Capture
+
+### Automatic JSON Output Generation
+
+**Every test run automatically generates complete, non-truncated output** at:
+```
+test-results/latest.json
+```
+
+This file contains:
+- Full test results for all specs
+- Complete error messages (no truncation)
+- Stack traces with line numbers
+- Test timing information
+- Browser console logs
+- Network request details
+
+### Why This Matters
+
+1. **Terminal Output Truncates**: Console output often cuts off critical error details
+2. **AI Assistant Analysis**: The JSON file is essential for debugging with AI tools
+3. **Complete Context**: Captures everything needed to diagnose failures
+4. **Searchable**: Easy to grep/search for specific errors or patterns
+
+### Viewing Test Results
+
+```bash
+# Pretty-print the latest results
+cat test-results/latest.json | jq '.'
+
+# Search for specific errors
+cat test-results/latest.json | jq '.suites[].specs[] | select(.ok == false)'
+
+# View specific test details
+cat test-results/latest.json | jq '.suites[] | select(.title | contains("app-form"))'
+
+# Count failures
+cat test-results/latest.json | jq '[.suites[].specs[] | select(.ok == false)] | length'
+```
+
+### Integration with Testing Workflow
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    TEST EXECUTION FLOW                   │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  1. Run Tests                                           │
+│     npm run test:forms:local                            │
+│                                                          │
+│  2. Automatic Output Capture                            │
+│     ├── Console shows live progress                     │
+│     ├── JSON captures complete details                  │
+│     └── Saved to test-results/latest.json               │
+│                                                          │
+│  3. Review Results                                      │
+│     ├── Quick scan: Terminal output                     │
+│     ├── Deep dive: latest.json                          │
+│     └── Visual: HTML report (if generated)              │
+│                                                          │
+│  4. Debug Failures                                      │
+│     ├── Check latest.json for full error                │
+│     ├── Review stack traces                             │
+│     └── Share JSON with team/AI for analysis            │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+### When to Use JSON vs HTML Reports
+
+**Use latest.json when**:
+- Debugging test failures
+- Working with AI assistants
+- Searching for specific errors
+- Need complete, untruncated output
+- Terminal output is insufficient
+
+**Use HTML reports when**:
+- Visual overview of test suite
+- Sharing results with non-technical stakeholders
+- Need screenshots/videos of failures
+- Want interactive exploration
+
+```bash
+# Generate HTML report (in addition to JSON)
+npx playwright show-report
+```
+
+### Essential for AI Assistant Debugging
+
+When asking AI assistants to help debug test failures:
+
+```bash
+# 1. Run the tests
+npm run test:forms:local
+
+# 2. Share the complete output
+cat test-results/latest.json
+
+# AI can now see:
+# - Exact error messages (not truncated)
+# - Full stack traces
+# - All test context
+# - Timing information
+```
+
+**Without latest.json**: AI sees truncated errors like "...ReferenceError: xyz is not..."
+**With latest.json**: AI sees complete error, stack trace, and full context for accurate diagnosis
+
+### Troubleshooting Output Capture
+
+**Issue**: `latest.json` not generated
+**Cause**: Playwright reporter not configured
+**Fix**: Check `playwright.config.ts` includes JSON reporter:
+```typescript
+reporter: [
+  ['list'],
+  ['json', { outputFile: 'test-results/latest.json' }]
+]
+```
+
+**Issue**: JSON file is empty or incomplete
+**Cause**: Tests crashed before completion
+**Fix**: Run with `--max-failures=1` to stop after first failure and capture partial results
+
+**Issue**: Need older test results
+**Solution**: Copy `latest.json` before next run:
+```bash
+cp test-results/latest.json test-results/backup-$(date +%Y%m%d-%H%M%S).json
+```
 
 ---
 
@@ -287,6 +438,8 @@ await page.waitForTimeout(200); // Let dropdown close
 
 ## 🔧 Troubleshooting
 
+> **💡 Pro Tip**: All test runs generate complete output at `test-results/latest.json` with full error messages and stack traces. See [Complete Test Output Capture](#complete-test-output-capture) for details.
+
 ### Error: "Solution not found in dropdown"
 
 **Cause**: Fixture doesn't exist or isn't approved  
@@ -423,9 +576,20 @@ The following docs are outdated. Use this guide instead:
 ## 🆘 Getting Help
 
 1. **First**: Re-read this guide, especially [Troubleshooting](#troubleshooting)
-2. **Second**: Check test output for specific errors
+2. **Second**: Check `test-results/latest.json` for complete error details
 3. **Third**: Run in debug mode to see what's happening
-4. **Fourth**: Ask team with specific error message
+4. **Fourth**: Ask team/AI with:
+   - Specific error message from `latest.json`
+   - Full stack trace
+   - What you've already tried
+
+**When asking for help, always include**:
+```bash
+# Share complete test results
+cat test-results/latest.json
+```
+
+This provides untruncated errors, stack traces, and full context for accurate debugging.
 
 ---
 
@@ -435,7 +599,7 @@ The following docs are outdated. Use this guide instead:
 # Setup
 npm run test:db:seed          # One-time setup
 
-# Running Tests  
+# Running Tests
 npm run test:forms          # Run all tests
 npm run test:forms:ui       # Run with UI
 npm run test:forms:debug    # Debug mode
@@ -443,6 +607,10 @@ npm run test:forms:debug    # Debug mode
 # Specific Tests
 npm run test:forms -- app-form
 npm run test:forms -- --grep "medications"
+
+# View Test Results
+cat test-results/latest.json | jq '.'  # Complete results
+cat test-results/latest.json | jq '.suites[].specs[] | select(.ok == false)'  # Failures only
 
 # Cleanup
 npm run test:cleanup        # Clean test data

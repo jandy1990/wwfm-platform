@@ -77,8 +77,6 @@ export const CATEGORY_FIELD_CONFIG: Record<string, CategoryConfig> = {
       'frequency',
       'startup_cost',
       'ongoing_cost',
-      'cost',
-      'cost_type',
       'time_to_results',
       'challenges'
     ],
@@ -87,7 +85,6 @@ export const CATEGORY_FIELD_CONFIG: Record<string, CategoryConfig> = {
       frequency: 'practice_frequency',
       startup_cost: 'practice_startup_cost',
       ongoing_cost: 'practice_ongoing_cost',
-      // cost and cost_type need derivation logic
       time_to_results: 'time_to_results',
       challenges: 'meditation_challenges'
     },
@@ -104,8 +101,6 @@ export const CATEGORY_FIELD_CONFIG: Record<string, CategoryConfig> = {
       'duration',
       'startup_cost',
       'ongoing_cost',
-      'cost',
-      'cost_type',
       'time_to_results',
       'challenges'
     ],
@@ -114,7 +109,6 @@ export const CATEGORY_FIELD_CONFIG: Record<string, CategoryConfig> = {
       duration: 'session_duration',
       startup_cost: 'practice_startup_cost',
       ongoing_cost: 'practice_ongoing_cost',
-      // cost and cost_type need derivation logic
       time_to_results: 'time_to_results',
       challenges: 'exercise_challenges'
     },
@@ -131,8 +125,6 @@ export const CATEGORY_FIELD_CONFIG: Record<string, CategoryConfig> = {
       'frequency',
       'startup_cost',
       'ongoing_cost',
-      'cost',
-      'cost_type',
       'time_to_results',
       'challenges'
     ],
@@ -141,7 +133,6 @@ export const CATEGORY_FIELD_CONFIG: Record<string, CategoryConfig> = {
       frequency: 'practice_frequency',
       startup_cost: 'practice_startup_cost',
       ongoing_cost: 'practice_ongoing_cost',
-      // cost and cost_type need derivation logic
       time_to_results: 'time_to_results',
       challenges: 'habits_challenges'
     },

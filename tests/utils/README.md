@@ -2,6 +2,56 @@
 
 This directory contains utilities to make test output easier to read and analyze.
 
+## 🔄 Automatic Output Capture (Built-In)
+
+All tests now automatically save complete JSON output to `test-results/latest.json` via Playwright's multi-reporter configuration. This provides:
+- **Zero configuration needed** - Works immediately for all test commands
+- **Works for ALL test commands** - `npm test`, `npm run test:forms`, individual test files
+- **Complete output** - No truncation, all test data included
+- **Instant access for debugging** - Just read the JSON file after any test run
+
+### Recommended Workflow
+
+**For quick debugging:**
+```bash
+npm run test:forms  # Run tests
+cat test-results/latest.json  # Or open in editor - complete output available
+```
+
+**For clean text reports:**
+```bash
+npm run test:better  # Strips ANSI codes, creates clean .txt file
+```
+
+**For full analysis pipeline:**
+```bash
+npm run test:capture  # Run tests + analyze + generate recommendations
+```
+
+### How It Relates to Existing Tools
+
+The automatic capture and the existing `better-test-runner.js` serve complementary purposes:
+
+| Feature | Automatic Capture | better-test-runner.js |
+|---------|------------------|---------------------|
+| **Setup** | None - built into Playwright config | Manual npm command |
+| **Format** | JSON | Clean text + JSON |
+| **ANSI Codes** | Included in output | Stripped automatically |
+| **Use Case** | Quick debugging, CI artifacts | Human-readable logs, analysis |
+| **Analysis** | Manual inspection | Automated pattern detection |
+
+**Use automatic capture when:**
+- You need to quickly check test output after a run
+- You're working in CI/CD and need artifact uploads
+- You want complete machine-readable output
+
+**Use `test:better` when:**
+- You need human-readable text without ANSI codes
+- You want automated issue detection and recommendations
+- You're debugging complex test failures
+
+Both outputs are valuable and serve different needs. The automatic capture ensures you never lose test output, while the better-test-runner provides enhanced analysis and clean formatting.
+
 ## 🎯 The Problem
 
 Playwright test output can be difficult to parse because:

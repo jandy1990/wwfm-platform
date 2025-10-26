@@ -19,20 +19,20 @@ Now we let the AI generate natural values and map them intelligently to dropdown
 ## 📝 Key Changes Made (Version 2)
 
 ### 1. Complete Dropdown Configuration (Unchanged)
-**File**: `/scripts/ai-solution-generator/config/dropdown-options.ts`
+**File**: `/scripts/solution-generator/config/dropdown-options.ts`
 - Contains ALL exact dropdown values for every form field
 - Maps categories to their specific cost structures
 - Provides helper function to get options for any field
 
 ### 2. Simplified Master Prompts (NEW)
-**File**: `/scripts/ai-solution-generator/prompts/master-prompts.ts`
+**File**: `/scripts/solution-generator/prompts/master-prompts.ts`
 - Now tells AI to generate NATURAL values (e.g., "$18/month", "2 weeks")
 - No longer forces AI to pick from dropdown lists
 - AI can focus on accuracy rather than matching options
 - Examples: "Use specific prices, not ranges"
 
 ### 3. Intelligent Value Mapper (NEW)
-**File**: `/scripts/ai-solution-generator/utils/value-mapper.ts`
+**File**: `/scripts/solution-generator/utils/value-mapper.ts`
 - Maps natural values to dropdown options intelligently
 - Handles costs: "$18/month" → "$10-25/month"
 - Handles time: "2 weeks" → "1-2 weeks"
@@ -40,7 +40,7 @@ Now we let the AI generate natural values and map them intelligently to dropdown
 - Uses fuzzy matching for other fields
 
 ### 4. Enhanced Solution Generator (UPDATED)
-**File**: `/scripts/ai-solution-generator/generators/solution-generator.ts`
+**File**: `/scripts/solution-generator/generators/solution-generator.ts`
 - Now uses intelligent value mapper
 - Maps ALL fields before insertion
 - Shows what values were mapped in console
@@ -48,9 +48,9 @@ Now we let the AI generate natural values and map them intelligently to dropdown
 
 ### 5. Test Suite (EXPANDED)
 **Files**: 
-- `/scripts/ai-solution-generator/test-value-mapper.ts` - Tests mapping logic
-- `/scripts/ai-solution-generator/test-dropdown-validation.ts` - End-to-end test
-- `/scripts/ai-solution-generator/test.ts` - Basic functionality test
+- `/scripts/solution-generator/test-value-mapper.ts` - Tests mapping logic
+- `/scripts/solution-generator/test-dropdown-validation.ts` - End-to-end test
+- `/scripts/solution-generator/test.ts` - Basic functionality test
 
 ## 🚀 How to Use
 
@@ -161,7 +161,7 @@ The AI has been instructed to:
 
 ## 📁 File Structure
 ```
-/scripts/ai-solution-generator/
+/scripts/solution-generator/
 ├── config/
 │   ├── category-fields.ts      # Field requirements per category
 │   └── dropdown-options.ts     # ALL dropdown values (NEW)

@@ -1,5 +1,6 @@
 'use server'
 
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { createServerSupabaseClient } from '@/lib/database/server'
 import { logger } from '@/lib/utils/logger'
 
@@ -13,6 +14,7 @@ export async function voteWisdomBenefit(
 ): Promise<{ success: boolean; hasVoted: boolean; error?: string }> {
   try {
     const supabase = await createServerSupabaseClient()
+    const db = supabase as unknown as SupabaseClient<any>
 
     const {
       data: { user }
@@ -23,7 +25,7 @@ export async function voteWisdomBenefit(
     }
 
     // Check if user has already voted on this benefit
-    const { data: existingVote } = await supabase
+    const { data: existingVote } = await db
       .from('wisdom_benefit_votes')
       .select('id')
       .eq('user_id', user.id)
@@ -33,7 +35,7 @@ export async function voteWisdomBenefit(
 
     if (existingVote) {
       // Remove vote (un-vote)
-      const { error: deleteError } = await supabase
+      const { error: deleteError } = await db
         .from('wisdom_benefit_votes')
         .delete()
         .eq('user_id', user.id)
@@ -48,7 +50,7 @@ export async function voteWisdomBenefit(
       return { success: true, hasVoted: false }
     } else {
       // Add vote
-      const { error: insertError } = await supabase
+      const { error: insertError } = await db
         .from('wisdom_benefit_votes')
         .insert({
           user_id: user.id,
@@ -78,8 +80,9 @@ export async function getBenefitVoteCounts(
 ): Promise<Record<string, number>> {
   try {
     const supabase = await createServerSupabaseClient()
+    const db = supabase as unknown as SupabaseClient<any>
 
-    const { data: votes } = await supabase
+    const { data: votes } = await db
       .from('wisdom_benefit_votes')
       .select('benefit_text')
       .eq('goal_id', goalId)
@@ -111,8 +114,9 @@ export async function getUserBenefitVotes(
 
   try {
     const supabase = await createServerSupabaseClient()
+    const db = supabase as unknown as SupabaseClient<any>
 
-    const { data: votes } = await supabase
+    const { data: votes } = await db
       .from('wisdom_benefit_votes')
       .select('benefit_text')
       .eq('user_id', userId)

@@ -2,6 +2,7 @@
 
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createServerSupabaseClient } from '@/lib/database/server'
+import { logger } from '@/lib/utils/logger'
 import type {
   HomePageData,
   TrendingGoal,
@@ -60,9 +61,10 @@ export async function searchGoals(query: string): Promise<GoalSuggestion[]> {
   }
 
   const supabase = await createServerSupabaseClient()
+  const db = supabase as unknown as SupabaseClient<any>
 
   try {
-    const { data: goalRows, error } = await supabase
+    const { data: goalRows, error } = await db
       .from('goals')
       .select(`
         id,
@@ -77,14 +79,15 @@ export async function searchGoals(query: string): Promise<GoalSuggestion[]> {
       .eq('is_approved', true)
       .ilike('title', `%${trimmed}%`)
       .limit(10)
-      .returns<GoalSearchRow[] | null>()
 
     if (error) {
       logger.error('home: error searching goals', { error, query: trimmed })
       return []
     }
 
-    const suggestions: GoalSuggestion[] = (goalRows ?? []).map((goal) => {
+    const normalizedRows = (goalRows as GoalSearchRow[] | null) ?? []
+
+    const suggestions: GoalSuggestion[] = normalizedRows.map((goal) => {
       const titleLower = goal.title.toLowerCase()
       const queryLower = trimmed.toLowerCase()
       let score = 0
@@ -312,7 +315,11 @@ async function getTopValueArenas(supabase: SupabaseClient<any>): Promise<TopValu
     const { data, error } = await supabase.rpc('get_arena_value_scores')
 
     if (error) {
-      console.error('home: error fetching top value arenas', error)
+      if (error.code === '42P01' || error.code === '42883') {
+        logger.warn('home: arena value RPC unavailable', { error })
+        return []
+      }
+      logger.error('home: error fetching top value arenas', { error })
       return []
     }
 

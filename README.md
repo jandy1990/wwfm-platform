@@ -51,15 +51,35 @@ You should now see the WWFM homepage! Try:
 
 ### 🧪 Testing
 
+**🚨 CRITICAL: Before running tests against production database:**
+
+```bash
+# STEP 1: Create test fixtures (MANDATORY - run this first!)
+npm run test:setup
+
+# STEP 2: Run tests
+npm run test:critical
+
+# STEP 3: View failures
+npm run test:failures
+```
+
+**Other commands:**
 ```bash
 npm run test:forms:local  # Spin up disposable Supabase + run Chromium E2E tests
 npm run test:forms:ui     # Debug Playwright runs with UI
+npm run test:results      # View complete test output from last run
+npm run test:results:summary  # View summary of last test run
 ```
+
+> **⚠️ If you skip `npm run test:setup`, ALL tests will fail with "Solution not found"**
 
 > Requires the [Supabase CLI](https://supabase.com/docs/guides/cli/start) and Docker for disposable databases.
 > Restore a production dump into the local Supabase instance once (see [Testing Guide](tests/README.md)) so the schema/data exist before running the suites.
 
-Tests ensure all form submissions work correctly. See [Testing Guide](tests/README.md) for details.
+**Automatic Test Output Capture**: All test runs automatically save complete output to `test-results/latest.json`. No manual steps needed - just run tests and use the result commands above to view the captured output.
+
+Tests ensure all form submissions work correctly. See [Testing Guide](tests/README.md) or **[START HERE](docs/testing/START-HERE-TESTING.md)** for critical setup steps.
 
 ## ⚠️ Database Usage
 

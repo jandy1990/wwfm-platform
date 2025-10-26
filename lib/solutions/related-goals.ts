@@ -36,6 +36,10 @@ export async function getRelatedGoals(goalId: string): Promise<RelatedGoal[]> {
   console.log('RPC response:', { data, error })
 
   if (error) {
+    if (error.code === '42P01' || error.code === '42883') {
+      console.warn('Related goals feature unavailable in this environment:', error.message)
+      return []
+    }
     console.error('Error fetching related goals:', error);
     return [];
   }

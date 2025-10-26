@@ -1,5 +1,8 @@
 # WWFM Testing Documentation
 
+> **🚨 NEW: Automated Test Failure Extraction System**
+> Run `npm run test:debug`, then read `test-results/failures-summary.md`. See [Test Debugging Docs](#test-debugging-system-new) below.
+
 ## 📚 Active Documentation (6 files)
 
 | Document | Purpose | Status |
@@ -131,8 +134,53 @@ The GitHub Actions workflow automatically:
 
 Historical documentation has been moved to [`/archive/`](./archive/) to reduce clutter while preserving institutional knowledge.
 
+## 🔍 Test Debugging System (NEW)
+
+**Automated failure extraction and analysis:**
+
+### Quick Start
+```bash
+# Run tests + extract failures automatically
+npm run test:debug
+
+# Read the processed failure report
+cat test-results/failures-summary.md
+```
+
+### Features
+- ✅ Extracts failures from 455KB JSON into < 100KB Markdown
+- ✅ Field mismatches highlighted (most actionable)
+- ✅ Complete error context included
+- ✅ Consistent format every time
+- ✅ Claude-optimized for full readability
+
+### Documentation
+- **[DEBUGGING-TEST-FAILURES.md](./DEBUGGING-TEST-FAILURES.md)** - Complete debugging guide
+- **[QUICK-REFERENCE-TEST-DEBUGGING.md](./QUICK-REFERENCE-TEST-DEBUGGING.md)** - One-page cheat sheet
+- **[test-debugging-workflow.md](./test-debugging-workflow.md)** - Visual workflow guide
+- **[EXAMPLE-FAILURE-REPORT.md](./EXAMPLE-FAILURE-REPORT.md)** - Example output
+- **[SYSTEM-OVERVIEW.md](./SYSTEM-OVERVIEW.md)** - Technical details
+- **[INDEX.md](./INDEX.md)** - Complete doc index
+
+### Commands
+```bash
+npm run test:failures          # Extract failures from last run
+npm run test:debug             # Run tests + extract
+npm run test:critical:debug    # Critical tests + extract
+```
+
+**Always read `test-results/failures-summary.md` first when debugging!**
+
+---
+
 ## 💡 Need Help?
 
+### Test Debugging (Start Here for Failures)
+1. **Quick debugging**: [QUICK-REFERENCE-TEST-DEBUGGING.md](./QUICK-REFERENCE-TEST-DEBUGGING.md)
+2. **Complete guide**: [DEBUGGING-TEST-FAILURES.md](./DEBUGGING-TEST-FAILURES.md)
+3. **All debug docs**: [INDEX.md](./INDEX.md)
+
+### General Testing
 1. **Start with**: [MASTER_TESTING_GUIDE.md](./MASTER_TESTING_GUIDE.md) for complete reference
 2. **Check status**: [FORM_FIX_PROGRESS.md](./FORM_FIX_PROGRESS.md) for current issues
 3. **Debug forms**: [FORM_FIX_PROCESS.md](./FORM_FIX_PROCESS.md) for systematic approach

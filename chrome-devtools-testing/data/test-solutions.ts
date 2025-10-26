@@ -100,7 +100,7 @@ export const therapistsTestData: SessionFormTestData = {
   sessionFrequency: 'Weekly',
   sessionLength: '50-60 minutes',
   challenges: ['Finding the right fit'],
-  cost: '$100-150', // Per-session cost (Fix #14: therapists_counselors is per-session only)
+  cost: '$100-200/month', // Per-session cost (Fix #14: therapists_counselors is per-session only)
   isAuthenticated: true,
 }
 
@@ -114,7 +114,7 @@ export const doctorsTestData: SessionFormTestData = {
   waitTime: '2-4 weeks',
   insuranceCoverage: 'Partially covered by insurance',
   challenges: ['Finding the right fit'], // ADDED: Required field for doctors_specialists
-  cost: '$150-250', // Per-session cost (Fix #14: doctors_specialists is per-session only)
+  cost: '$100-200/month', // Per-session cost (Fix #14: doctors_specialists is per-session only)
   isAuthenticated: true,
 }
 

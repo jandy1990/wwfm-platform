@@ -33,7 +33,7 @@
 ### For Current Field Names:
 - `/docs/solution-fields-ssot.md` - THIS IS THE SOURCE OF TRUTH
 - `/docs/WWFM Solution Generation Instructions.md` - Updated with correct names
-- `/scripts/ai-solution-generator/config/category-fields.ts` - The actual generator config
+- `/scripts/solution-generator/config/category-fields.ts` - The actual generator config
 
 ### For Current Implementation:
 - The actual form files in `/components/organisms/solutions/forms/`

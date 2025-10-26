@@ -34,7 +34,7 @@ npm run generate:ai-solutions -- --goal-id=<uuid>
 ### 3. Quality Check
 ```bash
 # Test with 100 solutions (full data capture)
-npx tsx scripts/ai-solution-generator/quality-test-100.ts
+npx tsx scripts/solution-generator/quality-test-100.ts
 
 # Run quality pipeline
 npm run quality:check

@@ -2,4 +2,4 @@
 
 # Run the Gemini strategies test
 cd /Users/jackandrews/Desktop/wwfm-platform
-npx tsx scripts/ai-solution-generator/test-gemini-strategies.ts
+npx tsx scripts/solution-generator/test-gemini-strategies.ts

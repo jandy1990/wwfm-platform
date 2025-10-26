@@ -7,19 +7,81 @@
 
 import { SupabaseClient } from '@supabase/supabase-js'
 import { CategoryFieldConfig, CATEGORY_FIELDS } from '../config/category-fields'
+import { getDropdownOptionsForField } from '../config/dropdown-options'
 import {
   buildAggregatedMetadata,
   deduplicateDistributionData,
   deriveCostFieldsForCategory,
   mapFieldToDropdown,
   normalizeDistributionData
-} from '../../../../../lib/ai-generation/fields'
-import type { DistributionData } from '../../../../../lib/ai-generation/fields'
+} from '../../../lib/ai-generation/fields'
+import type { DistributionData } from '../../../lib/ai-generation/fields'
 import chalk from 'chalk'
 
 interface InsertOptions {
   forceWrite?: boolean
   dirtyOnly?: boolean
+}
+
+const ARTICLES_REGEX = /^(the|a|an)\s+/i
+
+const existingSolutionsCache = new Map<string, Array<{ id: string; title: string }>>()
+
+function normalizeSolutionTitle(title: string): string {
+  return title
+    .trim()
+    .toLowerCase()
+    .replace(ARTICLES_REGEX, '')
+    .replace(/[’']/g, '')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+async function loadSolutionsForCategory(
+  supabase: SupabaseClient,
+  category: string
+): Promise<Array<{ id: string; title: string }>> {
+  if (!existingSolutionsCache.has(category)) {
+    const { data } = await supabase
+      .from('solutions')
+      .select('id, title')
+      .eq('solution_category', category)
+
+    existingSolutionsCache.set(category, data ?? [])
+  }
+
+  return existingSolutionsCache.get(category) ?? []
+}
+
+async function findMatchingSolution(
+  supabase: SupabaseClient,
+  category: string,
+  title: string
+): Promise<{ id: string; title: string } | null> {
+  const normalized = normalizeSolutionTitle(title)
+  const cache = await loadSolutionsForCategory(supabase, category)
+
+  const cachedMatch = cache.find((sol) => normalizeSolutionTitle(sol.title) === normalized)
+  if (cachedMatch) {
+    return cachedMatch
+  }
+
+  const firstWord = title.split(/\s+/).filter(Boolean)[0] ?? title
+  const { data: fuzzyMatches } = await supabase
+    .from('solutions')
+    .select('id, title')
+    .eq('solution_category', category)
+    .ilike('title', `%${firstWord}%`)
+    .limit(100)
+
+  for (const match of fuzzyMatches ?? []) {
+    if (!cache.some((existing) => existing.id === match.id)) {
+      cache.push(match)
+    }
+  }
+
+  return cache.find((sol) => normalizeSolutionTitle(sol.title) === normalized) ?? null
 }
 
 export interface Solution {
@@ -52,38 +114,56 @@ export async function insertSolutionToDatabase(
   const { forceWrite = false, dirtyOnly = false } = options
 
   try {
-    const { data: existingSolution } = await supabase
-      .from('solutions')
-      .select('id')
-      .eq('title', solution.title)
-      .eq('solution_category', solution.category)
-      .single()
+    const existingSolutions = await loadSolutionsForCategory(supabase, solution.category)
+    const normalizedIncomingTitle = normalizeSolutionTitle(solution.title)
 
+    // Attempt direct match from cache
     let solutionId: string
+    let canonicalTitle = solution.title
 
-    if (existingSolution) {
-      solutionId = existingSolution.id
-      console.log(chalk.gray(`      📎 Using existing solution: ${solution.title}`))
+    const cachedMatch = existingSolutions.find(
+      (existing) => normalizeSolutionTitle(existing.title) === normalizedIncomingTitle
+    )
+
+    if (cachedMatch) {
+      solutionId = cachedMatch.id
+      canonicalTitle = cachedMatch.title
+      console.log(chalk.gray(`      📎 Using existing solution: ${canonicalTitle}`))
     } else {
-      const { data: newSolution, error } = await supabase
-        .from('solutions')
-        .insert({
-          title: solution.title,
-          description: solution.description,
-          solution_category: solution.category,
-          source_type: 'ai_foundation',
-          is_approved: true
-        })
-        .select()
-        .single()
+      const fuzzyMatch = await findMatchingSolution(supabase, solution.category, solution.title)
 
-      if (error) {
-        throw new Error(`Failed to create solution: ${error.message}`)
+      if (fuzzyMatch) {
+        solutionId = fuzzyMatch.id
+        canonicalTitle = fuzzyMatch.title
+        console.log(chalk.gray(`      📎 Using existing solution: ${canonicalTitle}`))
+      } else {
+        const { data: newSolution, error } = await supabase
+          .from('solutions')
+          .insert({
+            title: solution.title,
+            description: solution.description,
+            solution_category: solution.category,
+            source_type: 'ai_foundation',
+            is_approved: true
+          })
+          .select()
+          .single()
+
+        if (error) {
+          throw new Error(`Failed to create solution: ${error.message}`)
+        }
+
+        solutionId = newSolution.id
+        canonicalTitle = newSolution.title
+        console.log(chalk.gray(`      ✨ Created new solution: ${canonicalTitle}`))
+
+        const cache = await loadSolutionsForCategory(supabase, solution.category)
+        cache.push({ id: solutionId, title: canonicalTitle })
       }
-
-      solutionId = newSolution.id
-      console.log(chalk.gray(`      ✨ Created new solution: ${solution.title}`))
     }
+
+    // Preserve canonical title to avoid minor variations sneaking into downstream logging
+    solution.title = canonicalTitle
 
     const variantIds: string[] = []
 
@@ -309,13 +389,105 @@ function normalizeDistributionForStorage(
     count: value.count ?? Math.max(1, Math.round((value.percentage / 100) * normalized.totalReports))
   }))
 
-  return normalized
+  return ensureDistributionDiversity(category, fieldName, normalized)
 }
 
 function cloneDistribution(distribution: DistributionData): DistributionData {
   return {
     ...distribution,
     values: distribution.values.map(value => ({ ...value }))
+  }
+}
+
+function ensureDistributionDiversity(
+  category: string,
+  fieldName: string,
+  distribution: DistributionData
+): DistributionData {
+  const values = distribution.values ?? []
+  const uniqueValues = Array.from(new Set(values.map((item) => item.value)))
+
+  const requiredMinimum = fieldName === 'still_following' ? 3 : 2
+
+  if (uniqueValues.length >= requiredMinimum) {
+    return distribution
+  }
+
+  const dropdownOptions = getDropdownOptionsForField(category, fieldName) ?? []
+  if (dropdownOptions.length === 0) {
+    return distribution
+  }
+
+  const totalReports = distribution.totalReports || 100
+  const source = values[0]?.source || 'ai_training_data'
+
+  const candidateValues: string[] = [...uniqueValues]
+  for (const option of dropdownOptions) {
+    if (!candidateValues.includes(option)) {
+      candidateValues.push(option)
+    }
+    if (candidateValues.length >= Math.max(requiredMinimum, 4)) {
+      break
+    }
+  }
+
+  if (candidateValues.length === 0) {
+    candidateValues.push(dropdownOptions[0])
+  }
+
+  const selection = candidateValues.slice(0, Math.max(requiredMinimum, Math.min(4, candidateValues.length)))
+
+  const templates: Record<number, number[]> = {
+    1: [100],
+    2: [65, 35],
+    3: [45, 30, 25],
+    4: [40, 30, 20, 10],
+    5: [35, 25, 20, 12, 8]
+  }
+
+  const basePercentages = templates[selection.length]
+    ? [...templates[selection.length]]
+    : new Array(selection.length).fill(Math.floor(100 / selection.length))
+
+  let remaining = 100
+  const adjustedPercentages = basePercentages.map((value, index) => {
+    if (index === selection.length - 1) {
+      return remaining
+    }
+    remaining -= value
+    return value
+  })
+
+  let assignedReports = 0
+  const enrichedValues = selection.map((value, index) => {
+    const percentage = adjustedPercentages[index]
+    let count: number
+    if (index === selection.length - 1) {
+      count = Math.max(1, totalReports - assignedReports)
+    } else {
+      count = Math.max(1, Math.round((percentage / 100) * totalReports))
+      assignedReports += count
+    }
+
+    return {
+      value,
+      percentage,
+      count,
+      source
+    }
+  })
+
+  const totalCounts = enrichedValues.reduce((sum, item) => sum + item.count, 0)
+  if (totalCounts !== totalReports) {
+    const delta = totalReports - totalCounts
+    enrichedValues[0].count = Math.max(1, enrichedValues[0].count + delta)
+  }
+
+  return {
+    ...distribution,
+    mode: enrichedValues[0].value,
+    values: enrichedValues,
+    totalReports
   }
 }
 

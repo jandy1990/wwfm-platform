@@ -12,7 +12,7 @@
 ### ✅ Has Documentation (7)
 - `/README.md` - Project overview (recently updated)
 - `/docs/` - Documentation index 
-- `/scripts/ai-solution-generator/` - Well documented
+- `/scripts/solution-generator/` - Well documented
 - `/tests/` - Test documentation
 - `/tools/` - Basic README exists
 - `/docs/forms/` - Form specifications
@@ -132,7 +132,7 @@
 ## 📋 Existing Documentation Quality
 
 ### Strong Documentation ✅
-- `/scripts/ai-solution-generator/` - Comprehensive, includes business logic
+- `/scripts/solution-generator/` - Comprehensive, includes business logic
 - `/tests/` - Good test coverage documentation
 - `/docs/testing/` - Detailed testing strategies
 

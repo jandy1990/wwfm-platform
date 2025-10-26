@@ -1,22 +1,33 @@
 # Testing Quick Reference
 
-## ⚠️ CRITICAL: Pre-Flight Checklist
+## 🚨 MANDATORY: Test Setup (Production Database)
 
-**ALWAYS run this before testing:**
+**IF testing against production database, run this FIRST:**
+
+```bash
+# STEP 1: Create test fixtures (REQUIRED)
+npm run test:setup
+
+# Creates 24 test solutions with "(Test)" suffix
+# Without this: ALL tests fail with "Solution not found"
+```
+
+**THEN run tests:**
+```bash
+# STEP 2: Run tests
+npm run test:critical
+```
+
+---
+
+## ⚠️ OPTIONAL: Pre-Flight Verification (Local Supabase)
+
+**For local Supabase testing only:**
 ```bash
 npm run test:db:verify
 ```
 
-This automated script checks:
-- ✅ No existing dev servers (kills them if found)
-- ✅ Port 3000 is free
-- ✅ Next.js cache is cleared
-- ✅ Supabase is running
-- ✅ Database has complete reference data (arenas, categories, goals)
-- ✅ Test fixtures exist (23 solutions)
-- ✅ Test user exists and is confirmed
-
-**If verification fails, it provides specific fix commands.**
+This checks local Supabase environment (NOT needed for production testing).
 
 ---
 
@@ -50,6 +61,10 @@ npm run test:db:stop
 
 # View report
 npm run test:forms:report
+
+# View test results (auto-saved to test-results/latest.json)
+npm run test:results         # Full JSON output
+npm run test:results:summary # Concise summary
 ```
 
 > Supabase CLI + Docker required for disposable database workflow.

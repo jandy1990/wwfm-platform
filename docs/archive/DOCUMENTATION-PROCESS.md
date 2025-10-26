@@ -96,7 +96,7 @@ wwfm-platform/
 | `/lib` | ❌ No README | HIGH | 5 |
 | `/lib/supabase` | ❌ No README | CRITICAL | 5 |
 | `/lib/services` | ❌ No README | HIGH | 6 |
-| `/scripts/ai-solution-generator` | ✅ Has README | LOW | 7 |
+| `/scripts/solution-generator` | ✅ Has README | LOW | 7 |
 | `/hooks` | ❌ No README | MEDIUM | 8 |
 | `/contexts` | ❌ No README | MEDIUM | 8 |
 | `/types` | ❌ No README | HIGH | 9 |
@@ -215,7 +215,7 @@ wwfm-platform/
 ---
 
 ### Session 7: AI Solution Generator (1 hour)
-**Focus**: `/scripts/ai-solution-generator`
+**Focus**: `/scripts/solution-generator`
 
 #### Tasks:
 1. Review existing documentation
@@ -224,7 +224,7 @@ wwfm-platform/
 4. Explain quality control pipeline
 
 #### Deliverables:
-- Updated `/scripts/ai-solution-generator/README.md`
+- Updated `/scripts/solution-generator/README.md`
 - Prompting strategy guide
 
 ---

@@ -2,6 +2,24 @@
 
 > **📚 For complete testing documentation, see [Master Testing Guide](/docs/testing/MASTER_TESTING_GUIDE.md)**
 
+## 🚨 CRITICAL: Test Setup Required
+
+**BEFORE running ANY tests against production database, you MUST create test fixtures:**
+
+```bash
+# STEP 1: Create test fixtures (MANDATORY)
+npm run test:setup
+
+# STEP 2: Run tests
+npm run test:critical
+```
+
+**Why this matters:**
+- Creates 24 test solutions with "(Test)" suffix
+- Without this, ALL tests fail with "Solution not found"
+- Must be run at start of every new testing session
+- Takes ~30 seconds to complete
+
 ## Quick Start (Pre-Launch Testing)
 
 We now run Chromium tests against a disposable Supabase stack so each run starts from a blank slate.
@@ -174,6 +192,57 @@ npm run test:db:stop
 ```
 
 **Note:** `npm run test:forms:local` and `npm run test:db:seed` handle cleanup automatically. If you call the legacy Playwright commands directly, run the seed step first to avoid "already rated" errors.
+
+## Automatic Test Output Capture
+
+**All test runs automatically save complete output to `test-results/latest.json`** - No more truncated error messages!
+
+### Why This Matters
+
+When tests run in CI or are piped through other tools, output can be truncated. The automatic capture system ensures you always have access to the full test results, including:
+- Complete error messages
+- Full stack traces
+- All test timings
+- Detailed failure information
+
+### Viewing Test Results
+
+```bash
+# View full JSON output from latest test run
+npm run test:results
+
+# View quick summary (passed/failed counts, timings)
+npm run test:results:summary
+
+# Open HTML report in browser
+npm run test:forms:report
+```
+
+### For Debugging
+
+**Claude/Developers:** When investigating test failures, read `/Users/jackandrews/Desktop/wwfm-platform/test-results/latest.json` for complete output. This file contains:
+- All test names and their status
+- Complete error messages (not truncated)
+- Stack traces for failures
+- Test execution timings
+- Browser console logs
+- Network request logs (if enabled)
+
+### How It Works
+
+The capture system runs automatically on every test execution:
+1. Test runner executes (Playwright)
+2. JSON reporter saves results to `test-results/latest.json`
+3. Results persist between runs (latest always available)
+4. No configuration needed - works out of the box
+
+### File Locations
+
+- **Latest results:** `test-results/latest.json` (always current)
+- **HTML report:** `playwright-report/index.html` (after `npm run test:forms:report`)
+- **Test artifacts:** `test-results/` (screenshots, traces, videos)
+
+**Pro tip:** Bookmark `test-results/latest.json` in your editor for quick access to test output!
 
 ## Troubleshooting
 

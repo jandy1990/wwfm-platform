@@ -75,6 +75,8 @@ Each form configuration automatically gets these tests:
    - Tests backward navigation preserves data
    - Verifies multi-step form behavior
 
+**Note**: Test results are automatically captured to `test-results/latest.json`. View with `npm run test:results` or `npm run test:results:summary`.
+
 ## Form Configuration Reference
 
 ### Required Properties

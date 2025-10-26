@@ -57,13 +57,13 @@ Solutions are rejected if they are:
 
 ### Test Validation
 ```bash
-npx tsx scripts/ai-solution-generator/validate-specificity-standalone.ts
+npx tsx scripts/solution-generator/validate-specificity-standalone.ts
 ```
 Current accuracy: 93.5%
 
 ### Test Generation
 ```bash
-npx tsx scripts/ai-solution-generator/generate-specific-solutions.ts
+npx tsx scripts/solution-generator/generate-specific-solutions.ts
 ```
 
 ## Next Steps

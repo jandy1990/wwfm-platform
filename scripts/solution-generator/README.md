@@ -45,16 +45,14 @@ AI data stored in research-based DistributionData format:
 ## Current Scripts
 
 ### Active Scripts
-- **`solution-goal-expander-quality.ts`**: Main expansion system with quality controls
-- **`index.ts`**: Core solution generator
+- **`index.ts`**: Core solution generator (single-pass, validated pipeline)
+- **`solution-goal-expander-quality.ts`**: Expansion harness with quality controls (used for large batch backfills)
 - **`generation-manager.ts`**: Manages generation batches and API limits
 - **`monitor-expansion.ts`**: Progress monitoring and quality tracking
 
-### Key Components
-- **`generators/gemini-client.ts`**: Gemini API integration with rate limiting
-- **`services/credibility-validator.ts`**: Ensures medically sound connections
-- **`services/expansion-data-handler.ts`**: Database operations
-- **`prompts/expansion-prompts.ts`**: Evidence-based prompting strategy
+- **`database/inserter.ts`**: Writes solutions/goals safely (duplicates collapsed via canonical-title matching, distributions diversified before insert)
+- **`generators/solution-generator.ts`**: Orchestrates required-field prompts, alias mapping, validation, retries
+- **`prompts/master-prompts-improved.ts`**: Evidence-based prompting strategy for per-field distributions
 
 ### Archived Scripts
 See `/archive/` for:
@@ -137,6 +135,12 @@ npx tsx check-progress.ts
 - **Evidence-based**: All percentages tied to studies/research
 - **Transition-ready**: Format compatible with human data display
 - **Quality maintained**: No degradation over batch sizes
+
+### Recent Improvements (October 2025)
+- **Solution Canonicalisation** – `database/inserter.ts` normalises titles (drops leading articles, punctuation, casing) and reuses existing records; prevents duplicate entries like “BetterHelp online CBT” vs “Cognitive Behavioral Therapy via BetterHelp”.
+- **Dropdown Alias Mapping** – enhanced `mapFieldToDropdown` handles practice/session/app frequency aliases (`once daily`, `video/online`, etc.) so Gemini outputs land on approved SSOT values.
+- **Distribution Diversity Guard** – low-diversity distributions are reshaped before insert (minimum 3 unique bins where available, realistic percentage templates, consistent counts).
+- **Validation Harness** – `tests/integration/generator-validation.test.ts` runs generator (dry-run) + validator (`--assert-zero`) in CI to catch regressions immediately.
 
 ## Troubleshooting
 

@@ -1060,16 +1060,19 @@ export const CATEGORY_COST_MAPPING = {
  */
 export function getDropdownOptionsForField(category: string, fieldName: string): string[] | null {
   // Special handling for frequency fields
-  if (fieldName === 'frequency' && category !== 'beauty_skincare') {
+  if (fieldName === 'frequency') {
+    if (category === 'beauty_skincare') {
+      return DROPDOWN_OPTIONS.skincare_frequency
+    }
+
+    if (['meditation_mindfulness', 'exercise_movement', 'habits_routines'].includes(category)) {
+      return DROPDOWN_OPTIONS.practice_frequency
+    }
+
     return DROPDOWN_OPTIONS.frequency
   }
   if (fieldName === 'skincare_frequency' && category === 'beauty_skincare') {
     return DROPDOWN_OPTIONS.skincare_frequency
-  }
-  
-  // Special handling for exercise_movement frequency
-  if (fieldName === 'frequency' && category === 'exercise_movement') {
-    return DROPDOWN_OPTIONS.practice_frequency
   }
 
   if (fieldName === 'format') {

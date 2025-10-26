@@ -2,9 +2,9 @@
 
 > **Purpose**: Quality-first AI system for expanding existing solutions to credible additional goals
 > **Last Updated**: September 22, 2025 - **MAJOR ARCHITECTURE CHANGE**
-> **Primary Script**: `/scripts/ai-solution-generator/solution-goal-expander-quality.ts` (NEW)
+> **Primary Script**: `/scripts/solution-generator/solution-goal-expander-quality.ts` (NEW)
 > **CLI Commands**: `npm run expand:quality*` and `npm run monitor:expansion`
-> **Legacy Script**: `/scripts/ai-solution-generator/solution-goal-expander.ts` (DEPRECATED)
+> **Legacy Script**: `/scripts/solution-generator/solution-goal-expander.ts` (DEPRECATED)
 
 ## Overview
 
@@ -80,7 +80,7 @@ After the initial AI solution generation created 3,850+ solutions with 5,583 con
 ### 1. **Progress Tracker Service** ⭐ **NEW**
 **Purpose**: Atomic progress tracking and intelligent batch processing
 
-**File**: `/scripts/ai-solution-generator/services/progress-tracker.ts`
+**File**: `/scripts/solution-generator/services/progress-tracker.ts`
 
 **Key Features**:
 - **Priority-Based Selection**: Zero → Single → Double connection solutions
@@ -119,7 +119,7 @@ CREATE TABLE expansion_progress (
 ### 3. **Simplified Expansion Rules** ⭐ **CHANGED**
 **Purpose**: Minimum viable quality controls (laugh test is primary gate)
 
-**File**: `/scripts/ai-solution-generator/config/expansion-rules.ts`
+**File**: `/scripts/solution-generator/config/expansion-rules.ts`
 
 **Major Simplification**:
 ```typescript
@@ -149,8 +149,8 @@ CREATE TABLE expansion_progress (
 **Purpose**: Generate goal-specific implementation data using Gemini
 
 **Files**:
-- `/scripts/ai-solution-generator/generators/gemini-client.ts`
-- `/scripts/ai-solution-generator/prompts/expansion-prompts.ts`
+- `/scripts/solution-generator/generators/gemini-client.ts`
+- `/scripts/solution-generator/prompts/expansion-prompts.ts`
 
 **Generation Process**:
 1. Create solution-specific prompt with credibility requirements
@@ -168,8 +168,8 @@ CREATE TABLE expansion_progress (
 **Purpose**: Common-sense validation to catch spurious connections
 
 **Files**:
-- `/scripts/ai-solution-generator/services/laugh-test-validator.ts`
-- `/scripts/ai-solution-generator/prompts/laugh-test-prompts.ts`
+- `/scripts/solution-generator/services/laugh-test-validator.ts`
+- `/scripts/solution-generator/prompts/laugh-test-prompts.ts`
 
 **Scoring System** (0-100 points):
 - **Direct Causality** (30 pts): Clear cause-effect relationship
@@ -187,7 +187,7 @@ CREATE TABLE expansion_progress (
 ### 5. **Data Integration**
 **Purpose**: Create properly structured database records
 
-**File**: `/scripts/ai-solution-generator/services/expansion-data-handler.ts`
+**File**: `/scripts/solution-generator/services/expansion-data-handler.ts`
 
 **Database Tables**:
 - `goal_implementation_links`: Core effectiveness and metadata
@@ -236,7 +236,7 @@ npm run expand:products   # 30 product solutions
 
 ```bash
 # Test laugh test validator
-npx tsx scripts/ai-solution-generator/test-laugh-validator.ts
+npx tsx scripts/solution-generator/test-laugh-validator.ts
 
 # Test with small batch
 npm run expand:test     # 2 solutions, 2 goals each
@@ -335,7 +335,7 @@ GEMINI_API_KEY             # AI generation
 ```
 
 ### Expansion Rules Configuration
-Located in `/scripts/ai-solution-generator/config/expansion-rules.ts`:
+Located in `/scripts/solution-generator/config/expansion-rules.ts`:
 
 ```typescript
 export const EXPANSION_RULES: Record<string, ExpansionRule> = {
@@ -450,7 +450,7 @@ npm run expand:solution -- --dry-run --limit 1
 npm run expand:solution -- --solution-id [ID] --dry-run
 
 # Validate laugh test only
-npx tsx scripts/ai-solution-generator/test-laugh-validator.ts
+npx tsx scripts/solution-generator/test-laugh-validator.ts
 ```
 
 ---

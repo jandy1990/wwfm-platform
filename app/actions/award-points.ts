@@ -5,6 +5,8 @@ import { logger } from '@/lib/utils/logger'
 import { MILESTONES, type Milestone } from '@/lib/milestones'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
+export type { Milestone } from '@/lib/milestones'
+
 export interface AwardPointsResult {
   success: boolean
   newTotal: number
