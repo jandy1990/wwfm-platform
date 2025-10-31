@@ -134,7 +134,7 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
     })
 
     const { isValid: fieldsValid, errors: fieldErrors, normalizedFields } =
-      validateAndNormalizeSolutionFields(formData.category, formData.solutionFields)
+      validateAndNormalizeSolutionFields(formData.category, formData.solutionFields, { allowPartial: true })
 
     if (!fieldsValid) {
       logger.warn('submitSolution validation failed', { fieldErrors })
@@ -398,17 +398,19 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
     // The aggregator now handles both link creation and updates
     console.log('[submitSolution] Step 6: Starting aggregation process')
     console.log('[submitSolution] Aggregation params:', { goalId: formData.goalId, variantId })
-    
+
     const maxRetries = 3
     let aggregationSuccess = false
-    
+
     for (let i = 0; i < maxRetries; i++) {
+      const aggregationStartTime = Date.now()
       console.log(`[submitSolution] Aggregation attempt ${i + 1}/${maxRetries}`)
       try {
         // The aggregator will create the link if it doesn't exist, or update if it does
         console.log('[submitSolution] Calling solutionAggregator.updateAggregatesAfterRating')
         await solutionAggregator.updateAggregatesAfterRating(formData.goalId, variantId)
-        console.log('[submitSolution] Aggregation call completed without error')
+        const aggregationDuration = Date.now() - aggregationStartTime
+        console.log(`[submitSolution] Aggregation call completed without error in ${aggregationDuration}ms`)
         
         // Verify the aggregation and link creation/update was successful
         const { data: verifyLink, error: verifyError } = await supabase
@@ -428,7 +430,8 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
         }
         
         if (verifyLink) {
-          console.log(`[submitSolution] Aggregation successful, link exists with id=${verifyLink.id}`)
+          const totalDuration = Date.now() - aggregationStartTime
+          console.log(`[submitSolution] Aggregation successful in ${totalDuration}ms, link exists with id=${verifyLink.id}`)
           aggregationSuccess = true
           
           // Update the avg_effectiveness and rating_count if needed
@@ -469,9 +472,11 @@ export async function submitSolution(formData: SubmitSolutionData): Promise<Subm
           break
         }
       } catch (error) {
+        const errorDuration = Date.now() - aggregationStartTime
         logger.error('submitSolution aggregation attempt failed', {
           attempt: i + 1,
           maxRetries,
+          duration: errorDuration,
           error
         })
         

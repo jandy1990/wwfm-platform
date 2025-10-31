@@ -1,0 +1,159 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 09ceeb4e-3fc0-457c-af5d-59b76d0fe5f1
+✅ Loaded 22 solutions for "Manage diabetes"
+Validating 22 solutions after filters
+
+🔍 Validating medications (7 solutions)
+  ✅ GLP-1 Receptor Agonists - Ozempic (semaglutide): frequency - OK
+  ✅ GLP-1 Receptor Agonists - Ozempic (semaglutide): length_of_use - OK
+  ✅ GLP-1 Receptor Agonists - Ozempic (semaglutide): time_to_results - OK
+  ✅ GLP-1 Receptor Agonists - Ozempic (semaglutide): side_effects - OK
+  ✅ GLP-1 Receptor Agonists - Ozempic (semaglutide): frequency - OK
+  ✅ GLP-1 Receptor Agonists - Ozempic (semaglutide): length_of_use - OK
+  ✅ GLP-1 Receptor Agonists - Ozempic (semaglutide): time_to_results - OK
+  ✅ GLP-1 Receptor Agonists - Ozempic (semaglutide): side_effects - OK
+  ✅ Metformin (Glucophage): frequency - OK
+  ✅ Metformin (Glucophage): length_of_use - OK
+  ✅ Metformin (Glucophage): time_to_results - OK
+  ✅ Metformin (Glucophage): side_effects - OK
+  ✅ GLP-1 Receptor Agonists - Ozempic (semaglutide): frequency - OK
+  ✅ GLP-1 Receptor Agonists - Ozempic (semaglutide): length_of_use - OK
+  ✅ GLP-1 Receptor Agonists - Ozempic (semaglutide): time_to_results - OK
+  ✅ GLP-1 Receptor Agonists - Ozempic (semaglutide): side_effects - OK
+  ✅ Lantus (insulin glargine): frequency - OK
+  ✅ Lantus (insulin glargine): length_of_use - OK
+  ✅ Lantus (insulin glargine): time_to_results - OK
+  ✅ Lantus (insulin glargine): side_effects - OK
+  ✅ Lantus (insulin glargine): frequency - OK
+  ✅ Lantus (insulin glargine): length_of_use - OK
+  ✅ Lantus (insulin glargine): time_to_results - OK
+  ✅ Lantus (insulin glargine): side_effects - OK
+  ✅ Metformin (Glucophage): frequency - OK
+  ✅ Metformin (Glucophage): length_of_use - OK
+  ✅ Metformin (Glucophage): time_to_results - OK
+  ✅ Metformin (Glucophage): side_effects - OK
+
+🔍 Validating books_courses (2 solutions)
+  ✅ American Diabetes Association (ADA) Standards of Care: format - OK
+  ✅ American Diabetes Association (ADA) Standards of Care: learning_difficulty - OK
+  ✅ American Diabetes Association (ADA) Standards of Care: cost - OK
+  ✅ American Diabetes Association (ADA) Standards of Care: time_to_results - OK
+  ✅ American Diabetes Association (ADA) Standards of Care: challenges - OK
+  ✅ The Obesity Code by Dr. Jason Fung: format - OK
+  ✅ The Obesity Code by Dr. Jason Fung: learning_difficulty - OK
+  ✅ The Obesity Code by Dr. Jason Fung: cost - OK
+  ✅ The Obesity Code by Dr. Jason Fung: time_to_results - OK
+  ✅ The Obesity Code by Dr. Jason Fung: challenges - OK
+
+🔍 Validating diet_nutrition (2 solutions)
+  ✅ Atkins Diet: weekly_prep_time - OK
+  ✅ Atkins Diet: still_following - OK
+  ✅ Atkins Diet: cost - OK
+  ✅ Atkins Diet: time_to_results - OK
+  ✅ Atkins Diet: challenges - OK
+  ✅ The Mediterranean Diet: weekly_prep_time - OK
+  ✅ The Mediterranean Diet: still_following - OK
+  ✅ The Mediterranean Diet: cost - OK
+  ✅ The Mediterranean Diet: time_to_results - OK
+  ✅ The Mediterranean Diet: challenges - OK
+
+🔍 Validating apps_software (2 solutions)
+  ✅ MyFitnessPal: usage_frequency - OK
+  ✅ MyFitnessPal: subscription_type - OK
+  ✅ MyFitnessPal: cost - OK
+  ✅ MyFitnessPal: time_to_results - OK
+  ✅ MyFitnessPal: challenges - OK
+  ✅ Livongo Health: usage_frequency - OK
+  ✅ Livongo Health: subscription_type - OK
+  ✅ Livongo Health: cost - OK
+  ✅ Livongo Health: time_to_results - OK
+  ✅ Livongo Health: challenges - OK
+
+🔍 Validating products_devices (2 solutions)
+  ✅ Insulin Pen - NovoPen 6: ease_of_use - OK
+  ✅ Insulin Pen - NovoPen 6: product_type - OK
+  ✅ Insulin Pen - NovoPen 6: cost - OK
+  ✅ Insulin Pen - NovoPen 6: time_to_results - OK
+  ✅ Insulin Pen - NovoPen 6: challenges - OK
+  ✅ Continuous Glucose Monitor (CGM) - e.g., Dexcom G6/G7, Abbott Freestyle Libre: ease_of_use - OK
+  ✅ Continuous Glucose Monitor (CGM) - e.g., Dexcom G6/G7, Abbott Freestyle Libre: product_type - OK
+  ✅ Continuous Glucose Monitor (CGM) - e.g., Dexcom G6/G7, Abbott Freestyle Libre: cost - OK
+  ✅ Continuous Glucose Monitor (CGM) - e.g., Dexcom G6/G7, Abbott Freestyle Libre: time_to_results - OK
+  ✅ Continuous Glucose Monitor (CGM) - e.g., Dexcom G6/G7, Abbott Freestyle Libre: challenges - OK
+
+🔍 Validating exercise_movement (1 solutions)
+  ✅ Brisk Walking: frequency - OK
+  ✅ Brisk Walking: duration - OK
+  ✅ Brisk Walking: startup_cost - OK
+  ✅ Brisk Walking: ongoing_cost - OK
+  ✅ Brisk Walking: time_to_results - OK
+  ✅ Brisk Walking: challenges - OK
+
+🔍 Validating supplements_vitamins (2 solutions)
+  ✅ Berberine: frequency - OK
+  ✅ Berberine: length_of_use - OK
+  ✅ Berberine: time_to_results - OK
+  ✅ Berberine: side_effects - OK
+  ✅ Berberine: frequency - OK
+  ✅ Berberine: length_of_use - OK
+  ✅ Berberine: time_to_results - OK
+  ✅ Berberine: side_effects - OK
+
+🔍 Validating support_groups (1 solutions)
+  ✅ Online: meeting_frequency - OK
+  ✅ Online: format - OK
+  ✅ Online: cost - OK
+  ✅ Online: time_to_results - OK
+  ✅ Online: challenges - OK
+
+🔍 Validating natural_remedies (2 solutions)
+  ✅ Cinnamon Supplement (Ceylon Cinnamon): frequency - OK
+  ✅ Cinnamon Supplement (Ceylon Cinnamon): length_of_use - OK
+  ✅ Cinnamon Supplement (Ceylon Cinnamon): time_to_results - OK
+  ✅ Cinnamon Supplement (Ceylon Cinnamon): side_effects - OK
+  ✅ Cinnamon Supplement (Ceylon Cinnamon): frequency - OK
+  ✅ Cinnamon Supplement (Ceylon Cinnamon): length_of_use - OK
+  ✅ Cinnamon Supplement (Ceylon Cinnamon): time_to_results - OK
+  ✅ Cinnamon Supplement (Ceylon Cinnamon): side_effects - OK
+
+🔍 Validating meditation_mindfulness (1 solutions)
+  ✅ Mindful Eating Practices: practice_length - OK
+  ✅ Mindful Eating Practices: frequency - OK
+  ✅ Mindful Eating Practices: startup_cost - OK
+  ✅ Mindful Eating Practices: ongoing_cost - OK
+  ✅ Mindful Eating Practices: time_to_results - OK
+  ✅ Mindful Eating Practices: challenges - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Manage diabetes"
+   Solutions: 22
+   Categories: 10 (medications, books_courses, diet_nutrition, apps_software, products_devices, exercise_movement, supplements_vitamins, support_groups, natural_remedies, meditation_mindfulness)
+   Fields checked: 101
+
+📈 Quality Metrics:
+   ✅ Valid fields: 101
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   medications: 0/28 issues (0.0%)
+   books_courses: 0/10 issues (0.0%)
+   diet_nutrition: 0/10 issues (0.0%)
+   apps_software: 0/10 issues (0.0%)
+   products_devices: 0/10 issues (0.0%)
+   exercise_movement: 0/6 issues (0.0%)
+   supplements_vitamins: 0/8 issues (0.0%)
+   support_groups: 0/5 issues (0.0%)
+   natural_remedies: 0/8 issues (0.0%)
+   meditation_mindfulness: 0/6 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend

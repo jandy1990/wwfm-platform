@@ -8,9 +8,8 @@ import { User } from '@supabase/supabase-js'
 import HeaderSearch from '@/components/organisms/HeaderSearch'
 import MobileSearchModal from '@/components/organisms/MobileSearchModal'
 import MobileNav from '@/components/organisms/MobileNav'
-import UserDropdown from '@/components/organisms/UserDropdown'
 import NotificationBell from '@/components/organisms/NotificationBell'
-import { PointsBadge } from '@/components/points/PointsBadge'
+import ProgressRingAvatar from '@/components/organisms/ProgressRingAvatar'
 
 export default function Header() {
   const pathname = usePathname()
@@ -67,7 +66,7 @@ export default function Header() {
     <>
       <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center h-16 relative">
+          <div className="flex items-center h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center group">
               <span className="text-xl sm:text-2xl font-black tracking-tight text-gray-900 dark:text-gray-100 flex items-start">
@@ -75,50 +74,53 @@ export default function Header() {
               </span>
             </Link>
 
-            {/* Desktop Search - Between logo and nav */}
+            {/* Desktop Search */}
             <HeaderSearch className="hidden md:block ml-8" />
 
-            {/* Navigation Links - Absolutely Centered */}
-            <nav className="hidden md:flex items-center space-x-6 absolute left-1/2 -translate-x-1/2">
+            {/* Spacer */}
+            <div className="flex-1" />
+
+            {/* Navigation Links */}
+            <nav className="hidden md:flex items-center gap-2 mr-4">
               <Link
                 href="/browse"
-                className={`pb-1 transition-colors border-b-2 ${
+                className={`px-4 py-2 text-sm font-medium transition-colors rounded-md ${
                   pathname === '/browse'
-                    ? 'border-purple-600 text-purple-600 dark:text-purple-400 font-semibold'
-                    : 'border-transparent text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:border-gray-300 dark:hover:border-gray-600'
+                    ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-semibold'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-purple-600 dark:hover:text-purple-400'
                 }`}
                 aria-current={pathname === '/browse' ? 'page' : undefined}
               >
-                Browse
+                Explore
               </Link>
               <Link
-                href="/dashboard"
-                className={`pb-1 transition-colors border-b-2 ${
-                  pathname === '/dashboard'
-                    ? 'border-purple-600 text-purple-600 dark:text-purple-400 font-semibold'
-                    : 'border-transparent text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:border-gray-300 dark:hover:border-gray-600'
+                href="/how-it-works"
+                className={`px-4 py-2 text-sm font-medium transition-colors rounded-md ${
+                  pathname === '/how-it-works'
+                    ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-semibold'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-purple-600 dark:hover:text-purple-400'
                 }`}
-                aria-current={pathname === '/dashboard' ? 'page' : undefined}
+                aria-current={pathname === '/how-it-works' ? 'page' : undefined}
               >
-                Dashboard
+                How It Works
               </Link>
               {user && (
                 <Link
-                  href="/contribute"
-                  className={`pb-1 transition-colors border-b-2 ${
-                    pathname === '/contribute'
-                      ? 'border-purple-600 text-purple-600 dark:text-purple-400 font-semibold'
-                      : 'border-transparent text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:border-gray-300 dark:hover:border-gray-600'
+                  href="/dashboard"
+                  className={`px-4 py-2 text-sm font-medium transition-colors rounded-md ${
+                    pathname === '/dashboard'
+                      ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-semibold'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-purple-600 dark:hover:text-purple-400'
                   }`}
-                  aria-current={pathname === '/contribute' ? 'page' : undefined}
+                  aria-current={pathname === '/dashboard' ? 'page' : undefined}
                 >
-                  Contribute
+                  Dashboard
                 </Link>
               )}
             </nav>
 
             {/* Auth Section + Mobile Search Icon */}
-            <div className="flex items-center space-x-4 ml-auto">
+            <div className="flex items-center space-x-3">
               {/* Mobile Search Icon - Hidden on pages with their own search */}
               {!shouldHideSearch && (
                 <button
@@ -136,9 +138,8 @@ export default function Header() {
               )}
             {user ? (
               <>
-                <PointsBadge userId={user.id} />
                 <NotificationBell count={retrospectiveCount} />
-                <UserDropdown
+                <ProgressRingAvatar
                   user={user}
                   onSignOut={handleSignOut}
                   retrospectiveCount={retrospectiveCount}
@@ -169,7 +170,7 @@ export default function Header() {
             </div>
 
             {/* Mobile menu button */}
-            <div className="md:hidden">
+            <div className="md:hidden ml-2">
               <button
                 type="button"
                 onClick={() => setShowMobileNav(true)}

@@ -1,0 +1,61 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 6ba7a7c6-c3db-46ed-a5b7-6efe4b3742d1
+✅ Loaded 25 solutions for "Improve memory"
+Validating 25 solutions after filters
+
+🔍 Validating apps_software (4 solutions)
+
+🔍 Validating supplements_vitamins (6 solutions)
+
+🔍 Validating habits_routines (2 solutions)
+
+🔍 Validating meditation_mindfulness (1 solutions)
+
+🔍 Validating sleep (1 solutions)
+
+🔍 Validating natural_remedies (3 solutions)
+
+🔍 Validating diet_nutrition (1 solutions)
+
+🔍 Validating therapists_counselors (1 solutions)
+
+🔍 Validating books_courses (3 solutions)
+
+🔍 Validating alternative_practitioners (2 solutions)
+
+🔍 Validating exercise_movement (1 solutions)
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Improve memory"
+   Solutions: 25
+   Categories: 11 (apps_software, supplements_vitamins, habits_routines, meditation_mindfulness, sleep, natural_remedies, diet_nutrition, therapists_counselors, books_courses, alternative_practitioners, exercise_movement)
+   Fields checked: 120
+
+📈 Quality Metrics:
+   ✅ Valid fields: 120
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   apps_software: 0/20 issues (0.0%)
+   supplements_vitamins: 0/24 issues (0.0%)
+   habits_routines: 0/12 issues (0.0%)
+   meditation_mindfulness: 0/6 issues (0.0%)
+   sleep: 0/5 issues (0.0%)
+   natural_remedies: 0/12 issues (0.0%)
+   diet_nutrition: 0/5 issues (0.0%)
+   therapists_counselors: 0/5 issues (0.0%)
+   books_courses: 0/15 issues (0.0%)
+   alternative_practitioners: 0/10 issues (0.0%)
+   exercise_movement: 0/6 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend

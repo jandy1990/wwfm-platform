@@ -209,7 +209,7 @@ This runs tests AND extracts failures in one go.
 - `../../scripts/test-utils/README.md` - Script documentation
 - `../../tests/README.md` - Test setup and execution
 - `../../FORM_DROPDOWN_OPTIONS_REFERENCE.md` - Dropdown values
-- `../../complete-field-analysis.md` - Category field requirements
+- `../solution-fields-ssot.md` - Category field requirements (SSOT)
 
 ---
 

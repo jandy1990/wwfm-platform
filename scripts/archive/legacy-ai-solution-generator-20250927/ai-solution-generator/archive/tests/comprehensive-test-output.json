@@ -1,0 +1,1691 @@
+{
+  "metadata": {
+    "timestamp": "2025-09-01T01:16:26.267Z",
+    "strategies": [
+      "Attribution Required",
+      "Named Method",
+      "Instruction Findable",
+      "Conversational Completeness"
+    ],
+    "goals": [
+      "Reduce anxiety",
+      "Improve sleep quality",
+      "Stop procrastinating"
+    ],
+    "totalTests": 12
+  },
+  "results": {
+    "Attribution Required": {
+      "anxiety-1": {
+        "success": true,
+        "solutions": [
+          {
+            "title": "Headspace's Guided Meditations",
+            "description": "Audio-guided sessions designed to help users focus, breathe, and manage their thoughts to reduce stress and anxiety.",
+            "cost": "$12.99/month",
+            "time_commitment": "10 minutes daily",
+            "how_to_start": "Download the Headspace app and start with the 'Basics' course.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Zen Buddhism's Mindfulness Meditation",
+            "description": "Practices that involve focusing attention on the present moment without judgment, cultivating awareness of thoughts, feelings, and sensations.",
+            "cost": "free",
+            "time_commitment": "15 minutes daily",
+            "how_to_start": "Find a quiet place, sit comfortably, and focus on your breath.",
+            "category": "meditation",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Dr. Andrew Weil's 4-7-8 Breathing Technique",
+            "description": "A simple breathing exercise that involves inhaling for 4 seconds, holding for 7 seconds, and exhaling for 8 seconds, believed to have a calming effect on the nervous system.",
+            "cost": "free",
+            "time_commitment": "2 minutes as needed",
+            "how_to_start": "Sit with your back straight, place the tip of your tongue against the ridge of tissue just behind your upper front teeth, and exhale completely through your mouth, making a whoosh sound.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Stoicism's Negative Visualization",
+            "description": "A practice of contemplating potential negative outcomes or losses to appreciate what one has and to prepare mentally for adversity, thereby reducing anxiety about future events.",
+            "cost": "free",
+            "time_commitment": "5 minutes daily",
+            "how_to_start": "Reflect on things you might lose or things that could go wrong, and consider how you would cope.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "CBT-I (Cognitive Behavioral Therapy for Insomnia) by Judith Beck",
+            "description": "While primarily for insomnia, CBT-I techniques address anxious thought patterns and behaviors related to sleep, which can significantly reduce overall anxiety. It involves cognitive restructuring and behavioral changes.",
+            "cost": "$50-$250 per session (or less with insurance)",
+            "time_commitment": "30-60 minutes weekly for therapy sessions",
+            "how_to_start": "Consult with a therapist specializing in CBT or CBT-I.",
+            "category": "therapy",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          }
+        ],
+        "summary": {
+          "totalSolutions": 5,
+          "passingCount": 5,
+          "averageCompleteness": 100
+        }
+      },
+      "sleep-1": {
+        "success": true,
+        "solutions": [
+          {
+            "title": "Headspace's Sleepcasts",
+            "description": "Audio experiences designed to help you wind down and fall asleep, combining storytelling with calming soundscapes.",
+            "cost": "$12.99/month",
+            "time_commitment": "10-20 minutes nightly",
+            "how_to_start": "Download the Headspace app and select a Sleepcast.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Andrew Weil's 4-7-8 Breathing Technique",
+            "description": "A simple breathing exercise that can help calm the nervous system and promote relaxation, making it easier to fall asleep.",
+            "cost": "free",
+            "time_commitment": "2-4 minutes nightly",
+            "how_to_start": "Practice exhaling completely, then inhale quietly through your nose for 4 seconds, hold your breath for 7 seconds, and exhale completely through your mouth for 8 seconds. Repeat.",
+            "category": "meditation",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Zen Buddhism's Mindfulness Meditation",
+            "description": "Focusing on the present moment without judgment, this practice can reduce racing thoughts that often interfere with sleep.",
+            "cost": "free",
+            "time_commitment": "10-30 minutes daily",
+            "how_to_start": "Sit comfortably, focus on your breath, and gently bring your attention back whenever your mind wanders.",
+            "category": "meditation",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Harvard's Sleep Hygiene Guidelines",
+            "description": "A set of practices and habits that promote consistent, uninterrupted sleep. This includes maintaining a regular sleep schedule and optimizing the sleep environment.",
+            "cost": "free",
+            "time_commitment": "Varies (ongoing habits)",
+            "how_to_start": "Establish a consistent bedtime and wake-up time, even on weekends, and ensure your bedroom is dark, quiet, and cool.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 75,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?"
+                ],
+                "missingInfo": [
+                  "How much time does it take?"
+                ]
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Dr. Charles Raison's Exercise Recommendations",
+            "description": "Regular physical activity can improve sleep quality by reducing stress and anxiety, and by helping to regulate the body's natural sleep-wake cycle. Aim for moderate-intensity exercise.",
+            "cost": "free",
+            "time_commitment": "30 minutes most days",
+            "how_to_start": "Engage in activities like brisk walking, cycling, or swimming.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          }
+        ],
+        "summary": {
+          "totalSolutions": 5,
+          "passingCount": 5,
+          "averageCompleteness": 95
+        }
+      },
+      "procrastination-1": {
+        "success": true,
+        "solutions": [
+          {
+            "title": "Pomodoro Technique by Francesco Cirillo",
+            "description": "Break down tasks into focused work intervals (traditionally 25 minutes) separated by short breaks. This method combats mental fatigue and makes large tasks seem more manageable.",
+            "cost": "free",
+            "time_commitment": "Varies based on task length, but structured work sessions",
+            "how_to_start": "Choose a task, set a timer for 25 minutes, and work without interruption. When the timer rings, take a 5-minute break.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Getting Things Done (GTD) by David Allen",
+            "description": "A productivity methodology that emphasizes capturing all tasks and ideas in an external system, clarifying them, organizing them, reflecting on them, and engaging with them.",
+            "cost": "book purchase required, or free if using basic principles",
+            "time_commitment": "Initial setup can take several hours, then 15-30 minutes daily for review",
+            "how_to_start": "Purchase the 'Getting Things Done' book or find free resources online explaining the core principles.",
+            "category": "book",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Mindfulness Meditation by Zen Buddhism",
+            "description": "Cultivate present-moment awareness without judgment. By focusing on your breath or bodily sensations, you can reduce anxiety and improve focus, making it easier to tackle tasks.",
+            "cost": "free",
+            "time_commitment": "10-20 minutes daily",
+            "how_to_start": "Find a quiet place, sit comfortably, close your eyes, and focus on your breath. When your mind wanders, gently bring your attention back to your breath.",
+            "category": "meditation",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Headspace's 'Basics' Course",
+            "description": "An app-based meditation course designed to teach the fundamentals of mindfulness and meditation. It helps users develop focus and manage distractions, which can alleviate procrastination.",
+            "cost": "$12.99/month or $69.99/year (limited free content)",
+            "time_commitment": "10 minutes daily for the course",
+            "how_to_start": "Download the Headspace app and start the 'Basics' course.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Stoicism's 'Premeditatio Malorum'",
+            "description": "A Stoic practice of contemplating potential negative outcomes or difficulties. By mentally preparing for challenges, you can reduce the fear and anxiety that often lead to procrastination.",
+            "cost": "free",
+            "time_commitment": "5-10 minutes daily or as needed",
+            "how_to_start": "Take a few minutes to think about a task you're avoiding. Consider what might go wrong, what obstacles you might face, and how you would overcome them.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          }
+        ],
+        "summary": {
+          "totalSolutions": 5,
+          "passingCount": 5,
+          "averageCompleteness": 100
+        }
+      }
+    },
+    "Named Method": {
+      "anxiety-1": {
+        "success": true,
+        "solutions": [
+          {
+            "title": "Headspace",
+            "description": "A guided meditation and mindfulness app that offers courses and exercises to manage stress and anxiety.",
+            "cost": "$12.99/month",
+            "time_commitment": "10 minutes daily",
+            "how_to_start": "Download the app from your app store or visit headspace.com.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "CBT (Cognitive Behavioral Therapy)",
+            "description": "A type of psychotherapy that helps you identify and change negative thought patterns and behaviors contributing to anxiety.",
+            "cost": "$100-$200 per session",
+            "time_commitment": "1 hour weekly",
+            "how_to_start": "Find a licensed therapist specializing in CBT through online directories or your insurance provider.",
+            "category": "therapy",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Weighted Blanket",
+            "description": "A blanket filled with evenly distributed weight, designed to provide deep pressure stimulation which can have a calming effect.",
+            "cost": "$50-$150",
+            "time_commitment": "As needed",
+            "how_to_start": "Purchase from online retailers like Amazon or specialty bedding stores.",
+            "category": "product",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 75,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?"
+                ],
+                "missingInfo": [
+                  "How much time does it take?"
+                ]
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Calm",
+            "description": "Another popular meditation and sleep app offering guided meditations, sleep stories, and relaxing music to reduce anxiety.",
+            "cost": "$69.99/year",
+            "time_commitment": "15 minutes daily",
+            "how_to_start": "Download the app from your app store or visit calm.com.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Progressive Muscle Relaxation",
+            "description": "A technique involving the intentional tensing and then releasing of muscle groups to promote relaxation and reduce physical tension associated with anxiety.",
+            "cost": "free",
+            "time_commitment": "20 minutes daily",
+            "how_to_start": "Search for guided Progressive Muscle Relaxation audio recordings online (e.g., YouTube, meditation apps) or learn the technique from a therapist.",
+            "category": "therapy",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          }
+        ],
+        "summary": {
+          "totalSolutions": 5,
+          "passingCount": 5,
+          "averageCompleteness": 95
+        }
+      },
+      "sleep-1": {
+        "success": true,
+        "solutions": [
+          {
+            "title": "Headspace",
+            "description": "A meditation and mindfulness app that offers guided meditations, sleepcasts, and relaxation exercises designed to calm the mind and promote better sleep.",
+            "cost": "$12.99/month",
+            "time_commitment": "10 minutes daily",
+            "how_to_start": "Download the Headspace app from your app store.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Melatonin",
+            "description": "A hormone naturally produced by the body that regulates sleep-wake cycles. Supplementing with melatonin can help reset your internal clock and improve sleep onset.",
+            "cost": "$10-$20",
+            "time_commitment": "As needed",
+            "how_to_start": "Consult with a healthcare professional before taking melatonin supplements. Available over-the-counter at pharmacies.",
+            "category": "supplement",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 75,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?"
+                ],
+                "missingInfo": [
+                  "How much time does it take?"
+                ]
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "CBT-I (Cognitive Behavioral Therapy for Insomnia)",
+            "description": "A type of therapy that helps identify and replace thoughts and behaviors that cause or worsen sleep problems, with techniques like sleep restriction and stimulus control.",
+            "cost": "$100-$200 per session",
+            "time_commitment": "Weekly sessions initially",
+            "how_to_start": "Seek a referral from your doctor to a therapist specializing in CBT-I or find online CBT-I programs.",
+            "category": "therapy",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Weighted Blanket",
+            "description": "A blanket filled with materials like glass beads or plastic pellets, designed to be heavier than a standard blanket. The gentle pressure can have a calming effect, reducing anxiety and improving sleep.",
+            "cost": "$50-$150",
+            "time_commitment": "All night",
+            "how_to_start": "Purchase a weighted blanket from online retailers or home goods stores. Choose a weight that is approximately 10% of your body weight.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 75,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?"
+                ],
+                "missingInfo": [
+                  "How much time does it take?"
+                ]
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Calm",
+            "description": "An app offering guided meditations, sleep stories, breathing exercises, and relaxing music to help users unwind and achieve better sleep.",
+            "cost": "$14.99/month",
+            "time_commitment": "15 minutes daily",
+            "how_to_start": "Download the Calm app from your device's app store.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          }
+        ],
+        "summary": {
+          "totalSolutions": 5,
+          "passingCount": 5,
+          "averageCompleteness": 90
+        }
+      },
+      "procrastination-1": {
+        "success": true,
+        "solutions": [
+          {
+            "title": "Pomodoro Technique",
+            "description": "A time management method that breaks work into intervals, traditionally 25 minutes in length, separated by short breaks. This helps maintain focus and prevents burnout.",
+            "cost": "free",
+            "time_commitment": "flexible, based on work intervals",
+            "how_to_start": "Choose a task, set a timer for 25 minutes, work without interruption. Take a 5-minute break. Repeat. After four 'pomodoros', take a longer break.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Headspace",
+            "description": "A popular meditation and mindfulness app that offers guided sessions to help reduce stress, improve focus, and sleep better. Regular practice can train the brain to be less susceptible to distractions and procrastination.",
+            "cost": "$12.99/month",
+            "time_commitment": "10 minutes daily",
+            "how_to_start": "Download the Headspace app from your app store and sign up for a subscription.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "CBT (Cognitive Behavioral Therapy)",
+            "description": "A type of psychotherapy that helps individuals identify and change negative thought patterns and behaviors that contribute to procrastination. It teaches coping skills and strategies for task initiation.",
+            "cost": "$100-$200 per session (varies)",
+            "time_commitment": "50 minutes weekly (session length)",
+            "how_to_start": "Search for licensed CBT therapists in your area or online through platforms like Psychology Today.",
+            "category": "therapy",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "7 Minute Workout",
+            "description": "A high-intensity interval training (HIIT) workout that can be completed in just seven minutes. By incorporating exercise into your routine, you can boost energy levels and improve mental clarity, making it easier to tackle tasks.",
+            "cost": "free (app available)",
+            "time_commitment": "7 minutes daily",
+            "how_to_start": "Download the '7 Minute Workout' app or search for routines online.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Eat That Frog! (Book)",
+            "description": "A time management strategy based on the idea that if you eat a live frog first thing in the morning, you'll have the satisfaction of knowing that's the worst thing that's likely to happen to you all day. Applied to tasks, it means tackling your most difficult or dreaded task first.",
+            "cost": "$10-$20",
+            "time_commitment": "flexible, applied to daily planning",
+            "how_to_start": "Purchase the book 'Eat That Frog!' by Brian Tracy and implement its principles in your daily planning.",
+            "category": "book",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          }
+        ],
+        "summary": {
+          "totalSolutions": 5,
+          "passingCount": 5,
+          "averageCompleteness": 100
+        }
+      }
+    },
+    "Instruction Findable": {
+      "anxiety-1": {
+        "success": true,
+        "solutions": [
+          {
+            "title": "Mindful Self-Compassion (MSC)",
+            "description": "A practice that involves treating yourself with kindness, understanding, and acceptance during difficult times. It's an antidote to self-criticism and a pathway to emotional resilience.",
+            "cost": "$X (for courses/books)",
+            "time_commitment": "10-20 minutes daily",
+            "how_to_start": "Search for 'Mindful Self-Compassion guided meditations' on YouTube or explore the official Center for Mindful Self-Compassion website for resources and courses.",
+            "category": "meditation",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Cognitive Behavioral Therapy (CBT)",
+            "description": "A type of psychotherapy that helps you identify and change negative thought patterns and behaviors that contribute to anxiety. It's highly effective for a range of anxiety disorders.",
+            "cost": "$X per session (therapy) or free/paid apps",
+            "time_commitment": "Varies (weekly therapy sessions or daily app use)",
+            "how_to_start": "Search for 'CBT techniques for anxiety' online or look for CBT-focused mental health apps like Woebot or MoodGYM.",
+            "category": "therapy",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Progressive Muscle Relaxation (PMR)",
+            "description": "A relaxation technique that involves tensing and then releasing different muscle groups in the body to relieve stress and anxiety. It helps you become more aware of physical tension.",
+            "cost": "free",
+            "time_commitment": "10-20 minutes daily",
+            "how_to_start": "Search for 'Progressive Muscle Relaxation script' on YouTube or find guided PMR audio recordings online.",
+            "category": "meditation",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "The 5-4-3-2-1 Grounding Technique",
+            "description": "A simple mindfulness exercise used to anchor yourself in the present moment when feeling overwhelmed or anxious. It engages your senses to bring you back to reality.",
+            "cost": "free",
+            "time_commitment": "1-2 minutes as needed",
+            "how_to_start": "Search for '5-4-3-2-1 grounding technique explained' on YouTube or mental health websites.",
+            "category": "meditation",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "The Anxiety & Phobia Workbook",
+            "description": "A comprehensive self-help book that provides practical strategies and exercises based on CBT and other evidence-based approaches to manage anxiety and phobias.",
+            "cost": "$X (book purchase)",
+            "time_commitment": "Varies (daily exercises)",
+            "how_to_start": "Purchase 'The Anxiety & Phobia Workbook' by Edmund J. Bourne and follow the exercises outlined in the book.",
+            "category": "book",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          }
+        ],
+        "summary": {
+          "totalSolutions": 5,
+          "passingCount": 5,
+          "averageCompleteness": 100
+        }
+      },
+      "sleep-1": {
+        "success": true,
+        "solutions": [
+          {
+            "title": "Cognitive Behavioral Therapy for Insomnia (CBT-I)",
+            "description": "CBT-I is a structured program that helps you identify and replace thoughts and behaviors that cause or worsen sleep problems. It's considered the gold standard for treating chronic insomnia and is often more effective than medication long-term. You can find information and resources through sleep foundations and by seeking a trained therapist.",
+            "cost": "$$$",
+            "time_commitment": "Sessions typically 30-60 minutes weekly for 4-8 weeks",
+            "how_to_start": "Search for 'CBT-I clinics near me' or 'online CBT-I programs'. The National Sleep Foundation website also offers resources.",
+            "category": "therapy",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Sleep Restriction Therapy",
+            "description": "A component of CBT-I, this therapy involves limiting the time spent in bed to the actual amount of time a person is sleeping. This increases sleep drive and consolidates sleep. It's typically guided by a therapist.",
+            "cost": "$$$",
+            "time_commitment": "Initial increase in time awake, then gradually increasing time in bed, guided by a therapist",
+            "how_to_start": "This is best undertaken with a sleep specialist or therapist trained in CBT-I. Search for 'sleep specialists' or 'CBT-I therapists'.",
+            "category": "therapy",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 75,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?"
+                ],
+                "missingInfo": [
+                  "How much time does it take?"
+                ]
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Mindfulness Meditation for Sleep",
+            "description": "Mindfulness involves focusing on the present moment without judgment. For sleep, this means gently redirecting your attention back to your breath or body sensations when your mind wanders. Many apps and guided meditations are available.",
+            "cost": "free|$X/month",
+            "time_commitment": "10-20 minutes daily",
+            "how_to_start": "Download apps like Calm, Headspace, or Insight Timer and search for 'sleep meditations' or 'mindfulness for sleep'. Many YouTube channels also offer free guided sessions.",
+            "category": "meditation",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Progressive Muscle Relaxation (PMR)",
+            "description": "PMR is a relaxation technique that involves tensing and then releasing different muscle groups in the body. This helps to reduce physical tension and promote relaxation, making it easier to fall asleep. Numerous guided audio recordings are available.",
+            "cost": "free|$X",
+            "time_commitment": "10-20 minutes before bed",
+            "how_to_start": "Search on YouTube for 'progressive muscle relaxation for sleep' or find guided PMR sessions on meditation apps like Calm or Headspace.",
+            "category": "meditation",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Sleep Hygiene Education",
+            "description": "Sleep hygiene refers to habits and environmental factors that influence sleep. Improving sleep hygiene involves creating a consistent sleep schedule, optimizing your bedroom environment (dark, quiet, cool), avoiding stimulants before bed, and establishing a relaxing bedtime routine.",
+            "cost": "free",
+            "time_commitment": "Ongoing daily practice",
+            "how_to_start": "Consult resources from reputable sleep organizations like the National Sleep Foundation or the American Academy of Sleep Medicine. Search for 'sleep hygiene tips' for comprehensive guides.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          }
+        ],
+        "summary": {
+          "totalSolutions": 5,
+          "passingCount": 5,
+          "averageCompleteness": 95
+        }
+      },
+      "procrastination-1": {
+        "success": true,
+        "solutions": [
+          {
+            "title": "The Pomodoro Technique",
+            "description": "A time management method that breaks work into intervals, traditionally 25 minutes in length, separated by short breaks.",
+            "cost": "free",
+            "time_commitment": "25 minutes per work interval",
+            "how_to_start": "Search for 'Pomodoro Technique tutorial' on YouTube or visit tomatotimer.com.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Time Blocking",
+            "description": "A method of scheduling specific blocks of time for particular tasks or activities in your calendar.",
+            "cost": "free",
+            "time_commitment": "Varies based on schedule, typically 1-2 hours weekly for planning",
+            "how_to_start": "Search for 'Time Blocking tutorial' on YouTube or read articles on productivity blogs like Lifehacker.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Eat That Frog!",
+            "description": "A productivity principle based on tackling your most important and difficult task first thing in the morning.",
+            "cost": "$X (for the book)",
+            "time_commitment": "15-30 minutes daily to identify and start the task",
+            "how_to_start": "Read the book 'Eat That Frog!' by Brian Tracy or search for 'Eat That Frog principle' on YouTube for summaries.",
+            "category": "book",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Mindfulness Meditation",
+            "description": "A practice of focusing your awareness on the present moment without judgment, which can help reduce anxiety and improve focus, often a barrier to starting tasks.",
+            "cost": "free",
+            "time_commitment": "5-10 minutes daily",
+            "how_to_start": "Download apps like Calm or Headspace, or search for 'mindfulness meditation for beginners' on YouTube.",
+            "category": "meditation",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "Two-Minute Rule",
+            "description": "If a task takes less than two minutes to complete, do it immediately. This helps build momentum and reduce the accumulation of small, procrastination-inducing tasks.",
+            "cost": "free",
+            "time_commitment": "As needed throughout the day",
+            "how_to_start": "Search for 'Two Minute Rule David Allen' or 'GTD Two Minute Rule' for explanations and examples.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 75,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?"
+                ],
+                "missingInfo": [
+                  "How much time does it take?"
+                ]
+              },
+              "passes": true
+            }
+          }
+        ],
+        "summary": {
+          "totalSolutions": 5,
+          "passingCount": 5,
+          "averageCompleteness": 95
+        }
+      }
+    },
+    "Conversational Completeness": {
+      "anxiety-1": {
+        "success": true,
+        "solutions": [
+          {
+            "title": "I use the Calm app for guided meditations",
+            "description": "Calm is a popular meditation and sleep app. They have specific programs for anxiety, like the 'Anxiety Relief' series. You can find it on the App Store or Google Play. It's a subscription service, but they often have free trials. I find 10-15 minutes a day is enough to feel a difference.",
+            "cost": "$14.99/month",
+            "time_commitment": "10-15 minutes daily",
+            "how_to_start": "Download the Calm app from your phone's app store and search for the 'Anxiety Relief' program.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "I practice deep breathing exercises",
+            "description": "This is a simple technique where you focus on slow, deep breaths to calm your nervous system. A good method is 'box breathing' where you inhale for 4 counts, hold for 4, exhale for 4, and hold for 4. You can do this anywhere, anytime. No apps needed, it's completely free. Even 5 minutes can make a difference.",
+            "cost": "free",
+            "time_commitment": "5 minutes daily",
+            "how_to_start": "Find a quiet spot, sit or lie down comfortably, and try 'box breathing': inhale for 4 seconds, hold for 4, exhale for 4, hold for 4. Repeat.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 75,
+                "answeredQuestions": [
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": [
+                  "What exactly is it?"
+                ]
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "I listen to anxiety-focused podcasts",
+            "description": "There are many great podcasts dedicated to managing anxiety. I like 'The Anxiety Podcast' by Tim Box. They offer practical tips and interviews. Most podcasts are free to stream on platforms like Spotify or Apple Podcasts. I usually listen during my commute, about 20-30 minutes daily.",
+            "cost": "free",
+            "time_commitment": "20-30 minutes daily",
+            "how_to_start": "Open Spotify or Apple Podcasts and search for 'The Anxiety Podcast' by Tim Box.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 75,
+                "answeredQuestions": [
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": [
+                  "What exactly is it?"
+                ]
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "I use the 'Mindful Moments' feature on my phone",
+            "description": "Many smartphones have built-in mindfulness or breathing apps. For example, on iPhones, there's a 'Mindful Minutes' feature that guides you through short breathing exercises. It's free and usually takes about 5 minutes. It's a quick way to center yourself during the day.",
+            "cost": "free",
+            "time_commitment": "5 minutes daily",
+            "how_to_start": "On your iPhone, go to Settings > Health > Browse > Mental Wellbeing > Mindful Minutes, and start a session.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "I read 'Feeling Good: The New Mood Therapy' by David Burns",
+            "description": "This book is a classic for cognitive behavioral therapy (CBT) techniques to combat anxiety and depression. It's packed with practical exercises you can do yourself. You can buy it online or at most bookstores. I try to read and do exercises for about 20 minutes each day.",
+            "cost": "$15-$20 (one-time purchase)",
+            "time_commitment": "20 minutes daily",
+            "how_to_start": "Order 'Feeling Good: The New Mood Therapy' by David Burns from Amazon or your local bookstore.",
+            "category": "book",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          }
+        ],
+        "summary": {
+          "totalSolutions": 5,
+          "passingCount": 5,
+          "averageCompleteness": 90
+        }
+      },
+      "sleep-1": {
+        "success": true,
+        "solutions": [
+          {
+            "title": "I discovered the power of a consistent sleep schedule, even on weekends!",
+            "description": "It's called the 'circadian rhythm reset'. The idea is to go to bed and wake up around the same time every single day, as much as possible. This helps regulate your body's natural sleep-wake cycle. I use a simple alarm on my phone to remind me when to start winding down and when to get up. It's been a game-changer for feeling more rested.",
+            "cost": "free",
+            "time_commitment": "Consistent daily commitment",
+            "how_to_start": "Set your alarm for your desired wake-up time for tomorrow, and then work backward to determine a consistent bedtime.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 75,
+                "answeredQuestions": [
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": [
+                  "What exactly is it?"
+                ]
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "I started using the '2-Minute Rule' for winding down before bed.",
+            "description": "This is a simple behavioral technique. If a pre-sleep activity takes less than two minutes, do it immediately. For example, brushing your teeth, washing your face, or setting out your clothes for the next day. It helps create a smooth transition into sleep by eliminating small, lingering tasks that might keep your mind active.",
+            "cost": "free",
+            "time_commitment": "2 minutes daily",
+            "how_to_start": "Identify one small task you can do before bed that takes less than two minutes and do it tonight.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "I've been listening to sleep stories on Calm.",
+            "description": "Calm is a popular mindfulness and meditation app that also offers a library of sleep stories. These are short, narrated audio stories designed to be soothing and help you drift off. They have a wide variety of stories, from nature scenes to fictional tales. It's really helped quiet my racing thoughts at night.",
+            "cost": "$14.99/month",
+            "time_commitment": "15-20 minutes daily",
+            "how_to_start": "Download the Calm app from your phone's app store and try one of their free sleep stories.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "I learned about 'progressive muscle relaxation' and practice it.",
+            "description": "It's a relaxation technique where you systematically tense and then release different muscle groups in your body. This helps you become more aware of physical tension and learn to release it. There are guided audio recordings available online that walk you through it. It’s great for releasing physical stress before sleep.",
+            "cost": "free",
+            "time_commitment": "10-15 minutes daily",
+            "how_to_start": "Search for 'progressive muscle relaxation guided audio' on YouTube and listen to a session before bed.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 75,
+                "answeredQuestions": [
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": [
+                  "What exactly is it?"
+                ]
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "I've been using a blue light filter on all my devices in the evening.",
+            "description": "This is a feature built into most smartphones and computers, or you can download apps for it. It reduces the amount of blue light emitted by screens, which can interfere with melatonin production and make it harder to fall asleep. It's called 'Night Shift' on iPhones and 'Night light' on Android and Windows.",
+            "cost": "free",
+            "time_commitment": "Activates automatically or with a tap",
+            "how_to_start": "Go into your phone's display settings and enable the blue light filter or night mode.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 50,
+                "answeredQuestions": [
+                  "How do I get started?",
+                  "What does it cost?"
+                ],
+                "missingInfo": [
+                  "What exactly is it?",
+                  "How much time does it take?"
+                ]
+              },
+              "passes": false
+            }
+          }
+        ],
+        "summary": {
+          "totalSolutions": 5,
+          "passingCount": 4,
+          "averageCompleteness": 80
+        }
+      },
+      "procrastination-1": {
+        "success": true,
+        "solutions": [
+          {
+            "title": "I use the Pomodoro Technique",
+            "description": "It's a time management method where you break down your work into intervals, traditionally 25 minutes in length, separated by short breaks. After four 'Pomodoros,' you take a longer break. It helps you focus by creating a sense of urgency and making tasks less daunting.",
+            "cost": "free",
+            "time_commitment": "25 minutes per work interval",
+            "how_to_start": "Go to pomofocus.io and click the start button. When the timer rings, take a 5-minute break.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "I use the 'Eat That Frog' method",
+            "description": "This is a productivity principle based on the idea that if you eat a live frog first thing in the morning, you'll have the satisfaction of knowing that's probably the worst thing that will happen to you all day. Essentially, tackle your most important or difficult task first.",
+            "cost": "free",
+            "time_commitment": "Varies, but dedicate the first hour of your workday",
+            "how_to_start": "Identify your most challenging task for the day and commit to doing it first thing when you sit down to work.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 75,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?"
+                ],
+                "missingInfo": [
+                  "How much time does it take?"
+                ]
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "I use the 'Two-Minute Rule'",
+            "description": "If a task takes less than two minutes to complete, do it immediately. This helps prevent small tasks from piling up and becoming overwhelming, and builds momentum for larger tasks.",
+            "cost": "free",
+            "time_commitment": "As needed throughout the day",
+            "how_to_start": "When you think of a small task (like replying to a quick email or tidying your desk), do it right away if it will take less than two minutes.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 75,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?"
+                ],
+                "missingInfo": [
+                  "How much time does it take?"
+                ]
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "I use the Forest app",
+            "description": "It's an app that helps you stay focused by planting a virtual tree. If you leave the app before the timer is up, your tree dies. It gamifies focus and encourages you to stay off your phone.",
+            "cost": "$2.99 (one-time purchase)",
+            "time_commitment": "As long as your focus session",
+            "how_to_start": "Download the Forest app from your phone's app store and plant your first tree by setting a timer for 25 minutes.",
+            "category": "app",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 100,
+                "answeredQuestions": [
+                  "What exactly is it?",
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": []
+              },
+              "passes": true
+            }
+          },
+          {
+            "title": "I practice time blocking",
+            "description": "This involves scheduling specific blocks of time for specific tasks in your calendar. It helps you allocate time realistically, avoid multitasking, and ensure that important tasks get the attention they deserve.",
+            "cost": "free",
+            "time_commitment": "Depends on your schedule, but set aside 15-30 minutes to plan your blocks",
+            "how_to_start": "Open your calendar (Google Calendar, Outlook, etc.) and block out 1-hour segments for your most important tasks for tomorrow.",
+            "category": "other",
+            "validation": {
+              "hasSpecificName": true,
+              "hasCost": true,
+              "hasTimeCommitment": true,
+              "hasHowToStart": true,
+              "conversationalCompleteness": {
+                "score": 75,
+                "answeredQuestions": [
+                  "How do I get started?",
+                  "What does it cost?",
+                  "How much time does it take?"
+                ],
+                "missingInfo": [
+                  "What exactly is it?"
+                ]
+              },
+              "passes": true
+            }
+          }
+        ],
+        "summary": {
+          "totalSolutions": 5,
+          "passingCount": 5,
+          "averageCompleteness": 85
+        }
+      }
+    }
+  },
+  "summary": {
+    "Attribution Required": {
+      "totalSolutions": 15,
+      "passingCount": 15,
+      "passingRate": "100.0",
+      "averageCompleteness": "98.3",
+      "errors": 0
+    },
+    "Named Method": {
+      "totalSolutions": 15,
+      "passingCount": 15,
+      "passingRate": "100.0",
+      "averageCompleteness": "95.0",
+      "errors": 0
+    },
+    "Instruction Findable": {
+      "totalSolutions": 15,
+      "passingCount": 15,
+      "passingRate": "100.0",
+      "averageCompleteness": "96.7",
+      "errors": 0
+    },
+    "Conversational Completeness": {
+      "totalSolutions": 15,
+      "passingCount": 14,
+      "passingRate": "93.3",
+      "averageCompleteness": "85.0",
+      "errors": 0
+    }
+  }
+}

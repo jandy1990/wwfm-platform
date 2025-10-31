@@ -1,0 +1,365 @@
+{
+  "audit_date": "2025-10-31",
+  "ssot_source": "components/goal/GoalPageClient.tsx CATEGORY_CONFIG (Lines 56-407)",
+  "ssot_doc": "docs/solution-fields-ssot.md (updated 2025-09-30)",
+  "categories_audited": 23,
+  "summary": {
+    "total_categories": 23,
+    "fully_aligned": 0,
+    "partially_aligned": 23,
+    "mismatches_found": {
+      "lib/config/solution-fields.ts": "ALL 23 categories misaligned - uses 'requiredFields' with array fields mixed in, missing 'cost' from keyFields",
+      "scripts/generate-validated-fields-v2.ts": "ALL 23 categories misaligned - hardcoded mappings, includes array fields",
+      "scripts/field-generation-utils/category-config.ts": "Re-exports from lib/ai-generation, inherits misalignment"
+    }
+  },
+  "critical_issues": [
+    {
+      "issue": "Structure mismatch",
+      "severity": "CRITICAL",
+      "description": "lib/config/solution-fields.ts uses 'requiredFields' (array) but SSOT defines 'keyFields' (3-4 display) + 'arrayField' (1 separate)",
+      "impact": "Array fields like 'challenges' and 'side_effects' mixed with display fields, causing validation confusion"
+    },
+    {
+      "issue": "Missing cost field",
+      "severity": "CRITICAL",
+      "description": "Most categories missing 'cost' from requiredFields in lib/config/solution-fields.ts",
+      "affected_categories": ["medications", "supplements_vitamins", "natural_remedies", "beauty_skincare"],
+      "impact": "Cost field not generated or validated despite being in SSOT keyFields"
+    },
+    {
+      "issue": "V2 completely divergent",
+      "severity": "CRITICAL",
+      "description": "scripts/generate-validated-fields-v2.ts has completely different hardcoded mappings",
+      "impact": "V2 regenerator produces wrong field sets, must be deprecated"
+    }
+  ],
+  "detailed_divergence": {
+    "medications": {
+      "ssot_keyFields": ["time_to_results", "frequency", "length_of_use", "cost"],
+      "ssot_arrayField": "side_effects",
+      "lib_config_requiredFields": ["frequency", "length_of_use", "time_to_results", "side_effects"],
+      "v2_hardcoded": ["frequency", "length_of_use", "cost", "time_to_results", "side_effects"],
+      "issues": [
+        "lib/config: Missing 'cost' from requiredFields",
+        "lib/config: Includes 'side_effects' in requiredFields instead of separate arrayField",
+        "lib/config: Wrong field order",
+        "v2: Includes both 'cost' AND 'side_effects' in flat list (no separation)"
+      ],
+      "status": "🔴 CRITICAL MISMATCH"
+    },
+    "supplements_vitamins": {
+      "ssot_keyFields": ["time_to_results", "frequency", "length_of_use", "cost"],
+      "ssot_arrayField": "side_effects",
+      "lib_config_requiredFields": ["frequency", "length_of_use", "time_to_results", "side_effects"],
+      "v2_hardcoded": ["frequency", "length_of_use", "cost", "time_to_results", "side_effects"],
+      "issues": [
+        "lib/config: Missing 'cost'",
+        "lib/config: Includes 'side_effects' in requiredFields",
+        "v2: Same issues as medications"
+      ],
+      "status": "🔴 CRITICAL MISMATCH"
+    },
+    "natural_remedies": {
+      "ssot_keyFields": ["time_to_results", "frequency", "length_of_use", "cost"],
+      "ssot_arrayField": "side_effects",
+      "lib_config_requiredFields": ["frequency", "length_of_use", "time_to_results", "side_effects"],
+      "v2_hardcoded": ["frequency", "length_of_use", "cost", "time_to_results", "side_effects"],
+      "issues": [
+        "lib/config: Missing 'cost'",
+        "lib/config: Includes 'side_effects' in requiredFields"
+      ],
+      "status": "🔴 CRITICAL MISMATCH"
+    },
+    "beauty_skincare": {
+      "ssot_keyFields": ["time_to_results", "skincare_frequency", "length_of_use", "cost"],
+      "ssot_arrayField": "side_effects",
+      "lib_config_requiredFields": ["skincare_frequency", "length_of_use", "time_to_results", "side_effects"],
+      "v2_hardcoded": ["skincare_frequency", "length_of_use", "cost", "time_to_results", "side_effects"],
+      "issues": [
+        "lib/config: Missing 'cost'",
+        "lib/config: Includes 'side_effects' in requiredFields"
+      ],
+      "status": "🔴 CRITICAL MISMATCH"
+    },
+    "meditation_mindfulness": {
+      "ssot_keyFields": ["time_to_results", "practice_length", "frequency", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["practice_length", "frequency", "startup_cost", "ongoing_cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["practice_length", "frequency", "time_to_results"],
+      "issues": [
+        "lib/config: Has 'startup_cost' + 'ongoing_cost' but SSOT shows single 'cost' in keyFields",
+        "lib/config: Includes 'challenges' in requiredFields instead of separate",
+        "v2: Missing 'cost' entirely"
+      ],
+      "status": "🔴 CRITICAL MISMATCH - Cost derivation confusion"
+    },
+    "exercise_movement": {
+      "ssot_keyFields": ["time_to_results", "frequency", "duration", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["frequency", "duration", "startup_cost", "ongoing_cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["frequency", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Has 'startup_cost' + 'ongoing_cost' instead of single 'cost'",
+        "lib/config: Includes 'challenges' in requiredFields",
+        "v2: Missing 'duration'"
+      ],
+      "status": "🔴 CRITICAL MISMATCH - Cost derivation confusion"
+    },
+    "habits_routines": {
+      "ssot_keyFields": ["time_to_results", "time_commitment", "frequency", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["time_commitment", "frequency", "startup_cost", "ongoing_cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["time_commitment", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Has 'startup_cost' + 'ongoing_cost' instead of single 'cost'",
+        "lib/config: Includes 'challenges' in requiredFields",
+        "v2: Missing 'frequency'"
+      ],
+      "status": "🔴 CRITICAL MISMATCH - Cost derivation confusion"
+    },
+    "therapists_counselors": {
+      "ssot_keyFields": ["time_to_results", "session_frequency", "session_length", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["session_frequency", "session_length", "cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["session_frequency", "session_length", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'challenges' in requiredFields instead of separate",
+        "v2: CORRECT keyFields but no arrayField separation"
+      ],
+      "status": "🟡 PARTIAL MATCH - Only array field issue"
+    },
+    "doctors_specialists": {
+      "ssot_keyFields": ["time_to_results", "wait_time", "insurance_coverage", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["wait_time", "insurance_coverage", "cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["session_frequency", "wait_time", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'challenges' in requiredFields",
+        "v2: Missing 'insurance_coverage', has wrong 'session_frequency'"
+      ],
+      "status": "🟡 PARTIAL MATCH lib, 🔴 WRONG v2"
+    },
+    "coaches_mentors": {
+      "ssot_keyFields": ["time_to_results", "session_frequency", "session_length", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["session_frequency", "session_length", "cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["session_frequency", "session_length", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'challenges' in requiredFields"
+      ],
+      "status": "🟡 PARTIAL MATCH"
+    },
+    "alternative_practitioners": {
+      "ssot_keyFields": ["time_to_results", "session_frequency", "session_length", "cost"],
+      "ssot_arrayField": "side_effects",
+      "lib_config_requiredFields": ["session_frequency", "session_length", "cost", "time_to_results", "side_effects"],
+      "v2_hardcoded": ["session_frequency", "session_length", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'side_effects' in requiredFields instead of separate",
+        "v2: No arrayField separation"
+      ],
+      "status": "🟡 PARTIAL MATCH"
+    },
+    "professional_services": {
+      "ssot_keyFields": ["time_to_results", "session_frequency", "specialty", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["session_frequency", "specialty", "cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["session_frequency", "session_length", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'challenges' in requiredFields",
+        "v2: Has 'session_length' instead of 'specialty'"
+      ],
+      "status": "🟡 PARTIAL lib, 🔴 WRONG v2"
+    },
+    "medical_procedures": {
+      "ssot_keyFields": ["time_to_results", "session_frequency", "wait_time", "cost"],
+      "ssot_arrayField": "side_effects",
+      "lib_config_requiredFields": ["session_frequency", "wait_time", "cost", "time_to_results", "side_effects"],
+      "v2_hardcoded": ["session_frequency", "wait_time", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'side_effects' in requiredFields"
+      ],
+      "status": "🟡 PARTIAL MATCH"
+    },
+    "crisis_resources": {
+      "ssot_keyFields": ["time_to_results", "response_time", "format", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["time_to_results", "response_time", "format", "cost"],
+      "v2_hardcoded": ["response_time", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: ✅ CORRECT keyFields!",
+        "lib/config: ⚠️ But challenges not in requiredFields (should be in arrayField)",
+        "v2: Missing 'format'"
+      ],
+      "status": "🟢 ALMOST CORRECT lib, 🔴 WRONG v2"
+    },
+    "diet_nutrition": {
+      "ssot_keyFields": ["time_to_results", "weekly_prep_time", "still_following", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["weekly_prep_time", "still_following", "cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["weekly_prep_time", "still_following", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'challenges' in requiredFields"
+      ],
+      "status": "🟡 PARTIAL MATCH"
+    },
+    "sleep": {
+      "ssot_keyFields": ["time_to_results", "previous_sleep_hours", "still_following", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["previous_sleep_hours", "still_following", "cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["previous_sleep_hours", "still_following", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'challenges' in requiredFields"
+      ],
+      "status": "🟡 PARTIAL MATCH"
+    },
+    "products_devices": {
+      "ssot_keyFields": ["time_to_results", "ease_of_use", "product_type", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["ease_of_use", "product_type", "cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["ease_of_use", "product_type", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'challenges' in requiredFields"
+      ],
+      "status": "🟡 PARTIAL MATCH"
+    },
+    "books_courses": {
+      "ssot_keyFields": ["time_to_results", "format", "learning_difficulty", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["format", "learning_difficulty", "cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["format", "learning_difficulty", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'challenges' in requiredFields"
+      ],
+      "status": "🟡 PARTIAL MATCH"
+    },
+    "apps_software": {
+      "ssot_keyFields": ["time_to_results", "usage_frequency", "subscription_type", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["usage_frequency", "subscription_type", "cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["usage_frequency", "subscription_type", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'challenges' in requiredFields"
+      ],
+      "status": "🟡 PARTIAL MATCH"
+    },
+    "groups_communities": {
+      "ssot_keyFields": ["time_to_results", "meeting_frequency", "group_size", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["meeting_frequency", "group_size", "cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["meeting_frequency", "group_size", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'challenges' in requiredFields"
+      ],
+      "status": "🟡 PARTIAL MATCH"
+    },
+    "support_groups": {
+      "ssot_keyFields": ["time_to_results", "meeting_frequency", "format", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["meeting_frequency", "format", "cost", "time_to_results", "challenges"],
+      "v2_hardcoded": ["meeting_frequency", "group_size", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'challenges' in requiredFields",
+        "v2: Has 'group_size' instead of 'format'"
+      ],
+      "status": "🟡 PARTIAL lib, 🔴 WRONG v2"
+    },
+    "hobbies_activities": {
+      "ssot_keyFields": ["time_to_results", "time_commitment", "frequency", "cost"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["time_commitment", "frequency", "startup_cost", "ongoing_cost", "cost", "cost_type", "time_to_results", "challenges"],
+      "v2_hardcoded": ["time_commitment", "frequency", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Has startup/ongoing costs PLUS derived cost/cost_type (8 fields!)",
+        "lib/config: Includes 'challenges' in requiredFields",
+        "SSOT Note: Hobby form COLLECTS split costs but DISPLAYS single 'cost'"
+      ],
+      "status": "🟡 COMPLEX - Cost derivation pattern"
+    },
+    "financial_products": {
+      "ssot_keyFields": ["time_to_results", "financial_benefit", "access_time", "cost_type"],
+      "ssot_arrayField": "challenges",
+      "lib_config_requiredFields": ["cost_type", "financial_benefit", "access_time", "time_to_results", "challenges"],
+      "v2_hardcoded": ["financial_benefit", "access_time", "cost", "time_to_results"],
+      "issues": [
+        "lib/config: Includes 'challenges' in requiredFields",
+        "v2: Has 'cost' instead of 'cost_type'"
+      ],
+      "status": "🟡 PARTIAL lib, 🔴 WRONG v2"
+    }
+  },
+  "cost_field_analysis": {
+    "categories_with_single_cost_in_ssot": [
+      "medications", "supplements_vitamins", "natural_remedies", "beauty_skincare",
+      "therapists_counselors", "doctors_specialists", "coaches_mentors", "alternative_practitioners",
+      "professional_services", "medical_procedures", "crisis_resources",
+      "diet_nutrition", "sleep", "products_devices", "books_courses", "apps_software",
+      "groups_communities", "support_groups", "hobbies_activities"
+    ],
+    "categories_with_cost_type_in_ssot": ["financial_products"],
+    "categories_with_split_costs_collected": {
+      "meditation_mindfulness": "Collects startup_cost + ongoing_cost, derives single 'cost' for display",
+      "exercise_movement": "Collects startup_cost + ongoing_cost, derives single 'cost' for display",
+      "habits_routines": "Collects startup_cost + ongoing_cost, derives single 'cost' for display",
+      "hobbies_activities": "Collects startup_cost + ongoing_cost, derives single 'cost' for display"
+    },
+    "lib_config_issue": "Practice/hobby categories have startup_cost + ongoing_cost in requiredFields, but SSOT shows only 'cost' in keyFields. Forms collect split costs but display shows derived single 'cost'.",
+    "correct_behavior": "keyFields should include single 'cost' (what's displayed), while forms can collect additional fields for derivation"
+  },
+  "array_field_analysis": {
+    "side_effects_categories": [
+      "medications", "supplements_vitamins", "natural_remedies", "beauty_skincare",
+      "alternative_practitioners", "medical_procedures"
+    ],
+    "challenges_categories": [
+      "therapists_counselors", "doctors_specialists", "coaches_mentors",
+      "professional_services", "crisis_resources",
+      "meditation_mindfulness", "exercise_movement", "habits_routines",
+      "diet_nutrition", "sleep", "products_devices", "books_courses",
+      "apps_software", "groups_communities", "support_groups", "hobbies_activities",
+      "financial_products"
+    ],
+    "lib_config_issue": "ALL categories include arrayField in requiredFields list, but SSOT separates it into distinct 'arrayField' property",
+    "correct_behavior": "arrayField should be separate property, NOT included in keyFields/requiredFields"
+  },
+  "recommendations": [
+    {
+      "priority": "P0",
+      "action": "Update lib/config/solution-fields.ts structure",
+      "details": "Change 'requiredFields' to 'keyFields', add separate 'arrayField' property for all 23 categories"
+    },
+    {
+      "priority": "P0",
+      "action": "Fix cost field for dosage categories",
+      "details": "Add 'cost' to keyFields for medications, supplements_vitamins, natural_remedies, beauty_skincare"
+    },
+    {
+      "priority": "P0",
+      "action": "Fix practice/hobby cost derivation",
+      "details": "keyFields should have single 'cost', keep startup_cost/ongoing_cost for collection/derivation only"
+    },
+    {
+      "priority": "P0",
+      "action": "Archive V2 regenerator completely",
+      "details": "Move to scripts/archive/deprecated-v2-regenerator-20251031/ with clear deprecation notice"
+    },
+    {
+      "priority": "P1",
+      "action": "Create SSOT alignment test",
+      "details": "Automated test to prevent future divergence"
+    }
+  ],
+  "files_requiring_updates": {
+    "code": [
+      "/lib/config/solution-fields.ts",
+      "/lib/ai-generation/fields/category.ts"
+    ],
+    "deprecated": [
+      "/scripts/generate-validated-fields-v2.ts (ARCHIVE)"
+    ],
+    "re-exports": [
+      "/scripts/field-generation-utils/category-config.ts (inherits from lib)"
+    ]
+  }
+}

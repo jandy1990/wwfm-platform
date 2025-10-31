@@ -45,6 +45,13 @@ Every solution MUST be a SPECIFIC product/app/book/method, NOT a generic categor
 
 Solutions MUST be googleable and include brand names, app names, authors, or protocol names.
 
+🎯 FIRST-PERSON SOLUTION NAMING:
+- Title each solution exactly the way a real WWFM member would record it for themselves.
+- Use the precise product/practice name only (e.g. "Sertraline (Zoloft)", "Hatha yoga").
+- Never prepend generic descriptors like "Prescription antidepressant", "Yoga practice", "Therapy program".
+- Avoid adding words such as "session", "plan", "program", "practice" unless they are part of the official name.
+- If you would naturally reuse an existing product name, choose the canonical item instead of inventing a new label.
+
 {{CATEGORY_FIELDS_TABLE}}
 
 CRITICAL INSTRUCTIONS:

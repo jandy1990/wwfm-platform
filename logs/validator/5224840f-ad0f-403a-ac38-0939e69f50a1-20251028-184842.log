@@ -1,0 +1,175 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 5224840f-ad0f-403a-ac38-0939e69f50a1
+✅ Loaded 27 solutions for "Manage bipolar disorder"
+Validating 27 solutions after filters
+
+🔍 Validating medications (13 solutions)
+  ✅ Lamotrigine (Lamictal): frequency - OK
+  ✅ Lamotrigine (Lamictal): length_of_use - OK
+  ✅ Lamotrigine (Lamictal): time_to_results - OK
+  ✅ Lamotrigine (Lamictal): side_effects - OK
+  ✅ Lithium (Lithobid): frequency - OK
+  ✅ Lithium (Lithobid): length_of_use - OK
+  ✅ Lithium (Lithobid): time_to_results - OK
+  ✅ Lithium (Lithobid): side_effects - OK
+  ✅ Quetiapine (Seroquel): frequency - OK
+  ✅ Quetiapine (Seroquel): length_of_use - OK
+  ✅ Quetiapine (Seroquel): time_to_results - OK
+  ✅ Quetiapine (Seroquel): side_effects - OK
+  ✅ Quetiapine (Seroquel): frequency - OK
+  ✅ Quetiapine (Seroquel): length_of_use - OK
+  ✅ Quetiapine (Seroquel): time_to_results - OK
+  ✅ Quetiapine (Seroquel): side_effects - OK
+  ✅ Lithium (Lithobid): frequency - OK
+  ✅ Lithium (Lithobid): length_of_use - OK
+  ✅ Lithium (Lithobid): time_to_results - OK
+  ✅ Lithium (Lithobid): side_effects - OK
+  ✅ Lamotrigine (Lamictal): frequency - OK
+  ✅ Lamotrigine (Lamictal): length_of_use - OK
+  ✅ Lamotrigine (Lamictal): time_to_results - OK
+  ✅ Lamotrigine (Lamictal): side_effects - OK
+  ✅ Quetiapine (Seroquel): frequency - OK
+  ✅ Quetiapine (Seroquel): length_of_use - OK
+  ✅ Quetiapine (Seroquel): time_to_results - OK
+  ✅ Quetiapine (Seroquel): side_effects - OK
+  ✅ Quetiapine (Seroquel): frequency - OK
+  ✅ Quetiapine (Seroquel): length_of_use - OK
+  ✅ Quetiapine (Seroquel): time_to_results - OK
+  ✅ Quetiapine (Seroquel): side_effects - OK
+  ✅ Lamotrigine (Lamictal): frequency - OK
+  ✅ Lamotrigine (Lamictal): length_of_use - OK
+  ✅ Lamotrigine (Lamictal): time_to_results - OK
+  ✅ Lamotrigine (Lamictal): side_effects - OK
+  ✅ Lithium (Lithobid): frequency - OK
+  ✅ Lithium (Lithobid): length_of_use - OK
+  ✅ Lithium (Lithobid): time_to_results - OK
+  ✅ Lithium (Lithobid): side_effects - OK
+  ✅ Lamotrigine (Lamictal): frequency - OK
+  ✅ Lamotrigine (Lamictal): length_of_use - OK
+  ✅ Lamotrigine (Lamictal): time_to_results - OK
+  ✅ Lamotrigine (Lamictal): side_effects - OK
+  ✅ Quetiapine (Seroquel): frequency - OK
+  ✅ Quetiapine (Seroquel): length_of_use - OK
+  ✅ Quetiapine (Seroquel): time_to_results - OK
+  ✅ Quetiapine (Seroquel): side_effects - OK
+  ✅ Lithium (Lithobid): frequency - OK
+  ✅ Lithium (Lithobid): length_of_use - OK
+  ✅ Lithium (Lithobid): time_to_results - OK
+  ✅ Lithium (Lithobid): side_effects - OK
+
+🔍 Validating diet_nutrition (1 solutions)
+  ✅ DASH Diet (Dietary Approaches to Stop Hypertension): weekly_prep_time - OK
+  ✅ DASH Diet (Dietary Approaches to Stop Hypertension): still_following - OK
+  ✅ DASH Diet (Dietary Approaches to Stop Hypertension): cost - OK
+  ✅ DASH Diet (Dietary Approaches to Stop Hypertension): time_to_results - OK
+  ✅ DASH Diet (Dietary Approaches to Stop Hypertension): challenges - OK
+
+🔍 Validating books_courses (2 solutions)
+  ✅ Bipolar Disorder: A Comprehensive Guide to Management and Recovery by Francis Mondimore: format - OK
+  ✅ Bipolar Disorder: A Comprehensive Guide to Management and Recovery by Francis Mondimore: learning_difficulty - OK
+  ✅ Bipolar Disorder: A Comprehensive Guide to Management and Recovery by Francis Mondimore: cost - OK
+  ✅ Bipolar Disorder: A Comprehensive Guide to Management and Recovery by Francis Mondimore: time_to_results - OK
+  ✅ Bipolar Disorder: A Comprehensive Guide to Management and Recovery by Francis Mondimore: challenges - OK
+  ✅ Psychoeducation for Bipolar Disorder: format - OK
+  ✅ Psychoeducation for Bipolar Disorder: learning_difficulty - OK
+  ✅ Psychoeducation for Bipolar Disorder: cost - OK
+  ✅ Psychoeducation for Bipolar Disorder: time_to_results - OK
+  ✅ Psychoeducation for Bipolar Disorder: challenges - OK
+
+🔍 Validating therapists_counselors (2 solutions)
+  ✅ Dialectical Behavior Therapy (DBT) Skills: session_frequency - OK
+  ✅ Dialectical Behavior Therapy (DBT) Skills: session_length - OK
+  ✅ Dialectical Behavior Therapy (DBT) Skills: cost - OK
+  ✅ Dialectical Behavior Therapy (DBT) Skills: time_to_results - OK
+  ✅ Dialectical Behavior Therapy (DBT) Skills: challenges - OK
+  ✅ Cognitive Behavioral Therapy (CBT) with a Licensed Therapist: session_frequency - OK
+  ✅ Cognitive Behavioral Therapy (CBT) with a Licensed Therapist: session_length - OK
+  ✅ Cognitive Behavioral Therapy (CBT) with a Licensed Therapist: cost - OK
+  ✅ Cognitive Behavioral Therapy (CBT) with a Licensed Therapist: time_to_results - OK
+  ✅ Cognitive Behavioral Therapy (CBT) with a Licensed Therapist: challenges - OK
+
+🔍 Validating apps_software (2 solutions)
+  ✅ Headspace App: usage_frequency - OK
+  ✅ Headspace App: subscription_type - OK
+  ✅ Headspace App: cost - OK
+  ✅ Headspace App: time_to_results - OK
+  ✅ Headspace App: challenges - OK
+  ✅ Moodpath App: usage_frequency - OK
+  ✅ Moodpath App: subscription_type - OK
+  ✅ Moodpath App: cost - OK
+  ✅ Moodpath App: time_to_results - OK
+  ✅ Moodpath App: challenges - OK
+
+🔍 Validating exercise_movement (1 solutions)
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): frequency - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): duration - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): startup_cost - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): ongoing_cost - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): time_to_results - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): challenges - OK
+
+🔍 Validating supplements_vitamins (4 solutions)
+  ✅ Omega-3: frequency - OK
+  ✅ Omega-3: length_of_use - OK
+  ✅ Omega-3: time_to_results - OK
+  ✅ Omega-3: side_effects - OK
+  ✅ Nature Made Vitamin D3 2000 IU: frequency - OK
+  ✅ Nature Made Vitamin D3 2000 IU: length_of_use - OK
+  ✅ Nature Made Vitamin D3 2000 IU: time_to_results - OK
+  ✅ Nature Made Vitamin D3 2000 IU: side_effects - OK
+  ✅ Omega-3: frequency - OK
+  ✅ Omega-3: length_of_use - OK
+  ✅ Omega-3: time_to_results - OK
+  ✅ Omega-3: side_effects - OK
+  ✅ Nature Made Vitamin D3 2000 IU: frequency - OK
+  ✅ Nature Made Vitamin D3 2000 IU: length_of_use - OK
+  ✅ Nature Made Vitamin D3 2000 IU: time_to_results - OK
+  ✅ Nature Made Vitamin D3 2000 IU: side_effects - OK
+
+🔍 Validating support_groups (1 solutions)
+  ✅ Depression and Bipolar Support Alliance (DBSA) Local Groups: meeting_frequency - OK
+  ✅ Depression and Bipolar Support Alliance (DBSA) Local Groups: format - OK
+  ✅ Depression and Bipolar Support Alliance (DBSA) Local Groups: cost - OK
+  ✅ Depression and Bipolar Support Alliance (DBSA) Local Groups: time_to_results - OK
+  ✅ Depression and Bipolar Support Alliance (DBSA) Local Groups: challenges - OK
+
+🔍 Validating habits_routines (1 solutions)
+  ✅ Structured Daily Schedule: time_commitment - OK
+  ✅ Structured Daily Schedule: frequency - OK
+  ✅ Structured Daily Schedule: startup_cost - OK
+  ✅ Structured Daily Schedule: ongoing_cost - OK
+  ✅ Structured Daily Schedule: time_to_results - OK
+  ✅ Structured Daily Schedule: challenges - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Manage bipolar disorder"
+   Solutions: 27
+   Categories: 9 (medications, diet_nutrition, books_courses, therapists_counselors, apps_software, exercise_movement, supplements_vitamins, support_groups, habits_routines)
+   Fields checked: 120
+
+📈 Quality Metrics:
+   ✅ Valid fields: 120
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   medications: 0/52 issues (0.0%)
+   diet_nutrition: 0/5 issues (0.0%)
+   books_courses: 0/10 issues (0.0%)
+   therapists_counselors: 0/10 issues (0.0%)
+   apps_software: 0/10 issues (0.0%)
+   exercise_movement: 0/6 issues (0.0%)
+   supplements_vitamins: 0/16 issues (0.0%)
+   support_groups: 0/5 issues (0.0%)
+   habits_routines: 0/6 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend

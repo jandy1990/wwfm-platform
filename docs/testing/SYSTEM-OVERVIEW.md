@@ -268,7 +268,7 @@ Actual:   "Weekly" (string)
 **Fix:**
 1. Check aggregation script
 2. Verify field regeneration
-3. See `complete-field-analysis.md`
+3. See `docs/solution-fields-ssot.md`
 
 ---
 

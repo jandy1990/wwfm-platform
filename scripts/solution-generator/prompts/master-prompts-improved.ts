@@ -21,7 +21,7 @@ export function buildDetailedFieldRequirements(category: string): string {
       'time_to_results': '"3-4 weeks" or "1-2 months" or "Within days"',
       'frequency': '"once daily" or "twice daily" or "as needed"',
       'length_of_use': '"6-12 months" or "Over 2 years" or "Still using"',
-      'cost': '"$10-25/month" or "$50-100/month" or "Free"'
+      'cost': '"Under $20" or "$20-50" or "$50-100" or "Free"'
     },
     'therapists_counselors': {
       'cost': '"$100-150" or "$150-200" or "$75-100"',
@@ -127,6 +127,12 @@ Solutions MUST be googleable and include brand names, app names, authors, or spe
 - Books with authors: "Atomic Habits by James Clear"
 - Specific programs: "Couch to 5K", "StrongLifts 5x5"
 - Brand products: "Nature Made Vitamin D3", "Fitbit Charge 5"
+
+🎯 FIRST-PERSON SOLUTION NAMING:
+- Title each solution exactly as a person would log it in WWFM (e.g. "Sertraline (Zoloft)", "Hatha yoga").
+- Do NOT prepend generic descriptors such as "Prescription antidepressants" or "Yoga practice".
+- Avoid words like "session", "program", "plan", "practice" in titles unless they are part of the official name.
+- If a canonical product or practice already exists, reuse that specific name rather than inventing a broad category label.
 
 CRITICAL FIELD REQUIREMENTS - YOU MUST USE THESE EXACT FIELD NAMES:
 {{FIELD_REQUIREMENTS}}

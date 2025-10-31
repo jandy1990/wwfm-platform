@@ -1,0 +1,162 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: a07df0bd-841d-4bf4-885e-65675c5beba3
+✅ Loaded 20 solutions for "Reduce headaches"
+Validating 20 solutions after filters
+
+🔍 Validating books_courses (1 solutions)
+  ✅ The Migraine Brain by Dr. Carolyn Bernstein: format - OK
+  ✅ The Migraine Brain by Dr. Carolyn Bernstein: learning_difficulty - OK
+  ✅ The Migraine Brain by Dr. Carolyn Bernstein: cost - OK
+  ✅ The Migraine Brain by Dr. Carolyn Bernstein: time_to_results - OK
+  ✅ The Migraine Brain by Dr. Carolyn Bernstein: challenges - OK
+
+🔍 Validating habits_routines (1 solutions)
+  ✅ Consistent Sleep Schedule Protocol: time_commitment - OK
+  ✅ Consistent Sleep Schedule Protocol: frequency - OK
+  ✅ Consistent Sleep Schedule Protocol: startup_cost - OK
+  ✅ Consistent Sleep Schedule Protocol: ongoing_cost - OK
+  ✅ Consistent Sleep Schedule Protocol: time_to_results - OK
+  ✅ Consistent Sleep Schedule Protocol: challenges - OK
+
+🔍 Validating meditation_mindfulness (1 solutions)
+  ✅ Headspace - Stress & Anxiety Pack: practice_length - OK
+  ✅ Headspace - Stress & Anxiety Pack: frequency - OK
+  ✅ Headspace - Stress & Anxiety Pack: startup_cost - OK
+  ✅ Headspace - Stress & Anxiety Pack: ongoing_cost - OK
+  ✅ Headspace - Stress & Anxiety Pack: time_to_results - OK
+  ✅ Headspace - Stress & Anxiety Pack: challenges - OK
+
+🔍 Validating medications (7 solutions)
+  ✅ Sumatriptan (Imitrex): frequency - OK
+  ✅ Sumatriptan (Imitrex): length_of_use - OK
+  ✅ Sumatriptan (Imitrex): time_to_results - OK
+  ✅ Sumatriptan (Imitrex): side_effects - OK
+  ✅ Sumatriptan (Imitrex): frequency - OK
+  ✅ Sumatriptan (Imitrex): length_of_use - OK
+  ✅ Sumatriptan (Imitrex): time_to_results - OK
+  ✅ Sumatriptan (Imitrex): side_effects - OK
+  ✅ Sumatriptan (Imitrex): frequency - OK
+  ✅ Sumatriptan (Imitrex): length_of_use - OK
+  ✅ Sumatriptan (Imitrex): time_to_results - OK
+  ✅ Sumatriptan (Imitrex): side_effects - OK
+  ✅ Sumatriptan (Imitrex): frequency - OK
+  ✅ Sumatriptan (Imitrex): length_of_use - OK
+  ✅ Sumatriptan (Imitrex): time_to_results - OK
+  ✅ Sumatriptan (Imitrex): side_effects - OK
+  ✅ Sumatriptan (Imitrex): frequency - OK
+  ✅ Sumatriptan (Imitrex): length_of_use - OK
+  ✅ Sumatriptan (Imitrex): time_to_results - OK
+  ✅ Sumatriptan (Imitrex): side_effects - OK
+  ✅ Sumatriptan (Imitrex): frequency - OK
+  ✅ Sumatriptan (Imitrex): length_of_use - OK
+  ✅ Sumatriptan (Imitrex): time_to_results - OK
+  ✅ Sumatriptan (Imitrex): side_effects - OK
+  ✅ Sumatriptan (Imitrex): frequency - OK
+  ✅ Sumatriptan (Imitrex): length_of_use - OK
+  ✅ Sumatriptan (Imitrex): time_to_results - OK
+  ✅ Sumatriptan (Imitrex): side_effects - OK
+
+🔍 Validating therapists_counselors (1 solutions)
+  ✅ BetterHelp Online Therapy: session_frequency - OK
+  ✅ BetterHelp Online Therapy: session_length - OK
+  ✅ BetterHelp Online Therapy: cost - OK
+  ✅ BetterHelp Online Therapy: time_to_results - OK
+  ✅ BetterHelp Online Therapy: challenges - OK
+
+🔍 Validating professional_services (1 solutions)
+  ✅ Migraine Action Plan: session_frequency - OK
+  ✅ Migraine Action Plan: specialty - OK
+  ✅ Migraine Action Plan: cost - OK
+  ✅ Migraine Action Plan: time_to_results - OK
+  ✅ Migraine Action Plan: challenges - OK
+
+🔍 Validating medical_procedures (1 solutions)
+  ✅ Botox Injections for Chronic Migraine: session_frequency - OK
+  ✅ Botox Injections for Chronic Migraine: wait_time - OK
+  ✅ Botox Injections for Chronic Migraine: cost - OK
+  ✅ Botox Injections for Chronic Migraine: time_to_results - OK
+  ✅ Botox Injections for Chronic Migraine: side_effects - OK
+
+🔍 Validating exercise_movement (1 solutions)
+  ✅ Yoga: frequency - OK
+  ✅ Yoga: duration - OK
+  ✅ Yoga: startup_cost - OK
+  ✅ Yoga: ongoing_cost - OK
+  ✅ Yoga: time_to_results - OK
+  ✅ Yoga: challenges - OK
+
+🔍 Validating diet_nutrition (1 solutions)
+  ✅ Low-FODMAP Diet: weekly_prep_time - OK
+  ✅ Low-FODMAP Diet: still_following - OK
+  ✅ Low-FODMAP Diet: cost - OK
+  ✅ Low-FODMAP Diet: time_to_results - OK
+  ✅ Low-FODMAP Diet: challenges - OK
+
+🔍 Validating alternative_practitioners (2 solutions)
+  ✅ Acupuncture: session_frequency - OK
+  ✅ Acupuncture: session_length - OK
+  ✅ Acupuncture: cost - OK
+  ✅ Acupuncture: time_to_results - OK
+  ✅ Acupuncture: side_effects - OK
+  ✅ Biofeedback Training: session_frequency - OK
+  ✅ Biofeedback Training: session_length - OK
+  ✅ Biofeedback Training: cost - OK
+  ✅ Biofeedback Training: time_to_results - OK
+  ✅ Biofeedback Training: side_effects - OK
+
+🔍 Validating products_devices (1 solutions)
+  ✅ Cefaly Dual: ease_of_use - OK
+  ✅ Cefaly Dual: product_type - OK
+  ✅ Cefaly Dual: cost - OK
+  ✅ Cefaly Dual: time_to_results - OK
+  ✅ Cefaly Dual: challenges - OK
+
+🔍 Validating apps_software (1 solutions)
+  ✅ Plant Nanny: usage_frequency - OK
+  ✅ Plant Nanny: subscription_type - OK
+  ✅ Plant Nanny: cost - OK
+  ✅ Plant Nanny: time_to_results - OK
+  ✅ Plant Nanny: challenges - OK
+
+🔍 Validating supplements_vitamins (1 solutions)
+  ✅ Magnesium Glycinate Supplement: frequency - OK
+  ✅ Magnesium Glycinate Supplement: length_of_use - OK
+  ✅ Magnesium Glycinate Supplement: time_to_results - OK
+  ✅ Magnesium Glycinate Supplement: side_effects - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Reduce headaches"
+   Solutions: 20
+   Categories: 13 (books_courses, habits_routines, meditation_mindfulness, medications, therapists_counselors, professional_services, medical_procedures, exercise_movement, diet_nutrition, alternative_practitioners, products_devices, apps_software, supplements_vitamins)
+   Fields checked: 95
+
+📈 Quality Metrics:
+   ✅ Valid fields: 95
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   books_courses: 0/5 issues (0.0%)
+   habits_routines: 0/6 issues (0.0%)
+   meditation_mindfulness: 0/6 issues (0.0%)
+   medications: 0/28 issues (0.0%)
+   therapists_counselors: 0/5 issues (0.0%)
+   professional_services: 0/5 issues (0.0%)
+   medical_procedures: 0/5 issues (0.0%)
+   exercise_movement: 0/6 issues (0.0%)
+   diet_nutrition: 0/5 issues (0.0%)
+   alternative_practitioners: 0/10 issues (0.0%)
+   products_devices: 0/5 issues (0.0%)
+   apps_software: 0/5 issues (0.0%)
+   supplements_vitamins: 0/4 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend

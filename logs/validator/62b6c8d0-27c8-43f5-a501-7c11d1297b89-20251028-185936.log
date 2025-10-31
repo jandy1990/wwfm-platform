@@ -1,0 +1,122 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 62b6c8d0-27c8-43f5-a501-7c11d1297b89
+✅ Loaded 14 solutions for "Reduce bloating"
+Validating 14 solutions after filters
+
+🔍 Validating habits_routines (1 solutions)
+  ✅ Mindful Eating Practice: time_commitment - OK
+  ✅ Mindful Eating Practice: frequency - OK
+  ✅ Mindful Eating Practice: startup_cost - OK
+  ✅ Mindful Eating Practice: ongoing_cost - OK
+  ✅ Mindful Eating Practice: time_to_results - OK
+  ✅ Mindful Eating Practice: challenges - OK
+
+🔍 Validating supplements_vitamins (4 solutions)
+  ✅ e.g. (NOW Foods Super Enzymes): frequency - OK
+  ✅ e.g. (NOW Foods Super Enzymes): length_of_use - OK
+  ✅ e.g. (NOW Foods Super Enzymes): time_to_results - OK
+  ✅ e.g. (NOW Foods Super Enzymes): side_effects - OK
+  ✅ Peppermint Oil Capsules (Enteric-Coated): frequency - OK
+  ✅ Peppermint Oil Capsules (Enteric-Coated): length_of_use - OK
+  ✅ Peppermint Oil Capsules (Enteric-Coated): time_to_results - OK
+  ✅ Peppermint Oil Capsules (Enteric-Coated): side_effects - OK
+  ✅ Align: frequency - OK
+  ✅ Align: length_of_use - OK
+  ✅ Align: time_to_results - OK
+  ✅ Align: side_effects - OK
+  ✅ DGL (Deglycyrrhizinated Licorice): frequency - OK
+  ✅ DGL (Deglycyrrhizinated Licorice): length_of_use - OK
+  ✅ DGL (Deglycyrrhizinated Licorice): time_to_results - OK
+  ✅ DGL (Deglycyrrhizinated Licorice): side_effects - OK
+
+🔍 Validating medications (1 solutions)
+  ✅ Gas-X (Simethicone): frequency - OK
+  ✅ Gas-X (Simethicone): length_of_use - OK
+  ✅ Gas-X (Simethicone): time_to_results - OK
+  ✅ Gas-X (Simethicone): side_effects - OK
+
+🔍 Validating exercise_movement (2 solutions)
+  ✅ Yoga: frequency - OK
+  ✅ Yoga: duration - OK
+  ✅ Yoga: startup_cost - OK
+  ✅ Yoga: ongoing_cost - OK
+  ✅ Yoga: time_to_results - OK
+  ✅ Yoga: challenges - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): frequency - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): duration - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): startup_cost - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): ongoing_cost - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): time_to_results - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): challenges - OK
+
+🔍 Validating diet_nutrition (2 solutions)
+  ✅ Low-FODMAP Diet: weekly_prep_time - OK
+  ✅ Low-FODMAP Diet: still_following - OK
+  ✅ Low-FODMAP Diet: cost - OK
+  ✅ Low-FODMAP Diet: time_to_results - OK
+  ✅ Low-FODMAP Diet: challenges - OK
+  ✅ Dr. Weil's Anti-Inflammatory Diet: weekly_prep_time - OK
+  ✅ Dr. Weil's Anti-Inflammatory Diet: still_following - OK
+  ✅ Dr. Weil's Anti-Inflammatory Diet: cost - OK
+  ✅ Dr. Weil's Anti-Inflammatory Diet: time_to_results - OK
+  ✅ Dr. Weil's Anti-Inflammatory Diet: challenges - OK
+
+🔍 Validating doctors_specialists (1 solutions)
+  ✅ Registered Dietitian Consultation: wait_time - OK
+  ✅ Registered Dietitian Consultation: insurance_coverage - OK
+  ✅ Registered Dietitian Consultation: cost - OK
+  ✅ Registered Dietitian Consultation: time_to_results - OK
+  ✅ Registered Dietitian Consultation: challenges - OK
+
+🔍 Validating alternative_practitioners (1 solutions)
+  ✅ Abdominal Massage: session_frequency - OK
+  ✅ Abdominal Massage: session_length - OK
+  ✅ Abdominal Massage: cost - OK
+  ✅ Abdominal Massage: time_to_results - OK
+  ✅ Abdominal Massage: side_effects - OK
+
+🔍 Validating books_courses (1 solutions)
+  ✅ The Gut Health Protocol by Dr. Mark Hyman: format - OK
+  ✅ The Gut Health Protocol by Dr. Mark Hyman: learning_difficulty - OK
+  ✅ The Gut Health Protocol by Dr. Mark Hyman: cost - OK
+  ✅ The Gut Health Protocol by Dr. Mark Hyman: time_to_results - OK
+  ✅ The Gut Health Protocol by Dr. Mark Hyman: challenges - OK
+
+🔍 Validating natural_remedies (1 solutions)
+  ✅ Iberogast: frequency - OK
+  ✅ Iberogast: length_of_use - OK
+  ✅ Iberogast: time_to_results - OK
+  ✅ Iberogast: side_effects - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Reduce bloating"
+   Solutions: 14
+   Categories: 9 (habits_routines, supplements_vitamins, medications, exercise_movement, diet_nutrition, doctors_specialists, alternative_practitioners, books_courses, natural_remedies)
+   Fields checked: 67
+
+📈 Quality Metrics:
+   ✅ Valid fields: 67
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   habits_routines: 0/6 issues (0.0%)
+   supplements_vitamins: 0/16 issues (0.0%)
+   medications: 0/4 issues (0.0%)
+   exercise_movement: 0/12 issues (0.0%)
+   diet_nutrition: 0/10 issues (0.0%)
+   doctors_specialists: 0/5 issues (0.0%)
+   alternative_practitioners: 0/5 issues (0.0%)
+   books_courses: 0/5 issues (0.0%)
+   natural_remedies: 0/4 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend

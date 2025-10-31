@@ -451,11 +451,11 @@ export async function verifyDataPipeline(
   
   // Retry logic for goal implementation link (aggregation might be async)
   let goalLink = null
-  const maxRetries = 5
+  const maxRetries = 15  // Increased to 15 (30 seconds total) to handle slow aggregation
   for (let i = 0; i < maxRetries; i++) {
     goalLink = await getTestGoalImplementation(variant.id)
     if (goalLink) break
-    
+
     if (i < maxRetries - 1) {
       console.log(`⏳ Waiting for aggregation... attempt ${i + 1}/${maxRetries}`)
       await new Promise(resolve => setTimeout(resolve, 2000))

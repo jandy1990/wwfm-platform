@@ -14,20 +14,20 @@ const SESSION_FORM_TEST_VALUES = {
   therapists_counselors: {
     timeToResults: '3-6 months',
     sessionFrequency: 'Weekly',
-    sessionLength: '50-60 minutes',
-    cost: '$100-$149.99'
+    sessionLength: '60 minutes',  // Fixed: was "50-60 minutes", now matches actual dropdown
+    cost: '$100-150'  // Fixed: was $100-$149.99, now matches actual dropdown
   },
   doctors_specialists: {
     timeToResults: '1-2 months',
     sessionFrequency: 'Monthly',
     waitTime: '1-2 weeks',
-    cost: '$50-$99.99'
+    cost: '$50-100'  // Fixed: was $50-$99.99, now matches actual dropdown
   },
   coaches_mentors: {
     timeToResults: '1-2 months',
     sessionFrequency: 'Fortnightly',
     sessionLength: '60 minutes',
-    cost: '$100-$199.99/month'
+    cost: '$100-150'  // Fixed: was $100-$199.99/month, now matches actual dropdown
   },
   alternative_practitioners: {
     timeToResults: '1-2 months',
@@ -881,9 +881,13 @@ export async function fillSessionForm(page: Page, category: string) {
     if (!selectedOption) {
       // Fallback: click first available option
       const firstOption = page.locator('[role="option"]').first();
+
+      // Get the actual text of the option we're clicking
+      const actualText = await firstOption.textContent();
+      expectedValue = actualText?.trim() || 'Unknown';
+
       await firstOption.click();
-      expectedValue = 'first option';
-      console.log('Selected first available cost range option');
+      console.log(`Selected first available cost range option: ${expectedValue}`);
     }
 
     // CRITICAL: Wait for the dropdown to close and verify selection persisted

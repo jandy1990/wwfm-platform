@@ -65,27 +65,52 @@ export default function TestFormsPage() {
 
   useEffect(() => {
     const fetchGoals = async () => {
-      const { data, error } = await supabase
+      // First, specifically fetch "Reduce anxiety" goal
+      const { data: reduceAnxietyGoal } = await supabase
+        .from('goals')
+        .select('id, title')
+        .ilike('title', 'Reduce anxiety')
+        .limit(1)
+        .single();
+
+      // Then fetch other goals
+      const { data: otherGoals, error } = await supabase
         .from('goals')
         .select('id, title')
         .order('title')
         .limit(50);
 
-      if (!error && data) {
-        setGoals(data);
-        // Load from localStorage or use first goal
-        const savedGoalId = localStorage.getItem('testFormsGoalId');
-        if (savedGoalId && data.find(g => g.id === savedGoalId)) {
-          setSelectedGoalId(savedGoalId);
-        } else if (data.length > 0) {
-          setSelectedGoalId(data[0].id);
+      if (!error && otherGoals) {
+        let finalGoals = otherGoals;
+
+        // If we found "Reduce anxiety", ensure it's first in the list
+        if (reduceAnxietyGoal) {
+          // Remove it from other goals if it exists there
+          const filteredGoals = otherGoals.filter(g => g.id !== reduceAnxietyGoal.id);
+          // Add it to the beginning
+          finalGoals = [reduceAnxietyGoal, ...filteredGoals];
+        }
+
+        setGoals(finalGoals);
+
+        // Pre-select "Reduce anxiety" if found, otherwise check localStorage
+        if (reduceAnxietyGoal) {
+          setSelectedGoalId(reduceAnxietyGoal.id);
+          localStorage.setItem('testFormsGoalId', reduceAnxietyGoal.id);
+        } else {
+          const savedGoalId = localStorage.getItem('testFormsGoalId');
+          if (savedGoalId && finalGoals.find(g => g.id === savedGoalId)) {
+            setSelectedGoalId(savedGoalId);
+          } else if (finalGoals.length > 0) {
+            setSelectedGoalId(finalGoals[0].id);
+          }
         }
       }
       setLoading(false);
     };
 
     fetchGoals();
-  }, [supabase]);
+  }, []);
 
   const handleGoalChange = (goalId: string) => {
     setSelectedGoalId(goalId);

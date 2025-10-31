@@ -17,54 +17,69 @@ import {
 } from '../../../lib/ai-generation/fields'
 import type { DistributionData } from '../../../lib/ai-generation/fields'
 import chalk from 'chalk'
+import {
+  createTitleSignature,
+  computeTokenOverlapScore,
+  enforceFirstPersonTitle,
+  normalizeSolutionTitle
+} from './canonical'
 
 interface InsertOptions {
   forceWrite?: boolean
   dirtyOnly?: boolean
 }
 
-const ARTICLES_REGEX = /^(the|a|an)\s+/i
-
-const existingSolutionsCache = new Map<string, Array<{ id: string; title: string }>>()
-
-function normalizeSolutionTitle(title: string): string {
-  return title
-    .trim()
-    .toLowerCase()
-    .replace(ARTICLES_REGEX, '')
-    .replace(/[’']/g, '')
-    .replace(/[^a-z0-9\s]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
+interface CachedSolution {
+  id: string
+  title: string
+  normalized: string
+  canonical: string
+  tokens: string[]
 }
+
+const existingSolutionsCache = new Map<string, CachedSolution[]>()
 
 async function loadSolutionsForCategory(
   supabase: SupabaseClient,
   category: string
-): Promise<Array<{ id: string; title: string }>> {
+): Promise<CachedSolution[]> {
   if (!existingSolutionsCache.has(category)) {
     const { data } = await supabase
       .from('solutions')
       .select('id, title')
       .eq('solution_category', category)
 
-    existingSolutionsCache.set(category, data ?? [])
+    const cached = (data ?? []).map(row => {
+      const signature = createTitleSignature(row.title)
+      return {
+        id: row.id,
+        title: row.title,
+        normalized: signature.normalized,
+        canonical: signature.canonical,
+        tokens: signature.tokens
+      }
+    })
+
+    existingSolutionsCache.set(category, cached)
   }
 
   return existingSolutionsCache.get(category) ?? []
 }
 
+type MatchReason = 'canonical' | 'token'
+
 async function findMatchingSolution(
   supabase: SupabaseClient,
   category: string,
   title: string
-): Promise<{ id: string; title: string } | null> {
+): Promise<{ solution: CachedSolution; reason: MatchReason } | null> {
   const normalized = normalizeSolutionTitle(title)
+  const signature = createTitleSignature(title)
   const cache = await loadSolutionsForCategory(supabase, category)
 
-  const cachedMatch = cache.find((sol) => normalizeSolutionTitle(sol.title) === normalized)
+  const cachedMatch = cache.find(sol => sol.normalized === normalized)
   if (cachedMatch) {
-    return cachedMatch
+    return { solution: cachedMatch, reason: 'canonical' }
   }
 
   const firstWord = title.split(/\s+/).filter(Boolean)[0] ?? title
@@ -76,12 +91,36 @@ async function findMatchingSolution(
     .limit(100)
 
   for (const match of fuzzyMatches ?? []) {
-    if (!cache.some((existing) => existing.id === match.id)) {
-      cache.push(match)
+    if (!cache.some(existing => existing.id === match.id)) {
+      const matchSignature = createTitleSignature(match.title)
+      cache.push({
+        id: match.id,
+        title: match.title,
+        normalized: matchSignature.normalized,
+        canonical: matchSignature.canonical,
+        tokens: matchSignature.tokens
+      })
     }
   }
 
-  return cache.find((sol) => normalizeSolutionTitle(sol.title) === normalized) ?? null
+  const canonicalMatch = cache.find(sol => sol.canonical && sol.canonical === signature.canonical)
+  if (canonicalMatch) {
+    return { solution: canonicalMatch, reason: 'canonical' }
+  }
+
+  let bestMatch: { solution: CachedSolution; score: number } | null = null
+
+  for (const candidate of cache) {
+    const score = computeTokenOverlapScore(signature.tokens, candidate.tokens)
+
+    if (score >= 0.75) {
+      if (!bestMatch || score > bestMatch.score) {
+        bestMatch = { solution: candidate, score }
+      }
+    }
+  }
+
+  return bestMatch ? { solution: bestMatch.solution, reason: 'token' } : null
 }
 
 export interface Solution {
@@ -114,6 +153,8 @@ export async function insertSolutionToDatabase(
   const { forceWrite = false, dirtyOnly = false } = options
 
   try {
+    solution.title = enforceFirstPersonTitle(solution.title)
+
     const existingSolutions = await loadSolutionsForCategory(supabase, solution.category)
     const normalizedIncomingTitle = normalizeSolutionTitle(solution.title)
 
@@ -121,9 +162,7 @@ export async function insertSolutionToDatabase(
     let solutionId: string
     let canonicalTitle = solution.title
 
-    const cachedMatch = existingSolutions.find(
-      (existing) => normalizeSolutionTitle(existing.title) === normalizedIncomingTitle
-    )
+    const cachedMatch = existingSolutions.find(existing => existing.normalized === normalizedIncomingTitle)
 
     if (cachedMatch) {
       solutionId = cachedMatch.id
@@ -133,9 +172,10 @@ export async function insertSolutionToDatabase(
       const fuzzyMatch = await findMatchingSolution(supabase, solution.category, solution.title)
 
       if (fuzzyMatch) {
-        solutionId = fuzzyMatch.id
-        canonicalTitle = fuzzyMatch.title
-        console.log(chalk.gray(`      📎 Using existing solution: ${canonicalTitle}`))
+        solutionId = fuzzyMatch.solution.id
+        canonicalTitle = fuzzyMatch.solution.title
+        const reasonLabel = fuzzyMatch.reason === 'canonical' ? 'canonical' : 'similarity'
+        console.log(chalk.gray(`      📎 Using existing solution (${reasonLabel} match): ${canonicalTitle}`))
       } else {
         const { data: newSolution, error } = await supabase
           .from('solutions')
@@ -158,7 +198,14 @@ export async function insertSolutionToDatabase(
         console.log(chalk.gray(`      ✨ Created new solution: ${canonicalTitle}`))
 
         const cache = await loadSolutionsForCategory(supabase, solution.category)
-        cache.push({ id: solutionId, title: canonicalTitle })
+        const signature = createTitleSignature(canonicalTitle)
+        cache.push({
+          id: solutionId,
+          title: canonicalTitle,
+          normalized: signature.normalized,
+          canonical: signature.canonical,
+          tokens: signature.tokens
+        })
       }
     }
 

@@ -32,13 +32,14 @@ Star rating system: 1-5 scale
 
 #### One-time Cost Options (when cost_type = "one_time")
 - "Free"
-- "Under $5"
 - "Under $10"
-- "$10-25"
-- "$25-50"
-- "$50-100"
-- "$100-250"
-- "Over $250"
+- "$10-$24.99"
+- "$25-$49.99"
+- "$50-$99.99"
+- "$100-$249.99"
+- "$250-$499.99"
+- "$500-$999.99"
+- "$1000+"
 
 #### Subscription Cost Options (when cost_type = "subscription")
 - "Free"
@@ -544,10 +545,8 @@ Star rating system: 1-5 scale
 #### insurance_coverage
 - "Fully covered by insurance"
 - "Partially covered by insurance"
-- "Not covered by insurance"
-- "No insurance/Self-pay"
+- "Not covered by insurance/self-funded"
 - "Covered by government program (Medicare, NHS, provincial coverage, etc.)"
-- "HSA/FSA eligible (US)"
 
 #### specialty (REQUIRED for professional_services)
 - "Personal trainer/Fitness coach"
@@ -658,6 +657,7 @@ All other fields listed above are single-select dropdowns.
 - "Initially made things worse"
 
 ### Products/Devices (PurchaseForm)
+- "None"
 - "Build quality concerns"
 - "Difficult to set up"
 - "Doesn't work as advertised"
@@ -666,9 +666,9 @@ All other fields listed above are single-select dropdowns.
 - "Compatibility problems"
 - "Durability concerns"
 - "Missing features"
-- "None"
 
 ### Books/Courses (PurchaseForm)
+- "None"
 - "Too theoretical"
 - "Not enough practical examples"
 - "Outdated information"
@@ -677,9 +677,9 @@ All other fields listed above are single-select dropdowns.
 - "Instructor hard to follow"
 - "Technical issues with platform"
 - "No community support"
-- "None"
 
 ### Professional Services (SessionForm)
+- "None"
 - "Finding qualified professionals"
 - "High cost"
 - "Limited availability"
@@ -689,9 +689,9 @@ All other fields listed above are single-select dropdowns.
 - "Scheduling conflicts"
 - "Location/distance issues"
 - "Concerns about confidentiality"
-- "None"
 
 ### Crisis Resources (SessionForm)
+- "None"
 - "Long wait times"
 - "Difficulty getting through"
 - "Not the right type of help"
@@ -701,7 +701,6 @@ All other fields listed above are single-select dropdowns.
 - "Limited hours of operation"
 - "Needed different level of care"
 - "Privacy concerns"
-- "None"
 
 ## Critical Notes for Data Validation
 

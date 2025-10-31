@@ -1,0 +1,797 @@
+{
+  "Named Method": {
+    "specificityRate": 80,
+    "googleableRate": 80,
+    "hasProperNounRate": 76,
+    "sourceDistribution": {
+      "commercial": 6,
+      "community": 5,
+      "traditional": 2,
+      "academic": 4,
+      "government": 2,
+      "diy": 31
+    },
+    "duplicateRate": 18,
+    "parenthesesIssueRate": 0,
+    "categoryWordRate": 20,
+    "consistencyAcrossGoals": 23.664319132398465,
+    "consistencyAcrossArenas": 16.73320053068151,
+    "totalSolutions": 50,
+    "specificCount": 40,
+    "googleableCount": 40,
+    "properNounCount": 38,
+    "parenthesesIssues": 0,
+    "categoryWords": 10,
+    "duplicates": {},
+    "byArena": {
+      "mental_health": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "physical_health": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "relationships": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "productivity": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "career": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ]
+    },
+    "byGoal": {
+      "anxiety-1": [
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "stress-1": [
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "sleep-1": [
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "fitness-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "social-1": [
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "communication-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "procrastination-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "focus-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "skills-1": [
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "networking-1": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ]
+    }
+  },
+  "Googleable Entity": {
+    "specificityRate": 70,
+    "googleableRate": 70,
+    "hasProperNounRate": 66,
+    "sourceDistribution": {
+      "commercial": 9,
+      "community": 4,
+      "traditional": 0,
+      "academic": 1,
+      "government": 0,
+      "diy": 36
+    },
+    "duplicateRate": 18,
+    "parenthesesIssueRate": 0,
+    "categoryWordRate": 20,
+    "consistencyAcrossGoals": 28.635642126552707,
+    "consistencyAcrossArenas": 17.88854381999832,
+    "totalSolutions": 50,
+    "specificCount": 35,
+    "googleableCount": 35,
+    "properNounCount": 33,
+    "parenthesesIssues": 0,
+    "categoryWords": 10,
+    "duplicates": {},
+    "byArena": {
+      "mental_health": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "physical_health": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "relationships": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "productivity": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "career": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        true,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    "byGoal": {
+      "anxiety-1": [
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "stress-1": [
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "sleep-1": [
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "fitness-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "social-1": [
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "communication-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "procrastination-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "focus-1": [
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "skills-1": [
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "networking-1": [
+        true,
+        false,
+        false,
+        true,
+        true
+      ]
+    }
+  },
+  "Attribution Required": {
+    "specificityRate": 100,
+    "googleableRate": 100,
+    "hasProperNounRate": 100,
+    "sourceDistribution": {
+      "commercial": 7,
+      "community": 4,
+      "traditional": 7,
+      "academic": 0,
+      "government": 0,
+      "diy": 32
+    },
+    "duplicateRate": 20,
+    "parenthesesIssueRate": 0,
+    "categoryWordRate": 32,
+    "consistencyAcrossGoals": 0,
+    "consistencyAcrossArenas": 0,
+    "totalSolutions": 50,
+    "specificCount": 50,
+    "googleableCount": 50,
+    "properNounCount": 50,
+    "parenthesesIssues": 0,
+    "categoryWords": 16,
+    "duplicates": {},
+    "byArena": {
+      "mental_health": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "physical_health": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "relationships": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "productivity": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "career": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    "byGoal": {
+      "anxiety-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "stress-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "sleep-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "fitness-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "social-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "communication-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "procrastination-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "focus-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "skills-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "networking-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    }
+  },
+  "Instruction Findable": {
+    "specificityRate": 78,
+    "googleableRate": 78,
+    "hasProperNounRate": 74,
+    "sourceDistribution": {
+      "commercial": 9,
+      "community": 3,
+      "traditional": 0,
+      "academic": 1,
+      "government": 0,
+      "diy": 37
+    },
+    "duplicateRate": 10,
+    "parenthesesIssueRate": 0,
+    "categoryWordRate": 22,
+    "consistencyAcrossGoals": 26,
+    "consistencyAcrossArenas": 20.396078054371138,
+    "totalSolutions": 50,
+    "specificCount": 39,
+    "googleableCount": 39,
+    "properNounCount": 37,
+    "parenthesesIssues": 0,
+    "categoryWords": 11,
+    "duplicates": {},
+    "byArena": {
+      "mental_health": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "physical_health": [
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "relationships": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "productivity": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "career": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false
+      ]
+    },
+    "byGoal": {
+      "anxiety-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "stress-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "sleep-1": [
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "fitness-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "social-1": [
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "communication-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "procrastination-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "focus-1": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "skills-1": [
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "networking-1": [
+        true,
+        true,
+        true,
+        false,
+        false
+      ]
+    }
+  },
+  "No Categories": {
+    "specificityRate": 40,
+    "googleableRate": 52,
+    "hasProperNounRate": 52,
+    "sourceDistribution": {
+      "commercial": 7,
+      "community": 3,
+      "traditional": 0,
+      "academic": 0,
+      "government": 0,
+      "diy": 40
+    },
+    "duplicateRate": 2,
+    "parenthesesIssueRate": 0,
+    "categoryWordRate": 6,
+    "consistencyAcrossGoals": 35.77708763999664,
+    "consistencyAcrossArenas": 23.664319132398465,
+    "totalSolutions": 50,
+    "specificCount": 20,
+    "googleableCount": 26,
+    "properNounCount": 26,
+    "parenthesesIssues": 0,
+    "categoryWords": 3,
+    "duplicates": {},
+    "byArena": {
+      "mental_health": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "physical_health": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "relationships": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "productivity": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "career": [
+        true,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+      ]
+    },
+    "byGoal": {
+      "anxiety-1": [
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "stress-1": [
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "sleep-1": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "fitness-1": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "social-1": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "communication-1": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "procrastination-1": [
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "focus-1": [
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "skills-1": [
+        true,
+        false,
+        false,
+        true,
+        false
+      ],
+      "networking-1": [
+        false,
+        false,
+        true,
+        false,
+        false
+      ]
+    }
+  }
+}

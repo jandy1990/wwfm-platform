@@ -187,16 +187,21 @@ export function AppForm({
           .eq('is_active', true)
           .order('display_order');
 
-        if (!error && data && data.length > 0) {
-          setChallengeOptionsState(data.map(item => item.label));
+        if (error) {
+          console.error('[AppForm] Database error fetching challenges:', error);
+          toast.error('Failed to load challenge options. Please refresh the page.');
+          setChallengeOptionsState(['None']); // Minimal fallback to prevent crash
+        } else if (!data || data.length === 0) {
+          console.error('[AppForm] No challenge options found for category: apps_software');
+          toast.error('Challenge options not configured. Please contact support.');
+          setChallengeOptionsState(['None']);
         } else {
-          // Fallback to hardcoded options
-          setChallengeOptionsState(DROPDOWN_OPTIONS.app_challenges ?? ['None']);
+          setChallengeOptionsState(data.map(item => item.label));
         }
       } catch (err) {
-        console.error('Error fetching challenge options:', err);
-        // Fallback to hardcoded options on error
-        setChallengeOptionsState(DROPDOWN_OPTIONS.app_challenges ?? ['None']);
+        console.error('[AppForm] Exception fetching challenge options:', err);
+        toast.error('Failed to load form options. Please refresh the page.');
+        setChallengeOptionsState(['None']); // Minimal fallback to prevent crash
       } finally {
         setLoadingChallenges(false);
       }
@@ -747,13 +752,14 @@ export function AppForm({
                       )}
                       {subscriptionType === 'One-time purchase' && (
                         <>
-                          <SelectItem value="Under $5">Under $5</SelectItem>
-                          <SelectItem value="$5-$9.99">$5-$9.99</SelectItem>
+                          <SelectItem value="Under $10">Under $10</SelectItem>
                           <SelectItem value="$10-$24.99">$10-$24.99</SelectItem>
                           <SelectItem value="$25-$49.99">$25-$49.99</SelectItem>
                           <SelectItem value="$50-$99.99">$50-$99.99</SelectItem>
                           <SelectItem value="$100-$249.99">$100-$249.99</SelectItem>
-                          <SelectItem value="$250+">$250+</SelectItem>
+                          <SelectItem value="$250-$499.99">$250-$499.99</SelectItem>
+                          <SelectItem value="$500-$999.99">$500-$999.99</SelectItem>
+                          <SelectItem value="$1000+">$1000+</SelectItem>
                         </>
                       )}
                     </SelectContent>
@@ -986,10 +992,8 @@ export function AppForm({
           <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
             {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
               <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'}</>
-            ) : existingSolutionId ? (
-              <>Your experience with {solutionName} has been recorded</>
             ) : (
-              <>You're the first to review {solutionName}! It needs 2 more reviews to go live.</>
+              <>Your experience with {solutionName} has been recorded and will help people worldwide</>
             )}
           </p>
 
@@ -1023,35 +1027,38 @@ export function AppForm({
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                          appearance-none text-sm"
               />
-              
-              {(platform || notes) && (
-                <button
-                  onClick={updateAdditionalInfo}
-                  className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg
-                         text-sm font-semibold transition-colors button-focus-tight"
-                >
-                  Submit
-                </button>
-              )}
+            </div>
+
+            {/* Always-visible submit button - center aligned */}
+            <div className="text-center mt-4">
+              <button
+                onClick={updateAdditionalInfo}
+                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg
+                         font-semibold transition-colors button-focus-tight"
+              >
+                Submit extra details
+              </button>
             </div>
           </div>
 
-          <button
-            onClick={() => router.push(`/goal/${goalId}`)}
-            className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900
-                     rounded-lg font-semibold hover:bg-gray-800 dark:hover:bg-gray-100
-                     transition-all transform hover:scale-105"
-          >
-            Back to goal page
-          </button>
-
-          {/* Test Mode Auto-Return */}
-          <TestModeCountdown isTestMode={isTestMode} />
+          {/* Test Mode Return or Goal Page Navigation */}
+          {isTestMode ? (
+            <TestModeCountdown isTestMode={isTestMode} />
+          ) : (
+            <button
+              onClick={() => router.push(`/goal/${goalId}`)}
+              className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900
+                       rounded-lg font-semibold hover:bg-gray-800 dark:hover:bg-gray-100
+                       transition-all transform hover:scale-105"
+            >
+              Back to goal page
+            </button>
+          )}
         </div>
       </div>
     );
@@ -1059,34 +1066,90 @@ export function AppForm({
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-      {/* Progress Bar - Sticky */}
-      <div className="sticky top-0 z-10
-                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
-                      border-b border-gray-200 dark:border-gray-700
-                      px-4 sm:px-6 py-3 mb-8 -mx-4 sm:-mx-6 shadow-md
-                      safe-area-inset-top">
-        <div className="flex items-center justify-end mb-2">
-          <span className="text-sm text-gray-600 dark:text-gray-400">
-            Step {currentStep} of {totalSteps}
-          </span>
+      {/* Unified Form Container */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+
+        {/* Progress Bar - Integrated Header */}
+        <div className="sticky top-0 z-10
+                        bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                        px-4 sm:px-6 py-3
+                        safe-area-inset-top">
+          <div className="flex items-center justify-end mb-2">
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              Step {currentStep} of {totalSteps}
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div
+              className="bg-purple-600 h-2 rounded-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-          <div
-            className="bg-purple-600 h-2 rounded-full transition-all duration-300"
-            style={{ width: `${progress}%` }}
-          />
+
+        {/* Form Content */}
+        <div className="p-4 sm:p-6 overflow-visible">
+          {renderStep()}
         </div>
+
+        {/* Navigation - Integrated Footer */}
+        <div className="sticky bottom-0 z-10
+                        bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                        px-4 sm:px-6 py-3
+                        safe-area-inset-bottom">
+          <div className="flex justify-between">
+            {currentStep > 1 ? (
+              <button
+                onClick={() => setCurrentStep(currentStep - 1)}
+                className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                         dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
+              >
+                Back
+              </button>
+            ) : (
+              <div />
+            )}
+
+            <div className="flex gap-2">
+              {currentStep < highestStepReached && currentStep < totalSteps && (
+                <button
+                  onClick={() => setCurrentStep(currentStep + 1)}
+                  className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                           dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
+                >
+                  Forward
+                </button>
+              )}
+
+              {currentStep < totalSteps ? (
+                <button
+                  onClick={handleContinue}
+                  className="px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors bg-purple-600 hover:bg-purple-700 text-white"
+                >
+                  {currentStep === 3 ? 'Skip' : 'Continue'}
+                </button>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className={`px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors ${
+                    !isSubmitting
+                      ? 'bg-green-600 hover:bg-green-700 text-white'
+                      : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                  }`}
+                >
+                  {isSubmitting ? 'Submitting...' : 'Submit'}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      {/* Form Content */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200
-                    dark:border-gray-700 p-4 sm:p-6 overflow-visible">
-        {renderStep()}
-      </div>
-
-      {/* Step Navigation Helper Alert */}
+      {/* Step Navigation Helper Alert - Outside unified container */}
       {!canProceedToNextStep() && currentStep === 1 && (
-        <Alert className="mb-4 border-purple-200 bg-purple-50 dark:bg-purple-900/20 dark:border-purple-800">
+        <Alert className="mt-4 border-purple-200 bg-purple-50 dark:bg-purple-900/20 dark:border-purple-800">
           <Info className="h-4 w-4 text-purple-600 dark:text-purple-400" />
           <AlertDescription>
             <p className="font-semibold text-purple-900 dark:text-purple-100 mb-1">Required to continue:</p>
@@ -1100,60 +1163,6 @@ export function AppForm({
           </AlertDescription>
         </Alert>
       )}
-
-      {/* Navigation - Sticky for mobile keyboard accessibility */}
-      <div className="sticky bottom-0 left-0 right-0
-                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
-                      border-t border-gray-200 dark:border-gray-700
-                      px-4 sm:px-6 py-3 mt-6 -mx-4 sm:-mx-6 shadow-lg z-10
-                      safe-area-inset-bottom">
-        <div className="flex justify-between">
-          {currentStep > 1 ? (
-            <button
-              onClick={() => setCurrentStep(currentStep - 1)}
-              className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
-                       dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
-            >
-              Back
-            </button>
-          ) : (
-            <div />
-          )}
-
-          <div className="flex gap-2">
-            {currentStep < highestStepReached && currentStep < totalSteps && (
-              <button
-                onClick={() => setCurrentStep(currentStep + 1)}
-                className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
-                         dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
-              >
-                Forward
-              </button>
-            )}
-
-            {currentStep < totalSteps ? (
-              <button
-                onClick={handleContinue}
-                className="px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors bg-purple-600 hover:bg-purple-700 text-white"
-              >
-                {currentStep === 3 ? 'Skip' : 'Continue'}
-              </button>
-            ) : (
-              <button
-                onClick={handleSubmit}
-                disabled={isSubmitting}
-                className={`px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors ${
-                  !isSubmitting
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                }`}
-              >
-                {isSubmitting ? 'Submitting...' : 'Submit'}
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

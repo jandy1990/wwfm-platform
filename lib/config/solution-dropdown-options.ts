@@ -64,13 +64,14 @@ export const DROPDOWN_OPTIONS = {
   ],
   
   app_cost_onetime: [
-    "Under $5",
-    "$5-$9.99",
+    "Under $10",
     "$10-$24.99",
     "$25-$49.99",
     "$50-$99.99",
     "$100-$249.99",
-    "$250+"
+    "$250-$499.99",
+    "$500-$999.99",
+    "$1000+"
   ],
 
   // Union of all app cost formats (monthly, annual, one-time)
@@ -92,13 +93,14 @@ export const DROPDOWN_OPTIONS = {
     "$500-$999.99/year",
     "$1000+/year",
     // One-time purchase costs
-    "Under $5",
-    "$5-$9.99",
+    "Under $10",
     "$10-$24.99",
     "$25-$49.99",
     "$50-$99.99",
     "$100-$249.99",
-    "$250+"
+    "$250-$499.99",
+    "$500-$999.99",
+    "$1000+"
   ],
 
   app_challenges: [
@@ -113,8 +115,7 @@ export const DROPDOWN_OPTIONS = {
     "Drains battery",
     "Not enough customization",
     "Subscription fatigue",
-    "Forgot to cancel trial",
-    "Other (please describe)"
+    "Forgot to cancel trial"
   ],
 
   // ========================================
@@ -187,8 +188,7 @@ export const DROPDOWN_OPTIONS = {
     "Cost of activities",
     "Age/demographic mismatch",
     "Too competitive/not competitive enough",
-    "Communication gaps",
-    "Other (please describe)"
+    "Communication gaps"
   ],
 
   support_group_challenges: [
@@ -202,8 +202,7 @@ export const DROPDOWN_OPTIONS = {
     "Triggering content from others",
     "Time conflicts",
     "Cliques or exclusion",
-    "Not the right fit",
-    "Other (please describe)"
+    "Not the right fit"
   ],
 
   // ========================================
@@ -265,8 +264,7 @@ export const DROPDOWN_OPTIONS = {
     "Noisy environment",
     "Pet/child interruptions",
     "Time management issues",
-    "Initially worse before better",
-    "Other (please describe)"
+    "Initially worse before better"
   ],
 
   exercise_challenges: [
@@ -282,8 +280,7 @@ export const DROPDOWN_OPTIONS = {
     "Progress plateaus",
     "Schedule conflicts",
     "Energy levels",
-    "Initially worse before better",
-    "Other (please describe)"
+    "Initially worse before better"
   ],
 
   habits_challenges: [
@@ -301,8 +298,7 @@ export const DROPDOWN_OPTIONS = {
     "Competing priorities",
     "Didn't track progress",
     "All-or-nothing thinking",
-    "Initially made things worse",
-    "Other (please describe)"
+    "Initially made things worse"
   ],
 
   dosage_cost_monthly: [
@@ -362,6 +358,7 @@ export const DROPDOWN_OPTIONS = {
   ],
 
   financial_challenges: [
+    "None",
     "Credit score too low",
     "Income requirements not met",
     "Complex application process",
@@ -372,9 +369,7 @@ export const DROPDOWN_OPTIONS = {
     "Citizenship/residency requirements",
     "Hidden fees discovered",
     "Poor customer service",
-    "Technical issues with platform",
-    "None",
-    "Other"
+    "Technical issues with platform"
   ],
 
   // ========================================
@@ -446,8 +441,7 @@ export const DROPDOWN_OPTIONS = {
     "Physical limitations",
     "Information overload",
     "Perfectionism getting in the way",
-    "Hard to find good instruction",
-    "Other (please describe)"
+    "Hard to find good instruction"
   ],
 
   // ========================================
@@ -475,8 +469,7 @@ export const DROPDOWN_OPTIONS = {
     "Travel and eating out",
     "Energy dips initially",
     "Digestive adjustment",
-    "Limited food options nearby",
-    "Other (please describe)"
+    "Limited food options nearby"
   ],
   
   sleep_cost_impact: [
@@ -497,8 +490,7 @@ export const DROPDOWN_OPTIONS = {
     "Physical discomfort",
     "Missing late night activities",
     "Inconsistent results",
-    "Environmental factors (noise, light)",
-    "Other (please describe)"
+    "Environmental factors (noise, light)"
   ],
 
   generic_challenges: [
@@ -515,8 +507,7 @@ export const DROPDOWN_OPTIONS = {
     "Consistency",
     "Time constraints",
     "Initial learning curve",
-    "Social stigma",
-    "Other (please describe)"
+    "Social stigma"
   ],
   
   weekly_prep_time: [
@@ -675,6 +666,7 @@ export const DROPDOWN_OPTIONS = {
   ],
 
   product_challenges: [
+    "None",
     "Build quality concerns",
     "Difficult to set up",
     "Doesn't work as advertised",
@@ -682,12 +674,11 @@ export const DROPDOWN_OPTIONS = {
     "Battery/power issues",
     "Compatibility problems",
     "Durability concerns",
-    "Missing features",
-    "None",
-    "Other (please describe)"
+    "Missing features"
   ],
 
   learning_challenges: [
+    "None",
     "Too theoretical",
     "Not enough practical examples",
     "Outdated information",
@@ -695,9 +686,7 @@ export const DROPDOWN_OPTIONS = {
     "Too basic/too advanced",
     "Instructor hard to follow",
     "Technical issues with platform",
-    "No community support",
-    "None",
-    "Other (please describe)"
+    "No community support"
   ],
 
   // ========================================
@@ -772,8 +761,7 @@ export const DROPDOWN_OPTIONS = {
     "Hard to open up",
     "Therapist turnover",
     "Homework between sessions",
-    "Lack of immediate results",
-    "Other (please describe)"
+    "Lack of immediate results"
   ],
 
   coaching_challenges: [
@@ -786,8 +774,7 @@ export const DROPDOWN_OPTIONS = {
     "Time zone conflicts",
     "Hard to stay consistent",
     "Lack of accountability",
-    "No measurable progress",
-    "Other (please describe)"
+    "No measurable progress"
   ],
 
   medical_challenges: [
@@ -799,11 +786,11 @@ export const DROPDOWN_OPTIONS = {
     "Limited specialists nearby",
     "Side effects difficult",
     "Coordination between providers",
-    "Logistics or travel barriers",
-    "Other (please describe)"
+    "Logistics or travel barriers"
   ],
 
   professional_service_challenges: [
+    "None",
     "Finding qualified professionals",
     "High cost",
     "Limited availability",
@@ -812,12 +799,11 @@ export const DROPDOWN_OPTIONS = {
     "Too many options to choose from",
     "Scheduling conflicts",
     "Location/distance issues",
-    "Concerns about confidentiality",
-    "None",
-    "Other (please describe)"
+    "Concerns about confidentiality"
   ],
 
   crisis_challenges: [
+    "None",
     "Long wait times",
     "Difficulty getting through",
     "Not the right type of help",
@@ -826,9 +812,7 @@ export const DROPDOWN_OPTIONS = {
     "Technical issues with platform",
     "Limited hours of operation",
     "Needed different level of care",
-    "Privacy concerns",
-    "None",
-    "Other (please describe)"
+    "Privacy concerns"
   ],
   
   medical_format: [
@@ -870,10 +854,8 @@ export const DROPDOWN_OPTIONS = {
   insurance_coverage: [
     "Fully covered by insurance",
     "Partially covered by insurance",
-    "Not covered by insurance",
-    "No insurance/Self-pay",
-    "Covered by government program (Medicare, NHS, provincial coverage, etc.)",
-    "HSA/FSA eligible (US)"
+    "Not covered by insurance/self-funded",
+    "Covered by government program (Medicare, NHS, provincial coverage, etc.)"
   ],
   
   service_type: [

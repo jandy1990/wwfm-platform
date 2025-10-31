@@ -5,6 +5,19 @@
 > **Dependencies**: Node.js, TypeScript, Supabase access  
 > **Last Updated**: January 2025
 
+---
+
+## 🆕 October 2025 Update – Active Generator Path & Quality Guardrails
+
+The production generator now lives in `scripts/solution-generator/`. Key behaviours you must keep in mind when extending or running the pipeline:
+
+- **First-person titles only** – both the prompt and the inserter rewrite AI suggestions into the exact phrasing a member would type (e.g. `Sertraline (Zoloft)`, `Hatha yoga`). Broad labels like `Prescription antidepressants` are rejected.
+- **Token-based canonical matching** – before a new solution is written, the inserter compares canonical token signatures to reuse existing records (e.g. `Acupuncture session` resolves to the canonical `Acupuncture` entry instead of creating a duplicate).
+- **Automatic approval** – newly created solutions are inserted with `is_approved: true` so they surface immediately in search/browse. Deduplication ensures this only happens when a genuinely new item is generated.
+- **Shared utilities** – see `scripts/solution-generator/database/canonical.ts` for the normalisation helpers and `scripts/solution-generator/prompts/master-prompts-v2.ts` for the first-person prompt instructions.
+
+When following the historical build notes below, treat them as architectural background. For implementation details or adjustments, prefer the up-to-date codebase under `scripts/solution-generator/`.
+
 ## 📚 Required Documentation
 
 Before starting, ensure you have access to these files:

@@ -10,7 +10,7 @@ This reference captures every touchpoint a solution field travels through — fr
 | Aggregation | `lib/services/solution-aggregator.ts` | Aggregates human ratings into `goal_implementation_links.aggregated_fields` using `types/aggregated-fields.ts`. Protects AI data until enough human ratings exist. |
 | Display | `components/goal/GoalPageClient.tsx` | Reads `aggregated_fields`, applies `CATEGORY_CONFIG` key fields and array fields, handles composite cost presentation. |
 | AI regeneration (V3) | `scripts/generate-validated-fields-v3.ts` + `scripts/field-generation-utils/*` | Uses `CATEGORY_FIELD_CONFIG` and dropdown options from `lib/config/*` to build prompts, validate, deduplicate, and push aligned `aggregated_fields`. |
-| Auditing & recovery | `scripts/audit-category-alignment.ts`, `scripts/validate-field-quality.ts`, `docs/recovery/FIELD_VALIDATION_REQUIREMENTS.md` | Scripts confirm config/doc/UI alignment; recovery notes mirror the SSOT. |
+| Auditing & recovery | `scripts/audit-category-alignment.ts`, `scripts/validate-field-quality.ts`, see CLAUDE.md for quality standards | Scripts confirm config/doc/UI alignment. |
 
 ## Detailed Flow
 1. **Collection (Frontend)**  
@@ -36,7 +36,7 @@ This reference captures every touchpoint a solution field travels through — fr
    - Config re-exports from `lib/config/solution-fields.ts` and `lib/config/solution-dropdown-options.ts` ensure the CLI, forms, and UI share the same SSOT.
 
 ## Quality Gates
-- **Documentation**: `docs/solution-fields-ssot.md`, `complete-field-analysis.md`, and `docs/recovery/FIELD_VALIDATION_REQUIREMENTS.md` all mirror the same matrix. Update the SSOT first, then propagate.  
+- **Documentation**: `docs/solution-fields-ssot.md` is the authoritative documentation (synced to GoalPageClient.tsx). All configs and validators reference this SSOT.  
 - **Scripts**: Run `scripts/audit-category-alignment.ts` after any schema/config tweak to verify forms, SSOT, and generator remain in sync.  
 - **Testing**: `npm run quality:audit:fields` (via `scripts/validate-field-quality.ts`) checks generated distributions against dropdown catalogs.
 

@@ -1,47 +1,52 @@
-# WWFM Documentation Index
-
-## 📊 Current Project Status
-- [Current State and Next Steps](./CURRENT_STATE_AND_NEXT_STEPS.md) - Latest project status and priorities
-- [Project Roadmap](./PROJECT_STATUS_JANUARY_2025.md) - Development roadmap and milestones
-
-## 🎯 Strategic Decisions
-- [Architecture Decision Records](./decisions/README.md) - Important architectural and strategic decisions
-- [Goal Curation Decision](./decisions/goal-curation-2025.md) - Why we reduced from 781 to 228 goals
-
-## 🔧 Technical References
-- [Database Schema](./database/schema.md) - Complete database structure and relationships
-- [Solution Fields Matrix](./WWFM%20Solution%20Fields%20Matrix%20-%20Code-Aligned.md) - Field mappings across all forms
-- [Architecture](./architecture/SOLUTION_SEARCH_DATA_FLOW.md) - System architecture and data flow
-
-## 🧪 Testing
-- [Testing Guide](./testing/README.md) - Comprehensive E2E testing documentation
-- [Quick Commands](./testing/quick-reference.md) - Common test commands reference
-- [GitHub Secrets Setup](./testing/github-secrets-setup.md) - CI/CD configuration
-- [Implementation Plan](./testing/implementation-plan.md) - Testing rollout strategy
-
-## ✨ Features
-- [Goal Page](./features/goal-page.md) - Goal page implementation details
-- [Forms](./forms/README.md) - Form system documentation
-
-## 🚀 Operations
-- [Supabase Connection](./technical/supabase-connection-guide.md) - Database connection setup
-- [AI Solution Generation](./WWFM%20Solution%20Generation%20Instructions.md) - Instructions for AI-seeding solutions
-
-## 📚 Archive
-Historical documentation, resolved issues, and superseded guides are stored in [/docs/archive](./archive/) for reference.
+# WWFM Documentation
+**Last Updated:** October 31, 2025
 
 ---
 
-## Quick Links
-- **Main README**: [/README.md](../README.md)
-- **AI Instructions**: [/CLAUDE.md](../CLAUDE.md)
-- **Architecture**: [/ARCHITECTURE.md](../ARCHITECTURE.md)
+## 🚀 Start Here
 
-## Documentation Standards
-- Keep documentation current with code changes
-- Archive outdated docs rather than deleting
-- Use clear, descriptive filenames
-- Include creation/update dates in documents
-- Link between related documents
+- [**Project README**](../README.md) - Overview and quick start
+- [**CLAUDE.md**](../CLAUDE.md) - AI assistant guide (technical details, SSOT references, quality standards)
+- [**ARCHITECTURE.md**](../ARCHITECTURE.md) - System design (forms, data flow, patterns)
 
-Last Updated: 2025-09-14
+---
+
+## 📊 Key References
+
+- [**Solution Fields SSOT**](solution-fields-ssot.md) - Category-field mappings (authority: GoalPageClient.tsx)
+- [**Dropdown Options**](../FORM_DROPDOWN_OPTIONS_REFERENCE.md) - Exact form dropdown values
+- [**Testing Guide**](../tests/README.md) - Complete test setup and debugging
+
+---
+
+## 📁 All Documentation
+
+### Architecture & Data
+- [Solution Field Data Flow](solution-field-data-flow.md) - Form → Database → Display pipeline
+- [Solution Search Flow](architecture/SOLUTION_SEARCH_DATA_FLOW.md) - Search implementation
+- [Database Schema](database/schema.md) - Complete schema
+
+### Testing
+- [Testing README](../tests/README.md) - Main testing guide
+- [Quick Reference](testing/QUICK_REFERENCE.md) - Common commands
+- [Start Here](testing/START-HERE-TESTING.md) - Entry point
+
+### Features
+- [Goal Page](features/goal-page.md) - Goal page features
+- [Forms](forms/README.md) - Form system
+
+### Technical
+- [Supabase Connection](technical/supabase-connection-guide.md) - Database connection details (gitignored)
+
+### Recovery
+- [Recovery Procedures](recovery/) - Field validation and recovery
+
+---
+
+## 🗂️ Archive
+
+Historical documentation: [archive/README.md](archive/README.md)
+
+---
+
+**For detailed navigation:** See CLAUDE.md Documentation Map or README.md

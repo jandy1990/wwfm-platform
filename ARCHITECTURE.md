@@ -99,6 +99,29 @@ The system uses JSONB columns for flexible data storage:
 **Aggregated Data** (`goal_implementation_links.aggregated_fields`):
 ```json
 {
+  // 3-4 key display fields (from CATEGORY_CONFIG.keyFields)
+  // Example for medications category:
+  "time_to_results": {
+    "mode": "3-4 weeks",
+    "values": [
+      {"value": "3-4 weeks", "count": 15, "percentage": 60},
+      {"value": "1-2 months", "count": 10, "percentage": 40}
+    ],
+    "totalReports": 25
+  },
+  "frequency": {
+    "mode": "Twice daily",
+    "values": [
+      {"value": "Twice daily", "count": 12, "percentage": 48},
+      {"value": "Daily", "count": 8, "percentage": 32},
+      {"value": "As needed", "count": 5, "percentage": 20}
+    ],
+    "totalReports": 25
+  },
+  "length_of_use": {
+    "mode": "3-6 months",
+    "values": [...]
+  },
   "cost": {
     "mode": "$10-25/month",
     "values": [
@@ -107,16 +130,23 @@ The system uses JSONB columns for flexible data storage:
     ],
     "totalReports": 25
   },
+
+  // 1 array field (from CATEGORY_CONFIG.arrayField) - displayed separately as pills
   "side_effects": {
     "mode": "Nausea",
     "values": [
       {"value": "Nausea", "count": 12, "percentage": 48},
-      {"value": "Headache", "count": 8, "percentage": 32}
+      {"value": "Headache", "count": 8, "percentage": 32},
+      {"value": "Dizziness", "count": 5, "percentage": 20}
     ],
     "totalReports": 25
   }
 }
 ```
+
+**Note:** Array field (challenges or side_effects) is stored in same JSONB structure but displayed separately on frontend as pills below the key fields.
+
+**SSOT Reference:** See `components/goal/GoalPageClient.tsx` CATEGORY_CONFIG (Lines 56-407) for authoritative field lists per category.
 
 This dual-storage approach preserves individual contributions while enabling efficient aggregated displays.
 
@@ -358,29 +388,27 @@ export async function GET(request: Request) {
 
 ### Form System Architecture
 
-9 form templates handle 23 solution categories:
+**Overview:** 9 form templates handle 23 solution categories through smart routing.
 
+**Example Mapping:**
 ```typescript
 // Form selection based on category
 const formComponents = {
-  dosage_form: DosageForm,      // 4 categories
-  session_form: SessionForm,     // 7 categories
-  practice_form: PracticeForm,   // 3 categories
-  purchase_form: PurchaseForm,   // 2 categories
-  app_form: AppForm,            // 1 category
-  community_form: CommunityForm, // 2 categories
-  lifestyle_form: LifestyleForm, // 2 categories
-  hobby_form: HobbyForm,        // 1 category
-  financial_form: FinancialForm // 1 category
+  dosage_form: DosageForm,      // 4 categories (medications, supplements, natural_remedies, beauty)
+  session_form: SessionForm,     // 7 categories (therapists, doctors, coaches, etc.)
+  practice_form: PracticeForm,   // 3 categories (meditation, exercise, habits)
+  // ... 6 more forms
 };
 
 const categoryToForm = {
   'medications': 'dosage_form',
   'therapists_counselors': 'session_form',
   'exercise_movement': 'practice_form',
-  // ... etc
+  // ... see Form System Reference for complete mapping
 };
 ```
+
+**Note:** Form-to-category routing is implemented in `components/organisms/solutions/SolutionFormWithAutoCategory.tsx`
 
 ### Auto-Categorization System
 
@@ -630,7 +658,22 @@ This ensures trackable, ratable solutions rather than vague categories.
 
 ---
 
-**Next Steps**: 
-- See [Database Schema](/docs/database/schema.md) for detailed table structures
-- See [Solution Search Data Flow](/docs/architecture/SOLUTION_SEARCH_DATA_FLOW.md) for complete search pipeline
-- See [Form Templates](/docs/forms/README.md) for form implementation details
+## 📚 Related Documentation
+
+**Design & Implementation:**
+- [Solution Field Data Flow](/docs/solution-field-data-flow.md) - Complete data pipeline
+- [Solution Search Flow](/docs/architecture/SOLUTION_SEARCH_DATA_FLOW.md) - Search implementation
+
+**Data & Configuration:**
+- [Solution Fields SSOT](/docs/solution-fields-ssot.md) - Category-field authority
+- [Dropdown Options Reference](/FORM_DROPDOWN_OPTIONS_REFERENCE.md) - Exact dropdown values
+- [Database Schema](/docs/database/schema.md) - Complete table structures
+- [CLAUDE.md](/CLAUDE.md) - Quality standards, configuration, database setup
+
+**Development:**
+- [README.md](/README.md) - Project overview
+- [CLAUDE.md](/CLAUDE.md) - AI assistant guide
+- [Testing Guide](/tests/README.md) - Test setup
+
+**For Complete Navigation:**
+- [Documentation Hub](/docs/README.md) - All documentation indexed

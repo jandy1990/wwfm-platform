@@ -15,6 +15,7 @@ import { insertSolutionToDatabase } from '../database/inserter'
 import { getV2SolutionPrompt } from '../prompts/master-prompts-v2'
 import { parseJSONSafely } from '../utils/json-repair'
 import chalk from 'chalk'
+import { enforceFirstPersonTitle } from '../database/canonical'
 
 export interface Goal {
   id: string
@@ -80,21 +81,32 @@ export async function generateSolutionsForGoal(
     return 0
   }
 
-  console.log(chalk.gray(`   📋 AI recommended ${parsedSolutions.length} solutions`))
-  parsedSolutions
+  const sanitizedSolutions = parsedSolutions.map(solution => {
+    const enforcedTitle = enforceFirstPersonTitle(solution.title)
+    if (enforcedTitle !== solution.title) {
+      console.log(chalk.gray(`      ✏️  Rewriting title to first-person: "${solution.title}" → "${enforcedTitle}"`))
+    }
+    return {
+      ...solution,
+      title: enforcedTitle
+    }
+  })
+
+  console.log(chalk.gray(`   📋 AI recommended ${sanitizedSolutions.length} solutions`))
+  sanitizedSolutions
     .slice(0, 3)
     .forEach((sol, idx) => console.log(chalk.gray(`      ${idx + 1}. ${sol.title} (${sol.effectiveness}★) - ${sol.category}`)))
 
   if (dryRun) {
-    parsedSolutions.forEach(sol => {
+    sanitizedSolutions.forEach(sol => {
       console.log(chalk.gray(`      - ${sol.title} (${sol.category}): ${sol.effectiveness}★`))
     })
-    return parsedSolutions.length
+    return sanitizedSolutions.length
   }
 
   let insertedCount = 0
 
-  for (const rawSolution of parsedSolutions) {
+  for (const rawSolution of sanitizedSolutions) {
     const categoryConfig = CATEGORY_FIELDS[rawSolution.category]
     if (!categoryConfig) {
       console.log(chalk.yellow(`      ⚠️  Unknown category: ${rawSolution.category}, skipping`))

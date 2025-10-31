@@ -1,0 +1,131 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: e51fd32f-18f7-47e9-bbc2-1e42abed92db
+✅ Loaded 16 solutions for "Improve productivity"
+Validating 16 solutions after filters
+
+🔍 Validating books_courses (2 solutions)
+  ✅ Getting Things Done (GTD) by David Allen: format - OK
+  ✅ Getting Things Done (GTD) by David Allen: learning_difficulty - OK
+  ✅ Getting Things Done (GTD) by David Allen: cost - OK
+  ✅ Getting Things Done (GTD) by David Allen: time_to_results - OK
+  ✅ Getting Things Done (GTD) by David Allen: challenges - OK
+  ✅ Deep Work by Cal Newport: format - OK
+  ✅ Deep Work by Cal Newport: learning_difficulty - OK
+  ✅ Deep Work by Cal Newport: cost - OK
+  ✅ Deep Work by Cal Newport: time_to_results - OK
+  ✅ Deep Work by Cal Newport: challenges - OK
+
+🔍 Validating habits_routines (3 solutions)
+  ✅ The Pomodoro Technique: time_commitment - OK
+  ✅ The Pomodoro Technique: frequency - OK
+  ✅ The Pomodoro Technique: startup_cost - OK
+  ✅ The Pomodoro Technique: ongoing_cost - OK
+  ✅ The Pomodoro Technique: time_to_results - OK
+  ✅ The Pomodoro Technique: challenges - OK
+  ✅ Daily Journaling (e.g., using a bullet journal): time_commitment - OK
+  ✅ Daily Journaling (e.g., using a bullet journal): frequency - OK
+  ✅ Daily Journaling (e.g., using a bullet journal): startup_cost - OK
+  ✅ Daily Journaling (e.g., using a bullet journal): ongoing_cost - OK
+  ✅ Daily Journaling (e.g., using a bullet journal): time_to_results - OK
+  ✅ Daily Journaling (e.g., using a bullet journal): challenges - OK
+  ✅ Time Blocking: time_commitment - OK
+  ✅ Time Blocking: frequency - OK
+  ✅ Time Blocking: startup_cost - OK
+  ✅ Time Blocking: ongoing_cost - OK
+  ✅ Time Blocking: time_to_results - OK
+  ✅ Time Blocking: challenges - OK
+
+🔍 Validating apps_software (5 solutions)
+  ✅ Forest App - Stay Focused: usage_frequency - OK
+  ✅ Forest App - Stay Focused: subscription_type - OK
+  ✅ Forest App - Stay Focused: cost - OK
+  ✅ Forest App - Stay Focused: time_to_results - OK
+  ✅ Forest App - Stay Focused: challenges - OK
+  ✅ Todoist: usage_frequency - OK
+  ✅ Todoist: subscription_type - OK
+  ✅ Todoist: cost - OK
+  ✅ Todoist: time_to_results - OK
+  ✅ Todoist: challenges - OK
+  ✅ Headspace App: usage_frequency - OK
+  ✅ Headspace App: subscription_type - OK
+  ✅ Headspace App: cost - OK
+  ✅ Headspace App: time_to_results - OK
+  ✅ Headspace App: challenges - OK
+  ✅ XMind: usage_frequency - OK
+  ✅ XMind: subscription_type - OK
+  ✅ XMind: cost - OK
+  ✅ XMind: time_to_results - OK
+  ✅ XMind: challenges - OK
+  ✅ Streaks App: usage_frequency - OK
+  ✅ Streaks App: subscription_type - OK
+  ✅ Streaks App: cost - OK
+  ✅ Streaks App: time_to_results - OK
+  ✅ Streaks App: challenges - OK
+
+🔍 Validating products_devices (2 solutions)
+  ✅ Blue Light Blocking Glasses: ease_of_use - OK
+  ✅ Blue Light Blocking Glasses: product_type - OK
+  ✅ Blue Light Blocking Glasses: cost - OK
+  ✅ Blue Light Blocking Glasses: time_to_results - OK
+  ✅ Blue Light Blocking Glasses: challenges - OK
+  ✅ Herman Miller Aeron: ease_of_use - OK
+  ✅ Herman Miller Aeron: product_type - OK
+  ✅ Herman Miller Aeron: cost - OK
+  ✅ Herman Miller Aeron: time_to_results - OK
+  ✅ Herman Miller Aeron: challenges - OK
+
+🔍 Validating diet_nutrition (1 solutions)
+  ✅ Intermittent Fasting (16/8 Method): weekly_prep_time - OK
+  ✅ Intermittent Fasting (16/8 Method): still_following - OK
+  ✅ Intermittent Fasting (16/8 Method): cost - OK
+  ✅ Intermittent Fasting (16/8 Method): time_to_results - OK
+  ✅ Intermittent Fasting (16/8 Method): challenges - OK
+
+🔍 Validating exercise_movement (1 solutions)
+  ✅ C25K (Couch to 5K): frequency - OK
+  ✅ C25K (Couch to 5K): duration - OK
+  ✅ C25K (Couch to 5K): startup_cost - OK
+  ✅ C25K (Couch to 5K): ongoing_cost - OK
+  ✅ C25K (Couch to 5K): time_to_results - OK
+  ✅ C25K (Couch to 5K): challenges - OK
+
+🔍 Validating supplements_vitamins (2 solutions)
+  ✅ Nature Made Vitamin D3 2000 IU: frequency - OK
+  ✅ Nature Made Vitamin D3 2000 IU: length_of_use - OK
+  ✅ Nature Made Vitamin D3 2000 IU: time_to_results - OK
+  ✅ Nature Made Vitamin D3 2000 IU: side_effects - OK
+  ✅ Nature Made Vitamin D3 2000 IU: frequency - OK
+  ✅ Nature Made Vitamin D3 2000 IU: length_of_use - OK
+  ✅ Nature Made Vitamin D3 2000 IU: time_to_results - OK
+  ✅ Nature Made Vitamin D3 2000 IU: side_effects - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Improve productivity"
+   Solutions: 16
+   Categories: 7 (books_courses, habits_routines, apps_software, products_devices, diet_nutrition, exercise_movement, supplements_vitamins)
+   Fields checked: 82
+
+📈 Quality Metrics:
+   ✅ Valid fields: 82
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   books_courses: 0/10 issues (0.0%)
+   habits_routines: 0/18 issues (0.0%)
+   apps_software: 0/25 issues (0.0%)
+   products_devices: 0/10 issues (0.0%)
+   diet_nutrition: 0/5 issues (0.0%)
+   exercise_movement: 0/6 issues (0.0%)
+   supplements_vitamins: 0/8 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend

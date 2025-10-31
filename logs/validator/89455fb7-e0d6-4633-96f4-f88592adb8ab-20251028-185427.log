@@ -1,0 +1,156 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 89455fb7-e0d6-4633-96f4-f88592adb8ab
+✅ Loaded 22 solutions for "Reduce inflammation"
+Validating 22 solutions after filters
+
+🔍 Validating apps_software (1 solutions)
+  ✅ Headspace Guided Meditations: usage_frequency - OK
+  ✅ Headspace Guided Meditations: subscription_type - OK
+  ✅ Headspace Guided Meditations: cost - OK
+  ✅ Headspace Guided Meditations: time_to_results - OK
+  ✅ Headspace Guided Meditations: challenges - OK
+
+🔍 Validating habits_routines (2 solutions)
+  ✅ Mindful Eating Practice: time_commitment - OK
+  ✅ Mindful Eating Practice: frequency - OK
+  ✅ Mindful Eating Practice: startup_cost - OK
+  ✅ Mindful Eating Practice: ongoing_cost - OK
+  ✅ Mindful Eating Practice: time_to_results - OK
+  ✅ Mindful Eating Practice: challenges - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): time_commitment - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): frequency - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): startup_cost - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): ongoing_cost - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): time_to_results - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): challenges - OK
+
+🔍 Validating supplements_vitamins (10 solutions)
+  ✅ Quercetin with Bromelain Supplement: frequency - OK
+  ✅ Quercetin with Bromelain Supplement: length_of_use - OK
+  ✅ Quercetin with Bromelain Supplement: time_to_results - OK
+  ✅ Quercetin with Bromelain Supplement: side_effects - OK
+  ✅ Ashwagandha Supplement: frequency - OK
+  ✅ Ashwagandha Supplement: length_of_use - OK
+  ✅ Ashwagandha Supplement: time_to_results - OK
+  ✅ Ashwagandha Supplement: side_effects - OK
+  ✅ Magnesium: frequency - OK
+  ✅ Magnesium: length_of_use - OK
+  ✅ Magnesium: time_to_results - OK
+  ✅ Magnesium: side_effects - OK
+  ✅ Magnesium: frequency - OK
+  ✅ Magnesium: length_of_use - OK
+  ✅ Magnesium: time_to_results - OK
+  ✅ Magnesium: side_effects - OK
+  ✅ Curcumin (from Turmeric): frequency - OK
+  ✅ Curcumin (from Turmeric): length_of_use - OK
+  ✅ Curcumin (from Turmeric): time_to_results - OK
+  ✅ Curcumin (from Turmeric): side_effects - OK
+  ✅ Ashwagandha Supplement: frequency - OK
+  ✅ Ashwagandha Supplement: length_of_use - OK
+  ✅ Ashwagandha Supplement: time_to_results - OK
+  ✅ Ashwagandha Supplement: side_effects - OK
+  ✅ Quercetin with Bromelain Supplement: frequency - OK
+  ✅ Quercetin with Bromelain Supplement: length_of_use - OK
+  ✅ Quercetin with Bromelain Supplement: time_to_results - OK
+  ✅ Quercetin with Bromelain Supplement: side_effects - OK
+  ✅ Omega-3 Fish Oil Supplement (Nordic Naturals): frequency - OK
+  ✅ Omega-3 Fish Oil Supplement (Nordic Naturals): length_of_use - OK
+  ✅ Omega-3 Fish Oil Supplement (Nordic Naturals): time_to_results - OK
+  ✅ Omega-3 Fish Oil Supplement (Nordic Naturals): side_effects - OK
+  ✅ Curcumin (from Turmeric): frequency - OK
+  ✅ Curcumin (from Turmeric): length_of_use - OK
+  ✅ Curcumin (from Turmeric): time_to_results - OK
+  ✅ Curcumin (from Turmeric): side_effects - OK
+  ✅ Omega-3 Fish Oil Supplement (Nordic Naturals): frequency - OK
+  ✅ Omega-3 Fish Oil Supplement (Nordic Naturals): length_of_use - OK
+  ✅ Omega-3 Fish Oil Supplement (Nordic Naturals): time_to_results - OK
+  ✅ Omega-3 Fish Oil Supplement (Nordic Naturals): side_effects - OK
+
+🔍 Validating sleep (1 solutions)
+  ✅ Sleep: previous_sleep_hours - OK
+  ✅ Sleep: still_following - OK
+  ✅ Sleep: cost - OK
+  ✅ Sleep: time_to_results - OK
+  ✅ Sleep: challenges - OK
+
+🔍 Validating books_courses (1 solutions)
+  ✅ Dr. Weil's Anti-Inflammatory Diet: format - OK
+  ✅ Dr. Weil's Anti-Inflammatory Diet: learning_difficulty - OK
+  ✅ Dr. Weil's Anti-Inflammatory Diet: cost - OK
+  ✅ Dr. Weil's Anti-Inflammatory Diet: time_to_results - OK
+  ✅ Dr. Weil's Anti-Inflammatory Diet: challenges - OK
+
+🔍 Validating diet_nutrition (1 solutions)
+  ✅ The Mediterranean Diet: weekly_prep_time - OK
+  ✅ The Mediterranean Diet: still_following - OK
+  ✅ The Mediterranean Diet: cost - OK
+  ✅ The Mediterranean Diet: time_to_results - OK
+  ✅ The Mediterranean Diet: challenges - OK
+
+🔍 Validating medications (3 solutions)
+  ✅ Low-Dose Naltrexone (LDN): frequency - OK
+  ✅ Low-Dose Naltrexone (LDN): length_of_use - OK
+  ✅ Low-Dose Naltrexone (LDN): time_to_results - OK
+  ✅ Low-Dose Naltrexone (LDN): side_effects - OK
+  ✅ Low-Dose Naltrexone (LDN): frequency - OK
+  ✅ Low-Dose Naltrexone (LDN): length_of_use - OK
+  ✅ Low-Dose Naltrexone (LDN): time_to_results - OK
+  ✅ Low-Dose Naltrexone (LDN): side_effects - OK
+  ✅ Low-Dose Naltrexone (LDN): frequency - OK
+  ✅ Low-Dose Naltrexone (LDN): length_of_use - OK
+  ✅ Low-Dose Naltrexone (LDN): time_to_results - OK
+  ✅ Low-Dose Naltrexone (LDN): side_effects - OK
+
+🔍 Validating products_devices (1 solutions)
+  ✅ Ice Baths: ease_of_use - OK
+  ✅ Ice Baths: product_type - OK
+  ✅ Ice Baths: cost - OK
+  ✅ Ice Baths: time_to_results - OK
+  ✅ Ice Baths: challenges - OK
+
+🔍 Validating exercise_movement (2 solutions)
+  ✅ Yoga: frequency - OK
+  ✅ Yoga: duration - OK
+  ✅ Yoga: startup_cost - OK
+  ✅ Yoga: ongoing_cost - OK
+  ✅ Yoga: time_to_results - OK
+  ✅ Yoga: challenges - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): frequency - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): duration - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): startup_cost - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): ongoing_cost - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): time_to_results - OK
+  ✅ Regular Aerobic Exercise (e.g., Brisk Walking): challenges - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Reduce inflammation"
+   Solutions: 22
+   Categories: 9 (apps_software, habits_routines, supplements_vitamins, sleep, books_courses, diet_nutrition, medications, products_devices, exercise_movement)
+   Fields checked: 101
+
+📈 Quality Metrics:
+   ✅ Valid fields: 101
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   apps_software: 0/5 issues (0.0%)
+   habits_routines: 0/12 issues (0.0%)
+   supplements_vitamins: 0/40 issues (0.0%)
+   sleep: 0/5 issues (0.0%)
+   books_courses: 0/5 issues (0.0%)
+   diet_nutrition: 0/5 issues (0.0%)
+   medications: 0/12 issues (0.0%)
+   products_devices: 0/5 issues (0.0%)
+   exercise_movement: 0/12 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend

@@ -9,12 +9,29 @@ interface UserDropdownProps {
   user: User
   onSignOut: () => void
   retrospectiveCount?: number
+  isOpen?: boolean
+  onClose?: () => void
+  pointsData?: UserPointsData | null
 }
 
-export default function UserDropdown({ user, onSignOut, retrospectiveCount = 0 }: UserDropdownProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [pointsData, setPointsData] = useState<UserPointsData | null>(null)
+export default function UserDropdown({
+  user,
+  onSignOut,
+  retrospectiveCount = 0,
+  isOpen: controlledIsOpen,
+  onClose,
+  pointsData: externalPointsData
+}: UserDropdownProps) {
+  const [internalIsOpen, setInternalIsOpen] = useState(false)
+  const [internalPointsData, setInternalPointsData] = useState<UserPointsData | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Use controlled state if provided, otherwise use internal state
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen
+  const setIsOpen = onClose !== undefined ? onClose : setInternalIsOpen
+
+  // Use external points data if provided, otherwise use internal
+  const pointsData = externalPointsData !== undefined ? externalPointsData : internalPointsData
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -40,20 +57,21 @@ export default function UserDropdown({ user, onSignOut, retrospectiveCount = 0 }
     return () => document.removeEventListener('keydown', handleEscape)
   }, [])
 
-  // Load user points data
+  // Load user points data only if not provided externally
   useEffect(() => {
-    if (user.id) {
-      getUserPoints(user.id).then(setPointsData)
+    if (user.id && externalPointsData === undefined) {
+      getUserPoints(user.id).then(setInternalPointsData)
     }
-  }, [user.id])
+  }, [user.id, externalPointsData])
 
-  // Listen for points gained events
+  // Listen for points gained events only if managing own state
   useEffect(() => {
+    if (externalPointsData !== undefined) return // Skip if using external data
+
     const handlePointsGained = (event: CustomEvent) => {
       const increment = event.detail.points
-      if (pointsData) {
-        const newPoints = pointsData.points + increment
-        getUserPoints(user.id).then(setPointsData)
+      if (internalPointsData) {
+        getUserPoints(user.id).then(setInternalPointsData)
       }
     }
 
@@ -61,44 +79,46 @@ export default function UserDropdown({ user, onSignOut, retrospectiveCount = 0 }
     return () => {
       window.removeEventListener('pointsGained', handlePointsGained as EventListener)
     }
-  }, [pointsData, user.id])
+  }, [internalPointsData, user.id, externalPointsData])
 
   const userInitial = user.email?.[0].toUpperCase() || 'U'
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Trigger Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2
-                   text-sm font-medium text-gray-700 dark:text-gray-300
-                   bg-gray-100 dark:bg-gray-700
-                   hover:bg-gray-200 dark:hover:bg-gray-600
-                   rounded-md transition-colors
-                   focus:outline-none focus:ring-2 focus:ring-purple-500"
-        aria-expanded={isOpen}
-        aria-haspopup="true"
-      >
-        {/* Avatar */}
-        <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold">
-          {userInitial}
-        </div>
-
-        {/* Email - hidden on small screens */}
-        <span className="hidden sm:block max-w-[120px] truncate">
-          {user.email}
-        </span>
-
-        {/* Chevron */}
-        <svg
-          className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+      {/* Trigger Button - Only show if not controlled from parent */}
+      {controlledIsOpen === undefined && (
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center gap-2 px-3 py-2
+                     text-sm font-medium text-gray-700 dark:text-gray-300
+                     bg-gray-100 dark:bg-gray-700
+                     hover:bg-gray-200 dark:hover:bg-gray-600
+                     rounded-md transition-colors
+                     focus:outline-none focus:ring-2 focus:ring-purple-500"
+          aria-expanded={isOpen}
+          aria-haspopup="true"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
+          {/* Avatar */}
+          <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold">
+            {userInitial}
+          </div>
+
+          {/* Email - hidden on small screens */}
+          <span className="hidden sm:block max-w-[120px] truncate">
+            {user.email}
+          </span>
+
+          {/* Chevron */}
+          <svg
+            className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+      )}
 
       {/* Dropdown Menu */}
       {isOpen && (
@@ -120,37 +140,50 @@ export default function UserDropdown({ user, onSignOut, retrospectiveCount = 0 }
               {user.email_confirmed_at ? '✅ Verified' : '⚠️ Not verified'}
             </p>
 
-            {/* Points Display */}
-            {pointsData && (
-              <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
-                    Contribution Points
-                  </span>
-                  <span className="text-sm font-semibold text-amber-600 dark:text-purple-500">
-                    {pointsData.points.toLocaleString()}
-                  </span>
-                </div>
-
-                {pointsData.nextMilestone && (
-                  <>
-                    <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5 mb-1">
-                      <div
-                        className="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-500"
-                        style={{ width: `${pointsData.nextMilestone.progress}%` }}
-                      />
-                    </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-500">
-                      {pointsData.nextMilestone.threshold - pointsData.points} to {pointsData.nextMilestone.name}
-                    </p>
-                  </>
-                )}
+            {/* Points Display - Always visible */}
+            <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                  Contribution Points
+                </span>
+                <span className="text-sm font-semibold text-amber-600 dark:text-purple-500">
+                  {pointsData ? pointsData.points.toLocaleString() : '...'}
+                </span>
               </div>
-            )}
+
+              {pointsData?.nextMilestone && (
+                <>
+                  <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5 mb-1">
+                    <div
+                      className="bg-gradient-to-r from-purple-500 to-purple-600 h-1.5 rounded-full transition-all duration-500"
+                      style={{ width: `${pointsData.nextMilestone.progress}%` }}
+                    />
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-500">
+                    {pointsData.nextMilestone.threshold - pointsData.points} to {pointsData.nextMilestone.name}
+                  </p>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Menu Items */}
           <div className="py-1">
+            <Link
+              href="/dashboard"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-4 py-2
+                       text-sm text-gray-700 dark:text-gray-300
+                       hover:bg-gray-100 dark:hover:bg-gray-700
+                       transition-colors"
+              role="menuitem"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Dashboard
+            </Link>
+
             <Link
               href="/profile"
               onClick={() => setIsOpen(false)}

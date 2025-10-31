@@ -50,7 +50,7 @@ AI data stored in research-based DistributionData format:
 - **`generation-manager.ts`**: Manages generation batches and API limits
 - **`monitor-expansion.ts`**: Progress monitoring and quality tracking
 
-- **`database/inserter.ts`**: Writes solutions/goals safely (duplicates collapsed via canonical-title matching, distributions diversified before insert)
+- **`database/inserter.ts`**: Writes solutions/goals safely (token-based canonical matching prevents duplicates, distributions diversified before insert)
 - **`generators/solution-generator.ts`**: Orchestrates required-field prompts, alias mapping, validation, retries
 - **`prompts/master-prompts-improved.ts`**: Evidence-based prompting strategy for per-field distributions
 
@@ -136,8 +136,12 @@ npx tsx check-progress.ts
 - **Transition-ready**: Format compatible with human data display
 - **Quality maintained**: No degradation over batch sizes
 
+### Verification
+- Run `npx vitest run scripts/solution-generator/database/canonical.test.ts` to confirm first-person naming & duplicate-matching heuristics remain intact.
+
 ### Recent Improvements (October 2025)
-- **Solution Canonicalisation** – `database/inserter.ts` normalises titles (drops leading articles, punctuation, casing) and reuses existing records; prevents duplicate entries like “BetterHelp online CBT” vs “Cognitive Behavioral Therapy via BetterHelp”.
+- **Solution Canonicalisation** – `database/inserter.ts` now applies token-based canonical signatures to collapse duplicates (e.g. “Prescription antidepressants (Sertraline/Zoloft)” resolves to existing “Sertraline (Zoloft)”).
+- **First-Person Title Enforcement** – generator and inserter rewrite AI suggestions into the exact phrasing a member would submit (“Hatha yoga”, not “Yoga practice (Hatha yoga)”).
 - **Dropdown Alias Mapping** – enhanced `mapFieldToDropdown` handles practice/session/app frequency aliases (`once daily`, `video/online`, etc.) so Gemini outputs land on approved SSOT values.
 - **Distribution Diversity Guard** – low-diversity distributions are reshaped before insert (minimum 3 unique bins where available, realistic percentage templates, consistent counts).
 - **Validation Harness** – `tests/integration/generator-validation.test.ts` runs generator (dry-run) + validator (`--assert-zero`) in CI to catch regressions immediately.

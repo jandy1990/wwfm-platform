@@ -1,0 +1,52 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 2748d9d8-4de2-4035-aef0-1251ab186942
+✅ Loaded 17 solutions for "Find life purpose"
+Validating 17 solutions after filters
+
+🔍 Validating meditation_mindfulness (1 solutions)
+
+🔍 Validating exercise_movement (1 solutions)
+
+🔍 Validating groups_communities (1 solutions)
+
+🔍 Validating books_courses (6 solutions)
+
+🔍 Validating coaches_mentors (2 solutions)
+
+🔍 Validating apps_software (3 solutions)
+
+🔍 Validating therapists_counselors (1 solutions)
+
+🔍 Validating habits_routines (2 solutions)
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Find life purpose"
+   Solutions: 17
+   Categories: 8 (meditation_mindfulness, exercise_movement, groups_communities, books_courses, coaches_mentors, apps_software, therapists_counselors, habits_routines)
+   Fields checked: 89
+
+📈 Quality Metrics:
+   ✅ Valid fields: 89
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   meditation_mindfulness: 0/6 issues (0.0%)
+   exercise_movement: 0/6 issues (0.0%)
+   groups_communities: 0/5 issues (0.0%)
+   books_courses: 0/30 issues (0.0%)
+   coaches_mentors: 0/10 issues (0.0%)
+   apps_software: 0/15 issues (0.0%)
+   therapists_counselors: 0/5 issues (0.0%)
+   habits_routines: 0/12 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend

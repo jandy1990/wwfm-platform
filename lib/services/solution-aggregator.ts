@@ -306,9 +306,10 @@ export class SolutionAggregator {
     goalId: string,
     implementationId: string
   ): Promise<void> {
+    const startTime = Date.now()
     const supabase = await createServerSupabaseClient()
 
-    logger.debug('solutionAggregator start', { goalId, implementationId })
+    logger.info('solutionAggregator start', { goalId, implementationId, timestamp: startTime })
 
     // PROTECTION: Check display mode - don't overwrite AI data until transition
     const { data: linkCheck } = await supabase
@@ -319,12 +320,15 @@ export class SolutionAggregator {
       .single()
 
     if (linkCheck?.data_display_mode === 'ai' && linkCheck?.ai_snapshot) {
-      logger.info('solutionAggregator skipped aggregation (AI data preserved)', { goalId, implementationId })
+      logger.info('solutionAggregator skipped aggregation (AI data preserved)', { goalId, implementationId, elapsed: Date.now() - startTime })
       return
     }
 
+    logger.info('solutionAggregator displayModeChecked', { elapsed: Date.now() - startTime })
+
     // Compute new aggregates
     const aggregated = await this.computeAggregates(goalId, implementationId)
+    logger.info('solutionAggregator computeComplete', { elapsed: Date.now() - startTime, fieldCount: Object.keys(aggregated).length })
     if (Object.keys(aggregated).length === 0) {
       logger.info('solutionAggregator no human ratings, skipping aggregation update', { goalId, implementationId })
       await supabase
@@ -338,7 +342,9 @@ export class SolutionAggregator {
       return
     }
 
-    logger.debug('solutionAggregator computed aggregates', { goalId, implementationId, fields: Object.keys(aggregated) })
+    logger.info('solutionAggregator computed aggregates', { goalId, implementationId, fields: Object.keys(aggregated) })
+
+    logger.info('solutionAggregator linkCheckStart', { elapsed: Date.now() - startTime })
 
     // First check if the link exists
     const { data: existingLink, error: checkError } = await supabase
@@ -355,7 +361,7 @@ export class SolutionAggregator {
     
     if (existingLink) {
       // Update existing link
-      logger.debug('solutionAggregator updating existing link', { linkId: existingLink.id, goalId, implementationId })
+      logger.info('solutionAggregator updating existing link', { linkId: existingLink.id, goalId, implementationId, elapsed: Date.now() - startTime })
       const updatePayload: TablesUpdate<'goal_implementation_links'> = {
         aggregated_fields: aggregated as TablesUpdate<'goal_implementation_links'>['aggregated_fields'],
         updated_at: new Date().toISOString(),
@@ -369,13 +375,13 @@ export class SolutionAggregator {
         .eq('implementation_id', implementationId)
       
       if (updateError) {
-        logger.error('solutionAggregator error updating aggregated fields', { error: updateError, goalId, implementationId })
+        logger.error('solutionAggregator error updating aggregated fields', { error: updateError, goalId, implementationId, elapsed: Date.now() - startTime })
         throw updateError
       }
-      logger.info('solutionAggregator updated aggregated fields', { goalId, implementationId })
+      logger.info('solutionAggregator updated aggregated fields', { goalId, implementationId, totalTime: Date.now() - startTime })
     } else {
       // Create new link with aggregated fields
-      logger.debug('solutionAggregator creating new link with aggregated fields', { goalId, implementationId })
+      logger.info('solutionAggregator creating new link with aggregated fields', { goalId, implementationId, elapsed: Date.now() - startTime })
       const insertPayload: TablesInsert<'goal_implementation_links'> = {
         goal_id: goalId,
         implementation_id: implementationId,
@@ -390,10 +396,10 @@ export class SolutionAggregator {
         .insert(insertPayload)
       
       if (insertError) {
-        logger.error('solutionAggregator error creating link with aggregated fields', { error: insertError, goalId, implementationId })
+        logger.error('solutionAggregator error creating link with aggregated fields', { error: insertError, goalId, implementationId, elapsed: Date.now() - startTime })
         throw insertError
       }
-      logger.info('solutionAggregator created new link with aggregated fields', { goalId, implementationId })
+      logger.info('solutionAggregator created new link with aggregated fields', { goalId, implementationId, totalTime: Date.now() - startTime })
     }
   }
 

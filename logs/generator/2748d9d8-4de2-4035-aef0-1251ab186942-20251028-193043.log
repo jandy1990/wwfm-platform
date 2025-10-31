@@ -1,0 +1,9 @@
+
+> wwfm-platform@0.1.0 generate:ai-solutions
+> npm run generate:fields:v3 -- --goal-id=2748d9d8-4de2-4035-aef0-1251ab186942 --batch-size=1 --limit=20 --force-write
+
+
+> wwfm-platform@0.1.0 generate:fields:v3
+> tsx scripts/generate-validated-fields-v3.ts --goal-id=2748d9d8-4de2-4035-aef0-1251ab186942 --batch-size=1 --limit=20 --force-write
+
+error: unknown option '--batch-size=1'

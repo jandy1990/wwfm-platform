@@ -19,8 +19,8 @@ const EXPECTED_FIELDS = {
   therapists_counselors: {
     time_to_results: '3-6 months',
     session_frequency: 'Weekly',
-    session_length: '50-60 minutes',
-    cost: '$100-$149.99',
+    session_length: '60 minutes',  // Fixed: was "50-60 minutes", now matches actual dropdown
+    cost: '$100-150',  // Fixed: matches actual per_session dropdown options
     challenges: ['None']
   },
 
@@ -29,7 +29,7 @@ const EXPECTED_FIELDS = {
     session_frequency: 'Monthly',
     wait_time: '1-2 weeks',
     insurance_coverage: 'Fully covered by insurance',
-    cost: '$50-$99.99',
+    cost: '$50-100',  // Fixed: matches actual per_session dropdown options
     challenges: ['None']
   },
 
@@ -37,7 +37,7 @@ const EXPECTED_FIELDS = {
     time_to_results: '1-2 months',
     session_frequency: 'Fortnightly',
     session_length: '60 minutes',
-    cost: '$100-$199.99/month',
+    cost: '$100-150',  // Fixed: matches actual per_session dropdown options
     challenges: ['None']
   },
 

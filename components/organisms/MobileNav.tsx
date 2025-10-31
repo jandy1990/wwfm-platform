@@ -121,6 +121,15 @@ export default function MobileNav({
           </Link>
 
           <Link
+            href="/how-it-works"
+            onClick={onClose}
+            className={getLinkClasses('/how-it-works')}
+            aria-current={isActive('/how-it-works') ? 'page' : undefined}
+          >
+            💡 How It Works
+          </Link>
+
+          <Link
             href="/dashboard"
             onClick={onClose}
             className={getLinkClasses('/dashboard')}
@@ -142,17 +151,6 @@ export default function MobileNav({
                   {retrospectiveCount}
                 </span>
               </div>
-            </Link>
-          )}
-
-          {user && (
-            <Link
-              href="/contribute"
-              onClick={onClose}
-              className={getLinkClasses('/contribute')}
-              aria-current={isActive('/contribute') ? 'page' : undefined}
-            >
-              ✨ Share What Worked
             </Link>
           )}
         </nav>

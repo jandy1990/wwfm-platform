@@ -24,6 +24,54 @@ Effectiveness stored in goal_implementation_links (not on solutions)
 Solutions are generic, variants are specific
 Only 4 of 23 categories use real variants
 All user ratings are private, only aggregates shown
+
+## 🎯 Single Source of Truth (SSOT) for Category Fields
+
+**CRITICAL**: All category-field mappings MUST align to the authoritative source.
+
+**Code Authority (PRIMARY):**
+- **File**: `components/goal/GoalPageClient.tsx`
+- **Object**: `CATEGORY_CONFIG` (Lines 56-407)
+- **Structure**: Each category defines `keyFields` (3-4 display fields) + `arrayField` (challenges or side_effects)
+- **Rule**: This is the RUNTIME source of truth - what actually displays on frontend
+
+**Documentation Reference:**
+- **File**: `/docs/solution-fields-ssot.md`
+- **Updated**: September 30, 2025
+- **Rule**: When code and docs disagree, **CODE WINS**
+
+**Example Structure (from SSOT):**
+```typescript
+medications: {
+  keyFields: ['time_to_results', 'frequency', 'length_of_use', 'cost'],  // 4 display fields
+  arrayField: 'side_effects'  // 1 array field (shown as pills)
+}
+
+exercise_movement: {
+  keyFields: ['time_to_results', 'frequency', 'duration', 'cost'],  // 4 display fields
+  arrayField: 'challenges'  // 1 array field (shown as pills)
+}
+```
+
+**All Systems MUST Align to CATEGORY_CONFIG:**
+- ✅ Field generators (`scripts/solution-generator/`, `scripts/generate-validated-fields-v3.ts`)
+- ✅ Validators (`scripts/validate-field-quality.ts`, `lib/ai-generation/fields/validator.ts`)
+- ✅ Config files (`lib/config/solution-fields.ts` - **UPDATED Oct 31, 2025**)
+- ✅ Tests (all test fixtures must use correct field names)
+- ✅ Documentation (CLAUDE.md, ARCHITECTURE.md, READMEs)
+
+**Key Points:**
+1. **KeyFields vs ArrayField**: Display fields (keyFields) are shown in card body, array fields shown separately as pills
+2. **Cost Derivation**: Practice/hobby forms collect `startup_cost` + `ongoing_cost`, but SSOT `keyFields` shows single derived `cost`
+3. **Field Count**: Every category has exactly 3-4 keyFields + 1 optional arrayField
+4. **Verification**: Always check GoalPageClient.tsx when in doubt - it reflects true runtime behavior
+
+**Recent Alignment (Oct 31, 2025):**
+- ✅ `lib/config/solution-fields.ts` updated to match SSOT structure
+- ✅ Interface changed from `requiredFields` to `keyFields` + `arrayField`
+- ✅ All 23 categories aligned to GoalPageClient.tsx
+- ✅ New helper functions: `getKeyFields()`, `getArrayField()`, `getRequiredFields()`
+
 📁 Project Structure
 wwfm-platform/
 ├── app/                    # Next.js App Router pages
@@ -434,25 +482,30 @@ const fieldsToRegenerate = requiredFields.filter(field =>
 - **Evidence-Based Distributions**: Realistic percentages from research patterns
 
 ### Reference Documents:
-- **`complete-field-analysis.md`** - AUTHORITATIVE category-field mapping (prevents wrong field generation)
+- **`docs/solution-fields-ssot.md`** - AUTHORITATIVE category-field mapping (prevents wrong field generation)
 - `FORM_DROPDOWN_OPTIONS_REFERENCE.md` - Exact dropdown value formats
 - `HANDOVER.md` - Current task status and execution instructions
 
-### 🚨 CRITICAL: Known Generation System Issues (September 2025)
+### 🚨 Generation System Issues (UPDATED October 2025)
 
-**MAJOR BUG**: Line 905 in `generate-validated-fields.ts` SKIPS time_to_results field:
-```typescript
-if (fieldName === 'time_to_results') continue  // THIS IS WRONG!
-```
+**✅ RESOLVED**: The "line 905 bug" mentioned in September 2025 was a **FALSE ALARM**. This bug only existed in archived scripts (`scripts/archive/obsolete-field-scripts-20250927/`), **NOT in active code**. The current generator does NOT skip time_to_results.
 
-**Multiple Systematic Issues Identified**:
-1. **Inconsistent field generation** within same categories
-2. **Single-value 100% distributions** instead of rich data
-3. **Missing fields entirely** for some solutions
-4. **String values not converting** to DistributionData format
-5. **time_to_results field skipped** causing [Object Object] errors
+**Actual Root Causes Identified** (Deep-dive analysis Oct 31, 2025):
+1. **Over-aggressive deduplication** - Collapses "Daily" + "once daily" into single value, losing diversity
+2. **Fallback diversity injection** - Adds mechanistic templates (40/30/20/10) when AI generates 2-3 valid values
+3. **No field preservation validation** - Updates can lose existing fields (violates "never lose fields" principle)
+4. **Vague prompt instructions** - AI never explicitly told to avoid single-value 100% distributions
+5. **SSOT misalignment** (CRITICAL) - lib/config/solution-fields.ts used wrong field structure until Oct 31, 2025
 
-**Next Claude Instance Must**: Investigate root causes and fix generation system going forward.
+**✅ FIXED October 31, 2025**:
+- SSOT alignment complete - all configs now match GoalPageClient.tsx CATEGORY_CONFIG
+- V2 regenerator deprecated and archived
+- Interface updated to use keyFields + arrayField structure
+
+**Remaining Issues** (Future work):
+- Deduplication logic needs category-awareness
+- Fallback diversity should only activate for <2 values (not <4)
+- Prompts need explicit "no single-value distributions" prohibition
 
 ### CRITICAL REMINDER: Frontend Data Source
 ⚠️ **Frontend reads ONLY from `aggregated_fields`** - Never from `solution_fields`
@@ -461,8 +514,30 @@ if (fieldName === 'time_to_results') continue  // THIS IS WRONG!
 - Emergency data copy: Use `scripts/copy-solution-to-aggregated-fields.ts`
 
 ### CRITICAL REMINDER: Category-Specific Fields
-⚠️ **Different categories need DIFFERENT fields** - See `complete-field-analysis.md`
-- exercise_movement: frequency, cost (NO session_length!)
-- books_courses: format, learning_difficulty, cost (NO session_length!)
-- therapists_counselors: session_frequency, session_length, cost
-- STOP generating universal field sets for all solutions!
+⚠️ **Different categories need DIFFERENT fields** - See **[Solution Fields SSOT](docs/solution-fields-ssot.md)**
+
+**Quick examples:**
+- exercise_movement: `time_to_results`, `frequency`, `duration`, `cost` (NO session_length!)
+- books_courses: `time_to_results`, `format`, `learning_difficulty`, `cost` (NO session_length!)
+- therapists_counselors: `time_to_results`, `session_frequency`, `session_length`, `cost`
+
+**Rule:** STOP generating universal field sets! Each category has specific keyFields defined in SSOT.
+
+**Authority:** components/goal/GoalPageClient.tsx CATEGORY_CONFIG for all 23 categories
+
+---
+
+## 📚 Documentation Map
+
+**For AI Assistants (Start Here):**
+- [Solution Fields SSOT](docs/solution-fields-ssot.md) - Category-field mappings (authority: GoalPageClient.tsx)
+- [Dropdown Options Reference](FORM_DROPDOWN_OPTIONS_REFERENCE.md) - Exact dropdown values
+- This file (CLAUDE.md) - Quality standards, configuration, database setup, common issues
+
+**For Developers:**
+- [README.md](README.md) - Project overview and quick start
+- [ARCHITECTURE.md](ARCHITECTURE.md) - System design, forms, patterns
+- [Testing Guide](tests/README.md) - Complete test setup
+
+**For Complete Navigation:**
+- [Documentation Hub](docs/README.md) - All documentation indexed with quick navigation table

@@ -64,13 +64,14 @@ export const DROPDOWN_OPTIONS = {
   ],
   
   app_cost_onetime: [
-    "Under $5",
-    "$5-$9.99",
+    "Under $10",
     "$10-$24.99",
     "$25-$49.99",
     "$50-$99.99",
     "$100-$249.99",
-    "$250+"
+    "$250-$499.99",
+    "$500-$999.99",
+    "$1000+"
   ],
 
   // ========================================
@@ -531,10 +532,8 @@ export const DROPDOWN_OPTIONS = {
   insurance_coverage: [
     "Fully covered by insurance",
     "Partially covered by insurance",
-    "Not covered by insurance",
-    "No insurance/Self-pay",
-    "Covered by government program (Medicare, NHS, provincial coverage, etc.)",
-    "HSA/FSA eligible (US)"
+    "Not covered by insurance/self-funded",
+    "Covered by government program (Medicare, NHS, provincial coverage, etc.)"
   ],
   
   service_type: [

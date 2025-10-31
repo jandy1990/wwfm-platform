@@ -217,17 +217,31 @@ export function SessionForm({
     if (showSideEffects) {
       setLoading(true);
       const fetchOptions = async () => {
-        const supabase = createClientComponentClient();
-        const { data, error } = await supabase
-          .from('side_effect_options')
-          .select('label')
-          .eq('category', category)
-          .eq('is_active', true)
-          .order('display_order');
+        try {
+          const supabase = createClientComponentClient();
+          const { data, error } = await supabase
+            .from('side_effect_options')
+            .select('label')
+            .eq('category', category)
+            .eq('is_active', true)
+            .order('display_order');
 
-        if (!error && data) {
-          const rows = data as LabelRow[];
-          setSideEffectOptions(rows.map((item) => item.label));
+          if (error) {
+            console.error(`[SessionForm] Database error fetching side effects for ${category}:`, error);
+            toast.error('Failed to load side effect options. Please refresh the page.');
+            setSideEffectOptions(['None']);
+          } else if (!data || data.length === 0) {
+            console.error(`[SessionForm] No side effect options found for category: ${category}`);
+            toast.error('Side effect options not configured. Please contact support.');
+            setSideEffectOptions(['None']);
+          } else {
+            const rows = data as LabelRow[];
+            setSideEffectOptions(rows.map((item) => item.label));
+          }
+        } catch (err) {
+          console.error(`[SessionForm] Exception fetching side effects for ${category}:`, err);
+          toast.error('Failed to load form options. Please refresh the page.');
+          setSideEffectOptions(['None']);
         }
         setLoading(false);
       };
@@ -241,32 +255,32 @@ export function SessionForm({
     if (showChallenges) {
       setChallengesLoading(true);
 
-      const fallbackKeyMap: Record<string, keyof typeof DROPDOWN_OPTIONS> = {
-        therapists_counselors: 'therapy_challenges',
-        coaches_mentors: 'coaching_challenges',
-        doctors_specialists: 'medical_challenges',
-        medical_procedures: 'medical_challenges',
-        professional_services: 'professional_service_challenges',
-        crisis_resources: 'crisis_challenges'
-      };
-      const fallbackKey = fallbackKeyMap[category];
-      const fallbackOptions = fallbackKey ? DROPDOWN_OPTIONS[fallbackKey] : undefined;
-
       const fetchChallenges = async () => {
-        const supabase = createClientComponentClient();
-        const { data, error } = await supabase
-          .from('challenge_options')
-          .select('label')
-          .eq('category', category)
-          .eq('is_active', true)
-          .order('display_order');
+        try {
+          const supabase = createClientComponentClient();
+          const { data, error } = await supabase
+            .from('challenge_options')
+            .select('label')
+            .eq('category', category)
+            .eq('is_active', true)
+            .order('display_order');
 
-        if (!error && data && data.length > 0) {
-          const rows = data as LabelRow[];
-          setChallengeOptions(rows.map((item) => item.label));
-        } else if (fallbackOptions) {
-          // Use fallback if no data in DB
-          setChallengeOptions(fallbackOptions);
+          if (error) {
+            console.error(`[SessionForm] Database error fetching challenges for ${category}:`, error);
+            toast.error('Failed to load challenge options. Please refresh the page.');
+            setChallengeOptions(['None']);
+          } else if (!data || data.length === 0) {
+            console.error(`[SessionForm] No challenge options found for category: ${category}`);
+            toast.error('Challenge options not configured. Please contact support.');
+            setChallengeOptions(['None']);
+          } else {
+            const rows = data as LabelRow[];
+            setChallengeOptions(rows.map((item) => item.label));
+          }
+        } catch (err) {
+          console.error(`[SessionForm] Exception fetching challenges for ${category}:`, err);
+          toast.error('Failed to load form options. Please refresh the page.');
+          setChallengeOptions(['None']);
         }
         setChallengesLoading(false);
       };
@@ -497,115 +511,16 @@ export function SessionForm({
 
         {/* Category-specific fields */}
         <div className="space-y-6">
-          <FormSectionHeader 
-            icon={CATEGORY_ICONS[category]} 
+          <FormSectionHeader
+            icon={CATEGORY_ICONS[category]}
             title="Session details"
           />
-
-      {/* Cost field */}
-      <div className="space-y-2">
-        <Label className="text-base font-semibold">
-          Cost? <span className="text-red-500">*</span>
-        </Label>
-
-        {/* Only show radio buttons for categories that support multiple cost types */}
-        {category !== 'crisis_resources' && !singleCostCategories.includes(category) && (
-          <>
-            <div className="flex gap-4" role="radiogroup">
-              <label className="flex items-center cursor-pointer">
-                <input
-                  type="radio"
-                  name="costType"
-                  value="per_session"
-                  checked={costType === 'per_session'}
-                  onChange={(e) => {
-                    setCostType(e.target.value as 'per_session' | 'monthly' | 'total');
-                    markTouched('costType');
-                  }}
-                  onBlur={() => markTouched('costType')}
-                  className="mr-2 text-purple-600 focus:ring-2 focus:ring-purple-500"
-                />
-                <span>Per session</span>
-              </label>
-              <label className="flex items-center cursor-pointer">
-                <input
-                  type="radio"
-                  name="costType"
-                  value="monthly"
-                  checked={costType === 'monthly'}
-                  onChange={(e) => {
-                    setCostType(e.target.value as 'per_session' | 'monthly' | 'total');
-                    markTouched('costType');
-                  }}
-                  onBlur={() => markTouched('costType')}
-                  className="mr-2 text-purple-600 focus:ring-2 focus:ring-purple-500"
-                />
-                <span>Monthly</span>
-              </label>
-              {category === 'medical_procedures' && (
-                <label className="flex items-center cursor-pointer">
-                  <input
-                    type="radio"
-                    name="costType"
-                    value="total"
-                    checked={costType === 'total'}
-                    onChange={(e) => {
-                      setCostType(e.target.value as 'per_session' | 'monthly' | 'total');
-                      markTouched('costType');
-                    }}
-                    onBlur={() => markTouched('costType')}
-                    className="mr-2 text-purple-600 focus:ring-2 focus:ring-purple-500"
-                  />
-                  <span>Total cost</span>
-                </label>
-              )}
-            </div>
-            {touched.costType && validationErrors.costType && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{validationErrors.costType}</AlertDescription>
-              </Alert>
-            )}
-          </>
-        )}
-
-        <Select
-          value={costRange}
-          onValueChange={(value) => {
-            setCostRange(value);
-            markTouched('costRange');
-          }}
-          required
-        >
-          <SelectTrigger
-            onBlur={() => markTouched('costRange')}
-            className={`w-full px-4 py-2 rounded-lg
-              ${touched.costRange && validationErrors.costRange
-                ? 'border-2 border-red-500'
-                : 'border border-gray-300 dark:border-gray-600'}`}
-          >
-            <SelectValue placeholder="Select cost range" />
-          </SelectTrigger>
-          <SelectContent>
-            {getCostOptions().map(range => (
-              <SelectItem key={range} value={range}>{range}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {touched.costRange && validationErrors.costRange && (
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{validationErrors.costRange}</AlertDescription>
-          </Alert>
-        )}
-      </div>
-
 
       {/* Required fields based on category */}
       <div className="space-y-4">
         {/* Optional fields that remain in Step 1 */}
         {category !== 'crisis_resources' && (
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="session_frequency">
               {category === 'medical_procedures' ? 'Treatment frequency' : 'Session frequency'}
               {['therapists_counselors', 'coaches_mentors', 'alternative_practitioners', 'medical_procedures', 'professional_services'].includes(category) && (
@@ -648,61 +563,9 @@ export function SessionForm({
           </div>
         )}
 
-        <div>
-          <Label htmlFor="format">
-            Format{category === 'crisis_resources' && <span className="text-red-500">*</span>}
-          </Label>
-          <Select
-            value={format}
-            onValueChange={(value) => {
-              setFormat(value);
-              markTouched('format');
-            }}
-          >
-            <SelectTrigger
-              onBlur={() => markTouched('format')}
-              className={`w-full px-4 py-2 rounded-lg
-                ${touched.format && validationErrors.format
-                  ? 'border-2 border-red-500'
-                  : 'border border-gray-300 dark:border-gray-600'}`}
-            >
-              <SelectValue placeholder="Select format" />
-            </SelectTrigger>
-            <SelectContent>
-              {category === 'crisis_resources' ? (
-                <>
-                  <SelectItem value="Phone">Phone</SelectItem>
-                  <SelectItem value="Text/Chat">Text/Chat</SelectItem>
-                  <SelectItem value="Online">Online</SelectItem>
-                </>
-              ) : category === 'medical_procedures' ? (
-                <>
-                  <SelectItem value="Outpatient">Outpatient</SelectItem>
-                  <SelectItem value="Inpatient">Inpatient</SelectItem>
-                  <SelectItem value="In-office">In-office</SelectItem>
-                  <SelectItem value="At-home">At-home</SelectItem>
-                </>
-              ) : (
-                <>
-                  <SelectItem value="In-person">In-person</SelectItem>
-                  <SelectItem value="Virtual/Online">Virtual/Online</SelectItem>
-                  <SelectItem value="Phone">Phone</SelectItem>
-                  <SelectItem value="Hybrid">Hybrid (both)</SelectItem>
-                </>
-              )}
-            </SelectContent>
-          </Select>
-          {touched.format && validationErrors.format && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{validationErrors.format}</AlertDescription>
-            </Alert>
-          )}
-        </div>
-
         {/* Session length REQUIRED for therapists, coaches, alternative practitioners */}
         {['therapists_counselors', 'coaches_mentors', 'alternative_practitioners'].includes(category) && (
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="session_length">
               Session length <span className="text-red-500">*</span>
             </Label>
@@ -744,7 +607,7 @@ export function SessionForm({
 
         {/* Session length OPTIONAL for doctors and professional services */}
         {['doctors_specialists', 'professional_services'].includes(category) && (
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="session_length">Session length</Label>
             <Select value={sessionLength} onValueChange={setSessionLength}>
               <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
@@ -763,11 +626,48 @@ export function SessionForm({
           </div>
         )}
 
-        {['therapists_counselors', 'doctors_specialists', 'medical_procedures'].includes(category) && (
-          <div>
+        {/* Format field - REQUIRED for crisis_resources only */}
+        {category === 'crisis_resources' && (
+          <div className="space-y-2">
+            <Label htmlFor="format">
+              Format <span className="text-red-500">*</span>
+            </Label>
+            <Select
+              value={format}
+              onValueChange={(value) => {
+                setFormat(value);
+                markTouched('format');
+              }}
+            >
+              <SelectTrigger
+                onBlur={() => markTouched('format')}
+                className={`w-full px-4 py-2 rounded-lg
+                  ${touched.format && validationErrors.format
+                    ? 'border-2 border-red-500'
+                    : 'border border-gray-300 dark:border-gray-600'}`}
+              >
+                <SelectValue placeholder="Select format" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Phone">Phone</SelectItem>
+                <SelectItem value="Text/Chat">Text/Chat</SelectItem>
+                <SelectItem value="Online">Online</SelectItem>
+              </SelectContent>
+            </Select>
+            {touched.format && validationErrors.format && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{validationErrors.format}</AlertDescription>
+              </Alert>
+            )}
+          </div>
+        )}
+
+        {/* Insurance coverage field - REQUIRED for doctors_specialists only */}
+        {category === 'doctors_specialists' && (
+          <div className="space-y-2">
             <Label htmlFor="insurance_coverage">
-              Insurance coverage
-              {category === 'doctors_specialists' && <span className="text-red-500">*</span>}
+              Insurance coverage <span className="text-red-500">*</span>
             </Label>
             <Select
               value={insuranceCoverage}
@@ -775,7 +675,7 @@ export function SessionForm({
                 setInsuranceCoverage(value);
                 markTouched('insuranceCoverage');
               }}
-              required={category === 'doctors_specialists'}
+              required
             >
               <SelectTrigger
                 onBlur={() => markTouched('insuranceCoverage')}
@@ -789,10 +689,8 @@ export function SessionForm({
               <SelectContent>
                 <SelectItem value="Fully covered by insurance">Fully covered by insurance</SelectItem>
                 <SelectItem value="Partially covered by insurance">Partially covered by insurance</SelectItem>
-                <SelectItem value="Not covered by insurance">Not covered by insurance</SelectItem>
-                <SelectItem value="No insurance/Self-pay">No insurance/Self-pay</SelectItem>
+                <SelectItem value="Not covered by insurance/self-funded">Not covered by insurance/self-funded</SelectItem>
                 <SelectItem value="Covered by government program (Medicare, NHS, provincial coverage, etc.)">Covered by government program (Medicare, NHS, provincial coverage, etc.)</SelectItem>
-                <SelectItem value="HSA/FSA eligible (US)">HSA/FSA eligible (US)</SelectItem>
               </SelectContent>
             </Select>
             {touched.insuranceCoverage && validationErrors.insuranceCoverage && (
@@ -804,9 +702,107 @@ export function SessionForm({
           </div>
         )}
 
+        {/* Cost field */}
+        <div className="space-y-2">
+          <Label className="text-base font-semibold">
+            Cost per session? <span className="text-red-500">*</span>
+          </Label>
+
+          {/* Only show radio buttons for categories that support multiple cost types */}
+          {category !== 'crisis_resources' && !singleCostCategories.includes(category) && (
+            <>
+              <div className="flex gap-4" role="radiogroup">
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="radio"
+                    name="costType"
+                    value="per_session"
+                    checked={costType === 'per_session'}
+                    onChange={(e) => {
+                      setCostType(e.target.value as 'per_session' | 'monthly' | 'total');
+                      markTouched('costType');
+                    }}
+                    onBlur={() => markTouched('costType')}
+                    className="mr-2 text-purple-600 focus:ring-2 focus:ring-purple-500"
+                  />
+                  <span>Per session</span>
+                </label>
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="radio"
+                    name="costType"
+                    value="monthly"
+                    checked={costType === 'monthly'}
+                    onChange={(e) => {
+                      setCostType(e.target.value as 'per_session' | 'monthly' | 'total');
+                      markTouched('costType');
+                    }}
+                    onBlur={() => markTouched('costType')}
+                    className="mr-2 text-purple-600 focus:ring-2 focus:ring-purple-500"
+                  />
+                  <span>Monthly</span>
+                </label>
+                {category === 'medical_procedures' && (
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="costType"
+                      value="total"
+                      checked={costType === 'total'}
+                      onChange={(e) => {
+                        setCostType(e.target.value as 'per_session' | 'monthly' | 'total');
+                        markTouched('costType');
+                      }}
+                      onBlur={() => markTouched('costType')}
+                      className="mr-2 text-purple-600 focus:ring-2 focus:ring-purple-500"
+                    />
+                    <span>Total cost</span>
+                  </label>
+                )}
+              </div>
+              {touched.costType && validationErrors.costType && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>{validationErrors.costType}</AlertDescription>
+                </Alert>
+              )}
+            </>
+          )}
+
+          <Select
+            value={costRange}
+            onValueChange={(value) => {
+              setCostRange(value);
+              markTouched('costRange');
+            }}
+            required
+          >
+            <SelectTrigger
+              onBlur={() => markTouched('costRange')}
+              className={`w-full px-4 py-2 rounded-lg
+                ${touched.costRange && validationErrors.costRange
+                  ? 'border-2 border-red-500'
+                  : 'border border-gray-300 dark:border-gray-600'}`}
+            >
+              <SelectValue placeholder="Select cost range" />
+            </SelectTrigger>
+            <SelectContent>
+              {getCostOptions().map(range => (
+                <SelectItem key={range} value={range}>{range}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {touched.costRange && validationErrors.costRange && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{validationErrors.costRange}</AlertDescription>
+            </Alert>
+          )}
+        </div>
+
         {/* Wait time for doctors REQUIRED, medical_procedures REQUIRED */}
         {category === 'doctors_specialists' && (
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="wait_time">
               Wait time <span className="text-red-500">*</span>
             </Label>
@@ -846,7 +842,7 @@ export function SessionForm({
         )}
 
         {category === 'medical_procedures' && (
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="wait_time">
               Wait time <span className="text-red-500">*</span>
             </Label>
@@ -889,7 +885,7 @@ export function SessionForm({
 
         {/* Specialty for professional_services REQUIRED */}
         {category === 'professional_services' && (
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="specialty">
               Type of service <span className="text-red-500">*</span>
             </Label>
@@ -938,7 +934,7 @@ export function SessionForm({
 
         {/* Response time for crisis_resources REQUIRED */}
         {category === 'crisis_resources' && (
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="response_time">
               Response time <span className="text-red-500">*</span>
             </Label>
@@ -1582,7 +1578,9 @@ export function SessionForm({
   const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
     const additionalFields: Record<string, unknown> = {};
-    
+
+    if (format && category !== 'crisis_resources') additionalFields.format = format;
+    if (insuranceCoverage && ['therapists_counselors', 'medical_procedures'].includes(category)) additionalFields.insurance_coverage = insuranceCoverage;
     if (completedTreatment) additionalFields.completed_treatment = completedTreatment;
     if (typicalLength) additionalFields.typical_length = typicalLength;
     if (availability.length > 0) additionalFields.availability = availability;
@@ -1649,10 +1647,8 @@ export function SessionForm({
           <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
             {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
               <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'} around the world</>
-            ) : existingSolutionId ? (
-              <>Your experience with {solutionName} has been recorded and will help people worldwide</>
             ) : (
-              <>You're the first to review {solutionName}! It needs 2 more reviews to go live and help people worldwide.</>
+              <>Your experience with {solutionName} has been recorded and will help people worldwide</>
             )}
           </p>
 
@@ -1663,6 +1659,51 @@ export function SessionForm({
             </p>
             
             <div className="space-y-4">
+              {/* Format - Optional for all categories except crisis_resources */}
+              {category !== 'crisis_resources' && (
+                <Select value={format} onValueChange={setFormat}>
+                  <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                    <SelectValue placeholder="Format" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {category === 'medical_procedures' ? (
+                      <>
+                        <SelectItem value="Outpatient">Outpatient</SelectItem>
+                        <SelectItem value="Inpatient">Inpatient</SelectItem>
+                        <SelectItem value="In-office">In-office</SelectItem>
+                        <SelectItem value="At-home">At-home</SelectItem>
+                      </>
+                    ) : (
+                      <>
+                        <SelectItem value="In-person">In-person</SelectItem>
+                        <SelectItem value="Virtual/Online">Virtual/Online</SelectItem>
+                        <SelectItem value="Phone">Phone</SelectItem>
+                        <SelectItem value="Hybrid">Hybrid (both)</SelectItem>
+                      </>
+                    )}
+                  </SelectContent>
+                </Select>
+              )}
+
+              {/* Insurance coverage - Optional for therapists_counselors and medical_procedures */}
+              {['therapists_counselors', 'medical_procedures'].includes(category) && (
+                <Select value={insuranceCoverage} onValueChange={setInsuranceCoverage}>
+                  <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                    <SelectValue placeholder="Insurance coverage" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Fully covered by insurance">Fully covered by insurance</SelectItem>
+                    <SelectItem value="Partially covered by insurance">Partially covered by insurance</SelectItem>
+                    <SelectItem value="Not covered by insurance/self-funded">Not covered by insurance/self-funded</SelectItem>
+                    <SelectItem value="Covered by government program (Medicare, NHS, provincial coverage, etc.)">Covered by government program (Medicare, NHS, provincial coverage, etc.)</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+
               {['therapists_counselors', 'coaches_mentors', 'medical_procedures'].includes(category) && (
                 <Select value={completedTreatment} onValueChange={setCompletedTreatment}>
                   <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
@@ -1727,34 +1768,37 @@ export function SessionForm({
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          dark:bg-gray-700 dark:text-white text-sm"
               />
-              
-              {(completedTreatment || typicalLength || availability.length > 0 || notes) && (
-                <button
-                  onClick={updateAdditionalInfo}
-                  className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg 
-                         text-sm font-semibold transition-colors button-focus-tight"
-                >
-                  Submit
-                </button>
-              )}
+            </div>
+
+            {/* Always-visible submit button - center aligned */}
+            <div className="text-center mt-4">
+              <button
+                onClick={updateAdditionalInfo}
+                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg
+                         font-semibold transition-colors button-focus-tight"
+              >
+                Submit extra details
+              </button>
             </div>
           </div>
 
-          <button
-            onClick={() => router.push(`/goal/${goalId}`)}
-            className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 
-                     rounded-lg font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 
-                     transition-all transform hover:scale-105"
-          >
-            Back to goal page
-          </button>
-
-          {/* Test Mode Auto-Return */}
-          <TestModeCountdown isTestMode={isTestMode} />
+          {/* Test Mode Return or Goal Page Navigation */}
+          {isTestMode ? (
+            <TestModeCountdown isTestMode={isTestMode} />
+          ) : (
+            <button
+              onClick={() => router.push(`/goal/${goalId}`)}
+              className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900
+                       rounded-lg font-semibold hover:bg-gray-800 dark:hover:bg-gray-100
+                       transition-all transform hover:scale-105"
+            >
+              Back to goal page
+            </button>
+          )}
         </div>
       </div>
     );
@@ -1762,32 +1806,89 @@ export function SessionForm({
   
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-      {/* Progress Bar - Sticky */}
-      <div className="sticky top-0 z-10
-                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
-                      border-b border-gray-200 dark:border-gray-700
-                      px-4 sm:px-6 py-3 mb-8 -mx-4 sm:-mx-6 shadow-md
-                      safe-area-inset-top">
-        <div className="flex items-center justify-end mb-2">
-          <span className="text-sm text-gray-600 dark:text-gray-400">
-            Step {currentStep} of {totalSteps}
-          </span>
+      {/* Unified Form Container */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+
+        {/* Progress Bar - Integrated Header */}
+        <div className="sticky top-0 z-10
+                        bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                        px-4 sm:px-6 py-3
+                        safe-area-inset-top">
+          <div className="flex items-center justify-end mb-2">
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              Step {currentStep} of {totalSteps}
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div
+              className="bg-purple-600 h-2 rounded-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-          <div 
-            className="bg-purple-600 h-2 rounded-full transition-all duration-300"
-            style={{ width: `${progress}%` }}
-          />
+
+        {/* Form Content */}
+        <div className="p-4 sm:p-6 overflow-visible">
+          {renderStep()}
         </div>
+
+        {/* Navigation - Integrated Footer */}
+        <div className="sticky bottom-0 z-10
+                        bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                        px-4 sm:px-6 py-3
+                        safe-area-inset-bottom">
+          <div className="flex justify-between">
+            {currentStep > 1 ? (
+              <button
+                onClick={() => setCurrentStep(currentStep - 1)}
+                className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                         dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
+              >
+                Back
+              </button>
+            ) : (
+              <div />
+            )}
+
+            <div className="flex gap-2">
+              {/* Forward button - only show if we've been to a higher step */}
+              {currentStep < highestStepReached && currentStep < totalSteps && (
+                <button
+                  onClick={() => setCurrentStep(currentStep + 1)}
+                  className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                           dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
+                >
+                  Forward
+                </button>
+              )}
+
+              {currentStep < totalSteps ? (
+                <button
+                  onClick={handleContinue}
+                  className="px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors bg-purple-600 hover:bg-purple-700 text-white"
+                >
+                  {currentStep === 3 ? 'Skip' : 'Continue'}
+                </button>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className={`px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors ${
+                    !isSubmitting
+                      ? 'bg-green-600 hover:bg-green-700 text-white'
+                      : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                  }`}
+                >
+                  {isSubmitting ? 'Submitting...' : 'Submit'}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      {/* Form Content */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200
-                    dark:border-gray-700 p-4 sm:p-6 overflow-visible">
-        {renderStep()}
-      </div>
-
-      {/* Step Navigation Helper */}
+      {/* Step Navigation Helper - Outside unified container */}
       {!canProceedToNextStep() && currentStep === 1 && (
         <Alert className="mt-4">
           <Info className="h-4 w-4" />
@@ -1796,61 +1897,6 @@ export function SessionForm({
           </AlertDescription>
         </Alert>
       )}
-
-      {/* Navigation - Sticky for mobile keyboard accessibility */}
-      <div className="sticky bottom-0 left-0 right-0
-                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
-                      border-t border-gray-200 dark:border-gray-700
-                      px-4 sm:px-6 py-3 mt-6 -mx-4 sm:-mx-6 shadow-lg z-10
-                      safe-area-inset-bottom">
-        <div className="flex justify-between">
-          {currentStep > 1 ? (
-            <button
-              onClick={() => setCurrentStep(currentStep - 1)}
-              className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
-                       dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
-            >
-              Back
-            </button>
-          ) : (
-            <div />
-          )}
-
-          <div className="flex gap-2">
-            {/* Forward button - only show if we've been to a higher step */}
-            {currentStep < highestStepReached && currentStep < totalSteps && (
-              <button
-                onClick={() => setCurrentStep(currentStep + 1)}
-                className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
-                         dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
-              >
-                Forward
-              </button>
-            )}
-
-            {currentStep < totalSteps ? (
-              <button
-                onClick={handleContinue}
-                className="px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors bg-purple-600 hover:bg-purple-700 text-white"
-              >
-                {currentStep === 3 ? 'Skip' : 'Continue'}
-              </button>
-            ) : (
-              <button
-                onClick={handleSubmit}
-                disabled={isSubmitting}
-                className={`px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors ${
-                  !isSubmitting
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                }`}
-              >
-                {isSubmitting ? 'Submitting...' : 'Submit'}
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

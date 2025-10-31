@@ -1,0 +1,151 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 8aad160d-bcbd-4bbf-a136-229a93434071
+✅ Loaded 20 solutions for "Improve endurance"
+Validating 20 solutions after filters
+
+🔍 Validating exercise_movement (4 solutions)
+  ✅ Foam Rolling: frequency - OK
+  ✅ Foam Rolling: duration - OK
+  ✅ Foam Rolling: startup_cost - OK
+  ✅ Foam Rolling: ongoing_cost - OK
+  ✅ Foam Rolling: time_to_results - OK
+  ✅ Foam Rolling: challenges - OK
+  ✅ Strength Training Routine: frequency - OK
+  ✅ Strength Training Routine: duration - OK
+  ✅ Strength Training Routine: startup_cost - OK
+  ✅ Strength Training Routine: ongoing_cost - OK
+  ✅ Strength Training Routine: time_to_results - OK
+  ✅ Strength Training Routine: challenges - OK
+  ✅ Zone 2 Training: frequency - OK
+  ✅ Zone 2 Training: duration - OK
+  ✅ Zone 2 Training: startup_cost - OK
+  ✅ Zone 2 Training: ongoing_cost - OK
+  ✅ Zone 2 Training: time_to_results - OK
+  ✅ Zone 2 Training: challenges - OK
+  ✅ High-Intensity Interval Training (HIIT): frequency - OK
+  ✅ High-Intensity Interval Training (HIIT): duration - OK
+  ✅ High-Intensity Interval Training (HIIT): startup_cost - OK
+  ✅ High-Intensity Interval Training (HIIT): ongoing_cost - OK
+  ✅ High-Intensity Interval Training (HIIT): time_to_results - OK
+  ✅ High-Intensity Interval Training (HIIT): challenges - OK
+
+🔍 Validating products_devices (1 solutions)
+  ✅ Heart Rate Monitor (e.g., Garmin HRM-Pro): ease_of_use - OK
+  ✅ Heart Rate Monitor (e.g., Garmin HRM-Pro): product_type - OK
+  ✅ Heart Rate Monitor (e.g., Garmin HRM-Pro): cost - OK
+  ✅ Heart Rate Monitor (e.g., Garmin HRM-Pro): time_to_results - OK
+  ✅ Heart Rate Monitor (e.g., Garmin HRM-Pro): challenges - OK
+
+🔍 Validating supplements_vitamins (8 solutions)
+  ✅ Betaine Anhydrous (Beta-Alanine): frequency - OK
+  ✅ Betaine Anhydrous (Beta-Alanine): length_of_use - OK
+  ✅ Betaine Anhydrous (Beta-Alanine): time_to_results - OK
+  ✅ Betaine Anhydrous (Beta-Alanine): side_effects - OK
+  ✅ Nuun Hydration: frequency - OK
+  ✅ Nuun Hydration: length_of_use - OK
+  ✅ Nuun Hydration: time_to_results - OK
+  ✅ Nuun Hydration: side_effects - OK
+  ✅ Betaine Anhydrous (Beta-Alanine): frequency - OK
+  ✅ Betaine Anhydrous (Beta-Alanine): length_of_use - OK
+  ✅ Betaine Anhydrous (Beta-Alanine): time_to_results - OK
+  ✅ Betaine Anhydrous (Beta-Alanine): side_effects - OK
+  ✅ Caffeine Supplement: frequency - OK
+  ✅ Caffeine Supplement: length_of_use - OK
+  ✅ Caffeine Supplement: time_to_results - OK
+  ✅ Caffeine Supplement: side_effects - OK
+  ✅ Nuun Hydration: frequency - OK
+  ✅ Nuun Hydration: length_of_use - OK
+  ✅ Nuun Hydration: time_to_results - OK
+  ✅ Nuun Hydration: side_effects - OK
+  ✅ Caffeine Supplement: frequency - OK
+  ✅ Caffeine Supplement: length_of_use - OK
+  ✅ Caffeine Supplement: time_to_results - OK
+  ✅ Caffeine Supplement: side_effects - OK
+  ✅ Creatine Monohydrate: frequency - OK
+  ✅ Creatine Monohydrate: length_of_use - OK
+  ✅ Creatine Monohydrate: time_to_results - OK
+  ✅ Creatine Monohydrate: side_effects - OK
+  ✅ Creatine Monohydrate: frequency - OK
+  ✅ Creatine Monohydrate: length_of_use - OK
+  ✅ Creatine Monohydrate: time_to_results - OK
+  ✅ Creatine Monohydrate: side_effects - OK
+
+🔍 Validating habits_routines (2 solutions)
+  ✅ Intermittent Fasting (e.g., 16/8 Method): time_commitment - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): frequency - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): startup_cost - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): ongoing_cost - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): time_to_results - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): challenges - OK
+  ✅ Sleep Hygiene Improvement: time_commitment - OK
+  ✅ Sleep Hygiene Improvement: frequency - OK
+  ✅ Sleep Hygiene Improvement: startup_cost - OK
+  ✅ Sleep Hygiene Improvement: ongoing_cost - OK
+  ✅ Sleep Hygiene Improvement: time_to_results - OK
+  ✅ Sleep Hygiene Improvement: challenges - OK
+
+🔍 Validating diet_nutrition (2 solutions)
+  ✅ Adequate Protein Intake: weekly_prep_time - OK
+  ✅ Adequate Protein Intake: still_following - OK
+  ✅ Adequate Protein Intake: cost - OK
+  ✅ Adequate Protein Intake: time_to_results - OK
+  ✅ Adequate Protein Intake: challenges - OK
+  ✅ Carbohydrate Loading (Carbo-loading) Protocol: weekly_prep_time - OK
+  ✅ Carbohydrate Loading (Carbo-loading) Protocol: still_following - OK
+  ✅ Carbohydrate Loading (Carbo-loading) Protocol: cost - OK
+  ✅ Carbohydrate Loading (Carbo-loading) Protocol: time_to_results - OK
+  ✅ Carbohydrate Loading (Carbo-loading) Protocol: challenges - OK
+
+🔍 Validating apps_software (1 solutions)
+  ✅ Strava: usage_frequency - OK
+  ✅ Strava: subscription_type - OK
+  ✅ Strava: cost - OK
+  ✅ Strava: time_to_results - OK
+  ✅ Strava: challenges - OK
+
+🔍 Validating books_courses (1 solutions)
+  ✅ The Daniel's Running Formula: format - OK
+  ✅ The Daniel's Running Formula: learning_difficulty - OK
+  ✅ The Daniel's Running Formula: cost - OK
+  ✅ The Daniel's Running Formula: time_to_results - OK
+  ✅ The Daniel's Running Formula: challenges - OK
+
+🔍 Validating meditation_mindfulness (1 solutions)
+  ✅ Mindful Walking Practice: practice_length - OK
+  ✅ Mindful Walking Practice: frequency - OK
+  ✅ Mindful Walking Practice: startup_cost - OK
+  ✅ Mindful Walking Practice: ongoing_cost - OK
+  ✅ Mindful Walking Practice: time_to_results - OK
+  ✅ Mindful Walking Practice: challenges - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Improve endurance"
+   Solutions: 20
+   Categories: 8 (exercise_movement, products_devices, supplements_vitamins, habits_routines, diet_nutrition, apps_software, books_courses, meditation_mindfulness)
+   Fields checked: 99
+
+📈 Quality Metrics:
+   ✅ Valid fields: 99
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   exercise_movement: 0/24 issues (0.0%)
+   products_devices: 0/5 issues (0.0%)
+   supplements_vitamins: 0/32 issues (0.0%)
+   habits_routines: 0/12 issues (0.0%)
+   diet_nutrition: 0/10 issues (0.0%)
+   apps_software: 0/5 issues (0.0%)
+   books_courses: 0/5 issues (0.0%)
+   meditation_mindfulness: 0/6 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend

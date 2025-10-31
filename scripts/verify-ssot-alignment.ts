@@ -25,12 +25,14 @@ interface VerificationResult {
 const SSOT_MAPPINGS: Record<string, string[]> = {
   // AppForm (apps_software)
   app_cost_onetime: [
-    "$5-$9.99",
+    "Under $10",
     "$10-$24.99",
     "$25-$49.99",
     "$50-$99.99",
     "$100-$249.99",
-    "$250+"
+    "$250-$499.99",
+    "$500-$999.99",
+    "$1000+"
   ],
   app_cost_subscription: [
     "$5-$9.99/month",

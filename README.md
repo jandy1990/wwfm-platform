@@ -51,60 +51,24 @@ You should now see the WWFM homepage! Try:
 
 ### 🧪 Testing
 
-**🚨 CRITICAL: Before running tests against production database:**
-
+**Quick Start:**
 ```bash
-# STEP 1: Create test fixtures (MANDATORY - run this first!)
-npm run test:setup
-
-# STEP 2: Run tests
-npm run test:critical
-
-# STEP 3: View failures
-npm run test:failures
+npm run test:setup      # MANDATORY: Create test fixtures first!
+npm run test:critical   # Run critical tests (~5 min)
+npm run test:failures   # View any failures
 ```
 
-**Other commands:**
-```bash
-npm run test:forms:local  # Spin up disposable Supabase + run Chromium E2E tests
-npm run test:forms:ui     # Debug Playwright runs with UI
-npm run test:results      # View complete test output from last run
-npm run test:results:summary  # View summary of last test run
-```
+> **⚠️ CRITICAL:** Must run `test:setup` first or ALL tests fail
 
-> **⚠️ If you skip `npm run test:setup`, ALL tests will fail with "Solution not found"**
-
-> Requires the [Supabase CLI](https://supabase.com/docs/guides/cli/start) and Docker for disposable databases.
-> Restore a production dump into the local Supabase instance once (see [Testing Guide](tests/README.md)) so the schema/data exist before running the suites.
-
-**Automatic Test Output Capture**: All test runs automatically save complete output to `test-results/latest.json`. No manual steps needed - just run tests and use the result commands above to view the captured output.
-
-Tests ensure all form submissions work correctly. See [Testing Guide](tests/README.md) or **[START HERE](docs/testing/START-HERE-TESTING.md)** for critical setup steps.
+**Full Testing Guide:** See **[Testing README](tests/README.md)** | **[Quick Reference](docs/testing/QUICK_REFERENCE.md)**
 
 ## ⚠️ Database Usage
 
-**This project uses TWO separate databases:**
+**Two Databases:**
+1. **Production (Supabase Cloud)** - Use for ALL development
+2. **Local Test (Docker)** - Testing infrastructure only, DO NOT query directly
 
-1. **Production Database (Supabase Cloud)** - **USE THIS FOR ALL DEVELOPMENT**
-   - URL: `https://wqxkhxdbxdtpuvuvgirx.supabase.co`
-   - Contains real user data and AI-generated solutions
-   - Access via:
-     - TypeScript client: `import { supabase } from '@/lib/database/client'`
-     - Supabase MCP tools: `mcp__supabase__execute_sql`, `mcp__supabase__list_tables`, etc.
-   - **This is where you query data, develop features, and test changes**
-
-2. **Local Test Database (Docker)** - **TESTING INFRASTRUCTURE ONLY**
-   - Config: `supabase/config.toml` (marked "local-testing-only")
-   - Port: 54322
-   - Purpose: ONLY for testing Supabase CLI migrations and local development setup
-   - ⚠️ **DO NOT query this database directly with psql**
-   - ⚠️ **DO NOT use for feature development or data exploration**
-   - ⚠️ **Contains NO production data**
-
-**When developing features:**
-- ✅ Use Supabase MCP tools to query production database
-- ✅ Use `lib/database/client.ts` in application code
-- ❌ Never use `psql -h 127.0.0.1 -p 54322` (local test database)
+**Full Details:** See **[CLAUDE.md Database Section](CLAUDE.md#database-usage)**
 
 ## 🏗️ Architecture
 
@@ -262,4 +226,20 @@ WWFM exists to help people find what actually works for life's challenges. Every
 
 ---
 
-**Need help?** Check the [documentation](#-documentation) or open an issue.
+## 📚 Documentation
+
+**Quick Links:**
+- [CLAUDE.md](CLAUDE.md) - AI assistant collaboration guide
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Technical architecture
+- [Testing Guide](tests/README.md) - Test setup and debugging
+
+**Complete Index:**
+- [Documentation Hub](docs/README.md) - All documentation organized with navigation table
+
+**Key Documents:**
+- [Solution Fields SSOT](docs/solution-fields-ssot.md) - Category-field mappings
+- [Dropdown Options](FORM_DROPDOWN_OPTIONS_REFERENCE.md) - Exact dropdown values
+
+---
+
+**Need help?** Check the [Documentation Hub](docs/README.md) or open an issue.

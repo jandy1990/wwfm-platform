@@ -177,16 +177,21 @@ export function HobbyForm({
           .eq('is_active', true)
           .order('display_order');
 
-        if (!error && data && data.length > 0) {
-          setChallengeOptionsState(data.map(item => item.label));
+        if (error) {
+          console.error('[HobbyForm] Database error fetching challenges:', error);
+          toast.error('Failed to load challenge options. Please refresh the page.');
+          setChallengeOptionsState(['None']);
+        } else if (!data || data.length === 0) {
+          console.error('[HobbyForm] No challenge options found for category: hobbies_activities');
+          toast.error('Challenge options not configured. Please contact support.');
+          setChallengeOptionsState(['None']);
         } else {
-          // Fallback to hardcoded options
-          setChallengeOptionsState(DROPDOWN_OPTIONS.hobby_challenges ?? ['None']);
+          setChallengeOptionsState(data.map(item => item.label));
         }
       } catch (err) {
-        console.error('Error fetching challenge options:', err);
-        // Fallback to hardcoded options on error
-        setChallengeOptionsState(DROPDOWN_OPTIONS.hobby_challenges ?? ['None']);
+        console.error('[HobbyForm] Exception fetching challenge options:', err);
+        toast.error('Failed to load form options. Please refresh the page.');
+        setChallengeOptionsState(['None']);
       } finally {
         setLoadingChallenges(false);
       }
@@ -1013,34 +1018,37 @@ export function HobbyForm({
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          dark:bg-gray-700 dark:text-white text-sm"
               />
-              
-              {(communityName || notes) && (
-                <button
-                  onClick={updateAdditionalInfo}
-                  className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg 
-                         text-sm font-semibold transition-colors button-focus-tight"
-                >
-                  Submit
-                </button>
-              )}
+            </div>
+
+            {/* Always-visible submit button - center aligned */}
+            <div className="text-center mt-4">
+              <button
+                onClick={updateAdditionalInfo}
+                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg
+                         font-semibold transition-colors button-focus-tight"
+              >
+                Submit extra details
+              </button>
             </div>
           </div>
 
-          <button
-            onClick={() => router.push(`/goal/${goalId}`)}
-            className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 
-                     rounded-lg font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 
-                     transition-all transform hover:scale-105"
-          >
-            Back to goal page
-          </button>
-
-          {/* Test Mode Auto-Return */}
-          <TestModeCountdown isTestMode={isTestMode} />
+          {/* Test Mode Return or Goal Page Navigation */}
+          {isTestMode ? (
+            <TestModeCountdown isTestMode={isTestMode} />
+          ) : (
+            <button
+              onClick={() => router.push(`/goal/${goalId}`)}
+              className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900
+                       rounded-lg font-semibold hover:bg-gray-800 dark:hover:bg-gray-100
+                       transition-all transform hover:scale-105"
+            >
+              Back to goal page
+            </button>
+          )}
         </div>
       </div>
     );
@@ -1048,83 +1056,85 @@ export function HobbyForm({
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-      {/* Progress Bar - Sticky */}
-      <div className="sticky top-0 z-10
-                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
-                      border-b border-gray-200 dark:border-gray-700
-                      px-4 sm:px-6 py-3 mb-8 -mx-4 sm:-mx-6 shadow-md
-                      safe-area-inset-top">
-        <div className="flex items-center justify-end mb-2">
-          <span className="text-sm text-gray-600 dark:text-gray-400">
-            Step {currentStep} of {totalSteps}
-          </span>
+      {/* Unified Form Container */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+
+        {/* Progress Bar - Integrated Header */}
+        <div className="sticky top-0 z-10
+                        bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                        px-4 sm:px-6 py-3
+                        safe-area-inset-top">
+          <div className="flex items-center justify-end mb-2">
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              Step {currentStep} of {totalSteps}
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div
+              className="bg-purple-600 h-2 rounded-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-          <div 
-            className="bg-purple-600 h-2 rounded-full transition-all duration-300"
-            style={{ width: `${progress}%` }}
-          />
+
+        {/* Form Content */}
+        <div className="p-4 sm:p-6 overflow-visible">
+          {renderStep()}
         </div>
-      </div>
 
-      {/* Form Content */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200
-                    dark:border-gray-700 p-4 sm:p-6 overflow-visible">
-        {renderStep()}
-      </div>
-
-      {/* Navigation - Sticky for mobile keyboard accessibility */}
-      <div className="sticky bottom-0 left-0 right-0
-                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
-                      border-t border-gray-200 dark:border-gray-700
-                      px-4 sm:px-6 py-3 mt-6 -mx-4 sm:-mx-6 shadow-lg z-10
-                      safe-area-inset-bottom">
-        <div className="flex justify-between">
-          {currentStep > 1 ? (
-            <button
-              onClick={() => setCurrentStep(currentStep - 1)}
-              className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
-                       dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
-            >
-              Back
-            </button>
-          ) : (
-            <div />
-          )}
-
-          <div className="flex gap-2">
-            {currentStep < highestStepReached && currentStep < totalSteps && (
+        {/* Navigation - Integrated Footer */}
+        <div className="sticky bottom-0 z-10
+                        bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
+                        px-4 sm:px-6 py-3
+                        safe-area-inset-bottom">
+          <div className="flex justify-between">
+            {currentStep > 1 ? (
               <button
-                onClick={() => setCurrentStep(currentStep + 1)}
+                onClick={() => setCurrentStep(currentStep - 1)}
                 className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
                          dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
               >
-                Forward
-              </button>
-            )}
-
-            {currentStep < totalSteps ? (
-              <button
-                onClick={handleContinue}
-                className="px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors bg-purple-600 hover:bg-purple-700 text-white"
-              >
-                {currentStep === 3 ? 'Skip' : 'Continue'}
+                Back
               </button>
             ) : (
-              <button
-                onClick={handleSubmit}
-                disabled={isSubmitting}
-                className={`px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors ${
-                  !isSubmitting
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                }`}
-              >
-                {isSubmitting ? 'Submitting...' : 'Submit'}
-              </button>
+              <div />
             )}
+
+            <div className="flex gap-2">
+              {currentStep < highestStepReached && currentStep < totalSteps && (
+                <button
+                  onClick={() => setCurrentStep(currentStep + 1)}
+                  className="px-4 sm:px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800
+                           dark:hover:text-gray-200 font-semibold transition-colors button-focus-tight"
+                >
+                  Forward
+                </button>
+              )}
+
+              {currentStep < totalSteps ? (
+                <button
+                  onClick={handleContinue}
+                  className="px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors bg-purple-600 hover:bg-purple-700 text-white"
+                >
+                  {currentStep === 3 ? 'Skip' : 'Continue'}
+                </button>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className={`px-4 sm:px-6 py-3 rounded-lg font-semibold transition-colors ${
+                    !isSubmitting
+                      ? 'bg-green-600 hover:bg-green-700 text-white'
+                      : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                  }`}
+                >
+                  {isSubmitting ? 'Submitting...' : 'Submit'}
+                </button>
+              )}
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   );

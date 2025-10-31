@@ -1,5 +1,41 @@
 # New Goals for WWFM Database
 
+## Status Update – 26 Oct 2025
+
+- ✅ Inserted 29 of 30 new goals (all except **Manage stress**, which already existed in the database under id `f2e6ab47-3be6-4d7d-ab43-80908502b702`)
+- ✅ Applied all 14 goal renames in production (titles + descriptions updated in place)
+- 📎 See `scripts/database/apply-goal-updates.ts` for the repeatable script that performs these inserts/renames (supports `--apply` vs dry run)
+- 📋 New goal ids for reference:
+  - `01c3a3eb-dc71-46bd-aafb-e70d662b4342` – Live with social anxiety
+  - `2748d9d8-4de2-4035-aef0-1251ab186942` – Find life purpose
+  - `6ba7a7c6-c3db-46ed-a5b7-6efe4b3742d1` – Improve memory
+  - `b1fc0a6c-42c5-401a-8fb5-8f6cc5dfcdbb` – Get in shape
+  - `09ceeb4e-3fc0-457c-af5d-59b76d0fe5f1` – Manage diabetes
+  - `5224840f-ad0f-403a-ac38-0939e69f50a1` – Manage bipolar disorder
+  - `89455fb7-e0d6-4633-96f4-f88592adb8ab` – Reduce inflammation
+  - `62b6c8d0-27c8-43f5-a501-7c11d1297b89` – Reduce bloating
+  - `a07df0bd-841d-4bf4-885e-65675c5beba3` – Reduce headaches
+  - `a94f2f16-1da8-48ee-bcdc-92ca68cb20a7` – Improve immune system
+  - `b03be23e-f0b6-409d-b988-0aaaff6ba68f` – Stop hair loss
+  - `c004a80e-facf-4d54-a4bc-f02c8603576b` – Improve skin texture
+  - `431c1900-1cb2-4fb2-a4ec-d72b8fe83cc3` – Stop teeth grinding
+  - `7a498deb-f738-4002-9b37-a23904e1fa61` – Reduce brain fog
+  - `e51fd32f-18f7-47e9-bbc2-1e42abed92db` – Improve productivity
+  - `37f86c02-ebc7-4128-b3da-aef50f86da5f` – Minimize distractions
+  - `ecae2b05-c2ea-4f23-8f4a4dda85d` – Improve public speaking
+  - `cf135170-0a08-4764-98c9-6575c54eb7a8` – Improve credit score
+  - `ac42f78d-6e4f-4f0e-ab7b-4575c8e747ed` – Negotiate salary
+  - `4a4dc5ce-f169-420b-a8bd-a963bf277316` – Improve communication skills
+  - `83b2fd9c-d746-4ba0-b27a-a9d05f60df93` – Overcome perfectionism
+  - `8aad160d-bcbd-4bbf-a136-229a93434071` – Improve endurance
+  - `e1291660-5f98-4b87-aa74-2baa7880b26c` – Reduce sugar intake
+  - `90eead43-734f-42b3-9000-559d1bf840da` – Wake up earlier
+  - `a89ab8e3-495d-4862-ac8b-f2107265e3fd` – Quit caffeine
+  - `25f47514-202c-4b26-9c67-66c352dbac47` – Quit energy drinks
+  - `10fe576c-55f7-49e9-bf87-ecf1bd0c774e` – Quit junk food
+  - `3e81c864-623e-4627-85d8-95ebc5898cdc` – Reduce screen time
+  - `19ab1cdc-0838-4dea-ba45-1c5ed3510175` – Do digital detox
+
 ## 30 Goals to Add + 14 Goals to Rename
 
 ---

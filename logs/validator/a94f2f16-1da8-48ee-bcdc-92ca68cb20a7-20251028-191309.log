@@ -1,0 +1,134 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: a94f2f16-1da8-48ee-bcdc-92ca68cb20a7
+✅ Loaded 16 solutions for "Improve immune system"
+Validating 16 solutions after filters
+
+🔍 Validating diet_nutrition (2 solutions)
+  ✅ Fasting Mimicking Diet (FMD) by ProLon: weekly_prep_time - OK
+  ✅ Fasting Mimicking Diet (FMD) by ProLon: still_following - OK
+  ✅ Fasting Mimicking Diet (FMD) by ProLon: cost - OK
+  ✅ Fasting Mimicking Diet (FMD) by ProLon: time_to_results - OK
+  ✅ Fasting Mimicking Diet (FMD) by ProLon: challenges - OK
+  ✅ Blue Apron Meal Kit: weekly_prep_time - OK
+  ✅ Blue Apron Meal Kit: still_following - OK
+  ✅ Blue Apron Meal Kit: cost - OK
+  ✅ Blue Apron Meal Kit: time_to_results - OK
+  ✅ Blue Apron Meal Kit: challenges - OK
+
+🔍 Validating supplements_vitamins (3 solutions)
+  ✅ Magnesium Glycinate Supplement: frequency - OK
+  ✅ Magnesium Glycinate Supplement: length_of_use - OK
+  ✅ Magnesium Glycinate Supplement: time_to_results - OK
+  ✅ Magnesium Glycinate Supplement: side_effects - OK
+  ✅ NOW Foods Elderberry 1000 mg: frequency - OK
+  ✅ NOW Foods Elderberry 1000 mg: length_of_use - OK
+  ✅ NOW Foods Elderberry 1000 mg: time_to_results - OK
+  ✅ NOW Foods Elderberry 1000 mg: side_effects - OK
+  ✅ Nature Made Vitamin D3 2000 IU: frequency - OK
+  ✅ Nature Made Vitamin D3 2000 IU: length_of_use - OK
+  ✅ Nature Made Vitamin D3 2000 IU: time_to_results - OK
+  ✅ Nature Made Vitamin D3 2000 IU: side_effects - OK
+
+🔍 Validating books_courses (1 solutions)
+  ✅ Andrew Huberman's 'Tools for a Healthy Immune System' Podcast Episodes: format - OK
+  ✅ Andrew Huberman's 'Tools for a Healthy Immune System' Podcast Episodes: learning_difficulty - OK
+  ✅ Andrew Huberman's 'Tools for a Healthy Immune System' Podcast Episodes: cost - OK
+  ✅ Andrew Huberman's 'Tools for a Healthy Immune System' Podcast Episodes: time_to_results - OK
+  ✅ Andrew Huberman's 'Tools for a Healthy Immune System' Podcast Episodes: challenges - OK
+
+🔍 Validating exercise_movement (1 solutions)
+  ✅ Peloton Bike: frequency - OK
+  ✅ Peloton Bike: duration - OK
+  ✅ Peloton Bike: startup_cost - OK
+  ✅ Peloton Bike: ongoing_cost - OK
+  ✅ Peloton Bike: time_to_results - OK
+  ✅ Peloton Bike: challenges - OK
+
+🔍 Validating products_devices (3 solutions)
+  ✅ Oura Ring: ease_of_use - OK
+  ✅ Oura Ring: product_type - OK
+  ✅ Oura Ring: time_to_results - OK
+  ✅ Oura Ring: challenges - OK
+  ✅ WHOOP Strap 4.0: ease_of_use - OK
+  ✅ WHOOP Strap 4.0: product_type - OK
+  ✅ WHOOP Strap 4.0: cost - OK
+  ✅ WHOOP Strap 4.0: time_to_results - OK
+  ✅ WHOOP Strap 4.0: challenges - OK
+  ✅ Eight Sleep Pod Cover: ease_of_use - OK
+  ✅ Eight Sleep Pod Cover: product_type - OK
+  ✅ Eight Sleep Pod Cover: time_to_results - OK
+  ✅ Eight Sleep Pod Cover: challenges - OK
+
+🔍 Validating natural_remedies (2 solutions)
+  ✅ Kava Kava Root (Natural Remedy): frequency - OK
+  ✅ Kava Kava Root (Natural Remedy): length_of_use - OK
+  ✅ Kava Kava Root (Natural Remedy): time_to_results - OK
+  ✅ Kava Kava Root (Natural Remedy): side_effects - OK
+  ✅ Reishi Mushroom Extract: frequency - OK
+  ✅ Reishi Mushroom Extract: length_of_use - OK
+  ✅ Reishi Mushroom Extract: time_to_results - OK
+  ✅ Reishi Mushroom Extract: side_effects - OK
+
+🔍 Validating habits_routines (1 solutions)
+  ✅ Intermittent Fasting (e.g., 16/8 Method): time_commitment - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): frequency - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): startup_cost - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): ongoing_cost - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): time_to_results - OK
+  ✅ Intermittent Fasting (e.g., 16/8 Method): challenges - OK
+
+🔍 Validating apps_software (1 solutions)
+  ✅ Sleep Cycle App: usage_frequency - OK
+  ✅ Sleep Cycle App: subscription_type - OK
+  ✅ Sleep Cycle App: cost - OK
+  ✅ Sleep Cycle App: time_to_results - OK
+  ✅ Sleep Cycle App: challenges - OK
+
+🔍 Validating therapists_counselors (1 solutions)
+  ✅ BetterHelp Online Therapy: session_frequency - OK
+  ✅ BetterHelp Online Therapy: session_length - OK
+  ✅ BetterHelp Online Therapy: cost - OK
+  ✅ BetterHelp Online Therapy: time_to_results - OK
+  ✅ BetterHelp Online Therapy: challenges - OK
+
+🔍 Validating meditation_mindfulness (1 solutions)
+  ✅ Headspace Guided Meditations: practice_length - OK
+  ✅ Headspace Guided Meditations: frequency - OK
+  ✅ Headspace Guided Meditations: startup_cost - OK
+  ✅ Headspace Guided Meditations: ongoing_cost - OK
+  ✅ Headspace Guided Meditations: time_to_results - OK
+  ✅ Headspace Guided Meditations: challenges - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Improve immune system"
+   Solutions: 16
+   Categories: 10 (diet_nutrition, supplements_vitamins, books_courses, exercise_movement, products_devices, natural_remedies, habits_routines, apps_software, therapists_counselors, meditation_mindfulness)
+   Fields checked: 78
+
+📈 Quality Metrics:
+   ✅ Valid fields: 76
+   ❌ Invalid fields: 2
+   ⚠️  Missing fields: 0
+   📊 Error rate: 2.6%
+
+📂 Category Breakdown:
+   diet_nutrition: 0/10 issues (0.0%)
+   supplements_vitamins: 0/12 issues (0.0%)
+   books_courses: 0/5 issues (0.0%)
+   exercise_movement: 0/6 issues (0.0%)
+   products_devices: 2/15 issues (13.3%)
+   natural_remedies: 0/8 issues (0.0%)
+   habits_routines: 0/6 issues (0.0%)
+   apps_software: 0/5 issues (0.0%)
+   therapists_counselors: 0/5 issues (0.0%)
+   meditation_mindfulness: 0/6 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend

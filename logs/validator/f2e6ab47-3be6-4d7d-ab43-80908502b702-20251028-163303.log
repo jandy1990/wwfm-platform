@@ -1,0 +1,304 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: f2e6ab47-3be6-4d7d-ab43-80908502b702
+✅ Loaded 49 solutions for "Manage stress"
+Validating 49 solutions after filters
+
+🔍 Validating diet_nutrition (2 solutions)
+  ✅ Mindful Eating Program: weekly_prep_time - OK
+  ✅ Mindful Eating Program: still_following - OK
+  ✅ Mindful Eating Program: cost - OK
+  ✅ Mindful Eating Program: time_to_results - OK
+  ✅ Mindful Eating Program: challenges - OK
+  ✅ A Balanced Diet (e.g., Mediterranean Diet): weekly_prep_time - OK
+  ✅ A Balanced Diet (e.g., Mediterranean Diet): still_following - OK
+  ✅ A Balanced Diet (e.g., Mediterranean Diet): cost - OK
+  ✅ A Balanced Diet (e.g., Mediterranean Diet): time_to_results - OK
+  ✅ A Balanced Diet (e.g., Mediterranean Diet): challenges - OK
+
+🔍 Validating apps_software (4 solutions)
+  ✅ Headspace Guided Meditations: usage_frequency - OK
+  ✅ Headspace Guided Meditations: subscription_type - OK
+  ✅ Headspace Guided Meditations: cost - OK
+  ✅ Headspace Guided Meditations: time_to_results - OK
+  ✅ Headspace Guided Meditations: challenges - OK
+  ✅ Mindbody App: usage_frequency - OK
+  ✅ Mindbody App: subscription_type - OK
+  ✅ Mindbody App: cost - OK
+  ✅ Mindbody App: time_to_results - OK
+  ✅ Mindbody App: challenges - OK
+  ✅ Sleep Cycle App: usage_frequency - OK
+  ✅ Sleep Cycle App: subscription_type - OK
+  ✅ Sleep Cycle App: cost - OK
+  ✅ Sleep Cycle App: time_to_results - OK
+  ✅ Sleep Cycle App: challenges - OK
+  ✅ Calm App: usage_frequency - OK
+  ✅ Calm App: subscription_type - OK
+  ✅ Calm App: cost - OK
+  ✅ Calm App: time_to_results - OK
+  ✅ Calm App: challenges - OK
+
+🔍 Validating exercise_movement (6 solutions)
+  ✅ Mindful Walking Meditation: frequency - OK
+  ✅ Mindful Walking Meditation: duration - OK
+  ✅ Mindful Walking Meditation: startup_cost - OK
+  ✅ Mindful Walking Meditation: ongoing_cost - OK
+  ✅ Mindful Walking Meditation: time_to_results - OK
+  ✅ Mindful Walking Meditation: challenges - OK
+  ✅ Mindful Walking: frequency - OK
+  ✅ Mindful Walking: duration - OK
+  ✅ Mindful Walking: startup_cost - OK
+  ✅ Mindful Walking: ongoing_cost - OK
+  ✅ Mindful Walking: time_to_results - OK
+  ✅ Mindful Walking: challenges - OK
+  ✅ Spending Time in Nature (Forest Bathing/Ecotherapy): frequency - OK
+  ✅ Spending Time in Nature (Forest Bathing/Ecotherapy): duration - OK
+  ✅ Spending Time in Nature (Forest Bathing/Ecotherapy): startup_cost - OK
+  ✅ Spending Time in Nature (Forest Bathing/Ecotherapy): ongoing_cost - OK
+  ✅ Spending Time in Nature (Forest Bathing/Ecotherapy): time_to_results - OK
+  ✅ Spending Time in Nature (Forest Bathing/Ecotherapy): challenges - OK
+  ✅ Yoga with Adriene - 'Yoga For Complete Beginners': frequency - OK
+  ✅ Yoga with Adriene - 'Yoga For Complete Beginners': duration - OK
+  ✅ Yoga with Adriene - 'Yoga For Complete Beginners': startup_cost - OK
+  ✅ Yoga with Adriene - 'Yoga For Complete Beginners': ongoing_cost - OK
+  ✅ Yoga with Adriene - 'Yoga For Complete Beginners': time_to_results - OK
+  ✅ Yoga with Adriene - 'Yoga For Complete Beginners': challenges - OK
+  ✅ Tai Chi Practice: frequency - OK
+  ✅ Tai Chi Practice: duration - OK
+  ✅ Tai Chi Practice: startup_cost - OK
+  ✅ Tai Chi Practice: ongoing_cost - OK
+  ✅ Tai Chi Practice: time_to_results - OK
+  ✅ Tai Chi Practice: challenges - OK
+  ✅ Yoga (Hatha or Vinyasa): frequency - OK
+  ✅ Yoga (Hatha or Vinyasa): duration - OK
+  ✅ Yoga (Hatha or Vinyasa): startup_cost - OK
+  ✅ Yoga (Hatha or Vinyasa): ongoing_cost - OK
+  ✅ Yoga (Hatha or Vinyasa): time_to_results - OK
+  ✅ Yoga (Hatha or Vinyasa): challenges - OK
+
+🔍 Validating habits_routines (6 solutions)
+  ✅ Mindful Eating Practice: time_commitment - OK
+  ✅ Mindful Eating Practice: frequency - OK
+  ✅ Mindful Eating Practice: startup_cost - OK
+  ✅ Mindful Eating Practice: ongoing_cost - OK
+  ✅ Mindful Eating Practice: time_to_results - OK
+  ✅ Mindful Eating Practice: challenges - OK
+  ✅ Progressive Muscle Relaxation (PMR): time_commitment - OK
+  ✅ Progressive Muscle Relaxation (PMR): frequency - OK
+  ✅ Progressive Muscle Relaxation (PMR): startup_cost - OK
+  ✅ Progressive Muscle Relaxation (PMR): ongoing_cost - OK
+  ✅ Progressive Muscle Relaxation (PMR): time_to_results - OK
+  ✅ Progressive Muscle Relaxation (PMR): challenges - OK
+  ✅ Taking Regular Breaks (e.g., Pomodoro Technique): time_commitment - OK
+  ✅ Taking Regular Breaks (e.g., Pomodoro Technique): frequency - OK
+  ✅ Taking Regular Breaks (e.g., Pomodoro Technique): startup_cost - OK
+  ✅ Taking Regular Breaks (e.g., Pomodoro Technique): ongoing_cost - OK
+  ✅ Taking Regular Breaks (e.g., Pomodoro Technique): time_to_results - OK
+  ✅ Taking Regular Breaks (e.g., Pomodoro Technique): challenges - OK
+  ✅ Daily Journaling (e.g., using a bullet journal): time_commitment - OK
+  ✅ Daily Journaling (e.g., using a bullet journal): frequency - OK
+  ✅ Daily Journaling (e.g., using a bullet journal): startup_cost - OK
+  ✅ Daily Journaling (e.g., using a bullet journal): ongoing_cost - OK
+  ✅ Daily Journaling (e.g., using a bullet journal): time_to_results - OK
+  ✅ Daily Journaling (e.g., using a bullet journal): challenges - OK
+  ✅ Deep Breathing Exercises: time_commitment - OK
+  ✅ Deep Breathing Exercises: frequency - OK
+  ✅ Deep Breathing Exercises: startup_cost - OK
+  ✅ Deep Breathing Exercises: ongoing_cost - OK
+  ✅ Deep Breathing Exercises: time_to_results - OK
+  ✅ Deep Breathing Exercises: challenges - OK
+  ✅ Journaling: time_commitment - OK
+  ✅ Journaling: frequency - OK
+  ✅ Journaling: startup_cost - OK
+  ✅ Journaling: ongoing_cost - OK
+  ✅ Journaling: time_to_results - OK
+  ✅ Journaling: challenges - OK
+
+🔍 Validating books_courses (4 solutions)
+  ✅ via online courses: format - OK
+  ✅ via online courses: learning_difficulty - OK
+  ✅ via online courses: cost - OK
+  ✅ via online courses: time_to_results - OK
+  ✅ via online courses: challenges - OK
+  ✅ Cognitive Behavioral Therapy (CBT) Workbook: format - OK
+  ✅ Cognitive Behavioral Therapy (CBT) Workbook: learning_difficulty - OK
+  ✅ Cognitive Behavioral Therapy (CBT) Workbook: cost - OK
+  ✅ Cognitive Behavioral Therapy (CBT) Workbook: time_to_results - OK
+  ✅ Cognitive Behavioral Therapy (CBT) Workbook: challenges - OK
+  ✅ Mindfulness-Based Stress Reduction (MBSR) Program: format - OK
+  ✅ Mindfulness-Based Stress Reduction (MBSR) Program: learning_difficulty - OK
+  ✅ Mindfulness-Based Stress Reduction (MBSR) Program: cost - OK
+  ✅ Mindfulness-Based Stress Reduction (MBSR) Program: time_to_results - OK
+  ✅ Mindfulness-Based Stress Reduction (MBSR) Program: challenges - OK
+  ✅ The 7 Habits of Highly Effective People by Stephen Covey: format - OK
+  ✅ The 7 Habits of Highly Effective People by Stephen Covey: learning_difficulty - OK
+  ✅ The 7 Habits of Highly Effective People by Stephen Covey: cost - OK
+  ✅ The 7 Habits of Highly Effective People by Stephen Covey: time_to_results - OK
+  ✅ The 7 Habits of Highly Effective People by Stephen Covey: challenges - OK
+
+🔍 Validating supplements_vitamins (11 solutions)
+  ✅ Ashwagandha Supplement: frequency - OK
+  ✅ Ashwagandha Supplement: length_of_use - OK
+  ✅ Ashwagandha Supplement: time_to_results - OK
+  ✅ Ashwagandha Supplement: side_effects - OK
+  ✅ Ashwagandha Supplement: frequency - OK
+  ✅ Ashwagandha Supplement: length_of_use - OK
+  ✅ Ashwagandha Supplement: time_to_results - OK
+  ✅ Ashwagandha Supplement: side_effects - OK
+  ✅ Magnesium Glycinate Supplement: frequency - OK
+  ✅ Magnesium Glycinate Supplement: length_of_use - OK
+  ✅ Magnesium Glycinate Supplement: time_to_results - OK
+  ✅ Magnesium Glycinate Supplement: side_effects - OK
+  ✅ Omega-3 Fatty Acid Supplement (Fish Oil): frequency - OK
+  ✅ Omega-3 Fatty Acid Supplement (Fish Oil): length_of_use - OK
+  ✅ Omega-3 Fatty Acid Supplement (Fish Oil): time_to_results - OK
+  ✅ Omega-3 Fatty Acid Supplement (Fish Oil): side_effects - OK
+  ✅ Omega-3 Fatty Acid Supplement (Fish Oil): frequency - OK
+  ✅ Omega-3 Fatty Acid Supplement (Fish Oil): length_of_use - OK
+  ✅ Omega-3 Fatty Acid Supplement (Fish Oil): time_to_results - OK
+  ✅ Omega-3 Fatty Acid Supplement (Fish Oil): side_effects - OK
+  ✅ Ashwagandha Supplement: frequency - OK
+  ✅ Ashwagandha Supplement: length_of_use - OK
+  ✅ Ashwagandha Supplement: time_to_results - OK
+  ✅ Ashwagandha Supplement: side_effects - OK
+  ✅ Nature Made Vitamin D3 2000 IU: frequency - OK
+  ✅ Nature Made Vitamin D3 2000 IU: length_of_use - OK
+  ✅ Nature Made Vitamin D3 2000 IU: time_to_results - OK
+  ✅ Nature Made Vitamin D3 2000 IU: side_effects - OK
+  ✅ Nature Made Magnesium Glycinate: frequency - OK
+  ✅ Nature Made Magnesium Glycinate: length_of_use - OK
+  ✅ Nature Made Magnesium Glycinate: time_to_results - OK
+  ✅ Nature Made Magnesium Glycinate: side_effects - OK
+  ✅ Nature Made Vitamin D3 2000 IU: frequency - OK
+  ✅ Nature Made Vitamin D3 2000 IU: length_of_use - OK
+  ✅ Nature Made Vitamin D3 2000 IU: time_to_results - OK
+  ✅ Nature Made Vitamin D3 2000 IU: side_effects - OK
+  ✅ Nature Made Vitamin D3 2000 IU: frequency - OK
+  ✅ Nature Made Vitamin D3 2000 IU: length_of_use - OK
+  ✅ Nature Made Vitamin D3 2000 IU: time_to_results - OK
+  ✅ Nature Made Vitamin D3 2000 IU: side_effects - OK
+  ✅ Magnesium Glycinate Supplement: frequency - OK
+  ✅ Magnesium Glycinate Supplement: length_of_use - OK
+  ✅ Magnesium Glycinate Supplement: time_to_results - OK
+  ✅ Magnesium Glycinate Supplement: side_effects - OK
+
+🔍 Validating support_groups (2 solutions)
+  ✅ Support Group for Anxiety/Stress: meeting_frequency - OK
+  ✅ Support Group for Anxiety/Stress: format - OK
+  ✅ Support Group for Anxiety/Stress: cost - OK
+  ✅ Support Group for Anxiety/Stress: time_to_results - OK
+  ✅ Support Group for Anxiety/Stress: challenges - OK
+  ✅ NAMI: meeting_frequency - OK
+  ✅ NAMI: format - OK
+  ✅ NAMI: cost - OK
+  ✅ NAMI: time_to_results - OK
+  ✅ NAMI: challenges - OK
+
+🔍 Validating natural_remedies (5 solutions)
+  ✅ Aromatherapy with Lavender Essential Oil: frequency - OK
+  ✅ Aromatherapy with Lavender Essential Oil: length_of_use - OK
+  ✅ Aromatherapy with Lavender Essential Oil: time_to_results - OK
+  ✅ Aromatherapy with Lavender Essential Oil: side_effects - OK
+  ✅ Aromatherapy with Lavender Essential Oil: frequency - OK
+  ✅ Aromatherapy with Lavender Essential Oil: length_of_use - OK
+  ✅ Aromatherapy with Lavender Essential Oil: time_to_results - OK
+  ✅ Aromatherapy with Lavender Essential Oil: side_effects - OK
+  ✅ Aromatherapy with Lavender Essential Oil: frequency - OK
+  ✅ Aromatherapy with Lavender Essential Oil: length_of_use - OK
+  ✅ Aromatherapy with Lavender Essential Oil: time_to_results - OK
+  ✅ Aromatherapy with Lavender Essential Oil: side_effects - OK
+  ✅ St. John's Wort: frequency - OK
+  ✅ St. John's Wort: length_of_use - OK
+  ✅ St. John's Wort: time_to_results - OK
+  ✅ St. John's Wort: side_effects - OK
+  ✅ Aromatherapy with Lavender Essential Oil: frequency - OK
+  ✅ Aromatherapy with Lavender Essential Oil: length_of_use - OK
+  ✅ Aromatherapy with Lavender Essential Oil: time_to_results - OK
+  ✅ Aromatherapy with Lavender Essential Oil: side_effects - OK
+
+🔍 Validating medications (3 solutions)
+  ✅ Sertraline (Zoloft): frequency - OK
+  ✅ Sertraline (Zoloft): length_of_use - OK
+  ✅ Sertraline (Zoloft): time_to_results - OK
+  ✅ Sertraline (Zoloft): side_effects - OK
+  ✅ Sertraline (Zoloft): frequency - OK
+  ✅ Sertraline (Zoloft): length_of_use - OK
+  ✅ Sertraline (Zoloft): time_to_results - OK
+  ✅ Sertraline (Zoloft): side_effects - OK
+  ✅ Sertraline (Zoloft): frequency - OK
+  ✅ Sertraline (Zoloft): length_of_use - OK
+  ✅ Sertraline (Zoloft): time_to_results - OK
+  ✅ Sertraline (Zoloft): side_effects - OK
+
+🔍 Validating therapists_counselors (1 solutions)
+  ✅ BetterHelp Online Therapy: session_frequency - OK
+  ✅ BetterHelp Online Therapy: session_length - OK
+  ✅ BetterHelp Online Therapy: cost - OK
+  ✅ BetterHelp Online Therapy: time_to_results - OK
+  ✅ BetterHelp Online Therapy: challenges - OK
+
+🔍 Validating alternative_practitioners (2 solutions)
+  ✅ Therapeutic Massage: session_frequency - OK
+  ✅ Therapeutic Massage: session_length - OK
+  ✅ Therapeutic Massage: cost - OK
+  ✅ Therapeutic Massage: time_to_results - OK
+  ✅ Therapeutic Massage: side_effects - OK
+  ✅ Acupuncture: session_frequency - OK
+  ✅ Acupuncture: session_length - OK
+  ✅ Acupuncture: cost - OK
+  ✅ Acupuncture: time_to_results - OK
+  ✅ Acupuncture: side_effects - OK
+
+🔍 Validating products_devices (2 solutions)
+  ✅ Bose QuietComfort Headphones: ease_of_use - OK
+  ✅ Bose QuietComfort Headphones: product_type - OK
+  ✅ Bose QuietComfort Headphones: cost - OK
+  ✅ Bose QuietComfort Headphones: time_to_results - OK
+  ✅ Bose QuietComfort Headphones: challenges - OK
+  ✅ Weighted Blanket: ease_of_use - OK
+  ✅ Weighted Blanket: product_type - OK
+  ✅ Weighted Blanket: cost - OK
+  ✅ Weighted Blanket: time_to_results - OK
+  ✅ Weighted Blanket: challenges - OK
+
+🔍 Validating crisis_resources (1 solutions)
+  ✅ Crisis Text Line: time_to_results - OK
+  ✅ Crisis Text Line: response_time - OK
+  ✅ Crisis Text Line: format - OK
+  ✅ Crisis Text Line: cost - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Manage stress"
+   Solutions: 49
+   Categories: 13 (diet_nutrition, apps_software, exercise_movement, habits_routines, books_courses, supplements_vitamins, support_groups, natural_remedies, medications, therapists_counselors, alternative_practitioners, products_devices, crisis_resources)
+   Fields checked: 237
+
+📈 Quality Metrics:
+   ✅ Valid fields: 237
+   ❌ Invalid fields: 0
+   ⚠️  Missing fields: 0
+   📊 Error rate: 0.0%
+
+📂 Category Breakdown:
+   diet_nutrition: 0/10 issues (0.0%)
+   apps_software: 0/20 issues (0.0%)
+   exercise_movement: 0/36 issues (0.0%)
+   habits_routines: 0/36 issues (0.0%)
+   books_courses: 0/20 issues (0.0%)
+   supplements_vitamins: 0/44 issues (0.0%)
+   support_groups: 0/10 issues (0.0%)
+   natural_remedies: 0/20 issues (0.0%)
+   medications: 0/12 issues (0.0%)
+   therapists_counselors: 0/5 issues (0.0%)
+   alternative_practitioners: 0/10 issues (0.0%)
+   products_devices: 0/10 issues (0.0%)
+   crisis_resources: 0/4 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend

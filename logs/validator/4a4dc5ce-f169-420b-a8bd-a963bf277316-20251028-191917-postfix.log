@@ -1,0 +1,109 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: 4a4dc5ce-f169-420b-a8bd-a963bf277316
+✅ Loaded 12 solutions for "Improve communication skills"
+Validating 12 solutions after filters
+
+🔍 Validating meditation_mindfulness (1 solutions)
+  ✅ Mindful.org: practice_length - OK
+  ✅ Mindful.org: frequency - OK
+  ✅ Mindful.org: startup_cost - OK
+  ✅ Mindful.org: ongoing_cost - OK
+  ✅ Mindful.org: time_to_results - OK
+  ✅ Mindful.org: challenges - OK
+
+🔍 Validating books_courses (5 solutions)
+  ✅ Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves: format - OK
+  ✅ Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves: learning_difficulty - OK
+  ✅ Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves: cost - OK
+  ✅ Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves: time_to_results - OK
+  ✅ Emotional Intelligence 2.0 by Travis Bradberry & Jean Greaves: challenges - OK
+  ✅ Crucial Conversations: Tools for Talking When Stakes Are High: format - OK
+  ✅ Crucial Conversations: Tools for Talking When Stakes Are High: learning_difficulty - OK
+  ✅ Crucial Conversations: Tools for Talking When Stakes Are High: cost - OK
+  ✅ Crucial Conversations: Tools for Talking When Stakes Are High: time_to_results - OK
+  ✅ Crucial Conversations: Tools for Talking When Stakes Are High: challenges - OK
+  ✅ Storytelling for Leaders (Coursera): format - OK
+  ✅ Storytelling for Leaders (Coursera): learning_difficulty - OK
+  ✅ Storytelling for Leaders (Coursera): cost - OK
+  ✅ Storytelling for Leaders (Coursera): time_to_results - OK
+  ✅ Storytelling for Leaders (Coursera): challenges - OK
+  ✅ The Art of Empathy: A Complete Guide to Learning the Skills of Feeling and Understanding Others: format - OK
+  ✅ The Art of Empathy: A Complete Guide to Learning the Skills of Feeling and Understanding Others: learning_difficulty - OK
+  ✅ The Art of Empathy: A Complete Guide to Learning the Skills of Feeling and Understanding Others: cost - OK
+  ✅ The Art of Empathy: A Complete Guide to Learning the Skills of Feeling and Understanding Others: time_to_results - OK
+  ✅ The Art of Empathy: A Complete Guide to Learning the Skills of Feeling and Understanding Others: challenges - OK
+  ✅ The Six-Second Speaker: Build Your Influence from Anywhere: format - OK
+  ✅ The Six-Second Speaker: Build Your Influence from Anywhere: learning_difficulty - OK
+  ✅ The Six-Second Speaker: Build Your Influence from Anywhere: cost - OK
+  ✅ The Six-Second Speaker: Build Your Influence from Anywhere: time_to_results - OK
+  ✅ The Six-Second Speaker: Build Your Influence from Anywhere: challenges - OK
+
+🔍 Validating groups_communities (1 solutions)
+  ✅ Toastmasters International: meeting_frequency - OK
+  ✅ Toastmasters International: group_size - OK
+  ✅ Toastmasters International: cost - OK
+  ✅ Toastmasters International: time_to_results - OK
+  ✅ Toastmasters International: challenges - OK
+
+🔍 Validating professional_services (2 solutions)
+  ✅ Dale Carnegie Training: Effective Communication & Presentation Skills: session_frequency - OK
+  ✅ Dale Carnegie Training: Effective Communication & Presentation Skills: specialty - OK
+  ✅ Dale Carnegie Training: Effective Communication & Presentation Skills: time_to_results - OK
+  ✅ Dale Carnegie Training: Effective Communication & Presentation Skills: challenges - OK
+  ✅ Nonviolent Communication (NVC) Workshop: session_frequency - OK
+  ✅ Nonviolent Communication (NVC) Workshop: specialty - OK
+  ✅ Nonviolent Communication (NVC) Workshop: cost - OK
+  ✅ Nonviolent Communication (NVC) Workshop: time_to_results - OK
+  ✅ Nonviolent Communication (NVC) Workshop: challenges - OK
+
+🔍 Validating therapists_counselors (1 solutions)
+  ✅ Assertiveness Training (Cognitive Behavioral Therapy based): session_frequency - OK
+  ✅ Assertiveness Training (Cognitive Behavioral Therapy based): session_length - OK
+  ✅ Assertiveness Training (Cognitive Behavioral Therapy based): cost - OK
+  ✅ Assertiveness Training (Cognitive Behavioral Therapy based): time_to_results - OK
+  ✅ Assertiveness Training (Cognitive Behavioral Therapy based): challenges - OK
+
+🔍 Validating apps_software (1 solutions)
+  ✅ Active Listening Training Module (LinkedIn Learning): usage_frequency - OK
+  ✅ Active Listening Training Module (LinkedIn Learning): subscription_type - OK
+  ✅ Active Listening Training Module (LinkedIn Learning): cost - OK
+  ✅ Active Listening Training Module (LinkedIn Learning): time_to_results - OK
+  ✅ Active Listening Training Module (LinkedIn Learning): challenges - OK
+
+🔍 Validating support_groups (1 solutions)
+  ✅ Meetup.com: meeting_frequency - OK
+  ✅ Meetup.com: format - OK
+  ✅ Meetup.com: cost - OK
+  ✅ Meetup.com: time_to_results - OK
+  ✅ Meetup.com: challenges - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Improve communication skills"
+   Solutions: 12
+   Categories: 7 (meditation_mindfulness, books_courses, groups_communities, professional_services, therapists_counselors, apps_software, support_groups)
+   Fields checked: 61
+
+📈 Quality Metrics:
+   ✅ Valid fields: 60
+   ❌ Invalid fields: 1
+   ⚠️  Missing fields: 0
+   📊 Error rate: 1.6%
+
+📂 Category Breakdown:
+   meditation_mindfulness: 0/6 issues (0.0%)
+   books_courses: 0/25 issues (0.0%)
+   groups_communities: 0/5 issues (0.0%)
+   professional_services: 1/10 issues (10.0%)
+   therapists_counselors: 0/5 issues (0.0%)
+   apps_software: 0/5 issues (0.0%)
+   support_groups: 0/5 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend

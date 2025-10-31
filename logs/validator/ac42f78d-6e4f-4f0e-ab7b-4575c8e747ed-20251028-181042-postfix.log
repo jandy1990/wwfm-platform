@@ -1,0 +1,118 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: ac42f78d-6e4f-4f0e-ab7b-4575c8e747ed
+✅ Loaded 14 solutions for "Negotiate salary"
+Validating 14 solutions after filters
+
+🔍 Validating apps_software (5 solutions)
+  ✅ Research Industry Standards with BLS: usage_frequency - OK
+  ✅ Research Industry Standards with BLS: subscription_type - OK
+  ✅ Research Industry Standards with BLS: cost - OK
+  ✅ Research Industry Standards with BLS: time_to_results - OK
+  ✅ Research Industry Standards with BLS: challenges - OK
+  ✅ Salary.com Salary Wizard: usage_frequency - OK
+  ✅ Salary.com Salary Wizard: subscription_type - OK
+  ✅ Salary.com Salary Wizard: cost - OK
+  ✅ Salary.com Salary Wizard: time_to_results - OK
+  ✅ Salary.com Salary Wizard: challenges - OK
+  ✅ Glassdoor: usage_frequency - OK
+  ✅ Glassdoor: subscription_type - OK
+  ✅ Glassdoor: cost - OK
+  ✅ Glassdoor: time_to_results - OK
+  ✅ Glassdoor: challenges - OK
+  ✅ LinkedIn Salary: usage_frequency - OK
+  ✅ LinkedIn Salary: subscription_type - OK
+  ✅ LinkedIn Salary: cost - OK
+  ✅ LinkedIn Salary: time_to_results - OK
+  ✅ LinkedIn Salary: challenges - OK
+  ✅ Payscale Salary Data: usage_frequency - OK
+  ✅ Payscale Salary Data: subscription_type - OK
+  ✅ Payscale Salary Data: cost - OK
+  ✅ Payscale Salary Data: time_to_results - OK
+  ✅ Payscale Salary Data: challenges - OK
+
+🔍 Validating habits_routines (3 solutions)
+  ✅ Practice Salary Negotiations with a Friend: time_commitment - OK
+  ✅ Practice Salary Negotiations with a Friend: frequency - OK
+  ✅ Practice Salary Negotiations with a Friend: startup_cost - OK
+  ✅ Practice Salary Negotiations with a Friend: ongoing_cost - OK
+  ✅ Practice Salary Negotiations with a Friend: time_to_results - OK
+  ✅ Practice Salary Negotiations with a Friend: challenges - OK
+  ✅ Prepare Your 'Why I Deserve This' List: time_commitment - OK
+  ✅ Prepare Your 'Why I Deserve This' List: frequency - OK
+  ✅ Prepare Your 'Why I Deserve This' List: startup_cost - OK
+  ✅ Prepare Your 'Why I Deserve This' List: ongoing_cost - OK
+  ✅ Prepare Your 'Why I Deserve This' List: time_to_results - OK
+  ✅ Prepare Your 'Why I Deserve This' List: challenges - OK
+  ✅ Understanding Your Value Proposition: time_commitment - OK
+  ✅ Understanding Your Value Proposition: frequency - OK
+  ✅ Understanding Your Value Proposition: startup_cost - OK
+  ✅ Understanding Your Value Proposition: ongoing_cost - OK
+  ✅ Understanding Your Value Proposition: time_to_results - OK
+  ✅ Understanding Your Value Proposition: challenges - OK
+
+🔍 Validating coaches_mentors (2 solutions)
+  ✅ Ask a Recruiter: session_frequency - OK
+  ✅ Ask a Recruiter: session_length - OK
+  ✅ Ask a Recruiter: cost - OK
+  ✅ Ask a Recruiter: time_to_results - OK
+  ✅ Ask a Recruiter: challenges - OK
+  ✅ The Muse Career Coaching: session_frequency - OK
+  ✅ The Muse Career Coaching: session_length - OK
+  ✅ The Muse Career Coaching: cost - OK
+  ✅ The Muse Career Coaching: time_to_results - OK
+  ✅ The Muse Career Coaching: challenges - OK
+
+🔍 Validating professional_services (1 solutions)
+  ✅ Consider a Professional Recruiter's Services: session_frequency - OK
+  ✅ Consider a Professional Recruiter's Services: specialty - OK
+  ✅ Consider a Professional Recruiter's Services: cost - OK
+  ✅ Consider a Professional Recruiter's Services: time_to_results - OK
+  ✅ Consider a Professional Recruiter's Services: challenges - OK
+
+🔍 Validating books_courses (2 solutions)
+  ✅ Ramit Sethi: format - OK
+  ✅ Ramit Sethi: learning_difficulty - OK
+  ✅ Ramit Sethi: time_to_results - OK
+  ✅ Ramit Sethi: challenges - OK
+  ✅ "Never Split the Difference" by Chris Voss: format - OK
+  ✅ "Never Split the Difference" by Chris Voss: learning_difficulty - OK
+  ✅ "Never Split the Difference" by Chris Voss: cost - OK
+  ✅ "Never Split the Difference" by Chris Voss: time_to_results - OK
+  ✅ "Never Split the Difference" by Chris Voss: challenges - OK
+
+🔍 Validating groups_communities (1 solutions)
+  ✅ Assertiveness Training Workshops: meeting_frequency - OK
+  ✅ Assertiveness Training Workshops: group_size - OK
+  ✅ Assertiveness Training Workshops: cost - OK
+  ✅ Assertiveness Training Workshops: time_to_results - OK
+  ✅ Assertiveness Training Workshops: challenges - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Negotiate salary"
+   Solutions: 14
+   Categories: 6 (apps_software, habits_routines, coaches_mentors, professional_services, books_courses, groups_communities)
+   Fields checked: 73
+
+📈 Quality Metrics:
+   ✅ Valid fields: 72
+   ❌ Invalid fields: 1
+   ⚠️  Missing fields: 0
+   📊 Error rate: 1.4%
+
+📂 Category Breakdown:
+   apps_software: 0/25 issues (0.0%)
+   habits_routines: 0/18 issues (0.0%)
+   coaches_mentors: 0/10 issues (0.0%)
+   professional_services: 0/5 issues (0.0%)
+   books_courses: 1/10 issues (10.0%)
+   groups_communities: 0/5 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Data quality looks good - ready for testing
+   2. Consider spot-checking on frontend

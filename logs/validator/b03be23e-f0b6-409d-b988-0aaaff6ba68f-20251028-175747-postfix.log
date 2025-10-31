@@ -1,0 +1,106 @@
+🔍 WWFM Field Quality Validator
+===================================
+📊 Loading solutions for goal: b03be23e-f0b6-409d-b988-0aaaff6ba68f
+✅ Loaded 13 solutions for "Stop hair loss"
+Validating 13 solutions after filters
+
+🔍 Validating supplements_vitamins (4 solutions)
+  ✅ Biotin Supplement: frequency - OK
+  ✅ Biotin Supplement: length_of_use - OK
+  ✅ Biotin Supplement: time_to_results - OK
+  ✅ Biotin Supplement: side_effects - OK
+  ✅ Viviscal Professional: frequency - OK
+  ✅ Viviscal Professional: length_of_use - OK
+  ✅ Viviscal Professional: time_to_results - OK
+  ✅ Viviscal Professional: side_effects - OK
+  ✅ Biotin Supplement: frequency - OK
+  ✅ Biotin Supplement: length_of_use - OK
+  ✅ Biotin Supplement: time_to_results - OK
+  ✅ Biotin Supplement: side_effects - OK
+  ✅ Nutrafol Women's Balance: frequency - OK
+  ✅ Nutrafol Women's Balance: length_of_use - OK
+  ✅ Nutrafol Women's Balance: time_to_results - OK
+  ✅ Nutrafol Women's Balance: side_effects - OK
+
+🔍 Validating natural_remedies (1 solutions)
+  ✅ Rosemary Oil Scalp Treatment: frequency - OK
+  ✅ Rosemary Oil Scalp Treatment: length_of_use - OK
+  ✅ Rosemary Oil Scalp Treatment: time_to_results - OK
+  ✅ Rosemary Oil Scalp Treatment: side_effects - OK
+
+🔍 Validating doctors_specialists (1 solutions)
+  ✅ Dermatologist Consultation: wait_time - OK
+  ✅ Dermatologist Consultation: insurance_coverage - OK
+  ✅ Dermatologist Consultation: cost - OK
+  ✅ Dermatologist Consultation: time_to_results - OK
+  ✅ Dermatologist Consultation: challenges - OK
+
+🔍 Validating medical_procedures (3 solutions)
+  ✅ Scalp Micropigmentation (SMP): session_frequency - OK
+  ✅ Scalp Micropigmentation (SMP): wait_time - OK
+  ✅ Scalp Micropigmentation (SMP): time_to_results - OK
+  ✅ Scalp Micropigmentation (SMP): side_effects - OK
+  ✅ Minimally Invasive Follicular Extraction (MIFE) Hair Transplant: session_frequency - OK
+  ✅ Minimally Invasive Follicular Extraction (MIFE) Hair Transplant: wait_time - OK
+  ✅ Minimally Invasive Follicular Extraction (MIFE) Hair Transplant: time_to_results - OK
+  ✅ Minimally Invasive Follicular Extraction (MIFE) Hair Transplant: side_effects - OK
+  ✅ Platelet-Rich Plasma (PRP) Therapy: session_frequency - OK
+  ✅ Platelet-Rich Plasma (PRP) Therapy: wait_time - OK
+  ✅ Platelet-Rich Plasma (PRP) Therapy: time_to_results - OK
+  ✅ Platelet-Rich Plasma (PRP) Therapy: side_effects - OK
+
+🔍 Validating beauty_skincare (2 solutions)
+  ✅ Nioxin System Kits: skincare_frequency - OK
+  ✅ Nioxin System Kits: length_of_use - OK
+  ✅ Nioxin System Kits: time_to_results - OK
+  ✅ Nioxin System Kits: side_effects - OK
+  ✅ Nizoral A-D: skincare_frequency - OK
+  ✅ Nizoral A-D: length_of_use - OK
+  ✅ Nizoral A-D: time_to_results - OK
+  ✅ Nizoral A-D: side_effects - OK
+
+🔍 Validating meditation_mindfulness (1 solutions)
+  ✅ Stress Management Techniques - Headspace App: practice_length - OK
+  ✅ Stress Management Techniques - Headspace App: frequency - OK
+  ✅ Stress Management Techniques - Headspace App: startup_cost - OK
+  ✅ Stress Management Techniques - Headspace App: ongoing_cost - OK
+  ✅ Stress Management Techniques - Headspace App: time_to_results - OK
+  ✅ Stress Management Techniques - Headspace App: challenges - OK
+
+🔍 Validating diet_nutrition (1 solutions)
+  ✅ Balanced Diet for Hair Health: weekly_prep_time - OK
+  ✅ Balanced Diet for Hair Health: still_following - OK
+  ✅ Balanced Diet for Hair Health: cost - OK
+  ✅ Balanced Diet for Hair Health: time_to_results - OK
+  ✅ Balanced Diet for Hair Health: challenges - OK
+
+🎉 Validation Complete!
+
+📊 Summary:
+   Goal: "Stop hair loss"
+   Solutions: 13
+   Categories: 7 (supplements_vitamins, natural_remedies, doctors_specialists, medical_procedures, beauty_skincare, meditation_mindfulness, diet_nutrition)
+   Fields checked: 59
+
+📈 Quality Metrics:
+   ✅ Valid fields: 56
+   ❌ Invalid fields: 3
+   ⚠️  Missing fields: 0
+   📊 Error rate: 5.1%
+
+📂 Category Breakdown:
+   supplements_vitamins: 0/16 issues (0.0%)
+   natural_remedies: 0/4 issues (0.0%)
+   doctors_specialists: 0/5 issues (0.0%)
+   medical_procedures: 3/15 issues (20.0%)
+   beauty_skincare: 0/8 issues (0.0%)
+   meditation_mindfulness: 0/6 issues (0.0%)
+   diet_nutrition: 0/5 issues (0.0%)
+
+💡 Recommendations:
+   • All fields appear to be in good condition - no immediate action needed
+
+🎯 Next Steps:
+   1. Run V3 generation to fix identified issues
+   2. Focus on problematic categories/fields
+   3. Re-validate after regeneration

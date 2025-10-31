@@ -622,7 +622,7 @@ Potential improvements for future versions:
 
 6. **Check these references:**
    - `FORM_DROPDOWN_OPTIONS_REFERENCE.md` for exact dropdown values
-   - `complete-field-analysis.md` for required fields per category
+   - `docs/solution-fields-ssot.md` for required fields per category
    - `DEBUGGING-TEST-FAILURES.md` for complete guide
 
 **Trust the system - it has everything you need!**
