@@ -204,8 +204,25 @@ Star rating system: 1-5 scale
 - "1-3 business days"
 - "1-2 weeks"
 - "2-4 weeks"
-- "1-3 months"
-- "Over 3 months"
+- "Over a month"
+
+#### financial_product_type (Success Screen - Optional)
+- "Savings account"
+- "Checking account"
+- "Credit card"
+- "Budgeting app"
+- "Investment platform"
+- "Debt management"
+- "Insurance product"
+- "Loan"
+- "Other"
+
+#### ease_of_use (Success Screen - Optional)
+- "Very easy to use"
+- "Easy to use"
+- "Moderate learning curve"
+- "Difficult to use"
+- "Very difficult to use"
 
 ### 5. HobbyForm.tsx
 
@@ -467,10 +484,10 @@ Star rating system: 1-5 scale
 
 ### 9. SessionForm.tsx
 
-#### cost_type (Radio buttons, not for crisis_resources)
-- "per_session"
-- "monthly"
-- "total" (medical_procedures only)
+#### cost_type (Radio buttons)
+- "per_session" (therapists, coaches, alternative practitioners, doctors, professional services, crisis resources)
+- "monthly" (professional services, crisis resources only)
+- **Note:** medical_procedures has NO radio button - cost type is auto-set to 'total'
 
 #### cost_range (varies by category and cost_type)
 **Crisis Resources:**
@@ -483,10 +500,12 @@ Star rating system: 1-5 scale
 - "Free"
 - "Under $100"
 - "$100-500"
-- "$500-1000"
-- "$1000-5000"
-- "$5000-10000"
-- "Over $10000"
+- "$500-1,000"
+- "$1,000-5,000"
+- "$5,000-10,000"
+- "$10,000-25,000"
+- "$25,000-50,000"
+- "Over $50,000"
 - "Don't remember"
 
 **Per Session:**
@@ -565,7 +584,9 @@ Star rating system: 1-5 scale
 - "2-4 weeks"
 - "1-3 months"
 - "3-6 months"
-- "More than 6 months"
+- "6-12 months"
+- "1-2 years"
+- "Over 2 years"
 
 #### insurance_coverage
 - "Fully covered by insurance"
@@ -605,7 +626,8 @@ Star rating system: 1-5 scale
 - "No"
 - "Still ongoing"
 
-#### typical_length (Success screen optional)
+#### typical_length (Success screen optional for therapists/coaches/doctors/alternative only)
+**Note:** NOT shown for medical_procedures (redundant with frequency), professional_services, or crisis_resources
 - "Single session only"
 - "2-4 sessions"
 - "5-8 sessions"
@@ -695,13 +717,17 @@ All other fields listed above are single-select dropdowns.
 
 ### Books/Courses (PurchaseForm)
 - "None"
-- "Too theoretical"
+- "Too basic for my level"
+- "Too advanced for my level"
 - "Not enough practical examples"
+- "Too theoretical"
 - "Outdated information"
 - "Poor organization"
-- "Too basic/too advanced"
+- "Too long/verbose"
 - "Instructor hard to follow"
-- "Technical issues with platform"
+- "Technical platform issues"
+- "Didn't match description"
+- "Incomplete content"
 - "No community support"
 
 ### Professional Services (SessionForm)

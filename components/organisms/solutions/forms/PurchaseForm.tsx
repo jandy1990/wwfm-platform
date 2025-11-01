@@ -81,10 +81,12 @@ export function PurchaseForm({
   const [costType, setCostType] = useState<'one_time' | 'subscription' | ''>('');
   const [costRange, setCostRange] = useState('');
   const [productType, setProductType] = useState('');
+  const [customProductType, setCustomProductType] = useState('');
   const [easeOfUse, setEaseOfUse] = useState('');
   const [format, setFormat] = useState('');
+  const [customFormat, setCustomFormat] = useState('');
   const [learningDifficulty, setLearningDifficulty] = useState('');
-  
+
   // Step 2 fields - Challenges array
   const [selectedChallenges, setSelectedChallenges] = useState<string[]>(['None']);
   const [challengeOptions, setChallengeOptions] = useState<string[]>([]);
@@ -96,7 +98,6 @@ export function PurchaseForm({
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
   
   // Optional fields (Success screen)
-  const [brand, setBrand] = useState('');
   const [completionStatus, setCompletionStatus] = useState('');
   const [notes, setNotes] = useState('');
 
@@ -120,13 +121,14 @@ export function PurchaseForm({
     costType,
     costRange,
     productType,
+    customProductType,
     easeOfUse,
     format,
+    customFormat,
     learningDifficulty,
     selectedChallenges,
     customChallenge,
     failedSolutions,
-    brand,
     completionStatus,
     notes,
     currentStep,
@@ -144,13 +146,14 @@ export function PurchaseForm({
         setCostType(data.costType || '');
         setCostRange(data.costRange || '');
         setProductType(data.productType || '');
+        setCustomProductType(data.customProductType || '');
         setEaseOfUse(data.easeOfUse || '');
         setFormat(data.format || '');
+        setCustomFormat(data.customFormat || '');
         setLearningDifficulty(data.learningDifficulty || '');
         setSelectedChallenges(data.selectedChallenges || ['None']);
         setCustomChallenge(data.customChallenge || '');
         setFailedSolutions(data.failedSolutions || []);
-        setBrand(data.brand || '');
         setCompletionStatus(data.completionStatus || '');
         setNotes(data.notes || '');
         setCurrentStep(data.currentStep || 1);
@@ -387,11 +390,15 @@ export function PurchaseForm({
         
         // Category-specific required fields
         let categorySpecificValid = true;
-        
+
         if (category === 'products_devices') {
-          categorySpecificValid = easeOfUse !== '' && productType !== '';
+          const productTypeValid = productType !== '' &&
+            (productType !== 'Other' || (productType === 'Other' && customProductType.trim() !== ''));
+          categorySpecificValid = easeOfUse !== '' && productTypeValid;
         } else if (category === 'books_courses') {
-          categorySpecificValid = learningDifficulty !== '' && format !== '';
+          const formatValid = format !== '' &&
+            (format !== 'Other' || (format === 'Other' && customFormat.trim() !== ''));
+          categorySpecificValid = learningDifficulty !== '' && formatValid;
         }
         
         return universalValid && costValid && categorySpecificValid;
@@ -443,11 +450,11 @@ export function PurchaseForm({
 
         // Category-specific fields
         ...(category === 'products_devices' && {
-          product_type: productType,
+          product_type: productType === 'Other' && customProductType ? customProductType : productType,
           ease_of_use: easeOfUse
         }),
         ...(category === 'books_courses' && {
-          format,
+          format: format === 'Other' && customFormat ? customFormat : format,
           learning_difficulty: learningDifficulty
         }),
 
@@ -509,16 +516,18 @@ export function PurchaseForm({
         // Show success screen
         setShowSuccessScreen(true);
       } else {
-        // Handle error
-        console.error('[PurchaseForm] Error submitting solution:', result.error);
-        toast.error('Failed to submit solution', {
-          description: result.error || 'Please try again or contact support if the problem persists.'
+        // Handle error - validation or submission failure
+        console.error('[PurchaseForm] Submission failed:', result.error);
+        toast.error('Unable to submit', {
+          description: result.error || 'Please check your entries and try again.',
+          duration: 6000, // 6 seconds for better visibility
         });
       }
     } catch (error) {
-      console.error('[PurchaseForm] Error submitting form:', error);
+      console.error('[PurchaseForm] Exception during submission:', error);
       toast.error('An unexpected error occurred', {
-        description: 'Please try again or contact support if the problem persists.'
+        description: 'Please try again or contact support if the problem persists.',
+        duration: 6000
       });
     } finally {
       console.log('[PurchaseForm] Setting isSubmitting to false');
@@ -529,8 +538,7 @@ export function PurchaseForm({
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
     const additionalFields: Record<string, unknown> = {};
-    
-    if (brand && brand.trim()) additionalFields.brand = brand.trim();
+
     if (completionStatus && completionStatus.trim()) additionalFields.completion_status = completionStatus.trim();
     if (notes && notes.trim()) additionalFields.notes = notes.trim();
     
@@ -746,7 +754,7 @@ export function PurchaseForm({
                 <div className="flex items-center">
                   <RadioGroupItem value="subscription" id="subscription" />
                   <label htmlFor="subscription" className="ml-2">
-                    {category === 'products_devices' ? 'Ongoing costs' : 'Subscription'}
+                    {category === 'products_devices' ? 'Monthly costs' : 'Subscription'}
                   </label>
                 </div>
               </div>
@@ -874,6 +882,29 @@ export function PurchaseForm({
                 <AlertCircle className="h-3 w-3" />
                 {validationErrors.format}
               </p>
+            )}
+
+            {/* Custom product type/format field when "Other" is selected */}
+            {((category === 'products_devices' && productType === 'Other') ||
+              (category === 'books_courses' && format === 'Other')) && (
+              <div className="mt-3 animate-slide-in">
+                <input
+                  type="text"
+                  placeholder={category === 'products_devices' ? 'Please describe the product type' : 'Please describe the format'}
+                  value={category === 'products_devices' ? customProductType : customFormat}
+                  onChange={(e) => {
+                    if (category === 'products_devices') {
+                      setCustomProductType(e.target.value);
+                    } else {
+                      setCustomFormat(e.target.value);
+                    }
+                  }}
+                  maxLength={100}
+                  className="w-full px-4 py-2 border border-purple-500 rounded-lg
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                />
+              </div>
             )}
           </div>
 
@@ -1024,20 +1055,20 @@ export function PurchaseForm({
               <span className="text-sm">{challenge}</span>
             </label>
           ))}
-        </div>
 
-        {/* Add other button */}
-        {!showCustomChallenge && (
+          {/* Add Other button */}
           <button
-            type="button"
             onClick={() => setShowCustomChallenge(true)}
-            className="flex items-center gap-2 px-4 py-2 text-sm text-purple-600 dark:text-purple-400
-                     hover:bg-purple-50 dark:hover:bg-purple-900/30 rounded-lg transition-colors button-focus-tight"
+            className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer
+                      transition-all transform hover:scale-[1.02] border-dashed
+                      border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-lg"
           >
-            <Plus className="w-4 h-4" />
-            Add other
+            <Plus className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors button-focus-tight" />
+            <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200">
+              Add other challenge
+            </span>
           </button>
-        )}
+        </div>
 
         {/* Custom challenge input */}
         {showCustomChallenge && (
@@ -1187,19 +1218,6 @@ export function PurchaseForm({
             </p>
             
             <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Brand/Manufacturer"
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-                disabled={optionalFieldsSubmitted}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                         focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm
-                         disabled:opacity-60 disabled:cursor-not-allowed"
-              />
-              
-              
               {category === 'books_courses' && (
                 <select
                   value={completionStatus}
@@ -1371,11 +1389,13 @@ export function PurchaseForm({
             <ul className="list-disc list-inside text-sm text-purple-800 dark:text-purple-200 space-y-0.5">
               {!effectiveness && <li>Effectiveness rating</li>}
               {!timeToResults && <li>Time to results</li>}
-              {!costType && <li>Cost type (one-time or subscription)</li>}
+              {!costType && <li>Cost type (one-time or monthly)</li>}
               {!costRange && <li>Cost range</li>}
               {category === 'products_devices' && !productType && <li>Product type</li>}
+              {category === 'products_devices' && productType === 'Other' && !customProductType.trim() && <li>Product type description (you selected "Other")</li>}
               {category === 'products_devices' && !easeOfUse && <li>Ease of use</li>}
               {category === 'books_courses' && !format && <li>Format</li>}
+              {category === 'books_courses' && format === 'Other' && !customFormat.trim() && <li>Format description (you selected "Other")</li>}
               {category === 'books_courses' && !learningDifficulty && <li>Learning difficulty</li>}
             </ul>
           </AlertDescription>

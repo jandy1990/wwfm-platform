@@ -363,12 +363,13 @@ export function CommunityForm({
       };
       
       // Call server action
+      console.log('[CommunityForm] Calling submitSolution...');
       const result = await submitSolution(submissionData);
-      console.log('CommunityForm submission result:', result);
-      
+      console.log('[CommunityForm] Submission result:', result);
+
       // Check if component is still mounted before updating state
       if (!isMounted.current) {
-        console.log('CommunityForm: Component unmounted during submission, aborting state updates');
+        console.log('[CommunityForm] Component unmounted during submission, aborting state updates');
         return;
       }
       
@@ -381,7 +382,7 @@ export function CommunityForm({
           implementationId: result.variantId,
           otherRatingsCount: result.otherRatingsCount
         });
-        
+
         // Clear backup on successful submission
         clearBackup();
 
@@ -395,20 +396,27 @@ export function CommunityForm({
         // Show success screen
         setShowSuccessScreen(true);
       } else {
-        // Handle error
-        console.error('Error submitting solution:', result.error);
-        toast.error('Failed to submit solution', {
-          description: result.error || 'Please try again or contact support if the problem persists.'
+        // Handle error - validation or submission failure
+        console.error('[CommunityForm] Submission failed:', result.error);
+
+        // Show error toast with longer duration for visibility
+        toast.error('Unable to submit', {
+          description: result.error || 'Please check your entries and try again.',
+          duration: 6000, // 6 seconds instead of default 4
         });
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('[CommunityForm] Exception during submission:', error);
       toast.error('An unexpected error occurred', {
-        description: 'Please try again or contact support if the problem persists.'
+        description: 'Please try again or contact support if the problem persists.',
+        duration: 6000
       });
     } finally {
       if (isMounted.current) {
+        console.log('[CommunityForm] Resetting isSubmitting to false');
         setIsSubmitting(false);
+      } else {
+        console.log('[CommunityForm] Component unmounted, skipping state reset');
       }
     }
   };

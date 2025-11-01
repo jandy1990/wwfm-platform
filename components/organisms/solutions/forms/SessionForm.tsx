@@ -74,12 +74,14 @@ export function SessionForm({
   const [timeToResults, setTimeToResults] = useState('');
 
   // Categories with only per_session cost type (no radio button)
-  const singleCostCategories = ['therapists_counselors', 'coaches_mentors', 'alternative_practitioners', 'doctors_specialists'];
-  const initialCostType = singleCostCategories.includes(category) ? 'per_session' : '';
+  const singleCostCategories = ['therapists_counselors', 'coaches_mentors', 'alternative_practitioners', 'doctors_specialists', 'medical_procedures'];
+  const initialCostType = singleCostCategories.includes(category) ?
+    (category === 'medical_procedures' ? 'total' : 'per_session') : '';
 
   const [costType, setCostType] = useState<'per_session' | 'monthly' | 'total' | ''>(initialCostType);
   const [costRange, setCostRange] = useState('');
   const [sessionFrequency, setSessionFrequency] = useState('');
+  const [customSessionFrequency, setCustomSessionFrequency] = useState('');
   const [format, setFormat] = useState('');
   const [sessionLength, setSessionLength] = useState('');
   const [waitTime, setWaitTime] = useState('');
@@ -136,6 +138,7 @@ export function SessionForm({
     costType,
     costRange,
     sessionFrequency,
+    customSessionFrequency,
     format,
     sessionLength,
     waitTime,
@@ -168,6 +171,7 @@ export function SessionForm({
         setCostType(data.costType || '');
         setCostRange(data.costRange || '');
         setSessionFrequency(data.sessionFrequency || '');
+        setCustomSessionFrequency(data.customSessionFrequency || '');
         setFormat(data.format || '');
         setSessionLength(data.sessionLength || '');
         setWaitTime(data.waitTime || '');
@@ -369,14 +373,8 @@ export function SessionForm({
       return ['Free', 'Donation-based', 'Sliding scale', "Don't remember"];
     }
     if (category === 'medical_procedures') {
-      // Handle all three cost types for medical procedures
-      if (costType === 'total') {
-        return [...COST_RANGES.one_time, "Don't remember"];  // For total cost of procedure
-      } else if (costType === 'per_session') {
-        return [...COST_RANGES.per_session, "Don't remember"];  // For per session costs
-      } else {
-        return [...COST_RANGES.monthly, "Don't remember"];  // For monthly costs
-      }
+      // Medical procedures only use total cost (no radio button)
+      return [...COST_RANGES.total, "Don't remember"];
     }
     const baseOptions = COST_RANGES[costType as keyof typeof COST_RANGES] || COST_RANGES.per_session;
     return [...baseOptions, "Don't remember"];
@@ -522,7 +520,7 @@ export function SessionForm({
         <div className="space-y-6">
           <FormSectionHeader
             icon={CATEGORY_ICONS[category]}
-            title="Session details"
+            title={category === 'medical_procedures' ? 'Procedure details' : 'Session details'}
           />
 
       {/* Required fields based on category */}
@@ -561,6 +559,23 @@ export function SessionForm({
                 <SelectItem value="Other">Other (please describe)</SelectItem>
               </SelectContent>
             </Select>
+
+            {/* Custom frequency field when "Other" is selected */}
+            {sessionFrequency === 'Other' && (
+              <div className="mt-3 animate-slide-in">
+                <input
+                  type="text"
+                  placeholder="Please describe the frequency"
+                  value={customSessionFrequency}
+                  onChange={(e) => setCustomSessionFrequency(e.target.value)}
+                  maxLength={100}
+                  className="w-full px-4 py-2 border border-purple-500 rounded-lg
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                />
+              </div>
+            )}
+
             {touched.sessionFrequency && validationErrors.sessionFrequency && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
@@ -1439,7 +1454,9 @@ export function SessionForm({
           // Doctors require wait_time and insurance_coverage (NOT session fields)
           categorySpecificValid = waitTime !== '' && insuranceCoverage !== '';
         } else if (category === 'medical_procedures') {
-          categorySpecificValid = waitTime !== '' && sessionFrequency !== '';
+          const frequencyValid = sessionFrequency !== '' &&
+            (sessionFrequency !== 'Other' || (sessionFrequency === 'Other' && customSessionFrequency.trim() !== ''));
+          categorySpecificValid = waitTime !== '' && frequencyValid;
         } else if (category === 'professional_services') {
           categorySpecificValid = specialty !== '' && sessionFrequency !== '';
         } else if (category === 'crisis_resources') {
@@ -1502,7 +1519,12 @@ export function SessionForm({
       };
       
       // Add optional fields based on category
-      if (sessionFrequency) solutionFields.session_frequency = sessionFrequency;
+      if (sessionFrequency) {
+        // Use custom frequency text if "Other" was selected and custom text provided
+        solutionFields.session_frequency = (sessionFrequency === 'Other' && customSessionFrequency.trim())
+          ? customSessionFrequency.trim()
+          : sessionFrequency;
+      }
       if (format) solutionFields.format = format;
       if (sessionLength) solutionFields.session_length = sessionLength;
       if (waitTime) solutionFields.wait_time = waitTime;
@@ -1567,13 +1589,19 @@ export function SessionForm({
         // Show success screen
         setShowSuccessScreen(true);
       } else {
-        // Handle error
-        console.error('Error submitting solution:', result.error);
-        toast.error(result.error || 'Failed to submit solution. Please try again.');
+        // Handle error - validation or submission failure
+        console.error('[SessionForm] Submission failed:', result.error);
+        toast.error('Unable to submit', {
+          description: result.error || 'Please check your entries and try again.',
+          duration: 6000, // 6 seconds for better visibility
+        });
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
-      toast.error('An unexpected error occurred. Please try again.');
+      console.error('[SessionForm] Exception during submission:', error);
+      toast.error('An unexpected error occurred', {
+        description: 'Please try again or contact support if the problem persists.',
+        duration: 6000
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -1773,7 +1801,7 @@ export function SessionForm({
                 </Select>
               )}
 
-              {!['professional_services', 'crisis_resources'].includes(category) && (
+              {!['professional_services', 'crisis_resources', 'medical_procedures'].includes(category) && (
                 <Select value={typicalLength} onValueChange={setTypicalLength} disabled={optionalFieldsSubmitted}>
                   <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
@@ -1958,10 +1986,28 @@ export function SessionForm({
 
       {/* Step Navigation Helper - Outside unified container */}
       {!canProceedToNextStep() && currentStep === 1 && (
-        <Alert className="mt-4">
-          <Info className="h-4 w-4" />
+        <Alert className="mt-4 border-purple-200 bg-purple-50 dark:bg-purple-900/20 dark:border-purple-800">
+          <Info className="h-4 w-4 text-purple-600 dark:text-purple-400" />
           <AlertDescription>
-            Please fill in all required fields (marked with *) to continue
+            <p className="font-semibold text-purple-900 dark:text-purple-100 mb-1">Required to continue:</p>
+            <ul className="list-disc list-inside text-sm text-purple-800 dark:text-purple-200 space-y-0.5">
+              {!effectiveness && <li>Effectiveness rating</li>}
+              {!timeToResults && <li>Time to results</li>}
+              {!costType && <li>Cost type</li>}
+              {!costRange && <li>Cost amount</li>}
+              {category === 'doctors_specialists' && !waitTime && <li>Wait time</li>}
+              {category === 'doctors_specialists' && !insuranceCoverage && <li>Insurance coverage</li>}
+              {category === 'medical_procedures' && !waitTime && <li>Wait time</li>}
+              {category === 'medical_procedures' && !sessionFrequency && <li>Treatment frequency</li>}
+              {category === 'medical_procedures' && sessionFrequency === 'Other' && !customSessionFrequency.trim() && <li>Treatment frequency description (you selected "Other")</li>}
+              {['therapists_counselors', 'coaches_mentors', 'alternative_practitioners'].includes(category) && !sessionFrequency && <li>Session frequency</li>}
+              {['therapists_counselors', 'coaches_mentors', 'alternative_practitioners'].includes(category) && !sessionLength && <li>Session length</li>}
+              {category === 'professional_services' && !specialty && <li>Service specialty</li>}
+              {category === 'professional_services' && specialty === 'Other' && !customSpecialty.trim() && <li>Specialty description (you selected "Other")</li>}
+              {category === 'professional_services' && !sessionFrequency && <li>Session frequency</li>}
+              {category === 'crisis_resources' && !responseTime && <li>Response time</li>}
+              {category === 'crisis_resources' && !format && <li>Format</li>}
+            </ul>
           </AlertDescription>
         </Alert>
       )}

@@ -8,8 +8,14 @@
 import { DROPDOWN_OPTIONS, getDropdownOptionsForField } from '../../config/solution-dropdown-options'
 
 export function mapCostToDropdown(value: string, options: string[]): string {
+  // Handle free values
   if (value.toLowerCase().includes('free') || value === '0' || value === '$0') {
     return options.find(opt => opt.toLowerCase().includes('free')) || options[0]
+  }
+
+  // Handle donation-based values
+  if (value.toLowerCase().includes('donation')) {
+    return options.find(opt => opt.toLowerCase().includes('donation')) || options[0]
   }
 
   const match = value.match(/\$?(\d+(?:\.\d+)?)/)

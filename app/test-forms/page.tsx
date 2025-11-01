@@ -47,10 +47,12 @@ const FORM_CATEGORIES = [
   // FinancialForm (1)
   { category: 'financial_products', form: 'FinancialForm', icon: DollarSign, label: 'Financial Products', color: 'emerald' },
 
-  // PurchaseForm (3)
+  // PurchaseForm (2)
   { category: 'products_devices', form: 'PurchaseForm', icon: ShoppingBag, label: 'Products & Devices', color: 'blue' },
   { category: 'books_courses', form: 'PurchaseForm', icon: BookOpen, label: 'Books & Courses', color: 'amber' },
-  { category: 'online_services', form: 'PurchaseForm', icon: Briefcase, label: 'Online Services', color: 'cyan' },
+
+  // SessionForm (7) - medical_procedures
+  { category: 'medical_procedures', form: 'SessionForm', icon: Briefcase, label: 'Medical Procedures', color: 'red' },
 ];
 
 interface Goal {

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Check, AlertCircle, Info, ChevronLeft } from 'lucide-react';
+import { Check, AlertCircle, Info, ChevronLeft, Plus, X } from 'lucide-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Skeleton } from '@/components/atoms/skeleton';
 import { Alert, AlertDescription } from '@/components/atoms/alert';
@@ -78,8 +78,7 @@ export function FinancialForm({
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
   
   // Optional fields (Success screen)
-  const [provider, setProvider] = useState('');
-  const [selectedRequirements, setSelectedRequirements] = useState<string[]>(['None']);
+  const [productType, setProductType] = useState('');
   const [easeOfUse, setEaseOfUse] = useState('');
   const [notes, setNotes] = useState('');
 
@@ -104,8 +103,7 @@ export function FinancialForm({
     selectedChallenges,
     customChallenge,
     failedSolutions,
-    provider,
-    selectedRequirements,
+    productType,
     easeOfUse,
     notes,
     currentStep,
@@ -126,8 +124,7 @@ export function FinancialForm({
         setSelectedChallenges(data.selectedChallenges || ['None']);
         setCustomChallenge(data.customChallenge || '');
         setFailedSolutions(data.failedSolutions || []);
-        setProvider(data.provider || '');
-        setSelectedRequirements(data.selectedRequirements || ['None']);
+        setProductType(data.productType || '');
         setEaseOfUse(data.easeOfUse || '');
         setNotes(data.notes || '');
         setCurrentStep(data.currentStep || 1);
@@ -215,21 +212,6 @@ export function FinancialForm({
 
     fetchOptions();
   }, []);
-
-  const handleRequirementToggle = (requirement: string) => {
-    if (requirement === 'None') {
-      setSelectedRequirements(['None']);
-    } else {
-      setSelectedRequirements(prev => {
-        const filtered = prev.filter(r => r !== 'None');
-        if (prev.includes(requirement)) {
-          const newRequirements = filtered.filter(r => r !== requirement);
-          return newRequirements.length === 0 ? ['None'] : newRequirements;
-        }
-        return [...filtered, requirement];
-      });
-    }
-  };
 
   const handleChallengeToggle = (challenge: string) => {
     if (challenge === 'None') {
@@ -453,13 +435,19 @@ export function FinancialForm({
         // Show success screen
         setShowSuccessScreen(true);
       } else {
-        // Handle error
-        console.error('Error submitting solution:', result.error);
-        toast.error(result.error || 'Failed to submit solution. Please try again.');
+        // Handle error - validation or submission failure
+        console.error('[FinancialForm] Submission failed:', result.error);
+        toast.error('Unable to submit', {
+          description: result.error || 'Please check your entries and try again.',
+          duration: 6000, // 6 seconds for better visibility
+        });
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
-      toast.error('An unexpected error occurred. Please try again.');
+      console.error('[FinancialForm] Exception during submission:', error);
+      toast.error('An unexpected error occurred', {
+        description: 'Please try again or contact support if the problem persists.',
+        duration: 6000
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -468,15 +456,14 @@ export function FinancialForm({
     const updateAdditionalInfo = async () => {
     // Prepare the additional fields to save
     const additionalFields: Record<string, unknown> = {};
-    
-    if (provider && provider.trim()) additionalFields.provider = provider.trim();
-    if (selectedRequirements.length > 0 && selectedRequirements[0] !== 'None') additionalFields.minimum_requirements = selectedRequirements;
+
+    if (productType && productType.trim()) additionalFields.product_type = productType.trim();
     if (easeOfUse && easeOfUse.trim()) additionalFields.ease_of_use = easeOfUse.trim();
     if (notes && notes.trim()) additionalFields.notes = notes.trim();
-    
+
     // Only proceed if there are fields to update
     if (Object.keys(additionalFields).length === 0) {
-      console.log('No additional fields to update');
+      console.log('[FinancialForm] No additional fields to update');
       return;
     }
     
@@ -525,19 +512,10 @@ export function FinancialForm({
               </p>
             </div>
 
-            {/* Category clarification */}
-            <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-4">
-              <p className="text-sm text-emerald-800 dark:text-emerald-200">
-                <strong>Financial Products:</strong> Budgeting tools, investment platforms, 
-                savings accounts, credit cards, debt management solutions, financial apps, 
-                or any product/service that helps with money management
-              </p>
-            </div>
-
             {/* Required fields section */}
             <div className="space-y-6">
-              <FormSectionHeader 
-                icon={CATEGORY_ICONS.financial_tools}
+              <FormSectionHeader
+                icon={CATEGORY_ICONS.financial_products}
                 title="Product details"
               />
               
@@ -831,6 +809,19 @@ export function FinancialForm({
                     <span className="text-sm">{challenge}</span>
                   </label>
                 ))}
+
+                {/* Add Other button */}
+                <button
+                  onClick={() => setShowCustomChallenge(true)}
+                  className="group flex items-center gap-3 p-3 rounded-lg border cursor-pointer
+                            transition-all transform hover:scale-[1.02] border-dashed
+                            border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:shadow-lg"
+                >
+                  <Plus className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors button-focus-tight" />
+                  <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200">
+                    Add other challenge
+                  </span>
+                </button>
               </div>
             )}
 
@@ -851,10 +842,10 @@ export function FinancialForm({
                 />
                 <button
                   onClick={addCustomChallenge}
-                  className="px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white 
+                  className="px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white
                            rounded-lg transition-colors button-focus-tight"
                 >
-                  +
+                  Add
                 </button>
                 <button
                   onClick={() => {
@@ -885,9 +876,9 @@ export function FinancialForm({
                           const newChallenges = prev.filter(c => c !== challenge);
                           return newChallenges.length === 0 ? ['None'] : newChallenges;
                         })}
-                        className="text-red-500 hover:text-red-700 p-1"
+                        className="hover:text-purple-900 dark:hover:text-purple-100"
                       >
-                        ×
+                        <X className="w-3 h-3" />
                       </button>
                     </div>
                   ))}
@@ -985,78 +976,56 @@ export function FinancialForm({
             </p>
             
             <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Provider/Company name"
-                value={provider}
-                onChange={(e) => setProvider(e.target.value)}
+              <select
+                value={productType}
+                onChange={(e) => setProductType(e.target.value)}
                 disabled={optionalFieldsSubmitted}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                          appearance-none text-sm
                          disabled:opacity-60 disabled:cursor-not-allowed"
-              />
+              >
+                <option value="">Product type</option>
+                <option value="Savings account">Savings account</option>
+                <option value="Checking account">Checking account</option>
+                <option value="Credit card">Credit card</option>
+                <option value="Budgeting app">Budgeting app</option>
+                <option value="Investment platform">Investment platform</option>
+                <option value="Debt management">Debt management</option>
+                <option value="Insurance product">Insurance product</option>
+                <option value="Loan">Loan</option>
+                <option value="Other">Other</option>
+              </select>
 
-              {/* Minimum Requirements */}
-              <div>
-                <label className="text-xs text-gray-600 dark:text-gray-400 mb-1 block">Minimum requirements</label>
-                <div className="grid grid-cols-1 gap-1 max-h-32 overflow-y-auto p-2 border rounded-md">
-                  {[
-                    'None',
-                    'Bank account required',
-                    'Minimum balance ($500+)',
-                    'Minimum balance ($1000+)',
-                    'Minimum balance ($5000+)',
-                    'Good credit (650+)',
-                    'Excellent credit (750+)',
-                    'Proof of income',
-                    'Business entity',
-                    'Collateral required',
-                    'Age 18+ required',
-                    'US citizenship/residency',
-                    'Other requirements'
-                  ].map((requirement) => (
-                    <label key={requirement} className="flex items-center gap-2 text-xs cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={selectedRequirements.includes(requirement)}
-                        onChange={() => handleRequirementToggle(requirement)}
-                        disabled={optionalFieldsSubmitted}
-                        className="w-3 h-3 disabled:opacity-60 disabled:cursor-not-allowed"
-                      />
-                      <span className={optionalFieldsSubmitted ? 'opacity-60' : ''}>{requirement}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <Select value={easeOfUse} onValueChange={setEaseOfUse} disabled={optionalFieldsSubmitted}>
-                <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+              <select
+                value={easeOfUse}
+                onChange={(e) => setEaseOfUse(e.target.value)}
+                disabled={optionalFieldsSubmitted}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                         text-sm"
-                         disabled={optionalFieldsSubmitted}>
-                  <SelectValue placeholder="Ease of use" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Very easy">Very easy</SelectItem>
-                  <SelectItem value="Easy">Easy</SelectItem>
-                  <SelectItem value="Moderate">Moderate</SelectItem>
-                  <SelectItem value="Complex">Complex</SelectItem>
-                  <SelectItem value="Very complex">Very complex</SelectItem>
-                </SelectContent>
-              </Select>
-              
+                         appearance-none text-sm
+                         disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                <option value="">Ease of use</option>
+                <option value="Very easy to use">Very easy to use</option>
+                <option value="Easy to use">Easy to use</option>
+                <option value="Moderate learning curve">Moderate learning curve</option>
+                <option value="Difficult to use">Difficult to use</option>
+                <option value="Very difficult to use">Very difficult to use</option>
+              </select>
+
               <textarea
                 placeholder="What do others need to know?"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                rows={3}
+                rows={2}
                 disabled={optionalFieldsSubmitted}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                         appearance-none text-sm
                          disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>

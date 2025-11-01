@@ -63,7 +63,7 @@ export function buildDetailedFieldRequirements(category: string): string {
       'cost': '"Free" or "$5-10 per meeting" or "$20-30/month"',
       'time_to_results': '"1-2 weeks" or "3-4 weeks" or "1-2 months"',
       'meeting_frequency': '"Weekly" or "Bi-weekly" or "Monthly"',
-      'format': '"In-person" or "Online (video)" or "Hybrid (both)"'
+      'format': '"In-person only" or "Online only" or "Hybrid"'
     },
     'habits_routines': {
       'startup_cost': '"Free/No startup cost" or "Under $50" or "$50-$99.99"',

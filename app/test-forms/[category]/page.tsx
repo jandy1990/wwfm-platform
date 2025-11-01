@@ -31,7 +31,7 @@ const CATEGORY_TO_FORM: Record<string, string> = {
   'financial_products': 'FinancialForm',
   'products_devices': 'PurchaseForm',
   'books_courses': 'PurchaseForm',
-  'online_services': 'PurchaseForm',
+  'medical_procedures': 'SessionForm',
 };
 
 export default async function TestFormCategoryPage({ params, searchParams }: PageProps) {

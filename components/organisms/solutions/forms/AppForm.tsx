@@ -430,16 +430,18 @@ export function AppForm({
         // Show success screen
         setShowSuccessScreen(true);
       } else {
-        // Handle error
-        console.error('Error submitting solution:', result.error);
-        toast.error('Failed to submit solution', {
-          description: result.error || 'Please try again or contact support if the problem persists.'
+        // Handle error - validation or submission failure
+        console.error('[AppForm] Submission failed:', result.error);
+        toast.error('Unable to submit', {
+          description: result.error || 'Please check your entries and try again.',
+          duration: 6000, // 6 seconds for better visibility
         });
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('[AppForm] Exception during submission:', error);
       toast.error('An unexpected error occurred', {
-        description: 'Please try again or contact support if the problem persists.'
+        description: 'Please try again or contact support if the problem persists.',
+        duration: 6000
       });
     } finally {
       setIsSubmitting(false);

@@ -143,7 +143,7 @@ export const DROPDOWN_OPTIONS = {
   community_format: [
     "In-person only",
     "Online only",
-    "Hybrid (both)",
+    "Hybrid",
     "Phone/Conference call"
   ],
   
@@ -356,6 +356,18 @@ export const DROPDOWN_OPTIONS = {
     "1-2 weeks",
     "2-4 weeks",
     "Over a month"
+  ],
+
+  financial_product_type: [
+    "Savings account",
+    "Checking account",
+    "Credit card",
+    "Budgeting app",
+    "Investment platform",
+    "Debt management",
+    "Insurance product",
+    "Loan",
+    "Other"
   ],
 
   financial_challenges: [
@@ -699,13 +711,17 @@ export const DROPDOWN_OPTIONS = {
 
   learning_challenges: [
     "None",
-    "Too theoretical",
+    "Too basic for my level",
+    "Too advanced for my level",
     "Not enough practical examples",
+    "Too theoretical",
     "Outdated information",
     "Poor organization",
-    "Too basic/too advanced",
+    "Too long/verbose",
     "Instructor hard to follow",
-    "Technical issues with platform",
+    "Technical platform issues",
+    "Didn't match description",
+    "Incomplete content",
     "No community support"
   ],
 
@@ -737,13 +753,14 @@ export const DROPDOWN_OPTIONS = {
   
   session_cost_total: [
     "Free",
-    "Under $20",
-    "$20-50",
-    "$50-100",
-    "$100-250",
-    "$250-500",
-    "$500-1000",
-    "Over $1000",
+    "Under $100",
+    "$100-500",
+    "$500-1,000",
+    "$1,000-5,000",
+    "$5,000-10,000",
+    "$10,000-25,000",
+    "$25,000-50,000",
+    "Over $50,000",
     "Don't remember"
   ],
   
@@ -761,7 +778,7 @@ export const DROPDOWN_OPTIONS = {
     "In-person",
     "Virtual/Online",
     "Phone",
-    "Hybrid (both)"
+    "Hybrid"
   ],
   
   crisis_format: [
@@ -869,7 +886,9 @@ export const DROPDOWN_OPTIONS = {
     "2-4 weeks",
     "1-3 months",
     "3-6 months",
-    "More than 6 months"
+    "6-12 months",
+    "1-2 years",
+    "Over 2 years"
   ],
   
   insurance_coverage: [

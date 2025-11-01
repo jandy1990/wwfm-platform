@@ -99,7 +99,7 @@ export const DROPDOWN_OPTIONS = {
   community_format: [
     "In-person only",
     "Online only",
-    "Hybrid (both)",
+    "Hybrid",
     "Phone/Conference call"
   ],
   
@@ -203,6 +203,18 @@ export const DROPDOWN_OPTIONS = {
     "1-2 weeks",
     "2-4 weeks",
     "Over a month"
+  ],
+
+  financial_product_type: [
+    "Savings account",
+    "Checking account",
+    "Credit card",
+    "Budgeting app",
+    "Investment platform",
+    "Debt management",
+    "Insurance product",
+    "Loan",
+    "Other"
   ],
 
   // ========================================
@@ -481,13 +493,14 @@ export const DROPDOWN_OPTIONS = {
   
   session_cost_total: [
     "Free",
-    "Under $20",
-    "$20-50",
-    "$50-100",
-    "$100-250",
-    "$250-500",
-    "$500-1000",
-    "Over $1000"
+    "Under $100",
+    "$100-500",
+    "$500-1,000",
+    "$1,000-5,000",
+    "$5,000-10,000",
+    "$10,000-25,000",
+    "$25,000-50,000",
+    "Over $50,000"
   ],
   
   session_frequency: [
@@ -504,7 +517,7 @@ export const DROPDOWN_OPTIONS = {
     "In-person",
     "Virtual/Online",
     "Phone",
-    "Hybrid (both)"
+    "Hybrid"
   ],
   
   crisis_format: [

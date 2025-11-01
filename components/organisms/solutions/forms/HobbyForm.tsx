@@ -397,13 +397,19 @@ export function HobbyForm({
         // Show success screen
         setShowSuccessScreen(true);
       } else {
-        // Handle error
-        console.error('Error submitting solution:', result.error);
-        toast.error(result.error || 'Failed to submit solution. Please try again.');
+        // Handle error - validation or submission failure
+        console.error('[HobbyForm] Submission failed:', result.error);
+        toast.error('Unable to submit', {
+          description: result.error || 'Please check your entries and try again.',
+          duration: 6000, // 6 seconds for better visibility
+        });
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
-      toast.error('An unexpected error occurred. Please try again.');
+      console.error('[HobbyForm] Exception during submission:', error);
+      toast.error('An unexpected error occurred', {
+        description: 'Please try again or contact support if the problem persists.',
+        duration: 6000
+      });
     } finally {
       setIsSubmitting(false);
     }
