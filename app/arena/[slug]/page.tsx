@@ -3,6 +3,9 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
+
+// Cache for 5 minutes - arena pages are relatively static
+export const revalidate = 300
 import Breadcrumbs from '@/components/molecules/Breadcrumbs'
 import { createBreadcrumbs } from '@/lib/utils/breadcrumbs'
 import EmptyState from '@/components/molecules/EmptyState'

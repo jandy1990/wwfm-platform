@@ -33,9 +33,11 @@ export async function getUserPoints(userId: string): Promise<UserPointsData> {
     const nextMilestone = MILESTONES.find(m => points < m.threshold)
 
     if (nextMilestone) {
-      const previousThreshold = MILESTONES.find(
-        m => m.threshold < nextMilestone.threshold
-      )?.threshold || 0
+      // Find the milestone immediately BEFORE the next one (not just any milestone below it)
+      const nextMilestoneIndex = MILESTONES.findIndex(m => m.threshold === nextMilestone.threshold)
+      const previousThreshold = nextMilestoneIndex > 0
+        ? MILESTONES[nextMilestoneIndex - 1].threshold
+        : 0
 
       const progress = ((points - previousThreshold) / (nextMilestone.threshold - previousThreshold)) * 100
 

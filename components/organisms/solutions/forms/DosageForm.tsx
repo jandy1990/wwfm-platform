@@ -119,6 +119,9 @@ export function DosageForm({
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
+  // Track if optional fields have been submitted
+  const [optionalFieldsSubmitted, setOptionalFieldsSubmitted] = useState(false);
+
   // Form backup - save all critical fields
   const formBackupData = {
     currentStep,
@@ -1317,6 +1320,7 @@ export function DosageForm({
       
       if (result.success) {
         console.log('Successfully updated additional information');
+        setOptionalFieldsSubmitted(true);
         toast.success('Additional information saved!', {
           description: 'Thank you for providing more details.'
         });
@@ -1353,7 +1357,7 @@ export function DosageForm({
             {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
               <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'} around the world</>
             ) : (
-              <>Your experience with {solutionName} has been recorded and will help people worldwide</>
+              <>Your experience has been recorded and will help people worldwide</>
             )}
           </p>
 
@@ -1372,31 +1376,34 @@ export function DosageForm({
                   <div className="flex gap-2 mb-2">
                     <button
                       onClick={() => setCostType('monthly')}
+                      disabled={optionalFieldsSubmitted}
                       className={`flex-1 py-3 px-3 rounded text-sm font-semibold transition-colors ${
                         costType === 'monthly'
                           ? 'bg-purple-600 text-white'
                           : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                      }`}
+                      } disabled:opacity-60 disabled:cursor-not-allowed`}
                     >
                       Monthly
                     </button>
                     <button
                       onClick={() => setCostType('one_time')}
+                      disabled={optionalFieldsSubmitted}
                       className={`flex-1 py-3 px-3 rounded text-sm font-semibold transition-colors ${
                         costType === 'one_time'
                           ? 'bg-purple-600 text-white'
                           : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                      }`}
+                      } disabled:opacity-60 disabled:cursor-not-allowed`}
                     >
                       One-time
                     </button>
                   </div>
                 )}
-                <Select value={costRange} onValueChange={setCostRange}>
+                <Select value={costRange} onValueChange={setCostRange} disabled={optionalFieldsSubmitted}>
                   <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                           text-sm">
+                           text-sm"
+                           disabled={optionalFieldsSubmitted}>
                     <SelectValue placeholder="Select cost range..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -1433,18 +1440,20 @@ export function DosageForm({
                 placeholder="Brand/Manufacturer"
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                disabled={category === 'beauty_skincare' || optionalFieldsSubmitted}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
-                disabled={category === 'beauty_skincare'}
+                         dark:bg-gray-700 dark:text-white text-sm
+                         disabled:opacity-60 disabled:cursor-not-allowed"
               />
               
               {category !== 'beauty_skincare' && (
-                <Select value={form} onValueChange={setForm}>
+                <Select value={form} onValueChange={setForm} disabled={optionalFieldsSubmitted}>
                   <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                           text-sm">
+                           text-sm"
+                           disabled={optionalFieldsSubmitted}>
                     <SelectValue placeholder="Form factor" />
                   </SelectTrigger>
                   <SelectContent>
@@ -1478,9 +1487,11 @@ export function DosageForm({
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   rows={3}
+                  disabled={optionalFieldsSubmitted}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           dark:bg-gray-700 dark:text-white text-sm"
+                           dark:bg-gray-700 dark:text-white text-sm
+                           disabled:opacity-60 disabled:cursor-not-allowed"
                 />
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   💡 Your insights will be shared in the Community Discussion to help others working toward this goal
@@ -1488,14 +1499,25 @@ export function DosageForm({
               </div>
             </div>
 
-            {/* Always-visible submit button - center aligned */}
+            {/* Submit button - changes to "Saved" after successful submission */}
             <div className="text-center mt-4">
               <button
                 onClick={updateAdditionalInfo}
-                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg
-                         font-semibold transition-colors button-focus-tight"
+                disabled={optionalFieldsSubmitted}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all button-focus-tight ${
+                  optionalFieldsSubmitted
+                    ? 'bg-green-600 text-white cursor-default'
+                    : 'bg-purple-600 hover:bg-purple-700 text-white'
+                }`}
               >
-                Submit extra details
+                {optionalFieldsSubmitted ? (
+                  <span className="flex items-center gap-2">
+                    <Check className="w-5 h-5" />
+                    Saved
+                  </span>
+                ) : (
+                  'Submit extra details'
+                )}
               </button>
             </div>
           </div>

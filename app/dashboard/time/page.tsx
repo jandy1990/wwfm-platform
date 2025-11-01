@@ -2,6 +2,9 @@ import { createServerSupabaseClient } from '@/lib/database/server'
 import { redirect } from 'next/navigation'
 import { TimeTrackingDisplay } from './TimeTrackingDisplay'
 
+// Cache for 60 seconds - time tracking data updates gradually
+export const revalidate = 60
+
 export default async function TimeTrackingDashboard() {
   // Check authentication
   const supabase = await createServerSupabaseClient()

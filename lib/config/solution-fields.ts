@@ -260,11 +260,11 @@ export const CATEGORY_FIELD_CONFIG: Record<string, CategoryConfig> = {
   },
   sleep: {
     // SSOT: GoalPageClient.tsx lines 284-297
-    keyFields: ['time_to_results', 'previous_sleep_hours', 'still_following', 'cost'],
+    keyFields: ['time_to_results', 'sleep_quality_change', 'still_following', 'cost'],
     arrayField: 'challenges',
     fieldToDropdownMap: {
       time_to_results: 'time_to_results',
-      previous_sleep_hours: 'previous_sleep_hours',
+      sleep_quality_change: 'sleep_quality_change',
       still_following: 'still_following',
       cost: 'sleep_cost_impact',  // Note: Labeled "Cost Impact" not absolute cost
       challenges: 'sleep_challenges'
@@ -296,7 +296,7 @@ export const CATEGORY_FIELD_CONFIG: Record<string, CategoryConfig> = {
       cost: 'hobby_ongoing_cost',  // Derived from startup + ongoing
       startup_cost: 'startup_cost',  // Collected but not in keyFields
       ongoing_cost: 'hobby_ongoing_cost',  // Collected but not in keyFields
-      cost_type: 'cost_type',  // Derived but not in keyFields
+      // cost_type is internal (free/one_time/recurring/dual) - NOT validated against dropdown
       challenges: 'hobby_challenges'
     },
     contextSources: ['community_feedback', 'user_experiences', 'expert_analysis', 'enthusiast_forums']

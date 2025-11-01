@@ -22,7 +22,7 @@ const EXPECTED_FIELDS = {
 
   sleep: {
     time_to_results: '1-2 weeks',
-    previous_sleep_hours: '6-7 hours',
+    sleep_quality_change: 'Significantly better',
     still_following: true,
     cost: 'Free',
     challenges: ['None']

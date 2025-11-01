@@ -116,6 +116,8 @@ export class SolutionAggregator {
     // LifestyleForm fields
     aggregated.weekly_prep_time = this.aggregateValueField(ratings, 'weekly_prep_time')
     aggregated.previous_sleep_hours = this.aggregateValueField(ratings, 'previous_sleep_hours')
+    aggregated.current_sleep_hours = this.aggregateValueField(ratings, 'current_sleep_hours')
+    aggregated.sleep_quality_change = this.aggregateValueField(ratings, 'sleep_quality_change')
     aggregated.still_following = this.aggregateBooleanField(ratings, 'still_following')
     aggregated.sustainability_reason = this.aggregateValueField(ratings, 'sustainability_reason')
     aggregated.social_impact = this.aggregateValueField(ratings, 'social_impact')

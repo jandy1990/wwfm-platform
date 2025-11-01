@@ -87,6 +87,9 @@ export function HobbyForm({
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
+  // Track if optional fields have been submitted
+  const [optionalFieldsSubmitted, setOptionalFieldsSubmitted] = useState(false);
+
   // Progress indicator
   const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
@@ -330,14 +333,14 @@ export function HobbyForm({
       // Prepare solution fields for storage
       // Primary cost field for cross-category filtering
       const hasUnknownCost = ongoingCost === "Don't remember" || startupCost === "Don't remember";
-      const primaryCost = hasUnknownCost ? "Unknown" : 
+      const primaryCost = hasUnknownCost ? "Unknown" :
                           ongoingCost && ongoingCost !== "Free/No ongoing cost" ? ongoingCost :
-                          startupCost && startupCost !== "Free/No startup cost" ? startupCost : 
-                          "Free";
+                          startupCost && startupCost !== "Free/No startup cost" ? startupCost :
+                          "Free/No ongoing cost"; // Changed from "Free" to match dropdown options
       const costType = hasUnknownCost ? "unknown" :
-                       (ongoingCost && ongoingCost !== "Free/No ongoing cost") && 
-                       (startupCost && startupCost !== "Free/No startup cost") ? "dual" : 
-                       ongoingCost && ongoingCost !== "Free/No ongoing cost" ? "recurring" : 
+                       (ongoingCost && ongoingCost !== "Free/No ongoing cost") &&
+                       (startupCost && startupCost !== "Free/No startup cost") ? "dual" :
+                       ongoingCost && ongoingCost !== "Free/No ongoing cost" ? "recurring" :
                        startupCost && startupCost !== "Free/No startup cost" ? "one_time" : "free";
       
       const solutionFields = {
@@ -430,6 +433,7 @@ export function HobbyForm({
       
       if (result.success) {
         console.log('Successfully updated additional information');
+        setOptionalFieldsSubmitted(true);
         toast.success('Additional information saved successfully!');
       } else {
         console.error('Failed to update:', result.error);
@@ -577,20 +581,6 @@ export function HobbyForm({
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
               <span className="text-xs text-gray-500 dark:text-gray-400">then</span>
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
-            </div>
-
-            {/* Hobby Context */}
-            <div className="space-y-4">
-              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
-                <div className="space-y-2">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    <strong>Hobby/Activity:</strong> Something you do for fun, personal growth, or creative expression (not fitness-related)
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Examples: painting, gardening, playing guitar, coding, bird watching, woodworking
-                  </p>
-                </div>
-              </div>
             </div>
 
             {/* Hobby Details Section */}
@@ -993,7 +983,11 @@ export function HobbyForm({
             Thank you for sharing!
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8 opacity-0 animate-[fadeIn_0.5s_ease-in_0.5s_forwards]">
-            Your experience with {solutionName} has been recorded
+            {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
+              <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'} around the world</>
+            ) : (
+              <>Your experience has been recorded and will help people worldwide</>
+            )}
           </p>
 
           {/* Optional fields */}
@@ -1008,9 +1002,11 @@ export function HobbyForm({
                 placeholder="Community or group name"
                 value={communityName}
                 onChange={(e) => setCommunityName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                disabled={optionalFieldsSubmitted}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
+                         dark:bg-gray-700 dark:text-white text-sm
+                         disabled:opacity-60 disabled:cursor-not-allowed"
               />
               
               <textarea
@@ -1018,20 +1014,33 @@ export function HobbyForm({
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
+                disabled={optionalFieldsSubmitted}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
+                         dark:bg-gray-700 dark:text-white text-sm
+                         disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>
 
-            {/* Always-visible submit button - center aligned */}
+            {/* Submit button - changes to "Saved" after successful submission */}
             <div className="text-center mt-4">
               <button
                 onClick={updateAdditionalInfo}
-                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg
-                         font-semibold transition-colors button-focus-tight"
+                disabled={optionalFieldsSubmitted}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all button-focus-tight ${
+                  optionalFieldsSubmitted
+                    ? 'bg-green-600 text-white cursor-default'
+                    : 'bg-purple-600 hover:bg-purple-700 text-white'
+                }`}
               >
-                Submit extra details
+                {optionalFieldsSubmitted ? (
+                  <span className="flex items-center gap-2">
+                    <Check className="w-5 h-5" />
+                    Saved
+                  </span>
+                ) : (
+                  'Submit extra details'
+                )}
               </button>
             </div>
           </div>

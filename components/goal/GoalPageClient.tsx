@@ -286,11 +286,11 @@ const CATEGORY_CONFIG: Record<string, {
     color: 'text-indigo-700',
     borderColor: 'border-indigo-200',
     bgColor: 'bg-indigo-50',
-    keyFields: ['time_to_results', 'previous_sleep_hours', 'still_following', 'cost'],
+    keyFields: ['time_to_results', 'sleep_quality_change', 'still_following', 'cost'],
     fieldLabels: {
       cost: 'Cost Impact',
       time_to_results: 'Time to Results',
-      previous_sleep_hours: 'Previous Sleep',
+      sleep_quality_change: 'Sleep Quality',
       still_following: 'Still Following'
     },
     arrayField: 'challenges'

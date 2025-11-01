@@ -66,31 +66,34 @@ export function LifestyleForm({
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
   const [timeToResults, setTimeToResults] = useState('');
   const [costImpact, setCostImpact] = useState('');
-  const [weeklyPrepTime, setWeeklyPrepTime] = useState('');
+  const [weeklyPrepTime, setWeeklyPrepTime] = useState(''); // diet only
+  const [sleepQualityChange, setSleepQualityChange] = useState(''); // sleep only - NOW REQUIRED
   const [stillFollowing, setStillFollowing] = useState<boolean | null>(null);
   const [sustainabilityReason, setSustainabilityReason] = useState('');
-  const [previousSleepHours, setPreviousSleepHours] = useState('');
-  
+  const [customStoppedReason, setCustomStoppedReason] = useState('');
+
   // Step 2 fields - Challenges
   const [selectedChallenges, setSelectedChallenges] = useState<string[]>(['None']);
   const [challengeOptions, setChallengeOptions] = useState<string[]>([]);
   const [challengesLoading, setChallengesLoading] = useState(true);
   const [customChallenge, setCustomChallenge] = useState('');
   const [showCustomChallenge, setShowCustomChallenge] = useState(false);
-  
+
   // Step 3 - Failed solutions
   const [failedSolutions, setFailedSolutions] = useState<FailedSolution[]>([]);
-  
+
   // Optional fields (Success screen)
-  const [socialImpact, setSocialImpact] = useState('');
-  const [sleepQualityChange, setSleepQualityChange] = useState('');
-  const [specificApproach, setSpecificApproach] = useState('');
-  const [resources, setResources] = useState('');
+  const [socialImpact, setSocialImpact] = useState(''); // diet_nutrition only
+  const [previousSleepHours, setPreviousSleepHours] = useState(''); // sleep only - now optional
+  const [currentSleepHours, setCurrentSleepHours] = useState(''); // sleep only - optional
   const [notes, setNotes] = useState('');
 
   // Validation state
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  // Track if optional fields have been submitted
+  const [optionalFieldsSubmitted, setOptionalFieldsSubmitted] = useState(false);
 
   // Progress indicator
   const totalSteps = 3;
@@ -102,16 +105,16 @@ export function LifestyleForm({
     timeToResults,
     costImpact,
     weeklyPrepTime,
+    sleepQualityChange,
     stillFollowing,
     sustainabilityReason,
-    previousSleepHours,
+    customStoppedReason,
     selectedChallenges,
     customChallenge,
     failedSolutions,
     socialImpact,
-    sleepQualityChange,
-    specificApproach,
-    resources,
+    previousSleepHours,
+    currentSleepHours,
     notes,
     currentStep,
     highestStepReached
@@ -127,16 +130,16 @@ export function LifestyleForm({
         setTimeToResults(data.timeToResults || '');
         setCostImpact(data.costImpact || '');
         setWeeklyPrepTime(data.weeklyPrepTime || '');
+        setSleepQualityChange(data.sleepQualityChange || '');
         setStillFollowing(data.stillFollowing || null);
         setSustainabilityReason(data.sustainabilityReason || '');
-        setPreviousSleepHours(data.previousSleepHours || '');
+        setCustomStoppedReason(data.customStoppedReason || '');
         setSelectedChallenges(data.selectedChallenges || ['None']);
         setCustomChallenge(data.customChallenge || '');
         setFailedSolutions(data.failedSolutions || []);
         setSocialImpact(data.socialImpact || '');
-        setSleepQualityChange(data.sleepQualityChange || '');
-        setSpecificApproach(data.specificApproach || '');
-        setResources(data.resources || '');
+        setPreviousSleepHours(data.previousSleepHours || '');
+        setCurrentSleepHours(data.currentSleepHours || '');
         setNotes(data.notes || '');
         setCurrentStep(data.currentStep || 1);
         setHighestStepReached(data.highestStepReached || 1);
@@ -289,9 +292,9 @@ export function LifestyleForm({
           error = 'Please select weekly prep time';
         }
         break;
-      case 'previousSleepHours':
+      case 'sleepQualityChange':
         if (category === 'sleep' && (!value || value === '')) {
-          error = 'Please select previous sleep hours';
+          error = 'Please select how your sleep quality changed';
         }
         break;
     }
@@ -335,8 +338,8 @@ export function LifestyleForm({
         }
 
         if (category === 'sleep') {
-          markTouched('previousSleepHours');
-          validateField('previousSleepHours', previousSleepHours);
+          markTouched('sleepQualityChange');
+          validateField('sleepQualityChange', sleepQualityChange);
         }
         break;
       case 2: // Challenges
@@ -373,9 +376,9 @@ export function LifestyleForm({
     switch (currentStep) {
       case 1: // Universal + Required fields
         const universalValid = effectiveness !== null && timeToResults !== '' && costImpact !== '' && stillFollowing !== null;
-        const categorySpecificValid = category === 'diet_nutrition' 
+        const categorySpecificValid = category === 'diet_nutrition'
           ? weeklyPrepTime !== ''
-          : previousSleepHours !== '';
+          : sleepQualityChange !== '';
         return universalValid && categorySpecificValid;
         
       case 2: // Challenges
@@ -419,13 +422,17 @@ export function LifestyleForm({
         // Completion tracking fields (separate for clarity)
         ...(stillFollowing !== null && { still_following: stillFollowing }),
         ...(sustainabilityReason && { sustainability_reason: sustainabilityReason }),
+        // Save custom stopped reason if "Other" was selected
+        ...(sustainabilityReason === 'Other (please specify)' && customStoppedReason.trim() && {
+          custom_stopped_reason: customStoppedReason.trim()
+        }),
         
         // Category-specific fields
         ...(category === 'diet_nutrition' && {
           weekly_prep_time: weeklyPrepTime,
         }),
         ...(category === 'sleep' && {
-          previous_sleep_hours: previousSleepHours,
+          sleep_quality_change: sleepQualityChange,
         }),
         
         // Array field (challenges for both categories) - "None" is a valid value
@@ -476,11 +483,15 @@ export function LifestyleForm({
         setShowSuccessScreen(true);
       } else {
         console.error('Submission failed:', result.error);
-        // You might want to show an error message to the user here
+        toast.error('Failed to submit solution', {
+          description: result.error || 'Please try again or contact support if the problem persists.'
+        });
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      // You might want to show an error message to the user here
+      toast.error('An unexpected error occurred', {
+        description: 'Please try again or contact support if the problem persists.'
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -491,9 +502,8 @@ export function LifestyleForm({
     const additionalFields: Record<string, unknown> = {};
     
     if (socialImpact && socialImpact.trim()) additionalFields.social_impact = socialImpact.trim();
-    if (sleepQualityChange && sleepQualityChange.trim()) additionalFields.sleep_quality_change = sleepQualityChange.trim();
-    if (specificApproach && specificApproach.trim()) additionalFields.specific_approach = specificApproach.trim();
-    if (resources && resources.trim()) additionalFields.resources = resources.trim();
+    if (previousSleepHours && previousSleepHours.trim()) additionalFields.previous_sleep_hours = previousSleepHours.trim();
+    if (currentSleepHours && currentSleepHours.trim()) additionalFields.current_sleep_hours = currentSleepHours.trim();
     if (notes && notes.trim()) additionalFields.notes = notes.trim();
     
     // Only proceed if there are fields to update
@@ -513,6 +523,7 @@ export function LifestyleForm({
       
       if (result.success) {
         console.log('Successfully updated additional information');
+        setOptionalFieldsSubmitted(true);
         toast.success('Additional information saved!', {
           description: 'Your extra details have been added to your review.'
         });
@@ -677,7 +688,7 @@ export function LifestyleForm({
               {/* Cost Impact */}
               <div className="space-y-3">
                 <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                  Cost impact <span className="text-red-500">*</span>
+                  {category === 'diet_nutrition' ? 'Cost impact' : 'Cost'} <span className="text-red-500">*</span>
                 </label>
                 <Select
                   value={costImpact}
@@ -769,39 +780,38 @@ export function LifestyleForm({
               {category === 'sleep' && (
                 <div className="space-y-3">
                   <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                    Previous sleep hours <span className="text-red-500">*</span>
+                    Sleep quality change <span className="text-red-500">*</span>
                   </label>
                   <Select
-                    value={previousSleepHours}
+                    value={sleepQualityChange}
                     onValueChange={(val) => {
-                      setPreviousSleepHours(val);
-                      validateField('previousSleepHours', val);
-                      markTouched('previousSleepHours');
+                      setSleepQualityChange(val);
+                      validateField('sleepQualityChange', val);
+                      markTouched('sleepQualityChange');
                     }}
                   >
                     <SelectTrigger className={`w-full px-4 py-3 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
                              bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-all ${
-                               touched.previousSleepHours && validationErrors.previousSleepHours
+                               touched.sleepQualityChange && validationErrors.sleepQualityChange
                                  ? 'border-2 border-red-500 dark:border-red-600'
                                  : 'border border-gray-300 dark:border-gray-600'
                              }`}>
-                      <SelectValue placeholder="Before this change" />
+                      <SelectValue placeholder="How did sleep quality change?" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Under 4 hours">Under 4 hours</SelectItem>
-                      <SelectItem value="4-5 hours">4-5 hours</SelectItem>
-                      <SelectItem value="5-6 hours">5-6 hours</SelectItem>
-                      <SelectItem value="6-7 hours">6-7 hours</SelectItem>
-                      <SelectItem value="7-8 hours">7-8 hours</SelectItem>
-                      <SelectItem value="Over 8 hours">Over 8 hours</SelectItem>
-                      <SelectItem value="Highly variable">Highly variable</SelectItem>
+                      <SelectItem value="Dramatically better">Dramatically better</SelectItem>
+                      <SelectItem value="Significantly better">Significantly better</SelectItem>
+                      <SelectItem value="Somewhat better">Somewhat better</SelectItem>
+                      <SelectItem value="No change">No change</SelectItem>
+                      <SelectItem value="Somewhat worse">Somewhat worse</SelectItem>
+                      <SelectItem value="Much worse">Much worse</SelectItem>
                     </SelectContent>
                   </Select>
-                  {touched.previousSleepHours && validationErrors.previousSleepHours && (
+                  {touched.sleepQualityChange && validationErrors.sleepQualityChange && (
                     <p className="text-sm text-red-600 dark:text-red-400 mt-1 flex items-center gap-1">
                       <AlertCircle className="h-3 w-3" />
-                      {validationErrors.previousSleepHours}
+                      {validationErrors.sleepQualityChange}
                     </p>
                   )}
                 </div>
@@ -906,9 +916,24 @@ export function LifestyleForm({
                         <SelectItem value="No longer needed (problem solved)">No longer needed (problem solved)</SelectItem>
                         <SelectItem value="Found something better">Found something better</SelectItem>
                         <SelectItem value="Life circumstances changed">Life circumstances changed</SelectItem>
-                        <SelectItem value="Other">Other</SelectItem>
+                        <SelectItem value="Other (please specify)">Other (please specify)</SelectItem>
                       </SelectContent>
                     </Select>
+
+                    {/* Custom text field when "Other" is selected */}
+                    {sustainabilityReason === 'Other (please specify)' && (
+                      <div className="mt-2">
+                        <input
+                          type="text"
+                          placeholder="Please specify the main reason you stopped"
+                          value={customStoppedReason}
+                          onChange={(e) => setCustomStoppedReason(e.target.value)}
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                                   focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                                   bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -1118,7 +1143,7 @@ export function LifestyleForm({
             {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
               <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'}</>
             ) : (
-              <>Your experience with {solutionName} has been recorded and will help people worldwide</>
+              <>Your experience has been recorded and will help people worldwide</>
             )}
           </p>
 
@@ -1133,10 +1158,11 @@ export function LifestyleForm({
               {category === 'diet_nutrition' && (
                 <div>
                   <label className="text-xs text-gray-600 dark:text-gray-400 mb-1 block">Social impact</label>
-                  <Select value={socialImpact} onValueChange={setSocialImpact}>
+                  <Select value={socialImpact} onValueChange={setSocialImpact} disabled={optionalFieldsSubmitted}>
                     <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                              focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                             disabled={optionalFieldsSubmitted}>
                       <SelectValue placeholder="Social challenges?" />
                     </SelectTrigger>
                     <SelectContent>
@@ -1151,67 +1177,83 @@ export function LifestyleForm({
               )}
 
               {category === 'sleep' && (
-                <div>
-                  <label className="text-xs text-gray-600 dark:text-gray-400 mb-1 block">Sleep quality change</label>
-                  <Select value={sleepQualityChange} onValueChange={setSleepQualityChange}>
-                    <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                             focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
-                      <SelectValue placeholder="Quality improvement?" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Dramatically better">Dramatically better</SelectItem>
-                      <SelectItem value="Significantly better">Significantly better</SelectItem>
-                      <SelectItem value="Somewhat better">Somewhat better</SelectItem>
-                      <SelectItem value="No change">No change</SelectItem>
-                      <SelectItem value="Somewhat worse">Somewhat worse</SelectItem>
-                      <SelectItem value="Much worse">Much worse</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
+                <>
+                  <div>
+                    <label className="text-xs text-gray-600 dark:text-gray-400 mb-1 block">Previous sleep hours (optional)</label>
+                    <Select value={previousSleepHours} onValueChange={setPreviousSleepHours} disabled={optionalFieldsSubmitted}>
+                      <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                               focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                               bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                               disabled={optionalFieldsSubmitted}>
+                        <SelectValue placeholder="Before this change" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Under 4 hours">Under 4 hours</SelectItem>
+                        <SelectItem value="4-5 hours">4-5 hours</SelectItem>
+                        <SelectItem value="5-6 hours">5-6 hours</SelectItem>
+                        <SelectItem value="6-7 hours">6-7 hours</SelectItem>
+                        <SelectItem value="7-8 hours">7-8 hours</SelectItem>
+                        <SelectItem value="Over 8 hours">Over 8 hours</SelectItem>
+                        <SelectItem value="Highly variable">Highly variable</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-              {category === 'sleep' && (
-                <input
-                  type="text"
-                  placeholder="Specific approach or method"
-                  value={specificApproach}
-                  onChange={(e) => setSpecificApproach(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           dark:bg-gray-700 dark:text-white text-sm"
-                />
+                  <div>
+                    <label className="text-xs text-gray-600 dark:text-gray-400 mb-1 block">Current sleep hours (optional)</label>
+                    <Select value={currentSleepHours} onValueChange={setCurrentSleepHours} disabled={optionalFieldsSubmitted}>
+                      <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                               focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                               bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                               disabled={optionalFieldsSubmitted}>
+                        <SelectValue placeholder="After this change" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Under 4 hours">Under 4 hours</SelectItem>
+                        <SelectItem value="4-5 hours">4-5 hours</SelectItem>
+                        <SelectItem value="5-6 hours">5-6 hours</SelectItem>
+                        <SelectItem value="6-7 hours">6-7 hours</SelectItem>
+                        <SelectItem value="7-8 hours">7-8 hours</SelectItem>
+                        <SelectItem value="Over 8 hours">Over 8 hours</SelectItem>
+                        <SelectItem value="Highly variable">Highly variable</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </>
               )}
-
-              <input
-                type="text"
-                placeholder="Helpful resources (books, apps, etc.)"
-                value={resources}
-                onChange={(e) => setResources(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
-              />
               
               <textarea
                 placeholder="What do others need to know?"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
+                disabled={optionalFieldsSubmitted}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
+                         dark:bg-gray-700 dark:text-white text-sm
+                         disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>
 
-            {/* Always-visible submit button - center aligned */}
+            {/* Submit button - changes to "Saved" after successful submission */}
             <div className="text-center mt-4">
               <button
                 onClick={updateAdditionalInfo}
-                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg
-                         font-semibold transition-colors button-focus-tight"
+                disabled={optionalFieldsSubmitted}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all button-focus-tight ${
+                  optionalFieldsSubmitted
+                    ? 'bg-green-600 text-white cursor-default'
+                    : 'bg-purple-600 hover:bg-purple-700 text-white'
+                }`}
               >
-                Submit extra details
+                {optionalFieldsSubmitted ? (
+                  <span className="flex items-center gap-2">
+                    <Check className="w-5 h-5" />
+                    Saved
+                  </span>
+                ) : (
+                  'Submit extra details'
+                )}
               </button>
             </div>
           </div>
@@ -1342,7 +1384,7 @@ export function LifestyleForm({
               {!costImpact && <li>Cost impact</li>}
               {stillFollowing === null && <li>Still following</li>}
               {category === 'diet_nutrition' && !weeklyPrepTime && <li>Weekly prep time</li>}
-              {category === 'sleep' && !previousSleepHours && <li>Previous sleep hours</li>}
+              {category === 'sleep' && !sleepQualityChange && <li>Sleep quality change</li>}
             </ul>
           </AlertDescription>
         </Alert>

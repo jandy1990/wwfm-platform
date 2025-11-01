@@ -121,9 +121,10 @@ export const DROPDOWN_OPTIONS = {
   // ========================================
   // COMMUNITY FORM FIELDS
   // ========================================
-  
+
   payment_frequency: [
-    "Free or donation-based",
+    "Free",
+    "Donation-based",
     "Per meeting/session",
     "Monthly",
     "Yearly"
@@ -529,7 +530,26 @@ export const DROPDOWN_OPTIONS = {
     "Over 8 hours",
     "Highly variable"
   ],
-  
+
+  current_sleep_hours: [
+    "Under 4 hours",
+    "4-5 hours",
+    "5-6 hours",
+    "6-7 hours",
+    "7-8 hours",
+    "Over 8 hours",
+    "Highly variable"
+  ],
+
+  sleep_quality_change: [
+    "Dramatically better",
+    "Significantly better",
+    "Somewhat better",
+    "No change",
+    "Somewhat worse",
+    "Much worse"
+  ],
+
   sustainability: [
     "Easy to maintain now",
     "Takes effort but manageable",
@@ -823,12 +843,13 @@ export const DROPDOWN_OPTIONS = {
   ],
   
   session_length: [
-    "15 minutes",
-    "30 minutes",
-    "45 minutes",
-    "60 minutes",
-    "90 minutes",
-    "2+ hours",
+    "Under 15 minutes",
+    "15-30 minutes",
+    "30-45 minutes",
+    "45-60 minutes",
+    "60-90 minutes",
+    "90-120 minutes",
+    "Over 2 hours",
     "Varies"
   ],
   
@@ -859,20 +880,20 @@ export const DROPDOWN_OPTIONS = {
   ],
   
   service_type: [
-    "Personal trainer/Fitness coach",
-    "Nutritionist/Dietitian",
-    "Professional organizer",
+    "Career/Business coach",
+    "Creative services (photographer, designer, writer)",
+    "Digital marketing/Tech specialist",
     "Financial advisor/Planner",
-    "Legal services",
-    "Virtual assistant",
-    "Tutor/Educational specialist",
     "Hair/Beauty professional",
     "Home services (cleaning, handyman, etc.)",
-    "Career/Business coach",
-    "Digital marketing/Tech specialist",
+    "Legal services",
+    "Nutritionist",
+    "Personal trainer/Fitness coach",
     "Pet services",
-    "Creative services (photographer, designer, writer)",
-    "Other professional service"
+    "Professional organizer",
+    "Tutor/Educational specialist",
+    "Virtual assistant",
+    "Other (please specify)"
   ],
   
   response_time: [

@@ -1,3 +1,6 @@
+// Cache for 1 hour - feedback form content changes rarely
+export const revalidate = 3600
+
 export default function FeedbackPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">

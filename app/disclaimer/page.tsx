@@ -1,3 +1,6 @@
+// Cache for 1 day - legal content changes very rarely
+export const revalidate = 86400
+
 export default function DisclaimerPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">

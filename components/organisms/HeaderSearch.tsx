@@ -100,7 +100,7 @@ export default function HeaderSearch({ className = '' }: HeaderSearchProps) {
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => {
             setIsFocused(true)
-            if (suggestions.length > 0) {
+            if (searchQuery.trim().length >= 2 || suggestions.length > 0) {
               setShowDropdown(true)
             }
           }}

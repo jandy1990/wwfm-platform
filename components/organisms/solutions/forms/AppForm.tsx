@@ -91,6 +91,9 @@ export function AppForm({
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
+  // Track if optional fields have been submitted
+  const [optionalFieldsSubmitted, setOptionalFieldsSubmitted] = useState(false);
+
   // Progress indicator
   const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
@@ -465,6 +468,7 @@ export function AppForm({
       });
       
       if (result.success) {
+        setOptionalFieldsSubmitted(true);
         toast.success('Additional information saved!', {
           description: 'Thank you for providing more details.'
         });
@@ -993,7 +997,7 @@ export function AppForm({
             {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
               <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'}</>
             ) : (
-              <>Your experience with {solutionName} has been recorded and will help people worldwide</>
+              <>Your experience has been recorded and will help people worldwide</>
             )}
           </p>
 
@@ -1004,10 +1008,11 @@ export function AppForm({
             </p>
             
             <div className="space-y-4">
-              <Select value={platform} onValueChange={setPlatform}>
+              <Select value={platform} onValueChange={setPlatform} disabled={optionalFieldsSubmitted}>
                 <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                         disabled={optionalFieldsSubmitted}>
                   <SelectValue placeholder="Select platform" />
                 </SelectTrigger>
                 <SelectContent>
@@ -1027,21 +1032,34 @@ export function AppForm({
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
+                disabled={optionalFieldsSubmitted}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                         appearance-none text-sm"
+                         appearance-none text-sm
+                         disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>
 
-            {/* Always-visible submit button - center aligned */}
+            {/* Submit button - changes to "Saved" after successful submission */}
             <div className="text-center mt-4">
               <button
                 onClick={updateAdditionalInfo}
-                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg
-                         font-semibold transition-colors button-focus-tight"
+                disabled={optionalFieldsSubmitted}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all button-focus-tight ${
+                  optionalFieldsSubmitted
+                    ? 'bg-green-600 text-white cursor-default'
+                    : 'bg-purple-600 hover:bg-purple-700 text-white'
+                }`}
               >
-                Submit extra details
+                {optionalFieldsSubmitted ? (
+                  <span className="flex items-center gap-2">
+                    <Check className="w-5 h-5" />
+                    Saved
+                  </span>
+                ) : (
+                  'Submit extra details'
+                )}
               </button>
             </div>
           </div>

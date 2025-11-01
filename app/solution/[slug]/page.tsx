@@ -4,6 +4,9 @@ import { getSolutionDetail, getSimilarSolutions } from '@/lib/solutions/solution
 import SolutionPageClient from '@/components/solution/SolutionPageClient'
 import Breadcrumbs from '@/components/molecules/Breadcrumbs'
 
+// Cache for 5 minutes - solution pages update with new goal connections
+export const revalidate = 300
+
 interface PageProps {
   params: Promise<{ slug: string }>
 }

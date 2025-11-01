@@ -17,8 +17,8 @@
 
 ## 📊 TESTING STATUS TRACKER
 
-**Last Updated:** 2025-10-31
-**Progress:** 5/23 forms tested (22%)
+**Last Updated:** 2025-11-01
+**Progress:** 17/23 forms tested (74%)
 
 **COMPLETED TODAY:**
 1. ✅ Apps & Software (AppForm)
@@ -26,8 +26,135 @@
 3. ✅ Supplements & Vitamins (DosageForm)
 4. ✅ Natural Remedies (DosageForm)
 5. ✅ Beauty & Skincare (DosageForm)
+6. ✅ Therapists & Counselors (SessionForm)
+7. ✅ Doctors & Specialists (SessionForm)
+8. ✅ Coaches & Mentors (SessionForm)
+9. ✅ Alternative Practitioners (SessionForm)
+10. ✅ Professional Services (SessionForm)
+11. ✅ Crisis Resources (SessionForm)
+12. ✅ Meditation & Mindfulness (PracticeForm)
+13. ✅ Exercise & Movement (PracticeForm)
+14. ✅ Habits & Routines (PracticeForm)
+15. ✅ Hobbies & Activities (HobbyForm)
+16. ✅ Diet & Nutrition (LifestyleForm)
+17. ✅ Sleep (LifestyleForm)
 
-**NEXT TO TEST:** Therapists & Counselors (SessionForm) - Form #6
+**NEXT TO TEST:** Support Groups (CommunityForm) - Form #18
+
+---
+
+## 🔄 HANDOFF NOTES FOR NEXT SESSION
+
+**Session Date:** 2025-11-01
+**Forms Remaining:** 6 out of 23 (26%)
+
+### **Critical Changes Made This Session:**
+
+#### 1. **SessionForm Major Updates:**
+- ✅ Fixed LAZY validation (was EAGER, felt clunky)
+- ✅ Insurance coverage simplified (6 → 4 options, removed HSA/FSA)
+- ✅ Field reordering (frequency → length → format → insurance → cost)
+- ✅ Optional fields moved to success screen (format, insurance for some categories)
+- ✅ session_length changed to ranges ("45-60 minutes" not "60 minutes")
+- ✅ "Less regulated quality" challenge removed (coaches_mentors)
+- ✅ "Varies by condition" removed (typical_treatment_length)
+- ✅ Nutritionist/Dietitian split (RD → doctors, Nutritionist → professional_services)
+- ✅ Professional services specialty alphabetized with "Other (please specify)" custom text
+
+#### 2. **Success Screen UX (All 9 Forms):**
+- ✅ Option A implemented: Fields disable after submit, button changes to "✓ Saved"
+- ✅ Solution name removed from success message (now generic)
+
+#### 3. **PracticeForm & HobbyForm:**
+- ✅ Cost validation fix ("Free" → "Free/No ongoing cost")
+- ✅ cost_type removed from validation for hobbies_activities
+- ✅ Habits defaults to free costs (81% are free)
+- ✅ Hobby definition box removed
+
+#### 4. **LifestyleForm Major Changes:**
+- ✅ Diet: Removed "Diet Type" and "Helpful resources" from success screen
+- ✅ Diet: Kept "Social Impact" (valuable)
+- ✅ Diet: Added "Other (please specify)" with custom text for stopped reasons
+- ✅ **Sleep SSOT Change:** `previous_sleep_hours` → `sleep_quality_change` as keyField
+  - Updated 15 intersecting files (SSOT, form, configs, generators, docs, tests)
+  - previous/current hours now optional on success screen
+  - Removed specific_approach field
+- ✅ Toast error handling added to LifestyleForm
+- ✅ Cost label: "Cost impact" (diet) vs "Cost" (sleep)
+
+#### 5. **Admin Dashboard Created:**
+- ✅ `/admin` route with authentication
+- ✅ Custom specialty review component
+- ✅ Promotion system for popular "Other" entries (10+ uses threshold)
+- ✅ Documentation in `/docs/admin/ADMIN_DASHBOARD.md`
+
+#### 6. **Alternative Practitioners:**
+- ✅ Side effects cleaned up (20 → 14 options, removed pseudoscience terms)
+
+### **Remaining Forms (6):**
+
+**CommunityForm (2 categories):**
+- Support Groups
+- Groups & Communities
+
+**FinancialForm (1 category):**
+- Financial Products
+
+**PurchaseForm (3 categories):**
+- Products & Devices
+- Books & Courses
+- Online Services
+
+### **Known Patterns to Continue:**
+
+1. **Validation Process:**
+   - Query Supabase directly
+   - Launch independent sub-agent
+   - Compare results
+   - Mark PASS if 100% or explain discrepancies
+
+2. **Common Fixes Applied:**
+   - LAZY validation (not EAGER)
+   - Success screen Option A (disable fields + "✓ Saved" button)
+   - Remove redundant fields (type fields when solution name indicates type)
+   - Alphabetize dropdowns for usability
+   - Add "Other (please specify)" with custom text where appropriate
+
+3. **Boolean Field Handling:**
+   - `still_following` stored as boolean, not string - THIS IS CORRECT
+   - Test matrix shows user labels but DB uses boolean
+
+4. **Cost Field Patterns:**
+   - Some forms have cost_type (internal field, don't validate against dropdowns)
+   - Practice/Hobby forms: dual-cost system (startup + ongoing)
+   - Session forms: cost toggle (per_session vs monthly)
+   - Lifestyle forms: cost_impact (comparison or absolute)
+
+### **Files to Check When Making Changes:**
+
+Always refer to **INTERSECTING DOCUMENTS** section (lines 114-571) for complete file list.
+
+**Quick reference:**
+- SSOT Source: `components/goal/GoalPageClient.tsx` CATEGORY_CONFIG
+- Config: `lib/config/solution-dropdown-options.ts` + `scripts/solution-generator/config/dropdown-options.ts`
+- Form: Individual form component files
+- Docs: `docs/solution-fields-ssot.md`, `FORM_DROPDOWN_OPTIONS_REFERENCE.md`, this file
+- Tests: `tests/e2e/forms/` files
+- Validators: `lib/services/solution-aggregator.ts`, audit scripts
+
+### **Test Workflow:**
+
+1. User completes form manually
+2. Claude queries Supabase for data
+3. Claude launches sub-agent for independent verification
+4. Both compare against test matrix
+5. Report validation table with all fields
+6. Mark PASS/FAIL in status tracker
+7. Update progress counter
+
+**Database Access:** Use `mcp__supabase__execute_sql` with project ID `wqxkhxdbxdtpuvuvgirx`
+
+---
 
 | # | Form | Category | Status | Date Tested | Notes |
 |---|------|----------|--------|-------------|-------|
@@ -36,18 +163,18 @@
 | 3 | DosageForm | Supplements & Vitamins | ✅ PASS | 2025-10-31 | 16/16 fields validated, test matrix corrected |
 | 4 | DosageForm | Natural Remedies | ✅ PASS | 2025-10-31 | 15/15 fields validated, all perfect |
 | 5 | DosageForm | Beauty & Skincare | ✅ PASS | 2025-10-31 | 14/14 fields validated, no brand/form fields |
-| 6 | SessionForm | Therapists & Counselors | ⬜ Not Tested | - | - |
-| 7 | SessionForm | Doctors & Specialists | ⬜ Not Tested | - | - |
-| 8 | SessionForm | Coaches & Mentors | ⬜ Not Tested | - | - |
-| 9 | SessionForm | Alternative Practitioners | ⬜ Not Tested | - | - |
-| 10 | SessionForm | Professional Services | ⬜ Not Tested | - | - |
-| 11 | SessionForm | Crisis Resources | ⬜ Not Tested | - | - |
-| 12 | PracticeForm | Meditation & Mindfulness | ⬜ Not Tested | - | - |
-| 13 | PracticeForm | Exercise & Movement | ⬜ Not Tested | - | - |
-| 14 | PracticeForm | Habits & Routines | ⬜ Not Tested | - | - |
-| 15 | HobbyForm | Hobbies & Activities | ⬜ Not Tested | - | - |
-| 16 | LifestyleForm | Diet & Nutrition | ⬜ Not Tested | - | - |
-| 17 | LifestyleForm | Sleep | ⬜ Not Tested | - | - |
+| 6 | SessionForm | Therapists & Counselors | ✅ PASS | 2025-10-31 | 20/20 fields validated, LAZY validation fixed |
+| 7 | SessionForm | Doctors & Specialists | ✅ PASS | 2025-10-31 | 19/19 fields validated, session_length ranges implemented |
+| 8 | SessionForm | Coaches & Mentors | ✅ PASS | 2025-10-31 | 17/17 fields validated, new session_length ranges working |
+| 9 | SessionForm | Alternative Practitioners | ✅ PASS | 2025-10-31 | 17/17 fields validated, side effects cleaned up (20→14 options) |
+| 10 | SessionForm | Professional Services | ✅ PASS | 2025-10-31 | 17/17 fields validated, session_length added to success screen |
+| 11 | SessionForm | Crisis Resources | ✅ PASS | 2025-10-31 | 13/13 fields validated, availability checkboxes working |
+| 12 | PracticeForm | Meditation & Mindfulness | ✅ PASS | 2025-10-31 | 17/17 fields validated, dual-cost system working |
+| 13 | PracticeForm | Exercise & Movement | ✅ PASS | 2025-11-01 | 17/17 fields validated, dual-cost system working |
+| 14 | PracticeForm | Habits & Routines | ✅ PASS | 2025-11-01 | 16/16 fields validated, free cost defaults working |
+| 15 | HobbyForm | Hobbies & Activities | ✅ PASS | 2025-11-01 | 15/15 fields validated, cost_type validation fixed |
+| 16 | LifestyleForm | Diet & Nutrition | ✅ PASS | 2025-11-01 | 12/12 fields validated, social impact field working |
+| 17 | LifestyleForm | Sleep | ✅ PASS | 2025-11-01 | 13/13 fields validated, sleep_quality_change SSOT change complete |
 | 18 | CommunityForm | Support Groups | ⬜ Not Tested | - | - |
 | 19 | CommunityForm | Groups & Communities | ⬜ Not Tested | - | - |
 | 20 | FinancialForm | Financial Products | ⬜ Not Tested | - | - |
@@ -235,8 +362,9 @@ Present a summary table with validation results from both validators.
    - `lib/config/solution-fields.ts` - Add new category entry with all fields
 
 3. **Form Mapping** (ALWAYS)
+   - `components/organisms/solutions/SolutionFormWithAutoCategory.tsx` - Add category to routing logic
    - Determine which of 9 forms handles this category
-   - Update form's category list/mapping
+   - Update form's category list/mapping in the form component itself
 
 4. **Dropdown Options** (if new options needed)
    - `lib/config/solution-dropdown-options.ts` - Add category-specific dropdowns
@@ -298,8 +426,29 @@ Present a summary table with validation results from both validators.
 
 ### 📁 Complete File Reference by Category
 
-#### 🎨 **FORM COMPONENTS** (9 files)
+#### 🎯 **SSOT SOURCE (HIGHEST AUTHORITY)** (1 file - CHECK THIS FIRST!)
 ```
+components/goal/
+└── GoalPageClient.tsx                # Lines 56-407: CATEGORY_CONFIG (AUTHORITATIVE)
+                                      # Defines keyFields + arrayField for ALL 23 categories
+                                      # This is THE source of truth - all forms must align to this
+```
+
+**Critical:** When adding/removing fields from forms, ALWAYS verify against CATEGORY_CONFIG in this file first!
+**Rule:** If code disagrees with docs, CODE WINS. GoalPageClient.tsx IS the code that runs in production.
+
+**Update when:**
+- Adding/removing a category (add to CATEGORY_CONFIG)
+- Changing which fields display on solution cards (update keyFields)
+- Changing array field type (update arrayField: 'challenges' or 'side_effects')
+
+---
+
+#### 🎨 **FORM COMPONENTS** (10 files)
+```
+components/organisms/solutions/
+└── SolutionFormWithAutoCategory.tsx  # Form router (maps categories → form components)
+
 components/organisms/solutions/forms/
 ├── AppForm.tsx                    # Apps & Software
 ├── DosageForm.tsx                 # Medications, Supplements, Natural Remedies, Beauty
@@ -319,7 +468,11 @@ Shared:
 └── shared/constants.ts
 ```
 
-**Update when:** Adding/removing fields, changing field behavior, updating UI
+**Update when:**
+- Adding/removing fields → Individual form files
+- Changing field behavior → Individual form files
+- Adding new category → SolutionFormWithAutoCategory.tsx routing logic
+- Updating UI → Individual form files and shared components
 
 ---
 
@@ -431,7 +584,7 @@ Note: Quality standards and form system details are in CLAUDE.md and ARCHITECTUR
 
 ---
 
-#### 🧪 **TESTING FILES** (15+ files)
+#### 🧪 **TESTING FILES** (20+ files)
 ```
 tests/e2e/forms/
 ├── form-specific-fillers.ts             # Test data for all forms (UPDATE ALWAYS)
@@ -442,6 +595,7 @@ tests/e2e/forms/
 ├── dosage-form-beauty-skincare.spec.ts  # Beauty specific
 ├── dosage-form-natural-remedies.spec.ts # Natural remedies specific
 ├── session-form-complete.spec.ts        # Session form E2E test
+├── session-form-crisis-resources.spec.ts # Crisis resources specific
 ├── practice-form-complete.spec.ts       # Practice form E2E test
 ├── hobby-form-complete.spec.ts          # Hobby form E2E test
 ├── lifestyle-form-complete.spec.ts      # Lifestyle form E2E test
@@ -449,14 +603,23 @@ tests/e2e/forms/
 ├── financial-form-complete.spec.ts      # Financial form E2E test
 └── purchase-form-complete.spec.ts       # Purchase form E2E test
 
+tests/e2e/utils/
+├── test-helpers.ts                      # fillSuccessScreenFields, verifyDataPipeline, etc.
+└── test-cleanup.ts                      # clearTestRatingsForSolution
+
+tests/e2e/fixtures/
+├── test-solutions.ts                    # TEST_SOLUTIONS constant (solution names)
+└── test-data.ts                         # FORM_DROPDOWN_OPTIONS test data
+
 Root:
 └── MANUAL_FORM_TEST_MATRIX.md           # Manual testing specifications
 ```
 
 **Update when:**
-- Field changes → Update form-specific-fillers.ts
-- Dropdown changes → Update expected values in specs
+- Field changes → Update form-specific-fillers.ts, test-helpers.ts if success screen logic changes
+- Dropdown changes → Update expected values in specs, test-data.ts
 - Test case changes → Update MANUAL_FORM_TEST_MATRIX.md
+- New test solution names → Update test-solutions.ts
 
 ---
 
@@ -500,36 +663,44 @@ app/actions/
 
 | Change Type | Primary Files | Secondary Files | Optional Files |
 |-------------|---------------|-----------------|----------------|
-| **Added field to form** | Form.tsx, solution-fields.ts, solution-dropdown-options.ts | SSOT docs, test fillers, prompts | Validators |
-| **Removed field from form** | Form.tsx, solution-fields.ts | SSOT docs, test fillers, test matrix | Generators |
-| **Changed dropdown options** | solution-dropdown-options.ts (both), Form.tsx | DROPDOWN_REFERENCE.md, test matrix | Prompts |
+| **Added field to form** | **GoalPageClient.tsx (CATEGORY_CONFIG)**, Form.tsx, solution-fields.ts, solution-dropdown-options.ts | SSOT docs, test fillers, prompts | Validators |
+| **Removed field from form** | **GoalPageClient.tsx (CATEGORY_CONFIG)**, Form.tsx, solution-fields.ts | SSOT docs, test fillers, test matrix | Generators |
+| **Changed dropdown options** | solution-dropdown-options.ts (both), Form.tsx | DROPDOWN_REFERENCE.md, test matrix, test-data.ts | Prompts |
 | **Changed cost structure** | Form.tsx, solution-fields.ts, validator.ts | Dropdown options, test files | Migration script |
-| **Added new category** | Database enum, solution-fields.ts, forms | All configs, all docs, all tests | Everything! |
-| **Changed field name** | Form.tsx, solution-fields.ts | SSOT docs, generators, validators, tests | Migration script |
+| **Added new category** | **GoalPageClient.tsx (CATEGORY_CONFIG)**, Database enum, solution-fields.ts, forms | All configs, all docs, all tests | Everything! |
+| **Changed field name** | **GoalPageClient.tsx (CATEGORY_CONFIG)**, Form.tsx, solution-fields.ts | SSOT docs, generators, validators, tests | Migration script |
 
 ---
 
 ### ⚠️ CRITICAL REMINDERS
 
-1. **Always update BOTH dropdown files:**
+1. **ALWAYS check GoalPageClient.tsx FIRST:**
+   - `components/goal/GoalPageClient.tsx` - CATEGORY_CONFIG is THE source of truth
+   - Defines what fields display on solution cards (keyFields)
+   - ALL forms, configs, and docs must align to this
+   - **Rule:** When code and docs disagree → CODE WINS (GoalPageClient.tsx is the code)
+
+2. **Always update BOTH dropdown files:**
    - `lib/config/solution-dropdown-options.ts` (frontend uses this)
    - `scripts/solution-generator/config/dropdown-options.ts` (AI generators use this)
 
-2. **Always update test files when changing forms:**
+3. **Always update test files when changing forms:**
    - `tests/e2e/forms/form-specific-fillers.ts` (E2E tests will fail otherwise)
    - `MANUAL_FORM_TEST_MATRIX.md` (manual testing will be outdated)
+   - `tests/e2e/fixtures/test-data.ts` (if dropdown options changed)
 
-3. **SSOT documents are authoritative:**
-   - `docs/solution-fields-ssot.md` - What fields exist
+4. **SSOT documents are authoritative:**
+   - `components/goal/GoalPageClient.tsx` - **HIGHEST AUTHORITY** (runtime code)
+   - `docs/solution-fields-ssot.md` - What fields exist (should mirror GoalPageClient.tsx)
    - `FORM_DROPDOWN_OPTIONS_REFERENCE.md` - What values are valid
    - When code and docs disagree → Update docs to match code!
 
-4. **Database changes are RARE:**
+5. **Database changes are RARE:**
    - JSONB fields are flexible by design
    - Only migrate data if renaming values that exist in production
    - Test migrations on subset first!
 
-5. **Archive files don't need updates:**
+6. **Archive files don't need updates:**
    - Files in `scripts/archive/*` are deprecated
    - Files in `docs/archive/*` are historical
    - Skip these when making changes
@@ -661,8 +832,8 @@ app/actions/
 
 **Step 1:**
 - Session Frequency: "Weekly"
-- Session Length: "60 minutes"
-- Cost: "$100-150"
+- Session Length: "45-60 minutes"
+- Cost per session: "$100-150"
 - Time to Results: "3-4 weeks"
 
 **Step 2 - Challenges:** Finding right therapist fit, Cost/insurance issues
@@ -671,11 +842,13 @@ app/actions/
 1. Failed-Therapist-1 (2 stars)
 2. Failed-Therapist-2 (3 stars)
 
-**Success Screen:**
-- Therapy Type: "Cognitive Behavioral Therapy (CBT)"
+**Success Screen (Optional):**
 - Format: "In-person"
-- Insurance Coverage: "Partially covered"
+- Insurance Coverage: "Partially covered by insurance"
+- Completed Treatment: "Still ongoing"
 - Notes: "TEST: Therapist specializes in anxiety disorders"
+
+**SSOT keyFields:** time_to_results, session_frequency, session_length, cost
 
 ---
 
@@ -684,20 +857,24 @@ app/actions/
 **Stars:** ⭐⭐⭐⭐ (4)
 
 **Step 1:**
-- Wait Time: "2-4 weeks"
-- Insurance Coverage: "Fully covered by insurance"
-- Cost: "$150-250"
-- Time to Results: "1-2 months"
+- Wait Time: "2-4 weeks" (REQUIRED)
+- Insurance Coverage: "Fully covered by insurance" (REQUIRED)
+- Cost per session: "$150-250" (REQUIRED)
+- Time to Results: "1-2 months" (REQUIRED)
 
 **Step 2 - Challenges:** Long wait times, Short appointments
 
 **Step 3 - Failed Solutions:**
 1. Failed-Doctor-1 (2 stars)
 
-**Success Screen:**
-- Specialty: "Psychiatry"
+**Success Screen (Optional):**
+- Session Frequency: "Monthly"
+- Session Length: "15-30 minutes"
 - Format: "In-person"
+- Typical Treatment Length: "6-12 months"
 - Notes: "TEST: Doctor provides medication management"
+
+**SSOT keyFields:** time_to_results, wait_time, insurance_coverage, cost
 
 ---
 
@@ -707,19 +884,21 @@ app/actions/
 
 **Step 1:**
 - Session Frequency: "Fortnightly"
-- Session Length: "60 minutes"
-- Cost: "$50-100"
+- Session Length: "45-60 minutes"
+- Cost per session: "$50-100"
 - Time to Results: "3-4 weeks"
 
-**Step 2 - Challenges:** Expensive without insurance, Less regulated quality
+**Step 2 - Challenges:** Expensive without insurance, Finding qualified professionals
 
 **Step 3 - Failed Solutions:**
 1. Failed-Coach-1 (3 stars)
 
-**Success Screen:**
-- Coaching Type: "Life coaching"
+**Success Screen (Optional):**
 - Format: "Virtual/Online"
+- Completed Treatment: "Still ongoing"
 - Notes: "TEST: Coach focuses on stress management techniques"
+
+**SSOT keyFields:** time_to_results, session_frequency, session_length, cost
 
 ---
 
@@ -729,19 +908,21 @@ app/actions/
 
 **Step 1:**
 - Session Frequency: "Weekly"
-- Session Length: "45 minutes"
-- Cost: "$50-100"
+- Session Length: "30-45 minutes"
+- Cost per session: "$50-100"
 - Time to Results: "1-2 weeks"
 
-**Step 2 - Side Effects:** Temporary discomfort, Temporary worsening
+**Step 2 - Side Effects:** Temporary discomfort, Muscle soreness
 
 **Step 3 - Failed Solutions:**
 1. Failed-Alternative-1 (2 stars)
 
-**Success Screen:**
-- Practice Type: "Acupuncture"
+**Success Screen (Optional):**
 - Format: "In-person"
+- Typical Treatment Length: "2-4 sessions"
 - Notes: "TEST: Practitioner uses traditional Chinese methods"
+
+**SSOT keyFields:** time_to_results, session_frequency, session_length, cost
 
 ---
 
@@ -751,8 +932,8 @@ app/actions/
 
 **Step 1:**
 - Session Frequency: "Monthly"
-- Specialty: "Career/Business coach"
-- Cost: "$100-150"
+- Specialty: "Career/Business coach" (REQUIRED)
+- Cost per session: "$100-150"
 - Time to Results: "1-2 months"
 
 **Step 2 - Challenges:** Finding qualified professionals, High cost
@@ -760,9 +941,12 @@ app/actions/
 **Step 3 - Failed Solutions:**
 1. Failed-Service-1 (2 stars)
 
-**Success Screen:**
+**Success Screen (Optional):**
+- Session Length: "45-60 minutes"
 - Format: "Virtual/Online"
 - Notes: "TEST: Professional helps with work-related anxiety"
+
+**SSOT keyFields:** time_to_results, session_frequency, specialty, cost
 
 ---
 
@@ -772,7 +956,7 @@ app/actions/
 
 **Step 1:**
 - Response Time: "Immediate"
-- Format: "Phone"
+- Format: "Phone" (REQUIRED)
 - Cost: "Free"
 - Time to Results: "Immediately"
 
@@ -781,9 +965,11 @@ app/actions/
 **Step 3 - Failed Solutions:**
 1. Failed-Crisis-1 (3 stars)
 
-**Success Screen:**
+**Success Screen (Optional):**
 - Availability: "24/7"
 - Notes: "TEST: Hotline provides immediate support during panic attacks"
+
+**SSOT keyFields:** time_to_results, response_time, format, cost
 
 ---
 
@@ -803,8 +989,9 @@ app/actions/
 **Step 3 - Failed Solutions:**
 1. Failed-Meditation-1 (2 stars)
 
-**Success Screen:**
-- Type: "Guided meditation app"
+**Success Screen (Optional):**
+- Best Time of Day: "Morning (7-10am)"
+- Where You Practice: "Home"
 - Notes: "TEST: Practice works best in the morning"
 
 ---
@@ -825,8 +1012,9 @@ app/actions/
 **Step 3 - Failed Solutions:**
 1. Failed-Exercise-1 (3 stars)
 
-**Success Screen:**
-- Exercise Type: "Yoga"
+**Success Screen (Optional):**
+- Best Time of Day: "Morning (7-10am)"
+- Where You Practice: "Outdoors"
 - Notes: "TEST: Exercise includes breathing techniques"
 
 ---
@@ -847,9 +1035,11 @@ app/actions/
 **Step 3 - Failed Solutions:**
 1. Failed-Habit-1 (2 stars)
 
-**Success Screen:**
-- Habit Type: "Journaling"
+**Success Screen (Optional):**
+- Best Time of Day: "Morning (7-10am)"
 - Notes: "TEST: Routine works best with coffee in morning"
+
+**Note:** Location field does NOT appear for habits_routines (they don't have a physical location)
 
 ---
 
@@ -869,8 +1059,8 @@ app/actions/
 **Step 3 - Failed Solutions:**
 1. Failed-Hobby-1 (3 stars)
 
-**Success Screen:**
-- Activity Type: "Creative arts"
+**Success Screen (Optional):**
+- Community or Group Name: (leave blank)
 - Notes: "TEST: Hobby provides relaxing creative outlet"
 
 ---
@@ -881,7 +1071,7 @@ app/actions/
 
 **Step 1:**
 - Weekly Prep Time: "2-4 hours/week"
-- Still Following: "Yes, consistently"
+- Still Following: "Yes, consistently" (stored as boolean `true`)
 - Cost Impact: "About the same"
 - Time to Results: "3-4 weeks"
 
@@ -890,8 +1080,8 @@ app/actions/
 **Step 3 - Failed Solutions:**
 1. Failed-Diet-1 (2 stars)
 
-**Success Screen:**
-- Diet Type: "Mediterranean"
+**Success Screen (Optional):**
+- Social Impact: "No impact"
 - Notes: "TEST: Diet rich in omega-3 fatty acids"
 
 ---
@@ -900,10 +1090,14 @@ app/actions/
 **Solution:** `Test sleep solution` *(pre-populated)*
 **Stars:** ⭐⭐⭐⭐⭐ (5)
 
+**IMPORTANT (Nov 2025 Update):**
+- `sleep_quality_change` is now REQUIRED (Step 1) - replaces previous_sleep_hours
+- `previous_sleep_hours` and `current_sleep_hours` are OPTIONAL (Success screen)
+
 **Step 1:**
-- Previous Sleep Hours: "5-6 hours"
-- Still Following: "Yes, consistently"
-- Cost Impact: "Free"
+- Sleep Quality Change: "Significantly better" (REQUIRED - NEW keyField)
+- Still Following: "Yes, consistently" (stored as boolean `true`)
+- Cost: "Free"
 - Time to Results: "1-2 weeks"
 
 **Step 2 - Challenges:** Hard to maintain schedule, Work/family conflicts
@@ -911,9 +1105,12 @@ app/actions/
 **Step 3 - Failed Solutions:**
 1. Failed-Sleep-1 (2 stars)
 
-**Success Screen:**
+**Success Screen (Optional):**
+- Previous Sleep Hours: "5-6 hours"
 - Current Sleep Hours: "7-8 hours"
 - Notes: "TEST: Routine includes 10pm bedtime and no screens"
+
+**SSOT keyFields:** time_to_results, sleep_quality_change, still_following, cost
 
 ---
 
@@ -922,10 +1119,10 @@ app/actions/
 **Stars:** ⭐⭐⭐⭐⭐ (5)
 
 **Step 1:**
+- Payment Type: "Donation-based"
 - Meeting Frequency: "Several times per week"
-- Format: "Hybrid (both)"
-- Payment Frequency: "Free or donation-based"
-- Cost: "Donation-based"
+- Format: "Hybrid"
+- Group Size: "Medium (10-20 people)"
 - Time to Results: "1-2 weeks"
 
 **Step 2 - Challenges:** Inconsistent attendance, Group dynamics issues
@@ -946,10 +1143,10 @@ app/actions/
 **Stars:** ⭐⭐⭐⭐ (4)
 
 **Step 1:**
+- Payment Type: "Free"
 - Meeting Frequency: "Weekly"
+- Format: "In-person only"
 - Group Size: "Medium (10-20 people)"
-- Payment Frequency: "Free or donation-based"
-- Cost: "Free"
 - Time to Results: "3-4 weeks"
 
 **Step 2 - Challenges:** Scheduling conflicts, Location/Transportation
@@ -1194,6 +1391,11 @@ Return: Markdown table with Field Name, Expected, Actual, Status, Notes
 **❗ Timing:**
 - Query within 1 hour of submission (`NOW() - INTERVAL '1 hour'`)
 - If not found, increase interval or check solution name spelling
+
+**❗ Boolean Fields:**
+- `still_following` is stored as BOOLEAN (`true`/`false`), not string
+- Test matrix shows user-facing text ("Yes, consistently") but DB stores boolean
+- This is CORRECT - do not flag as mismatch
 
 **❗ Common Issues:**
 - Platform fields may be simplified (e.g., "iOS (iPhone/iPad)" → "iOS")

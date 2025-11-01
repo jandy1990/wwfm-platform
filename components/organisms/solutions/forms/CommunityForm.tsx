@@ -90,6 +90,9 @@ export function CommunityForm({
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
+  // Track if optional fields have been submitted
+  const [optionalFieldsSubmitted, setOptionalFieldsSubmitted] = useState(false);
+
   const supabaseClient = createClientComponentClient();
   
   // Progress indicator
@@ -243,20 +246,29 @@ export function CommunityForm({
       case 1:
         // Universal fields always required
         const universalValid = effectiveness !== null && timeToResults !== '';
-        
-        // Cost, meeting frequency, format, and group size are required
-        const requiredValid = costRange !== '' && meetingFrequency !== '' && format !== '' && groupSize !== '';
-        
+
+        // Payment frequency is required
+        const paymentValid = paymentFrequency !== '';
+
+        // Cost range is required only for paid options (auto-set for Free/Donation-based)
+        const costValid = paymentFrequency === 'Free' || paymentFrequency === 'Donation-based' || costRange !== '';
+
+        // Meeting frequency, format, and group size are required
+        const otherFieldsValid = meetingFrequency !== '' && format !== '' && groupSize !== '';
+
         console.log('CommunityForm Step 1 validation:', {
           universalValid,
-          requiredValid,
+          paymentValid,
+          costValid,
+          otherFieldsValid,
+          paymentFrequency,
           costRange,
           meetingFrequency,
           format,
           groupSize
         });
-        
-        return universalValid && requiredValid;
+
+        return universalValid && paymentValid && costValid && otherFieldsValid;
         
       case 2:
         // Must select at least one challenge
@@ -300,19 +312,24 @@ export function CommunityForm({
     setIsSubmitting(true);
     
     try {
-      // Determine cost type based on payment structure
-      const costType = costRange === 'Free' ? 'free' : 
-                       paymentFrequency === 'One-time' ? 'one_time' : 
+      // Determine cost type based on payment frequency
+      const costType = (paymentFrequency === 'Free' || costRange === 'Free') ? 'free' :
+                       (paymentFrequency === 'Donation-based' || costRange === 'Donation-based') ? 'donation' :
                        'recurring';
-      
+
       // Prepare solution fields for storage using conditional pattern (like DosageForm)
       // Only include fields that have actual values to avoid undefined
       const solutionFields: Record<string, unknown> = {};
-      
-      // Add cost fields
+
+      // Add cost fields (costRange is auto-set for Free/Donation-based)
       if (costRange) {
         solutionFields.cost = costRange;
         solutionFields.cost_type = costType;
+      }
+
+      // Store payment frequency for reference
+      if (paymentFrequency) {
+        solutionFields.payment_frequency = paymentFrequency;
       }
 
       // Add other fields only if they have values
@@ -423,6 +440,7 @@ export function CommunityForm({
       
       if (result.success) {
         console.log('Successfully updated additional information');
+        setOptionalFieldsSubmitted(true);
         toast.success('Additional information saved!', {
           description: 'Thank you for providing more details.'
         });
@@ -469,9 +487,12 @@ export function CommunityForm({
         }
         break;
       case 'costRange':
-        // Only validate if payment frequency is set and not free
-        if (paymentFrequency && paymentFrequency !== 'free' && (!value || value === '')) {
-          error = 'Please select cost';
+        // Only validate if payment frequency requires a cost selection (paid options)
+        if (paymentFrequency &&
+            paymentFrequency !== 'Free' &&
+            paymentFrequency !== 'Donation-based' &&
+            (!value || value === '')) {
+          error = 'Please select cost amount';
         }
         break;
       case 'meetingFrequency':
@@ -591,21 +612,6 @@ export function CommunityForm({
                       border border-purple-200 dark:border-purple-800 rounded-lg p-4">
           <p className="text-sm text-purple-800 dark:text-purple-200">
             Let&apos;s capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
-          </p>
-        </div>
-
-        {/* Category-specific description */}
-        <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-          <p className="text-sm text-gray-700 dark:text-gray-300">
-            {category === 'support_groups' ? (
-              <>
-                <strong>Support Groups:</strong> Therapeutic or emotional support focused groups (e.g., AA, grief support, chronic illness support)
-              </>
-            ) : (
-              <>
-                <strong>Groups/Communities:</strong> Activity or interest-based groups (e.g., book clubs, hiking groups, hobby meetups)
-              </>
-            )}
           </p>
         </div>
 
@@ -732,7 +738,7 @@ export function CommunityForm({
             title={`${getCategoryDisplay()} details`}
           />
 
-          {/* Payment Frequency - Step 1 */}
+          {/* Payment Type */}
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Payment type <span className="text-red-500">*</span>
@@ -743,7 +749,14 @@ export function CommunityForm({
                 setPaymentFrequency(value);
                 validateField('paymentFrequency', value);
                 markTouched('paymentFrequency');
-                setCostRange(''); // Reset cost when frequency changes
+                // Auto-set cost for free/donation options
+                if (value === 'Free') {
+                  setCostRange('Free');
+                } else if (value === 'Donation-based') {
+                  setCostRange('Donation-based');
+                } else {
+                  setCostRange(''); // Reset cost when changing to paid option
+                }
               }}
             >
               <SelectTrigger className={`w-full px-4 py-2 border rounded-lg
@@ -756,7 +769,8 @@ export function CommunityForm({
                 <SelectValue placeholder="How do you pay?" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="free">Free or donation-based</SelectItem>
+                <SelectItem value="Free">Free</SelectItem>
+                <SelectItem value="Donation-based">Donation-based</SelectItem>
                 <SelectItem value="per-meeting">Per meeting/session</SelectItem>
                 <SelectItem value="monthly">Monthly</SelectItem>
                 <SelectItem value="yearly">Yearly</SelectItem>
@@ -770,11 +784,11 @@ export function CommunityForm({
             )}
           </div>
 
-          {/* Cost Range - Step 2 (conditional) */}
-          {paymentFrequency && (
+          {/* Cost Amount - Only for paid options */}
+          {paymentFrequency && paymentFrequency !== 'Free' && paymentFrequency !== 'Donation-based' && (
             <div className="space-y-2 animate-slide-in">
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                {paymentFrequency === 'free' ? 'Type' : 'Amount'} <span className="text-red-500">*</span>
+                Cost amount <span className="text-red-500">*</span>
               </label>
               <Select
                 value={costRange}
@@ -791,16 +805,9 @@ export function CommunityForm({
                             ? 'border-red-300 dark:border-red-700'
                             : 'border-gray-300 dark:border-gray-600'
                         }`}>
-                  <SelectValue placeholder={paymentFrequency === 'free' ? 'Select type' : 'Select amount'} />
+                  <SelectValue placeholder="Select amount" />
                 </SelectTrigger>
                 <SelectContent>
-                  {paymentFrequency === 'free' && (
-                    <>
-                      <SelectItem value="Free">Free</SelectItem>
-                      <SelectItem value="Donation-based">Donation-based</SelectItem>
-                    </>
-                  )}
-                  
                   {paymentFrequency === 'per-meeting' && (
                     <>
                       <SelectItem value="Under $10/meeting">Under $10/meeting</SelectItem>
@@ -810,7 +817,7 @@ export function CommunityForm({
                       <SelectItem value="Over $100/meeting">Over $100/meeting</SelectItem>
                     </>
                   )}
-                  
+
                   {paymentFrequency === 'monthly' && (
                     <>
                       <SelectItem value="Under $20/month">Under $20/month</SelectItem>
@@ -821,7 +828,7 @@ export function CommunityForm({
                       <SelectItem value="Over $500/month">Over $500/month</SelectItem>
                     </>
                   )}
-                  
+
                   {paymentFrequency === 'yearly' && (
                     <>
                       <SelectItem value="Under $50/year">Under $50/year</SelectItem>
@@ -907,7 +914,7 @@ export function CommunityForm({
               <SelectContent>
                 <SelectItem value="In-person only">In-person only</SelectItem>
                 <SelectItem value="Online only">Online only</SelectItem>
-                <SelectItem value="Hybrid (both)">Hybrid (both)</SelectItem>
+                <SelectItem value="Hybrid">Hybrid</SelectItem>
                 <SelectItem value="Phone/Conference call">Phone/Conference call</SelectItem>
               </SelectContent>
             </Select>
@@ -1171,7 +1178,7 @@ export function CommunityForm({
             {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
               <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'}</>
             ) : (
-              <>Your experience with {solutionName} has been recorded and will help people worldwide</>
+              <>Your experience has been recorded and will help people worldwide</>
             )}
           </p>
 
@@ -1185,10 +1192,12 @@ export function CommunityForm({
               <select
                 value={commitmentType}
                 onChange={(e) => setCommitmentType(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                disabled={optionalFieldsSubmitted}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                         appearance-none text-sm"
+                         appearance-none text-sm
+                         disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <option value="">Commitment type</option>
                 <option value="Drop-in anytime">Drop-in anytime</option>
@@ -1200,10 +1209,12 @@ export function CommunityForm({
               <select
                 value={accessibilityLevel}
                 onChange={(e) => setAccessibilityLevel(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                disabled={optionalFieldsSubmitted}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                         appearance-none text-sm"
+                         appearance-none text-sm
+                         disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <option value="">{category === 'groups_communities' ? 'Beginner friendly?' : 'Newcomer welcoming?'}</option>
                 <option value="Very welcoming">Very welcoming</option>
@@ -1217,10 +1228,12 @@ export function CommunityForm({
                 <select
                   value={leadershipStyle}
                   onChange={(e) => setLeadershipStyle(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
+                  disabled={optionalFieldsSubmitted}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                           appearance-none text-sm"
+                           appearance-none text-sm
+                           disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <option value="">Leadership style</option>
                   <option value="Peer-led">Peer-led</option>
@@ -1236,21 +1249,34 @@ export function CommunityForm({
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
+                disabled={optionalFieldsSubmitted}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                         appearance-none text-sm"
+                         appearance-none text-sm
+                         disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>
 
-            {/* Always-visible submit button - center aligned */}
+            {/* Submit button - changes to "Saved" after successful submission */}
             <div className="text-center mt-4">
               <button
                 onClick={updateAdditionalInfo}
-                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg
-                         font-semibold transition-colors button-focus-tight"
+                disabled={optionalFieldsSubmitted}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all button-focus-tight ${
+                  optionalFieldsSubmitted
+                    ? 'bg-green-600 text-white cursor-default'
+                    : 'bg-purple-600 hover:bg-purple-700 text-white'
+                }`}
               >
-                Submit extra details
+                {optionalFieldsSubmitted ? (
+                  <span className="flex items-center gap-2">
+                    <Check className="w-5 h-5" />
+                    Saved
+                  </span>
+                ) : (
+                  'Submit extra details'
+                )}
               </button>
             </div>
           </div>
@@ -1367,7 +1393,7 @@ export function CommunityForm({
               {!effectiveness && <li>Effectiveness rating</li>}
               {!timeToResults && <li>Time to results</li>}
               {!paymentFrequency && <li>Payment type</li>}
-              {paymentFrequency && paymentFrequency !== 'free' && !costRange && <li>Cost amount</li>}
+              {paymentFrequency && paymentFrequency !== 'Free' && paymentFrequency !== 'Donation-based' && !costRange && <li>Cost amount</li>}
               {!meetingFrequency && <li>Meeting frequency</li>}
               {!format && <li>Format</li>}
               {!groupSize && <li>Group size</li>}

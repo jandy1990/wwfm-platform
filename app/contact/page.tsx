@@ -1,3 +1,6 @@
+// Cache for 1 hour - contact info changes rarely
+export const revalidate = 3600
+
 export default function ContactPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">

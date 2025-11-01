@@ -4,6 +4,9 @@ import { createServerSupabaseClient } from '@/lib/database/server'
 import HybridBrowse from '@/components/templates/HybridBrowse'
 import { BrowsePageTracker } from '@/components/tracking/BrowsePageTracker'
 
+// Cache browse page for 60 seconds - frequently accessed
+export const revalidate = 60
+
 // Type definitions
 type Goal = {
   id: string

@@ -49,7 +49,7 @@ const CATEGORY_REQUIRED_FIELDS = {
   'medical_procedures': ['session_frequency', 'wait_time', 'cost', 'time_to_results'],
   'crisis_resources': ['response_time', 'cost', 'time_to_results'],
   'diet_nutrition': ['weekly_prep_time', 'still_following', 'cost', 'time_to_results'],
-  'sleep': ['previous_sleep_hours', 'still_following', 'cost', 'time_to_results'],
+  'sleep': ['sleep_quality_change', 'still_following', 'cost', 'time_to_results'],
   'products_devices': ['ease_of_use', 'product_type', 'cost', 'time_to_results'],
   'hobbies_activities': ['time_commitment', 'frequency', 'cost', 'time_to_results'],
   'groups_communities': ['meeting_frequency', 'group_size', 'cost', 'time_to_results'],

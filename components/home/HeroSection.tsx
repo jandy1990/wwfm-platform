@@ -176,7 +176,7 @@ export default function HeroSection({ stats }: HeroSectionProps) {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => {
-                  if (suggestions.length > 0) {
+                  if (searchQuery.trim().length >= 2 || suggestions.length > 0) {
                     setShowDropdown(true);
                   }
                 }}

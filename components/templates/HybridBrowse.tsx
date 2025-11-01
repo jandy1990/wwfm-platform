@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { groupCategoriesBySuperCategory, SUPER_CATEGORY_COLORS, shouldSkipCategoryLayer } from '@/lib/navigation/super-categories'
 import { getCategoryIcon } from '@/lib/navigation/category-icons'
 import { ArenaSkeleton, SkeletonGrid, SearchSkeleton, PageHeaderSkeleton } from '@/components/atoms/SkeletonLoader'
+import { useGoalSearch } from '@/lib/hooks/useGoalSearch'
 
 // Types (reused from original)
 type Goal = {
@@ -61,43 +62,20 @@ function highlightText(text: string, query: string): React.ReactElement {
   )
 }
 
-// Debounce hook (reused from original)
-function useDebounce<T>(value: T, delay: number = 150): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value)
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value)
-    }, delay)
-
-    return () => {
-      clearTimeout(handler)
-    }
-  }, [value, delay])
-
-  return debouncedValue
-}
-
 export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: HybridBrowseProps) {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [isSearching, setIsSearching] = useState(false)
-  const [showDropdown, setShowDropdown] = useState(false)
   const [selectedSuperCategory, setSelectedSuperCategory] = useState<string | null>(null)
-  const debouncedSearch = useDebounce(searchQuery, 150)
-  
-  // Search cache (reused from original)
-  type SearchCacheEntry = {
-    suggestions: Array<{
-      goal: Goal
-      category: Category
-      arena: Arena
-      score: number
-    }>
-  }
 
-  const searchCache = useRef<Map<string, SearchCacheEntry>>(new Map())
-  const cacheTimeout = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map())
-  const searchContainerRef = useRef<HTMLDivElement>(null)
+  // Use the proven search hook instead of manual implementation
+  const {
+    searchQuery,
+    setSearchQuery,
+    isSearching,
+    showDropdown,
+    setShowDropdown,
+    suggestions,
+    clearSearch,
+    searchContainerRef
+  } = useGoalSearch({ arenas, maxResults: 10 })
   
   // Group categories by super-category
   const categoryGroups = useMemo(() => {
@@ -107,111 +85,10 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
   // Filter categories within selected super-category
   const filteredCategories = useMemo(() => {
     if (!selectedSuperCategory) return []
-    
+
     const group = categoryGroups.find(g => g.superCategory.id === selectedSuperCategory)
     return group?.categories || []
   }, [categoryGroups, selectedSuperCategory])
-
-  // Search functionality (adapted from original)
-  const setCacheWithExpiry = useCallback((key: string, data: SearchCacheEntry, expiryMs: number = 300000) => {
-    const existingTimeout = cacheTimeout.current.get(key)
-    if (existingTimeout) {
-      clearTimeout(existingTimeout)
-    }
-
-    searchCache.current.set(key, data)
-
-    const timeout = setTimeout(() => {
-      searchCache.current.delete(key)
-      cacheTimeout.current.delete(key)
-    }, expiryMs)
-
-    cacheTimeout.current.set(key, timeout)
-  }, [])
-
-  // Search goals for dropdown suggestions
-  const filteredData = useMemo(() => {
-    const trimmedSearch = debouncedSearch.trim()
-    
-    const cacheKey = trimmedSearch.toLowerCase()
-    if (searchCache.current.has(cacheKey)) {
-      return searchCache.current.get(cacheKey)
-    }
-    
-    if (trimmedSearch && trimmedSearch !== searchQuery.trim()) {
-      setIsSearching(true)
-    }
-    
-    if (!trimmedSearch) {
-      setIsSearching(false)
-      setShowDropdown(false)
-      return { suggestions: [] }
-    }
-
-    const query = trimmedSearch.toLowerCase()
-    const goalSuggestions: Array<{
-      goal: Goal,
-      category: Category,
-      arena: Arena,
-      score: number
-    }> = []
-
-    // Search through all arenas and categories for matching goals
-    arenas.forEach(arena => {
-      arena.categories?.forEach(category => {
-        category.goals?.forEach(goal => {
-          const titleLower = goal.title.toLowerCase()
-          let score = 0
-          
-          // Scoring system
-          if (titleLower === query) {
-            score = 100
-          } else if (titleLower.startsWith(query)) {
-            score = 90
-          } else if (titleLower.split(' ').some(word => word.startsWith(query))) {
-            score = 80
-          } else if (titleLower.includes(' ' + query)) {
-            score = 70
-          } else if (titleLower.includes(query)) {
-            score = 60
-          }
-          
-          if (score > 0) {
-            goalSuggestions.push({ goal, category, arena, score })
-          }
-        })
-      })
-    })
-
-    goalSuggestions.sort((a, b) => b.score - a.score)
-    const topSuggestions = goalSuggestions.slice(0, 10)
-    
-    setIsSearching(false)
-    setShowDropdown(topSuggestions.length > 0)
-    
-    const result = { suggestions: topSuggestions }
-    setCacheWithExpiry(cacheKey, result)
-    
-    return result
-  }, [arenas, debouncedSearch, searchQuery, setCacheWithExpiry])
-
-  const clearSearch = () => {
-    setSearchQuery('')
-    setShowDropdown(false)
-    setIsSearching(false)
-  }
-  
-  // Handle click outside to close dropdown
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
-        setShowDropdown(false)
-      }
-    }
-    
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
 
   // Loading state
   if (isLoading) {
@@ -270,7 +147,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => {
-                if (filteredData.suggestions?.length > 0) {
+                if (searchQuery.trim().length >= 2 || suggestions.length > 0) {
                   setShowDropdown(true)
                 }
               }}
@@ -311,38 +188,37 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
             )}
             
             {/* Search Dropdown */}
-            {showDropdown && (
-              <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-xl border-2 border-gray-200 max-h-96 overflow-auto transition-all duration-200 ease-out">
-                {filteredData.suggestions?.length > 0 ? (
-                  <>
-                    <div className="p-2 bg-purple-50 border-b border-purple-200">
-                      <p className="text-xs text-purple-700 font-semibold">
-                        Top {filteredData.suggestions.length} matching goals
-                      </p>
+            {showDropdown && suggestions.length > 0 && (
+              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 rounded-lg shadow-xl border-2 border-gray-200 dark:border-gray-700 max-h-96 overflow-auto transition-all duration-200 ease-out">
+                <div className="p-2 bg-purple-50 dark:bg-purple-900/20 border-b border-purple-200 dark:border-purple-800">
+                  <p className="text-xs text-purple-700 dark:text-purple-300 font-semibold">
+                    Top {suggestions.length} matching goals
+                  </p>
+                </div>
+                {suggestions.map(({ goal, category, arena }, index) => (
+                  <Link
+                    key={`${goal.id}-${index}`}
+                    href={`/goal/${goal.id}`}
+                    className="block px-4 py-4 min-h-[44px] hover:bg-purple-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-b-0"
+                    onClick={() => setShowDropdown(false)}
+                  >
+                    <div className="font-semibold text-gray-900 dark:text-gray-100">
+                      {highlightText(goal.title, searchQuery)}
                     </div>
-                    {filteredData.suggestions.map(({ goal, category, arena }, index) => (
-                      <Link
-                        key={`${goal.id}-${index}`}
-                        href={`/goal/${goal.id}`}
-                        className="block px-4 py-4 min-h-[44px] hover:bg-purple-50 transition-colors border-b border-gray-100 last:border-b-0"
-                        onClick={() => setShowDropdown(false)}
-                      >
-                        <div className="font-semibold text-gray-900">
-                          {highlightText(goal.title, searchQuery)}
-                        </div>
-                        <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
-                          {arena.name} → {category.name}
-                        </div>
-                      </Link>
-                    ))}
-                  </>
-                ) : searchQuery.length >= 3 ? (
-                  <div className="p-4 text-center">
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      No goals found for &quot;{searchQuery}&quot;
-                    </p>
-                  </div>
-                ) : null}
+                    <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                      {arena.icon} {arena.name} → {category.name}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            {/* No Results Message */}
+            {showDropdown && searchQuery.trim().length >= 2 && suggestions.length === 0 && !isSearching && (
+              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 rounded-lg shadow-xl border-2 border-gray-200 dark:border-gray-700 p-4 text-center">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  No goals found for &quot;{searchQuery}&quot;
+                </p>
               </div>
             )}
           </div>

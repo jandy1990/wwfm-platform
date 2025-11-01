@@ -1575,20 +1575,16 @@ export async function fillCommunityForm(page: Page, category: string) {
   console.log('Selected time to results: 1-2 weeks')
   await page.waitForTimeout(300)
 
-  // Select payment frequency FIRST - REQUIRED before cost range appears!
+  // Select payment type (simplified - no second dropdown needed)
   const paymentSelect = page.locator('button[role="combobox"]').filter({ hasText: 'How do you pay' })
   await paymentSelect.click()
   await page.waitForTimeout(300)
-  await page.click('text="Free or donation-based"')
-  console.log('Selected payment frequency: Free or donation-based')
-  await page.waitForTimeout(500)
 
-  // Select cost range (appears after payment frequency is selected)
-  const costRangeSelect = page.locator('button[role="combobox"]').filter({ hasText: 'Select type' })
-  await costRangeSelect.click()
-  await page.waitForTimeout(300)
-  await page.click('text="Free"')
-  console.log('Selected cost range: Free')
+  // Select payment type based on category
+  // support_groups typically use "Donation-based", groups_communities use "Free"
+  const paymentType = category === 'support_groups' ? 'Donation-based' : 'Free'
+  await page.click(`text="${paymentType}"`)
+  console.log(`Selected payment type: ${paymentType}`)
   await page.waitForTimeout(500)
 
   // Select meeting frequency

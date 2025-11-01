@@ -66,7 +66,12 @@ Every solution card displays exactly **3-4 key fields** + **1 array field** (opt
 | Category | Field 1 | Field 2 | Field 3 | Field 4 | Array Field |
 |----------|---------|---------|---------|---------|-------------|
 | diet_nutrition | `time_to_results` | `weekly_prep_time` | `still_following` | `cost` | `challenges` |
-| sleep | `time_to_results` | `previous_sleep_hours` | `still_following` | `cost` | `challenges` |
+| sleep | `time_to_results` | `sleep_quality_change` | `still_following` | `cost` | `challenges` |
+
+**⚠️ NOTE (Nov 2025 Update):**
+- Sleep category changed from `previous_sleep_hours` to `sleep_quality_change` as keyField
+- `previous_sleep_hours` and `current_sleep_hours` now optional (success screen only)
+- Sleep quality (subjective improvement) more meaningful than hours (quantitative)
 
 **⚠️ NOTE**: `cost` field uses `cost_impact` label ("Cost Impact") not absolute cost
 

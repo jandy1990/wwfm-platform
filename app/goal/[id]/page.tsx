@@ -3,6 +3,9 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/database/server'
+
+// Cache for 3 minutes - goals update with new ratings frequently
+export const revalidate = 180
 import { getGoalSolutions, type GoalSolutionWithVariants } from '@/lib/solutions/goal-solutions'
 import Breadcrumbs from '@/components/molecules/Breadcrumbs'
 import { createBreadcrumbs } from '@/lib/utils/breadcrumbs'

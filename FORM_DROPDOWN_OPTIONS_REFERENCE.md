@@ -105,11 +105,17 @@ Star rating system: 1-5 scale
 - "One-time only"
 
 #### format (REQUIRED for some categories)
-- "In-person"
-- "Virtual/Online"
-- "Phone"
-- "Hybrid (both)"
-- "Text/Chat based"
+- "In-person only"
+- "Online only"
+- "Hybrid"
+- "Phone/Conference call"
+
+#### payment_frequency (REQUIRED)
+- "Free"
+- "Donation-based"
+- "Per meeting/session"
+- "Monthly"
+- "Yearly"
 
 #### commitment_level (REQUIRED for support_groups)
 - "Drop-in (no commitment)"
@@ -243,27 +249,42 @@ Star rating system: 1-5 scale
 - "Better with others"
 - "Requires group/community"
 
-### 6. LifestyleForm.tsx
+### 6. LifestyleForm.tsx - Diet & Nutrition and Sleep
 
-#### startup_cost
-- "Free/No startup cost"
-- "Don't remember"
-- "Under $50"
-- "$50-$99.99"
-- "$100-$249.99"
-- "$250-$499.99"
-- "$500-$999.99"
-- "$1000+"
+#### weekly_prep_time (REQUIRED for diet_nutrition)
+- "Under 1 hour/week"
+- "1-2 hours/week"
+- "2-4 hours/week"
+- "4-6 hours/week"
+- "6-8 hours/week"
+- "Over 8 hours/week"
 
-#### ongoing_cost
-- "Free/No ongoing cost"
-- "Don't remember"
-- "Under $10/month"
-- "$10-$24.99/month"
-- "$25-$49.99/month"
-- "$50-$99.99/month"
-- "$100-$199.99/month"
-- "$200+/month"
+#### sleep_quality_change (REQUIRED for sleep - Step 1)
+**Note:** Changed from previous_sleep_hours to sleep_quality_change (Nov 2025)
+- "Dramatically better"
+- "Significantly better"
+- "Somewhat better"
+- "No change"
+- "Somewhat worse"
+- "Much worse"
+
+#### previous_sleep_hours (OPTIONAL - Success screen for sleep)
+- "Under 4 hours"
+- "4-5 hours"
+- "5-6 hours"
+- "6-7 hours"
+- "7-8 hours"
+- "Over 8 hours"
+- "Highly variable"
+
+#### current_sleep_hours (OPTIONAL - Success screen for sleep)
+- "Under 4 hours"
+- "4-5 hours"
+- "5-6 hours"
+- "6-7 hours"
+- "7-8 hours"
+- "Over 8 hours"
+- "Highly variable"
 
 #### usage_frequency (REQUIRED)
 - "Daily"
@@ -515,13 +536,17 @@ Star rating system: 1-5 scale
 - "Phone"
 - "Hybrid"
 
-#### session_length (REQUIRED for therapists_counselors)
-- "15 minutes"
-- "30 minutes"
-- "45 minutes"
-- "60 minutes"
-- "90 minutes"
-- "2+ hours"
+#### session_length
+**REQUIRED for:** therapists_counselors, coaches_mentors, alternative_practitioners
+**OPTIONAL (success screen) for:** doctors_specialists, professional_services
+
+- "Under 15 minutes"
+- "15-30 minutes"
+- "30-45 minutes"
+- "45-60 minutes"
+- "60-90 minutes"
+- "90-120 minutes"
+- "Over 2 hours"
 - "Varies"
 
 #### wait_time (REQUIRED for medical_procedures, optional for others)
@@ -549,20 +574,22 @@ Star rating system: 1-5 scale
 - "Covered by government program (Medicare, NHS, provincial coverage, etc.)"
 
 #### specialty (REQUIRED for professional_services)
-- "Personal trainer/Fitness coach"
-- "Nutritionist/Dietitian"
-- "Professional organizer"
+**Note:** Options are alphabetized. Selecting "Other (please specify)" reveals a text field.
+
+- "Career/Business coach"
+- "Creative services (photographer, designer, writer)"
+- "Digital marketing/Tech specialist"
 - "Financial advisor/Planner"
-- "Legal services"
-- "Virtual assistant"
-- "Tutor/Educational specialist"
 - "Hair/Beauty professional"
 - "Home services (cleaning, handyman, etc.)"
-- "Career/Business coach"
-- "Digital marketing/Tech specialist"
+- "Legal services"
+- "Nutritionist"
+- "Personal trainer/Fitness coach"
 - "Pet services"
-- "Creative services (photographer, designer, writer)"
-- "Other professional service"
+- "Professional organizer"
+- "Tutor/Educational specialist"
+- "Virtual assistant"
+- "Other (please specify)" - Opens text field for custom service type
 
 #### response_time (REQUIRED for crisis_resources)
 - "Immediate"
@@ -587,7 +614,6 @@ Star rating system: 1-5 scale
 - "6-12 months"
 - "1-2 years"
 - "Ongoing/Indefinite"
-- "Varies by condition"
 
 #### availability (Success screen optional for crisis_resources, multi-select)
 - "24/7"

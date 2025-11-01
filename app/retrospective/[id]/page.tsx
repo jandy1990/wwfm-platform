@@ -3,6 +3,9 @@ import { createServerSupabaseClient } from '@/lib/database/server'
 import RetrospectiveForm from '@/components/organisms/retrospective/RetrospectiveForm'
 import type { Tables } from '@/types/supabase'
 
+// Cache for 5 minutes - retrospective forms don't change frequently
+export const revalidate = 300
+
 type RetrospectiveScheduleRow = Tables<'retrospective_schedules'>
 type ScheduleWithRelations = RetrospectiveScheduleRow & {
   goals: Pick<Tables<'goals'>, 'title' | 'description'> | null

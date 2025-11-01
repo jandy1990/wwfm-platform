@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   description: 'Share your solution with the community'
 }
 
+// Cache for 5 minutes - form pages don't change frequently
+export const revalidate = 300
+
 interface PageProps {
   params: Promise<{ id: string }>
 }

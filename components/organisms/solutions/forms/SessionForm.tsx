@@ -85,6 +85,8 @@ export function SessionForm({
   const [waitTime, setWaitTime] = useState('');
   const [insuranceCoverage, setInsuranceCoverage] = useState('');
   const [specialty, setSpecialty] = useState('');
+  const [customSpecialty, setCustomSpecialty] = useState('');
+  const [showCustomSpecialty, setShowCustomSpecialty] = useState(false);
   const [responseTime, setResponseTime] = useState('');
   
   // Step 2 fields - Arrays (side effects or challenges)
@@ -112,6 +114,9 @@ export function SessionForm({
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
+  // Track if optional fields have been submitted
+  const [optionalFieldsSubmitted, setOptionalFieldsSubmitted] = useState(false);
+
   // const supabaseClient = createClientComponentClient();
 
   // Only show side effects for medical procedures and alternative practitioners
@@ -136,6 +141,8 @@ export function SessionForm({
     waitTime,
     insuranceCoverage,
     specialty,
+    customSpecialty,
+    showCustomSpecialty,
     responseTime,
     selectedSideEffects,
     customSideEffect,
@@ -166,6 +173,8 @@ export function SessionForm({
         setWaitTime(data.waitTime || '');
         setInsuranceCoverage(data.insuranceCoverage || '');
         setSpecialty(data.specialty || '');
+        setCustomSpecialty(data.customSpecialty || '');
+        setShowCustomSpecialty(data.showCustomSpecialty || false);
         setResponseTime(data.responseTime || '');
         setSelectedSideEffects(data.selectedSideEffects || ['None']);
         setCustomSideEffect(data.customSideEffect || '');
@@ -518,14 +527,12 @@ export function SessionForm({
 
       {/* Required fields based on category */}
       <div className="space-y-4">
-        {/* Optional fields that remain in Step 1 */}
-        {category !== 'crisis_resources' && (
+        {/* Session frequency - REQUIRED for specific categories, OPTIONAL for doctors */}
+        {['therapists_counselors', 'coaches_mentors', 'alternative_practitioners', 'medical_procedures', 'professional_services'].includes(category) && (
           <div className="space-y-2">
             <Label htmlFor="session_frequency">
               {category === 'medical_procedures' ? 'Treatment frequency' : 'Session frequency'}
-              {['therapists_counselors', 'coaches_mentors', 'alternative_practitioners', 'medical_procedures', 'professional_services'].includes(category) && (
-                <span className="text-red-500">*</span>
-              )}
+              <span className="text-red-500">*</span>
             </Label>
             <Select
               value={sessionFrequency}
@@ -587,12 +594,13 @@ export function SessionForm({
                 <SelectValue placeholder="How long?" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="15 minutes">15 minutes</SelectItem>
-                <SelectItem value="30 minutes">30 minutes</SelectItem>
-                <SelectItem value="45 minutes">45 minutes</SelectItem>
-                <SelectItem value="60 minutes">60 minutes</SelectItem>
-                <SelectItem value="90 minutes">90 minutes</SelectItem>
-                <SelectItem value="2+ hours">2+ hours</SelectItem>
+                <SelectItem value="Under 15 minutes">Under 15 minutes</SelectItem>
+                <SelectItem value="15-30 minutes">15-30 minutes</SelectItem>
+                <SelectItem value="30-45 minutes">30-45 minutes</SelectItem>
+                <SelectItem value="45-60 minutes">45-60 minutes</SelectItem>
+                <SelectItem value="60-90 minutes">60-90 minutes</SelectItem>
+                <SelectItem value="90-120 minutes">90-120 minutes</SelectItem>
+                <SelectItem value="Over 2 hours">Over 2 hours</SelectItem>
                 <SelectItem value="Varies">Varies</SelectItem>
               </SelectContent>
             </Select>
@@ -605,26 +613,6 @@ export function SessionForm({
           </div>
         )}
 
-        {/* Session length OPTIONAL for doctors and professional services */}
-        {['doctors_specialists', 'professional_services'].includes(category) && (
-          <div className="space-y-2">
-            <Label htmlFor="session_length">Session length</Label>
-            <Select value={sessionLength} onValueChange={setSessionLength}>
-              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg">
-                <SelectValue placeholder="How long?" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="15 minutes">15 minutes</SelectItem>
-                <SelectItem value="30 minutes">30 minutes</SelectItem>
-                <SelectItem value="45 minutes">45 minutes</SelectItem>
-                <SelectItem value="60 minutes">60 minutes</SelectItem>
-                <SelectItem value="90 minutes">90 minutes</SelectItem>
-                <SelectItem value="2+ hours">2+ hours</SelectItem>
-                <SelectItem value="Varies">Varies</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        )}
 
         {/* Format field - REQUIRED for crisis_resources only */}
         {category === 'crisis_resources' && (
@@ -705,7 +693,7 @@ export function SessionForm({
         {/* Cost field */}
         <div className="space-y-2">
           <Label className="text-base font-semibold">
-            Cost per session? <span className="text-red-500">*</span>
+            Cost? <span className="text-red-500">*</span>
           </Label>
 
           {/* Only show radio buttons for categories that support multiple cost types */}
@@ -907,20 +895,20 @@ export function SessionForm({
                 <SelectValue placeholder="Select service type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Personal trainer/Fitness coach">Personal trainer/Fitness coach</SelectItem>
-                <SelectItem value="Nutritionist/Dietitian">Nutritionist/Dietitian</SelectItem>
-                <SelectItem value="Professional organizer">Professional organizer</SelectItem>
-                <SelectItem value="Financial advisor/Planner">Financial advisor/Planner</SelectItem>
-                <SelectItem value="Legal services">Legal services</SelectItem>
-                <SelectItem value="Virtual assistant">Virtual assistant</SelectItem>
-                <SelectItem value="Tutor/Educational specialist">Tutor/Educational specialist</SelectItem>
-                <SelectItem value="Hair/Beauty professional">Hair/Beauty professional</SelectItem>
-                <SelectItem value="Home services">Home services (cleaning, handyman, etc.)</SelectItem>
                 <SelectItem value="Career/Business coach">Career/Business coach</SelectItem>
+                <SelectItem value="Creative services (photographer, designer, writer)">Creative services (photographer, designer, writer)</SelectItem>
                 <SelectItem value="Digital marketing/Tech specialist">Digital marketing/Tech specialist</SelectItem>
+                <SelectItem value="Financial advisor/Planner">Financial advisor/Planner</SelectItem>
+                <SelectItem value="Hair/Beauty professional">Hair/Beauty professional</SelectItem>
+                <SelectItem value="Home services (cleaning, handyman, etc.)">Home services (cleaning, handyman, etc.)</SelectItem>
+                <SelectItem value="Legal services">Legal services</SelectItem>
+                <SelectItem value="Nutritionist">Nutritionist</SelectItem>
+                <SelectItem value="Personal trainer/Fitness coach">Personal trainer/Fitness coach</SelectItem>
                 <SelectItem value="Pet services">Pet services</SelectItem>
-                <SelectItem value="Creative services">Creative services (photographer, designer, writer)</SelectItem>
-                <SelectItem value="Other">Other professional service</SelectItem>
+                <SelectItem value="Professional organizer">Professional organizer</SelectItem>
+                <SelectItem value="Tutor/Educational specialist">Tutor/Educational specialist</SelectItem>
+                <SelectItem value="Virtual assistant">Virtual assistant</SelectItem>
+                <SelectItem value="Other (please specify)">Other (please specify)</SelectItem>
               </SelectContent>
             </Select>
             {touched.specialty && validationErrors.specialty && (
@@ -928,6 +916,21 @@ export function SessionForm({
                 <AlertCircle className="h-4 w-4" />
                 <AlertDescription>{validationErrors.specialty}</AlertDescription>
               </Alert>
+            )}
+
+            {/* Custom specialty text field when "Other" is selected */}
+            {specialty === 'Other (please specify)' && (
+              <div className="mt-2">
+                <input
+                  type="text"
+                  placeholder="Please specify the type of professional service"
+                  value={customSpecialty}
+                  onChange={(e) => setCustomSpecialty(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                           bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                />
+              </div>
             )}
           </div>
         )}
@@ -1304,11 +1307,6 @@ export function SessionForm({
 
   const markTouched = (fieldName: string) => {
     setTouched(prev => ({ ...prev, [fieldName]: true }));
-    const error = validateField(fieldName, getFieldValue(fieldName));
-    setValidationErrors(prev => ({
-      ...prev,
-      [fieldName]: error
-    }));
   };
 
   // Touch all required fields for current step (to show validation errors)
@@ -1509,7 +1507,13 @@ export function SessionForm({
       if (sessionLength) solutionFields.session_length = sessionLength;
       if (waitTime) solutionFields.wait_time = waitTime;
       if (insuranceCoverage) solutionFields.insurance_coverage = insuranceCoverage;
-      if (specialty) solutionFields.specialty = specialty;
+      if (specialty) {
+        solutionFields.specialty = specialty;
+        // Save custom specialty text if "Other" was selected
+        if (specialty === 'Other (please specify)' && customSpecialty.trim()) {
+          solutionFields.custom_specialty = customSpecialty.trim();
+        }
+      }
       if (responseTime) solutionFields.response_time = responseTime;
       
       // Add side effects or barriers
@@ -1579,6 +1583,8 @@ export function SessionForm({
     // Prepare the additional fields to save
     const additionalFields: Record<string, unknown> = {};
 
+    if (sessionFrequency && category === 'doctors_specialists') additionalFields.session_frequency = sessionFrequency;
+    if (sessionLength && ['doctors_specialists', 'professional_services'].includes(category)) additionalFields.session_length = sessionLength;
     if (format && category !== 'crisis_resources') additionalFields.format = format;
     if (insuranceCoverage && ['therapists_counselors', 'medical_procedures'].includes(category)) additionalFields.insurance_coverage = insuranceCoverage;
     if (completedTreatment) additionalFields.completed_treatment = completedTreatment;
@@ -1604,7 +1610,8 @@ export function SessionForm({
       if (result.success) {
         // Show success feedback
         console.log('Successfully updated additional information');
-        // Clear the form or show success indicator
+        // Mark as submitted to disable fields and change button
+        setOptionalFieldsSubmitted(true);
         toast.success('Additional information saved successfully!');
       } else {
         console.error('Failed to update:', result.error);
@@ -1648,7 +1655,7 @@ export function SessionForm({
             {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
               <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'} around the world</>
             ) : (
-              <>Your experience with {solutionName} has been recorded and will help people worldwide</>
+              <>Your experience has been recorded and will help people worldwide</>
             )}
           </p>
 
@@ -1659,12 +1666,57 @@ export function SessionForm({
             </p>
             
             <div className="space-y-4">
-              {/* Format - Optional for all categories except crisis_resources */}
-              {category !== 'crisis_resources' && (
-                <Select value={format} onValueChange={setFormat}>
+              {/* Session frequency - Optional for doctors_specialists only */}
+              {category === 'doctors_specialists' && (
+                <Select value={sessionFrequency} onValueChange={setSessionFrequency} disabled={optionalFieldsSubmitted}>
                   <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                           disabled={optionalFieldsSubmitted}>
+                    <SelectValue placeholder="Session frequency" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="One-time only">One-time only</SelectItem>
+                    <SelectItem value="As needed">As needed</SelectItem>
+                    <SelectItem value="Multiple times per week">Multiple times per week</SelectItem>
+                    <SelectItem value="Weekly">Weekly</SelectItem>
+                    <SelectItem value="Fortnightly">Fortnightly</SelectItem>
+                    <SelectItem value="Monthly">Monthly</SelectItem>
+                    <SelectItem value="Every 2-3 months">Every 2-3 months</SelectItem>
+                    <SelectItem value="Other">Other (please describe)</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+
+              {/* Session length - Optional for doctors_specialists and professional_services */}
+              {['doctors_specialists', 'professional_services'].includes(category) && (
+                <Select value={sessionLength} onValueChange={setSessionLength} disabled={optionalFieldsSubmitted}>
+                  <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                           disabled={optionalFieldsSubmitted}>
+                    <SelectValue placeholder="Session length" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Under 15 minutes">Under 15 minutes</SelectItem>
+                    <SelectItem value="15-30 minutes">15-30 minutes</SelectItem>
+                    <SelectItem value="30-45 minutes">30-45 minutes</SelectItem>
+                    <SelectItem value="45-60 minutes">45-60 minutes</SelectItem>
+                    <SelectItem value="60-90 minutes">60-90 minutes</SelectItem>
+                    <SelectItem value="90-120 minutes">90-120 minutes</SelectItem>
+                    <SelectItem value="Over 2 hours">Over 2 hours</SelectItem>
+                    <SelectItem value="Varies">Varies</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+
+              {/* Format - Optional for all categories except crisis_resources */}
+              {category !== 'crisis_resources' && (
+                <Select value={format} onValueChange={setFormat} disabled={optionalFieldsSubmitted}>
+                  <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
+                           focus:ring-2 focus:ring-purple-500 focus:border-transparent
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                           disabled={optionalFieldsSubmitted}>
                     <SelectValue placeholder="Format" />
                   </SelectTrigger>
                   <SelectContent>
@@ -1680,7 +1732,7 @@ export function SessionForm({
                         <SelectItem value="In-person">In-person</SelectItem>
                         <SelectItem value="Virtual/Online">Virtual/Online</SelectItem>
                         <SelectItem value="Phone">Phone</SelectItem>
-                        <SelectItem value="Hybrid">Hybrid (both)</SelectItem>
+                        <SelectItem value="Hybrid">Hybrid</SelectItem>
                       </>
                     )}
                   </SelectContent>
@@ -1689,10 +1741,11 @@ export function SessionForm({
 
               {/* Insurance coverage - Optional for therapists_counselors and medical_procedures */}
               {['therapists_counselors', 'medical_procedures'].includes(category) && (
-                <Select value={insuranceCoverage} onValueChange={setInsuranceCoverage}>
+                <Select value={insuranceCoverage} onValueChange={setInsuranceCoverage} disabled={optionalFieldsSubmitted}>
                   <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                           disabled={optionalFieldsSubmitted}>
                     <SelectValue placeholder="Insurance coverage" />
                   </SelectTrigger>
                   <SelectContent>
@@ -1705,10 +1758,11 @@ export function SessionForm({
               )}
 
               {['therapists_counselors', 'coaches_mentors', 'medical_procedures'].includes(category) && (
-                <Select value={completedTreatment} onValueChange={setCompletedTreatment}>
+                <Select value={completedTreatment} onValueChange={setCompletedTreatment} disabled={optionalFieldsSubmitted}>
                   <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                           disabled={optionalFieldsSubmitted}>
                     <SelectValue placeholder="Completed full treatment?" />
                   </SelectTrigger>
                   <SelectContent>
@@ -1720,10 +1774,11 @@ export function SessionForm({
               )}
 
               {!['professional_services', 'crisis_resources'].includes(category) && (
-                <Select value={typicalLength} onValueChange={setTypicalLength}>
+                <Select value={typicalLength} onValueChange={setTypicalLength} disabled={optionalFieldsSubmitted}>
                   <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                           disabled={optionalFieldsSubmitted}>
                     <SelectValue placeholder="Typical treatment length" />
                   </SelectTrigger>
                   <SelectContent>
@@ -1735,7 +1790,6 @@ export function SessionForm({
                     <SelectItem value="6-12 months">6-12 months</SelectItem>
                     <SelectItem value="1-2 years">1-2 years</SelectItem>
                     <SelectItem value="Ongoing/Indefinite">Ongoing/Indefinite</SelectItem>
-                    <SelectItem value="Varies by condition">Varies by condition</SelectItem>
                   </SelectContent>
                 </Select>
               )}
@@ -1745,9 +1799,10 @@ export function SessionForm({
                   <p className="text-xs text-gray-600 dark:text-gray-400">Availability</p>
                   {['24/7', 'Business hours', 'Evenings', 'Weekends', 'Immediate response', 'Callback within 24hrs'].map(option => (
                     <label key={option} className="flex items-center space-x-2">
-                      <input 
-                        type="checkbox" 
+                      <input
+                        type="checkbox"
                         checked={availability.includes(option)}
+                        disabled={optionalFieldsSubmitted}
                         onChange={(e) => {
                           if (e.target.checked) {
                             setAvailability([...availability, option]);
@@ -1755,9 +1810,9 @@ export function SessionForm({
                             setAvailability(availability.filter(a => a !== option));
                           }
                         }}
-                        className="rounded border-gray-300 dark:border-gray-600"
+                        className="rounded border-gray-300 dark:border-gray-600 disabled:opacity-60 disabled:cursor-not-allowed"
                       />
-                      <span className="text-sm">{option}</span>
+                      <span className={`text-sm ${optionalFieldsSubmitted ? 'opacity-60' : ''}`}>{option}</span>
                     </label>
                   ))}
                 </div>
@@ -1767,21 +1822,34 @@ export function SessionForm({
                 placeholder="What do others need to know?"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                rows={2}
+                rows={3}
+                disabled={optionalFieldsSubmitted}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
-                         dark:bg-gray-700 dark:text-white text-sm"
+                         dark:bg-gray-700 dark:text-white text-sm
+                         disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>
 
-            {/* Always-visible submit button - center aligned */}
+            {/* Submit button - changes to "Saved" after successful submission */}
             <div className="text-center mt-4">
               <button
                 onClick={updateAdditionalInfo}
-                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg
-                         font-semibold transition-colors button-focus-tight"
+                disabled={optionalFieldsSubmitted}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all button-focus-tight ${
+                  optionalFieldsSubmitted
+                    ? 'bg-green-600 text-white cursor-default'
+                    : 'bg-purple-600 hover:bg-purple-700 text-white'
+                }`}
               >
-                Submit extra details
+                {optionalFieldsSubmitted ? (
+                  <span className="flex items-center gap-2">
+                    <Check className="w-5 h-5" />
+                    Saved
+                  </span>
+                ) : (
+                  'Submit extra details'
+                )}
               </button>
             </div>
           </div>

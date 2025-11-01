@@ -113,7 +113,7 @@ export const CATEGORY_FIELDS: Record<string, CategoryFieldConfig> = {
     arrayField: 'challenges'
   },
   sleep: {
-    required: ['cost_impact', 'time_to_results', 'previous_sleep_hours', 'still_following'],
+    required: ['cost_impact', 'time_to_results', 'sleep_quality_change', 'still_following'],
     arrayField: 'challenges'
   },
 

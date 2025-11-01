@@ -181,40 +181,32 @@ test.describe('CommunityForm - Complete E2E Tests', () => {
     console.log('Selected time to results: 1-2 weeks')
     await page.waitForTimeout(300)
     
-    // Select payment frequency FIRST (2nd Select component) - REQUIRED!
+    // Select payment type (2nd Select component) - simplified, no cost dropdown needed
     const paymentSelect = page.locator('button[role="combobox"]').nth(1)
     await paymentSelect.click()
     await page.waitForTimeout(300)
-    await page.click('text="Free or donation-based"')
-    console.log('Selected payment frequency: Free or donation-based')
-    await page.waitForTimeout(500)
-    
-    // Select cost range (3rd Select component - appears after payment frequency)
-    const costRangeSelect = page.locator('button[role="combobox"]').nth(2)
-    await costRangeSelect.click()
-    await page.waitForTimeout(300)
     await page.click('text="Free"')
-    console.log('Selected cost range: Free')
+    console.log('Selected payment type: Free')
     await page.waitForTimeout(500)
-    
-    // Select meeting frequency (4th Select component)
-    const meetingSelect = page.locator('button[role="combobox"]').nth(3)
+
+    // Select meeting frequency (3rd Select component)
+    const meetingSelect = page.locator('button[role="combobox"]').nth(2)
     await meetingSelect.click()
     await page.waitForTimeout(300)
     await page.click('text="Weekly"')
     console.log('Selected meeting frequency: Weekly')
     await page.waitForTimeout(500)
-    
-    // Select format (5th Select component)
-    const formatSelect = page.locator('button[role="combobox"]').nth(4)
+
+    // Select format (4th Select component)
+    const formatSelect = page.locator('button[role="combobox"]').nth(3)
     await formatSelect.click()
     await page.waitForTimeout(300)
     await page.click('text="Online only"')
     console.log('Selected format: Online only')
     await page.waitForTimeout(500)
     
-    // Select group size (6th Select component)
-    const groupSizeSelect = page.locator('button[role="combobox"]').nth(5)
+    // Select group size (5th Select component)
+    const groupSizeSelect = page.locator('button[role="combobox"]').nth(4)
     await groupSizeSelect.click()
     await page.waitForTimeout(300)
     await page.locator('[role="option"]').first().click()

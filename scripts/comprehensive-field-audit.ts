@@ -95,7 +95,7 @@ const CATEGORY_DISPLAY_FIELDS: Record<string, { keyFields: string[], arrayField:
     arrayField: 'challenges'
   },
   'sleep': {
-    keyFields: ['time_to_results', 'previous_sleep_hours', 'still_following', 'cost'],
+    keyFields: ['time_to_results', 'sleep_quality_change', 'still_following', 'cost'],
     arrayField: 'challenges'
   },
 

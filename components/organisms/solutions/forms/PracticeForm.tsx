@@ -62,8 +62,9 @@ export function PracticeForm({
   const [restoredFromBackup, setRestoredFromBackup] = useState(false);
   
   // Step 1 fields - Practice details
-  const [startupCost, setStartupCost] = useState('');
-  const [ongoingCost, setOngoingCost] = useState('');
+  // Default to free for habits_routines (81% of habits are free)
+  const [startupCost, setStartupCost] = useState(category === 'habits_routines' ? 'Free/No startup cost' : '');
+  const [ongoingCost, setOngoingCost] = useState(category === 'habits_routines' ? 'Free/No ongoing cost' : '');
   const [timeToResults, setTimeToResults] = useState('');
   const [frequency, setFrequency] = useState('');
   const [effectiveness, setEffectiveness] = useState<number | null>(null);
@@ -93,6 +94,9 @@ export function PracticeForm({
   // Validation state
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  // Track if optional fields have been submitted
+  const [optionalFieldsSubmitted, setOptionalFieldsSubmitted] = useState(false);
 
   // Progress indicator
   const totalSteps = 3;
@@ -405,14 +409,14 @@ export function PracticeForm({
     try {
       // Primary cost field for cross-category filtering
       const hasUnknownCost = ongoingCost === "Don't remember" || startupCost === "Don't remember";
-      const primaryCost = hasUnknownCost ? "Unknown" : 
+      const primaryCost = hasUnknownCost ? "Unknown" :
                           ongoingCost && ongoingCost !== "Free/No ongoing cost" ? ongoingCost :
-                          startupCost && startupCost !== "Free/No startup cost" ? startupCost : 
-                          "Free";
+                          startupCost && startupCost !== "Free/No startup cost" ? startupCost :
+                          "Free/No ongoing cost"; // Changed from "Free" to match dropdown options
       const costType = hasUnknownCost ? "unknown" :
-                       (ongoingCost && ongoingCost !== "Free/No ongoing cost") && 
-                       (startupCost && startupCost !== "Free/No startup cost") ? "dual" : 
-                       ongoingCost && ongoingCost !== "Free/No ongoing cost" ? "recurring" : 
+                       (ongoingCost && ongoingCost !== "Free/No ongoing cost") &&
+                       (startupCost && startupCost !== "Free/No startup cost") ? "dual" :
+                       ongoingCost && ongoingCost !== "Free/No ongoing cost" ? "recurring" :
                        startupCost && startupCost !== "Free/No startup cost" ? "one_time" : "free";
       
       // Build solution fields object with category-specific fields
@@ -526,10 +530,11 @@ export function PracticeForm({
       });
 
       if (result.success) {
+        setOptionalFieldsSubmitted(true);
         toast.success('Additional information saved!', {
           description: 'Thank you for providing more details.'
         });
-      } else {
+      } else{
         console.error('Failed to update:', result.error);
         toast.error('Failed to save additional information', {
           description: 'Please try again or contact support if the problem persists.'
@@ -1183,7 +1188,7 @@ export function PracticeForm({
             {submissionResult.otherRatingsCount && submissionResult.otherRatingsCount > 0 ? (
               <>Your experience has been added to {submissionResult.otherRatingsCount} {submissionResult.otherRatingsCount === 1 ? 'other' : 'others'} around the world</>
             ) : (
-              <>Your experience with {solutionName} has been recorded and will help people worldwide</>
+              <>Your experience has been recorded and will help people worldwide</>
             )}
           </p>
 
@@ -1194,11 +1199,12 @@ export function PracticeForm({
             </p>
             
             <div className="space-y-4">
-              <Select value={bestTime} onValueChange={setBestTime}>
+              <Select value={bestTime} onValueChange={setBestTime} disabled={optionalFieldsSubmitted}>
                 <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                         text-sm">
+                         text-sm"
+                         disabled={optionalFieldsSubmitted}>
                   <SelectValue placeholder="Best time of day?" />
                 </SelectTrigger>
                 <SelectContent>
@@ -1213,11 +1219,12 @@ export function PracticeForm({
               </Select>
 
               {category !== 'habits_routines' && (
-                <Select value={location} onValueChange={setLocation}>
+                <Select value={location} onValueChange={setLocation} disabled={optionalFieldsSubmitted}>
                   <SelectTrigger className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                            focus:ring-2 focus:ring-purple-500 focus:border-transparent
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                           text-sm">
+                           text-sm"
+                           disabled={optionalFieldsSubmitted}>
                     <SelectValue placeholder="Where do you practice?" />
                   </SelectTrigger>
                   <SelectContent>
@@ -1236,21 +1243,34 @@ export function PracticeForm({
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
+                disabled={optionalFieldsSubmitted}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
                          focus:ring-2 focus:ring-purple-500 focus:border-transparent
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                         appearance-none text-sm"
+                         appearance-none text-sm
+                         disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>
 
-            {/* Always-visible submit button - center aligned */}
+            {/* Submit button - changes to "Saved" after successful submission */}
             <div className="text-center mt-4">
               <button
                 onClick={updateAdditionalInfo}
-                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg
-                         font-semibold transition-colors button-focus-tight"
+                disabled={optionalFieldsSubmitted}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all button-focus-tight ${
+                  optionalFieldsSubmitted
+                    ? 'bg-green-600 text-white cursor-default'
+                    : 'bg-purple-600 hover:bg-purple-700 text-white'
+                }`}
               >
-                Submit extra details
+                {optionalFieldsSubmitted ? (
+                  <span className="flex items-center gap-2">
+                    <Check className="w-5 h-5" />
+                    Saved
+                  </span>
+                ) : (
+                  'Submit extra details'
+                )}
               </button>
             </div>
           </div>

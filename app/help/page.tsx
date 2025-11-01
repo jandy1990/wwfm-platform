@@ -1,3 +1,6 @@
+// Cache for 1 hour - help content changes infrequently
+export const revalidate = 3600
+
 export default function HelpPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
