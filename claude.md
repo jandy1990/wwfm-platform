@@ -1,12 +1,5 @@
 CLAUDE.md - WWFM Project Overview for AI Assistants
 
-🔍 EXTERNAL REVIEW PREPARATION (November 2025)
-Platform prepared for technical review. Reviewer start point:
-- **FOR_REVIEWER.md** - Review navigation (start here)
-- **PLATFORM_STATUS.md** - Status, 2 launch blockers, known issues
-
----
-
 🎯 What is WWFM?
 WWFM (What Worked For Me) is a platform that crowdsources solutions to life challenges. Users share what actually worked for them - from reducing anxiety to getting promoted - creating a searchable database of real-world solutions with effectiveness ratings.
 
@@ -327,6 +320,12 @@ const updated = newFields  // Loses existing fields
 - **Archived dangerous**: `scripts/archive/dangerous-transformation-failure-20250924/`
 
 Remember: WWFM helps real people find solutions to life challenges. Every feature should make it easier to discover what works or share what worked for you.
+
+---
+
+## 🔍 External Review (November 2025)
+
+Platform prepared for technical review. **For reviewers:** See [FOR_REVIEWER.md](./FOR_REVIEWER.md) and [PLATFORM_STATUS.md](./PLATFORM_STATUS.md).
 
 ## ⚠️ CRITICAL: Field Preservation Pattern (MANDATORY)
 

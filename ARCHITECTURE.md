@@ -4,15 +4,6 @@
 > **Purpose**: Technical implementation guide for developers and Claude Code
 > **Related**: [Database Schema](/docs/database/schema.md) | [Form Templates](/docs/forms/README.md) | [Goals Taxonomy](/data/taxonomy.md)
 
----
-
-## 🔍 FOR EXTERNAL REVIEWERS
-
-**Review Starting Point:** [FOR_REVIEWER.md](./FOR_REVIEWER.md)
-
-**This document provides technical implementation details. For current status and launch blockers, see CURRENT_STATUS.md and LAUNCH_BLOCKERS.md.**
-
----
 
 ## 🏛️ System Overview
 
