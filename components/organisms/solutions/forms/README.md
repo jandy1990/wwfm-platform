@@ -1,5 +1,40 @@
 # WWFM Forms System
 
+**Last Updated:** November 2, 2025
+**Status:** Production Ready ✅ (All 23 categories validated November 1, 2025)
+
+---
+
+## ⭐ Effectiveness Rating System
+
+**BUSINESS LOGIC: What Do The Stars Mean?**
+
+All forms use a consistent 1-5 star rating system with emojis and labels:
+
+| Stars | Label | Emoji |
+|-------|-------|-------|
+| 1 ⭐ | Not at all | 😞 |
+| 2 ⭐⭐ | Slightly | 😕 |
+| 3 ⭐⭐⭐ | Moderate | 😐 |
+| 4 ⭐⭐⭐⭐ | Very | 😊 |
+| 5 ⭐⭐⭐⭐⭐ | Extremely | 🤩 |
+
+**UI Implementation:**
+- Question shown: "How well it worked"
+- Emojis + labels shown on buttons
+- Mobile: Shows only "Not at all" and "Extremely" as endpoints
+- Desktop: Shows all 5 labels under emojis
+- No additional explanation provided to users
+
+**Key Points:**
+- Self-explanatory with emojis and labels
+- Consistent across all 9 forms and 23 categories
+- Natural interpretation (like standard 5-star systems)
+
+**Code Reference:** All form files implement this (e.g., `AppForm.tsx` lines 526-564)
+
+---
+
 ## 📎 Purpose
 
 The forms system captures experiential effectiveness data that doesn't exist anywhere else. Unlike generic product information, we focus exclusively on **people's specific experience of solution effectiveness against particular problems**. Each form is designed to collect the minimal viable data needed to determine if a solution works for a specific goal.

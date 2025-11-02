@@ -1,6 +1,14 @@
 CLAUDE.md - WWFM Project Overview for AI Assistants
+
+🔍 EXTERNAL REVIEW PREPARATION (November 2025)
+Platform prepared for technical review. Reviewer start point:
+- **FOR_REVIEWER.md** - Review navigation (start here)
+- **PLATFORM_STATUS.md** - Status, 2 launch blockers, known issues
+
+---
+
 🎯 What is WWFM?
-WWFM (What Works For Me) is a platform that crowdsources solutions to life challenges. Users share what actually worked for them - from reducing anxiety to getting promoted - creating a searchable database of real-world solutions with effectiveness ratings.
+WWFM (What Worked For Me) is a platform that crowdsources solutions to life challenges. Users share what actually worked for them - from reducing anxiety to getting promoted - creating a searchable database of real-world solutions with effectiveness ratings.
 
 Core Innovation: We organize by problems (goals) not products. Instead of "here's what Vitamin D does," we show "here's what worked for people trying to sleep better" (which might include Vitamin D among 50+ other solutions).
 

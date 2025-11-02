@@ -1,0 +1,8 @@
+
+> wwfm-platform@0.1.0 test:critical
+> playwright test tests/e2e/forms/app-form-complete.spec.ts tests/e2e/forms/dosage-form-complete.spec.ts tests/e2e/forms/hobby-form-complete.spec.ts tests/e2e/forms/practice-form-complete.spec.ts tests/e2e/forms/community-form-complete.spec.ts tests/e2e/forms/lifestyle-form-complete.spec.ts tests/e2e/forms/purchase-form-complete.spec.ts tests/e2e/forms/financial-form-complete.spec.ts tests/e2e/forms/session-form-complete.spec.ts --project=chromium
+
+[2m[WebServer] [22m [33m[1m⚠[22m[39m Port 3000 is in use by process 76403, using available port 3001 instead.
+🔐 Setting up authentication for tests...
+🌐 Using baseURL: http://localhost:3001
+[2m[WebServer] [22m<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (114kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)

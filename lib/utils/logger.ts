@@ -1,3 +1,54 @@
+/**
+ * Structured Logging Utility
+ *
+ * **Production-Ready JSON Logger**
+ *
+ * **Features:**
+ * - JSON output (easy to parse by log aggregators)
+ * - Log levels: debug, info, warn, error
+ * - Respects LOG_LEVEL environment variable
+ * - Serializes errors with stack traces
+ * - Handles complex objects (Dates, BigInt, nested objects)
+ * - Timestamps all log entries
+ *
+ * **Usage:**
+ * ```typescript
+ * import { logger } from '@/lib/utils/logger'
+ *
+ * // Simple message
+ * logger.info('Solution submitted successfully')
+ *
+ * // With structured metadata
+ * logger.error('Failed to submit solution', {
+ *   error,
+ *   userId: user.id,
+ *   goalId,
+ *   solutionName
+ * })
+ * ```
+ *
+ * **Output Format:**
+ * {
+ *   "level": "error",
+ *   "timestamp": "2025-11-02T10:30:00.000Z",
+ *   "message": "Failed to submit solution",
+ *   "error": { "name": "Error", "message": "...", "stack": "..." },
+ *   "userId": "uuid",
+ *   "goalId": "uuid"
+ * }
+ *
+ * **Configuration:**
+ * Set LOG_LEVEL environment variable:
+ * - development: debug (show everything)
+ * - production: warn or error (reduce noise)
+ *
+ * **Why Custom Logger (vs Pino/Winston):**
+ * - Zero dependencies
+ * - Lightweight (< 100 lines)
+ * - Tailored to WWFM needs
+ * - Easy to extend if needed
+ */
+
 import { inspect } from 'util'
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error'

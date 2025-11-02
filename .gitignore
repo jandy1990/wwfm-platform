@@ -97,3 +97,6 @@ supabase/.branches/
 # duplicate directories
 wwfm-platform-OLD/
 wwfm-platform/
+
+# Sentry Config File
+.env.sentry-build-plugin

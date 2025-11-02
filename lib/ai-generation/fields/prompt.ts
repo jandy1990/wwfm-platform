@@ -30,7 +30,12 @@ export function generateContextAwarePrompt(
 
   const contextSources = getContextSources(category)
 
-  const prompt = `Based on your training data about how people actually use "${solutionName}" specifically for "${goalTitle}", generate a realistic distribution for the ${fieldName} field.
+  // CRITICAL: For medication costs, emphasize one-time format
+  const costWarning = (fieldName === 'cost' && category === 'medications')
+    ? `\n\n⚠️ CRITICAL FOR MEDICATIONS: Use ONLY one-time purchase costs (e.g., "$20-50"), NOT monthly costs (e.g., "$10-25/month"). The dropdown below contains ONLY one-time purchase options.\n`
+    : ''
+
+  const prompt = `Based on your training data about how people actually use "${solutionName}" specifically for "${goalTitle}", generate a realistic distribution for the ${fieldName} field.${costWarning}
 
 CRITICAL CONTEXT:
 - Solution: ${solutionName}
@@ -104,10 +109,18 @@ export function getSourceAttribution(category: string): string[] {
 }
 
 export function getFieldContextHints(fieldName: string, category: string, goalTitle: string): string {
+  // Special handling for medication costs - use one-time purchase format, not monthly
+  const getCostHint = () => {
+    if (category === 'medications') {
+      return `Consider the actual ONE-TIME PURCHASE costs people report for this medication when using it for "${goalTitle}". Use one-time cost format (e.g., "Under $20", "$20-50", "$50-100"), NOT monthly costs. Think about typical prescription costs or over-the-counter prices per purchase.`
+    }
+    return `Consider the actual costs people report for this solution when using it for "${goalTitle}". Include any ongoing costs, not just initial purchase.`
+  }
+
   const hints: Record<string, string> = {
     frequency: `Focus on how often people typically use this solution when specifically trying to achieve "${goalTitle}". Consider whether daily use is common, or if people use it more sporadically.`,
     time_to_results: `Think about realistic timelines for seeing results with this solution for "${goalTitle}". Some solutions work immediately, others take weeks or months.`,
-    cost: `Consider the actual costs people report for this solution when using it for "${goalTitle}". Include any ongoing costs, not just initial purchase.`,
+    cost: getCostHint(),
     side_effects: `Focus on side effects that people actually experience when using this solution for "${goalTitle}". Many people may report no side effects.`,
     length_of_use: `Think about how long people typically continue using this solution for "${goalTitle}". Some are short-term, others become long-term habits.`,
     practice_length: `Consider typical session lengths that people find effective for "${goalTitle}". Beginners often start shorter, experienced practitioners may go longer.`,

@@ -1,6 +1,55 @@
 import React, { useState } from 'react';
 import { Bot, CheckCircle } from 'lucide-react';
 
+/**
+ * Data Source Badge Component
+ *
+ * ============================================
+ * BUSINESS LOGIC: AI vs Human Data Transparency
+ * ============================================
+ *
+ * **The Problem:**
+ * Platform has ~3,850 AI-generated solutions to fill gaps. Users deserve to know
+ * if effectiveness data comes from real people or AI research.
+ *
+ * **The Solution:**
+ * Visual badges that clearly distinguish data sources:
+ *
+ * **AI-Generated Mode** (orange badge with robot emoji):
+ * - Shows: "AI-Generated 🤖"
+ * - Displays progress: "(3/10)" = 3 human ratings, need 10 for verification
+ * - Tooltip explains: "Help improve with your real experience!"
+ * - Progress bar shows journey to community verification
+ * - Gamified messaging: "🥇 Be the first to rate this!"
+ *
+ * **Community Verified Mode** (green badge with checkmark):
+ * - Shows: "Community Verified ✓ (10 users)"
+ * - Tooltip: "Verified by real experiences from 10 users like you"
+ * - Indicates enough human data to trust the effectiveness scores
+ *
+ * **Transition Logic:**
+ * - Starts as AI-generated (from research data)
+ * - At 10+ human ratings: Transitions to "Community Verified"
+ * - AI data remains in database but display mode switches
+ * - Human ratings now drive the aggregated_fields display
+ *
+ * **Why This Approach:**
+ * - Full transparency: Users always know data source
+ * - Encourages contribution: Gamified progress to verification
+ * - Builds trust: Honest about AI vs human data
+ * - Smooth transition: AI fills gaps, users validate/override
+ *
+ * **Implementation:**
+ * - Mode determined by goal_implementation_links.data_display_mode
+ * - Human count from goal_implementation_links.human_rating_count
+ * - Default threshold: 10 ratings (configurable)
+ *
+ * See also:
+ * - lib/services/solution-aggregator.ts (aggregation logic)
+ * - app/actions/submit-solution.ts (rating creation)
+ * - components/goal/GoalPageClient.tsx (display usage)
+ */
+
 interface DataSourceBadgeProps {
   mode: 'ai' | 'human';
   humanCount: number;

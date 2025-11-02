@@ -1,11 +1,40 @@
 /**
  * Solution Field Aggregation Service
- * 
+ *
  * Computes statistical aggregates from individual user ratings
  * Part of the "Both" architecture - stores individual data, shows aggregates
- * 
+ *
  * Output format aligned with display layer expectations (DistributionData)
  * No transformation needed - aggregator outputs display-ready format
+ *
+ * ============================================
+ * BUSINESS LOGIC: Rating Validity & Weighting
+ * ============================================
+ *
+ * **Current Implementation: All Ratings Equal**
+ * - No weighting by recency (old ratings = new ratings)
+ * - No weighting by user verification (email verified = anonymous)
+ * - No weighting by user reputation or trust score
+ * - Simple count aggregation: Each rating contributes equally
+ *
+ * **Filtering Applied:**
+ * - Only data_source = 'human' (excludes AI-generated ratings)
+ * - All human ratings for a goal-solution combo aggregated together
+ *
+ * **Why Equal Weighting (Current Choice):**
+ * - Simpler implementation for MVP
+ * - All contributors are verified email users (prevents anonymous spam)
+ * - Trust score system planned but not implemented
+ *
+ * **Future Considerations:**
+ * - Could weight recent ratings higher (decay older data)
+ * - Could weight high-reputation users more
+ * - Could require minimum rating count before showing (currently shows 1+)
+ * - Could implement time-based decay for evolving solutions
+ *
+ * See also:
+ * - app/actions/submit-solution.ts (rating creation)
+ * - Database ratings table (stores created_at for future time-based weighting)
  */
 
 import { createServerSupabaseClient } from '@/lib/database/server'

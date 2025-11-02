@@ -4,7 +4,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-// import { supabase } from '@/lib/database/client'; // Removed: unused after migrating to server actions
 import { Check, X, Plus, AlertCircle, Info } from 'lucide-react';
 import { toast } from 'sonner';
 import { Skeleton } from '@/components/atoms/skeleton';

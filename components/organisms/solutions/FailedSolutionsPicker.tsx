@@ -1,5 +1,45 @@
 'use client';
 
+/**
+ * Failed Solutions Picker Component
+ *
+ * ============================================
+ * BUSINESS LOGIC: Why Track Failed Solutions?
+ * ============================================
+ *
+ * **Purpose:**
+ * Help users avoid what didn't work for others. If 50 people tried "Solution X"
+ * for anxiety and rated it 1-2 stars, new users should see that before trying it.
+ *
+ * **How It Works:**
+ * 1. User rates their solution (e.g., "Headspace" = 5 stars)
+ * 2. Picker asks: "What else did you try before this worked?"
+ * 3. User adds failed solutions (e.g., "Calm app", "Yoga with Adriene")
+ * 4. Each failed solution gets a low rating (user picks 1-3 stars)
+ * 5. Failed solutions stored in database as ratings with is_quick_rating = true
+ * 6. They appear on goal pages ranked by effectiveness (naturally sorted low)
+ *
+ * **Community Value:**
+ * - See what DIDN'T work for the community
+ * - Avoid wasting time/money on ineffective solutions
+ * - Understand that failures are part of the journey
+ * - More honest, complete picture of solution landscape
+ *
+ * **Implementation Details:**
+ * - Stored as normal ratings in ratings table
+ * - Marked as is_quick_rating = true (minimal data collected)
+ * - Contribute to goal_implementation_links avg_effectiveness
+ * - Display on goal pages sorted by rating (low scores appear at bottom)
+ *
+ * **Privacy:**
+ * - Individual failed ratings are private
+ * - Only aggregated effectiveness shown publicly
+ *
+ * See also:
+ * - app/actions/submit-solution.ts (lines 572-647: failed solution processing)
+ * - Database: ratings table stores both successes and failures
+ */
+
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Star, X, Search, Plus } from 'lucide-react';
 import { useKeyboardNavigation } from '@/lib/hooks/useKeyboardNavigation';

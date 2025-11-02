@@ -1,5 +1,73 @@
 'use server'
 
+/**
+ * Solution Submission Server Action
+ *
+ * BUSINESS LOGIC: Solution Approval Process
+ * =========================================
+ *
+ * **Current State (MVP):**
+ * - Test solutions: Auto-approved (is_approved = true)
+ * - User-generated solutions: Created with is_approved = false
+ * - No moderation queue implemented yet (see app/admin/page.tsx line 59)
+ *
+ * **What This Means:**
+ * - Users CAN submit solutions
+ * - Solutions are stored in database
+ * - BUT: Unapproved solutions are invisible to public (filtered by RLS)
+ * - Approval workflow: Coming Soon™
+ *
+ * **Future Approval Workflow (Planned):**
+ * - Admin moderation queue will show pending solutions
+ * - Admins can approve/reject with reasons
+ * - Approved solutions become visible to all users
+ * - Rejected solutions notify submitter
+ *
+ * **Why Not Auto-Approve?**
+ * - Quality control: Prevent spam, inappropriate, or low-quality solutions
+ * - Specificity enforcement: Must pass "Friend Test"
+ * - Data integrity: Ensure solutions match categories
+ *
+ * ============================================
+ * BUSINESS LOGIC: Solution Quality Standards
+ * ============================================
+ *
+ * **The "Friend Test":**
+ * A solution must be specific enough that if you told a friend, they'd know exactly what to do.
+ *
+ * **Examples:**
+ * ❌ "Meditation app" → Friend asks "Which one?"
+ * ✅ "Headspace" → Friend can download it
+ * ❌ "Vitamin D supplement" → Friend asks "What brand? What dose?"
+ * ✅ "Nature's Bounty Vitamin D3" → Friend can buy it (dose is variant: 1000 IU)
+ *
+ * **Attribution Pattern (from AI generator prompts):**
+ * Solutions must follow:
+ * - "Source's Method" (e.g., "Dr. Weil's 4-7-8 breathing")
+ * - "Method by Source" (e.g., "Pomodoro Technique by Francesco Cirillo")
+ * - "Organization Program" (e.g., "AA's 12-step program")
+ * - "Company Product" (e.g., "Headspace's anxiety pack")
+ *
+ * **UNACCEPTABLE (will be rejected):**
+ * ❌ "Meditation" → Must be "Transcendental Meditation by Maharishi"
+ * ❌ "Exercise program" → Must be "StrongLifts 5x5 by Mehdi"
+ * ❌ "Support group" → Must be "SMART Recovery meetings"
+ * ❌ "Breathing technique" → Must be "Wim Hof Method"
+ * ❌ "Therapy" → Must be "Beck's Cognitive Therapy"
+ *
+ * **Why This Matters:**
+ * - Trackable: Can measure effectiveness of specific solution
+ * - Actionable: Users know exactly what to try next
+ * - Comparable: Can compare "Headspace" vs "Calm" effectiveness
+ * - Preventable: Stops spam like "just try anything" advice
+ *
+ * See also:
+ * - app/admin/page.tsx - Admin dashboard (approval UI pending)
+ * - scripts/archive/legacy-ai-solution-generator-20250927/ai-solution-generator/prompts/master-prompts.ts
+ *   (lines 91-115 encode this logic for AI generation)
+ * - Database RLS policies - Filter by is_approved for public queries
+ */
+
 import { createServerSupabaseClient } from '@/lib/database/server'
 import { solutionAggregator } from '@/lib/services/solution-aggregator'
 import { validateAndNormalizeSolutionFields } from '@/lib/solutions/solution-field-validator'
