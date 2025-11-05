@@ -6,3 +6,5 @@
 🔐 Setting up authentication for tests...
 🌐 Using baseURL: http://localhost:3001
 [2m[WebServer] [22m<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (114kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+
+

@@ -12,6 +12,14 @@ const GENERIC_TITLE_TOKENS = new Set([
   'your',
   'our',
   'their',
+  'like',
+  'such',
+  'as',
+  'eg',
+  'e',
+  'g',
+  'including',
+  'example',
   'practice',
   'practices',
   'session',
@@ -214,6 +222,20 @@ export function enforceFirstPersonTitle(rawTitle: string): string {
 
   let title = collapseWhitespace(rawTitle)
 
+  // Handle "Generic descriptor like Specific Product" pattern
+  // e.g. "Nicotine replacement therapy like Nicoderm CQ" → "Nicoderm CQ"
+  const likeMatch = title.match(/^(.+?)\s+(?:like|such as|e\.?g\.?|including|for example)\s+(.+)$/i)
+  if (likeMatch) {
+    const prefix = likeMatch[1].trim()
+    const suffix = likeMatch[2].trim()
+
+    if (isGenericDescriptor(prefix)) {
+      // Take the specific product name after "like/such as/e.g."
+      return suffix
+    }
+  }
+
+  // Handle parentheses pattern: "Generic descriptor (specific thing)"
   const parenMatch = title.match(/^(.+?)\s*\(([^)]+)\)\s*$/)
   if (parenMatch) {
     const prefix = parenMatch[1].trim()

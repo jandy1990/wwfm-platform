@@ -149,13 +149,42 @@ npx tsx check-progress.ts
 ## Troubleshooting
 
 ### Common Issues
-1. **Rate Limits**: Gemini free tier = 15 requests/minute
-   - Solution: Implement exponential backoff in batches
 
-2. **Format Inconsistency**: Mixed string/DistributionData formats
+1. **Medication Cost Field Mismatch** (CRITICAL - Fixed Nov 2, 2025)
+   - Issue: AI generates monthly costs ("$10-25/month") but medications expect one-time costs ("$20-50")
+   - Impact: ~15-20 medication solutions skipped across generation runs
+   - Fix: Added explicit medication cost format instruction in `lib/ai-generation/fields/prompt.ts`
+   - Status: Fixed, but some medications still slip through retries
+
+2. **AI Miscategorization** (~5-10% of solutions affected)
+   - Issue: AI occasionally categorizes solutions incorrectly
+   - Examples found:
+     - "Nicotine Replacement Therapy" → habits_routines (should be medications)
+     - "The Acne.org Regimen" → habits_routines (should be beauty_skincare)
+     - "Daily Stoic Journal by Ryan Holiday" → habits_routines (should be books_courses)
+     - "Mindful Walking Meditation" → exercise_movement (should be meditation_mindfulness)
+   - Impact: Canonical matching only works within same category, so duplicates can occur across categories
+   - Status: Known issue, acceptable for launch, manual cleanup as needed
+   - Prevention: Prompt improvements and category keyword enforcement
+
+3. **"Like/Such as/E.g." in Titles** (Fixed Nov 2, 2025)
+   - Issue: AI generates "Nicotine replacement therapy like Nicoderm CQ" instead of just "Nicoderm CQ"
+   - Fails "friend test": Not how real people talk
+   - Fix: Added explicit prohibition in prompt + `enforceFirstPersonTitle` function strips these patterns
+   - Filter: Added "like/such/as/eg/including/example" to `GENERIC_TITLE_TOKENS`
+
+4. **Rate Limits**: Gemini free tier = 15 requests/minute, 1000/day
+   - Solution: Built-in 3-4 second delays + exponential backoff on errors
+
+5. **Low Diversity Distributions** (60-70% of fields)
+   - Issue: AI generates 2-3 values instead of target 5-8
+   - Root causes: Over-aggressive deduplication, fallback diversity injection
+   - Status: Acceptable for launch, improvements planned
+
+6. **Format Inconsistency**: Mixed string/DistributionData formats
    - Solution: Ensure all fields use DistributionData structure
 
-3. **Display Issues**: Cards not showing AI data
+7. **Display Issues**: Cards not showing AI data
    - Solution: Check `data_display_mode` and `solution_fields` format
 
 ### Debug Commands
