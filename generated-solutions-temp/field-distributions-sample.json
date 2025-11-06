@@ -1,0 +1,126 @@
+{
+  "note": "Sample field distributions for validation - demonstrating the structure for database insertion",
+  "solutions_with_fields": [
+    {
+      "solution_title": "Sertraline (Zoloft)",
+      "goal_title": "Reduce anxiety",
+      "category": "medications",
+      "fields": {
+        "time_to_results": [
+          {"name": "3-4 weeks", "percentage": 40},
+          {"name": "1-2 weeks", "percentage": 25},
+          {"name": "1-2 months", "percentage": 20},
+          {"name": "Within days", "percentage": 10},
+          {"name": "3-6 months", "percentage": 5}
+        ],
+        "frequency": [
+          {"name": "once daily", "percentage": 85},
+          {"name": "twice daily", "percentage": 12},
+          {"name": "as needed", "percentage": 3}
+        ],
+        "length_of_use": [
+          {"name": "6-12 months", "percentage": 35},
+          {"name": "1-2 years", "percentage": 30},
+          {"name": "3-6 months", "percentage": 20},
+          {"name": "Over 2 years", "percentage": 10},
+          {"name": "Still using", "percentage": 5}
+        ],
+        "cost": [
+          {"name": "$10-25/month", "percentage": 40},
+          {"name": "$25-50/month", "percentage": 30},
+          {"name": "Under $10/month", "percentage": 20},
+          {"name": "$50-100/month", "percentage": 8},
+          {"name": "Free", "percentage": 2}
+        ],
+        "side_effects": [
+          {"name": "Nausea", "percentage": 35},
+          {"name": "Headaches", "percentage": 25},
+          {"name": "Sleep changes", "percentage": 20},
+          {"name": "Digestive issues", "percentage": 12},
+          {"name": "Fatigue", "percentage": 8}
+        ]
+      }
+    },
+    {
+      "solution_title": "Headspace App",
+      "goal_title": "Reduce anxiety",
+      "category": "apps_software",
+      "fields": {
+        "time_to_results": [
+          {"name": "1-2 weeks", "percentage": 40},
+          {"name": "3-4 weeks", "percentage": 30},
+          {"name": "Within days", "percentage": 15},
+          {"name": "1-2 months", "percentage": 10},
+          {"name": "3-6 months", "percentage": 5}
+        ],
+        "usage_frequency": [
+          {"name": "Daily", "percentage": 45},
+          {"name": "Few times a week", "percentage": 30},
+          {"name": "Multiple times daily", "percentage": 15},
+          {"name": "Weekly", "percentage": 7},
+          {"name": "As needed", "percentage": 3}
+        ],
+        "subscription_type": [
+          {"name": "Annual subscription", "percentage": 50},
+          {"name": "Monthly subscription", "percentage": 30},
+          {"name": "Free version", "percentage": 15},
+          {"name": "One-time purchase", "percentage": 5}
+        ],
+        "cost": [
+          {"name": "$50-$99.99/year", "percentage": 45},
+          {"name": "$10-$19.99/month", "percentage": 25},
+          {"name": "Free", "percentage": 15},
+          {"name": "$100-$199.99/year", "percentage": 10},
+          {"name": "Under $5/month", "percentage": 5}
+        ],
+        "challenges": [
+          {"name": "Remembering to use daily", "percentage": 35},
+          {"name": "Gets repetitive after a while", "percentage": 25},
+          {"name": "Hard to maintain habit", "percentage": 20},
+          {"name": "Premium features expensive", "percentage": 12},
+          {"name": "None", "percentage": 8}
+        ]
+      }
+    },
+    {
+      "solution_title": "CBT with licensed therapist",
+      "goal_title": "Reduce anxiety",
+      "category": "therapists_counselors",
+      "fields": {
+        "time_to_results": [
+          {"name": "1-2 months", "percentage": 40},
+          {"name": "3-4 weeks", "percentage": 30},
+          {"name": "3-6 months", "percentage": 20},
+          {"name": "1-2 weeks", "percentage": 7},
+          {"name": "6+ months", "percentage": 3}
+        ],
+        "session_frequency": [
+          {"name": "Weekly", "percentage": 60},
+          {"name": "Fortnightly", "percentage": 25},
+          {"name": "Multiple times per week", "percentage": 10},
+          {"name": "Monthly", "percentage": 5}
+        ],
+        "session_length": [
+          {"name": "45-60 minutes", "percentage": 70},
+          {"name": "60-90 minutes", "percentage": 20},
+          {"name": "30-45 minutes", "percentage": 8},
+          {"name": "Over 2 hours", "percentage": 2}
+        ],
+        "cost": [
+          {"name": "$100-150", "percentage": 35},
+          {"name": "$150-250", "percentage": 30},
+          {"name": "$50-100", "percentage": 20},
+          {"name": "$250-500", "percentage": 10},
+          {"name": "Over $500", "percentage": 5}
+        ],
+        "challenges": [
+          {"name": "High cost", "percentage": 40},
+          {"name": "Scheduling conflicts", "percentage": 25},
+          {"name": "Finding the right therapist", "percentage": 20},
+          {"name": "Not covered by insurance", "percentage": 10},
+          {"name": "None", "percentage": 5}
+        ]
+      }
+    }
+  ]
+}

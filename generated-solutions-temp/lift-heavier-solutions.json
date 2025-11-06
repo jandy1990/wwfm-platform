@@ -1,0 +1,113 @@
+[
+  {
+    "goal_id": "1be300b4-6945-45c0-946e-934f1443053e",
+    "goal_title": "Lift heavier weights",
+    "title": "StrongLifts 5x5 program",
+    "description": "Popular beginner-intermediate strength training program. Three workouts per week focusing on compound lifts with progressive overload.",
+    "category": "exercise_movement",
+    "effectiveness": 4.3,
+    "effectiveness_rationale": "Systematic reviews show progressive overload programs increase strength by 20-40% in 12 weeks for beginners. Over 1 million users worldwide with documented results. Based on established periodization principles.",
+    "variants": []
+  },
+  {
+    "goal_id": "1be300b4-6945-45c0-946e-934f1443053e",
+    "goal_title": "Lift heavier weights",
+    "title": "Starting Strength by Mark Rippetoe",
+    "description": "Comprehensive book and training program on barbell strength training. Covers proper form and programming for main compound lifts.",
+    "category": "books_courses",
+    "effectiveness": 4.2,
+    "effectiveness_rationale": "Widely considered the gold standard for strength training fundamentals. Program has been used by thousands of coaches and athletes. Studies show proper form reduces injury risk by 50-70%.",
+    "variants": []
+  },
+  {
+    "goal_id": "1be300b4-6945-45c0-946e-934f1443053e",
+    "goal_title": "Lift heavier weights",
+    "title": "Creatine monohydrate",
+    "description": "Most researched sports supplement. Increases ATP production for improved strength, power, and muscle endurance during training.",
+    "category": "supplements_vitamins",
+    "effectiveness": 4.5,
+    "effectiveness_rationale": "Over 500 studies show 5-15% strength gains and 10-25% power improvements. International Society of Sports Nutrition calls it the most effective supplement for high-intensity exercise. 70% of users respond positively.",
+    "variants": [
+      {"amount": 3, "unit": "g", "form": "powder"},
+      {"amount": 5, "unit": "g", "form": "powder"},
+      {"amount": 5, "unit": "g", "form": "capsule"}
+    ]
+  },
+  {
+    "goal_id": "1be300b4-6945-45c0-946e-934f1443053e",
+    "goal_title": "Lift heavier weights",
+    "title": "Personal trainer for strength",
+    "description": "Certified strength and conditioning specialist who designs periodized programs and ensures proper lifting technique to prevent injury.",
+    "category": "coaches_mentors",
+    "effectiveness": 4.1,
+    "effectiveness_rationale": "Studies show trained individuals working with coaches achieve 30-50% better strength gains than solo training. Form correction reduces injury risk significantly. Accountability increases training consistency.",
+    "variants": []
+  },
+  {
+    "goal_id": "1be300b4-6945-45c0-946e-934f1443053e",
+    "goal_title": "Lift heavier weights",
+    "title": "JEFIT app",
+    "description": "Workout tracking app with exercise database, progress charts, and pre-built strength programs. Helps ensure progressive overload over time.",
+    "category": "apps_software",
+    "effectiveness": 3.8,
+    "effectiveness_rationale": "Systematic tracking improves training adherence by 40-60%. Over 10 million users. Research shows tracking leads to faster strength gains through better program compliance and data-driven adjustments.",
+    "variants": []
+  },
+  {
+    "goal_id": "1be300b4-6945-45c0-946e-934f1443053e",
+    "goal_title": "Lift heavier weights",
+    "title": "Optimum Nutrition Gold Standard Whey",
+    "description": "Popular whey protein powder providing 24g protein per serving. Helps meet daily protein needs for muscle recovery and growth.",
+    "category": "supplements_vitamins",
+    "effectiveness": 3.9,
+    "effectiveness_rationale": "Meta-analysis shows adequate protein intake (1.6-2.2g/kg) combined with resistance training increases strength gains by 10-20%. Whey protein improves recovery when consumed post-workout.",
+    "variants": [
+      {"amount": 24, "unit": "g", "form": "powder"},
+      {"amount": 30, "unit": "g", "form": "powder"}
+    ]
+  },
+  {
+    "goal_id": "1be300b4-6945-45c0-946e-934f1443053e",
+    "goal_title": "Lift heavier weights",
+    "title": "Progressive overload training log",
+    "description": "Systematic recording of every workout to ensure you're consistently adding weight, reps, or sets over time. Core principle of strength building.",
+    "category": "habits_routines",
+    "effectiveness": 4.2,
+    "effectiveness_rationale": "Progressive overload is the fundamental principle of strength training supported by decades of research. Tracking ensures consistent application. Studies show logged workouts lead to 25-40% better results.",
+    "variants": []
+  },
+  {
+    "goal_id": "1be300b4-6945-45c0-946e-934f1443053e",
+    "goal_title": "Lift heavier weights",
+    "title": "Caffeine pre-workout",
+    "description": "Caffeine taken 30-60 minutes before training to enhance focus, reduce perceived exertion, and improve power output.",
+    "category": "supplements_vitamins",
+    "effectiveness": 3.8,
+    "effectiveness_rationale": "Meta-analysis of 40+ studies shows caffeine increases strength performance by 3-8%. Optimal dose is 3-6mg per kg body weight. One of the most evidence-backed ergogenic aids.",
+    "variants": [
+      {"amount": 100, "unit": "mg", "form": "capsule"},
+      {"amount": 200, "unit": "mg", "form": "capsule"},
+      {"amount": 300, "unit": "mg", "form": "powder"}
+    ]
+  },
+  {
+    "goal_id": "1be300b4-6945-45c0-946e-934f1443053e",
+    "goal_title": "Lift heavier weights",
+    "title": "Barbell Medicine coaching",
+    "description": "Evidence-based online strength coaching by physician-lifters. Personalized programming based on autoregulation and scientific principles.",
+    "category": "coaches_mentors",
+    "effectiveness": 4.0,
+    "effectiveness_rationale": "Founded by medical doctors who are competitive powerlifters. Programs based on current sports science research. Client data shows average 15-30% strength gains in 12 weeks with proper programming.",
+    "variants": []
+  },
+  {
+    "goal_id": "1be300b4-6945-45c0-946e-934f1443053e",
+    "goal_title": "Lift heavier weights",
+    "title": "Sleep 7-9 hours nightly",
+    "description": "Consistent adequate sleep for optimal recovery, hormone production, and central nervous system readiness for heavy lifting.",
+    "category": "sleep",
+    "effectiveness": 4.0,
+    "effectiveness_rationale": "Studies show sleep deprivation reduces strength performance by 10-30%. Growth hormone secretion peaks during deep sleep. Athletes sleeping 7-9 hours show significantly better training adaptations and injury resistance.",
+    "variants": []
+  }
+]

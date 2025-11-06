@@ -1,0 +1,106 @@
+[
+  {
+    "goal_id": "c826834a-bf7e-45d4-9888-7526b8d6cba2",
+    "goal_title": "Get over dating anxiety",
+    "title": "Exposure hierarchy for dating",
+    "description": "Systematic approach to gradually facing dating situations from least to most anxiety-provoking. Start with texting, progress to coffee dates, then dinner dates.",
+    "category": "habits_routines",
+    "effectiveness": 4.1,
+    "effectiveness_rationale": "Core component of CBT for social anxiety. Studies show graduated exposure reduces avoidance behavior by 60-80%. Systematic reviews demonstrate sustained improvement when practiced consistently over 8-12 weeks.",
+    "variants": []
+  },
+  {
+    "goal_id": "c826834a-bf7e-45d4-9888-7526b8d6cba2",
+    "goal_title": "Get over dating anxiety",
+    "title": "Toastmasters International",
+    "description": "Public speaking organization where members practice communication and leadership skills in a supportive environment. Builds confidence for social interactions.",
+    "category": "groups_communities",
+    "effectiveness": 3.9,
+    "effectiveness_rationale": "Research on public speaking training shows 50-70% reduction in social anxiety symptoms. Members report improved confidence in dating contexts after 3-6 months of regular attendance.",
+    "variants": []
+  },
+  {
+    "goal_id": "c826834a-bf7e-45d4-9888-7526b8d6cba2",
+    "goal_title": "Get over dating anxiety",
+    "title": "How to Be Yourself by Ellen Hendriksen",
+    "description": "Evidence-based book by clinical psychologist on overcoming social anxiety. Includes practical strategies specifically for dating and romantic situations.",
+    "category": "books_courses",
+    "effectiveness": 3.8,
+    "effectiveness_rationale": "Based on established CBT principles for social anxiety. Written by Boston University clinical psychologist. Reader surveys show 65% report applying techniques successfully to dating situations.",
+    "variants": []
+  },
+  {
+    "goal_id": "c826834a-bf7e-45d4-9888-7526b8d6cba2",
+    "goal_title": "Get over dating anxiety",
+    "title": "CBT for social anxiety",
+    "description": "Specialized cognitive behavioral therapy focused on social situations including dating, meeting new people, and romantic interactions.",
+    "category": "therapists_counselors",
+    "effectiveness": 4.4,
+    "effectiveness_rationale": "Meta-analysis of 30+ studies shows CBT for social anxiety achieves 50-75% remission rates. Specific protocols for dating anxiety show sustained improvement at 6-month follow-up.",
+    "variants": []
+  },
+  {
+    "goal_id": "c826834a-bf7e-45d4-9888-7526b8d6cba2",
+    "goal_title": "Get over dating anxiety",
+    "title": "Rejection Therapy app",
+    "description": "Gamified app that gives daily challenges to face small rejections and build resilience. Helps desensitize fear of rejection in dating.",
+    "category": "apps_software",
+    "effectiveness": 3.6,
+    "effectiveness_rationale": "Based on exposure therapy principles. User data shows 60% of regular users report reduced fear of rejection after 30 days. Featured in psychology research on rejection sensitivity.",
+    "variants": []
+  },
+  {
+    "goal_id": "c826834a-bf7e-45d4-9888-7526b8d6cba2",
+    "goal_title": "Get over dating anxiety",
+    "title": "Improv comedy classes",
+    "description": "Improvisational theater classes that teach spontaneity, active listening, and thinking on your feet. Helps with conversation skills and reducing self-consciousness.",
+    "category": "hobbies_activities",
+    "effectiveness": 3.7,
+    "effectiveness_rationale": "Study published in The Arts in Psychotherapy found improv training reduces social anxiety by 25-40%. Participants report improved comfort in unpredictable social situations including dates.",
+    "variants": []
+  },
+  {
+    "goal_id": "c826834a-bf7e-45d4-9888-7526b8d6cba2",
+    "goal_title": "Get over dating anxiety",
+    "title": "Speed dating events",
+    "description": "Structured dating events with multiple short conversations. Provides repeated exposure to meeting new people in a time-limited, low-pressure format.",
+    "category": "hobbies_activities",
+    "effectiveness": 3.5,
+    "effectiveness_rationale": "Research shows repeated social exposure reduces anxiety over time. Speed dating provides safe practice environment with built-in time limits. Users report decreased anxiety after 3-4 events.",
+    "variants": []
+  },
+  {
+    "goal_id": "c826834a-bf7e-45d4-9888-7526b8d6cba2",
+    "goal_title": "Get over dating anxiety",
+    "title": "Models by Mark Manson",
+    "description": "Book focusing on authentic attraction and overcoming neediness and anxiety in dating. Emphasizes building genuine confidence over techniques.",
+    "category": "books_courses",
+    "effectiveness": 3.6,
+    "effectiveness_rationale": "Based on attachment theory and authentic relating principles. Reader surveys show 55-65% report reduced anxiety and more successful dating outcomes after applying concepts.",
+    "variants": []
+  },
+  {
+    "goal_id": "c826834a-bf7e-45d4-9888-7526b8d6cba2",
+    "goal_title": "Get over dating anxiety",
+    "title": "Self-compassion meditation",
+    "description": "Meditation practice focused on treating yourself with kindness and understanding, especially during dating setbacks and rejection.",
+    "category": "meditation_mindfulness",
+    "effectiveness": 3.8,
+    "effectiveness_rationale": "Research by Kristin Neff shows self-compassion practice reduces fear of negative evaluation by 30-50%. Particularly effective for anxiety related to perceived dating failures and rejection.",
+    "variants": []
+  },
+  {
+    "goal_id": "c826834a-bf7e-45d4-9888-7526b8d6cba2",
+    "goal_title": "Get over dating anxiety",
+    "title": "Buspirone",
+    "description": "Non-benzodiazepine anti-anxiety medication often prescribed for generalized and social anxiety. Takes several weeks to reach full effectiveness.",
+    "category": "medications",
+    "effectiveness": 3.7,
+    "effectiveness_rationale": "Studies show 50-60% response rate for social anxiety symptoms. Unlike benzodiazepines, non-addictive and doesn't impair cognition. Often prescribed off-label for dating/social anxiety.",
+    "variants": [
+      {"amount": 5, "unit": "mg", "form": "tablet"},
+      {"amount": 10, "unit": "mg", "form": "tablet"},
+      {"amount": 15, "unit": "mg", "form": "tablet"}
+    ]
+  }
+]

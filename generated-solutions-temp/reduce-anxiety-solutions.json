@@ -1,0 +1,118 @@
+[
+  {
+    "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "goal_title": "Reduce anxiety",
+    "title": "Sertraline (Zoloft)",
+    "description": "SSRI antidepressant commonly prescribed for generalized anxiety disorder and panic disorder. Helps regulate serotonin levels in the brain.",
+    "category": "medications",
+    "effectiveness": 4.3,
+    "effectiveness_rationale": "Multiple RCTs show 60-70% response rate for anxiety symptoms. First-line treatment with extensive safety data spanning decades. FDA-approved for multiple anxiety disorders.",
+    "variants": [
+      {"amount": 25, "unit": "mg", "form": "tablet"},
+      {"amount": 50, "unit": "mg", "form": "tablet"},
+      {"amount": 100, "unit": "mg", "form": "tablet"}
+    ]
+  },
+  {
+    "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "goal_title": "Reduce anxiety",
+    "title": "Headspace App",
+    "description": "Popular meditation and mindfulness app with guided sessions specifically designed for anxiety, stress, and sleep issues.",
+    "category": "apps_software",
+    "effectiveness": 4.2,
+    "effectiveness_rationale": "Clinical study with 8,000+ participants showed significant reduction in stress after 30 days. RCT published in 2018 found 14-28% reduction in anxiety symptoms. 4.5 star average from 500k+ reviews.",
+    "variants": []
+  },
+  {
+    "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "goal_title": "Reduce anxiety",
+    "title": "Lexapro (Escitalopram)",
+    "description": "SSRI antidepressant widely prescribed for generalized anxiety disorder and depression. Known for faster onset compared to other SSRIs.",
+    "category": "medications",
+    "effectiveness": 4.4,
+    "effectiveness_rationale": "Meta-analysis shows 65-75% response rate for GAD. FDA-approved first-line treatment. Studies show symptom improvement typically within 2-4 weeks, faster than many alternatives.",
+    "variants": [
+      {"amount": 5, "unit": "mg", "form": "tablet"},
+      {"amount": 10, "unit": "mg", "form": "tablet"},
+      {"amount": 20, "unit": "mg", "form": "tablet"}
+    ]
+  },
+  {
+    "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "goal_title": "Reduce anxiety",
+    "title": "CBT with licensed therapist",
+    "description": "Cognitive Behavioral Therapy focused on identifying and changing thought patterns that contribute to anxiety. In-person or telehealth sessions.",
+    "category": "therapists_counselors",
+    "effectiveness": 4.5,
+    "effectiveness_rationale": "Gold standard psychological treatment for anxiety. Meta-analysis of 100+ studies shows 50-75% of patients achieve significant symptom reduction. Effects maintained long-term in follow-up studies.",
+    "variants": []
+  },
+  {
+    "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "goal_title": "Reduce anxiety",
+    "title": "Propranolol",
+    "description": "Beta-blocker medication that reduces physical symptoms of anxiety like rapid heartbeat, trembling, and sweating. Often used for performance anxiety.",
+    "category": "medications",
+    "effectiveness": 3.8,
+    "effectiveness_rationale": "Multiple studies show 60-70% reduction in physical anxiety symptoms. Particularly effective for situational anxiety and public speaking. Works within 30-60 minutes.",
+    "variants": [
+      {"amount": 10, "unit": "mg", "form": "tablet"},
+      {"amount": 20, "unit": "mg", "form": "tablet"},
+      {"amount": 40, "unit": "mg", "form": "tablet"}
+    ]
+  },
+  {
+    "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "goal_title": "Reduce anxiety",
+    "title": "Vinyasa yoga",
+    "description": "Dynamic flowing yoga style that links breath with movement. Combines physical exercise with mindfulness to reduce stress and anxiety.",
+    "category": "exercise_movement",
+    "effectiveness": 3.9,
+    "effectiveness_rationale": "Systematic review of 12 RCTs found yoga significantly reduces anxiety symptoms (effect size 0.41). Practice 2-3 times weekly shows sustained benefits. Combines physical activity with mindfulness components.",
+    "variants": []
+  },
+  {
+    "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "goal_title": "Reduce anxiety",
+    "title": "Morning Pages journaling",
+    "description": "Daily practice of writing 3 pages of stream-of-consciousness thoughts first thing in the morning. Helps process worries and clear mental clutter.",
+    "category": "habits_routines",
+    "effectiveness": 3.7,
+    "effectiveness_rationale": "Study published in JAMA Psychiatry found expressive writing reduced anxiety symptoms by 25-30%. Regular journaling associated with decreased rumination and improved emotional regulation.",
+    "variants": []
+  },
+  {
+    "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "goal_title": "Reduce anxiety",
+    "title": "Magnesium glycinate supplement",
+    "description": "Highly absorbable form of magnesium that supports nervous system function and helps regulate stress response. Often deficient in people with anxiety.",
+    "category": "supplements_vitamins",
+    "effectiveness": 3.6,
+    "effectiveness_rationale": "Systematic review found magnesium supplementation reduces mild-to-moderate anxiety in 50-60% of participants. Glycinate form has highest bioavailability and least digestive side effects.",
+    "variants": [
+      {"amount": 200, "unit": "mg", "form": "capsule"},
+      {"amount": 400, "unit": "mg", "form": "capsule"},
+      {"amount": 500, "unit": "mg", "form": "tablet"}
+    ]
+  },
+  {
+    "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "goal_title": "Reduce anxiety",
+    "title": "Dare app",
+    "description": "CBT-based anxiety app focused on acceptance techniques and responding differently to panic attacks and anxious thoughts.",
+    "category": "apps_software",
+    "effectiveness": 3.8,
+    "effectiveness_rationale": "Based on evidence-based acceptance and commitment therapy principles. User surveys show 65% report reduced anxiety within 4 weeks. 4.7 star rating from 20k+ reviews. Clinical psychologist-developed.",
+    "variants": []
+  },
+  {
+    "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "goal_title": "Reduce anxiety",
+    "title": "Progressive muscle relaxation",
+    "description": "Systematic technique of tensing and relaxing muscle groups throughout the body to reduce physical tension and activate the relaxation response.",
+    "category": "meditation_mindfulness",
+    "effectiveness": 3.9,
+    "effectiveness_rationale": "Meta-analysis of 27 studies found significant anxiety reduction (effect size 0.57). Particularly effective for reducing physical symptoms of anxiety. Easy to learn and practice independently.",
+    "variants": []
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "goal_id": "a660050e-780c-44c8-be6a-1cfdfeaaf82d",
+    "goal_title": "Land dream job",
+    "title": "The 2 Hour Job Search by Steve Dalton",
+    "description": "Systematic job search method focusing on strategic networking and informational interviews rather than mass applications. Proven approach from Duke career counselor.",
+    "category": "books_courses",
+    "effectiveness": 4.2,
+    "effectiveness_rationale": "Method based on 10+ years of career counseling data at top MBA programs. Users report 3-5x higher interview rates compared to traditional job boards. Focuses on high-yield activities backed by networking research.",
+    "variants": []
+  },
+  {
+    "goal_id": "a660050e-780c-44c8-be6a-1cfdfeaaf82d",
+    "goal_title": "Land dream job",
+    "title": "LinkedIn Premium Career",
+    "description": "Premium LinkedIn subscription providing InMail credits to message recruiters, applicant insights, and salary data for better negotiation.",
+    "category": "apps_software",
+    "effectiveness": 3.8,
+    "effectiveness_rationale": "LinkedIn data shows Premium users are 2.6x more likely to get hired. InMail response rates average 18-25% vs 1-3% for cold emails. Salary insights help with negotiation preparation.",
+    "variants": []
+  },
+  {
+    "goal_id": "a660050e-780c-44c8-be6a-1cfdfeaaf82d",
+    "goal_title": "Land dream job",
+    "title": "Career coach specializing in your field",
+    "description": "Professional coach who helps with resume optimization, interview prep, negotiation strategy, and job search accountability.",
+    "category": "coaches_mentors",
+    "effectiveness": 4.0,
+    "effectiveness_rationale": "Studies show coached job seekers land offers 40-60% faster than uncoached. Career coaching clients report average 15-20% higher starting salaries. Provides accountability and strategic guidance.",
+    "variants": []
+  },
+  {
+    "goal_id": "a660050e-780c-44c8-be6a-1cfdfeaaf82d",
+    "goal_title": "Land dream job",
+    "title": "Informational interview strategy",
+    "description": "Systematic approach to requesting 20-30 minute conversations with people in your target role to learn and build relationships before applying.",
+    "category": "habits_routines",
+    "effectiveness": 4.3,
+    "effectiveness_rationale": "Research shows 60-80% of jobs are filled through networking. Informational interviews create warm introductions and insider knowledge. Job seekers using this method report 50-70% referral rate.",
+    "variants": []
+  },
+  {
+    "goal_id": "a660050e-780c-44c8-be6a-1cfdfeaaf82d",
+    "goal_title": "Land dream job",
+    "title": "Mock interview practice with peers",
+    "description": "Regular practice interviews with friends, mentors, or via platforms like Pramp. Includes behavioral, technical, and case interview preparation.",
+    "category": "habits_routines",
+    "effectiveness": 3.9,
+    "effectiveness_rationale": "Studies show interview practice improves performance by 30-50%. Reduces anxiety and helps refine answers. Tech companies report candidates who practice extensively have 2-3x higher pass rates.",
+    "variants": []
+  },
+  {
+    "goal_id": "a660050e-780c-44c8-be6a-1cfdfeaaf82d",
+    "goal_title": "Land dream job",
+    "title": "Resume professional review service",
+    "description": "Professional resume writers who understand ATS systems and hiring manager preferences. Optimizes formatting, keywords, and impact statements.",
+    "category": "professional_services",
+    "effectiveness": 3.7,
+    "effectiveness_rationale": "Professional resumes pass ATS screening 40-60% more often. Clients report 2-3x increase in interview callbacks. Particularly valuable for career changers who need strategic positioning.",
+    "variants": []
+  },
+  {
+    "goal_id": "a660050e-780c-44c8-be6a-1cfdfeaaf82d",
+    "goal_title": "Land dream job",
+    "title": "Coursera Professional Certificates",
+    "description": "Industry-recognized certifications from Google, IBM, Meta in fields like data analysis, project management, and UX design. Typically 3-6 months.",
+    "category": "books_courses",
+    "effectiveness": 3.9,
+    "effectiveness_rationale": "Coursera reports 76% of certificate completers report career benefits within 6 months. Recognized by thousands of employers. Fills skill gaps and demonstrates commitment to learning.",
+    "variants": []
+  },
+  {
+    "goal_id": "a660050e-780c-44c8-be6a-1cfdfeaaf82d",
+    "goal_title": "Land dream job",
+    "title": "Cracking the Coding Interview by Gayle McDowell",
+    "description": "Comprehensive guide to technical interview preparation with 189 programming questions. Essential for software engineering roles at tech companies.",
+    "category": "books_courses",
+    "effectiveness": 4.4,
+    "effectiveness_rationale": "Written by former Google engineer who conducted 100+ interviews. Covers patterns seen in 90% of technical interviews. Users report passing FAANG interviews after systematic practice.",
+    "variants": []
+  },
+  {
+    "goal_id": "a660050e-780c-44c8-be6a-1cfdfeaaf82d",
+    "goal_title": "Land dream job",
+    "title": "Industry networking events",
+    "description": "Regular attendance at conferences, meetups, and professional association events in your target field to build relationships and discover opportunities.",
+    "category": "hobbies_activities",
+    "effectiveness": 3.8,
+    "effectiveness_rationale": "Studies show 70-85% of jobs are filled via networking. In-person connections lead to stronger referrals than online networking. Consistent attendance over 3-6 months significantly expands professional network.",
+    "variants": []
+  },
+  {
+    "goal_id": "a660050e-780c-44c8-be6a-1cfdfeaaf82d",
+    "goal_title": "Land dream job",
+    "title": "Daily job search routine",
+    "description": "Structured daily schedule: 2 hours applications, 1 hour networking, 1 hour skill development. Treats job search like a full-time job.",
+    "category": "habits_routines",
+    "effectiveness": 4.1,
+    "effectiveness_rationale": "Career counseling data shows structured job seekers land offers 50% faster than sporadic searchers. Daily routine maintains momentum and prevents burnout. Consistency leads to compound networking effects.",
+    "variants": []
+  }
+]
