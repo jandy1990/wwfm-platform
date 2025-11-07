@@ -1,0 +1,699 @@
+{
+  "batch_number": 2,
+  "batch_range": "11-20",
+  "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+  "goal_title": "Reduce anxiety",
+  "solutions": [
+    {
+      "index": 11,
+      "title": "Calm app",
+      "description": "Leading meditation and sleep app with extensive anxiety-focused content. Features guided meditations, sleep stories narrated by celebrities, breathing exercises, and music. Daily Calm meditation sessions and anxiety-specific programs. Winner of multiple app store awards with millions of users worldwide.",
+      "solution_category": "apps_software",
+      "avg_effectiveness": 4.1,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "3-4 weeks", "count": 26, "percentage": 26, "source": "research"},
+            {"value": "Within days", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "1-2 months", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "3-6 months", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "usage_frequency": {
+          "mode": "Daily",
+          "values": [
+            {"value": "Daily", "count": 55, "percentage": 55, "source": "research"},
+            {"value": "5-6 times per week", "count": 18, "percentage": 18, "source": "research"},
+            {"value": "3-4 times per week", "count": 14, "percentage": 14, "source": "studies"},
+            {"value": "1-2 times per week", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "As needed", "count": 5, "percentage": 5, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "subscription_type": {
+          "mode": "subscription",
+          "values": [
+            {"value": "subscription", "count": 82, "percentage": 82, "source": "research"},
+            {"value": "one_time", "count": 18, "percentage": 18, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$25-50/month",
+          "values": [
+            {"value": "$25-50/month", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "$10-25/month", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Free", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "$50-100/month", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "$5-10/month", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "Difficulty maintaining daily habit", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Subscription cost adds up", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Hard to stay focused during sessions", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Results took time to notice", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 12,
+      "title": "BetterHelp online therapy",
+      "description": "Largest online therapy platform offering text, phone, and video sessions with licensed therapists. Provides matching to therapists specializing in anxiety disorders. Flexible scheduling with asynchronous messaging between sessions. More affordable than traditional therapy with insurance or self-pay options.",
+      "solution_category": "apps_software",
+      "avg_effectiveness": 4.3,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "1-2 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-2 weeks", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "3-6 months", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Within days", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "usage_frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 62, "percentage": 62, "source": "research"},
+            {"value": "1-2 times per week", "count": 18, "percentage": 18, "source": "research"},
+            {"value": "Daily", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "Few times a month", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "As needed", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "subscription_type": {
+          "mode": "subscription",
+          "values": [
+            {"value": "subscription", "count": 95, "percentage": 95, "source": "research"},
+            {"value": "one_time", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$50-100/month",
+          "values": [
+            {"value": "$50-100/month", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "$25-50/month", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Over $100/month", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "$10-25/month", "count": 3, "percentage": 3, "source": "research"},
+            {"value": "Free", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "Finding the right therapist match", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Monthly cost adds up", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "Prefer in-person therapy", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Technical platform issues", "count": 5, "percentage": 5, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 13,
+      "title": "Talkspace online therapy",
+      "description": "Major online therapy platform with licensed therapists offering text, audio, and video messaging. Specializes in anxiety, depression, and relationship issues. Unlimited messaging within subscription with live sessions available. Accepts some insurance plans and offers psychiatry services for medication management.",
+      "solution_category": "apps_software",
+      "avg_effectiveness": 4.2,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 34, "percentage": 34, "source": "research"},
+            {"value": "1-2 months", "count": 26, "percentage": 26, "source": "research"},
+            {"value": "1-2 weeks", "count": 24, "percentage": 24, "source": "studies"},
+            {"value": "3-6 months", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Within days", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "usage_frequency": {
+          "mode": "Daily",
+          "values": [
+            {"value": "Daily", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "5-6 times per week", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "3-4 times per week", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Weekly", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "1-2 times per week", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "subscription_type": {
+          "mode": "subscription",
+          "values": [
+            {"value": "subscription", "count": 96, "percentage": 96, "source": "research"},
+            {"value": "one_time", "count": 4, "percentage": 4, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$50-100/month",
+          "values": [
+            {"value": "$50-100/month", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "$25-50/month", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Over $100/month", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "$10-25/month", "count": 3, "percentage": 3, "source": "research"},
+            {"value": "Free", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "Finding the right therapist match", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Monthly cost adds up", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "Prefer in-person therapy", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Response time varies by therapist", "count": 5, "percentage": 5, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 14,
+      "title": "Magnesium supplements",
+      "description": "Essential mineral that plays a role in nerve function and stress response. Deficiency linked to increased anxiety. Multiple forms available (citrate, glycinate, threonate) with varying absorption rates. Glycinate form often preferred for anxiety due to calming properties and better tolerability. Generally well-tolerated supplement.",
+      "solution_category": "supplements_vitamins",
+      "avg_effectiveness": 3.7,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "3-4 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Within days", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 months", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Still evaluating", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "3-6 months", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "1-2 times per day",
+          "values": [
+            {"value": "1-2 times per day", "count": 68, "percentage": 68, "source": "research"},
+            {"value": "At bedtime", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "With meals", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "As needed/PRN", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "length_of_use": {
+          "mode": "6+ months",
+          "values": [
+            {"value": "6+ months", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "3-6 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-3 months", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Still using", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Under 1 month", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {"value": "$10-25/month", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "Under $10/month", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "$25-50/month", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "$50-100/month", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "None or minimal",
+          "values": [
+            {"value": "None or minimal", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "Digestive upset or loose stools", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Drowsiness", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Nausea", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "Headache", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 15,
+      "title": "L-theanine supplements",
+      "description": "Amino acid naturally found in green tea known for promoting relaxation without sedation. Increases GABA, serotonin, and dopamine levels to reduce anxiety while maintaining alertness. Often combined with caffeine for focused calm. Fast-acting with effects typically felt within 30-60 minutes. Well-researched for anxiety reduction.",
+      "solution_category": "supplements_vitamins",
+      "avg_effectiveness": 3.9,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "1-2 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Immediately", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "3-4 weeks", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "1-2 months", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "1-2 times per day",
+          "values": [
+            {"value": "1-2 times per day", "count": 55, "percentage": 55, "source": "research"},
+            {"value": "As needed/PRN", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "With meals", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "3 times per day", "count": 5, "percentage": 5, "source": "research"},
+            {"value": "At bedtime", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "length_of_use": {
+          "mode": "3-6 months",
+          "values": [
+            {"value": "3-6 months", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "6+ months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-3 months", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "Still using", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Under 1 month", "count": 5, "percentage": 5, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {"value": "$10-25/month", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "Under $10/month", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "$25-50/month", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "$50-100/month", "count": 3, "percentage": 3, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "None or minimal",
+          "values": [
+            {"value": "None or minimal", "count": 78, "percentage": 78, "source": "research"},
+            {"value": "Mild drowsiness", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Headache", "count": 6, "percentage": 6, "source": "studies"},
+            {"value": "Digestive discomfort", "count": 3, "percentage": 3, "source": "research"},
+            {"value": "Dizziness", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 16,
+      "title": "Ashwagandha",
+      "description": "Adaptogenic herb used in Ayurvedic medicine for stress and anxiety. Reduces cortisol levels and modulates stress response systems. KSM-66 and Sensoril are clinically studied extracts. Multiple studies show significant anxiety reduction compared to placebo. Typically takes 2-4 weeks for full effects. Generally well-tolerated.",
+      "solution_category": "supplements_vitamins",
+      "avg_effectiveness": 4.0,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "1-2 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-2 months", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "Within days", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "3-6 months", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "1-2 times per day",
+          "values": [
+            {"value": "1-2 times per day", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "With meals", "count": 15, "percentage": 15, "source": "research"},
+            {"value": "At bedtime", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "As needed/PRN", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "length_of_use": {
+          "mode": "3-6 months",
+          "values": [
+            {"value": "3-6 months", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "6+ months", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "1-3 months", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "Still using", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Under 1 month", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {"value": "$10-25/month", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "$25-50/month", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Under $10/month", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "$50-100/month", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "None or minimal",
+          "values": [
+            {"value": "None or minimal", "count": 65, "percentage": 65, "source": "research"},
+            {"value": "Mild digestive upset", "count": 18, "percentage": 18, "source": "research"},
+            {"value": "Drowsiness", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "Headache", "count": 5, "percentage": 5, "source": "research"},
+            {"value": "Nausea", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 17,
+      "title": "Omega-3 fish oil",
+      "description": "Essential fatty acids (EPA and DHA) with anti-inflammatory properties affecting brain function. Research shows potential benefit for anxiety, particularly higher EPA formulations. May modulate neurotransmitter function and reduce inflammatory stress response. Large body of research though effects on anxiety more modest than depression. Generally safe and well-tolerated.",
+      "solution_category": "supplements_vitamins",
+      "avg_effectiveness": 3.5,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 months",
+          "values": [
+            {"value": "1-2 months", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "3-4 weeks", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "3-6 months", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "1-2 weeks", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Still evaluating", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Within days", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "1-2 times per day",
+          "values": [
+            {"value": "1-2 times per day", "count": 82, "percentage": 82, "source": "research"},
+            {"value": "With meals", "count": 15, "percentage": 15, "source": "research"},
+            {"value": "As needed/PRN", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "length_of_use": {
+          "mode": "6+ months",
+          "values": [
+            {"value": "6+ months", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "3-6 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-3 months", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Still using", "count": 7, "percentage": 7, "source": "research"},
+            {"value": "Under 1 month", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {"value": "$10-25/month", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "$25-50/month", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Under $10/month", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "$50-100/month", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "None or minimal",
+          "values": [
+            {"value": "None or minimal", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "Fishy aftertaste or burps", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Mild digestive upset", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "Nausea", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "Loose stools", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 18,
+      "title": "CBD oil",
+      "description": "Cannabidiol extract from hemp or cannabis without psychoactive THC effects. Interacts with endocannabinoid system to potentially reduce anxiety. Growing research base though quality and dosing highly variable across products. Full-spectrum vs. isolate formulations differ in effects. Legal status varies by location. Quality control and third-party testing important.",
+      "solution_category": "supplements_vitamins",
+      "avg_effectiveness": 3.8,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "1-2 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Immediately", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "3-4 weeks", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "1-2 months", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "1-2 times per day",
+          "values": [
+            {"value": "1-2 times per day", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "As needed/PRN", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "3 times per day", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "At bedtime", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "With meals", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "length_of_use": {
+          "mode": "3-6 months",
+          "values": [
+            {"value": "3-6 months", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "1-3 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "6+ months", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "Still using", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Under 1 month", "count": 5, "percentage": 5, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$25-50/month",
+          "values": [
+            {"value": "$25-50/month", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "$50-100/month", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "$10-25/month", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "$100-200/month", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Over $200/month", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Don't remember", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "None or minimal",
+          "values": [
+            {"value": "None or minimal", "count": 62, "percentage": 62, "source": "research"},
+            {"value": "Drowsiness or fatigue", "count": 18, "percentage": 18, "source": "research"},
+            {"value": "Dry mouth", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "Digestive changes", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Interactions with medications", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 19,
+      "title": "Yoga classes",
+      "description": "Mind-body practice combining physical postures, breathing techniques, and meditation. Multiple styles available (Hatha, Vinyasa, Restorative, Yin) with varying intensity. Strong evidence base for anxiety reduction through multiple mechanisms: physical activity, breath regulation, mindfulness, and nervous system regulation. Particularly effective for generalized anxiety.",
+      "solution_category": "exercise_movement",
+      "avg_effectiveness": 4.2,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "3-4 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Within days", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 months", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "3-6 months", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "3-4 times per week",
+          "values": [
+            {"value": "3-4 times per week", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "1-2 times per week", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "5-6 times per week", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Daily", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Weekly", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "duration": {
+          "mode": "45-60 minutes",
+          "values": [
+            {"value": "45-60 minutes", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "60-90 minutes", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "30-45 minutes", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "15-30 minutes", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "90-120 minutes", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$25-$49.99/month",
+          "values": [
+            {"value": "$25-$49.99/month", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "$50-$99.99/month", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "$100-$199.99/month", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "$10-$24.99/month", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Free/No ongoing cost", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "Time constraints", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Physical limitations", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Schedule conflicts", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Cost of classes", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Gym intimidation", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 20,
+      "title": "Running or jogging routine",
+      "description": "Aerobic exercise with robust evidence for anxiety reduction. Triggers endorphin release, reduces stress hormones, improves sleep quality, and provides distraction from anxious thoughts. Benefits seen with both moderate and vigorous intensity. Can be done anywhere with minimal equipment. Improvements often felt after single session with cumulative benefits over time.",
+      "solution_category": "exercise_movement",
+      "avg_effectiveness": 4.1,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "1-2 weeks", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Immediately", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "3-4 weeks", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "1-2 months", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "3-4 times per week",
+          "values": [
+            {"value": "3-4 times per week", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "5-6 times per week", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "1-2 times per week", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Daily", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Weekly", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "duration": {
+          "mode": "30-45 minutes",
+          "values": [
+            {"value": "30-45 minutes", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "15-30 minutes", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "45-60 minutes", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "Under 15 minutes", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "60-90 minutes", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free/No ongoing cost",
+          "values": [
+            {"value": "Free/No ongoing cost", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "$10-$24.99/month", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "$25-$49.99/month", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Under $10/month", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Don't remember", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Lack of motivation", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Weather dependent", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Time constraints", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Injury/soreness", "count": 7, "percentage": 7, "source": "studies"},
+            {"value": "Physical limitations", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    }
+  ]
+}
