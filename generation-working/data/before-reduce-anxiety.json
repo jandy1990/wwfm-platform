@@ -1,0 +1,4384 @@
+{
+  "metadata": {
+    "export_date": "2025-11-07T00:32:23.489Z",
+    "export_purpose": "Quality comparison test - BEFORE state",
+    "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+    "goal_title": "Reduce anxiety",
+    "goal_description": "Calm my anxiety"
+  },
+  "stats": {
+    "total_links": 22,
+    "unique_solutions": 21,
+    "avg_effectiveness": 4.013636363636364,
+    "categories": [
+      "apps_software",
+      "books_courses",
+      "exercise_movement",
+      "habits_routines",
+      "meditation_mindfulness",
+      "natural_remedies",
+      "products_devices",
+      "professional_services",
+      "supplements_vitamins",
+      "support_groups",
+      "therapists_counselors"
+    ]
+  },
+  "solutions": [
+    {
+      "link_id": "9cf0d91f-b3c8-4be8-a14d-58d9cb2efbc4",
+      "solution_id": "4225ce25-4799-405d-9587-d634fbbd86cc",
+      "title": "BetterHelp Online Therapy",
+      "description": "A platform connecting users with licensed therapists for online counseling sessions.",
+      "category": "therapists_counselors",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-09-04T03:08:09.289274+00:00",
+      "variant_id": "59c08e14-4b77-4633-acc8-5321ecb20fbf",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 4.7,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "$50-100",
+          "values": [
+            {
+              "count": 95,
+              "value": "$50-100",
+              "source": "studies",
+              "percentage": 95
+            },
+            {
+              "count": 5,
+              "value": "Free",
+              "source": "user_experiences",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:00:54.371Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "BetterHelp Online Therapy"
+        },
+        "challenges": {
+          "mode": "Hard to open up",
+          "values": [
+            {
+              "count": 35,
+              "value": "Hard to open up",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Lack of immediate results",
+              "source": "expert_analysis",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Finding the right therapist",
+              "source": "user_experiences",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Homework between sessions",
+              "source": "case_studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Therapist turnover",
+              "source": "studies",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "High cost",
+              "source": "user_experiences",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "session_length": {
+          "mode": "45-60 minutes",
+          "values": [
+            {
+              "count": 35,
+              "value": "45-60 minutes",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "30-45 minutes",
+              "source": "expert_analysis",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "60-90 minutes",
+              "source": "case_studies",
+              "percentage": 20
+            },
+            {
+              "count": 15,
+              "value": "Varies",
+              "source": "user_experiences",
+              "percentage": 15
+            },
+            {
+              "count": 5,
+              "value": "15-30 minutes",
+              "source": "studies",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 95,
+              "value": "Within days",
+              "source": "studies",
+              "percentage": 95
+            },
+            {
+              "count": 5,
+              "value": "Still evaluating",
+              "source": "user_experiences",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "session_frequency": {
+          "mode": "Weekly",
+          "values": [
+            {
+              "count": 35,
+              "value": "Weekly",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "As needed",
+              "source": "expert_analysis",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Multiple times per week",
+              "source": "case_studies",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Fortnightly",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Monthly",
+              "source": "user_experiences",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "Every 2-3 months",
+              "source": "expert_analysis",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:00:54.646579+00:00"
+    },
+    {
+      "link_id": "d2938d38-4bb3-4c9e-90e0-a0533d705e39",
+      "solution_id": "12e50615-2ef0-4d47-b073-3e9396020953",
+      "title": "B Your Own Best Friend",
+      "description": "A structured approach to identifying and challenging anxious thoughts and developing coping strategies, often taught in therapy.",
+      "category": "professional_services",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-11-02T00:06:39.082091+00:00",
+      "variant_id": "acd095e9-1956-4ef9-a030-8181d28ce4af",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 4.6,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "$50-100",
+          "values": [
+            {
+              "count": 75,
+              "value": "$50-100",
+              "source": "user_experiences",
+              "percentage": 75
+            },
+            {
+              "count": 25,
+              "value": "Free",
+              "source": "user_experiences",
+              "percentage": 25
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:06:40.110Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "B Your Own Best Friend"
+        },
+        "specialty": {
+          "mode": "Career/Business coach",
+          "values": [
+            {
+              "count": 35,
+              "value": "Career/Business coach",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Nutritionist",
+              "source": "case_studies",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Personal trainer/Fitness coach",
+              "source": "community_feedback",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Professional organizer",
+              "source": "expert_analysis",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Virtual assistant",
+              "source": "user_experiences",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "Other (please specify)",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "challenges": {
+          "mode": "Unclear about what I need",
+          "values": [
+            {
+              "count": 35,
+              "value": "Unclear about what I need",
+              "source": "community_feedback",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Finding qualified professionals",
+              "source": "user_experiences",
+              "percentage": 25
+            },
+            {
+              "count": 15,
+              "value": "High cost",
+              "source": "case_studies",
+              "percentage": 15
+            },
+            {
+              "count": 15,
+              "value": "Not covered by insurance",
+              "source": "expert_analysis",
+              "percentage": 15
+            },
+            {
+              "count": 10,
+              "value": "Scheduling conflicts",
+              "source": "community_feedback",
+              "percentage": 10
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 90,
+              "value": "Within days",
+              "source": "user_experiences",
+              "percentage": 90
+            },
+            {
+              "count": 5,
+              "value": "Still evaluating",
+              "source": "user_experiences",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "6+ months",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "session_frequency": {
+          "mode": "As needed",
+          "values": [
+            {
+              "count": 42,
+              "value": "As needed",
+              "source": "user_experiences",
+              "percentage": 42
+            },
+            {
+              "count": 28,
+              "value": "Multiple times per week",
+              "source": "community_feedback",
+              "percentage": 28
+            },
+            {
+              "count": 15,
+              "value": "Weekly",
+              "source": "case_studies",
+              "percentage": 15
+            },
+            {
+              "count": 8,
+              "value": "Monthly",
+              "source": "expert_analysis",
+              "percentage": 8
+            },
+            {
+              "count": 4,
+              "value": "One-time only",
+              "source": "user_experiences",
+              "percentage": 4
+            },
+            {
+              "count": 3,
+              "value": "Every 2-3 months",
+              "source": "community_feedback",
+              "percentage": 3
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:06:40.402281+00:00"
+    },
+    {
+      "link_id": "14d58ca0-7bfe-44c1-9959-fed481a4bfa4",
+      "solution_id": "c21611a8-1ddd-4fa4-9a97-31da581d28a9",
+      "title": "Cognitive Behavioral Therapy (CBT) Workbook",
+      "description": "Self-guided workbooks based on CBT principles to challenge negative thought patterns.",
+      "category": "books_courses",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-09-10T00:45:09.465933+00:00",
+      "variant_id": "12aa4e03-6d5a-4b85-b61f-256e353e0f70",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 4.6,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "$20-50",
+          "values": [
+            {
+              "count": 95,
+              "value": "$20-50",
+              "source": "community_feedback",
+              "percentage": 95
+            },
+            {
+              "count": 5,
+              "value": "Free",
+              "source": "user_reviews",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "format": {
+          "mode": "Physical book",
+          "values": [
+            {
+              "count": 38,
+              "value": "Physical book",
+              "source": "user_reviews",
+              "percentage": 38
+            },
+            {
+              "count": 27,
+              "value": "E-book",
+              "source": "community_feedback",
+              "percentage": 27
+            },
+            {
+              "count": 18,
+              "value": "Audiobook",
+              "source": "expert_analysis",
+              "percentage": 18
+            },
+            {
+              "count": 10,
+              "value": "Workbook/PDF",
+              "source": "case_studies",
+              "percentage": 10
+            },
+            {
+              "count": 4,
+              "value": "Online course",
+              "source": "user_reviews",
+              "percentage": 4
+            },
+            {
+              "count": 3,
+              "value": "App-based",
+              "source": "community_feedback",
+              "percentage": 3
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:08:34.622Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Cognitive Behavioral Therapy (CBT) Workbook"
+        },
+        "challenges": {
+          "mode": "Not enough practical examples",
+          "values": [
+            {
+              "count": 35,
+              "value": "Not enough practical examples",
+              "source": "user_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Too basic for my level",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Poor organization",
+              "source": "expert_analysis",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Too theoretical",
+              "source": "case_studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Outdated information",
+              "source": "user_reviews",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "Too long/verbose",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 90,
+              "value": "Within days",
+              "source": "community_feedback",
+              "percentage": 90
+            },
+            {
+              "count": 5,
+              "value": "Still evaluating",
+              "source": "user_reviews",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "6+ months",
+              "source": "expert_analysis",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "learning_difficulty": {
+          "mode": "Beginner friendly",
+          "values": [
+            {
+              "count": 40,
+              "value": "Beginner friendly",
+              "source": "user_reviews",
+              "percentage": 40
+            },
+            {
+              "count": 25,
+              "value": "Some experience helpful",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Intermediate level",
+              "source": "expert_analysis",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Advanced level",
+              "source": "case_studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Expert level",
+              "source": "expert_analysis",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:04:59.41403+00:00"
+    },
+    {
+      "link_id": "d20bf232-d84e-4ea1-980f-40739f3017b0",
+      "solution_id": "dd822ef9-0081-4905-99d2-210283eba323",
+      "title": "Mindfulness-Based Stress Reduction (MBSR) Program",
+      "description": "An 8-week structured program teaching mindfulness meditation and its application to stress.",
+      "category": "books_courses",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-10-26T02:42:06.465485+00:00",
+      "variant_id": "a1c5348e-4b63-4194-a4dd-91557fe691ca",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 4.4,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {
+              "count": 40,
+              "value": "Free",
+              "source": "user_reviews",
+              "percentage": 40
+            },
+            {
+              "count": 60,
+              "value": "$20-50",
+              "source": "community_feedback",
+              "percentage": 60
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "format": {
+          "mode": "Online course",
+          "values": [
+            {
+              "count": 35,
+              "value": "Online course",
+              "source": "community_feedback",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Physical book",
+              "source": "user_reviews",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Audiobook",
+              "source": "user_reviews",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Workbook/PDF",
+              "source": "expert_analysis",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "E-book",
+              "source": "user_reviews",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "App-based",
+              "source": "case_studies",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:03:19.689Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Mindfulness-Based Stress Reduction (MBSR) Program"
+        },
+        "challenges": {
+          "mode": "Too theoretical",
+          "values": [
+            {
+              "count": 35,
+              "value": "Too theoretical",
+              "source": "user_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Too long/verbose",
+              "source": "expert_analysis",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Not enough practical examples",
+              "source": "community_feedback",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Outdated information",
+              "source": "user_reviews",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Poor organization",
+              "source": "case_studies",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "None",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 95,
+              "value": "Within days",
+              "source": "community_feedback",
+              "percentage": 95
+            },
+            {
+              "count": 5,
+              "value": "6+ months",
+              "source": "expert_analysis",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "learning_difficulty": {
+          "mode": "Beginner friendly",
+          "values": [
+            {
+              "count": 35,
+              "value": "Beginner friendly",
+              "source": "user_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Some experience helpful",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Intermediate level",
+              "source": "expert_analysis",
+              "percentage": 20
+            },
+            {
+              "count": 15,
+              "value": "Advanced level",
+              "source": "case_studies",
+              "percentage": 15
+            },
+            {
+              "count": 5,
+              "value": "Expert level",
+              "source": "expert_analysis",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:03:19.978353+00:00"
+    },
+    {
+      "link_id": "97aa61c5-ee0a-49e4-b955-d891e58335c8",
+      "solution_id": "b8ebb484-2d23-4474-a74e-48e3688d3511",
+      "title": "Headspace Guided Meditations",
+      "description": "An app offering a variety of guided meditation sessions designed to reduce stress, improve focus, and cultivate a more positive mindset.",
+      "category": "apps_software",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-09-22T01:22:58.650498+00:00",
+      "variant_id": "0254a870-3824-4a92-987e-623c5ee933f1",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 4.3,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "$10-$19.99/month",
+          "values": [
+            {
+              "count": 35,
+              "value": "$10-$19.99/month",
+              "source": "app_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "$5-$9.99/month",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 15,
+              "value": "$100-$199.99/year",
+              "source": "tech_reviews",
+              "percentage": 15
+            },
+            {
+              "count": 10,
+              "value": "Free",
+              "source": "user_ratings",
+              "percentage": 10
+            },
+            {
+              "count": 8,
+              "value": "$50-$99.99/year",
+              "source": "app_reviews",
+              "percentage": 8
+            },
+            {
+              "count": 7,
+              "value": "$20-$49.99/month",
+              "source": "community_feedback",
+              "percentage": 7
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:08:14.101Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Headspace Guided Meditations"
+        },
+        "challenges": {
+          "mode": "Remembering to use daily",
+          "values": [
+            {
+              "count": 35,
+              "value": "Remembering to use daily",
+              "source": "app_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Hard to maintain habit",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Gets repetitive after a while",
+              "source": "user_ratings",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "None",
+              "source": "app_reviews",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Premium features expensive",
+              "source": "tech_reviews",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "Not enough customization",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 80,
+              "value": "Within days",
+              "source": "app_reviews",
+              "percentage": 80
+            },
+            {
+              "count": 20,
+              "value": "Immediately",
+              "source": "community_feedback",
+              "percentage": 20
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "usage_frequency": {
+          "mode": "As needed",
+          "values": [
+            {
+              "count": 42,
+              "value": "As needed",
+              "source": "app_reviews",
+              "percentage": 42
+            },
+            {
+              "count": 28,
+              "value": "Daily",
+              "source": "user_ratings",
+              "percentage": 28
+            },
+            {
+              "count": 15,
+              "value": "Few times a week",
+              "source": "community_feedback",
+              "percentage": 15
+            },
+            {
+              "count": 10,
+              "value": "Weekly",
+              "source": "tech_reviews",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Multiple times daily",
+              "source": "app_reviews",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "subscription_type": {
+          "mode": "Annual subscription",
+          "values": [
+            {
+              "count": 42,
+              "value": "Annual subscription",
+              "source": "app_reviews",
+              "percentage": 42
+            },
+            {
+              "count": 30,
+              "value": "Monthly subscription",
+              "source": "community_feedback",
+              "percentage": 30
+            },
+            {
+              "count": 20,
+              "value": "Free version",
+              "source": "user_ratings",
+              "percentage": 20
+            },
+            {
+              "count": 8,
+              "value": "One-time purchase",
+              "source": "tech_reviews",
+              "percentage": 8
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:08:14.39311+00:00"
+    },
+    {
+      "link_id": "aff0ae2c-7690-481a-9f5a-c414dbf5c953",
+      "solution_id": "b35c3741-d550-4873-bcee-bf88a31e5092",
+      "title": "Headspace Guided Meditations",
+      "description": "A popular app offering guided meditations, sleepcasts, and mindfulness exercises specifically designed to reduce anxiety.",
+      "category": "meditation_mindfulness",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-10-25T23:09:49.968489+00:00",
+      "variant_id": "ce65dc6a-4b52-47cb-9a95-45eaac174620",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 4.3,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "Under $10/month",
+          "values": [
+            {
+              "count": 35,
+              "value": "Under $10/month",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 30,
+              "value": "Free/No ongoing cost",
+              "source": "community_feedback",
+              "percentage": 30
+            },
+            {
+              "count": 25,
+              "value": "$10-$24.99/month",
+              "source": "expert_analysis",
+              "percentage": 25
+            },
+            {
+              "count": 5,
+              "value": "$25-$49.99/month",
+              "source": "studies",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "$50-$99.99/month",
+              "source": "user_experiences",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:00:33.859Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Headspace Guided Meditations"
+        },
+        "frequency": {
+          "mode": "As needed",
+          "values": [
+            {
+              "count": 40,
+              "value": "As needed",
+              "source": "user_experiences",
+              "percentage": 40
+            },
+            {
+              "count": 25,
+              "value": "Daily",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "3-4 times per week",
+              "source": "expert_analysis",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "1-2 times per week",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Weekly",
+              "source": "user_experiences",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "challenges": {
+          "mode": "Intrusive thoughts",
+          "values": [
+            {
+              "count": 35,
+              "value": "Intrusive thoughts",
+              "source": "community_feedback",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Difficulty concentrating",
+              "source": "user_experiences",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Emotional overwhelm",
+              "source": "user_experiences",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Anxiety increased",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Restlessness",
+              "source": "expert_analysis",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "Physical discomfort",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "practice_length": {
+          "mode": "10-20 minutes",
+          "values": [
+            {
+              "count": 35,
+              "value": "10-20 minutes",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "5-10 minutes",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 15,
+              "value": "Under 5 minutes",
+              "source": "user_experiences",
+              "percentage": 15
+            },
+            {
+              "count": 15,
+              "value": "20-30 minutes",
+              "source": "expert_analysis",
+              "percentage": 15
+            },
+            {
+              "count": 10,
+              "value": "30-45 minutes",
+              "source": "studies",
+              "percentage": 10
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 95,
+              "value": "Within days",
+              "source": "studies",
+              "percentage": 95
+            },
+            {
+              "count": 5,
+              "value": "6+ months",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:00:34.14099+00:00"
+    },
+    {
+      "link_id": "7684af50-a895-467b-b488-38086016093a",
+      "solution_id": "fc13c116-ff45-448f-a93d-5b03b84ec50c",
+      "title": "Walking in Nature",
+      "description": "Engaging in physical activity in a natural environment to reduce stress and improve mood.",
+      "category": "exercise_movement",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-11-02T00:03:39.061697+00:00",
+      "variant_id": "ca02d56c-8e40-4e40-bdaa-1dd6b84f9551",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 4.2,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "Free/No ongoing cost",
+          "values": [
+            {
+              "count": 42,
+              "value": "Free/No ongoing cost",
+              "source": "user_experiences",
+              "percentage": 42
+            },
+            {
+              "count": 25,
+              "value": "Under $10/month",
+              "source": "fitness_communities",
+              "percentage": 25
+            },
+            {
+              "count": 18,
+              "value": "$10-$24.99/month",
+              "source": "trainer_recommendations",
+              "percentage": 18
+            },
+            {
+              "count": 8,
+              "value": "$25-$49.99/month",
+              "source": "studies",
+              "percentage": 8
+            },
+            {
+              "count": 4,
+              "value": "$50-$99.99/month",
+              "source": "user_experiences",
+              "percentage": 4
+            },
+            {
+              "count": 3,
+              "value": "$100-$199.99/month",
+              "source": "fitness_communities",
+              "percentage": 3
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "duration": {
+          "mode": "30-45 minutes",
+          "values": [
+            {
+              "count": 40,
+              "value": "30-45 minutes",
+              "source": "user_experiences",
+              "percentage": 40
+            },
+            {
+              "count": 25,
+              "value": "15-30 minutes",
+              "source": "fitness_communities",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "45-60 minutes",
+              "source": "trainer_recommendations",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "60-90 minutes",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Under 15 minutes",
+              "source": "user_experiences",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:03:40.267Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Walking in Nature"
+        },
+        "frequency": {
+          "mode": "Daily",
+          "values": [
+            {
+              "count": 35,
+              "value": "Daily",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "5-6 times per week",
+              "source": "fitness_communities",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "3-4 times per week",
+              "source": "trainer_recommendations",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Weekly",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 10,
+              "value": "As needed",
+              "source": "user_experiences",
+              "percentage": 10
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "challenges": {
+          "mode": "Weather dependent",
+          "values": [
+            {
+              "count": 35,
+              "value": "Weather dependent",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Lack of motivation",
+              "source": "fitness_communities",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Energy levels",
+              "source": "trainer_recommendations",
+              "percentage": 20
+            },
+            {
+              "count": 15,
+              "value": "Time constraints",
+              "source": "user_experiences",
+              "percentage": 15
+            },
+            {
+              "count": 5,
+              "value": "Physical limitations",
+              "source": "studies",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 80,
+              "value": "Within days",
+              "source": "studies",
+              "percentage": 80
+            },
+            {
+              "count": 20,
+              "value": "Immediately",
+              "source": "trainer_recommendations",
+              "percentage": 20
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:03:40.559359+00:00"
+    },
+    {
+      "link_id": "ceaca702-f462-45a6-97f5-6c3591e1426f",
+      "solution_id": "c39424d7-038a-40ea-90c3-8b418b74b9bd",
+      "title": "Progressive Muscle Relaxation (PMR)",
+      "description": "A relaxation technique involving the systematic tensing and releasing of different muscle groups to relieve tension and reduce anxiety.",
+      "category": "habits_routines",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-10-25T23:10:42.485554+00:00",
+      "variant_id": "43f47779-04f3-4c83-beb3-76f16254f08c",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 4.2,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "Free/No ongoing cost",
+          "values": [
+            {
+              "count": 42,
+              "value": "Free/No ongoing cost",
+              "source": "user_experiences",
+              "percentage": 42
+            },
+            {
+              "count": 28,
+              "value": "Under $10/month",
+              "source": "community_feedback",
+              "percentage": 28
+            },
+            {
+              "count": 15,
+              "value": "$10-$24.99/month",
+              "source": "user_experiences",
+              "percentage": 15
+            },
+            {
+              "count": 8,
+              "value": "$25-$49.99/month",
+              "source": "expert_analysis",
+              "percentage": 8
+            },
+            {
+              "count": 4,
+              "value": "$50-$99.99/month",
+              "source": "case_studies",
+              "percentage": 4
+            },
+            {
+              "count": 3,
+              "value": "$100-$199.99/month",
+              "source": "community_feedback",
+              "percentage": 3
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:04:39.209Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Progressive Muscle Relaxation (PMR)"
+        },
+        "frequency": {
+          "mode": "As needed",
+          "values": [
+            {
+              "count": 42,
+              "value": "As needed",
+              "source": "user_experiences",
+              "percentage": 42
+            },
+            {
+              "count": 25,
+              "value": "Daily",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 18,
+              "value": "3-4 times per week",
+              "source": "expert_analysis",
+              "percentage": 18
+            },
+            {
+              "count": 10,
+              "value": "1-2 times per week",
+              "source": "case_studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Few times a month",
+              "source": "user_experiences",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "challenges": {
+          "mode": "Forgot to do it",
+          "values": [
+            {
+              "count": 35,
+              "value": "Forgot to do it",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Results too slow",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Life got in the way",
+              "source": "user_experiences",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "No immediate reward",
+              "source": "community_feedback",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Felt silly or self-conscious",
+              "source": "user_experiences",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "Lost motivation after initial enthusiasm",
+              "source": "expert_analysis",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_commitment": {
+          "mode": "10-20 minutes",
+          "values": [
+            {
+              "count": 35,
+              "value": "10-20 minutes",
+              "source": "community_feedback",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "5-10 minutes",
+              "source": "user_experiences",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "20-30 minutes",
+              "source": "expert_analysis",
+              "percentage": 20
+            },
+            {
+              "count": 15,
+              "value": "Under 5 minutes",
+              "source": "user_experiences",
+              "percentage": 15
+            },
+            {
+              "count": 5,
+              "value": "30-45 minutes",
+              "source": "case_studies",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 85,
+              "value": "Within days",
+              "source": "user_experiences",
+              "percentage": 85
+            },
+            {
+              "count": 15,
+              "value": "Immediately",
+              "source": "expert_analysis",
+              "percentage": 15
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:04:39.505688+00:00"
+    },
+    {
+      "link_id": "ee5ccbf5-be5f-457d-b682-65f765b11df5",
+      "solution_id": "98911faf-5c19-438f-a9e4-7971c87960d3",
+      "title": "Insight Timer App",
+      "description": "A free meditation app with a vast library of guided meditations and talks on mindfulness and emotional well-being.",
+      "category": "apps_software",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-09-04T03:28:43.316182+00:00",
+      "variant_id": "86f11532-7887-4826-a1b5-15cb0792f2a4",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 4.2,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {
+              "count": 42,
+              "value": "Free",
+              "source": "app_reviews",
+              "percentage": 42
+            },
+            {
+              "count": 22,
+              "value": "$50-$99.99/year",
+              "source": "community_feedback",
+              "percentage": 22
+            },
+            {
+              "count": 15,
+              "value": "$100-$199.99/year",
+              "source": "tech_reviews",
+              "percentage": 15
+            },
+            {
+              "count": 10,
+              "value": "Under $50/year",
+              "source": "user_ratings",
+              "percentage": 10
+            },
+            {
+              "count": 6,
+              "value": "$5-$9.99/month",
+              "source": "app_reviews",
+              "percentage": 6
+            },
+            {
+              "count": 5,
+              "value": "$10-$24.99",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:05:59.291Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Insight Timer App"
+        },
+        "challenges": {
+          "mode": "Remembering to use daily",
+          "values": [
+            {
+              "count": 35,
+              "value": "Remembering to use daily",
+              "source": "app_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Hard to maintain habit",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Gets repetitive after a while",
+              "source": "user_ratings",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Too many notifications",
+              "source": "app_reviews",
+              "percentage": 10
+            },
+            {
+              "count": 8,
+              "value": "None",
+              "source": "community_feedback",
+              "percentage": 8
+            },
+            {
+              "count": 2,
+              "value": "Premium features expensive",
+              "source": "tech_reviews",
+              "percentage": 2
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 90,
+              "value": "Within days",
+              "source": "community_feedback",
+              "percentage": 90
+            },
+            {
+              "count": 10,
+              "value": "Still evaluating",
+              "source": "app_reviews",
+              "percentage": 10
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "usage_frequency": {
+          "mode": "Daily",
+          "values": [
+            {
+              "count": 38,
+              "value": "Daily",
+              "source": "app_reviews",
+              "percentage": 38
+            },
+            {
+              "count": 27,
+              "value": "Few times a week",
+              "source": "community_feedback",
+              "percentage": 27
+            },
+            {
+              "count": 18,
+              "value": "As needed",
+              "source": "user_ratings",
+              "percentage": 18
+            },
+            {
+              "count": 12,
+              "value": "Multiple times daily",
+              "source": "tech_reviews",
+              "percentage": 12
+            },
+            {
+              "count": 5,
+              "value": "Weekly",
+              "source": "app_reviews",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "subscription_type": {
+          "mode": "Free version",
+          "values": [
+            {
+              "count": 40,
+              "value": "Free version",
+              "source": "app_reviews",
+              "percentage": 40
+            },
+            {
+              "count": 25,
+              "value": "Annual subscription",
+              "source": "tech_reviews",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Monthly subscription",
+              "source": "community_feedback",
+              "percentage": 20
+            },
+            {
+              "count": 15,
+              "value": "One-time purchase",
+              "source": "user_ratings",
+              "percentage": 15
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:05:59.580033+00:00"
+    },
+    {
+      "link_id": "ac4c3d21-9927-4ee6-b72d-3164b1742813",
+      "solution_id": "c737237c-e1fd-4a01-b0ed-d89c09d8a7c1",
+      "title": "Deep Breathing Exercises",
+      "description": "Techniques like diaphragmatic breathing to activate the parasympathetic nervous system and induce relaxation.",
+      "category": "habits_routines",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-10-26T02:40:25.835385+00:00",
+      "variant_id": "70ac73b7-28c7-4c82-b4e9-1621921f982c",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 4.1,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "Free/No ongoing cost",
+          "values": [
+            {
+              "count": 42,
+              "value": "Free/No ongoing cost",
+              "source": "user_experiences",
+              "percentage": 42
+            },
+            {
+              "count": 28,
+              "value": "Under $10/month",
+              "source": "community_feedback",
+              "percentage": 28
+            },
+            {
+              "count": 15,
+              "value": "$10-$24.99/month",
+              "source": "user_experiences",
+              "percentage": 15
+            },
+            {
+              "count": 8,
+              "value": "$25-$49.99/month",
+              "source": "expert_analysis",
+              "percentage": 8
+            },
+            {
+              "count": 4,
+              "value": "$50-$99.99/month",
+              "source": "case_studies",
+              "percentage": 4
+            },
+            {
+              "count": 3,
+              "value": "$100-$199.99/month",
+              "source": "community_feedback",
+              "percentage": 3
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:09:14.483Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Deep Breathing Exercises"
+        },
+        "frequency": {
+          "mode": "As needed",
+          "values": [
+            {
+              "count": 35,
+              "value": "As needed",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Daily",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "3-4 times per week",
+              "source": "expert_analysis",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "1-2 times per week",
+              "source": "case_studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Weekly",
+              "source": "user_experiences",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "Few times a month",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "challenges": {
+          "mode": "Forgot to do it",
+          "values": [
+            {
+              "count": 35,
+              "value": "Forgot to do it",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Results too slow",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Life got in the way",
+              "source": "user_experiences",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Felt silly or self-conscious",
+              "source": "community_feedback",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Lost motivation after initial enthusiasm",
+              "source": "community_feedback",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "No immediate reward",
+              "source": "expert_analysis",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_commitment": {
+          "mode": "Multiple times throughout the day",
+          "values": [
+            {
+              "count": 35,
+              "value": "Multiple times throughout the day",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "5-10 minutes",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Under 5 minutes",
+              "source": "habit_formation_forums",
+              "percentage": 20
+            },
+            {
+              "count": 15,
+              "value": "10-20 minutes",
+              "source": "behavior_change_studies",
+              "percentage": 15
+            },
+            {
+              "count": 5,
+              "value": "Ongoing/Background habit",
+              "source": "expert_analysis",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 70,
+              "value": "Within days",
+              "source": "community_feedback",
+              "percentage": 70
+            },
+            {
+              "count": 25,
+              "value": "Immediately",
+              "source": "user_experiences",
+              "percentage": 25
+            },
+            {
+              "count": 5,
+              "value": "Still evaluating",
+              "source": "user_experiences",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:09:14.770109+00:00"
+    },
+    {
+      "link_id": "b4128283-120c-4a7a-8979-0c52600e0e57",
+      "solution_id": "dfab5294-fbf5-4713-a032-cb700516e0da",
+      "title": "Anxiety & Depression Association of America - ADAA",
+      "description": "Peer support groups offering shared experiences and coping strategies for anxiety.",
+      "category": "support_groups",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-09-10T00:40:51.725567+00:00",
+      "variant_id": "2b15d9e0-7cf6-465a-85e2-69521b16be88",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 4,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {
+              "count": 45,
+              "value": "Free",
+              "source": "community_feedback",
+              "percentage": 45
+            },
+            {
+              "count": 25,
+              "value": "Donation-based",
+              "source": "user_experiences",
+              "percentage": 25
+            },
+            {
+              "count": 25,
+              "value": "$10-$19.99/meeting",
+              "source": "user_experiences",
+              "percentage": 25
+            },
+            {
+              "count": 5,
+              "value": "$20-$49.99/meeting",
+              "source": "expert_analysis",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "format": {
+          "mode": "Online only",
+          "values": [
+            {
+              "count": 47,
+              "value": "Online only",
+              "source": "community_feedback",
+              "percentage": 47
+            },
+            {
+              "count": 28,
+              "value": "Hybrid",
+              "source": "user_experiences",
+              "percentage": 28
+            },
+            {
+              "count": 15,
+              "value": "In-person only",
+              "source": "case_studies",
+              "percentage": 15
+            },
+            {
+              "count": 10,
+              "value": "Phone/Conference call",
+              "source": "expert_analysis",
+              "percentage": 10
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:02:39.367Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Anxiety & Depression Association of America - ADAA"
+        },
+        "challenges": {
+          "mode": "Inconsistent attendance",
+          "values": [
+            {
+              "count": 35,
+              "value": "Inconsistent attendance",
+              "source": "community_feedback",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Hard to share openly",
+              "source": "user_experiences",
+              "percentage": 25
+            },
+            {
+              "count": 15,
+              "value": "Group dynamics issues",
+              "source": "community_feedback",
+              "percentage": 15
+            },
+            {
+              "count": 10,
+              "value": "Not enough structure",
+              "source": "expert_analysis",
+              "percentage": 10
+            },
+            {
+              "count": 8,
+              "value": "Triggering content from others",
+              "source": "user_experiences",
+              "percentage": 8
+            },
+            {
+              "count": 7,
+              "value": "Time conflicts",
+              "source": "community_feedback",
+              "percentage": 7
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 97,
+              "value": "Within days",
+              "source": "user_experiences",
+              "percentage": 97
+            },
+            {
+              "count": 3,
+              "value": "6+ months",
+              "source": "user_experiences",
+              "percentage": 3
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "meeting_frequency": {
+          "mode": "Weekly",
+          "values": [
+            {
+              "count": 35,
+              "value": "Weekly",
+              "source": "community_feedback",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Several times per week",
+              "source": "user_experiences",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "As needed",
+              "source": "user_experiences",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Bi-weekly",
+              "source": "community_feedback",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Monthly",
+              "source": "expert_analysis",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "Daily",
+              "source": "case_studies",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:02:39.649837+00:00"
+    },
+    {
+      "link_id": "45a47d74-025d-4cad-ab29-b3918434d931",
+      "solution_id": "4cb9c02c-24d7-447e-a21b-367de226ab2b",
+      "title": "Nature Walks",
+      "description": "Spending time outdoors in nature, away from digital devices, to reduce stress and improve mental clarity.",
+      "category": "exercise_movement",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-11-01T01:05:04.525608+00:00",
+      "variant_id": "a2c9d908-6e22-461d-8fbc-1b21724b8e7d",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 4,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "Free/No ongoing cost",
+          "values": [
+            {
+              "count": 40,
+              "value": "Free/No ongoing cost",
+              "source": "user_experiences",
+              "percentage": 40
+            },
+            {
+              "count": 25,
+              "value": "Under $10/month",
+              "source": "fitness_communities",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "$10-$24.99/month",
+              "source": "trainer_recommendations",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "$25-$49.99/month",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "$50-$99.99/month",
+              "source": "user_experiences",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "duration": {
+          "mode": "15-30 minutes",
+          "values": [
+            {
+              "count": 35,
+              "value": "15-30 minutes",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "30-45 minutes",
+              "source": "trainer_recommendations",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Under 15 minutes",
+              "source": "user_experiences",
+              "percentage": 20
+            },
+            {
+              "count": 15,
+              "value": "45-60 minutes",
+              "source": "fitness_communities",
+              "percentage": 15
+            },
+            {
+              "count": 5,
+              "value": "60-90 minutes",
+              "source": "studies",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:09:34.581Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Nature Walks"
+        },
+        "frequency": {
+          "mode": "Daily",
+          "values": [
+            {
+              "count": 35,
+              "value": "Daily",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "5-6 times per week",
+              "source": "fitness_communities",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "3-4 times per week",
+              "source": "trainer_recommendations",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "1-2 times per week",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 10,
+              "value": "As needed",
+              "source": "user_experiences",
+              "percentage": 10
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "challenges": {
+          "mode": "Lack of motivation",
+          "values": [
+            {
+              "count": 35,
+              "value": "Lack of motivation",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Weather dependent",
+              "source": "fitness_communities",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Energy levels",
+              "source": "user_experiences",
+              "percentage": 20
+            },
+            {
+              "count": 15,
+              "value": "Time constraints",
+              "source": "trainer_recommendations",
+              "percentage": 15
+            },
+            {
+              "count": 5,
+              "value": "Physical limitations",
+              "source": "studies",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 75,
+              "value": "Within days",
+              "source": "studies",
+              "percentage": 75
+            },
+            {
+              "count": 25,
+              "value": "Immediately",
+              "source": "fitness_communities",
+              "percentage": 25
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:09:34.879319+00:00"
+    },
+    {
+      "link_id": "aec340a9-f78c-4233-bfff-e1d9af02ec9b",
+      "solution_id": "4fc43214-c8a9-44c1-84bb-58673214211e",
+      "title": "Journaling",
+      "description": "Writing down thoughts and feelings, especially before or after an anger-provoking situation, can help process emotions and identify triggers.",
+      "category": "habits_routines",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-09-04T05:32:09.043241+00:00",
+      "variant_id": "f33a4931-c9ed-4f5a-a2e6-c4eb5930fbaf",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 4,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "Free/No ongoing cost",
+          "values": [
+            {
+              "count": 42,
+              "value": "Free/No ongoing cost",
+              "source": "community_feedback",
+              "percentage": 42
+            },
+            {
+              "count": 28,
+              "value": "Under $10/month",
+              "source": "user_experiences",
+              "percentage": 28
+            },
+            {
+              "count": 15,
+              "value": "$10-$24.99/month",
+              "source": "user_experiences",
+              "percentage": 15
+            },
+            {
+              "count": 8,
+              "value": "$25-$49.99/month",
+              "source": "expert_analysis",
+              "percentage": 8
+            },
+            {
+              "count": 4,
+              "value": "$50-$99.99/month",
+              "source": "case_studies",
+              "percentage": 4
+            },
+            {
+              "count": 3,
+              "value": "$100-$199.99/month",
+              "source": "expert_analysis",
+              "percentage": 3
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:06:18.734Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Journaling"
+        },
+        "frequency": {
+          "mode": "Daily",
+          "values": [
+            {
+              "count": 35,
+              "value": "Daily",
+              "source": "community_feedback",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "3-4 times per week",
+              "source": "user_experiences",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "As needed",
+              "source": "user_experiences",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Weekly",
+              "source": "expert_analysis",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Few times a month",
+              "source": "case_studies",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "5-6 times per week",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "challenges": {
+          "mode": "Forgot to do it",
+          "values": [
+            {
+              "count": 40,
+              "value": "Forgot to do it",
+              "source": "community_feedback",
+              "percentage": 40
+            },
+            {
+              "count": 25,
+              "value": "Lost motivation after initial enthusiasm",
+              "source": "user_experiences",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Life got in the way",
+              "source": "user_experiences",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Results too slow",
+              "source": "expert_analysis",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Hard to do when tired",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_commitment": {
+          "mode": "5-10 minutes",
+          "values": [
+            {
+              "count": 38,
+              "value": "5-10 minutes",
+              "source": "community_feedback",
+              "percentage": 38
+            },
+            {
+              "count": 25,
+              "value": "10-20 minutes",
+              "source": "user_experiences",
+              "percentage": 25
+            },
+            {
+              "count": 18,
+              "value": "Under 5 minutes",
+              "source": "user_experiences",
+              "percentage": 18
+            },
+            {
+              "count": 12,
+              "value": "20-30 minutes",
+              "source": "expert_analysis",
+              "percentage": 12
+            },
+            {
+              "count": 7,
+              "value": "Multiple times throughout the day",
+              "source": "case_studies",
+              "percentage": 7
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 90,
+              "value": "Within days",
+              "source": "user_experiences",
+              "percentage": 90
+            },
+            {
+              "count": 5,
+              "value": "Still evaluating",
+              "source": "community_feedback",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "6+ months",
+              "source": "user_experiences",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:06:19.041665+00:00"
+    },
+    {
+      "link_id": "fa9a8cc2-a9c0-4be6-9555-8aee7d597d08",
+      "solution_id": "afade7fb-99b6-494a-b419-f1245d24becd",
+      "title": "L-Theanine 200mg",
+      "description": "An amino acid found in green tea, known for its calming effects without drowsiness.",
+      "category": "supplements_vitamins",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-09-10T00:39:24.222088+00:00",
+      "variant_id": "0bd2d922-6ee5-4f1e-8341-b23f94c45dc8",
+      "variant_name": "200mg capsule",
+      "amount": 200,
+      "unit": "mg",
+      "form": "oral",
+      "effectiveness": 3.9,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {
+              "count": 95,
+              "value": "$10-25/month",
+              "source": "research",
+              "percentage": 95
+            },
+            {
+              "count": 5,
+              "value": "Free",
+              "source": "studies",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:03:58.720Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "L-Theanine 200mg"
+        },
+        "frequency": {
+          "mode": "once daily",
+          "values": [
+            {
+              "count": 40,
+              "value": "once daily",
+              "source": "user_reviews",
+              "percentage": 40
+            },
+            {
+              "count": 25,
+              "value": "as needed",
+              "source": "user_reviews",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "twice daily",
+              "source": "studies",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "every other day",
+              "source": "consumer_reports",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "weekly",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "side_effects": {
+          "mode": "No side effects",
+          "values": [
+            {
+              "count": 42,
+              "value": "No side effects",
+              "source": "user_reviews",
+              "percentage": 42
+            },
+            {
+              "count": 28,
+              "value": "Mild side effects",
+              "source": "user_reviews",
+              "percentage": 28
+            },
+            {
+              "count": 15,
+              "value": "Mixed - some benefits, some issues",
+              "source": "consumer_reports",
+              "percentage": 15
+            },
+            {
+              "count": 9,
+              "value": "Moderate side effects",
+              "source": "studies",
+              "percentage": 9
+            },
+            {
+              "count": 6,
+              "value": "Severe side effects",
+              "source": "research",
+              "percentage": 6
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "length_of_use": {
+          "mode": "As needed",
+          "values": [
+            {
+              "count": 35,
+              "value": "As needed",
+              "source": "user_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Still using",
+              "source": "user_reviews",
+              "percentage": 25
+            },
+            {
+              "count": 15,
+              "value": "Less than 1 month",
+              "source": "consumer_reports",
+              "percentage": 15
+            },
+            {
+              "count": 10,
+              "value": "1-3 months",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 7,
+              "value": "6-12 months",
+              "source": "research",
+              "percentage": 7
+            },
+            {
+              "count": 5,
+              "value": "3-6 months",
+              "source": "user_reviews",
+              "percentage": 5
+            },
+            {
+              "count": 3,
+              "value": "1-2 years",
+              "source": "consumer_reports",
+              "percentage": 3
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 80,
+              "value": "Within days",
+              "source": "research",
+              "percentage": 80
+            },
+            {
+              "count": 15,
+              "value": "Immediately",
+              "source": "studies",
+              "percentage": 15
+            },
+            {
+              "count": 5,
+              "value": "Still evaluating",
+              "source": "user_reviews",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:03:59.019621+00:00"
+    },
+    {
+      "link_id": "4aa610b6-7164-4548-83fe-37bf0b1c6ca3",
+      "solution_id": "0e0daa8b-7542-44f8-9d04-28c6bf2bb5a1",
+      "title": "Weighted Blanket",
+      "description": "A blanket with added weight, designed to provide deep pressure stimulation, which can be calming and improve sleep.",
+      "category": "products_devices",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-09-07T05:48:44.29387+00:00",
+      "variant_id": "de0dd84a-5aab-4e03-9f69-9f2403a6c880",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 3.8,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "$20-50",
+          "values": [
+            {
+              "count": 40,
+              "value": "$20-50",
+              "source": "consumer_reports",
+              "percentage": 40
+            },
+            {
+              "count": 30,
+              "value": "Free",
+              "source": "consumer_reports",
+              "percentage": 30
+            },
+            {
+              "count": 20,
+              "value": "Under $20",
+              "source": "consumer_reports",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "$50-100",
+              "source": "consumer_reports",
+              "percentage": 10
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:05:19.901Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Weighted Blanket"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {
+              "count": 42,
+              "value": "None",
+              "source": "user_reviews",
+              "percentage": 42
+            },
+            {
+              "count": 23,
+              "value": "Doesn't work as advertised",
+              "source": "consumer_reports",
+              "percentage": 23
+            },
+            {
+              "count": 15,
+              "value": "Build quality concerns",
+              "source": "community_feedback",
+              "percentage": 15
+            },
+            {
+              "count": 10,
+              "value": "Durability concerns",
+              "source": "tech_reviews",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Poor customer support",
+              "source": "user_reviews",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "Missing features",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "ease_of_use": {
+          "mode": "Easy to use",
+          "values": [
+            {
+              "count": 35,
+              "value": "Easy to use",
+              "source": "user_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 40,
+              "value": "Very easy to use",
+              "source": "community_feedback",
+              "percentage": 40
+            },
+            {
+              "count": 20,
+              "value": "Moderate learning curve",
+              "source": "consumer_reports",
+              "percentage": 20
+            },
+            {
+              "count": 5,
+              "value": "Difficult to use",
+              "source": "tech_reviews",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "product_type": {
+          "mode": "Physical device",
+          "values": [
+            {
+              "count": 42,
+              "value": "Physical device",
+              "source": "user_reviews",
+              "percentage": 42
+            },
+            {
+              "count": 28,
+              "value": "Other",
+              "source": "community_feedback",
+              "percentage": 28
+            },
+            {
+              "count": 15,
+              "value": "Wearable",
+              "source": "consumer_reports",
+              "percentage": 15
+            },
+            {
+              "count": 8,
+              "value": "Subscription service",
+              "source": "user_reviews",
+              "percentage": 8
+            },
+            {
+              "count": 4,
+              "value": "Software",
+              "source": "tech_reviews",
+              "percentage": 4
+            },
+            {
+              "count": 3,
+              "value": "Mobile app",
+              "source": "community_feedback",
+              "percentage": 3
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 70,
+              "value": "Within days",
+              "source": "consumer_reports",
+              "percentage": 70
+            },
+            {
+              "count": 25,
+              "value": "Immediately",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 5,
+              "value": "Still evaluating",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:05:20.186783+00:00"
+    },
+    {
+      "link_id": "4ea02052-4bf7-4147-9efa-51f20574c045",
+      "solution_id": "e6c76513-6996-4fa9-b468-f4123002b4c1",
+      "title": "Nature Made Vitamin D3 2000 IU",
+      "description": "Supplement to support mood regulation and immune function, which can be impacted by stress and uncertainty.",
+      "category": "supplements_vitamins",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-09-22T01:25:26.547379+00:00",
+      "variant_id": "c9b84aa0-b50d-44d0-b630-84f9ece07a79",
+      "variant_name": "2000IU softgel",
+      "amount": 2000,
+      "unit": "IU",
+      "form": "softgel",
+      "effectiveness": 3.8,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {
+              "count": 90,
+              "value": "$10-25/month",
+              "source": "research",
+              "percentage": 90
+            },
+            {
+              "count": 10,
+              "value": "Free",
+              "source": "user_reviews",
+              "percentage": 10
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:01:14.249Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Nature Made Vitamin D3 2000 IU"
+        },
+        "frequency": {
+          "mode": "once daily",
+          "values": [
+            {
+              "count": 40,
+              "value": "once daily",
+              "source": "user_reviews",
+              "percentage": 40
+            },
+            {
+              "count": 25,
+              "value": "every other day",
+              "source": "studies",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "twice daily",
+              "source": "user_reviews",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "as needed",
+              "source": "consumer_reports",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "weekly",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "side_effects": {
+          "mode": "No side effects",
+          "values": [
+            {
+              "count": 40,
+              "value": "No side effects",
+              "source": "user_reviews",
+              "percentage": 40
+            },
+            {
+              "count": 25,
+              "value": "Mild side effects",
+              "source": "user_reviews",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Mixed - some benefits, some issues",
+              "source": "consumer_reports",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Moderate side effects",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Severe side effects",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "length_of_use": {
+          "mode": "6-12 months",
+          "values": [
+            {
+              "count": 35,
+              "value": "6-12 months",
+              "source": "user_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "1-3 months",
+              "source": "consumer_reports",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "Still using",
+              "source": "user_reviews",
+              "percentage": 20
+            },
+            {
+              "count": 15,
+              "value": "3-6 months",
+              "source": "studies",
+              "percentage": 15
+            },
+            {
+              "count": 5,
+              "value": "Less than 1 month",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 85,
+              "value": "Within days",
+              "source": "studies",
+              "percentage": 85
+            },
+            {
+              "count": 10,
+              "value": "Still evaluating",
+              "source": "consumer_reports",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "6+ months",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:01:14.538871+00:00"
+    },
+    {
+      "link_id": "3c1965d3-3305-4c8e-a78c-943ca29f64d1",
+      "solution_id": "0b1cc69d-bebe-4e97-9626-abc905ba8368",
+      "title": "Magnesium Glycinate Supplement",
+      "description": "A form of magnesium known for its bioavailability and calming effects.",
+      "category": "supplements_vitamins",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-10-26T02:42:22.547439+00:00",
+      "variant_id": "123489e0-40f9-46c3-ab4a-2bc04dc8f3a3",
+      "variant_name": "200mg capsule",
+      "amount": 200,
+      "unit": "mg",
+      "form": "capsule",
+      "effectiveness": 3.8,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {
+              "count": 95,
+              "value": "$10-25/month",
+              "source": "research",
+              "percentage": 95
+            },
+            {
+              "count": 5,
+              "value": "Free",
+              "source": "user_reviews",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:08:54.036Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Magnesium Glycinate Supplement"
+        },
+        "frequency": {
+          "mode": "once daily",
+          "values": [
+            {
+              "count": 38,
+              "value": "once daily",
+              "source": "user_reviews",
+              "percentage": 38
+            },
+            {
+              "count": 22,
+              "value": "twice daily",
+              "source": "user_reviews",
+              "percentage": 22
+            },
+            {
+              "count": 18,
+              "value": "as needed",
+              "source": "user_reviews",
+              "percentage": 18
+            },
+            {
+              "count": 12,
+              "value": "every other day",
+              "source": "studies",
+              "percentage": 12
+            },
+            {
+              "count": 7,
+              "value": "twice weekly",
+              "source": "consumer_reports",
+              "percentage": 7
+            },
+            {
+              "count": 3,
+              "value": "weekly",
+              "source": "research",
+              "percentage": 3
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "side_effects": {
+          "mode": "No side effects",
+          "values": [
+            {
+              "count": 38,
+              "value": "No side effects",
+              "source": "user_reviews",
+              "percentage": 38
+            },
+            {
+              "count": 27,
+              "value": "Mild side effects",
+              "source": "user_reviews",
+              "percentage": 27
+            },
+            {
+              "count": 18,
+              "value": "Mixed - some benefits, some issues",
+              "source": "consumer_reports",
+              "percentage": 18
+            },
+            {
+              "count": 12,
+              "value": "Moderate side effects",
+              "source": "studies",
+              "percentage": 12
+            },
+            {
+              "count": 5,
+              "value": "Severe side effects",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "length_of_use": {
+          "mode": "1-3 months",
+          "values": [
+            {
+              "count": 35,
+              "value": "1-3 months",
+              "source": "user_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Less than 1 month",
+              "source": "user_reviews",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "3-6 months",
+              "source": "consumer_reports",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "6-12 months",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "As needed",
+              "source": "user_reviews",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "Still using",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 95,
+              "value": "Within days",
+              "source": "research",
+              "percentage": 95
+            },
+            {
+              "count": 5,
+              "value": "Still evaluating",
+              "source": "consumer_reports",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:08:54.328347+00:00"
+    },
+    {
+      "link_id": "dff9e0bc-2d11-4491-baea-a2d653d5deda",
+      "solution_id": "0b1cc69d-bebe-4e97-9626-abc905ba8368",
+      "title": "Magnesium Glycinate Supplement",
+      "description": "A form of magnesium known for its bioavailability and calming effects.",
+      "category": "supplements_vitamins",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-10-26T02:42:22.547439+00:00",
+      "variant_id": "f99d1cca-95ed-4b69-bcda-7ef3a67750d5",
+      "variant_name": "400mg capsule",
+      "amount": 400,
+      "unit": "mg",
+      "form": "capsule",
+      "effectiveness": 3.8,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {
+              "count": 95,
+              "value": "$10-25/month",
+              "source": "research",
+              "percentage": 95
+            },
+            {
+              "count": 5,
+              "value": "Free",
+              "source": "user_reviews",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:08:54.701Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Magnesium Glycinate Supplement"
+        },
+        "frequency": {
+          "mode": "once daily",
+          "values": [
+            {
+              "count": 38,
+              "value": "once daily",
+              "source": "user_reviews",
+              "percentage": 38
+            },
+            {
+              "count": 22,
+              "value": "twice daily",
+              "source": "user_reviews",
+              "percentage": 22
+            },
+            {
+              "count": 18,
+              "value": "as needed",
+              "source": "user_reviews",
+              "percentage": 18
+            },
+            {
+              "count": 12,
+              "value": "every other day",
+              "source": "studies",
+              "percentage": 12
+            },
+            {
+              "count": 7,
+              "value": "twice weekly",
+              "source": "consumer_reports",
+              "percentage": 7
+            },
+            {
+              "count": 3,
+              "value": "weekly",
+              "source": "research",
+              "percentage": 3
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "side_effects": {
+          "mode": "No side effects",
+          "values": [
+            {
+              "count": 38,
+              "value": "No side effects",
+              "source": "user_reviews",
+              "percentage": 38
+            },
+            {
+              "count": 27,
+              "value": "Mild side effects",
+              "source": "user_reviews",
+              "percentage": 27
+            },
+            {
+              "count": 18,
+              "value": "Mixed - some benefits, some issues",
+              "source": "consumer_reports",
+              "percentage": 18
+            },
+            {
+              "count": 12,
+              "value": "Moderate side effects",
+              "source": "studies",
+              "percentage": 12
+            },
+            {
+              "count": 5,
+              "value": "Severe side effects",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "length_of_use": {
+          "mode": "1-3 months",
+          "values": [
+            {
+              "count": 35,
+              "value": "1-3 months",
+              "source": "user_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "Less than 1 month",
+              "source": "user_reviews",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "3-6 months",
+              "source": "consumer_reports",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "6-12 months",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "As needed",
+              "source": "user_reviews",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "Still using",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 95,
+              "value": "Within days",
+              "source": "research",
+              "percentage": 95
+            },
+            {
+              "count": 5,
+              "value": "Still evaluating",
+              "source": "consumer_reports",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:08:54.991001+00:00"
+    },
+    {
+      "link_id": "772dd790-e967-4d75-bb54-4fe6f7f2e712",
+      "solution_id": "37be1891-9630-45b7-86b8-dc8c6af90708",
+      "title": "N-Acetyl Cysteine (NAC) Supplement",
+      "description": "NAC is an amino acid precursor to glutathione, a powerful antioxidant, and has shown promise in modulating glutamate pathways implicated in addiction.",
+      "category": "supplements_vitamins",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-09-04T05:24:03.100443+00:00",
+      "variant_id": "dcc481eb-f4ea-4427-b33c-688a01a0557c",
+      "variant_name": "600mg capsule",
+      "amount": 600,
+      "unit": "mg",
+      "form": "oral",
+      "effectiveness": 3.6,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {
+              "count": 92,
+              "value": "$10-25/month",
+              "source": "studies",
+              "percentage": 92
+            },
+            {
+              "count": 8,
+              "value": "Free",
+              "source": "research",
+              "percentage": 8
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:05:39.270Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "N-Acetyl Cysteine (NAC) Supplement"
+        },
+        "frequency": {
+          "mode": "once daily",
+          "values": [
+            {
+              "count": 35,
+              "value": "once daily",
+              "source": "user_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "twice daily",
+              "source": "user_reviews",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "as needed",
+              "source": "user_reviews",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "every other day",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "twice weekly",
+              "source": "consumer_reports",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "weekly",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "side_effects": {
+          "mode": "No side effects",
+          "values": [
+            {
+              "count": 42,
+              "value": "No side effects",
+              "source": "user_reviews",
+              "percentage": 42
+            },
+            {
+              "count": 28,
+              "value": "Mild side effects",
+              "source": "user_reviews",
+              "percentage": 28
+            },
+            {
+              "count": 15,
+              "value": "Mixed - some benefits, some issues",
+              "source": "consumer_reports",
+              "percentage": 15
+            },
+            {
+              "count": 10,
+              "value": "Moderate side effects",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Severe side effects",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "length_of_use": {
+          "mode": "6-12 months",
+          "values": [
+            {
+              "count": 35,
+              "value": "6-12 months",
+              "source": "user_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "1-3 months",
+              "source": "user_reviews",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "3-6 months",
+              "source": "consumer_reports",
+              "percentage": 20
+            },
+            {
+              "count": 15,
+              "value": "Still using",
+              "source": "research",
+              "percentage": 15
+            },
+            {
+              "count": 5,
+              "value": "1-2 years",
+              "source": "studies",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 92,
+              "value": "Within days",
+              "source": "research",
+              "percentage": 92
+            },
+            {
+              "count": 8,
+              "value": "Still evaluating",
+              "source": "user_reviews",
+              "percentage": 8
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:05:39.555061+00:00"
+    },
+    {
+      "link_id": "986b2f7e-a884-4772-baa0-c6e83a97e853",
+      "solution_id": "71258125-806f-4768-8156-aafcbafbc02f",
+      "title": "St. John's Wort (Hypericum perforatum)",
+      "description": "A herbal supplement often used for mild to moderate depression, which can sometimes be a contributing factor to gaming addiction.",
+      "category": "natural_remedies",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-09-04T05:25:26.827422+00:00",
+      "variant_id": "ef86030a-0146-4240-8ba6-e6d4aaa7104f",
+      "variant_name": "300mg capsule",
+      "amount": 300,
+      "unit": "mg",
+      "form": "oral",
+      "effectiveness": 3.5,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {
+              "count": 85,
+              "value": "$10-25/month",
+              "source": "research",
+              "percentage": 85
+            },
+            {
+              "count": 15,
+              "value": "Free",
+              "source": "user_experiences",
+              "percentage": 15
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:02:59.056Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "St. John's Wort (Hypericum perforatum)"
+        },
+        "frequency": {
+          "mode": "once daily",
+          "values": [
+            {
+              "count": 35,
+              "value": "once daily",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "twice daily",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "as needed",
+              "source": "user_experiences",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "every other day",
+              "source": "research",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "twice weekly",
+              "source": "studies",
+              "percentage": 5
+            },
+            {
+              "count": 5,
+              "value": "weekly",
+              "source": "community_feedback",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "side_effects": {
+          "mode": "No side effects",
+          "values": [
+            {
+              "count": 38,
+              "value": "No side effects",
+              "source": "user_experiences",
+              "percentage": 38
+            },
+            {
+              "count": 28,
+              "value": "Mild side effects",
+              "source": "community_feedback",
+              "percentage": 28
+            },
+            {
+              "count": 20,
+              "value": "Mixed - some benefits, some issues",
+              "source": "research",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "Moderate side effects",
+              "source": "user_experiences",
+              "percentage": 10
+            },
+            {
+              "count": 4,
+              "value": "Severe side effects",
+              "source": "studies",
+              "percentage": 4
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "length_of_use": {
+          "mode": "1-3 months",
+          "values": [
+            {
+              "count": 35,
+              "value": "1-3 months",
+              "source": "user_experiences",
+              "percentage": 35
+            },
+            {
+              "count": 25,
+              "value": "6-12 months",
+              "source": "community_feedback",
+              "percentage": 25
+            },
+            {
+              "count": 15,
+              "value": "Less than 1 month",
+              "source": "user_experiences",
+              "percentage": 15
+            },
+            {
+              "count": 15,
+              "value": "3-6 months",
+              "source": "research",
+              "percentage": 15
+            },
+            {
+              "count": 10,
+              "value": "Still using",
+              "source": "community_feedback",
+              "percentage": 10
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 85,
+              "value": "Within days",
+              "source": "studies",
+              "percentage": 85
+            },
+            {
+              "count": 10,
+              "value": "Still evaluating",
+              "source": "user_experiences",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "6+ months",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:02:59.345221+00:00"
+    },
+    {
+      "link_id": "2c953fcc-9a0f-4b39-9f28-9890aa942360",
+      "solution_id": "34b6500a-ab61-4c7c-aa84-9780fa15afe1",
+      "title": "Sam-e (S-Adenosylmethionine)",
+      "description": "A compound naturally occurring in the body, studied for its potential mood-lifting and anti-anxiety effects.",
+      "category": "supplements_vitamins",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-11-02T00:06:58.887723+00:00",
+      "variant_id": "634dd083-4332-49dc-b11d-98ed4be9199e",
+      "variant_name": "400mg enteric-coated tablet",
+      "amount": 400,
+      "unit": "mg",
+      "form": "enteric-coated tablet",
+      "effectiveness": 3.5,
+      "rating_count": 1,
+      "human_rating_count": 0,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {
+              "count": 40,
+              "value": "$10-25/month",
+              "source": "studies",
+              "percentage": 40
+            },
+            {
+              "count": 30,
+              "value": "Free",
+              "source": "studies",
+              "percentage": 30
+            },
+            {
+              "count": 20,
+              "value": "Under $10/month",
+              "source": "studies",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "$25-50/month",
+              "source": "studies",
+              "percentage": 10
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "_metadata": {
+          "confidence": "high",
+          "ai_enhanced": true,
+          "data_source": "ai_training_data",
+          "target_goal": "Reduce anxiety",
+          "generated_at": "2025-11-02T00:06:59.955Z",
+          "user_ratings": 0,
+          "value_mapped": true,
+          "mapping_version": "field-generator-v3",
+          "source_solution": "Sam-e (S-Adenosylmethionine)"
+        },
+        "frequency": {
+          "mode": "once daily",
+          "values": [
+            {
+              "count": 40,
+              "value": "once daily",
+              "source": "user_reviews",
+              "percentage": 40
+            },
+            {
+              "count": 25,
+              "value": "twice daily",
+              "source": "user_reviews",
+              "percentage": 25
+            },
+            {
+              "count": 20,
+              "value": "as needed",
+              "source": "consumer_reports",
+              "percentage": 20
+            },
+            {
+              "count": 10,
+              "value": "every other day",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "weekly",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "side_effects": {
+          "mode": "No side effects",
+          "values": [
+            {
+              "count": 40,
+              "value": "No side effects",
+              "source": "user_reviews",
+              "percentage": 40
+            },
+            {
+              "count": 30,
+              "value": "Mild side effects",
+              "source": "consumer_reports",
+              "percentage": 30
+            },
+            {
+              "count": 15,
+              "value": "Mixed - some benefits, some issues",
+              "source": "user_reviews",
+              "percentage": 15
+            },
+            {
+              "count": 10,
+              "value": "Moderate side effects",
+              "source": "studies",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Severe side effects",
+              "source": "research",
+              "percentage": 5
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "length_of_use": {
+          "mode": "1-3 months",
+          "values": [
+            {
+              "count": 35,
+              "value": "1-3 months",
+              "source": "user_reviews",
+              "percentage": 35
+            },
+            {
+              "count": 20,
+              "value": "Less than 1 month",
+              "source": "user_reviews",
+              "percentage": 20
+            },
+            {
+              "count": 25,
+              "value": "3-6 months",
+              "source": "studies",
+              "percentage": 25
+            },
+            {
+              "count": 10,
+              "value": "6-12 months",
+              "source": "consumer_reports",
+              "percentage": 10
+            },
+            {
+              "count": 5,
+              "value": "Still using",
+              "source": "user_reviews",
+              "percentage": 5
+            },
+            {
+              "count": 3,
+              "value": "1-2 years",
+              "source": "research",
+              "percentage": 3
+            },
+            {
+              "count": 2,
+              "value": "Over 2 years",
+              "source": "research",
+              "percentage": 2
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        },
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {
+              "count": 90,
+              "value": "Within days",
+              "source": "studies",
+              "percentage": 90
+            },
+            {
+              "count": 10,
+              "value": "Still evaluating",
+              "source": "user_reviews",
+              "percentage": 10
+            }
+          ],
+          "dataSource": "ai_training_data",
+          "totalReports": 100
+        }
+      },
+      "link_created_at": "2025-11-02T00:07:00.249128+00:00"
+    },
+    {
+      "link_id": "29a467d7-a676-41f0-9522-3b79bae5322f",
+      "solution_id": "a4163136-5d49-40e0-83b9-14032fe95f3e",
+      "title": "Calm App",
+      "description": "A meditation and sleep app offering guided meditations, sleep stories, breathing exercises, and mindfulness content.",
+      "category": "apps_software",
+      "source_type": "ai_foundation",
+      "is_approved": true,
+      "created_at": "2025-09-04T03:50:21.935052+00:00",
+      "variant_id": "9dcade73-282e-4d01-877d-c6ff25327f13",
+      "variant_name": "Standard",
+      "amount": null,
+      "unit": null,
+      "form": null,
+      "effectiveness": 3,
+      "rating_count": 1,
+      "human_rating_count": 1,
+      "data_display_mode": "ai",
+      "aggregated_fields": {
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {
+              "count": 1,
+              "value": "Free",
+              "source": "user_submission",
+              "percentage": 100
+            }
+          ],
+          "dataSource": "user_submission",
+          "totalReports": 1
+        },
+        "_metadata": {
+          "confidence": "low",
+          "computed_at": "2025-11-06T21:46:35.947Z",
+          "data_source": "user",
+          "total_ratings": 1,
+          "last_aggregated": "2025-11-06T21:46:35.948Z"
+        },
+        "cost_type": {
+          "mode": "free",
+          "values": [
+            {
+              "count": 1,
+              "value": "free",
+              "source": "user_submission",
+              "percentage": 100
+            }
+          ],
+          "dataSource": "user_submission",
+          "totalReports": 1
+        },
+        "challenges": {
+          "mode": "Confusing interface",
+          "values": [
+            {
+              "count": 1,
+              "value": "Confusing interface",
+              "source": "user_submission",
+              "percentage": 100
+            },
+            {
+              "count": 1,
+              "value": "Too many notifications",
+              "source": "user_submission",
+              "percentage": 100
+            },
+            {
+              "count": 1,
+              "value": "App crashes/technical issues",
+              "source": "user_submission",
+              "percentage": 100
+            }
+          ],
+          "dataSource": "user_submission",
+          "totalReports": 1
+        },
+        "time_to_results": {
+          "mode": "1-2 months",
+          "values": [
+            {
+              "count": 1,
+              "value": "1-2 months",
+              "source": "user_submission",
+              "percentage": 100
+            }
+          ],
+          "dataSource": "user_submission",
+          "totalReports": 1
+        },
+        "usage_frequency": {
+          "mode": "Few times a week",
+          "values": [
+            {
+              "count": 1,
+              "value": "Few times a week",
+              "source": "user_submission",
+              "percentage": 100
+            }
+          ],
+          "dataSource": "user_submission",
+          "totalReports": 1
+        },
+        "subscription_type": {
+          "mode": "Free version",
+          "values": [
+            {
+              "count": 1,
+              "value": "Free version",
+              "source": "user_submission",
+              "percentage": 100
+            }
+          ],
+          "dataSource": "user_submission",
+          "totalReports": 1
+        }
+      },
+      "link_created_at": "2025-11-02T00:01:55.51894+00:00"
+    }
+  ]
+}

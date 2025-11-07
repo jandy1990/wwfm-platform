@@ -2,7 +2,7 @@
 
 > **Last Updated**: November 2, 2025
 > **Purpose**: Technical implementation guide for developers and Claude Code
-> **Related**: [Database Schema](/docs/database/schema.md) | [Form Templates](/docs/forms/README.md) | [Goals Taxonomy](/data/taxonomy.md)
+> **Related**: [Database Schema](/docs/database/schema.md) | [Form Templates](/docs/forms/README.md)
 
 
 ## 🏛️ System Overview

@@ -94,12 +94,15 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed design decisions.
 - **[Solution Search Data Flow](./docs/architecture/SOLUTION_SEARCH_DATA_FLOW.md)** - Complete search and filtering pipeline
 - **[Database Schema](/docs/database/schema.md)** - Complete database structure and relationships
 - **[Form Templates](/docs/forms/README.md)** - All 9 form specifications and field mappings
-- **[Goals Taxonomy](/data/taxonomy.md)** - Complete hierarchy of 652 goals
-
-### Development Guides
-- **[DEBUGGING.md](./DEBUGGING.md)** - Common issues and solutions
-- **[WORKFLOW.md](./WORKFLOW.md)** - Development best practices
 - **[CLAUDE.md](./CLAUDE.md)** - AI assistant collaboration guide
+
+### Visual Diagrams (Mermaid)
+- **[System Context](./docs/diagrams/system-context.md)** - How WWFM fits in the ecosystem
+- **[Container Diagram](./docs/diagrams/container-diagram.md)** - Tech stack and components
+- **[Database ERD](./docs/diagrams/database-erd.md)** - Table relationships and schema
+- **[User Contribution Flow](./docs/diagrams/user-contribution-flow.md)** - Form submission to display
+- **[Form System](./docs/diagrams/form-system-flow.md)** - 9 templates → 23 categories
+- **[Browse & Discover](./docs/diagrams/browse-discover-flow.md)** - User journey for finding solutions
 
 ### Testing Documentation
 - **[Test Solutions Setup](tests/e2e/TEST_SOLUTIONS_SETUP.md)** - Test fixture requirements
@@ -174,7 +177,7 @@ node scripts/cleanup-all.js # Clean all test artifacts
 2. **Content Gap**: Need ~1,500 more solutions for launch readiness
 3. **Admin Tools**: Moderation queue not yet implemented
 
-See [DEBUGGING.md](./DEBUGGING.md) for detailed troubleshooting.
+See [PLATFORM_STATUS.md](./PLATFORM_STATUS.md) for complete status and known issues.
 
 ## 🚧 Roadmap
 
@@ -202,7 +205,7 @@ We welcome contributions! Please:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Follow existing code patterns (see [ARCHITECTURE.md](./ARCHITECTURE.md))
+3. Follow existing code patterns
 4. Test with both anonymous and authenticated users
 5. Submit a Pull Request
 
