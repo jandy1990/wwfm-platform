@@ -38,19 +38,27 @@ Active workspace for Claude Web solution generation and quality testing.
 - **Quality Target**: ≥86% (match or exceed BEFORE)
 - **Output**: `reduce-anxiety-45-solutions.json`
 
-## Files
+## Folder Structure
 
-**Execution (in order)**:
+### For Claude Web (Instructions & Output)
 - **`START-HERE.md`** - Entry point (read first)
 - **`PHASE-ZERO.md`** - Orientation and quality standards
 - **`PHASE-ONE.md`** - Generate solution list (run once)
 - **`PHASE-TWO.md`** - Generate distributions for one batch (run 5x)
 - **`PHASE-THREE.md`** - Merge, validate, finalize (run once)
-
-**Input**:
 - **`goal-info.json`** - Goal information for Phase One
+- **`solution-list.json`** - Phase One output
+- **`batch-*.json`** - Phase Two outputs (5 files)
+- **`final-output.json`** - Phase Three output (ready for insertion)
 
-**Data**:
+### For Claude Code (Local Tools)
+- **`claude-code/`** - ⚠️ DO NOT include in Claude Web sessions
+  - Insertion scripts (insert-solutions.ts, insert-remaining-3.ts)
+  - Quality reports (QUALITY_COMPARISON_REPORT.md)
+  - Process documentation (INSERTION-PROCESS.md)
+  - See claude-code/README.md for details
+
+### Data & Backups
 - **`backup/`** - Backup of 22 deleted links
 - **`data/`** - BEFORE data export for comparison
 - **`archive/`** - Old files and failed connection attempts
