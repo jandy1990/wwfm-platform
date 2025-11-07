@@ -2,7 +2,9 @@
 
 ## 🎯 MISSION
 
-Generate **10 high-quality, evidence-based solutions** for each assigned goal following WWFM's complete quality pipeline.
+Generate **high-quality, evidence-based solutions** for each assigned goal following WWFM's complete quality pipeline.
+
+**Solution Count**: Flexible based on goal scope (determined in STEP 0). Major goals like "Reduce anxiety" require 40-50 solutions, while niche goals like "Deal with tinnitus" need only 10-15 solutions.
 
 ---
 
@@ -61,11 +63,57 @@ Title solutions **exactly as a real user would record them** - no generic descri
 
 ## 📋 COMPLETE WORKFLOW
 
+### STEP 0: Determine Solution Count
+
+Before generating solutions, assess the goal's scope to determine appropriate solution count.
+
+**Arena**: [Will be provided in prompt]
+**Arena Range**: [min]-[max] solutions (typical: [typical])
+
+#### Classification Criteria
+
+**🎯 NICHE ([min]-[mid] solutions)**
+- Specific medical condition with limited evidence-based treatments
+- Specialized skill or hobby with narrow audience
+- Rare demographic or highly specific situation
+- **Examples**: "Deal with tinnitus", "Learn pottery", "Navigate vertigo", "Cover gray hair", "Learn to surf"
+
+**🎯 TYPICAL ([mid]-[typical] solutions)**
+- Common challenge with moderate solution variety
+- Specific issue affecting many people
+- Multiple approaches available but not extensive
+- **Examples**: "Improve credit score", "Stop nail biting", "Build home workout habit", "Master makeup basics", "Reduce screen time"
+
+**🎯 BROAD ([typical]-[max] solutions)**
+- Major life challenge affecting millions globally
+- Extensive evidence-based solutions across multiple categories (medications, therapy, apps, books, habits, etc.)
+- High diversity of credible approaches with research support
+- **Examples**: "Reduce anxiety", "Sleep better", "Lose weight", "Manage stress", "Stop overthinking", "Deal with depression", "Build confidence"
+
+#### Required Output Format
+
+First, provide your assessment in this exact format:
+
+```json
+{
+  "classification": "niche|typical|broad",
+  "target_count": <number between min and max>,
+  "rationale": "Brief explanation (2-3 sentences) why this goal fits this classification and deserves this solution count"
+}
+```
+
+**Validation Rules**:
+- ✅ `target_count` must be within arena range [min]-[max]
+- ✅ Niche goals should be in lower third of range
+- ✅ Typical goals should be near the typical value
+- ✅ Broad goals should be in upper third approaching max
+- ✅ Rationale must reference goal scope, population size, or category diversity
+
 ### STEP 1: Generate Solutions
 
 **Read**: `/Users/jackandrews/Desktop/wwfm-platform/scripts/claude-web-generator/prompts/rich-solution-prompt.ts`
 
-**Task**: Generate 10 solutions following ALL rules in that file.
+**Task**: Generate **exactly `target_count`** solutions (from STEP 0) following ALL rules in that file.
 
 **Additional Critical Rules** (supplement to rich-solution-prompt.ts):
 
@@ -514,6 +562,12 @@ After completing database insertion and validation, provide a summary:
 
 Before outputting JSON, verify ALL solutions pass:
 
+### Step 0: Solution Count Assessment
+- [ ] Classification provided (niche/typical/broad)
+- [ ] target_count within arena range (min ≤ count ≤ max)
+- [ ] Rationale explains goal scope and justifies count
+- [ ] Generated exactly target_count solutions (no more, no less)
+
 ### Solution-Level Checks
 - [ ] Title passes friend test (no "like", "such as", generic prefixes)
 - [ ] Has specific brand/program/method name (not category)
@@ -646,7 +700,8 @@ Issue: Medical product with dosage → should be medications
 
 You now have complete instructions. For your assigned goal(s), complete the **FULL PIPELINE**:
 
-1. **Generate** 10 high-quality solutions (Step 1)
+0. **Determine solution count** based on goal scope (Step 0)
+1. **Generate** solutions (exact count from Step 0) (Step 1)
 2. **Validate** each solution (Step 2)
 3. **Generate field distributions** for each (Step 3)
 4. **Insert into Supabase** using MCP tools (Step 4)
