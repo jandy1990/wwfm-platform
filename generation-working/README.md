@@ -30,11 +30,9 @@ Active workspace for Claude Web solution generation and quality testing.
 - **Quality Target**: ≥86% (match or exceed BEFORE)
 - **Output**: `reduce-anxiety-45-solutions.json`
 
-## Key Files
+## Files
 
-- `CLAUDE_WEB_EXECUTION_PROMPT.md` - Main instructions for Claude Web
-- `JSON_OUTPUT_INSTRUCTIONS.md` - JSON format specification
-- `RESPONSE_TO_CLAUDE_WEB.md` - Response about generator script concern
-- `backup/` - Backup of 22 deleted links (link-ids-before-deletion.json)
-- `data/` - BEFORE data export for comparison
-- `archive/` - Failed connection attempt files (REST API, psql, etc.)
+- **`START_HERE_CLAUDE_WEB.md`** - Complete instructions for Claude Web (start here!)
+- **`backup/`** - Backup of 22 deleted links
+- **`data/`** - BEFORE data export (before-reduce-anxiety.json, before-quality-report.md)
+- **`archive/`** - Old instruction files and failed connection attempts
