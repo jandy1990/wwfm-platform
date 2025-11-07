@@ -1,0 +1,548 @@
+{
+  "batch_number": 2,
+  "batch_range": "12-20",
+  "goal_id": "fcbd935e-6531-4bd2-8410-7077674c65a5",
+  "goal_title": "Use skills for good",
+  "solutions": [
+    {
+      "index": 12,
+      "title": "Local library programming volunteer",
+      "solution_category": "habits_routines",
+      "avg_effectiveness": 4.3,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Within days", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "3-4 weeks", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Immediately", "count": 5, "percentage": 5, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "time_commitment": {
+          "mode": "1-2 hours",
+          "values": [
+            {"value": "1-2 hours", "count": 50, "percentage": 50, "source": "research"},
+            {"value": "30-60 minutes", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "2-3 hours", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Under 30 minutes", "count": 7, "percentage": 7, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 55, "percentage": 55, "source": "research"},
+            {"value": "Few times a month", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "1-2 times per week", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Monthly", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {"value": "Free", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 65, "percentage": 65, "source": "research"},
+            {"value": "Need specific skills for certain programs", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "Limited volunteer spots available", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "Background check required", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 13,
+      "title": "350.org climate action volunteer",
+      "solution_category": "groups_communities",
+      "avg_effectiveness": 4.2,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-6 months",
+          "values": [
+            {"value": "3-6 months", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "1-2 months", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "6+ months", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "3-4 weeks", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "meeting_frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Few times a month", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Monthly", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "As needed", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "group_size": {
+          "mode": "11-20 people",
+          "values": [
+            {"value": "11-20 people", "count": 40, "percentage": 40, "source": "research"},
+            {"value": "20+ people", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "5-10 people", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "2-4 people", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {"value": "Free", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "Results take time to see", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Emotionally heavy topic", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Requires political engagement", "count": 7, "percentage": 7, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 14,
+      "title": "United Way community programs",
+      "solution_category": "groups_communities",
+      "avg_effectiveness": 4.5,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "1-2 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Immediately", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "3-4 weeks", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "meeting_frequency": {
+          "mode": "Few times a month",
+          "values": [
+            {"value": "Few times a month", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Weekly", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Monthly", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "As needed", "count": 6, "percentage": 6, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "group_size": {
+          "mode": "11-20 people",
+          "values": [
+            {"value": "11-20 people", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "5-10 people", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "20+ people", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "2-4 people", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {"value": "Free", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "Many options can be overwhelming", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Scheduling around availability", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "Transportation to events", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 15,
+      "title": "Rotary Club membership",
+      "solution_category": "groups_communities",
+      "avg_effectiveness": 4.3,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 months",
+          "values": [
+            {"value": "1-2 months", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "3-6 months", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "3-4 weeks", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 weeks", "count": 5, "percentage": 5, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "meeting_frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 78, "percentage": 78, "source": "research"},
+            {"value": "Fortnightly", "count": 15, "percentage": 15, "source": "research"},
+            {"value": "Multiple times per week", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Few times a month", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "group_size": {
+          "mode": "20+ people",
+          "values": [
+            {"value": "20+ people", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "11-20 people", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "5-10 people", "count": 8, "percentage": 8, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$25-50/month",
+          "values": [
+            {"value": "$25-50/month", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "$50-100/month", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "$10-25/month", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Over $100/month", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Weekly meeting commitment", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Membership fees", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Professional networking environment", "count": 8, "percentage": 8, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 16,
+      "title": "Pro Bono Partnership",
+      "solution_category": "professional_services",
+      "avg_effectiveness": 4.7,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 months",
+          "values": [
+            {"value": "1-2 months", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "3-6 months", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "3-4 weeks", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "6+ months", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_frequency": {
+          "mode": "Monthly",
+          "values": [
+            {"value": "Monthly", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "Fortnightly", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Weekly", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "As needed", "count": 6, "percentage": 6, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "specialty": {
+          "mode": "Legal services",
+          "values": [
+            {"value": "Legal services", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {"value": "Free", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Must be licensed attorney", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "Time commitment for cases", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Application process", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 17,
+      "title": "TechSoup volunteer IT support",
+      "solution_category": "professional_services",
+      "avg_effectiveness": 4.4,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Within days", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "3-4 weeks", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Immediately", "count": 5, "percentage": 5, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_frequency": {
+          "mode": "As needed",
+          "values": [
+            {"value": "As needed", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "Weekly", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Monthly", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Fortnightly", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "specialty": {
+          "mode": "IT support",
+          "values": [
+            {"value": "IT support", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {"value": "Free", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 55, "percentage": 55, "source": "research"},
+            {"value": "Need technical expertise", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Remote support can be tricky", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "Varied technology needs", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 18,
+      "title": "The Giving What We Can Pledge",
+      "solution_category": "habits_routines",
+      "avg_effectiveness": 4.8,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Immediately",
+          "values": [
+            {"value": "Immediately", "count": 65, "percentage": 65, "source": "research"},
+            {"value": "Within days", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "1-2 weeks", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "time_commitment": {
+          "mode": "Under 30 minutes",
+          "values": [
+            {"value": "Under 30 minutes", "count": 70, "percentage": 70, "source": "research"},
+            {"value": "30-60 minutes", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "1-2 hours", "count": 5, "percentage": 5, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "Monthly",
+          "values": [
+            {"value": "Monthly", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "Yearly", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Quarterly", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "As needed", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Variable (% of income)",
+          "values": [
+            {"value": "Variable (% of income)", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Financial commitment (10% income)", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "Choosing effective charities", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Long-term pledge commitment", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 19,
+      "title": "Skills for Change volunteer teaching",
+      "solution_category": "habits_routines",
+      "avg_effectiveness": 4.5,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 months",
+          "values": [
+            {"value": "1-2 months", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "3-4 weeks", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "3-6 months", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "1-2 weeks", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "time_commitment": {
+          "mode": "2-3 hours",
+          "values": [
+            {"value": "2-3 hours", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "1-2 hours", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "3-4 hours", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "30-60 minutes", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 65, "percentage": 65, "source": "research"},
+            {"value": "1-2 times per week", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "Few times a month", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "Monthly", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {"value": "Free", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "Consistent weekly commitment", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Language barriers with students", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Training requirements", "count": 7, "percentage": 7, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 20,
+      "title": "Idealist volunteer opportunities platform",
+      "solution_category": "apps_software",
+      "avg_effectiveness": 4.3,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "1-2 weeks", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Immediately", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "3-4 weeks", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "usage_frequency": {
+          "mode": "Few times a month",
+          "values": [
+            {"value": "Few times a month", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "As needed", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Weekly", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 times per week", "count": 4, "percentage": 4, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "subscription_type": {
+          "mode": "free",
+          "values": [
+            {"value": "free", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {"value": "Free", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "Many listings can be overwhelming", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Some listings outdated", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Geographic filtering needed", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    }
+  ]
+}

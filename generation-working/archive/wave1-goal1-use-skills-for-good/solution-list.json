@@ -1,0 +1,109 @@
+{
+  "goal_id": "fcbd935e-6531-4bd2-8410-7077674c65a5",
+  "goal_title": "Use skills for good",
+  "classification": "typical",
+  "target_count": 20,
+  "solutions": [
+    {
+      "index": 1,
+      "title": "Digital Minimalism by Cal Newport",
+      "solution_category": "books_courses",
+      "note": "EXISTING - already in goal"
+    },
+    {
+      "index": 2,
+      "title": "VolunteerMatch",
+      "solution_category": "apps_software"
+    },
+    {
+      "index": 3,
+      "title": "Catchafire",
+      "solution_category": "apps_software"
+    },
+    {
+      "index": 4,
+      "title": "LinkedIn Volunteer Marketplace",
+      "solution_category": "apps_software"
+    },
+    {
+      "index": 5,
+      "title": "Taproot Foundation",
+      "solution_category": "groups_communities"
+    },
+    {
+      "index": 6,
+      "title": "Common Impact skills-based volunteering",
+      "solution_category": "groups_communities"
+    },
+    {
+      "index": 7,
+      "title": "SCORE Mentorship Program",
+      "solution_category": "groups_communities"
+    },
+    {
+      "index": 8,
+      "title": "Big Brothers Big Sisters mentoring",
+      "solution_category": "groups_communities"
+    },
+    {
+      "index": 9,
+      "title": "Habitat for Humanity",
+      "solution_category": "groups_communities"
+    },
+    {
+      "index": 10,
+      "title": "Khan Academy volunteer tutor",
+      "solution_category": "habits_routines"
+    },
+    {
+      "index": 11,
+      "title": "Local food bank volunteering",
+      "solution_category": "habits_routines"
+    },
+    {
+      "index": 12,
+      "title": "Local library programming volunteer",
+      "solution_category": "habits_routines"
+    },
+    {
+      "index": 13,
+      "title": "350.org climate action volunteer",
+      "solution_category": "groups_communities"
+    },
+    {
+      "index": 14,
+      "title": "United Way community programs",
+      "solution_category": "groups_communities"
+    },
+    {
+      "index": 15,
+      "title": "Rotary Club membership",
+      "solution_category": "groups_communities"
+    },
+    {
+      "index": 16,
+      "title": "Pro Bono Partnership",
+      "solution_category": "professional_services"
+    },
+    {
+      "index": 17,
+      "title": "TechSoup volunteer IT support",
+      "solution_category": "professional_services"
+    },
+    {
+      "index": 18,
+      "title": "The Giving What We Can Pledge",
+      "solution_category": "habits_routines"
+    },
+    {
+      "index": 19,
+      "title": "Skills for Change volunteer teaching",
+      "solution_category": "habits_routines"
+    },
+    {
+      "index": 20,
+      "title": "Idealist volunteer opportunities platform",
+      "solution_category": "apps_software"
+    }
+  ]
+}

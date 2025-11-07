@@ -1,0 +1,244 @@
+{
+  "summary": {
+    "total_goals": 228,
+    "goals_with_solutions": 227,
+    "coverage_percentage": 99.6,
+    "goals_needing_improvement": 24
+  },
+  "tier_1_critical": [
+    {
+      "id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+      "title": "Reduce anxiety",
+      "arena": "Feeling & Emotion",
+      "current_count": 0,
+      "target_count": 45,
+      "gap": 45,
+      "priority": "CRITICAL",
+      "notes": "Most popular mental health topic, 0 solutions unacceptable"
+    },
+    {
+      "id": "fcbd935e-6531-4bd2-8410-7077674c65a5",
+      "title": "Use skills for good",
+      "arena": "Community",
+      "current_count": 1,
+      "target_count": 20,
+      "gap": 19,
+      "priority": "CRITICAL",
+      "notes": "Only 1 solution looks incomplete"
+    },
+    {
+      "id": "a72b9494-5508-4ded-8c6c-94dc96910009",
+      "title": "Bounce back from firing",
+      "arena": "Work & Career",
+      "current_count": 6,
+      "target_count": 20,
+      "gap": 14,
+      "priority": "HIGH",
+      "notes": "Important career transition topic"
+    },
+    {
+      "id": "3e81c864-623e-4627-85d8-95ebc5898cdc",
+      "title": "Reduce screen time",
+      "arena": "Technology & Modern Life",
+      "current_count": 7,
+      "target_count": 25,
+      "gap": 18,
+      "priority": "HIGH",
+      "notes": "Highly relevant modern challenge"
+    },
+    {
+      "id": "39790d9d-9cb3-4fda-8851-9105ad8ac7cf",
+      "title": "Practice meditation",
+      "arena": "Personal Growth",
+      "current_count": 9,
+      "target_count": 25,
+      "gap": 16,
+      "priority": "HIGH",
+      "notes": "Popular wellness topic"
+    }
+  ],
+  "tier_2_low_coverage": [
+    {
+      "id": "be505954-61b9-46b1-81ec-3c7ca0fefde0",
+      "title": "Support youth programs",
+      "arena": "Community",
+      "current_count": 10,
+      "target_count": 20,
+      "gap": 10
+    },
+    {
+      "id": "45ececcb-85ed-4537-8206-4b5c541d050e",
+      "title": "Think more positively",
+      "arena": "Personal Growth",
+      "current_count": 10,
+      "target_count": 20,
+      "gap": 10
+    },
+    {
+      "id": "86794c43-865c-41aa-a51f-8ea77699aba1",
+      "title": "Stop yo-yo dieting",
+      "arena": "Physical Health",
+      "current_count": 10,
+      "target_count": 20,
+      "gap": 10
+    },
+    {
+      "id": "668a9ad9-8748-443c-ac4b-4eef8ee0c70d",
+      "title": "Deal with rosacea",
+      "arena": "Beauty & Wellness",
+      "current_count": 11,
+      "target_count": 20,
+      "gap": 9
+    },
+    {
+      "id": "c004a80e-facf-4d54-a4bc-f02c8603576b",
+      "title": "Improve skin texture",
+      "arena": "Beauty & Wellness",
+      "current_count": 11,
+      "target_count": 20,
+      "gap": 9
+    },
+    {
+      "id": "19ab1cdc-0838-4dea-ba45-1c5ed3510175",
+      "title": "Do digital detox",
+      "arena": "Technology & Modern Life",
+      "current_count": 11,
+      "target_count": 20,
+      "gap": 9
+    },
+    {
+      "id": "4a4dc5ce-f169-420b-a8bd-a963bf277316",
+      "title": "Improve communication skills",
+      "arena": "Personal Growth",
+      "current_count": 12,
+      "target_count": 20,
+      "gap": 8
+    },
+    {
+      "id": "25f47514-202c-4b26-9c67-66c352dbac47",
+      "title": "Quit energy drinks",
+      "arena": "Physical Health",
+      "current_count": 12,
+      "target_count": 20,
+      "gap": 8
+    },
+    {
+      "id": "10fe576c-55f7-49e9-bf87-ecf1bd0c774e",
+      "title": "Quit junk food",
+      "arena": "Physical Health",
+      "current_count": 12,
+      "target_count": 20,
+      "gap": 8
+    },
+    {
+      "id": "2f8b2a3e-ec14-4ac3-9fd4-faf9effe970a",
+      "title": "Handle job uncertainty",
+      "arena": "Work & Career",
+      "current_count": 12,
+      "target_count": 20,
+      "gap": 8
+    },
+    {
+      "id": "5ceb513d-b531-4e35-ad74-221cb6dff539",
+      "title": "Develop perseverance",
+      "arena": "Personal Growth",
+      "current_count": 13,
+      "target_count": 20,
+      "gap": 7
+    },
+    {
+      "id": "cf135170-0a08-4764-98c9-6575c54eb7a8",
+      "title": "Improve credit score",
+      "arena": "Finances",
+      "current_count": 14,
+      "target_count": 20,
+      "gap": 6
+    },
+    {
+      "id": "ac42f78d-6e4f-4f0e-ab7b-4575c8e747ed",
+      "title": "Negotiate salary",
+      "arena": "Finances",
+      "current_count": 14,
+      "target_count": 20,
+      "gap": 6
+    },
+    {
+      "id": "27cf196e-c0d2-461b-94b2-89f6143f189b",
+      "title": "Study philosophy",
+      "arena": "Personal Growth",
+      "current_count": 14,
+      "target_count": 20,
+      "gap": 6
+    },
+    {
+      "id": "b1fc0a6c-42c5-401a-8fb5-8f6cc5dfcdbb",
+      "title": "Get in shape",
+      "arena": "Physical Health",
+      "current_count": 14,
+      "target_count": 20,
+      "gap": 6
+    },
+    {
+      "id": "979cd4a1-ca35-4e20-aa7a-baf390264a6f",
+      "title": "Get to ideal weight",
+      "arena": "Physical Health",
+      "current_count": 14,
+      "target_count": 20,
+      "gap": 6
+    },
+    {
+      "id": "23f16afa-0166-44c5-94ce-00797409ed92",
+      "title": "Get toned body",
+      "arena": "Physical Health",
+      "current_count": 14,
+      "target_count": 20,
+      "gap": 6
+    },
+    {
+      "id": "62b6c8d0-27c8-43f5-a501-7c11d1297b89",
+      "title": "Reduce bloating",
+      "arena": "Physical Health",
+      "current_count": 14,
+      "target_count": 20,
+      "gap": 6
+    },
+    {
+      "id": "94a5d0ef-fae8-4cb1-bbfa-d6a3bd8dec14",
+      "title": "Write compelling resume",
+      "arena": "Work & Career",
+      "current_count": 14,
+      "target_count": 20,
+      "gap": 6
+    }
+  ],
+  "recommended_action": {
+    "option_1": {
+      "name": "Top 3 Only",
+      "goals": ["Reduce anxiety", "Use skills for good", "Bounce back from firing"],
+      "total_solutions": 78,
+      "estimated_time": "4 hours",
+      "recommendation": "RECOMMENDED - Addresses worst gaps efficiently"
+    },
+    "option_2": {
+      "name": "Tier 1 Complete",
+      "goals": 5,
+      "total_solutions": 112,
+      "estimated_time": "6 hours",
+      "recommendation": "Good balance of coverage and effort"
+    },
+    "option_3": {
+      "name": "All Low Coverage",
+      "goals": 24,
+      "total_solutions": 220,
+      "estimated_time": "16 hours",
+      "recommendation": "Only if perfectionism matters more than launching"
+    },
+    "option_4": {
+      "name": "Do Nothing",
+      "goals": 0,
+      "total_solutions": 0,
+      "estimated_time": "0 hours",
+      "recommendation": "ALSO VALID - 99.6% coverage is sufficient to launch"
+    }
+  }
+}
