@@ -28,21 +28,39 @@ This file contains the complete 6-step pipeline:
 - STEP 3: Generate field distributions
 - STEP 4: Insert into Supabase database
 - STEP 5: Validate insertion
-- STEP 6: Report summary
 
 ---
 
 ## 🔑 Database Access
 
-You have access to Supabase MCP tools via the connection already configured in this project.
-
 **Database**: Production WWFM database (wqxkhxdbxdtpuvuvgirx.supabase.co)
 
-**Required MCP Tools**:
-- `mcp__supabase__execute_sql` - For database insertions and queries
-- `mcp__supabase__list_tables` - To verify schema if needed
+**Connection Guide**: `/home/user/wwfm-platform/generation-working/SUPABASE_CONNECTION_GUIDE.md`
 
-**Environment Variables**: Already configured in `.env.local` (you have access)
+**FIRST: Test your connection** by running:
+```bash
+bash /home/user/wwfm-platform/generation-working/test-connection.sh
+```
+This will verify database access and confirm the goal is ready (0 existing solutions).
+
+**Three Access Methods** (in order of preference):
+
+1. **Supabase REST API** (via curl) - RECOMMENDED for Claude Web
+   - Direct HTTP calls to Supabase REST API
+   - No dependencies required
+   - See connection guide for curl examples
+
+2. **PostgreSQL Direct** (via psql)
+   - Direct database connection
+   - Connection string in guide
+   - Good fallback if REST API has issues
+
+3. **Supabase MCP Tools** (if configured)
+   - `mcp__supabase__execute_sql`
+   - `mcp__supabase__list_tables`
+   - May not be available in all environments
+
+**If all methods fail**: Generate solution data as JSON files for manual insertion
 
 ---
 
@@ -219,57 +237,15 @@ Expected: 0 rows (all sums = 100%)
 
 ---
 
-## 📊 Expected Output (STEP 6)
+## ✅ Final Confirmation
 
-After completing all steps, provide this summary:
+After completing STEP 5 validation, confirm completion with a simple message:
 
-```markdown
-## Generation Complete: Reduce Anxiety
-
-### STEP 0: Solution Count Assessment
-- Classification: [your classification: niche/typical/broad]
-- Target Count: [your determined count within 15-50 range]
-- Rationale: [your explanation for this count]
-
-### STEP 1-2: Solution Generation & Validation
-- Solutions Generated: [exact count]
-- Categories Used: [list of categories]
-- Laugh Test Pass: [count]/[total]
-- Evidence Check Pass: [count]/[total]
-- Category Check Pass: [count]/[total]
-
-### STEP 3: Field Distribution Generation
-- Total Fields Generated: [count]
-- Avg Options per Field: [number]
-- Percentage Sum Errors: 0 (all validated inline)
-
-### STEP 4: Database Insertion
-- Solutions Inserted: [count]
-- Variants Created: [count]
-- Goal-Solution Links: [count]
-- Duplicates Skipped: [count if any]
-
-### STEP 5: Validation Results
-✅ Solution count matches target: [count]
-✅ All percentage sums = 100%
-✅ All required fields present
-✅ No duplicate solutions
-
-### Quality Metrics
-- Avg Effectiveness: [number]
-- Generic Rating Violations: 0
-- Mechanistic Patterns: 0
-- Field Quality: High (5-8 options, evidence-based)
-
-### Sample Solutions (Top 5 by Effectiveness)
-1. [Title] - [Effectiveness]⭐ - [Category]
-2. [Title] - [Effectiveness]⭐ - [Category]
-3. [Title] - [Effectiveness]⭐ - [Category]
-4. [Title] - [Effectiveness]⭐ - [Category]
-5. [Title] - [Effectiveness]⭐ - [Category]
-
-### Database IDs
-[List first 10 solution IDs for verification]
+```
+✅ Generation complete for "Reduce anxiety"
+- Solutions inserted: [count]
+- Classification: [niche/typical/broad]
+- All validation queries passed
 ```
 
 ---
