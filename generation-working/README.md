@@ -12,10 +12,18 @@ Active workspace for Claude Web solution generation and quality testing.
 
 ### Process
 
-1. **STAGE 1-2**: ✅ Backup and delete existing 22 solutions
-2. **STAGE 3**: ⏳ Claude Web generates 45 solutions as JSON (manual, evidence-based)
-3. **STAGE 4**: ⏳ Validate and insert JSON using local MCP access
-4. **STAGE 5**: ⏳ Export and compare BEFORE vs AFTER quality
+**Setup**: ✅ Backup and delete existing 22 solutions
+
+**Claude Web Execution** (3 phases, batched):
+1. **Phase Zero**: Read orientation
+2. **Phase One**: Generate solution list (run once) → solution-list.json
+3. **Phase Two**: Generate distributions for ONE BATCH of 5-10 solutions (run 5x) → batch-1.json through batch-5.json
+4. **Phase Three**: Merge batches, validate, finalize (run once) → final-output.json
+
+**Total executions**: 7 (1 + 5 batches + 1)
+
+**Local Validation**: ⏳ Validate and insert final-output.json using MCP access
+**Comparison**: ⏳ Export and compare BEFORE vs AFTER quality
 
 ### BEFORE (Baseline)
 - **Solutions**: 22 (21 unique)
@@ -32,7 +40,17 @@ Active workspace for Claude Web solution generation and quality testing.
 
 ## Files
 
-- **`START_HERE_CLAUDE_WEB.md`** - Complete instructions for Claude Web (start here!)
+**Execution (in order)**:
+- **`START-HERE.md`** - Entry point (read first)
+- **`PHASE-ZERO.md`** - Orientation and quality standards
+- **`PHASE-ONE.md`** - Generate solution list (run once)
+- **`PHASE-TWO.md`** - Generate distributions for one batch (run 5x)
+- **`PHASE-THREE.md`** - Merge, validate, finalize (run once)
+
+**Input**:
+- **`goal-info.json`** - Goal information for Phase One
+
+**Data**:
 - **`backup/`** - Backup of 22 deleted links
-- **`data/`** - BEFORE data export (before-reduce-anxiety.json, before-quality-report.md)
-- **`archive/`** - Old instruction files and failed connection attempts
+- **`data/`** - BEFORE data export for comparison
+- **`archive/`** - Old files and failed connection attempts
