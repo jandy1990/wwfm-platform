@@ -108,67 +108,7 @@ mcp__supabase__execute_sql({
 
 **Verify**: Count matches `actual_count` from final-output.json
 
-### Step 6: Export AFTER Data (5 min)
-
-```typescript
-// Category distribution
-mcp__supabase__execute_sql({
-  query: `
-    SELECT
-      s.solution_category,
-      COUNT(*) as solution_count,
-      ROUND(AVG(gil.avg_effectiveness)::numeric, 2) as avg_effectiveness
-    FROM goal_implementation_links gil
-    JOIN solution_variants sv ON sv.id = gil.implementation_id
-    JOIN solutions s ON s.id = sv.solution_id
-    WHERE gil.goal_id = '<goal_id>'
-    GROUP BY s.solution_category
-    ORDER BY solution_count DESC;
-  `
-})
-
-// Overall statistics
-mcp__supabase__execute_sql({
-  query: `
-    SELECT
-      COUNT(*) as total_solutions,
-      ROUND(AVG(gil.avg_effectiveness)::numeric, 2) as overall_avg,
-      ROUND(MIN(gil.avg_effectiveness)::numeric, 2) as min_effectiveness,
-      ROUND(MAX(gil.avg_effectiveness)::numeric, 2) as max_effectiveness
-    FROM goal_implementation_links gil
-    WHERE gil.goal_id = '<goal_id>';
-  `
-})
-```
-
-### Step 7: Create Quality Comparison Report (15-20 min)
-
-Read BEFORE data from `generation-working/data/before-quality-report.md`
-
-Create `generation-working/claude-code/QUALITY_COMPARISON_REPORT.md` with:
-
-**Sections**:
-1. Executive Summary (BEFORE vs AFTER key metrics)
-2. Solution Count & Coverage (22 → 45, category changes)
-3. Effectiveness Rating Analysis (maintained/improved?)
-4. Quality Issue Resolution (BEFORE issues fixed?)
-5. Technical Quality Validation (validation_summary breakdown)
-6. Solution Specificity Analysis (spot checks)
-7. Batched Generation System Performance (reliability stats)
-8. Category Distribution Quality (diversity improvements)
-9. Comparison to Quality Targets (met/exceeded?)
-10. Evidence-Based Distribution Quality (sample checks)
-11. Key Achievements (wins, maintained quality, process improvements)
-12. Recommended Next Steps & Conclusion
-
-**Key comparisons**:
-- Total solutions (count increase)
-- Average effectiveness (maintained quality)
-- Category diversity (breadth improvement)
-- Quality issues (before → after)
-- System reliability (success rate)
-
-### Step 8: Archive Batch Files (CRITICAL - DO NOT SKIP)
+### Step 6: Archive Batch Files (CRITICAL - DO NOT SKIP)
 
 Move all batch and output files to archive folder:
 
@@ -216,19 +156,17 @@ EOF
 - Allows reverting if needed
 - Documents generation date and results
 
-### Step 9: Commit and Push (5 min)
+### Step 7: Commit and Push (5 min)
 
 ```bash
 git add generation-working/
 git commit -m "Complete solution generation for '<goal-title>'
 
 Results:
-- Generated: X solutions (up from Y)
+- Generated: X solutions
 - Inserted: X/X successfully
 - Average effectiveness: Z.ZZ
 - Category diversity: N categories
-
-See generation-working/claude-code/QUALITY_COMPARISON_REPORT.md for details.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -265,7 +203,6 @@ Before considering the process complete:
 
 ✅ All solutions inserted into database
 ✅ Insertion count matches `actual_count` from final-output.json
-✅ Quality comparison report created
 ✅ Batch files archived with timestamped folder
 ✅ Changes committed to repository
 ✅ No database errors or warnings
@@ -281,11 +218,9 @@ Before considering the process complete:
 | Create insertion script | 10 min | Bulk insert logic |
 | Handle duplicates | 5-10 min | If needed |
 | Validate insertion | 2 min | Count query |
-| Export AFTER data | 5 min | Stats queries |
-| Quality report | 15-20 min | Comprehensive analysis |
 | **Archive batch files** | **5 min** | **CRITICAL STEP** |
 | Commit & push | 5 min | Git operations |
-| **Total** | **~60 min** | **For 45 solutions** |
+| **Total** | **~40 min** | **For 45 solutions** |
 
 ---
 
