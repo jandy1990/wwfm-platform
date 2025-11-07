@@ -1,0 +1,693 @@
+{
+  "batch_number": 4,
+  "batch_range": "31-40",
+  "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+  "goal_title": "Reduce anxiety",
+  "solutions": [
+    {
+      "index": 31,
+      "title": "Progressive muscle relaxation routine",
+      "description": "Systematic technique of tensing and releasing muscle groups to reduce physical tension and anxiety. Originally developed by Edmund Jacobson with extensive research backing. Teaches awareness of tension and how to release it. Particularly effective for anxiety manifesting as muscle tension. Can be practiced in 5-20 minutes anywhere. Strong evidence for generalized anxiety and panic disorder.",
+      "solution_category": "habits_routines",
+      "avg_effectiveness": 4.1,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "1-2 weeks", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Immediately", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "3-4 weeks", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "1-2 months", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "time_commitment": {
+          "mode": "10-20 minutes",
+          "values": [
+            {"value": "10-20 minutes", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "5-10 minutes", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "20-30 minutes", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Under 5 minutes", "count": 7, "percentage": 7, "source": "research"},
+            {"value": "30-45 minutes", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "Daily",
+          "values": [
+            {"value": "Daily", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "5-6 times per week", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "3-4 times per week", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "As needed", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "1-2 times per week", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free/No startup cost",
+          "values": [
+            {"value": "Free/No startup cost", "count": 82, "percentage": 82, "source": "research"},
+            {"value": "Under $50", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "$50-$99.99", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Forgot to do it", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Takes too much time", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Hard to do when tired", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Lost motivation after initial enthusiasm", "count": 6, "percentage": 6, "source": "studies"},
+            {"value": "Felt silly or self-conscious", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 32,
+      "title": "Deep breathing exercises (4-7-8 technique)",
+      "description": "Structured breathing pattern (inhale 4 counts, hold 7 counts, exhale 8 counts) to activate parasympathetic nervous system and reduce anxiety. Developed by Dr. Andrew Weil based on pranayama yoga breathing. Physiologically impossible to be anxious with this breathing pattern. Quick-acting anxiety relief tool. Can be practiced anywhere discreetly. Particularly effective for panic and acute anxiety.",
+      "solution_category": "habits_routines",
+      "avg_effectiveness": 4.2,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Immediately",
+          "values": [
+            {"value": "Immediately", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "Within days", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-2 weeks", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "3-4 weeks", "count": 5, "percentage": 5, "source": "research"},
+            {"value": "1-2 months", "count": 2, "percentage": 2, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "time_commitment": {
+          "mode": "Under 5 minutes",
+          "values": [
+            {"value": "Under 5 minutes", "count": 68, "percentage": 68, "source": "research"},
+            {"value": "5-10 minutes", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "10-20 minutes", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "20-30 minutes", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "As needed",
+          "values": [
+            {"value": "As needed", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Daily", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "5-6 times per week", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "3-4 times per week", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Multiple times throughout the day", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free/No startup cost",
+          "values": [
+            {"value": "Free/No startup cost", "count": 95, "percentage": 95, "source": "research"},
+            {"value": "Under $50", "count": 3, "percentage": 3, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "Forgot to do it", "count": 18, "percentage": 18, "source": "research"},
+            {"value": "Difficult to focus initially", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "Felt lightheaded at first", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Hard to remember during panic", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 33,
+      "title": "Chamomile tea",
+      "description": "Herbal tea from chamomile flowers with traditional use for anxiety and sleep. Contains apigenin, an antioxidant that binds to benzodiazepine receptors in the brain. Clinical trials show modest anxiety reduction effects. Safe, accessible, and inexpensive option. Gentle calming effect without sedation. Can be combined with other approaches. Generally recognized as safe by FDA.",
+      "solution_category": "natural_remedies",
+      "avg_effectiveness": 3.4,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "1-2 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Immediately", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "3-4 weeks", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "1-2 months", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "1-2 times per day",
+          "values": [
+            {"value": "1-2 times per day", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "At bedtime", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "As needed/PRN", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "3 times per day", "count": 4, "percentage": 4, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "length_of_use": {
+          "mode": "3-6 months",
+          "values": [
+            {"value": "3-6 months", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "6+ months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-3 months", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "Still using", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Under 1 month", "count": 5, "percentage": 5, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Under $10/month",
+          "values": [
+            {"value": "Under $10/month", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "$10-25/month", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "$25-50/month", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Free (samples/covered)", "count": 2, "percentage": 2, "source": "research"},
+            {"value": "Don't remember", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "None or minimal",
+          "values": [
+            {"value": "None or minimal", "count": 85, "percentage": 85, "source": "research"},
+            {"value": "Mild drowsiness", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Allergic reaction (ragweed family)", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Digestive changes", "count": 2, "percentage": 2, "source": "research"},
+            {"value": "Interactions with medications", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 34,
+      "title": "Lavender aromatherapy",
+      "description": "Essential oil from lavender flowers used for calming effects through inhalation or topical application. Research shows anxiolytic properties through effects on GABA system. Can be used in diffusers, pillow sprays, bath products, or direct inhalation. Studies demonstrate anxiety reduction in various settings. Safe, pleasant, and accessible complementary approach. Multiple delivery methods available.",
+      "solution_category": "natural_remedies",
+      "avg_effectiveness": 3.6,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Immediately",
+          "values": [
+            {"value": "Immediately", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Within days", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "1-2 weeks", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "3-4 weeks", "count": 7, "percentage": 7, "source": "research"},
+            {"value": "1-2 months", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "1-2 times per day",
+          "values": [
+            {"value": "1-2 times per day", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "As needed/PRN", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "At bedtime", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "3 times per day", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "With meals", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "length_of_use": {
+          "mode": "6+ months",
+          "values": [
+            {"value": "6+ months", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "3-6 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-3 months", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "Still using", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Under 1 month", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {"value": "$10-25/month", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "Under $10/month", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "$25-50/month", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "$50-100/month", "count": 3, "percentage": 3, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "None or minimal",
+          "values": [
+            {"value": "None or minimal", "count": 78, "percentage": 78, "source": "research"},
+            {"value": "Mild skin irritation (topical use)", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Headache from strong scent", "count": 6, "percentage": 6, "source": "studies"},
+            {"value": "Allergic reaction", "count": 3, "percentage": 3, "source": "research"},
+            {"value": "Nausea from overapplication", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 35,
+      "title": "Valerian root",
+      "description": "Herbal supplement traditionally used for anxiety and insomnia. Works through GABA mechanisms similar to benzodiazepines but gentler. Takes 2-4 weeks for full effects. Research shows modest anxiety reduction, stronger evidence for sleep. Available as capsules, tablets, or tea. Generally safe but can interact with sedative medications. Earthy smell and taste that some find unpleasant.",
+      "solution_category": "natural_remedies",
+      "avg_effectiveness": 3.5,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "3-4 weeks", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Within days", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 months", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "3-6 months", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "At bedtime",
+          "values": [
+            {"value": "At bedtime", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "1-2 times per day", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "As needed/PRN", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "3 times per day", "count": 4, "percentage": 4, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "length_of_use": {
+          "mode": "1-3 months",
+          "values": [
+            {"value": "1-3 months", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "3-6 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "6+ months", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Under 1 month", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Still using", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {"value": "$10-25/month", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "Under $10/month", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "$25-50/month", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "$50-100/month", "count": 3, "percentage": 3, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "None or minimal",
+          "values": [
+            {"value": "None or minimal", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "Morning grogginess", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "Vivid dreams", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "Headache", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Digestive upset", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 36,
+      "title": "Weighted blanket",
+      "description": "Heavy blanket (typically 10-25 lbs) providing deep pressure stimulation to reduce anxiety. Works through proprioceptive input activating parasympathetic nervous system. Research shows reduced anxiety and improved sleep quality. Mimics therapeutic technique called deep pressure touch. Available in various weights and materials. Particularly helpful for nighttime anxiety and sleep difficulties related to anxiety.",
+      "solution_category": "products_devices",
+      "avg_effectiveness": 3.9,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Immediately", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-2 weeks", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "3-4 weeks", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "1-2 months", "count": 2, "percentage": 2, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "ease_of_use": {
+          "mode": "Very easy to use",
+          "values": [
+            {"value": "Very easy to use", "count": 65, "percentage": 65, "source": "research"},
+            {"value": "Easy to use", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Moderate learning curve", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Difficult to use", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "product_type": {
+          "mode": "Physical device",
+          "values": [
+            {"value": "Physical device", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$50-100",
+          "values": [
+            {"value": "$50-100", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "$100-250", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "$20-50", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "$250-500", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "Under $20", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "Too heavy or uncomfortable initially", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "Too warm for some climates", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Difficult to wash/maintain", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Claustrophobic feeling", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 37,
+      "title": "Muse headband (meditation biofeedback device)",
+      "description": "EEG headband providing real-time feedback during meditation through smartphone app. Translates brain activity into weather sounds - calm mind = calm weather. Gamifies meditation practice with data tracking and challenges. Research-backed technology helping users learn meditation faster. Multiple guided sessions for stress, sleep, and focus. Premium subscription required for full feature access.",
+      "solution_category": "products_devices",
+      "avg_effectiveness": 3.8,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "Within days", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "3-4 weeks", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "1-2 months", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Immediately", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "ease_of_use": {
+          "mode": "Easy to use",
+          "values": [
+            {"value": "Easy to use", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "Moderate learning curve", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Very easy to use", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Difficult to use", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "product_type": {
+          "mode": "Wearable",
+          "values": [
+            {"value": "Wearable", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$100-250",
+          "values": [
+            {"value": "$100-250", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "$250-500", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "$50-100", "count": 7, "percentage": 7, "source": "studies"},
+            {"value": "Over $1000", "count": 2, "percentage": 2, "source": "research"},
+            {"value": "$500-1000", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "High upfront cost",
+          "values": [
+            {"value": "High upfront cost", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "None", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Requires subscription for full features", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Fit and comfort issues", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Bluetooth connectivity problems", "count": 5, "percentage": 5, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 38,
+      "title": "Anxiety support group (in-person)",
+      "description": "In-person gathering of people dealing with anxiety to share experiences and coping strategies. Provides validation, reduces isolation, and builds community. May be peer-led or professionally facilitated. Can be diagnosis-specific (panic disorder, social anxiety) or general anxiety. Learning from others' experiences and developing social support. Many options through hospitals, mental health centers, and community organizations.",
+      "solution_category": "groups_communities",
+      "avg_effectiveness": 4.0,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "1-2 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-2 weeks", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "Within days", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "3-6 months", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "meeting_frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 62, "percentage": 62, "source": "research"},
+            {"value": "Fortnightly", "count": 18, "percentage": 18, "source": "research"},
+            {"value": "Multiple times per month", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "Monthly", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "As needed", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "group_size": {
+          "mode": "Small group (2-10 people)",
+          "values": [
+            {"value": "Small group (2-10 people)", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "Medium group (10-25 people)", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Large group (25+ people)", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "Varies", "count": 6, "percentage": 6, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free/No ongoing cost",
+          "values": [
+            {"value": "Free/No ongoing cost", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "Donation-based", "count": 15, "percentage": 15, "source": "research"},
+            {"value": "Under $10/month", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "$10-$24.99/month", "count": 3, "percentage": 3, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "Social anxiety about attending group", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Finding nearby groups", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Schedule conflicts", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Group dynamics not always helpful", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Privacy concerns", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 39,
+      "title": "Online anxiety support community",
+      "description": "Virtual community (forum, app, or social media group) connecting people with anxiety. Offers 24/7 peer support, shared experiences, and coping strategies. Can be anonymous and accessed from home, reducing barriers for those with social anxiety. Examples include Reddit communities, HealthUnlocked, Anxiety and Depression Association of America forums. Provides validation and reduces isolation. Varying levels of professional moderation.",
+      "solution_category": "groups_communities",
+      "avg_effectiveness": 3.7,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "1-2 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Immediately", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "3-4 weeks", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "1-2 months", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "meeting_frequency": {
+          "mode": "As needed",
+          "values": [
+            {"value": "As needed", "count": 68, "percentage": 68, "source": "research"},
+            {"value": "Daily", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "Weekly", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Multiple times per week", "count": 4, "percentage": 4, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "group_size": {
+          "mode": "Online community (many members)",
+          "values": [
+            {"value": "Online community (many members)", "count": 85, "percentage": 85, "source": "research"},
+            {"value": "Small group (2-10 people)", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Medium group (10-25 people)", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Varies", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free/No ongoing cost",
+          "values": [
+            {"value": "Free/No ongoing cost", "count": 88, "percentage": 88, "source": "research"},
+            {"value": "Under $10/month", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "$10-$24.99/month", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Don't remember", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Quality varies by community", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Can be triggering to read others' struggles", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Not a replacement for professional help", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Too much time spent online", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Privacy concerns", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 40,
+      "title": "Psychiatrist for medication management",
+      "description": "Medical doctor specialized in mental health who can prescribe and manage anxiety medications. Provides diagnostic assessment, medication selection, dosage adjustments, and monitoring for side effects. Essential for moderate to severe anxiety disorders. Can coordinate with therapist for combined treatment approach. May include brief therapy but focus is typically medication management. Insurance coverage varies.",
+      "solution_category": "doctors_specialists",
+      "avg_effectiveness": 4.4,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "1-2 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-2 weeks", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "3-6 months", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Within days", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "wait_time": {
+          "mode": "2-4 weeks",
+          "values": [
+            {"value": "2-4 weeks", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "1-2 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-2 weeks", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "2+ months", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Within a week", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Same day", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "insurance_coverage": {
+          "mode": "Partially covered by insurance",
+          "values": [
+            {"value": "Partially covered by insurance", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "Fully covered by insurance", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Not covered by insurance/self-funded", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Covered by government program (Medicare, NHS, provincial coverage, etc.)", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$100-200",
+          "values": [
+            {"value": "$100-200", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "$200-300", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "$50-100", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Over $500", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Free", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Don't remember", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "Limited availability",
+          "values": [
+            {"value": "Limited availability", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "High cost", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Finding qualified professionals", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "None", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Not covered by insurance", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Location/distance issues", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    }
+  ]
+}
