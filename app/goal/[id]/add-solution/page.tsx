@@ -1,3 +1,4 @@
+
 // app/goal/[id]/add-solution/page.tsx
 
 import { Metadata } from 'next'

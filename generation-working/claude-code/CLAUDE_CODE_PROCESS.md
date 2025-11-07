@@ -19,7 +19,50 @@ This documents the steps Claude Code must perform to insert generated solutions 
 
 ## Process Steps
 
-### Step 1: Pull Branch and Validate Output (5 min)
+### Step 0: Create Deduplication Reference (10-15 min) **BEFORE Claude Web**
+
+**CRITICAL**: This must be done BEFORE giving anything to Claude Web
+
+```bash
+# Generate existing solutions reference
+npx tsx --env-file=.env.local generation-working/claude-code/create-dedup-reference.ts "<goal_id>" "<goal_title>"
+
+# Example:
+# npx tsx --env-file=.env.local generation-working/claude-code/create-dedup-reference.ts "56e2801e-0d78-4abd-a795-869e5b780ae7" "Reduce anxiety"
+```
+
+**What this does**:
+1. Queries all solutions currently linked to this goal
+2. Queries ALL solutions in database (for cross-goal deduplication)
+3. Analyzes category gaps
+4. Calculates how many NEW solutions needed
+5. Creates `existing-solutions-reference.json`
+
+**Output**: `generation-working/existing-solutions-reference.json`
+
+**Contents**:
+```json
+{
+  "existing_solutions": [
+    {"title": "...", "solution_id": "...", "in_current_goal": true/false},
+    ...
+  ],
+  "gaps_to_fill": ["Missing medications", "Need specific apps"],
+  "target_new_count": 23
+}
+```
+
+**Verify**:
+- ✅ File created successfully
+- ✅ existing_solutions list is comprehensive
+- ✅ gaps_to_fill accurately identifies what's missing
+- ✅ target_new_count makes sense (total_target - existing_count)
+
+**Give to Claude Web**: Both `goal-info.json` AND `existing-solutions-reference.json`
+
+---
+
+### Step 1: Pull Branch and Validate Output (5 min) **AFTER Claude Web**
 
 ```bash
 # Pull the branch with Claude Web's outputs
@@ -37,10 +80,28 @@ cat generation-working/final-output.json | jq '{goal_id, goal_title, target_coun
 - ✅ All validation checks show `passed: true`
 - ✅ No errors in arrays (`fields_with_errors`, `invalid_values`, etc.)
 
-### Step 2: Spot-Check Quality (5 min)
+### Step 2: Validate Titles (5 min)
 
 ```bash
-# Check first 3 solutions
+# Run title validation script
+npx tsx generation-working/claude-code/validate-titles.ts generation-working/solution-list.json
+```
+
+**What this checks**:
+- ❌ Generic terms ("strength training", "running", "deep breathing")
+- ❌ Category names in titles ("CBT with licensed therapist")
+- ❌ Multiple options in title ("Running or jogging")
+- ⚠️ Very long or very short titles
+
+**If errors found**:
+- **STOP** - Do not proceed to insertion
+- Fix titles in solution-list.json or ask Claude Web to regenerate
+- Re-run validation until all errors cleared
+
+### Step 3: Spot-Check Quality (5 min)
+
+```bash
+# Check first 3 solutions from final-output.json
 cat generation-working/final-output.json | jq '.solutions[0:3] | .[] | {index, title, category: .solution_category, effectiveness: .avg_effectiveness, field_count: (.aggregated_fields | length)}'
 
 # Check a distribution example
@@ -48,49 +109,97 @@ cat generation-working/final-output.json | jq '.solutions[0].aggregated_fields.t
 ```
 
 **Verify**:
+- ✅ NO descriptions present (or minimal placeholders only)
 - ✅ Specific titles (not generic)
 - ✅ Field distributions have 5-8 options
 - ✅ Percentages sum to 100%
 - ✅ Evidence-based sources (research/studies, not fallback)
 
-### Step 3: Create Insertion Script (10 min)
+### Step 4: Create Insertion Script with Deduplication (15-20 min)
 
-Create `generation-working/claude-code/insert-solutions.ts`:
+Create `generation-working/claude-code/insert-solutions-with-dedup.ts`:
 
 **Key features**:
 - Uses Supabase TypeScript client
 - Reads from `../final-output.json`
+- **CRITICAL**: Checks for existing solutions BEFORE inserting
 - Loops through all solutions
 - For each solution:
-  1. Insert into `solutions` table → get `solution_id`
-  2. Insert into `solution_variants` table (variant_name: 'Standard') → get `variant_id`
-  3. Insert into `goal_implementation_links` table with `aggregated_fields`
-- Tracks success/failure counts
+
+  **Step A: Deduplication Check**
+  ```typescript
+  // Search for existing solution by title similarity
+  const { data: existing } = await supabase
+    .from('solutions')
+    .select('id, title, solution_category')
+    .ilike('title', `%${coreTitle}%`)
+    .eq('solution_category', solution.solution_category);
+
+  let solution_id;
+  if (existing && existing.length > 0) {
+    // Use existing solution
+    solution_id = existing[0].id;
+    console.log(`  ✓ Linking to existing: ${existing[0].title}`);
+  } else {
+    // Create new solution
+    const { data: newSolution } = await supabase
+      .from('solutions')
+      .insert({
+        title: solution.title,
+        description: solution.description || '',
+        solution_category: solution.solution_category,
+        is_approved: true
+      })
+      .select('id')
+      .single();
+
+    solution_id = newSolution.id;
+    console.log(`  ✓ Created new: ${solution.title}`);
+  }
+  ```
+
+  **Step B**: Find or create variant
+  **Step C**: Create goal_implementation_link with `aggregated_fields`
+
+- Tracks: created new vs linked existing
 - Validates final count matches expected
 
 **Run**:
 ```bash
-npx tsx --env-file=.env.local generation-working/claude-code/insert-solutions.ts
+npx tsx --env-file=.env.local generation-working/claude-code/insert-solutions-with-dedup.ts
 ```
 
-### Step 4: Handle Duplicates (if any) (5-10 min)
+### Step 5: Review Deduplication Results (5 min)
 
-If insertion script reports duplicate key violations:
+Check the insertion summary:
 
-**Expected behavior**: Solutions already exist in database
-**Action**: Create variant + link for existing solutions
+```
+============================================================
+INSERTION SUMMARY
+============================================================
+✓ Linked to existing: 15 solutions
+✓ Created new: 8 solutions
+Total: 23 solutions
 
-Create `generation-working/claude-code/insert-remaining-N.ts`:
-- Query database for existing solution IDs
-- Create Standard variant (or use existing variant)
-- Create goal_implementation_link with aggregated_fields from final-output.json
+Existing solutions reused:
+  - Cognitive Behavioral Therapy
+  - Lexapro
+  - Progressive Muscle Relaxation
+  ...
 
-**Run**:
-```bash
-npx tsx --env-file=.env.local generation-working/claude-code/insert-remaining-N.ts
+New solutions created:
+  - Headspace
+  - 4-7-8 Breathing Technique
+  ...
 ```
 
-### Step 5: Validate Insertion (2 min)
+**Verify**:
+- ✅ Linked count + created count = target count
+- ✅ Solutions that SHOULD exist were linked (not recreated)
+- ✅ Only genuinely new solutions were created
+- ❌ If duplicates were created, **ROLLBACK and fix dedup logic**
+
+### Step 6: Validate Insertion (2 min)
 
 Query database to confirm count:
 
@@ -108,7 +217,7 @@ mcp__supabase__execute_sql({
 
 **Verify**: Count matches `actual_count` from final-output.json
 
-### Step 6: Archive Batch Files (CRITICAL - DO NOT SKIP)
+### Step 7: Archive Batch Files (CRITICAL - DO NOT SKIP)
 
 Move all batch and output files to archive folder:
 
@@ -156,7 +265,7 @@ EOF
 - Allows reverting if needed
 - Documents generation date and results
 
-### Step 7: Commit and Push (5 min)
+### Step 8: Commit and Push (5 min)
 
 ```bash
 git add generation-working/
@@ -213,14 +322,16 @@ Before considering the process complete:
 
 | Step | Time | Notes |
 |------|------|-------|
+| **Step 0: Create dedup reference** | **10-15 min** | **BEFORE Claude Web** |
 | Pull & validate | 5 min | Quick checks |
+| Validate titles | 5 min | Check for generic/redundant |
 | Spot-check quality | 5 min | Sample distributions |
-| Create insertion script | 10 min | Bulk insert logic |
-| Handle duplicates | 5-10 min | If needed |
+| Create insertion script | 15-20 min | With deduplication logic |
+| Review dedup results | 5 min | Verify linked vs created |
 | Validate insertion | 2 min | Count query |
 | **Archive batch files** | **5 min** | **CRITICAL STEP** |
 | Commit & push | 5 min | Git operations |
-| **Total** | **~40 min** | **For 45 solutions** |
+| **Total** | **~60 min** | **For 45 solutions** |
 
 ---
 

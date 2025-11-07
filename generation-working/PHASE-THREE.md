@@ -28,6 +28,11 @@ Combine all batch files into a single solutions array:
 2. Combine in order (batch-1, batch-2, batch-3, etc.)
 3. Verify index sequence is correct (1, 2, 3, ..., no gaps)
 
+**⚡ EFFICIENCY TIP**: Use parallel tool calls wherever possible
+- Read all 5 batch files in ONE message with 5 Read tool calls
+- Run validation scripts concurrently
+- This significantly speeds up Phase Three
+
 ### Step 2: Count Validation (2 min)
 
 Check that total solutions matches target_count from Phase One.

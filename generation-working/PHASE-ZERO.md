@@ -50,6 +50,33 @@ Generate all data **manually** using your AI knowledge of research literature, c
 - **No mechanistic patterns**: No 25/25/25/25 or 40/30/20/10 splits
 - **Exact dropdown values**: Case-sensitive match to reference file
 
+### Distribution Philosophy
+
+**Think: "What would real patient/user data look like?"**
+
+- Identify the **mode** (most common) value - typically 30-50%
+- Add 4-7 other realistic options decreasing in frequency
+- Prefer **skewed realistic distributions** like 42/28/18/8/4
+- Avoid **mechanical splits** like 25/25/25/25
+
+**Examples**:
+- Medications: Clinical trial response rates (e.g., 40% respond in 3-4 weeks)
+- Exercise: Endorphin release means "Within days" benefit common (40%)
+- Costs: Generic drugs cluster in lower price ranges (60% in "$10-25/month")
+
+### Title Formatting Standards
+
+✅ **CORRECT**:
+- "Lexapro (escitalopram)" - brand name with generic
+- "Cognitive Behavioral Therapy with licensed therapist" - specific modality
+- "Headspace meditation app" - specific product name
+- "Deep breathing exercises (4-7-8 technique)" - practice with specific method
+
+❌ **INCORRECT**:
+- "SSRIs" - too generic
+- "Therapy" - too vague
+- "Meditation" - not specific enough
+
 ---
 
 ## Required Reference Files
@@ -62,7 +89,10 @@ Before starting, review:
 2. **Dropdown Values**: `/home/user/wwfm-platform/FORM_DROPDOWN_OPTIONS_REFERENCE.md`
    - Exact values that form dropdowns accept
 
-3. **Master Instructions** (optional): `/Users/jackandrews/Desktop/wwfm-platform/scripts/claude-web-generator/CLAUDE_WEB_MASTER_INSTRUCTIONS.md`
+3. **Common Pitfalls**: `/home/user/wwfm-platform/generation-working/COMMON_PITFALLS.md`
+   - Quick reference for mistakes to avoid
+
+4. **Master Instructions** (optional): `/Users/jackandrews/Desktop/wwfm-platform/scripts/claude-web-generator/CLAUDE_WEB_MASTER_INSTRUCTIONS.md`
    - Complete quality pipeline details
 
 ---
