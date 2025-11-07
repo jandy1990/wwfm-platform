@@ -50,29 +50,26 @@ You have access to Supabase MCP tools via the connection already configured in t
 
 ### 1. Solution Count Assessment (STEP 0)
 
-Before generating solutions, you MUST assess this goal and determine the appropriate solution count.
+Before generating solutions, you MUST independently assess this goal and determine the appropriate solution count using the classification system in the master instructions.
 
-**Expected Classification**: BROAD
-**Expected Count**: 45-50 solutions
+**Your Task**:
+1. Read the STEP 0 criteria in the master instructions
+2. Classify "Reduce anxiety" as niche, typical, or broad
+3. Determine the appropriate solution count within the arena range (15-50)
+4. Provide your rationale
 
-**Why**: "Reduce anxiety" is a major mental health challenge affecting millions globally. It has extensive evidence-based solutions across multiple categories:
-- Medications (SSRIs, benzodiazepines, beta blockers)
-- Therapy (CBT, ACT, DBT, EMDR)
-- Apps & Software (Headspace, Calm, BetterHelp)
-- Meditation & Mindfulness practices
-- Exercise & Movement
-- Books & Courses
-- Supplements & Vitamins
-- Natural Remedies
-- Habits & Routines
-- Products & Devices
+**Do NOT use any predetermined count** - use your own assessment based on:
+- Goal scope and breadth
+- Population affected
+- Number of evidence-based solution categories available
+- Research literature available
 
-**Your Assessment Output**:
+**Your Assessment Output Format**:
 ```json
 {
-  "classification": "broad",
-  "target_count": 45-50,
-  "rationale": "Major mental health challenge affecting millions with extensive evidence-based solutions across 10+ categories. Medications, therapy, apps, meditation, exercise, books, supplements all have strong research support for anxiety reduction."
+  "classification": "niche|typical|broad",
+  "target_count": <your determined number 15-50>,
+  "rationale": "<your explanation for why this count is appropriate>"
 }
 ```
 
@@ -230,9 +227,9 @@ After completing all steps, provide this summary:
 ## Generation Complete: Reduce Anxiety
 
 ### STEP 0: Solution Count Assessment
-- Classification: broad
-- Target Count: [your decision 45-50]
-- Rationale: [your explanation]
+- Classification: [your classification: niche/typical/broad]
+- Target Count: [your determined count within 15-50 range]
+- Rationale: [your explanation for this count]
 
 ### STEP 1-2: Solution Generation & Validation
 - Solutions Generated: [exact count]
