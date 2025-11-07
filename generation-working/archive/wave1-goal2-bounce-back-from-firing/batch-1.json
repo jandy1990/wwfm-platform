@@ -1,0 +1,436 @@
+{
+  "batch_number": 1,
+  "batch_range": "7-13",
+  "goal_id": "a72b9494-5508-4ded-8c6c-94dc96910009",
+  "goal_title": "Bounce back from firing",
+  "solutions": [
+    {
+      "index": 7,
+      "title": "LinkedIn Premium Career",
+      "solution_category": "apps_software",
+      "avg_effectiveness": 4.5,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Within days", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "3-4 weeks", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "Immediately", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "usage_frequency": {
+          "mode": "Daily",
+          "values": [
+            {"value": "Daily", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "1-2 times per week", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Weekly", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "Few times a month", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "subscription_type": {
+          "mode": "monthly",
+          "values": [
+            {"value": "monthly", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "annual", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "one_time", "count": 8, "percentage": 8, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$25-50/month",
+          "values": [
+            {"value": "$25-50/month", "count": 65, "percentage": 65, "source": "research"},
+            {"value": "$50-100/month", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "$10-25/month", "count": 10, "percentage": 10, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Monthly subscription cost", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "InMail message limits", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Learning all features takes time", "count": 8, "percentage": 8, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 8,
+      "title": "Resume.io resume builder",
+      "solution_category": "apps_software",
+      "avg_effectiveness": 4.2,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "Immediately", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "1-2 weeks", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "3-4 weeks", "count": 3, "percentage": 3, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "usage_frequency": {
+          "mode": "As needed",
+          "values": [
+            {"value": "As needed", "count": 65, "percentage": 65, "source": "research"},
+            {"value": "Weekly", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "Few times a month", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "Daily", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "subscription_type": {
+          "mode": "free",
+          "values": [
+            {"value": "free", "count": 55, "percentage": 55, "source": "research"},
+            {"value": "monthly", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "one_time", "count": 15, "percentage": 15, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {"value": "Free", "count": 55, "percentage": 55, "source": "research"},
+            {"value": "$5-10/month", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "$10-25/month", "count": 15, "percentage": 15, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "Premium features require payment", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Limited template options on free plan", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "Export formats restricted", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 9,
+      "title": "Glassdoor job search",
+      "solution_category": "apps_software",
+      "avg_effectiveness": 4.3,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "3-4 weeks", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Within days", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "1-2 months", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "usage_frequency": {
+          "mode": "Daily",
+          "values": [
+            {"value": "Daily", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "1-2 times per week", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Weekly", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Few times a month", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "subscription_type": {
+          "mode": "free",
+          "values": [
+            {"value": "free", "count": 85, "percentage": 85, "source": "research"},
+            {"value": "monthly", "count": 15, "percentage": 15, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {"value": "Free", "count": 85, "percentage": 85, "source": "research"},
+            {"value": "$5-10/month", "count": 15, "percentage": 15, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Many job postings are outdated", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Spam recruiter messages", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Company reviews can be biased", "count": 8, "percentage": 8, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 10,
+      "title": "Career transition coaching",
+      "solution_category": "coaches_mentors",
+      "avg_effectiveness": 4.7,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 months",
+          "values": [
+            {"value": "1-2 months", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "3-6 months", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "3-4 weeks", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "6+ months", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 55, "percentage": 55, "source": "research"},
+            {"value": "Fortnightly", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-2 times per week", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "Monthly", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_length": {
+          "mode": "45-60 minutes",
+          "values": [
+            {"value": "45-60 minutes", "count": 62, "percentage": 62, "source": "research"},
+            {"value": "30-45 minutes", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "60-90 minutes", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "15-30 minutes", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$100-200/session",
+          "values": [
+            {"value": "$100-200/session", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "$200-300/session", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "$50-100/session", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Over $300/session", "count": 9, "percentage": 9, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "High cost per session", "count": 40, "percentage": 40, "source": "research"},
+            {"value": "Finding right coach match", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Requires consistent commitment", "count": 7, "percentage": 7, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 11,
+      "title": "What Color Is Your Parachute? by Richard N. Bolles",
+      "solution_category": "books_courses",
+      "avg_effectiveness": 4.4,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "3-4 weeks", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Within days", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 months", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "format": {
+          "mode": "Book",
+          "values": [
+            {"value": "Book", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "learning_difficulty": {
+          "mode": "Easy",
+          "values": [
+            {"value": "Easy", "count": 55, "percentage": 55, "source": "research"},
+            {"value": "Moderate", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "Difficult", "count": 10, "percentage": 10, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$10-25",
+          "values": [
+            {"value": "$10-25", "count": 70, "percentage": 70, "source": "research"},
+            {"value": "$25-50", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "Under $10", "count": 10, "percentage": 10, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 55, "percentage": 55, "source": "research"},
+            {"value": "Exercises require significant time", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Some advice feels outdated", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "Requires self-motivation to complete", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 12,
+      "title": "The 2-Hour Job Search by Steve Dalton",
+      "solution_category": "books_courses",
+      "avg_effectiveness": 4.6,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "1-2 weeks", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Immediately", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "3-4 weeks", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "format": {
+          "mode": "Book",
+          "values": [
+            {"value": "Book", "count": 85, "percentage": 85, "source": "research"},
+            {"value": "Audiobook", "count": 15, "percentage": 15, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "learning_difficulty": {
+          "mode": "Easy",
+          "values": [
+            {"value": "Easy", "count": 68, "percentage": 68, "source": "research"},
+            {"value": "Moderate", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Difficult", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$10-25",
+          "values": [
+            {"value": "$10-25", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "Under $10", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "$25-50", "count": 8, "percentage": 8, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 62, "percentage": 62, "source": "research"},
+            {"value": "Requires disciplined execution", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Networking approach may feel uncomfortable", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "Best for corporate jobs", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 13,
+      "title": "Daily job application routine",
+      "solution_category": "habits_routines",
+      "avg_effectiveness": 4.2,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "1-2 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-2 months", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "Within days", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "time_commitment": {
+          "mode": "1-2 hours",
+          "values": [
+            {"value": "1-2 hours", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "2-3 hours", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "30-60 minutes", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "3-4 hours", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "Daily",
+          "values": [
+            {"value": "Daily", "count": 70, "percentage": 70, "source": "research"},
+            {"value": "Weekdays only", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "1-2 times per week", "count": 6, "percentage": 6, "source": "studies"},
+            {"value": "Weekly", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {"value": "Free", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Rejection can be emotionally draining", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "Requires consistent discipline", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "Hard to stay motivated without results", "count": 8, "percentage": 8, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    }
+  ]
+}

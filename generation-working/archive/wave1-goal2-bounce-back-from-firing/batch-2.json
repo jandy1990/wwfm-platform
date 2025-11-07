@@ -1,0 +1,439 @@
+{
+  "batch_number": 2,
+  "batch_range": "14-20",
+  "goal_id": "a72b9494-5508-4ded-8c6c-94dc96910009",
+  "goal_title": "Bounce back from firing",
+  "solutions": [
+    {
+      "index": 14,
+      "title": "Informational interview outreach",
+      "solution_category": "habits_routines",
+      "avg_effectiveness": 4.5,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "3-4 weeks", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Within days", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 months", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "time_commitment": {
+          "mode": "30-60 minutes",
+          "values": [
+            {"value": "30-60 minutes", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "1-2 hours", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "Under 30 minutes", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "2-3 hours", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "1-2 times per week", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Few times a month", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Daily", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {"value": "Free", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Requires overcoming cold outreach fear", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "Low response rates can be discouraging", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "Finding right contacts to reach out to", "count": 12, "percentage": 12, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 15,
+      "title": "BetterUp career coaching",
+      "solution_category": "coaches_mentors",
+      "avg_effectiveness": 4.6,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 months",
+          "values": [
+            {"value": "1-2 months", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "3-4 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "3-6 months", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 weeks", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_frequency": {
+          "mode": "Fortnightly",
+          "values": [
+            {"value": "Fortnightly", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "Weekly", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Monthly", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "As needed", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_length": {
+          "mode": "45-60 minutes",
+          "values": [
+            {"value": "45-60 minutes", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "30-45 minutes", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "60-90 minutes", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "15-30 minutes", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$200-300/session",
+          "values": [
+            {"value": "$200-300/session", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "$100-200/session", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Over $300/session", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "$50-100/session", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "High monthly cost", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Platform-based vs in-person", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Requires long-term commitment", "count": 10, "percentage": 10, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 16,
+      "title": "Professional association membership",
+      "solution_category": "groups_communities",
+      "avg_effectiveness": 4.3,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 months",
+          "values": [
+            {"value": "1-2 months", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "3-6 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "3-4 weeks", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "6+ months", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "meeting_frequency": {
+          "mode": "Monthly",
+          "values": [
+            {"value": "Monthly", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "Quarterly", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Fortnightly", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "As needed", "count": 8, "percentage": 8, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "group_size": {
+          "mode": "20+ people",
+          "values": [
+            {"value": "20+ people", "count": 65, "percentage": 65, "source": "research"},
+            {"value": "11-20 people", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "5-10 people", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "2-4 people", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$50-100/year",
+          "values": [
+            {"value": "$50-100/year", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "$100-200/year", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "$25-50/year", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Over $200/year", "count": 8, "percentage": 8, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Annual membership fee", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Events may not align with schedule", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Value depends on active participation", "count": 8, "percentage": 8, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 17,
+      "title": "Industry-specific Slack communities",
+      "solution_category": "groups_communities",
+      "avg_effectiveness": 4.1,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "Immediately", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "1-2 weeks", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "3-4 weeks", "count": 5, "percentage": 5, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "meeting_frequency": {
+          "mode": "Async (no meetings)",
+          "values": [
+            {"value": "Async (no meetings)", "count": 78, "percentage": 78, "source": "research"},
+            {"value": "As needed", "count": 15, "percentage": 15, "source": "research"},
+            {"value": "Monthly", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Weekly", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "group_size": {
+          "mode": "20+ people",
+          "values": [
+            {"value": "20+ people", "count": 85, "percentage": 85, "source": "research"},
+            {"value": "11-20 people", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "5-10 people", "count": 5, "percentage": 5, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {"value": "Free", "count": 90, "percentage": 90, "source": "research"},
+            {"value": "$5-10/month", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "$10-25/month", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Information overload from notifications", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Quality varies by community", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Finding the right communities to join", "count": 8, "percentage": 8, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 18,
+      "title": "Emergency fund planning",
+      "solution_category": "financial_products",
+      "avg_effectiveness": 4.7,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Immediately",
+          "values": [
+            {"value": "Immediately", "count": 62, "percentage": 62, "source": "research"},
+            {"value": "Within days", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "1-2 weeks", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "Still evaluating", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "financial_benefit": {
+          "mode": "Reduces financial stress",
+          "values": [
+            {"value": "Reduces financial stress", "count": 68, "percentage": 68, "source": "research"},
+            {"value": "Provides 3-6 months expenses", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "Increases financial security", "count": 10, "percentage": 10, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "access_time": {
+          "mode": "Same day",
+          "values": [
+            {"value": "Same day", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "1-3 business days", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "3-5 business days", "count": 6, "percentage": 6, "source": "studies"},
+            {"value": "1 week", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free",
+          "values": [
+            {"value": "Free", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Building fund while unemployed difficult", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Requires significant savings discipline", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "May need to tap into existing savings", "count": 8, "percentage": 8, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 19,
+      "title": "Outplacement counseling services",
+      "solution_category": "professional_services",
+      "avg_effectiveness": 4.5,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Within days", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "3-4 weeks", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 months", "count": 7, "percentage": 7, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "As needed", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Fortnightly", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "1-2 times per week", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "specialty": {
+          "mode": "Career transition support",
+          "values": [
+            {"value": "Career transition support", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Employer-covered",
+          "values": [
+            {"value": "Employer-covered", "count": 75, "percentage": 75, "source": "research"},
+            {"value": "$1,000-5,000", "count": 15, "percentage": 15, "source": "research"},
+            {"value": "$500-1,000", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Over $5,000", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Only available if employer provides", "count": 40, "percentage": 40, "source": "research"},
+            {"value": "Quality varies by provider", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "Time-limited access", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 20,
+      "title": "Coursera Professional Certificates",
+      "solution_category": "books_courses",
+      "avg_effectiveness": 4.4,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 months",
+          "values": [
+            {"value": "1-2 months", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "3-6 months", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "3-4 weeks", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "6+ months", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "format": {
+          "mode": "Online course",
+          "values": [
+            {"value": "Online course", "count": 100, "percentage": 100, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "learning_difficulty": {
+          "mode": "Moderate",
+          "values": [
+            {"value": "Moderate", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "Easy", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Difficult", "count": 14, "percentage": 14, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$25-50/month",
+          "values": [
+            {"value": "$25-50/month", "count": 68, "percentage": 68, "source": "research"},
+            {"value": "$50-100/month", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "$10-25/month", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "Free", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Requires self-paced discipline", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "Monthly subscription while learning", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Certificate value varies by industry", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    }
+  ]
+}

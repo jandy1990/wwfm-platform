@@ -1,0 +1,114 @@
+{
+  "goal_id": "a72b9494-5508-4ded-8c6c-94dc96910009",
+  "goal_title": "Bounce back from firing",
+  "classification": "typical",
+  "target_count": 20,
+  "solutions": [
+    {
+      "index": 1,
+      "title": "EdX Professional Certificates",
+      "solution_category": "books_courses",
+      "note": "EXISTING - already in goal"
+    },
+    {
+      "index": 2,
+      "title": "Anki",
+      "solution_category": "apps_software",
+      "note": "EXISTING - already in goal"
+    },
+    {
+      "index": 3,
+      "title": "Morning Pages (from 'The Artist's Way')",
+      "solution_category": "habits_routines",
+      "note": "EXISTING - already in goal"
+    },
+    {
+      "index": 4,
+      "title": "Networking with 'Never Eat Alone' by Keith Ferrazzi",
+      "solution_category": "books_courses",
+      "note": "EXISTING - already in goal"
+    },
+    {
+      "index": 5,
+      "title": "Volunteering with Points of Light Engage",
+      "solution_category": "apps_software",
+      "note": "EXISTING - already in goal"
+    },
+    {
+      "index": 6,
+      "title": "Seek and Embrace Feedback",
+      "solution_category": "habits_routines",
+      "note": "EXISTING - already in goal"
+    },
+    {
+      "index": 7,
+      "title": "LinkedIn Premium Career",
+      "solution_category": "apps_software"
+    },
+    {
+      "index": 8,
+      "title": "Resume.io resume builder",
+      "solution_category": "apps_software"
+    },
+    {
+      "index": 9,
+      "title": "Glassdoor job search",
+      "solution_category": "apps_software"
+    },
+    {
+      "index": 10,
+      "title": "Career transition coaching",
+      "solution_category": "coaches_mentors"
+    },
+    {
+      "index": 11,
+      "title": "What Color Is Your Parachute? by Richard N. Bolles",
+      "solution_category": "books_courses"
+    },
+    {
+      "index": 12,
+      "title": "The 2-Hour Job Search by Steve Dalton",
+      "solution_category": "books_courses"
+    },
+    {
+      "index": 13,
+      "title": "Daily job application routine",
+      "solution_category": "habits_routines"
+    },
+    {
+      "index": 14,
+      "title": "Informational interview outreach",
+      "solution_category": "habits_routines"
+    },
+    {
+      "index": 15,
+      "title": "BetterUp career coaching",
+      "solution_category": "coaches_mentors"
+    },
+    {
+      "index": 16,
+      "title": "Professional association membership",
+      "solution_category": "groups_communities"
+    },
+    {
+      "index": 17,
+      "title": "Industry-specific Slack communities",
+      "solution_category": "groups_communities"
+    },
+    {
+      "index": 18,
+      "title": "Emergency fund planning",
+      "solution_category": "financial_products"
+    },
+    {
+      "index": 19,
+      "title": "Outplacement counseling services",
+      "solution_category": "professional_services"
+    },
+    {
+      "index": 20,
+      "title": "Coursera Professional Certificates",
+      "solution_category": "books_courses"
+    }
+  ]
+}
