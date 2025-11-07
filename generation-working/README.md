@@ -10,38 +10,31 @@ Active workspace for Claude Web solution generation and quality testing.
 **Arena**: Feeling & Emotion
 **Solution Count Range**: 15-50 (typical: 35)
 
-### Expected Classification
-- **Classification**: BROAD
-- **Target Count**: 45-50 solutions
-- **Rationale**: Major mental health challenge affecting millions, extensive evidence-based solutions across medications, therapy, apps, meditation, exercise, books, supplements
+### Process
 
-### BEFORE (Current State)
+1. **STAGE 1-2**: ✅ Backup and delete existing 22 solutions
+2. **STAGE 3**: ⏳ Claude Web generates 45 solutions as JSON (manual, evidence-based)
+3. **STAGE 4**: ⏳ Validate and insert JSON using local MCP access
+4. **STAGE 5**: ⏳ Export and compare BEFORE vs AFTER quality
+
+### BEFORE (Baseline)
 - **Solutions**: 22 (21 unique)
 - **Avg Effectiveness**: 4.01/5.0
 - **Quality Score**: 86% (3 minor issues)
 - **Data**: `data/before-reduce-anxiety.json`
 - **Report**: `data/before-quality-report.md`
 
-### AFTER (To Be Generated)
-- **Expected**: 45-50 solutions
-- **System**: Hardened Claude Web with flexible count
+### AFTER (Target)
+- **Expected**: 45 solutions
+- **Method**: Manual Claude Web generation (no scripts)
 - **Quality Target**: ≥86% (match or exceed BEFORE)
+- **Output**: `reduce-anxiety-45-solutions.json`
 
-## Folder Structure
+## Key Files
 
-```
-generation-working/
-├── data/           # Exported solution data (before/after)
-├── reports/        # Quality analysis reports
-├── scripts/        # Custom export/analysis scripts
-└── backup/         # Database backups before deletion
-```
-
-## Next Steps
-
-1. ✅ Flexible count system implemented
-2. ⏳ Backup existing 22 solutions
-3. ⏳ Clear goal-solution links (preserve solutions)
-4. ⏳ Generate 45-50 new solutions via Claude Web
-5. ⏳ Export and analyze AFTER data
-6. ⏳ Compare quality: BEFORE vs AFTER
+- `CLAUDE_WEB_EXECUTION_PROMPT.md` - Main instructions for Claude Web
+- `JSON_OUTPUT_INSTRUCTIONS.md` - JSON format specification
+- `RESPONSE_TO_CLAUDE_WEB.md` - Response about generator script concern
+- `backup/` - Backup of 22 deleted links (link-ids-before-deletion.json)
+- `data/` - BEFORE data export for comparison
+- `archive/` - Failed connection attempt files (REST API, psql, etc.)

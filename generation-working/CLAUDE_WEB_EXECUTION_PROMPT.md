@@ -16,51 +16,38 @@ Execute the **complete WWFM solution generation pipeline** for a single goal, ge
 
 ---
 
+## ⚠️ CRITICAL: Manual Generation Only
+
+**DO NOT write a generator script.** Generate all solutions manually using your AI knowledge of:
+- Research literature on anxiety treatments
+- Clinical evidence and studies
+- Real-world usage patterns
+- Evidence-based distribution data
+
+Scripts produce mechanistic/formulaic data. We need thoughtful, evidence-based generation for each solution.
+
+---
+
 ## 📖 Master Instructions
 
 **Read and follow ALL instructions in this file**:
 `/Users/jackandrews/Desktop/wwfm-platform/scripts/claude-web-generator/CLAUDE_WEB_MASTER_INSTRUCTIONS.md`
 
-This file contains the complete 6-step pipeline:
+Follow the pipeline through STEP 3, then output as JSON:
 - STEP 0: Determine solution count (assess goal scope)
 - STEP 1: Generate solutions
 - STEP 2: Validate solutions
 - STEP 3: Generate field distributions
-- STEP 4: Insert into Supabase database
-- STEP 5: Validate insertion
+- OUTPUT: Save all solutions as JSON file
 
 ---
 
-## 🔑 Database Access
+## 🔑 Output Format
 
-**Database**: Production WWFM database (wqxkhxdbxdtpuvuvgirx.supabase.co)
+**Generate all solutions as JSON** and save to:
+`/home/user/wwfm-platform/generation-working/reduce-anxiety-45-solutions.json`
 
-**Connection Guide**: `/home/user/wwfm-platform/generation-working/SUPABASE_CONNECTION_GUIDE.md`
-
-**FIRST: Test your connection** by running:
-```bash
-bash /home/user/wwfm-platform/generation-working/test-connection.sh
-```
-This will verify database access and confirm the goal is ready (0 existing solutions).
-
-**Three Access Methods** (in order of preference):
-
-1. **Supabase REST API** (via curl) - RECOMMENDED for Claude Web
-   - Direct HTTP calls to Supabase REST API
-   - No dependencies required
-   - See connection guide for curl examples
-
-2. **PostgreSQL Direct** (via psql)
-   - Direct database connection
-   - Connection string in guide
-   - Good fallback if REST API has issues
-
-3. **Supabase MCP Tools** (if configured)
-   - `mcp__supabase__execute_sql`
-   - `mcp__supabase__list_tables`
-   - May not be available in all environments
-
-**If all methods fail**: Generate solution data as JSON files for manual insertion
+The JSON will be inserted into the database separately. See `/home/user/wwfm-platform/generation-working/JSON_OUTPUT_INSTRUCTIONS.md` for complete format specification.
 
 ---
 
@@ -116,156 +103,44 @@ sum(all_percentages) == 100
 ```
 If not 100%, regenerate that field before proceeding.
 
-### 4. Database Insertion (STEP 4)
+### 4. Output JSON File
 
-For each solution, execute this 3-step process:
+Save all solutions to:
+`/home/user/wwfm-platform/generation-working/reduce-anxiety-45-solutions.json`
 
-**Step 4.1: Check for existing solution** (deduplication)
-```sql
-SELECT s.id, s.title, s.solution_category
-FROM solutions s
-JOIN solution_variants sv ON sv.solution_id = s.id
-JOIN goal_implementation_links gil ON gil.implementation_id = sv.id
-WHERE gil.goal_id = '56e2801e-0d78-4abd-a795-869e5b780ae7'
-  AND s.solution_category = 'category_you_plan_to_insert';
+Format specification in: `/home/user/wwfm-platform/generation-working/JSON_OUTPUT_INSTRUCTIONS.md`
+
+**Required structure:**
+```json
+{
+  "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+  "goal_title": "Reduce anxiety",
+  "classification": "broad|typical|niche",
+  "target_count": 45,
+  "solutions": [
+    {
+      "title": "Solution Name",
+      "description": "...",
+      "solution_category": "category_name",
+      "avg_effectiveness": 4.5,
+      "aggregated_fields": { ... }
+    }
+  ]
+}
 ```
 
-If very similar solution exists → Skip and generate different solution
-
-**Step 4.2: Insert solution record**
-```sql
-INSERT INTO solutions (
-  id,
-  title,
-  description,
-  solution_category,
-  created_at,
-  updated_at,
-  is_approved
-) VALUES (
-  gen_random_uuid(),
-  'Solution Title',
-  'Solution description...',
-  'category_name',
-  NOW(),
-  NOW(),
-  true
-) RETURNING id;
-```
-
-Save the returned `solution_id` for next steps.
-
-**Step 4.3: Insert variants** (ONLY for medications, supplements_vitamins, natural_remedies, beauty_skincare)
-```sql
-INSERT INTO solution_variants (solution_id, amount, unit, form)
-VALUES
-  ('solution_id_from_4.2', 25, 'mg', 'tablet'),
-  ('solution_id_from_4.2', 50, 'mg', 'tablet'),
-  ('solution_id_from_4.2', 100, 'mg', 'tablet')
-RETURNING id;
-```
-
-Save the FIRST returned variant_id (use the default/most common dosage).
-
-For non-dosage categories, create a single "Standard" variant:
-```sql
-INSERT INTO solution_variants (solution_id, variant_name)
-VALUES ('solution_id_from_4.2', 'Standard')
-RETURNING id;
-```
-
-**Step 4.4: Create goal-solution link**
-```sql
-INSERT INTO goal_implementation_links (
-  id,
-  goal_id,
-  implementation_id,
-  avg_effectiveness,
-  aggregated_fields,
-  created_at,
-  updated_at
-) VALUES (
-  gen_random_uuid(),
-  '56e2801e-0d78-4abd-a795-869e5b780ae7',
-  'variant_id_from_4.3',
-  4.3,
-  '{"time_to_results": {...}, "frequency": {...}}'::jsonb,
-  NOW(),
-  NOW()
-);
-```
-
-**CRITICAL**: `aggregated_fields` must contain ALL field distributions from STEP 3 in JSONB format.
-
-### 5. Final Validation (STEP 5)
-
-After inserting all solutions, verify:
-
-```sql
--- Count check (should match target_count from STEP 0)
-SELECT COUNT(*) as solution_count
-FROM goal_implementation_links
-WHERE goal_id = '56e2801e-0d78-4abd-a795-869e5b780ae7';
-```
-
-Expected: 45-50 solutions
-
-```sql
--- Percentage sum check (all fields should sum to 100%)
-SELECT
-  s.title,
-  jsonb_object_keys(gil.aggregated_fields) as field_name,
-  (
-    SELECT SUM((value->>'percentage')::int)
-    FROM jsonb_array_elements(
-      gil.aggregated_fields->jsonb_object_keys(gil.aggregated_fields)->'values'
-    ) AS value
-  ) as percentage_sum
-FROM goal_implementation_links gil
-JOIN solution_variants sv ON sv.id = gil.implementation_id
-JOIN solutions s ON s.id = sv.solution_id
-WHERE gil.goal_id = '56e2801e-0d78-4abd-a795-869e5b780ae7'
-  AND (
-    SELECT SUM((value->>'percentage')::int)
-    FROM jsonb_array_elements(
-      gil.aggregated_fields->jsonb_object_keys(gil.aggregated_fields)->'values'
-    ) AS value
-  ) != 100;
-```
-
-Expected: 0 rows (all sums = 100%)
+**Final checklist:**
+- ✅ All percentages sum to 100% for each field
+- ✅ 5-8 distribution options per field
+- ✅ All dropdown values match `FORM_DROPDOWN_OPTIONS_REFERENCE.md`
+- ✅ Correct category fields for each solution
+- ✅ All 45 solutions included
 
 ---
 
-## ✅ Final Confirmation
+## ✅ Completion
 
-After completing STEP 5 validation, confirm completion with a simple message:
+When finished, confirm you've saved the JSON file to:
+`/home/user/wwfm-platform/generation-working/reduce-anxiety-45-solutions.json`
 
-```
-✅ Generation complete for "Reduce anxiety"
-- Solutions inserted: [count]
-- Classification: [niche/typical/broad]
-- All validation queries passed
-```
-
----
-
-## ⏱️ Estimated Time
-
-**2-3 hours** for 45-50 high-quality solutions with complete pipeline execution
-
----
-
-## 🚀 Ready to Execute
-
-You have everything you need:
-1. ✅ Master instructions file location
-2. ✅ Goal information and expected classification
-3. ✅ Database access via MCP tools
-4. ✅ Quality standards and validation requirements
-5. ✅ SQL templates for all operations
-6. ✅ Final validation queries
-
-**Execute the full pipeline now.** Generate 45-50 evidence-based, high-quality solutions for "Reduce anxiety" and insert them directly into the production database.
-
-Good luck! 🎯
+The file will be validated and inserted into the database separately.
