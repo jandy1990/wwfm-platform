@@ -1,0 +1,702 @@
+{
+  "batch_number": 1,
+  "batch_range": "1-10",
+  "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+  "goal_title": "Reduce anxiety",
+  "solutions": [
+    {
+      "index": 1,
+      "title": "Lexapro (escitalopram)",
+      "description": "FDA-approved SSRI (selective serotonin reuptake inhibitor) for generalized anxiety disorder and panic disorder. Works by increasing serotonin levels in the brain to help regulate mood and reduce anxiety symptoms. Well-established first-line treatment with extensive clinical trial data.",
+      "solution_category": "medications",
+      "avg_effectiveness": 4.3,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "1-2 weeks", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "1-2 months", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "Within days", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "3-6 months", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "1-2 times per day",
+          "values": [
+            {"value": "1-2 times per day", "count": 88, "percentage": 88, "source": "research"},
+            {"value": "At bedtime", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "With meals", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "length_of_use": {
+          "mode": "6+ months",
+          "values": [
+            {"value": "6+ months", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "3-6 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-3 months", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Under 1 month", "count": 7, "percentage": 7, "source": "research"},
+            {"value": "Still using", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {"value": "$10-25/month", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Under $10/month", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "$25-50/month", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Free (samples/covered)", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "$50-100/month", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "Mild nausea initially",
+          "values": [
+            {"value": "Mild nausea initially", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "None or minimal", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Sleep disturbances", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Sexual side effects", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Headache", "count": 6, "percentage": 6, "source": "studies"},
+            {"value": "Drowsiness or fatigue", "count": 4, "percentage": 4, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 2,
+      "title": "Zoloft (sertraline)",
+      "description": "FDA-approved SSRI widely prescribed for generalized anxiety disorder, panic disorder, social anxiety disorder, and PTSD. One of the most commonly prescribed antidepressants with robust clinical evidence for anxiety treatment. Generally well-tolerated with a favorable side effect profile.",
+      "solution_category": "medications",
+      "avg_effectiveness": 4.2,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 40, "percentage": 40, "source": "research"},
+            {"value": "1-2 weeks", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "1-2 months", "count": 24, "percentage": 24, "source": "research"},
+            {"value": "Within days", "count": 7, "percentage": 7, "source": "studies"},
+            {"value": "3-6 months", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "1-2 times per day",
+          "values": [
+            {"value": "1-2 times per day", "count": 85, "percentage": 85, "source": "research"},
+            {"value": "At bedtime", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "With meals", "count": 5, "percentage": 5, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "length_of_use": {
+          "mode": "6+ months",
+          "values": [
+            {"value": "6+ months", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "3-6 months", "count": 26, "percentage": 26, "source": "research"},
+            {"value": "1-3 months", "count": 17, "percentage": 17, "source": "studies"},
+            {"value": "Under 1 month", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Still using", "count": 4, "percentage": 4, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {"value": "$10-25/month", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Under $10/month", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "$25-50/month", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "Free (samples/covered)", "count": 7, "percentage": 7, "source": "research"},
+            {"value": "$50-100/month", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "None or minimal",
+          "values": [
+            {"value": "None or minimal", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Mild nausea initially", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Sleep disturbances", "count": 16, "percentage": 16, "source": "studies"},
+            {"value": "Sexual side effects", "count": 14, "percentage": 14, "source": "research"},
+            {"value": "Drowsiness or fatigue", "count": 7, "percentage": 7, "source": "studies"},
+            {"value": "Headache", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 3,
+      "title": "Prozac (fluoxetine)",
+      "description": "Long-established SSRI approved for panic disorder and OCD, widely used off-label for generalized anxiety. Unique longer half-life means more forgiving if doses are missed. Known for energizing effects which can be helpful for anxiety with depression but may initially increase anxiety in some.",
+      "solution_category": "medications",
+      "avg_effectiveness": 4.1,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "1-2 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-2 weeks", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "3-6 months", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Within days", "count": 6, "percentage": 6, "source": "studies"},
+            {"value": "Still evaluating", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "1-2 times per day",
+          "values": [
+            {"value": "1-2 times per day", "count": 92, "percentage": 92, "source": "research"},
+            {"value": "With meals", "count": 5, "percentage": 5, "source": "research"},
+            {"value": "At bedtime", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "length_of_use": {
+          "mode": "6+ months",
+          "values": [
+            {"value": "6+ months", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "3-6 months", "count": 24, "percentage": 24, "source": "research"},
+            {"value": "1-3 months", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Under 1 month", "count": 9, "percentage": 9, "source": "research"},
+            {"value": "Still using", "count": 4, "percentage": 4, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {"value": "$10-25/month", "count": 40, "percentage": 40, "source": "research"},
+            {"value": "Under $10/month", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "$25-50/month", "count": 13, "percentage": 13, "source": "studies"},
+            {"value": "Free (samples/covered)", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "$50-100/month", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "None or minimal",
+          "values": [
+            {"value": "None or minimal", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Initial anxiety increase", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "Sleep disturbances", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Sexual side effects", "count": 13, "percentage": 13, "source": "research"},
+            {"value": "Mild nausea initially", "count": 9, "percentage": 9, "source": "studies"},
+            {"value": "Headache", "count": 6, "percentage": 6, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 4,
+      "title": "Buspar (buspirone)",
+      "description": "Non-benzodiazepine anxiolytic specifically approved for generalized anxiety disorder. Works through serotonin and dopamine receptors with no addiction potential or sedation. Takes longer to work than benzodiazepines but preferred for long-term anxiety management without dependency concerns.",
+      "solution_category": "medications",
+      "avg_effectiveness": 3.8,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "1-2 months", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "1-2 weeks", "count": 18, "percentage": 18, "source": "research"},
+            {"value": "3-6 months", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Still evaluating", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "Within days", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "3 times per day",
+          "values": [
+            {"value": "3 times per day", "count": 62, "percentage": 62, "source": "research"},
+            {"value": "1-2 times per day", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "With meals", "count": 6, "percentage": 6, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "length_of_use": {
+          "mode": "3-6 months",
+          "values": [
+            {"value": "3-6 months", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "6+ months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-3 months", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "Under 1 month", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Still using", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {"value": "$10-25/month", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "$25-50/month", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Under $10/month", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "$50-100/month", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Free (samples/covered)", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "None or minimal",
+          "values": [
+            {"value": "None or minimal", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Dizziness or lightheadedness", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Headache", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Mild nausea initially", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Drowsiness or fatigue", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Nervousness initially", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 5,
+      "title": "Effexor XR (venlafaxine)",
+      "description": "SNRI (serotonin-norepinephrine reuptake inhibitor) FDA-approved for generalized anxiety disorder, social anxiety disorder, and panic disorder. Affects both serotonin and norepinephrine neurotransmitters. Often prescribed when SSRIs haven't been fully effective or for anxiety with significant fatigue.",
+      "solution_category": "medications",
+      "avg_effectiveness": 4.2,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 36, "percentage": 36, "source": "research"},
+            {"value": "1-2 weeks", "count": 26, "percentage": 26, "source": "research"},
+            {"value": "1-2 months", "count": 24, "percentage": 24, "source": "research"},
+            {"value": "Within days", "count": 7, "percentage": 7, "source": "studies"},
+            {"value": "3-6 months", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "1-2 times per day",
+          "values": [
+            {"value": "1-2 times per day", "count": 94, "percentage": 94, "source": "research"},
+            {"value": "With meals", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "At bedtime", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "length_of_use": {
+          "mode": "6+ months",
+          "values": [
+            {"value": "6+ months", "count": 46, "percentage": 46, "source": "research"},
+            {"value": "3-6 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-3 months", "count": 16, "percentage": 16, "source": "studies"},
+            {"value": "Under 1 month", "count": 7, "percentage": 7, "source": "research"},
+            {"value": "Still using", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$25-50/month",
+          "values": [
+            {"value": "$25-50/month", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "$10-25/month", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "$50-100/month", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Under $10/month", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Free (samples/covered)", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "Mild nausea initially",
+          "values": [
+            {"value": "Mild nausea initially", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "None or minimal", "count": 24, "percentage": 24, "source": "research"},
+            {"value": "Increased blood pressure", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Sleep disturbances", "count": 14, "percentage": 14, "source": "research"},
+            {"value": "Sexual side effects", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Drowsiness or fatigue", "count": 6, "percentage": 6, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 6,
+      "title": "Cognitive Behavioral Therapy with licensed therapist",
+      "description": "Gold-standard evidence-based psychotherapy for anxiety disorders. Focuses on identifying and changing negative thought patterns and behaviors that contribute to anxiety. Includes practical skill-building for managing worry, exposure techniques, and cognitive restructuring. Considered first-line treatment with lasting benefits.",
+      "solution_category": "therapists_counselors",
+      "avg_effectiveness": 4.6,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "1-2 months", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "1-2 weeks", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "3-6 months", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Within days", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 78, "percentage": 78, "source": "research"},
+            {"value": "Fortnightly", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Multiple times per week", "count": 6, "percentage": 6, "source": "studies"},
+            {"value": "Monthly", "count": 4, "percentage": 4, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_length": {
+          "mode": "45-60 minutes",
+          "values": [
+            {"value": "45-60 minutes", "count": 82, "percentage": 82, "source": "research"},
+            {"value": "60-90 minutes", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "30-45 minutes", "count": 6, "percentage": 6, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$100-200",
+          "values": [
+            {"value": "$100-200", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "$50-100", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "$200-300", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Over $500", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Free", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "High cost",
+          "values": [
+            {"value": "High cost", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "Finding qualified professionals", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "None", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Limited availability", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Scheduling conflicts", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Not covered by insurance", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 7,
+      "title": "Acceptance and Commitment Therapy (ACT) with therapist",
+      "description": "Evidence-based mindfulness and acceptance-based therapy for anxiety. Teaches psychological flexibility through accepting difficult thoughts and feelings rather than fighting them, while committing to values-based action. Uses metaphors, mindfulness, and experiential exercises. Growing research base for anxiety disorders.",
+      "solution_category": "therapists_counselors",
+      "avg_effectiveness": 4.4,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 months",
+          "values": [
+            {"value": "1-2 months", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "3-4 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "3-6 months", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "1-2 weeks", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Within days", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 75, "percentage": 75, "source": "research"},
+            {"value": "Fortnightly", "count": 15, "percentage": 15, "source": "research"},
+            {"value": "Multiple times per week", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Monthly", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_length": {
+          "mode": "45-60 minutes",
+          "values": [
+            {"value": "45-60 minutes", "count": 80, "percentage": 80, "source": "research"},
+            {"value": "60-90 minutes", "count": 14, "percentage": 14, "source": "research"},
+            {"value": "30-45 minutes", "count": 6, "percentage": 6, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$100-200",
+          "values": [
+            {"value": "$100-200", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "$50-100", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "$200-300", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "Over $500", "count": 5, "percentage": 5, "source": "research"},
+            {"value": "Free", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "Finding qualified professionals",
+          "values": [
+            {"value": "Finding qualified professionals", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "High cost", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "None", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Limited availability", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Unclear about what I need", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Not covered by insurance", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 8,
+      "title": "Exposure therapy with licensed therapist",
+      "description": "Highly effective behavioral treatment for phobias, panic disorder, OCD, and PTSD. Involves gradual, systematic exposure to feared situations or objects in a safe environment with therapist guidance. Builds on extinction learning principles. Gold standard for specific phobias and often combined with cognitive therapy.",
+      "solution_category": "therapists_counselors",
+      "avg_effectiveness": 4.5,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 months",
+          "values": [
+            {"value": "1-2 months", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "3-4 weeks", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "3-6 months", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 weeks", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Within days", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 70, "percentage": 70, "source": "research"},
+            {"value": "Multiple times per week", "count": 18, "percentage": 18, "source": "research"},
+            {"value": "Fortnightly", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "As needed", "count": 4, "percentage": 4, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_length": {
+          "mode": "60-90 minutes",
+          "values": [
+            {"value": "60-90 minutes", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "45-60 minutes", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "90-120 minutes", "count": 7, "percentage": 7, "source": "studies"},
+            {"value": "30-45 minutes", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$100-200",
+          "values": [
+            {"value": "$100-200", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "$200-300", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "$50-100", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Over $500", "count": 7, "percentage": 7, "source": "research"},
+            {"value": "Free", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "Finding qualified professionals",
+          "values": [
+            {"value": "Finding qualified professionals", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "High cost", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Emotionally difficult process", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "None", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Limited availability", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Scheduling conflicts", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 9,
+      "title": "EMDR therapy for anxiety",
+      "description": "Eye Movement Desensitization and Reprocessing therapy originally developed for PTSD, increasingly used for anxiety disorders. Uses bilateral stimulation (eye movements, taps) while processing distressing memories or anxiety triggers. Helps reprocess traumatic or anxiety-provoking memories. Growing evidence base beyond PTSD applications.",
+      "solution_category": "therapists_counselors",
+      "avg_effectiveness": 4.2,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 months",
+          "values": [
+            {"value": "1-2 months", "count": 40, "percentage": 40, "source": "research"},
+            {"value": "3-4 weeks", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "3-6 months", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "1-2 weeks", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Within days", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "Fortnightly", "count": 14, "percentage": 14, "source": "research"},
+            {"value": "Multiple times per week", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Monthly", "count": 6, "percentage": 6, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_length": {
+          "mode": "60-90 minutes",
+          "values": [
+            {"value": "60-90 minutes", "count": 65, "percentage": 65, "source": "research"},
+            {"value": "45-60 minutes", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "90-120 minutes", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "30-45 minutes", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$100-200",
+          "values": [
+            {"value": "$100-200", "count": 46, "percentage": 46, "source": "research"},
+            {"value": "$200-300", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "$50-100", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Over $500", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Free", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "Finding qualified professionals",
+          "values": [
+            {"value": "Finding qualified professionals", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "High cost", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "None", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "Limited availability", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Not covered by insurance", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Unclear about what I need", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 10,
+      "title": "Headspace meditation app",
+      "description": "Popular meditation and mindfulness app with guided sessions specifically designed for anxiety. Features structured courses, breathing exercises, and sleep content. Co-founded by former Buddhist monk Andy Puddicombe. Research-backed approach with clinical studies showing anxiety reduction benefits.",
+      "solution_category": "apps_software",
+      "avg_effectiveness": 4.0,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "3-4 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Within days", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 months", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "3-6 months", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "usage_frequency": {
+          "mode": "Daily",
+          "values": [
+            {"value": "Daily", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "5-6 times per week", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "3-4 times per week", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "1-2 times per week", "count": 7, "percentage": 7, "source": "research"},
+            {"value": "As needed", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "subscription_type": {
+          "mode": "subscription",
+          "values": [
+            {"value": "subscription", "count": 85, "percentage": 85, "source": "research"},
+            {"value": "one_time", "count": 15, "percentage": 15, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$10-25/month",
+          "values": [
+            {"value": "$10-25/month", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "Free", "count": 15, "percentage": 15, "source": "research"},
+            {"value": "$5-10/month", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "$25-50/month", "count": 5, "percentage": 5, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Difficulty maintaining daily habit", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Subscription cost adds up", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Hard to stay focused during sessions", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Results took time to notice", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    }
+  ]
+}

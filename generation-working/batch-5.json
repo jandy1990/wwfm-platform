@@ -1,0 +1,357 @@
+{
+  "batch_number": 5,
+  "batch_range": "41-45",
+  "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+  "goal_title": "Reduce anxiety",
+  "solutions": [
+    {
+      "index": 41,
+      "title": "Acupuncture for anxiety",
+      "description": "Traditional Chinese medicine technique involving insertion of thin needles at specific body points. Growing Western research base showing anxiety reduction through endorphin release and nervous system regulation. Multiple sessions typically needed for sustained benefits. Generally safe when performed by licensed practitioners. Can be combined with other anxiety treatments. Insurance coverage increasingly available.",
+      "solution_category": "alternative_practitioners",
+      "avg_effectiveness": 3.7,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "1-2 months", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-2 weeks", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "Within days", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "3-6 months", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_frequency": {
+          "mode": "Weekly",
+          "values": [
+            {"value": "Weekly", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "Multiple times per week", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "Fortnightly", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "Monthly", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "As needed", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_length": {
+          "mode": "30-45 minutes",
+          "values": [
+            {"value": "30-45 minutes", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "45-60 minutes", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "15-30 minutes", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "60-90 minutes", "count": 4, "percentage": 4, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$50-100",
+          "values": [
+            {"value": "$50-100", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "$100-200", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Under $50", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "$200-300", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "None or minimal",
+          "values": [
+            {"value": "None or minimal", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "Minor bruising at needle sites", "count": 15, "percentage": 15, "source": "research"},
+            {"value": "Temporary soreness", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Drowsiness after session", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "Lightheadedness", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 42,
+      "title": "Massage therapy",
+      "description": "Hands-on manipulation of muscles and soft tissues to reduce physical tension and promote relaxation. Multiple modalities available (Swedish, deep tissue, therapeutic). Research shows reduced cortisol, increased serotonin and dopamine. Particularly helpful for anxiety manifesting as muscle tension. Activates parasympathetic nervous system. Can be standalone treatment or complement to other approaches.",
+      "solution_category": "alternative_practitioners",
+      "avg_effectiveness": 3.8,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Immediately",
+          "values": [
+            {"value": "Immediately", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Within days", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-2 weeks", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "3-4 weeks", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "1-2 months", "count": 2, "percentage": 2, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_frequency": {
+          "mode": "Monthly",
+          "values": [
+            {"value": "Monthly", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Fortnightly", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Weekly", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Every 2-3 months", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "As needed", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "session_length": {
+          "mode": "60-90 minutes",
+          "values": [
+            {"value": "60-90 minutes", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "45-60 minutes", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "30-45 minutes", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "90-120 minutes", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "15-30 minutes", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$50-100",
+          "values": [
+            {"value": "$50-100", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "$100-200", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Under $50", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "$200-300", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "side_effects": {
+          "mode": "None or minimal",
+          "values": [
+            {"value": "None or minimal", "count": 68, "percentage": 68, "source": "research"},
+            {"value": "Temporary muscle soreness", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "Drowsiness after session", "count": 7, "percentage": 7, "source": "studies"},
+            {"value": "Minor bruising", "count": 2, "percentage": 2, "source": "research"},
+            {"value": "Headache", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 43,
+      "title": "Reducing caffeine intake",
+      "description": "Dietary modification to decrease or eliminate caffeine consumption, which can trigger or worsen anxiety symptoms. Caffeine stimulates nervous system and can increase heart rate, jitteriness, and worry. Even moderate reduction often shows benefits. Withdrawal symptoms (headaches, fatigue) typically last 2-9 days. Gradual reduction recommended. Particularly important for panic disorder and generalized anxiety. Alternative beverages available.",
+      "solution_category": "diet_nutrition",
+      "avg_effectiveness": 3.9,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "1-2 weeks", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "3-4 weeks", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Immediately", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "1-2 months", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "weekly_prep_time": {
+          "mode": "Under 1 hour/week",
+          "values": [
+            {"value": "Under 1 hour/week", "count": 85, "percentage": 85, "source": "research"},
+            {"value": "1-2 hours/week", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "2-4 hours/week", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "still_following": {
+          "mode": "Yes, still following",
+          "values": [
+            {"value": "Yes, still following", "count": 68, "percentage": 68, "source": "research"},
+            {"value": "Mostly following", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "No longer following", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Modified approach", "count": 4, "percentage": 4, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free/No ongoing cost",
+          "values": [
+            {"value": "Free/No ongoing cost", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "Saves money", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Under $10/month", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "$10-$24.99/month", "count": 5, "percentage": 5, "source": "research"},
+            {"value": "Don't remember", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "Withdrawal headaches",
+          "values": [
+            {"value": "Withdrawal headaches", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "None", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Fatigue during adjustment", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "Social situations with coffee", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Cravings", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Finding alternatives", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 44,
+      "title": "Sleep hygiene improvement routine",
+      "description": "Set of behaviors and environmental modifications to promote quality sleep, which significantly impacts anxiety. Includes consistent sleep schedule, bedroom optimization (cool, dark, quiet), limiting screens before bed, avoiding stimulants, and relaxation routines. Poor sleep worsens anxiety; improved sleep reduces it. Evidence-based first-line recommendation for anxiety. Accessible and free to implement.",
+      "solution_category": "sleep",
+      "avg_effectiveness": 4.0,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "Within days", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "3-4 weeks", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "1-2 months", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Immediately", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "sleep_quality_change": {
+          "mode": "Significantly better",
+          "values": [
+            {"value": "Significantly better", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Somewhat better", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "Dramatically better", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "No change", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Somewhat worse", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "still_following": {
+          "mode": "Yes, still following",
+          "values": [
+            {"value": "Yes, still following", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "Mostly following", "count": 18, "percentage": 18, "source": "research"},
+            {"value": "Modified approach", "count": 7, "percentage": 7, "source": "studies"},
+            {"value": "No longer following", "count": 3, "percentage": 3, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free/No ongoing cost",
+          "values": [
+            {"value": "Free/No ongoing cost", "count": 78, "percentage": 78, "source": "research"},
+            {"value": "Under $10/month", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "$10-$24.99/month", "count": 7, "percentage": 7, "source": "studies"},
+            {"value": "$25-$49.99/month", "count": 2, "percentage": 2, "source": "research"},
+            {"value": "Don't remember", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "Consistency with schedule", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Limiting screen time before bed", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Takes time to see results", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Partner's different schedule", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Environmental factors (noise, light)", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 45,
+      "title": "Art therapy or creative activities",
+      "description": "Engaging in creative expression (painting, drawing, crafting, music, writing) for therapeutic benefit. Provides distraction from worry, promotes flow states, and allows emotional expression. Can be self-directed or therapist-led. Research shows anxiety reduction through mindful engagement and self-expression. Accessible to various skill levels. Multiple modalities allow personal preference. No artistic skill required for benefit.",
+      "solution_category": "hobbies_activities",
+      "avg_effectiveness": 3.8,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "1-2 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Immediately", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "3-4 weeks", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "1-2 months", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "time_commitment": {
+          "mode": "1-3 hours/week",
+          "values": [
+            {"value": "1-3 hours/week", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "3-5 hours/week", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Under 1 hour/week", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "5-10 hours/week", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "10-20 hours/week", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "3-4 times per week",
+          "values": [
+            {"value": "3-4 times per week", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "1-2 times per week", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Daily", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "5-6 times per week", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Weekly", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "As needed", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Under $50",
+          "values": [
+            {"value": "Under $50", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "$50-$99.99", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Free/No startup cost", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "$100-$249.99", "count": 7, "percentage": 7, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "Finding time in schedule", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Self-judgment about skill level", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Initial cost of supplies", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Perfectionism interfering", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Lack of motivation", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    }
+  ]
+}

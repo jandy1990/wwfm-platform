@@ -1,0 +1,713 @@
+{
+  "batch_number": 3,
+  "batch_range": "21-30",
+  "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+  "goal_title": "Reduce anxiety",
+  "solutions": [
+    {
+      "index": 21,
+      "title": "Swimming",
+      "description": "Low-impact aerobic exercise with unique anxiety-reducing properties. Rhythmic breathing patterns and sensory experience of water provide meditative quality. Reduces stress hormones while building cardiovascular fitness. Joint-friendly option suitable for various fitness levels. Combines physical activity benefits with natural mindfulness practice.",
+      "solution_category": "exercise_movement",
+      "avg_effectiveness": 4.0,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "Within days",
+          "values": [
+            {"value": "Within days", "count": 40, "percentage": 40, "source": "research"},
+            {"value": "1-2 weeks", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Immediately", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "3-4 weeks", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "1-2 months", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "3-4 times per week",
+          "values": [
+            {"value": "3-4 times per week", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "1-2 times per week", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "5-6 times per week", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Daily", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Weekly", "count": 5, "percentage": 5, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "duration": {
+          "mode": "30-45 minutes",
+          "values": [
+            {"value": "30-45 minutes", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "45-60 minutes", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "15-30 minutes", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "60-90 minutes", "count": 7, "percentage": 7, "source": "research"},
+            {"value": "Under 15 minutes", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$25-$49.99/month",
+          "values": [
+            {"value": "$25-$49.99/month", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "$50-$99.99/month", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Free/No ongoing cost", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "$10-$24.99/month", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Don't remember", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "Need pool access", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Schedule conflicts", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Cost of pool membership", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Time constraints", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Swimming ability required", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 22,
+      "title": "Strength training",
+      "description": "Resistance exercise using weights, bands, or bodyweight with growing evidence for anxiety reduction. Builds self-efficacy and confidence while providing distraction from worries. Releases endorphins and improves sleep quality. Meta-analyses show significant anxiety reduction comparable to aerobic exercise. Accessible through gym or home workouts.",
+      "solution_category": "exercise_movement",
+      "avg_effectiveness": 3.9,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "3-4 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Within days", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 months", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "3-6 months", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "3-4 times per week",
+          "values": [
+            {"value": "3-4 times per week", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "1-2 times per week", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "5-6 times per week", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Daily", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Weekly", "count": 4, "percentage": 4, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "duration": {
+          "mode": "45-60 minutes",
+          "values": [
+            {"value": "45-60 minutes", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "30-45 minutes", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "15-30 minutes", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "60-90 minutes", "count": 9, "percentage": 9, "source": "research"},
+            {"value": "Under 15 minutes", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$25-$49.99/month",
+          "values": [
+            {"value": "$25-$49.99/month", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "Free/No ongoing cost", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "$50-$99.99/month", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "$10-$24.99/month", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Don't remember", "count": 5, "percentage": 5, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Gym intimidation", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Finding good instruction", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Time constraints", "count": 15, "percentage": 15, "source": "research"},
+            {"value": "Equipment costs", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Lack of motivation", "count": 4, "percentage": 4, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 23,
+      "title": "Mindfulness meditation practice",
+      "description": "Evidence-based practice of present-moment awareness without judgment. Core component of Mindfulness-Based Stress Reduction (MBSR) with extensive research for anxiety. Teaches observation of anxious thoughts without engaging with them. Can be practiced through formal sitting meditation or informal daily awareness. Strong clinical evidence across anxiety disorders.",
+      "solution_category": "meditation_mindfulness",
+      "avg_effectiveness": 4.3,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "3-4 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Within days", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "1-2 months", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "3-6 months", "count": 6, "percentage": 6, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "practice_length": {
+          "mode": "10-20 minutes",
+          "values": [
+            {"value": "10-20 minutes", "count": 42, "percentage": 42, "source": "research"},
+            {"value": "5-10 minutes", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "20-30 minutes", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Under 5 minutes", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "30-45 minutes", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Over 1 hour", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "Daily",
+          "values": [
+            {"value": "Daily", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "5-6 times per week", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "3-4 times per week", "count": 12, "percentage": 12, "source": "studies"},
+            {"value": "1-2 times per week", "count": 7, "percentage": 7, "source": "research"},
+            {"value": "As needed", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free/No startup cost",
+          "values": [
+            {"value": "Free/No startup cost", "count": 68, "percentage": 68, "source": "research"},
+            {"value": "Under $10/month", "count": 15, "percentage": 15, "source": "research"},
+            {"value": "$10-$24.99/month", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "$25-$49.99/month", "count": 5, "percentage": 5, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "Difficulty concentrating",
+          "values": [
+            {"value": "Difficulty concentrating", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "None", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Intrusive thoughts", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Time management issues", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Restlessness", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Initially worse before better", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 24,
+      "title": "Body scan meditation",
+      "description": "Systematic meditation practice bringing awareness sequentially to different body parts. Teaches recognition and release of physical tension associated with anxiety. Core practice in MBSR programs with research showing reduced anxiety and improved body awareness. Particularly helpful for anxiety manifesting as physical symptoms. Can be practiced lying down or seated.",
+      "solution_category": "meditation_mindfulness",
+      "avg_effectiveness": 4.1,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "Within days", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "3-4 weeks", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "1-2 months", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Immediately", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "practice_length": {
+          "mode": "20-30 minutes",
+          "values": [
+            {"value": "20-30 minutes", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "10-20 minutes", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "30-45 minutes", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "5-10 minutes", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "45-60 minutes", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Under 5 minutes", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "Daily",
+          "values": [
+            {"value": "Daily", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "5-6 times per week", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "3-4 times per week", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "1-2 times per week", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "As needed", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free/No startup cost",
+          "values": [
+            {"value": "Free/No startup cost", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "Under $10/month", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "$10-$24.99/month", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "$25-$49.99/month", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "Difficulty staying awake",
+          "values": [
+            {"value": "Difficulty staying awake", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "None", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Restlessness", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Difficulty concentrating", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Time management issues", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Physical discomfort", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 25,
+      "title": "Loving-kindness meditation (metta)",
+      "description": "Meditation practice cultivating feelings of goodwill, kindness, and warmth toward self and others. Systematically directs compassionate wishes to self, loved ones, neutral people, difficult people, and all beings. Research shows reduced anxiety, increased positive emotions, and improved social connection. Particularly helpful for anxiety related to self-criticism or social concerns.",
+      "solution_category": "meditation_mindfulness",
+      "avg_effectiveness": 4.0,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "3-4 weeks", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Within days", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 months", "count": 14, "percentage": 14, "source": "research"},
+            {"value": "3-6 months", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "practice_length": {
+          "mode": "10-20 minutes",
+          "values": [
+            {"value": "10-20 minutes", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "5-10 minutes", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "20-30 minutes", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Under 5 minutes", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "30-45 minutes", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "45-60 minutes", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "Daily",
+          "values": [
+            {"value": "Daily", "count": 55, "percentage": 55, "source": "research"},
+            {"value": "5-6 times per week", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "3-4 times per week", "count": 14, "percentage": 14, "source": "studies"},
+            {"value": "1-2 times per week", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "As needed", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free/No startup cost",
+          "values": [
+            {"value": "Free/No startup cost", "count": 70, "percentage": 70, "source": "research"},
+            {"value": "Under $10/month", "count": 14, "percentage": 14, "source": "research"},
+            {"value": "$10-$24.99/month", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "$25-$49.99/month", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "Feeling artificial or forced initially", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Difficulty concentrating", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Emotional overwhelm", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Time management issues", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Intrusive thoughts", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 26,
+      "title": "The Anxiety and Phobia Workbook by Edmund Bourne",
+      "description": "Comprehensive self-help workbook combining multiple evidence-based techniques for anxiety. Covers CBT, relaxation training, nutrition, exercise, and lifestyle approaches. Worksheets and exercises for panic attacks, phobias, OCD, PTSD, GAD, and social anxiety. Regular updates with current research. Considered the gold standard anxiety self-help resource for over 30 years.",
+      "solution_category": "books_courses",
+      "avg_effectiveness": 4.2,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "1-2 months", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "1-2 weeks", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "3-6 months", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Within days", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "format": {
+          "mode": "Physical book",
+          "values": [
+            {"value": "Physical book", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "E-book", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Audiobook", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "Workbook/PDF", "count": 5, "percentage": 5, "source": "research"},
+            {"value": "Other", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "learning_difficulty": {
+          "mode": "Beginner friendly",
+          "values": [
+            {"value": "Beginner friendly", "count": 62, "percentage": 62, "source": "research"},
+            {"value": "Some experience helpful", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Intermediate level", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Advanced level", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "$20-50",
+          "values": [
+            {"value": "$20-50", "count": 65, "percentage": 65, "source": "research"},
+            {"value": "Under $20", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "$50-100", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "Free", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "$100-250", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "Time-consuming to work through", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Requires self-discipline", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Too long/verbose", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Not enough practical examples", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 27,
+      "title": "Dare: The New Way to End Anxiety by Barry McDonagh",
+      "description": "Popular anxiety book presenting alternative approach to managing panic and anxiety. DARE method focuses on defusing, allowing, running toward, and engaging with anxiety rather than avoiding it. Particularly focused on panic attacks and health anxiety. Modern, accessible writing style with practical exercises. Large online community of readers sharing experiences.",
+      "solution_category": "books_courses",
+      "avg_effectiveness": 4.1,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "3-4 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Within days", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 months", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "3-6 months", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "format": {
+          "mode": "Physical book",
+          "values": [
+            {"value": "Physical book", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "E-book", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Audiobook", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "App-based", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "Other", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "learning_difficulty": {
+          "mode": "Beginner friendly",
+          "values": [
+            {"value": "Beginner friendly", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "Some experience helpful", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "Intermediate level", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Advanced level", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Under $20",
+          "values": [
+            {"value": "Under $20", "count": 58, "percentage": 58, "source": "research"},
+            {"value": "$20-50", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Free", "count": 6, "percentage": 6, "source": "studies"},
+            {"value": "$50-100", "count": 3, "percentage": 3, "source": "research"},
+            {"value": "$100-250", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "Approach felt counterintuitive initially", "count": 22, "percentage": 22, "source": "research"},
+            {"value": "Requires self-discipline", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Needed repetition to internalize", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "Not enough practical examples", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 28,
+      "title": "The Worry Trick by David Carbonell",
+      "description": "CBT-based book specifically targeting worry and generalized anxiety. Explains how worry operates as a trick and provides practical strategies to break worry cycles. Written by clinical psychologist specializing in anxiety. Includes exercises for recognizing worry patterns and responding differently. Accessible style with humor and empathy. Strong focus on GAD and chronic worry.",
+      "solution_category": "books_courses",
+      "avg_effectiveness": 4.0,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "3-4 weeks",
+          "values": [
+            {"value": "3-4 weeks", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "1-2 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "1-2 months", "count": 20, "percentage": 20, "source": "studies"},
+            {"value": "Within days", "count": 8, "percentage": 8, "source": "research"},
+            {"value": "3-6 months", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "format": {
+          "mode": "Physical book",
+          "values": [
+            {"value": "Physical book", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "E-book", "count": 30, "percentage": 30, "source": "research"},
+            {"value": "Audiobook", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "Workbook/PDF", "count": 2, "percentage": 2, "source": "research"},
+            {"value": "Other", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "learning_difficulty": {
+          "mode": "Beginner friendly",
+          "values": [
+            {"value": "Beginner friendly", "count": 68, "percentage": 68, "source": "research"},
+            {"value": "Some experience helpful", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Intermediate level", "count": 6, "percentage": 6, "source": "studies"},
+            {"value": "Advanced level", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Under $20",
+          "values": [
+            {"value": "Under $20", "count": 62, "percentage": 62, "source": "research"},
+            {"value": "$20-50", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Free", "count": 7, "percentage": 7, "source": "studies"},
+            {"value": "$50-100", "count": 2, "percentage": 2, "source": "research"},
+            {"value": "$100-250", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 48, "percentage": 48, "source": "research"},
+            {"value": "Requires self-discipline", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "Techniques take practice", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Needed multiple reads", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "Not enough practical examples", "count": 3, "percentage": 3, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 29,
+      "title": "Morning journaling practice",
+      "description": "Daily practice of writing thoughts and feelings upon waking to process anxiety and gain clarity. Can include stream-of-consciousness writing, gratitude lists, worry dumps, or structured prompts. Research shows benefits for emotional regulation and anxiety reduction. Externalizes anxious thoughts and provides perspective. Flexible practice adaptable to individual needs and preferences.",
+      "solution_category": "habits_routines",
+      "avg_effectiveness": 3.8,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "3-4 weeks", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Within days", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "1-2 months", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "3-6 months", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "time_commitment": {
+          "mode": "5-10 minutes",
+          "values": [
+            {"value": "5-10 minutes", "count": 45, "percentage": 45, "source": "research"},
+            {"value": "10-20 minutes", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "Under 5 minutes", "count": 15, "percentage": 15, "source": "studies"},
+            {"value": "20-30 minutes", "count": 6, "percentage": 6, "source": "research"},
+            {"value": "30-45 minutes", "count": 2, "percentage": 2, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "Daily",
+          "values": [
+            {"value": "Daily", "count": 72, "percentage": 72, "source": "research"},
+            {"value": "5-6 times per week", "count": 15, "percentage": 15, "source": "research"},
+            {"value": "3-4 times per week", "count": 8, "percentage": 8, "source": "studies"},
+            {"value": "1-2 times per week", "count": 4, "percentage": 4, "source": "research"},
+            {"value": "As needed", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free/No startup cost",
+          "values": [
+            {"value": "Free/No startup cost", "count": 68, "percentage": 68, "source": "research"},
+            {"value": "Under $50", "count": 25, "percentage": 25, "source": "research"},
+            {"value": "$50-$99.99", "count": 5, "percentage": 5, "source": "studies"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "Forgot to do it",
+          "values": [
+            {"value": "Forgot to do it", "count": 32, "percentage": 32, "source": "research"},
+            {"value": "None", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Lost motivation after initial enthusiasm", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "Hard to do when tired", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "Takes too much time", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Results too slow", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    },
+    {
+      "index": 30,
+      "title": "Evening gratitude practice",
+      "description": "Daily practice of reflecting on positive experiences and things to be grateful for before bed. Shifts attention from worries to appreciation, improving mood and sleep quality. Research shows benefits for anxiety, depression, and well-being. Can be written journal, mental reflection, or shared with partner/family. Simple practice with cumulative benefits over time.",
+      "solution_category": "habits_routines",
+      "avg_effectiveness": 3.9,
+      "aggregated_fields": {
+        "time_to_results": {
+          "mode": "1-2 weeks",
+          "values": [
+            {"value": "1-2 weeks", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "Within days", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "3-4 weeks", "count": 22, "percentage": 22, "source": "studies"},
+            {"value": "1-2 months", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Immediately", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Still evaluating", "count": 1, "percentage": 1, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "time_commitment": {
+          "mode": "Under 5 minutes",
+          "values": [
+            {"value": "Under 5 minutes", "count": 52, "percentage": 52, "source": "research"},
+            {"value": "5-10 minutes", "count": 35, "percentage": 35, "source": "research"},
+            {"value": "10-20 minutes", "count": 10, "percentage": 10, "source": "studies"},
+            {"value": "20-30 minutes", "count": 2, "percentage": 2, "source": "research"},
+            {"value": "30-45 minutes", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "frequency": {
+          "mode": "Daily",
+          "values": [
+            {"value": "Daily", "count": 78, "percentage": 78, "source": "research"},
+            {"value": "5-6 times per week", "count": 12, "percentage": 12, "source": "research"},
+            {"value": "3-4 times per week", "count": 6, "percentage": 6, "source": "studies"},
+            {"value": "1-2 times per week", "count": 3, "percentage": 3, "source": "research"},
+            {"value": "As needed", "count": 1, "percentage": 1, "source": "studies"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "cost": {
+          "mode": "Free/No startup cost",
+          "values": [
+            {"value": "Free/No startup cost", "count": 75, "percentage": 75, "source": "research"},
+            {"value": "Under $50", "count": 20, "percentage": 20, "source": "research"},
+            {"value": "$50-$99.99", "count": 3, "percentage": 3, "source": "studies"},
+            {"value": "Don't remember", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        },
+        "challenges": {
+          "mode": "None",
+          "values": [
+            {"value": "None", "count": 38, "percentage": 38, "source": "research"},
+            {"value": "Forgot to do it", "count": 28, "percentage": 28, "source": "research"},
+            {"value": "Lost motivation after initial enthusiasm", "count": 18, "percentage": 18, "source": "studies"},
+            {"value": "Felt repetitive", "count": 10, "percentage": 10, "source": "research"},
+            {"value": "Hard to find things on difficult days", "count": 4, "percentage": 4, "source": "studies"},
+            {"value": "Felt silly or self-conscious", "count": 2, "percentage": 2, "source": "research"}
+          ],
+          "totalReports": 100,
+          "dataSource": "ai_research"
+        }
+      }
+    }
+  ]
+}

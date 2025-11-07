@@ -1,0 +1,233 @@
+{
+  "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+  "goal_title": "Reduce anxiety",
+  "classification": "broad",
+  "target_count": 45,
+  "solutions": [
+    {
+      "index": 1,
+      "title": "Lexapro (escitalopram)",
+      "solution_category": "medications"
+    },
+    {
+      "index": 2,
+      "title": "Zoloft (sertraline)",
+      "solution_category": "medications"
+    },
+    {
+      "index": 3,
+      "title": "Prozac (fluoxetine)",
+      "solution_category": "medications"
+    },
+    {
+      "index": 4,
+      "title": "Buspar (buspirone)",
+      "solution_category": "medications"
+    },
+    {
+      "index": 5,
+      "title": "Effexor XR (venlafaxine)",
+      "solution_category": "medications"
+    },
+    {
+      "index": 6,
+      "title": "Cognitive Behavioral Therapy with licensed therapist",
+      "solution_category": "therapists_counselors"
+    },
+    {
+      "index": 7,
+      "title": "Acceptance and Commitment Therapy (ACT) with therapist",
+      "solution_category": "therapists_counselors"
+    },
+    {
+      "index": 8,
+      "title": "Exposure therapy with licensed therapist",
+      "solution_category": "therapists_counselors"
+    },
+    {
+      "index": 9,
+      "title": "EMDR therapy for anxiety",
+      "solution_category": "therapists_counselors"
+    },
+    {
+      "index": 10,
+      "title": "Headspace meditation app",
+      "solution_category": "apps_software"
+    },
+    {
+      "index": 11,
+      "title": "Calm app",
+      "solution_category": "apps_software"
+    },
+    {
+      "index": 12,
+      "title": "BetterHelp online therapy",
+      "solution_category": "apps_software"
+    },
+    {
+      "index": 13,
+      "title": "Talkspace online therapy",
+      "solution_category": "apps_software"
+    },
+    {
+      "index": 14,
+      "title": "Magnesium supplements",
+      "solution_category": "supplements_vitamins"
+    },
+    {
+      "index": 15,
+      "title": "L-theanine supplements",
+      "solution_category": "supplements_vitamins"
+    },
+    {
+      "index": 16,
+      "title": "Ashwagandha",
+      "solution_category": "supplements_vitamins"
+    },
+    {
+      "index": 17,
+      "title": "Omega-3 fish oil",
+      "solution_category": "supplements_vitamins"
+    },
+    {
+      "index": 18,
+      "title": "CBD oil",
+      "solution_category": "supplements_vitamins"
+    },
+    {
+      "index": 19,
+      "title": "Yoga classes",
+      "solution_category": "exercise_movement"
+    },
+    {
+      "index": 20,
+      "title": "Running or jogging routine",
+      "solution_category": "exercise_movement"
+    },
+    {
+      "index": 21,
+      "title": "Swimming",
+      "solution_category": "exercise_movement"
+    },
+    {
+      "index": 22,
+      "title": "Strength training",
+      "solution_category": "exercise_movement"
+    },
+    {
+      "index": 23,
+      "title": "Mindfulness meditation practice",
+      "solution_category": "meditation_mindfulness"
+    },
+    {
+      "index": 24,
+      "title": "Body scan meditation",
+      "solution_category": "meditation_mindfulness"
+    },
+    {
+      "index": 25,
+      "title": "Loving-kindness meditation (metta)",
+      "solution_category": "meditation_mindfulness"
+    },
+    {
+      "index": 26,
+      "title": "The Anxiety and Phobia Workbook by Edmund Bourne",
+      "solution_category": "books_courses"
+    },
+    {
+      "index": 27,
+      "title": "Dare: The New Way to End Anxiety by Barry McDonagh",
+      "solution_category": "books_courses"
+    },
+    {
+      "index": 28,
+      "title": "The Worry Trick by David Carbonell",
+      "solution_category": "books_courses"
+    },
+    {
+      "index": 29,
+      "title": "Morning journaling practice",
+      "solution_category": "habits_routines"
+    },
+    {
+      "index": 30,
+      "title": "Evening gratitude practice",
+      "solution_category": "habits_routines"
+    },
+    {
+      "index": 31,
+      "title": "Progressive muscle relaxation routine",
+      "solution_category": "habits_routines"
+    },
+    {
+      "index": 32,
+      "title": "Deep breathing exercises (4-7-8 technique)",
+      "solution_category": "habits_routines"
+    },
+    {
+      "index": 33,
+      "title": "Chamomile tea",
+      "solution_category": "natural_remedies"
+    },
+    {
+      "index": 34,
+      "title": "Lavender aromatherapy",
+      "solution_category": "natural_remedies"
+    },
+    {
+      "index": 35,
+      "title": "Valerian root",
+      "solution_category": "natural_remedies"
+    },
+    {
+      "index": 36,
+      "title": "Weighted blanket",
+      "solution_category": "products_devices"
+    },
+    {
+      "index": 37,
+      "title": "Muse headband (meditation biofeedback device)",
+      "solution_category": "products_devices"
+    },
+    {
+      "index": 38,
+      "title": "Anxiety support group (in-person)",
+      "solution_category": "groups_communities"
+    },
+    {
+      "index": 39,
+      "title": "Online anxiety support community",
+      "solution_category": "groups_communities"
+    },
+    {
+      "index": 40,
+      "title": "Psychiatrist for medication management",
+      "solution_category": "doctors_specialists"
+    },
+    {
+      "index": 41,
+      "title": "Acupuncture for anxiety",
+      "solution_category": "alternative_practitioners"
+    },
+    {
+      "index": 42,
+      "title": "Massage therapy",
+      "solution_category": "alternative_practitioners"
+    },
+    {
+      "index": 43,
+      "title": "Reducing caffeine intake",
+      "solution_category": "diet_nutrition"
+    },
+    {
+      "index": 44,
+      "title": "Sleep hygiene improvement routine",
+      "solution_category": "sleep"
+    },
+    {
+      "index": 45,
+      "title": "Art therapy or creative activities",
+      "solution_category": "hobbies_activities"
+    }
+  ]
+}
