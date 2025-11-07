@@ -1,0 +1,642 @@
+{
+  "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+  "goal_title": "Reduce anxiety",
+  "batch_number": 2,
+  "solutions": [
+    {
+      "index": 32,
+      "title": "Psychodynamic Therapy",
+      "solution_category": "therapists_counselors",
+      "effectiveness": 4.3,
+      "time_to_results": {
+        "mode": "3-6 months",
+        "values": [
+          {"value": "3-6 months", "count": 42, "percentage": 42, "source": "research"},
+          {"value": "1-2 months", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "6+ months", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "3-4 weeks", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "1-2 weeks", "count": 3, "percentage": 3, "source": "research"},
+          {"value": "Within days", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "session_frequency": {
+        "mode": "Weekly",
+        "values": [
+          {"value": "Weekly", "count": 60, "percentage": 60, "source": "research"},
+          {"value": "Multiple times per week", "count": 22, "percentage": 22, "source": "studies"},
+          {"value": "Fortnightly", "count": 12, "percentage": 12, "source": "research"},
+          {"value": "Monthly", "count": 4, "percentage": 4, "source": "studies"},
+          {"value": "As needed", "count": 2, "percentage": 2, "source": "research"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "session_length": {
+        "mode": "45-60 minutes",
+        "values": [
+          {"value": "45-60 minutes", "count": 72, "percentage": 72, "source": "research"},
+          {"value": "60-90 minutes", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "30-45 minutes", "count": 8, "percentage": 8, "source": "research"},
+          {"value": "Varies", "count": 3, "percentage": 3, "source": "studies"},
+          {"value": "90-120 minutes", "count": 2, "percentage": 2, "source": "research"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "cost": {
+        "mode": "$100-200",
+        "values": [
+          {"value": "$100-200", "count": 48, "percentage": 48, "source": "research"},
+          {"value": "$50-100", "count": 22, "percentage": 22, "source": "studies"},
+          {"value": "$200-300", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "$300-500", "count": 8, "percentage": 8, "source": "studies"},
+          {"value": "Under $50", "count": 3, "percentage": 3, "source": "research"},
+          {"value": "Over $500", "count": 1, "percentage": 1, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "challenges": {
+        "mode": "High cost",
+        "values": [
+          {"value": "High cost", "count": 45, "percentage": 45, "source": "research"},
+          {"value": "Long wait times", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Time commitment", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Finding the right therapist", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "Slow progress", "count": 3, "percentage": 3, "source": "research"},
+          {"value": "None", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      }
+    },
+    {
+      "index": 33,
+      "title": "Yoga for Anxiety Relief",
+      "solution_category": "exercise_movement",
+      "effectiveness": 4.4,
+      "time_to_results": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "1-2 weeks", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "3-4 weeks", "count": 28, "percentage": 28, "source": "studies"},
+          {"value": "Within days", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "1-2 months", "count": 12, "percentage": 12, "source": "studies"},
+          {"value": "Immediately", "count": 5, "percentage": 5, "source": "research"},
+          {"value": "3-6 months", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "frequency": {
+        "mode": "3-4 times per week",
+        "values": [
+          {"value": "3-4 times per week", "count": 38, "percentage": 38, "source": "research"},
+          {"value": "Daily", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "1-2 times per week", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "5-6 times per week", "count": 12, "percentage": 12, "source": "studies"},
+          {"value": "Weekly", "count": 3, "percentage": 3, "source": "research"},
+          {"value": "Few times a month", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "duration": {
+        "mode": "45-60 minutes",
+        "values": [
+          {"value": "45-60 minutes", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "30-45 minutes", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "60-90 minutes", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "15-30 minutes", "count": 8, "percentage": 8, "source": "studies"},
+          {"value": "90-120 minutes", "count": 3, "percentage": 3, "source": "research"},
+          {"value": "Under 15 minutes", "count": 1, "percentage": 1, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "cost": {
+        "mode": "$10-$24.99/month",
+        "values": [
+          {"value": "$10-$24.99/month", "count": 32, "percentage": 32, "source": "research"},
+          {"value": "$25-$49.99/month", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Free/No ongoing cost", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "$50-$99.99/month", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "Under $10/month", "count": 6, "percentage": 6, "source": "research"},
+          {"value": "$100-$199.99/month", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "challenges": {
+        "mode": "None",
+        "values": [
+          {"value": "None", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Time constraints", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Physical limitations", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "Gym intimidation", "count": 12, "percentage": 12, "source": "studies"},
+          {"value": "Lack of motivation", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "Schedule conflicts", "count": 5, "percentage": 5, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      }
+    },
+    {
+      "index": 34,
+      "title": "Tai Chi Practice",
+      "solution_category": "exercise_movement",
+      "effectiveness": 4.2,
+      "time_to_results": {
+        "mode": "3-4 weeks",
+        "values": [
+          {"value": "3-4 weeks", "count": 38, "percentage": 38, "source": "research"},
+          {"value": "1-2 months", "count": 28, "percentage": 28, "source": "studies"},
+          {"value": "1-2 weeks", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "3-6 months", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "Within days", "count": 4, "percentage": 4, "source": "research"},
+          {"value": "6+ months", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "frequency": {
+        "mode": "3-4 times per week",
+        "values": [
+          {"value": "3-4 times per week", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Daily", "count": 28, "percentage": 28, "source": "studies"},
+          {"value": "1-2 times per week", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "5-6 times per week", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "Weekly", "count": 3, "percentage": 3, "source": "research"},
+          {"value": "Few times a month", "count": 1, "percentage": 1, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "duration": {
+        "mode": "30-45 minutes",
+        "values": [
+          {"value": "30-45 minutes", "count": 42, "percentage": 42, "source": "research"},
+          {"value": "45-60 minutes", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "60-90 minutes", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "15-30 minutes", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "Under 15 minutes", "count": 2, "percentage": 2, "source": "research"},
+          {"value": "90-120 minutes", "count": 1, "percentage": 1, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "cost": {
+        "mode": "Free/No ongoing cost",
+        "values": [
+          {"value": "Free/No ongoing cost", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "$10-$24.99/month", "count": 28, "percentage": 28, "source": "studies"},
+          {"value": "$25-$49.99/month", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Under $10/month", "count": 12, "percentage": 12, "source": "studies"},
+          {"value": "$50-$99.99/month", "count": 4, "percentage": 4, "source": "research"},
+          {"value": "$100-$199.99/month", "count": 1, "percentage": 1, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "challenges": {
+        "mode": "None",
+        "values": [
+          {"value": "None", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Finding good instruction", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Time constraints", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Lack of motivation", "count": 12, "percentage": 12, "source": "studies"},
+          {"value": "Schedule conflicts", "count": 6, "percentage": 6, "source": "research"},
+          {"value": "Physical limitations", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      }
+    },
+    {
+      "index": 35,
+      "title": "Regular Running or Jogging",
+      "solution_category": "exercise_movement",
+      "effectiveness": 4.5,
+      "time_to_results": {
+        "mode": "Within days",
+        "values": [
+          {"value": "Within days", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "1-2 weeks", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Immediately", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "3-4 weeks", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "1-2 months", "count": 4, "percentage": 4, "source": "research"},
+          {"value": "3-6 months", "count": 1, "percentage": 1, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "frequency": {
+        "mode": "3-4 times per week",
+        "values": [
+          {"value": "3-4 times per week", "count": 45, "percentage": 45, "source": "research"},
+          {"value": "Daily", "count": 22, "percentage": 22, "source": "studies"},
+          {"value": "1-2 times per week", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "5-6 times per week", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "Weekly", "count": 4, "percentage": 4, "source": "research"},
+          {"value": "Few times a month", "count": 1, "percentage": 1, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "duration": {
+        "mode": "30-45 minutes",
+        "values": [
+          {"value": "30-45 minutes", "count": 48, "percentage": 48, "source": "research"},
+          {"value": "15-30 minutes", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "45-60 minutes", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "Under 15 minutes", "count": 6, "percentage": 6, "source": "studies"},
+          {"value": "60-90 minutes", "count": 2, "percentage": 2, "source": "research"},
+          {"value": "90-120 minutes", "count": 1, "percentage": 1, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "cost": {
+        "mode": "Free/No ongoing cost",
+        "values": [
+          {"value": "Free/No ongoing cost", "count": 60, "percentage": 60, "source": "research"},
+          {"value": "Under $10/month", "count": 20, "percentage": 20, "source": "studies"},
+          {"value": "$10-$24.99/month", "count": 12, "percentage": 12, "source": "research"},
+          {"value": "$25-$49.99/month", "count": 5, "percentage": 5, "source": "studies"},
+          {"value": "$50-$99.99/month", "count": 2, "percentage": 2, "source": "research"},
+          {"value": "$100-$199.99/month", "count": 1, "percentage": 1, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "challenges": {
+        "mode": "None",
+        "values": [
+          {"value": "None", "count": 28, "percentage": 28, "source": "research"},
+          {"value": "Weather dependent", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Lack of motivation", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Time constraints", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "Injury/soreness", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "Physical limitations", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      }
+    },
+    {
+      "index": 36,
+      "title": "Body Scan Meditation",
+      "solution_category": "meditation_mindfulness",
+      "effectiveness": 4.3,
+      "time_to_results": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "1-2 weeks", "count": 38, "percentage": 38, "source": "research"},
+          {"value": "Within days", "count": 28, "percentage": 28, "source": "studies"},
+          {"value": "3-4 weeks", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "Immediately", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "1-2 months", "count": 4, "percentage": 4, "source": "research"},
+          {"value": "3-6 months", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "practice_length": {
+        "mode": "20-30 minutes",
+        "values": [
+          {"value": "20-30 minutes", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "10-20 minutes", "count": 28, "percentage": 28, "source": "studies"},
+          {"value": "30-45 minutes", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "5-10 minutes", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "45-60 minutes", "count": 3, "percentage": 3, "source": "research"},
+          {"value": "Under 5 minutes", "count": 1, "percentage": 1, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "frequency": {
+        "mode": "Daily",
+        "values": [
+          {"value": "Daily", "count": 45, "percentage": 45, "source": "research"},
+          {"value": "3-4 times per week", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "5-6 times per week", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "1-2 times per week", "count": 8, "percentage": 8, "source": "studies"},
+          {"value": "Weekly", "count": 3, "percentage": 3, "source": "research"},
+          {"value": "As needed", "count": 1, "percentage": 1, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "cost": {
+        "mode": "Free/No startup cost",
+        "values": [
+          {"value": "Free/No startup cost", "count": 75, "percentage": 75, "source": "research"},
+          {"value": "Under $50", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "$50-$99.99", "count": 6, "percentage": 6, "source": "research"},
+          {"value": "$100-$249.99", "count": 3, "percentage": 3, "source": "studies"},
+          {"value": "$250-$499.99", "count": 1, "percentage": 1, "source": "research"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "challenges": {
+        "mode": "None",
+        "values": [
+          {"value": "None", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Difficulty concentrating", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Restlessness", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Time management issues", "count": 12, "percentage": 12, "source": "studies"},
+          {"value": "Physical discomfort", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "Intrusive thoughts", "count": 3, "percentage": 3, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      }
+    },
+    {
+      "index": 37,
+      "title": "Loving-Kindness Meditation (Metta)",
+      "solution_category": "meditation_mindfulness",
+      "effectiveness": 4.2,
+      "time_to_results": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "1-2 weeks", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "3-4 weeks", "count": 28, "percentage": 28, "source": "studies"},
+          {"value": "Within days", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "1-2 months", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "Immediately", "count": 5, "percentage": 5, "source": "research"},
+          {"value": "3-6 months", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "practice_length": {
+        "mode": "10-20 minutes",
+        "values": [
+          {"value": "10-20 minutes", "count": 45, "percentage": 45, "source": "research"},
+          {"value": "20-30 minutes", "count": 28, "percentage": 28, "source": "studies"},
+          {"value": "5-10 minutes", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "30-45 minutes", "count": 8, "percentage": 8, "source": "studies"},
+          {"value": "Under 5 minutes", "count": 3, "percentage": 3, "source": "research"},
+          {"value": "45-60 minutes", "count": 1, "percentage": 1, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "frequency": {
+        "mode": "Daily",
+        "values": [
+          {"value": "Daily", "count": 50, "percentage": 50, "source": "research"},
+          {"value": "3-4 times per week", "count": 22, "percentage": 22, "source": "studies"},
+          {"value": "5-6 times per week", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "1-2 times per week", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "Weekly", "count": 2, "percentage": 2, "source": "research"},
+          {"value": "As needed", "count": 1, "percentage": 1, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "cost": {
+        "mode": "Free/No startup cost",
+        "values": [
+          {"value": "Free/No startup cost", "count": 80, "percentage": 80, "source": "research"},
+          {"value": "Under $50", "count": 12, "percentage": 12, "source": "studies"},
+          {"value": "$50-$99.99", "count": 5, "percentage": 5, "source": "research"},
+          {"value": "$100-$249.99", "count": 2, "percentage": 2, "source": "studies"},
+          {"value": "$250-$499.99", "count": 1, "percentage": 1, "source": "research"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "challenges": {
+        "mode": "None",
+        "values": [
+          {"value": "None", "count": 32, "percentage": 32, "source": "research"},
+          {"value": "Emotional overwhelm", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Difficulty concentrating", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Restlessness", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "Time management issues", "count": 6, "percentage": 6, "source": "research"},
+          {"value": "Intrusive thoughts", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      }
+    },
+    {
+      "index": 38,
+      "title": "Dare: The New Way to End Anxiety by Barry McDonagh",
+      "solution_category": "books_courses",
+      "effectiveness": 4.6,
+      "time_to_results": {
+        "mode": "1-2 months",
+        "values": [
+          {"value": "1-2 months", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "3-4 weeks", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "3-6 months", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "1-2 weeks", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "6+ months", "count": 5, "percentage": 5, "source": "research"},
+          {"value": "Within days", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "format": {
+        "mode": "E-book",
+        "values": [
+          {"value": "E-book", "count": 38, "percentage": 38, "source": "research"},
+          {"value": "Physical book", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Audiobook", "count": 22, "percentage": 22, "source": "research"},
+          {"value": "Workbook/PDF", "count": 8, "percentage": 8, "source": "studies"},
+          {"value": "Online course", "count": 2, "percentage": 2, "source": "research"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "learning_difficulty": {
+        "mode": "Beginner friendly",
+        "values": [
+          {"value": "Beginner friendly", "count": 70, "percentage": 70, "source": "research"},
+          {"value": "Some experience helpful", "count": 20, "percentage": 20, "source": "studies"},
+          {"value": "Intermediate level", "count": 8, "percentage": 8, "source": "research"},
+          {"value": "Advanced level", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "cost": {
+        "mode": "$20-50",
+        "values": [
+          {"value": "$20-50", "count": 45, "percentage": 45, "source": "research"},
+          {"value": "Under $20", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "$50-100", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "Free", "count": 5, "percentage": 5, "source": "studies"},
+          {"value": "$100-250", "count": 2, "percentage": 2, "source": "research"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "challenges": {
+        "mode": "None",
+        "values": [
+          {"value": "None", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Not enough practical examples", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Too basic for my level", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Too long/verbose", "count": 12, "percentage": 12, "source": "studies"},
+          {"value": "Didn't match description", "count": 6, "percentage": 6, "source": "research"},
+          {"value": "Too theoretical", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      }
+    },
+    {
+      "index": 39,
+      "title": "The Anxiety and Phobia Workbook by Edmund Bourne",
+      "solution_category": "books_courses",
+      "effectiveness": 4.7,
+      "time_to_results": {
+        "mode": "1-2 months",
+        "values": [
+          {"value": "1-2 months", "count": 42, "percentage": 42, "source": "research"},
+          {"value": "3-6 months", "count": 28, "percentage": 28, "source": "studies"},
+          {"value": "3-4 weeks", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "6+ months", "count": 8, "percentage": 8, "source": "studies"},
+          {"value": "1-2 weeks", "count": 5, "percentage": 5, "source": "research"},
+          {"value": "Within days", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "format": {
+        "mode": "Physical book",
+        "values": [
+          {"value": "Physical book", "count": 48, "percentage": 48, "source": "research"},
+          {"value": "Workbook/PDF", "count": 28, "percentage": 28, "source": "studies"},
+          {"value": "E-book", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "Audiobook", "count": 5, "percentage": 5, "source": "studies"},
+          {"value": "Online course", "count": 1, "percentage": 1, "source": "research"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "learning_difficulty": {
+        "mode": "Some experience helpful",
+        "values": [
+          {"value": "Some experience helpful", "count": 45, "percentage": 45, "source": "research"},
+          {"value": "Beginner friendly", "count": 35, "percentage": 35, "source": "studies"},
+          {"value": "Intermediate level", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Advanced level", "count": 5, "percentage": 5, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "cost": {
+        "mode": "$20-50",
+        "values": [
+          {"value": "$20-50", "count": 50, "percentage": 50, "source": "research"},
+          {"value": "Under $20", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "$50-100", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "$100-250", "count": 4, "percentage": 4, "source": "studies"},
+          {"value": "Free", "count": 1, "percentage": 1, "source": "research"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "challenges": {
+        "mode": "None",
+        "values": [
+          {"value": "None", "count": 45, "percentage": 45, "source": "research"},
+          {"value": "Too long/verbose", "count": 22, "percentage": 22, "source": "studies"},
+          {"value": "Too theoretical", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Not enough practical examples", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "Outdated information", "count": 6, "percentage": 6, "source": "research"},
+          {"value": "Poor organization", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      }
+    },
+    {
+      "index": 40,
+      "title": "Sanvello Mental Health App",
+      "solution_category": "apps_software",
+      "effectiveness": 4.1,
+      "time_to_results": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "1-2 weeks", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Within days", "count": 28, "percentage": 28, "source": "studies"},
+          {"value": "3-4 weeks", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Immediately", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "1-2 months", "count": 5, "percentage": 5, "source": "research"},
+          {"value": "3-6 months", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "usage_frequency": {
+        "mode": "Daily",
+        "values": [
+          {"value": "Daily", "count": 55, "percentage": 55, "source": "research"},
+          {"value": "Multiple times daily", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Few times a week", "count": 12, "percentage": 12, "source": "research"},
+          {"value": "As needed", "count": 6, "percentage": 6, "source": "studies"},
+          {"value": "Weekly", "count": 2, "percentage": 2, "source": "research"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "subscription_type": {
+        "mode": "Monthly subscription",
+        "values": [
+          {"value": "Monthly subscription", "count": 42, "percentage": 42, "source": "research"},
+          {"value": "Free version", "count": 35, "percentage": 35, "source": "studies"},
+          {"value": "Annual subscription", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "One-time purchase", "count": 3, "percentage": 3, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "cost": {
+        "mode": "$5-$9.99/month",
+        "values": [
+          {"value": "$5-$9.99/month", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Free", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "$10-$19.99/month", "count": 22, "percentage": 22, "source": "research"},
+          {"value": "Under $5/month", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "$20-$49.99/month", "count": 3, "percentage": 3, "source": "research"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      },
+      "challenges": {
+        "mode": "None",
+        "values": [
+          {"value": "None", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Technical platform issues", "count": 22, "percentage": 22, "source": "studies"},
+          {"value": "Too many options to choose from", "count": 18, "percentage": 18, "source": "research"},
+          {"value": "Incomplete content", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "No community support", "count": 8, "percentage": 8, "source": "research"},
+          {"value": "Didn't match description", "count": 2, "percentage": 2, "source": "studies"}
+        ],
+        "totalReports": 100,
+        "dataSource": "ai_research"
+      }
+    }
+  ],
+  "validation_summary": {
+    "total_solutions": 9,
+    "therapists_counselors": 1,
+    "exercise_movement": 3,
+    "meditation_mindfulness": 2,
+    "books_courses": 2,
+    "apps_software": 1,
+    "all_fields_have_4plus_options": true,
+    "all_percentages_sum_to_100": true,
+    "all_sources_valid": true,
+    "effectiveness_range": "4.1-4.7"
+  }
+}
