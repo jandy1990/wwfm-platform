@@ -476,6 +476,30 @@ export default function SolutionFormWithAutoCategory({
   // Check if Continue button should be enabled
   const canContinue = formState.solutionName.trim().length >= 2;
 
+  // Handle category change from form switcher
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const handleCategoryChange = useCallback((newCategory: string) => {
+    console.log('[CategoryChange] Switching from', formState.selectedCategory, 'to', newCategory);
+
+    // Trigger fade out animation
+    setIsTransitioning(true);
+
+    // Wait for fade out, then update category and fade in
+    setTimeout(() => {
+      setFormState(prev => ({
+        ...prev,
+        selectedCategory: newCategory,
+        step: 'form'
+      }));
+
+      // Fade back in
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 50);
+    }, 200);
+  }, [formState.selectedCategory]);
+
   // Render the appropriate form based on category
   const renderForm = () => {
     if (!formState.selectedCategory || formState.step !== 'form') return null;
@@ -487,7 +511,8 @@ export default function SolutionFormWithAutoCategory({
       solutionName: formState.selectedSolution ? formState.selectedSolution.title : formState.solutionName,
       category: formState.selectedCategory,
       existingSolutionId: formState.selectedSolution?.id,
-      onBack: handleBack
+      onBack: handleBack,
+      onCategoryChange: handleCategoryChange
     };
 
     // Use conditional rendering with stable keys to maintain component identity
@@ -578,7 +603,13 @@ export default function SolutionFormWithAutoCategory({
       );
     
     case 'form':
-      return renderForm();
+      return (
+        <div
+          className={`transition-opacity duration-200 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
+        >
+          {renderForm()}
+        </div>
+      );
     
     case 'search':
     default:

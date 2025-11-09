@@ -10,8 +10,9 @@ interface Solution {
   index: number;
   title: string;
   solution_category: string;
-  avg_effectiveness: number;
-  aggregated_fields: any;
+  effectiveness?: number;  // Generated JSON uses this
+  avg_effectiveness?: number;  // Fallback key
+  [key: string]: any;  // Allow dynamic field keys (time_to_results, frequency, etc.)
 }
 
 interface FinalOutput {
@@ -33,6 +34,7 @@ interface InsertionResult {
 /**
  * Extract core title for fuzzy matching
  * Removes parenthetical info, brand details, etc.
+ * For medications, extracts both brand and generic names
  */
 function extractCoreTitle(title: string): string {
   // Remove content in parentheses
@@ -53,14 +55,34 @@ function extractCoreTitle(title: string): string {
 }
 
 /**
+ * Extract medication names for matching
+ * Returns both brand and generic names if present
+ */
+function extractMedicationNames(title: string): string[] {
+  const names: string[] = [];
+
+  // Match pattern: "Name1 (Name2)" or "Name1 (Name2) Extra"
+  const match = title.match(/^([^(]+)\s*\(([^)]+)\)/);
+
+  if (match) {
+    // Extract both parts, normalize
+    names.push(match[1].trim().toLowerCase());
+    names.push(match[2].trim().toLowerCase());
+  } else {
+    // No parentheses, just use the title
+    names.push(title.trim().toLowerCase());
+  }
+
+  return names;
+}
+
+/**
  * Search for existing solution by fuzzy title match
  */
 async function findExistingSolution(
   title: string,
   category: string
 ): Promise<{ id: string; title: string } | null> {
-
-  const coreTitle = extractCoreTitle(title);
 
   // Try exact match first
   const { data: exactMatch } = await supabase
@@ -74,7 +96,34 @@ async function findExistingSolution(
     return exactMatch[0];
   }
 
-  // Try core title fuzzy match
+  // For medications, check if either brand OR generic name matches
+  if (category === 'medications' || category === 'supplements_vitamins') {
+    const names = extractMedicationNames(title);
+
+    // Get all solutions in this category
+    const { data: allSolutions } = await supabase
+      .from('solutions')
+      .select('id, title')
+      .eq('solution_category', category);
+
+    if (allSolutions) {
+      for (const solution of allSolutions) {
+        const existingNames = extractMedicationNames(solution.title);
+
+        // Check if any name from the new title matches any name from existing title
+        for (const newName of names) {
+          for (const existingName of existingNames) {
+            if (newName === existingName) {
+              return solution;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Try core title fuzzy match for non-medications
+  const coreTitle = extractCoreTitle(title);
   const { data: fuzzyMatch } = await supabase
     .from('solutions')
     .select('id, title')
@@ -169,6 +218,24 @@ async function linkExists(goalId: string, implementationId: string): Promise<boo
 }
 
 /**
+ * Transform solution object into aggregated_fields format
+ * Extracts all field distributions from individual keys
+ */
+function transformToAggregatedFields(solution: Solution): any {
+  const {
+    index,
+    title,
+    solution_category,
+    effectiveness,
+    avg_effectiveness,
+    ...fieldData
+  } = solution;
+
+  // fieldData now contains all the distribution fields
+  return fieldData;
+}
+
+/**
  * Create goal-solution link with aggregated fields
  */
 async function createGoalLink(
@@ -184,7 +251,9 @@ async function createGoalLink(
       goal_id: goalId,
       implementation_id: implementationId,
       avg_effectiveness: effectiveness,
-      aggregated_fields: aggregatedFields,
+      rating_count: 1,                         // AI solutions count as 1 rating
+      solution_fields: aggregatedFields,      // Frontend checks this first
+      aggregated_fields: aggregatedFields,    // Also store here for consistency
       data_display_mode: 'ai'
     });
 
@@ -280,11 +349,22 @@ async function insertSolutionsWithDedup(): Promise<InsertionResult> {
       }
 
       // Step D: Create goal implementation link
+      const effectiveness = solution.avg_effectiveness || solution.effectiveness || 4.0;
+      const aggregatedFields = transformToAggregatedFields(solution);
+
+      // Validate that we have field data
+      const fieldCount = Object.keys(aggregatedFields).length;
+      if (fieldCount === 0) {
+        console.warn(`  ⚠ WARNING: No field distributions found for "${solution.title}"`);
+      } else {
+        console.log(`  ✓ Transformed ${fieldCount} field distributions`);
+      }
+
       await createGoalLink(
         finalOutput.goal_id,
         variantId,
-        solution.avg_effectiveness,
-        solution.aggregated_fields
+        effectiveness,
+        aggregatedFields
       );
       console.log(`  ✓ Goal link created with aggregated fields`);
 

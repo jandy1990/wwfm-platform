@@ -6,8 +6,8 @@ import TopValueArenas from '@/components/home/TopValueArenas';
 import ActivityFeed from '@/components/home/ActivityFeed';
 import FeaturedVerbatims from '@/components/home/FeaturedVerbatims';
 
-// Cache homepage for 60 seconds - most clicked page should be fast
-export const revalidate = 60
+// Cache homepage for 5 minutes - balance freshness with performance
+export const revalidate = 300
 
 export default async function HomePage() {
   const data = await getHomePageData();

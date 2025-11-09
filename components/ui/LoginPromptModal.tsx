@@ -111,24 +111,6 @@ export default function LoginPromptModal({
 
           {/* Content */}
           <div className="p-6">
-            {/* Community size */}
-            <p className="text-center text-gray-600 dark:text-gray-400 mb-6">
-              Join <span className="font-semibold text-purple-600 dark:text-purple-400">thousands of people</span> finding what works for life's challenges
-            </p>
-
-            {/* Benefits */}
-            <div className="space-y-3 mb-6">
-              {benefits.map((benefit, index) => (
-                <div
-                  key={index}
-                  className="flex items-start gap-3 text-sm text-gray-700 dark:text-gray-300"
-                >
-                  <span className="flex-shrink-0 mt-0.5 text-purple-500 dark:text-green-400">✓</span>
-                  <span>{benefit}</span>
-                </div>
-              ))}
-            </div>
-
             {/* Action Buttons */}
             <div className="space-y-3">
               {/* Primary CTA - Create Account */}
@@ -176,11 +158,6 @@ export default function LoginPromptModal({
                 Sign In
               </button>
             </div>
-
-            {/* Privacy note */}
-            <p className="text-xs text-center text-gray-500 dark:text-gray-400 mt-4">
-              Free forever · No credit card required
-            </p>
           </div>
         </div>
       </div>

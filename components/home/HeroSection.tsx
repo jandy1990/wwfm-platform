@@ -1,30 +1,18 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { PlatformStats, GoalSuggestion } from '@/types/home';
 import { searchGoals } from '@/app/actions/home';
+import { useSearchDebounce } from '@/lib/hooks/useSearchDebounce';
+import { useSearchCache } from '@/lib/hooks/useSearchCache';
+import GoalRequestForm from '@/components/molecules/GoalRequestForm';
+import LoginPromptModal from '@/components/ui/LoginPromptModal';
 
 interface HeroSectionProps {
   stats: PlatformStats;
-}
-
-// Debounce hook
-function useDebounce<T>(value: T, delay: number = 150): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
 }
 
 // Highlight matching text
@@ -50,36 +38,53 @@ function highlightText(text: string, query: string): React.ReactElement {
 }
 
 export default function HeroSection({ stats }: HeroSectionProps) {
+  // Search state
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState<GoalSuggestion[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const debouncedSearch = useDebounce(searchQuery, 150);
+  const debouncedSearch = useSearchDebounce(searchQuery, 150);
+
+  // Goal request feature state
+  const [showRequestForm, setShowRequestForm] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
   const router = useRouter();
+  const supabase = createClientComponentClient();
 
   // Search container ref for click outside handling
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
-  // Search cache to avoid repeated API calls
-  const searchCache = useRef<Map<string, GoalSuggestion[]>>(new Map());
-  const cacheTimeout = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+  // Use shared cache hook
+  const cache = useSearchCache<GoalSuggestion[]>(300000);
 
-  // Helper to manage cache with expiry
-  const setCacheWithExpiry = useCallback((key: string, data: GoalSuggestion[], expiryMs: number = 300000) => {
-    const existingTimeout = cacheTimeout.current.get(key);
-    if (existingTimeout) {
-      clearTimeout(existingTimeout);
+  // Check authentication status
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setIsAuthenticated(!!user);
+    };
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session?.user);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase.auth]);
+
+  // Handle request goal button click
+  const handleRequestGoal = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      setShowLoginModal(true);
+    } else {
+      setShowRequestForm(true);
+      setShowDropdown(false);
     }
-
-    searchCache.current.set(key, data);
-
-    const timeout = setTimeout(() => {
-      searchCache.current.delete(key);
-      cacheTimeout.current.delete(key);
-    }, expiryMs);
-
-    cacheTimeout.current.set(key, timeout);
-  }, []);
+  };
 
   // Fetch suggestions when search query changes
   useEffect(() => {
@@ -95,10 +100,10 @@ export default function HeroSection({ stats }: HeroSectionProps) {
 
       // Check cache first
       const cacheKey = trimmedSearch.toLowerCase();
-      const cachedResults = searchCache.current.get(cacheKey);
+      const cachedResults = cache.get(cacheKey);
       if (cachedResults) {
         setSuggestions(cachedResults);
-        setShowDropdown(cachedResults.length > 0);
+        setShowDropdown(cachedResults.length > 0 || trimmedSearch.length >= 2);
         setIsSearching(false);
         return;
       }
@@ -108,10 +113,10 @@ export default function HeroSection({ stats }: HeroSectionProps) {
       try {
         const results = await searchGoals(trimmedSearch);
         setSuggestions(results);
-        setShowDropdown(results.length > 0);
+        setShowDropdown(results.length > 0 || trimmedSearch.length >= 2);
 
         // Cache the results
-        setCacheWithExpiry(cacheKey, results);
+        cache.set(cacheKey, results);
       } catch (error) {
         console.error('Error fetching suggestions:', error);
         setSuggestions([]);
@@ -122,7 +127,7 @@ export default function HeroSection({ stats }: HeroSectionProps) {
     }
 
     fetchSuggestions();
-  }, [debouncedSearch, setCacheWithExpiry]);
+  }, [debouncedSearch, cache]);
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -136,17 +141,7 @@ export default function HeroSection({ stats }: HeroSectionProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Clean up cache on unmount
-  useEffect(() => {
-    const cacheMap = searchCache.current;
-    const timeoutMap = cacheTimeout.current;
-
-    return () => {
-      timeoutMap.forEach(timeout => clearTimeout(timeout));
-      cacheMap.clear();
-      timeoutMap.clear();
-    };
-  }, []);
+  // Cache cleanup is handled by useSearchCache hook
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -233,12 +228,20 @@ export default function HeroSection({ stats }: HeroSectionProps) {
                     </>
                   ) : searchQuery.length >= 2 ? (
                     <div className="p-4 text-center">
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                         No goals found for "{searchQuery}"
                       </p>
-                      <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                      <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
                         Try different keywords like "anxiety", "sleep", or "focus"
                       </p>
+                      <div className="flex justify-center">
+                        <button
+                          onClick={handleRequestGoal}
+                          className="inline-block w-full sm:w-auto px-4 py-2.5 rounded-lg font-medium transition-all bg-purple-600 hover:bg-purple-700 text-white shadow-sm hover:shadow-md text-sm"
+                        >
+                          💡 Request this goal
+                        </button>
+                      </div>
                     </div>
                   ) : null}
                 </div>
@@ -296,6 +299,27 @@ export default function HeroSection({ stats }: HeroSectionProps) {
           </button>
         </div>
       </div>
+
+      {/* Goal Request Form Modal */}
+      <GoalRequestForm
+        isOpen={showRequestForm}
+        onClose={() => setShowRequestForm(false)}
+        searchQuery={searchQuery}
+      />
+
+      {/* Login Prompt Modal */}
+      <LoginPromptModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        context="request new goals"
+        title="Sign in to request goals"
+        benefits={[
+          'Request new goals for the platform',
+          'Get notified when your request is reviewed',
+          'Contribute to helping others',
+          'Build your contribution history'
+        ]}
+      />
     </section>
   );
 }

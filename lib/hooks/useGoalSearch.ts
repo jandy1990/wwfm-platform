@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useSearchDebounce } from '@/lib/hooks/useSearchDebounce'
+import { useSearchCache } from '@/lib/hooks/useSearchCache'
+import { calculateSearchScore } from '@/lib/utils/searchScoring'
 
 // Types
 export type Goal = {
@@ -34,21 +37,6 @@ type SearchCacheEntry = {
   suggestions: SearchSuggestion[]
 }
 
-// Debounce hook
-function useDebounce<T>(value: T, delay: number = 150): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value)
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value)
-    }, delay)
-
-    return () => clearTimeout(handler)
-  }, [value, delay])
-
-  return debouncedValue
-}
-
 export interface UseGoalSearchOptions {
   arenas: Arena[]
   maxResults?: number
@@ -77,33 +65,11 @@ export function useGoalSearch({
   const [isSearching, setIsSearching] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([])
-  const debouncedSearch = useDebounce(searchQuery, debounceMs)
+  const debouncedSearch = useSearchDebounce(searchQuery, debounceMs)
 
   // Search cache to avoid repeated filtering
-  const searchCache = useRef<Map<string, SearchCacheEntry>>(new Map())
-  const cacheTimeout = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map())
+  const cache = useSearchCache<SearchCacheEntry>(cacheExpiryMs)
   const searchContainerRef = useRef<HTMLDivElement>(null)
-
-  // Helper to manage cache with expiry
-  const setCacheWithExpiry = useCallback((
-    key: string,
-    data: SearchCacheEntry,
-    expiryMs: number = cacheExpiryMs
-  ) => {
-    const existingTimeout = cacheTimeout.current.get(key)
-    if (existingTimeout) {
-      clearTimeout(existingTimeout)
-    }
-
-    searchCache.current.set(key, data)
-
-    const timeout = setTimeout(() => {
-      searchCache.current.delete(key)
-      cacheTimeout.current.delete(key)
-    }, expiryMs)
-
-    cacheTimeout.current.set(key, timeout)
-  }, [cacheExpiryMs])
 
   // Search goals with smart scoring
   useEffect(() => {
@@ -117,42 +83,24 @@ export function useGoalSearch({
     }
 
     const cacheKey = trimmedSearch.toLowerCase()
-    const cachedResult = searchCache.current.get(cacheKey)
+    const cachedResult = cache.get(cacheKey)
     if (cachedResult) {
       setIsSearching(false)
       setSuggestions(cachedResult.suggestions)
-      setShowDropdown(cachedResult.suggestions.length > 0)
+      setShowDropdown(cachedResult.suggestions.length > 0 || trimmedSearch.length >= 2)
       return
     }
 
     let cancelled = false
 
     const computeSuggestions = () => {
-      const query = trimmedSearch.toLowerCase()
+      const query = trimmedSearch
       const goalSuggestions: SearchSuggestion[] = []
 
       arenas.forEach(arena => {
         arena.categories?.forEach(category => {
           category.goals?.forEach(goal => {
-            const titleLower = goal.title.toLowerCase()
-            let score = 0
-
-            if (titleLower === query) {
-              score = 100
-            } else if (titleLower.startsWith(query)) {
-              score = 90
-            } else if (titleLower.split(' ').some(word => word.startsWith(query))) {
-              score = 80
-            } else if (titleLower.includes(' ' + query)) {
-              score = 70
-            } else if (titleLower.includes(query)) {
-              score = 60
-            }
-
-            const actionVerb = goal.title.split(' ')[0].toLowerCase()
-            if (actionVerb === query) {
-              score += 20
-            }
+            const score = calculateSearchScore(goal.title, query)
 
             if (score > 0) {
               goalSuggestions.push({ goal, category, arena, score })
@@ -166,9 +114,10 @@ export function useGoalSearch({
 
       if (!cancelled) {
         setSuggestions(topSuggestions)
-        setShowDropdown(topSuggestions.length > 0)
+        // Show dropdown if there are results OR if query is long enough to show "no results" message
+        setShowDropdown(topSuggestions.length > 0 || trimmedSearch.length >= 2)
         setIsSearching(false)
-        setCacheWithExpiry(cacheKey, { suggestions: topSuggestions })
+        cache.set(cacheKey, { suggestions: topSuggestions })
       }
     }
 
@@ -178,7 +127,7 @@ export function useGoalSearch({
     return () => {
       cancelled = true
     }
-  }, [arenas, debouncedSearch, maxResults, searchQuery, setCacheWithExpiry])
+  }, [arenas, debouncedSearch, maxResults, cache])
 
   const clearSearch = useCallback(() => {
     setSearchQuery('')
@@ -198,17 +147,7 @@ export function useGoalSearch({
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // Clean up cache on unmount
-  useEffect(() => {
-    const cacheMap = searchCache.current
-    const timeoutMap = cacheTimeout.current
-
-    return () => {
-      timeoutMap.forEach(timeout => clearTimeout(timeout))
-      cacheMap.clear()
-      timeoutMap.clear()
-    }
-  }, [])
+  // Cache cleanup is handled by useSearchCache hook
 
   return {
     searchQuery,

@@ -1,0 +1,11 @@
+{
+  "goal_id": "56e2801e-0d78-4abd-a795-869e5b780ae7",
+  "goal_title": "Reduce anxiety",
+  "goal_description": "Calm my anxiety",
+  "arena": "Feeling & Emotion",
+  "solution_count_range": {
+    "min": 15,
+    "max": 50,
+    "typical": 35
+  }
+}

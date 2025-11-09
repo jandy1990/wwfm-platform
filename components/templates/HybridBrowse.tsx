@@ -6,6 +6,9 @@ import { groupCategoriesBySuperCategory, SUPER_CATEGORY_COLORS, shouldSkipCatego
 import { getCategoryIcon } from '@/lib/navigation/category-icons'
 import { ArenaSkeleton, SkeletonGrid, SearchSkeleton, PageHeaderSkeleton } from '@/components/atoms/SkeletonLoader'
 import { useGoalSearch } from '@/lib/hooks/useGoalSearch'
+import GoalRequestForm from '@/components/molecules/GoalRequestForm'
+import LoginPromptModal from '@/components/ui/LoginPromptModal'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 // Types (reused from original)
 type Goal = {
@@ -76,7 +79,51 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
     clearSearch,
     searchContainerRef
   } = useGoalSearch({ arenas, maxResults: 10 })
-  
+
+  // Goal request feature state
+  const [showRequestForm, setShowRequestForm] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null) // null = loading
+  const supabase = createClientComponentClient()
+
+  // Check authentication status
+  useEffect(() => {
+    const checkAuth = async () => {
+      console.log('[Auth useEffect] Checking initial auth...')
+      const { data: { user }, error } = await supabase.auth.getUser()
+      console.log('[Auth useEffect] Initial auth result:', { user: user?.id, email: user?.email, error })
+      setIsAuthenticated(!!user)
+    }
+    checkAuth()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log('[Auth useEffect] Auth state changed:', { event: _event, user: session?.user?.id })
+      setIsAuthenticated(!!session?.user)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [supabase.auth])
+
+  // Handle request button click - with async auth check
+  const handleRequestGoal = async () => {
+    console.log('[handleRequestGoal] Button clicked, checking auth...')
+    console.log('[handleRequestGoal] isAuthenticated state:', isAuthenticated)
+
+    // Double-check auth status on click (in case state hasn't updated yet)
+    const { data: { user }, error } = await supabase.auth.getUser()
+
+    console.log('[handleRequestGoal] getUser result:', { user: user?.id, email: user?.email, error })
+
+    if (!user) {
+      console.log('[handleRequestGoal] No user found, showing login modal')
+      setShowLoginModal(true)
+    } else {
+      console.log('[handleRequestGoal] User found, showing request form')
+      setShowRequestForm(true)
+      setShowDropdown(false)
+    }
+  }
+
   // Group categories by super-category
   const categoryGroups = useMemo(() => {
     return groupCategoriesBySuperCategory(arenas)
@@ -200,7 +247,6 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                     key={`${goal.id}-${index}`}
                     href={`/goal/${goal.id}`}
                     className="block px-4 py-4 min-h-[44px] hover:bg-purple-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-b-0"
-                    onClick={() => setShowDropdown(false)}
                   >
                     <div className="font-semibold text-gray-900 dark:text-gray-100">
                       {highlightText(goal.title, searchQuery)}
@@ -216,9 +262,20 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
             {/* No Results Message */}
             {showDropdown && searchQuery.trim().length >= 2 && suggestions.length === 0 && !isSearching && (
               <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 rounded-lg shadow-xl border-2 border-gray-200 dark:border-gray-700 p-4 text-center">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                   No goals found for &quot;{searchQuery}&quot;
                 </p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
+                  Try different keywords like &quot;anxiety&quot;, &quot;sleep&quot;, or &quot;focus&quot;
+                </p>
+                <div className="flex justify-center">
+                  <button
+                    onClick={handleRequestGoal}
+                    className="inline-block w-full sm:w-auto px-4 py-2.5 rounded-lg font-medium transition-all bg-purple-600 hover:bg-purple-700 text-white shadow-sm hover:shadow-md text-sm"
+                  >
+                    💡 Request this goal
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -329,6 +386,27 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
           )}
         </main>
       </div>
+
+      {/* Goal Request Form Modal */}
+      <GoalRequestForm
+        isOpen={showRequestForm}
+        onClose={() => setShowRequestForm(false)}
+        searchQuery={searchQuery}
+      />
+
+      {/* Login Prompt Modal */}
+      <LoginPromptModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        context="request new goals"
+        title="Sign in to request goals"
+        benefits={[
+          'Request new goals for the platform',
+          'Get notified when your request is reviewed',
+          'Contribute to helping others',
+          'Build your contribution history'
+        ]}
+      />
     </div>
   )
 }

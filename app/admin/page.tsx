@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createServerSupabaseClient } from '@/lib/database/server';
 import { CustomSpecialtyReview } from '@/components/admin/CustomSpecialtyReview';
+import { GoalRequestReview } from '@/components/admin/GoalRequestReview';
 
 export default async function AdminDashboard() {
   const supabase = await createServerSupabaseClient();
@@ -26,6 +27,44 @@ export default async function AdminDashboard() {
   // Fetch custom specialty data
   const { data: customSpecialties } = await supabase.rpc('get_custom_specialty_counts');
 
+  // Fetch goal requests (pending only)
+  const { data: goalRequests } = await supabase
+    .from('goal_suggestions')
+    .select(`
+      *,
+      arenas!goal_suggestions_arena_id_fkey (
+        name
+      )
+    `)
+    .eq('status', 'pending')
+    .order('created_at', { ascending: false });
+
+  // Fetch all categories for dropdown in approval modal
+  const { data: categories } = await supabase
+    .from('categories')
+    .select(`
+      id,
+      name,
+      arena_id,
+      arenas!categories_arena_id_fkey (
+        name
+      )
+    `)
+    .order('name', { ascending: true });
+
+  // Transform data for GoalRequestReview component
+  const transformedRequests = (goalRequests || []).map((req) => ({
+    ...req,
+    arena_name: req.arenas?.name || null
+  }));
+
+  const transformedCategories = (categories || []).map((cat) => ({
+    id: cat.id,
+    name: cat.name,
+    arena_id: cat.arena_id,
+    arena_name: cat.arenas?.name || null
+  }));
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -39,6 +78,20 @@ export default async function AdminDashboard() {
         </div>
 
         <div className="grid gap-6">
+          {/* Goal Request Review Section */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+              Goal Requests
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+              Review user-submitted goal requests. Approve to create new goals or reject with feedback.
+            </p>
+            <GoalRequestReview
+              requests={transformedRequests}
+              categories={transformedCategories}
+            />
+          </div>
+
           {/* Custom Specialty Review Section */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
             <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">

@@ -1,12 +1,15 @@
 "use client";
 
-import * as Sentry from "@sentry/nextjs";
+// Sentry removed - uncomment and run `npm install @sentry/nextjs` to re-enable error reporting
+// import * as Sentry from "@sentry/nextjs";
 import NextError from "next/error";
 import { useEffect } from "react";
 
 export default function GlobalError({ error }: { error: Error & { digest?: string } }) {
   useEffect(() => {
-    Sentry.captureException(error);
+    // Log error to console in development
+    console.error("Global error:", error);
+    // Sentry.captureException(error); // Re-enable when Sentry is installed
   }, [error]);
 
   return (

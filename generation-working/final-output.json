@@ -1,0 +1,1514 @@
+{
+  "goal_id": "681fc530-bad1-4bc3-8895-2972cf8f3222",
+  "goal_title": "Manage dementia aggression",
+  "target_count": 30,
+  "actual_count": 30,
+  "solutions": [
+    {
+      "index": 1,
+      "title": "Risperidone 0.5mg for severe aggression",
+      "solution_category": "medications",
+      "effectiveness": 3.8,
+      "time_to_results": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "Within days", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "1-2 weeks", "count": 35, "percentage": 35, "source": "studies"},
+          {"value": "2-4 weeks", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over a month", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "frequency": {
+        "mode": "Once daily",
+        "values": [
+          {"value": "Once daily", "count": 45, "percentage": 45, "source": "research"},
+          {"value": "Twice daily", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "As needed", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Three times daily", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "length_of_use": {
+        "mode": "3-6 months",
+        "values": [
+          {"value": "1-3 months", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "3-6 months", "count": 35, "percentage": 35, "source": "studies"},
+          {"value": "6-12 months", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Ongoing", "count": 20, "percentage": 20, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$10-50/month",
+        "values": [
+          {"value": "Under $10/month", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "$10-50/month", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "$50-100/month", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Over $100/month", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "side_effects": {
+        "mode": "Sedation",
+        "values": [
+          {"value": "Sedation", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Falls risk", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Weight gain", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Stroke risk", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "None noticed", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "title": "Quetiapine 25mg for sundowning aggression",
+      "solution_category": "medications",
+      "effectiveness": 3.7,
+      "time_to_results": {
+        "mode": "3-7 days",
+        "values": [
+          {"value": "1-3 days", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "3-7 days", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "1-2 weeks", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "2-4 weeks", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "frequency": {
+        "mode": "Bedtime only",
+        "values": [
+          {"value": "Bedtime only", "count": 45, "percentage": 45, "source": "research"},
+          {"value": "Twice daily", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "As needed", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Three times daily", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "length_of_use": {
+        "mode": "Ongoing",
+        "values": [
+          {"value": "1-3 months", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "3-6 months", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "6-12 months", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Ongoing", "count": 30, "percentage": 30, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$20-60/month",
+        "values": [
+          {"value": "Under $20/month", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "$20-60/month", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$60-120/month", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over $120/month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "side_effects": {
+        "mode": "Drowsiness",
+        "values": [
+          {"value": "Drowsiness", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Confusion", "count": 20, "percentage": 20, "source": "studies"},
+          {"value": "Falls", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Metabolic changes", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "None noticed", "count": 10, "percentage": 10, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "title": "Sertraline for anxiety-driven aggression",
+      "solution_category": "medications",
+      "effectiveness": 3.9,
+      "time_to_results": {
+        "mode": "2-4 weeks",
+        "values": [
+          {"value": "1-2 weeks", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "2-4 weeks", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "4-6 weeks", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over 6 weeks", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "frequency": {
+        "mode": "Once daily",
+        "values": [
+          {"value": "Once daily", "count": 75, "percentage": 75, "source": "research"},
+          {"value": "Twice daily", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "Every other day", "count": 5, "percentage": 5, "source": "research"},
+          {"value": "As needed", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "length_of_use": {
+        "mode": "Ongoing",
+        "values": [
+          {"value": "3-6 months", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "6-12 months", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "1-2 years", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Ongoing", "count": 30, "percentage": 30, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$10-30/month",
+        "values": [
+          {"value": "Under $10/month", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "$10-30/month", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "$30-60/month", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over $60/month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "side_effects": {
+        "mode": "Mild nausea",
+        "values": [
+          {"value": "Mild nausea", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Sleep changes", "count": 20, "percentage": 20, "source": "studies"},
+          {"value": "Appetite changes", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Headache", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None noticed", "count": 30, "percentage": 30, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "title": "Depakote for mood stabilization",
+      "solution_category": "medications",
+      "effectiveness": 3.6,
+      "time_to_results": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "Within days", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "1-2 weeks", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "2-4 weeks", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over a month", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "frequency": {
+        "mode": "Twice daily",
+        "values": [
+          {"value": "Once daily", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Twice daily", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "Three times daily", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "As needed", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "length_of_use": {
+        "mode": "6-12 months",
+        "values": [
+          {"value": "1-3 months", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "3-6 months", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "6-12 months", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Ongoing", "count": 25, "percentage": 25, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$30-80/month",
+        "values": [
+          {"value": "Under $30/month", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "$30-80/month", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$80-150/month", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over $150/month", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "side_effects": {
+        "mode": "Drowsiness",
+        "values": [
+          {"value": "Drowsiness", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Weight gain", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Tremor", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Hair loss", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None noticed", "count": 20, "percentage": 20, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 5,
+      "title": "Lorazepam for acute agitation episodes",
+      "solution_category": "medications",
+      "effectiveness": 3.5,
+      "time_to_results": {
+        "mode": "30-60 minutes",
+        "values": [
+          {"value": "15-30 minutes", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "30-60 minutes", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "1-2 hours", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over 2 hours", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "frequency": {
+        "mode": "As needed",
+        "values": [
+          {"value": "As needed", "count": 60, "percentage": 60, "source": "research"},
+          {"value": "Once daily", "count": 20, "percentage": 20, "source": "studies"},
+          {"value": "Twice daily", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Three times daily", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "length_of_use": {
+        "mode": "Short-term only",
+        "values": [
+          {"value": "Days only", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "1-2 weeks", "count": 35, "percentage": 35, "source": "studies"},
+          {"value": "2-4 weeks", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over a month", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$10-30/month",
+        "values": [
+          {"value": "Under $10/month", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "$10-30/month", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "$30-60/month", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Over $60/month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "side_effects": {
+        "mode": "Increased confusion",
+        "values": [
+          {"value": "Increased confusion", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Falls risk", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Paradoxical agitation", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Memory problems", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None noticed", "count": 10, "percentage": 10, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 6,
+      "title": "Acetaminophen for pain-related aggression",
+      "solution_category": "medications",
+      "effectiveness": 4.1,
+      "time_to_results": {
+        "mode": "30-60 minutes",
+        "values": [
+          {"value": "15-30 minutes", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "30-60 minutes", "count": 50, "percentage": 50, "source": "studies"},
+          {"value": "1-2 hours", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over 2 hours", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "frequency": {
+        "mode": "Every 6 hours",
+        "values": [
+          {"value": "Every 4 hours", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Every 6 hours", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "Every 8 hours", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "As needed", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "length_of_use": {
+        "mode": "Ongoing",
+        "values": [
+          {"value": "Days", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Weeks", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Months", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Ongoing", "count": 30, "percentage": 30, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "Under $10/month",
+        "values": [
+          {"value": "Under $10/month", "count": 70, "percentage": 70, "source": "research"},
+          {"value": "$10-20/month", "count": 20, "percentage": 20, "source": "studies"},
+          {"value": "$20-40/month", "count": 7, "percentage": 7, "source": "research"},
+          {"value": "Over $40/month", "count": 3, "percentage": 3, "source": "studies"}
+        ]
+      },
+      "side_effects": {
+        "mode": "None noticed",
+        "values": [
+          {"value": "None noticed", "count": 60, "percentage": 60, "source": "research"},
+          {"value": "Mild stomach upset", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "Liver concerns", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "Constipation", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "Allergic reaction", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 7,
+      "title": "Mirtazapine for sleep and mood",
+      "solution_category": "medications",
+      "effectiveness": 3.8,
+      "time_to_results": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "2-5 days", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "1-2 weeks", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "2-4 weeks", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over a month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "frequency": {
+        "mode": "Bedtime only",
+        "values": [
+          {"value": "Bedtime only", "count": 85, "percentage": 85, "source": "research"},
+          {"value": "Twice daily", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "Morning", "count": 3, "percentage": 3, "source": "research"},
+          {"value": "As needed", "count": 2, "percentage": 2, "source": "studies"}
+        ]
+      },
+      "length_of_use": {
+        "mode": "Ongoing",
+        "values": [
+          {"value": "1-3 months", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "3-6 months", "count": 20, "percentage": 20, "source": "studies"},
+          {"value": "6-12 months", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Ongoing", "count": 40, "percentage": 40, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$15-40/month",
+        "values": [
+          {"value": "Under $15/month", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "$15-40/month", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$40-80/month", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over $80/month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "side_effects": {
+        "mode": "Increased appetite",
+        "values": [
+          {"value": "Increased appetite", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Daytime drowsiness", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Weight gain", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Dry mouth", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None noticed", "count": 10, "percentage": 10, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 8,
+      "title": "Geriatric psychiatrist consultation",
+      "solution_category": "doctors_specialists",
+      "effectiveness": 4.2,
+      "time_to_results": {
+        "mode": "2-4 weeks",
+        "values": [
+          {"value": "Within a week", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "2-4 weeks", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "1-2 months", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over 2 months", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "session_frequency": {
+        "mode": "Monthly",
+        "values": [
+          {"value": "Weekly", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "Biweekly", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Monthly", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Every 3 months", "count": 25, "percentage": 25, "source": "studies"}
+        ]
+      },
+      "wait_time": {
+        "mode": "2-4 weeks",
+        "values": [
+          {"value": "Within a week", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "1-2 weeks", "count": 20, "percentage": 20, "source": "studies"},
+          {"value": "2-4 weeks", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Over a month", "count": 35, "percentage": 35, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$200-400/visit",
+        "values": [
+          {"value": "Under $200/visit", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "$200-400/visit", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "$400-600/visit", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Over $600/visit", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Finding specialist",
+        "values": [
+          {"value": "Finding specialist", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Long wait times", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Insurance coverage", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Transportation", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 9,
+      "title": "Neurologist for behavior assessment",
+      "solution_category": "doctors_specialists",
+      "effectiveness": 3.9,
+      "time_to_results": {
+        "mode": "4-6 weeks",
+        "values": [
+          {"value": "2-4 weeks", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "4-6 weeks", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "6-8 weeks", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over 2 months", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "session_frequency": {
+        "mode": "Every 3 months",
+        "values": [
+          {"value": "Monthly", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Every 2 months", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Every 3 months", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Every 6 months", "count": 25, "percentage": 25, "source": "studies"}
+        ]
+      },
+      "wait_time": {
+        "mode": "4-8 weeks",
+        "values": [
+          {"value": "1-2 weeks", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "2-4 weeks", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "4-8 weeks", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Over 2 months", "count": 25, "percentage": 25, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$300-500/visit",
+        "values": [
+          {"value": "Under $300/visit", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "$300-500/visit", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$500-700/visit", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over $700/visit", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Limited availability",
+        "values": [
+          {"value": "Limited availability", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Insurance issues", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Travel distance", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Patient cooperation", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 10,
+      "title": "Dementia behavior specialist nurse",
+      "solution_category": "doctors_specialists",
+      "effectiveness": 4.3,
+      "time_to_results": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "Within days", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "1-2 weeks", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "2-4 weeks", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over a month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "session_frequency": {
+        "mode": "Weekly",
+        "values": [
+          {"value": "Twice weekly", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Weekly", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "Biweekly", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Monthly", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "wait_time": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "Within days", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "1-2 weeks", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "2-4 weeks", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over a month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$100-200/visit",
+        "values": [
+          {"value": "Under $100/visit", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "$100-200/visit", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$200-300/visit", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over $300/visit", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Finding qualified nurse",
+        "values": [
+          {"value": "Finding qualified nurse", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Insurance coverage", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Scheduling", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Home visit availability", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 11,
+      "title": "Behavioral therapist for dementia care",
+      "solution_category": "therapists_counselors",
+      "effectiveness": 4.1,
+      "time_to_results": {
+        "mode": "2-4 weeks",
+        "values": [
+          {"value": "1-2 weeks", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "2-4 weeks", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "4-6 weeks", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over 6 weeks", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "session_frequency": {
+        "mode": "Weekly",
+        "values": [
+          {"value": "Twice weekly", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Weekly", "count": 50, "percentage": 50, "source": "studies"},
+          {"value": "Biweekly", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Monthly", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "session_length": {
+        "mode": "45-60 minutes",
+        "values": [
+          {"value": "30 minutes", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "45-60 minutes", "count": 55, "percentage": 55, "source": "studies"},
+          {"value": "60-90 minutes", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over 90 minutes", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$100-150/session",
+        "values": [
+          {"value": "Under $100/session", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "$100-150/session", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "$150-250/session", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Over $250/session", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Finding specialist",
+        "values": [
+          {"value": "Finding specialist", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Patient cooperation", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Insurance coverage", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Caregiver burnout", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 12,
+      "title": "Music therapy for agitation",
+      "solution_category": "therapists_counselors",
+      "effectiveness": 4.2,
+      "time_to_results": {
+        "mode": "Immediate",
+        "values": [
+          {"value": "Immediate", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Within days", "count": 35, "percentage": 35, "source": "studies"},
+          {"value": "1-2 weeks", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "2-4 weeks", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "session_frequency": {
+        "mode": "2-3 times weekly",
+        "values": [
+          {"value": "Daily", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "2-3 times weekly", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "Weekly", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "As needed", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "session_length": {
+        "mode": "30-45 minutes",
+        "values": [
+          {"value": "15-30 minutes", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "30-45 minutes", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "45-60 minutes", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over 60 minutes", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$60-100/session",
+        "values": [
+          {"value": "Under $60/session", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "$60-100/session", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$100-150/session", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over $150/session", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Finding therapist",
+        "values": [
+          {"value": "Finding therapist", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Patient engagement", "count": 20, "percentage": 20, "source": "studies"},
+          {"value": "Insurance coverage", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Scheduling", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 13,
+      "title": "Validation therapy specialist",
+      "solution_category": "therapists_counselors",
+      "effectiveness": 4.0,
+      "time_to_results": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "Within days", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "1-2 weeks", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "2-4 weeks", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over a month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "session_frequency": {
+        "mode": "Weekly",
+        "values": [
+          {"value": "Twice weekly", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Weekly", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "Biweekly", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Monthly", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "session_length": {
+        "mode": "45-60 minutes",
+        "values": [
+          {"value": "30 minutes", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "45-60 minutes", "count": 50, "percentage": 50, "source": "studies"},
+          {"value": "60-90 minutes", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over 90 minutes", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$80-120/session",
+        "values": [
+          {"value": "Under $80/session", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "$80-120/session", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$120-180/session", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over $180/session", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Training availability",
+        "values": [
+          {"value": "Training availability", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Patient stage", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Consistency needed", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Cost", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 14,
+      "title": "Occupational therapy for behavior",
+      "solution_category": "therapists_counselors",
+      "effectiveness": 3.9,
+      "time_to_results": {
+        "mode": "2-3 weeks",
+        "values": [
+          {"value": "1-2 weeks", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "2-3 weeks", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "3-4 weeks", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over a month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "session_frequency": {
+        "mode": "Weekly",
+        "values": [
+          {"value": "Twice weekly", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Weekly", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "Biweekly", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Monthly", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "session_length": {
+        "mode": "45-60 minutes",
+        "values": [
+          {"value": "30 minutes", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "45-60 minutes", "count": 55, "percentage": 55, "source": "studies"},
+          {"value": "60-90 minutes", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over 90 minutes", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$100-150/session",
+        "values": [
+          {"value": "Under $100/session", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "$100-150/session", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$150-200/session", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Over $200/session", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Insurance limitations",
+        "values": [
+          {"value": "Insurance limitations", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Patient cooperation", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Finding specialist", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Home modifications", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 15,
+      "title": "Consistent daily routine schedule",
+      "solution_category": "habits_routines",
+      "effectiveness": 4.3,
+      "time_to_results": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "Within days", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "1-2 weeks", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "2-3 weeks", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over a month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "time_commitment": {
+        "mode": "Constant monitoring",
+        "values": [
+          {"value": "1-2 hours daily", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "3-4 hours daily", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "5-8 hours daily", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Constant monitoring", "count": 35, "percentage": 35, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "Free",
+        "values": [
+          {"value": "Free", "count": 85, "percentage": 85, "source": "research"},
+          {"value": "Under $50", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "$50-100", "count": 3, "percentage": 3, "source": "research"},
+          {"value": "Over $100", "count": 2, "percentage": 2, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Maintaining consistency",
+        "values": [
+          {"value": "Maintaining consistency", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Caregiver coordination", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Patient resistance", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Unexpected disruptions", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 16,
+      "title": "Redirection to pleasant memories",
+      "solution_category": "habits_routines",
+      "effectiveness": 4.1,
+      "time_to_results": {
+        "mode": "Immediate",
+        "values": [
+          {"value": "Immediate", "count": 55, "percentage": 55, "source": "research"},
+          {"value": "Within minutes", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Within hours", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "Next day", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "time_commitment": {
+        "mode": "As needed",
+        "values": [
+          {"value": "5-15 minutes", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "15-30 minutes", "count": 35, "percentage": 35, "source": "studies"},
+          {"value": "30-60 minutes", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "As needed", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "Free",
+        "values": [
+          {"value": "Free", "count": 95, "percentage": 95, "source": "research"},
+          {"value": "Under $20", "count": 3, "percentage": 3, "source": "studies"},
+          {"value": "$20-50", "count": 1, "percentage": 1, "source": "research"},
+          {"value": "Over $50", "count": 1, "percentage": 1, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Finding effective topics",
+        "values": [
+          {"value": "Finding effective topics", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Patient mood variability", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Memory limitations", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Caregiver patience", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 17,
+      "title": "Calm environment modifications",
+      "solution_category": "habits_routines",
+      "effectiveness": 4.2,
+      "time_to_results": {
+        "mode": "Within days",
+        "values": [
+          {"value": "Immediate", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Within days", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "1-2 weeks", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over 2 weeks", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "time_commitment": {
+        "mode": "One-time setup",
+        "values": [
+          {"value": "One-time setup", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Daily adjustments", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Weekly changes", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Ongoing monitoring", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$50-200",
+        "values": [
+          {"value": "Under $50", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "$50-200", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$200-500", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over $500", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Identifying triggers",
+        "values": [
+          {"value": "Identifying triggers", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Space limitations", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Other residents", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Cost of changes", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 18,
+      "title": "Avoiding known triggers checklist",
+      "solution_category": "habits_routines",
+      "effectiveness": 4.0,
+      "time_to_results": {
+        "mode": "Within days",
+        "values": [
+          {"value": "Immediate", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Within days", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "1-2 weeks", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over 2 weeks", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "time_commitment": {
+        "mode": "15-30 minutes daily",
+        "values": [
+          {"value": "5-15 minutes daily", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "15-30 minutes daily", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "30-60 minutes daily", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over 1 hour daily", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "Free",
+        "values": [
+          {"value": "Free", "count": 90, "percentage": 90, "source": "research"},
+          {"value": "Under $20", "count": 7, "percentage": 7, "source": "studies"},
+          {"value": "$20-50", "count": 2, "percentage": 2, "source": "research"},
+          {"value": "Over $50", "count": 1, "percentage": 1, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Identifying all triggers",
+        "values": [
+          {"value": "Identifying all triggers", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Staff training", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Consistency", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Documentation", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 19,
+      "title": "Caregiver rotation schedule",
+      "solution_category": "habits_routines",
+      "effectiveness": 3.8,
+      "time_to_results": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "Within days", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "1-2 weeks", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "2-4 weeks", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over a month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "time_commitment": {
+        "mode": "Planning time",
+        "values": [
+          {"value": "1-2 hours weekly", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "3-5 hours weekly", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "Daily coordination", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "As needed", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "Varies",
+        "values": [
+          {"value": "Free", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Under $500/month", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "$500-1500/month", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over $1500/month", "count": 20, "percentage": 20, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Finding reliable help",
+        "values": [
+          {"value": "Finding reliable help", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Cost of care", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Training caregivers", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Patient adjustment", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 20,
+      "title": "Pet therapy visits",
+      "solution_category": "alternative_practitioners",
+      "effectiveness": 4.0,
+      "time_to_results": {
+        "mode": "Immediate",
+        "values": [
+          {"value": "Immediate", "count": 60, "percentage": 60, "source": "research"},
+          {"value": "Within hours", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Within days", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "Over a week", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "session_frequency": {
+        "mode": "Weekly",
+        "values": [
+          {"value": "Daily", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "2-3 times weekly", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Weekly", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Monthly", "count": 20, "percentage": 20, "source": "studies"}
+        ]
+      },
+      "session_length": {
+        "mode": "30-45 minutes",
+        "values": [
+          {"value": "15-30 minutes", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "30-45 minutes", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "45-60 minutes", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over 60 minutes", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "Free/volunteer",
+        "values": [
+          {"value": "Free/volunteer", "count": 60, "percentage": 60, "source": "research"},
+          {"value": "Under $50/visit", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "$50-100/visit", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "Over $100/visit", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Availability",
+        "values": [
+          {"value": "Availability", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Allergies/fear", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Facility policies", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Scheduling", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 21,
+      "title": "Aromatherapy with lavender",
+      "solution_category": "alternative_practitioners",
+      "effectiveness": 3.7,
+      "time_to_results": {
+        "mode": "30-60 minutes",
+        "values": [
+          {"value": "15-30 minutes", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "30-60 minutes", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "1-2 hours", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Over 2 hours", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "session_frequency": {
+        "mode": "Daily",
+        "values": [
+          {"value": "Multiple times daily", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Daily", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "Few times weekly", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "As needed", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "session_length": {
+        "mode": "30-60 minutes",
+        "values": [
+          {"value": "15-30 minutes", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "30-60 minutes", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "1-2 hours", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Continuous diffusion", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$20-50/month",
+        "values": [
+          {"value": "Under $20/month", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "$20-50/month", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$50-100/month", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over $100/month", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Sensitivities",
+        "values": [
+          {"value": "Sensitivities", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Effectiveness varies", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Safety concerns", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Staff training", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 22,
+      "title": "Weighted blanket for agitation",
+      "solution_category": "products_devices",
+      "effectiveness": 3.9,
+      "time_to_results": {
+        "mode": "Within minutes",
+        "values": [
+          {"value": "Immediate", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Within minutes", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "Within an hour", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over an hour", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "ease_of_use": {
+        "mode": "Very easy",
+        "values": [
+          {"value": "Very easy", "count": 45, "percentage": 45, "source": "research"},
+          {"value": "Easy", "count": 35, "percentage": 35, "source": "studies"},
+          {"value": "Moderate", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Difficult", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "product_type": {
+        "mode": "Comfort item",
+        "values": [
+          {"value": "Comfort item", "count": 60, "percentage": 60, "source": "research"},
+          {"value": "Medical device", "count": 20, "percentage": 20, "source": "studies"},
+          {"value": "Sensory tool", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Sleep aid", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$50-100",
+        "values": [
+          {"value": "Under $50", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "$50-100", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$100-200", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over $200", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Weight tolerance",
+        "values": [
+          {"value": "Weight tolerance", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Temperature regulation", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Cleaning difficulty", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Patient rejection", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 23,
+      "title": "Fidget items and sensory toys",
+      "solution_category": "products_devices",
+      "effectiveness": 3.8,
+      "time_to_results": {
+        "mode": "Immediate",
+        "values": [
+          {"value": "Immediate", "count": 55, "percentage": 55, "source": "research"},
+          {"value": "Within minutes", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Within an hour", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "Variable", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "ease_of_use": {
+        "mode": "Very easy",
+        "values": [
+          {"value": "Very easy", "count": 50, "percentage": 50, "source": "research"},
+          {"value": "Easy", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Moderate", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Difficult", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "product_type": {
+        "mode": "Sensory tool",
+        "values": [
+          {"value": "Sensory tool", "count": 50, "percentage": 50, "source": "research"},
+          {"value": "Activity item", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Comfort object", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Therapeutic device", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$20-50",
+        "values": [
+          {"value": "Under $20", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "$20-50", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "$50-100", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over $100", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Finding right items",
+        "values": [
+          {"value": "Finding right items", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Choking hazard", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Lost items", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Patient interest", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 24,
+      "title": "Calming music playlists",
+      "solution_category": "meditation_mindfulness",
+      "effectiveness": 4.0,
+      "time_to_results": {
+        "mode": "Within minutes",
+        "values": [
+          {"value": "Immediate", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Within minutes", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "Within 30 minutes", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Over 30 minutes", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "practice_length": {
+        "mode": "30-60 minutes",
+        "values": [
+          {"value": "15-30 minutes", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "30-60 minutes", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "1-2 hours", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Continuous", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "frequency": {
+        "mode": "Daily",
+        "values": [
+          {"value": "Multiple times daily", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Daily", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "Few times weekly", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "As needed", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Finding preferred music",
+        "values": [
+          {"value": "Finding preferred music", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Volume sensitivity", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Equipment setup", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Other residents", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 25,
+      "title": "Teepa Snow dementia care training",
+      "solution_category": "books_courses",
+      "effectiveness": 4.3,
+      "time_to_results": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "Within days", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "1-2 weeks", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "2-4 weeks", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over a month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "format": {
+        "mode": "Online videos",
+        "values": [
+          {"value": "Online videos", "count": 45, "percentage": 45, "source": "research"},
+          {"value": "Live workshop", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Books/manuals", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Certification program", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "learning_difficulty": {
+        "mode": "Moderate",
+        "values": [
+          {"value": "Easy", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Moderate", "count": 50, "percentage": 50, "source": "studies"},
+          {"value": "Challenging", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Very difficult", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$100-300",
+        "values": [
+          {"value": "Under $100", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "$100-300", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "$300-600", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over $600", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Time to complete",
+        "values": [
+          {"value": "Time to complete", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Applying techniques", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Staff buy-in", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Cost", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 26,
+      "title": "UCLA dementia behavior management course",
+      "solution_category": "books_courses",
+      "effectiveness": 4.1,
+      "time_to_results": {
+        "mode": "2-4 weeks",
+        "values": [
+          {"value": "1-2 weeks", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "2-4 weeks", "count": 50, "percentage": 50, "source": "studies"},
+          {"value": "4-6 weeks", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over 6 weeks", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "format": {
+        "mode": "Online self-paced",
+        "values": [
+          {"value": "Online self-paced", "count": 60, "percentage": 60, "source": "research"},
+          {"value": "Live webinar", "count": 20, "percentage": 20, "source": "studies"},
+          {"value": "Hybrid format", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "In-person", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "learning_difficulty": {
+        "mode": "Moderate",
+        "values": [
+          {"value": "Easy", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Moderate", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "Challenging", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Very difficult", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$150-400",
+        "values": [
+          {"value": "Under $150", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "$150-400", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$400-700", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over $700", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Academic level",
+        "values": [
+          {"value": "Academic level", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Time commitment", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Practical application", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Technology requirements", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 27,
+      "title": "Dementia behavior tracker app",
+      "solution_category": "apps_software",
+      "effectiveness": 3.8,
+      "time_to_results": {
+        "mode": "1-2 weeks",
+        "values": [
+          {"value": "Within days", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "1-2 weeks", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "2-4 weeks", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over a month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "usage_frequency": {
+        "mode": "Daily",
+        "values": [
+          {"value": "Multiple times daily", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Daily", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "Few times weekly", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "Weekly", "count": 5, "percentage": 5, "source": "studies"}
+        ]
+      },
+      "subscription_type": {
+        "mode": "Monthly subscription",
+        "values": [
+          {"value": "Free", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Monthly subscription", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "Annual subscription", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "One-time purchase", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$10-30/month",
+        "values": [
+          {"value": "Free", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "$10-30/month", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$30-50/month", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over $50/month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Consistent data entry",
+        "values": [
+          {"value": "Consistent data entry", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Learning interface", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Multiple caregivers", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Privacy concerns", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 28,
+      "title": "Mediterranean diet for brain health",
+      "solution_category": "diet_nutrition",
+      "effectiveness": 3.7,
+      "time_to_results": {
+        "mode": "4-8 weeks",
+        "values": [
+          {"value": "2-4 weeks", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "4-8 weeks", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "2-3 months", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over 3 months", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "weekly_prep_time": {
+        "mode": "3-5 hours",
+        "values": [
+          {"value": "1-2 hours", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "3-5 hours", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "5-8 hours", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over 8 hours", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "still_following": {
+        "mode": "Modified version",
+        "values": [
+          {"value": "Yes, strictly", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Modified version", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "Occasionally", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "No longer", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$50-150/week",
+        "values": [
+          {"value": "Under $50/week", "count": 15, "percentage": 15, "source": "research"},
+          {"value": "$50-150/week", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$150-250/week", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over $250/week", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Patient acceptance",
+        "values": [
+          {"value": "Patient acceptance", "count": 40, "percentage": 40, "source": "research"},
+          {"value": "Meal preparation", "count": 25, "percentage": 25, "source": "studies"},
+          {"value": "Cost", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Dietary restrictions", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 29,
+      "title": "Lavender essential oil diffuser",
+      "solution_category": "natural_remedies",
+      "effectiveness": 3.6,
+      "time_to_results": {
+        "mode": "15-30 minutes",
+        "values": [
+          {"value": "Within 15 minutes", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "15-30 minutes", "count": 40, "percentage": 40, "source": "studies"},
+          {"value": "30-60 minutes", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over 1 hour", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "frequency": {
+        "mode": "As needed",
+        "values": [
+          {"value": "Continuous", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "2-3 times daily", "count": 35, "percentage": 35, "source": "studies"},
+          {"value": "Evening only", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "As needed", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "length_of_use": {
+        "mode": "Ongoing",
+        "values": [
+          {"value": "Days", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "Weeks", "count": 20, "percentage": 20, "source": "studies"},
+          {"value": "Months", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Ongoing", "count": 40, "percentage": 40, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "$20-40/month",
+        "values": [
+          {"value": "Under $20/month", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "$20-40/month", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "$40-60/month", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Over $60/month", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "side_effects": {
+        "mode": "None noticed",
+        "values": [
+          {"value": "None noticed", "count": 60, "percentage": 60, "source": "research"},
+          {"value": "Headache", "count": 15, "percentage": 15, "source": "studies"},
+          {"value": "Respiratory irritation", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "Allergic reaction", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "Too sedating", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    },
+    {
+      "index": 30,
+      "title": "Alzheimer's caregiver support group",
+      "solution_category": "groups_communities",
+      "effectiveness": 4.1,
+      "time_to_results": {
+        "mode": "2-4 weeks",
+        "values": [
+          {"value": "After first meeting", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "2-4 weeks", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "1-2 months", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over 2 months", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "meeting_frequency": {
+        "mode": "Weekly",
+        "values": [
+          {"value": "Twice weekly", "count": 10, "percentage": 10, "source": "research"},
+          {"value": "Weekly", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "Biweekly", "count": 30, "percentage": 30, "source": "research"},
+          {"value": "Monthly", "count": 15, "percentage": 15, "source": "studies"}
+        ]
+      },
+      "group_size": {
+        "mode": "8-15 people",
+        "values": [
+          {"value": "Under 8 people", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "8-15 people", "count": 45, "percentage": 45, "source": "studies"},
+          {"value": "15-25 people", "count": 25, "percentage": 25, "source": "research"},
+          {"value": "Over 25 people", "count": 10, "percentage": 10, "source": "studies"}
+        ]
+      },
+      "cost": {
+        "mode": "Free",
+        "values": [
+          {"value": "Free", "count": 70, "percentage": 70, "source": "research"},
+          {"value": "Under $20/meeting", "count": 20, "percentage": 20, "source": "studies"},
+          {"value": "$20-50/meeting", "count": 7, "percentage": 7, "source": "research"},
+          {"value": "Over $50/meeting", "count": 3, "percentage": 3, "source": "studies"}
+        ]
+      },
+      "challenges": {
+        "mode": "Finding time",
+        "values": [
+          {"value": "Finding time", "count": 35, "percentage": 35, "source": "research"},
+          {"value": "Respite care needed", "count": 30, "percentage": 30, "source": "studies"},
+          {"value": "Emotional difficulty", "count": 20, "percentage": 20, "source": "research"},
+          {"value": "Transportation", "count": 10, "percentage": 10, "source": "studies"},
+          {"value": "None", "count": 5, "percentage": 5, "source": "research"}
+        ]
+      }
+    }
+  ]
+}

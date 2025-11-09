@@ -10,7 +10,7 @@ import { Skeleton } from '@/components/atoms/skeleton';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/select';
 import { Alert, AlertDescription } from '@/components/atoms/alert';
 import { FailedSolutionsPicker } from '@/components/organisms/solutions/FailedSolutionsPicker';
-import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS, TestModeCountdown, scrollToFirstError } from './shared/';
+import { ProgressCelebration, FormSectionHeader, CATEGORY_ICONS, TestModeCountdown, scrollToFirstError, CategorySwitcher } from './shared/';
 import { submitSolution, type SubmitSolutionData } from '@/app/actions/submit-solution';
 import { updateSolutionFields } from '@/app/actions/update-solution-fields';
 import { useFormBackup } from '@/lib/hooks/useFormBackup';
@@ -25,6 +25,7 @@ interface AppFormProps {
   category: string;
   existingSolutionId?: string;
   onBack: () => void;
+  onCategoryChange: (newCategory: string) => void;
 }
 
 interface FailedSolution {
@@ -503,13 +504,13 @@ export function AppForm({
               </div>
             )}
             
-            {/* Quick context card */}
-            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20
-                          border border-purple-200 dark:border-purple-800 rounded-lg p-4">
-              <p className="text-sm text-purple-800 dark:text-purple-200">
-                Let's capture how <strong>{solutionName}</strong> worked for <strong>{goalTitle}</strong>
-              </p>
-            </div>
+            {/* Category Switcher */}
+            <CategorySwitcher
+              category={category}
+              solutionName={solutionName}
+              goalTitle={goalTitle}
+              onCategoryChange={onCategoryChange}
+            />
 
             {/* Effectiveness Section */}
             <div className="space-y-6">

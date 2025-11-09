@@ -5,8 +5,7 @@ import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { supabase } from '@/lib/database/client'
 import { User } from '@supabase/supabase-js'
-import HeaderSearch from '@/components/organisms/HeaderSearch'
-import MobileSearchModal from '@/components/organisms/MobileSearchModal'
+import UnifiedSearchBar from '@/components/organisms/UnifiedSearchBar'
 import MobileNav from '@/components/organisms/MobileNav'
 import NotificationBell from '@/components/organisms/NotificationBell'
 import ProgressRingAvatar from '@/components/organisms/ProgressRingAvatar'
@@ -75,7 +74,11 @@ export default function Header() {
             </Link>
 
             {/* Desktop Search */}
-            <HeaderSearch className="hidden md:block ml-8" />
+            {!shouldHideSearch && (
+              <div className="hidden md:block ml-8">
+                <UnifiedSearchBar variant="desktop" />
+              </div>
+            )}
 
             {/* Spacer */}
             <div className="flex-1" />
@@ -187,7 +190,8 @@ export default function Header() {
       </header>
 
       {/* Mobile Search Modal */}
-      <MobileSearchModal
+      <UnifiedSearchBar
+        variant="mobile"
         isOpen={showMobileSearch}
         onClose={() => setShowMobileSearch(false)}
       />

@@ -93,12 +93,23 @@ diet_nutrition, sleep, products_devices, books_courses,
 apps_software, groups_communities, support_groups,
 hobbies_activities, financial_products
 
-For dosage categories (medications/supplements_vitamins/natural_remedies/beauty_skincare), include variants:
+🚨 CRITICAL: For dosage categories (medications/supplements_vitamins/natural_remedies/beauty_skincare), you MUST include variants array:
 "variants": [
   {"amount": 25, "unit": "mg", "form": "tablet"},
   {"amount": 50, "unit": "mg", "form": "tablet"},
   {"amount": 100, "unit": "mg", "form": "capsule"}
 ]
+
+DOSAGE CATEGORY RULES (MANDATORY):
+- medications: Include 3-5 common dosage variants based on actual prescribing data
+  Example: Lexapro → [{"amount": 5, "unit": "mg", "form": "tablet"}, {"amount": 10, "unit": "mg", "form": "tablet"}, {"amount": 20, "unit": "mg", "form": "tablet"}]
+- supplements_vitamins: Include 2-4 common dosages
+  Example: Vitamin D3 → [{"amount": 1000, "unit": "IU", "form": "softgel"}, {"amount": 2000, "unit": "IU", "form": "softgel"}]
+- natural_remedies: Include 2-3 typical strengths
+- beauty_skincare: Include concentration percentages
+  Example: Retinol Serum → [{"amount": 0.5, "unit": "%", "form": "serum"}, {"amount": 1, "unit": "%", "form": "serum"}]
+
+For NON-dosage categories, use empty array: "variants": []
 
 Example for category "habits_routines" (which requires: startup_cost, ongoing_cost, time_to_results, time_commitment):
 {
