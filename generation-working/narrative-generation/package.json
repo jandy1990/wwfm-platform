@@ -1,0 +1,29 @@
+{
+  "name": "wwfm-narrative-generation",
+  "version": "1.0.0",
+  "description": "AI-synthesized narrative commentary generation for WWFM Community tabs",
+  "main": "generate-prototype.ts",
+  "scripts": {
+    "generate": "tsx generate-prototype.ts",
+    "insert": "tsx insert-discussions.ts",
+    "test": "tsx --test"
+  },
+  "keywords": [
+    "ai",
+    "narrative",
+    "commentary",
+    "wwfm"
+  ],
+  "author": "WWFM",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0"
+  }
+}
