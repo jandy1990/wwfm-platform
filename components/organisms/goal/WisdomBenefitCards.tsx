@@ -43,7 +43,7 @@ export default function WisdomBenefitCards({ goalId, benefits, initialShowCount 
     }
 
     loadVotingData()
-  }, [goalId, benefits, supabase])
+  }, [goalId, benefits])
 
   // Randomize benefit order (but consistent per render)
   const randomizedBenefits = useMemo(() => {

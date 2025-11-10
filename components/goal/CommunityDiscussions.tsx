@@ -1,8 +1,11 @@
 'use client'
 
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { createClient } from '@/lib/database/client'
 import AddDiscussionForm from './AddDiscussionForm'
+import { ExamplePostsDisplay } from './ExamplePostsDisplay'
+import { FlairBadge } from './FlairBadge'
+import type { FlairType } from '@/lib/config/flair-types'
 
 interface Discussion {
   id: string
@@ -14,6 +17,8 @@ interface Discussion {
   is_edited: boolean
   parent_id: string | null
   user_id: string
+  is_ai_generated?: boolean
+  flair_types?: FlairType[] | null
   users: {
     username: string | null
     avatar_url: string | null
@@ -37,6 +42,7 @@ export default function CommunityDiscussions({ goalId, goalTitle, sortBy = 'newe
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [userVotes, setUserVotes] = useState<Set<string>>(new Set())
 
+  const formRef = useRef<HTMLDivElement>(null)
   const supabase = useMemo(() => createClient(), [])
 
   // Get current user and their votes
@@ -58,7 +64,7 @@ export default function CommunityDiscussions({ goalId, goalTitle, sortBy = 'newe
       }
     }
     getUser()
-  }, [goalId, supabase])
+  }, [goalId])
 
   // Fetch discussions for this goal
   const fetchDiscussions = useCallback(async () => {
@@ -104,9 +110,9 @@ export default function CommunityDiscussions({ goalId, goalTitle, sortBy = 'newe
       
       setDiscussions(discussionsWithReplies)
     }
-    
+
     setIsLoading(false)
-  }, [goalId, sortBy, supabase])
+  }, [goalId, sortBy])
 
   // Handle upvote/un-upvote
   const handleUpvote = async (discussionId: string, currentUpvotes: number) => {
@@ -316,16 +322,18 @@ export default function CommunityDiscussions({ goalId, goalTitle, sortBy = 'newe
         </div>
 
         {showAddForm && (
-          <AddDiscussionForm
-            goalId={goalId}
-            goalTitle={goalTitle}
-            parentId={replyToId}
-            onSuccess={handleNewPost}
-            onCancel={() => {
-              setShowAddForm(false)
-              setReplyToId(null)
-            }}
-          />
+          <div ref={formRef}>
+            <AddDiscussionForm
+              goalId={goalId}
+              goalTitle={goalTitle}
+              parentId={replyToId}
+              onSuccess={handleNewPost}
+              onCancel={() => {
+                setShowAddForm(false)
+                setReplyToId(null)
+              }}
+            />
+          </div>
         )}
       </div>
 
@@ -354,15 +362,7 @@ export default function CommunityDiscussions({ goalId, goalTitle, sortBy = 'newe
           ))}
         </div>
       ) : (
-        <div className="text-center py-12">
-          <span className="text-4xl mb-4 block">💬</span>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
-            Start the conversation
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400">
-            Be the first to share your experience or ask a question about this goal.
-          </p>
-        </div>
+        <ExamplePostsDisplay />
       )}
     </>
   )
@@ -490,6 +490,20 @@ function DiscussionPost({
           )}
         </div>
       </div>
+
+      {/* Flair Badges & AI Example Label */}
+      {(discussion.flair_types && discussion.flair_types.length > 0) || discussion.is_ai_generated ? (
+        <div className="flex items-center gap-2 mb-3">
+          {discussion.flair_types?.map((flairType) => (
+            <FlairBadge key={flairType} flairType={flairType} size="sm" />
+          ))}
+          {discussion.is_ai_generated && (
+            <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded">
+              Example
+            </span>
+          )}
+        </div>
+      ) : null}
 
       {/* Post Content - Edit Mode */}
       {editingPostId === discussion.id ? (

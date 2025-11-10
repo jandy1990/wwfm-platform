@@ -225,7 +225,7 @@ export function CommunityForm({
     };
 
     fetchOptions();
-  }, [category, supabaseClient]);
+  }, [category]);
   
   const handleChallengeToggle = (challenge: string) => {
     if (challenge === 'None') {

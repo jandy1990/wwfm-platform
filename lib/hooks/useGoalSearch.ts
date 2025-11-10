@@ -127,7 +127,7 @@ export function useGoalSearch({
     return () => {
       cancelled = true
     }
-  }, [arenas, debouncedSearch, maxResults, cache])
+  }, [arenas, debouncedSearch, maxResults, cache.get, cache.set])
 
   const clearSearch = useCallback(() => {
     setSearchQuery('')

@@ -67,7 +67,7 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-16">
             {/* Logo */}
-            <Link href="/" className="flex items-center group">
+            <Link href="/" prefetch={false} className="flex items-center group">
               <span className="text-xl sm:text-2xl font-black tracking-tight text-gray-900 dark:text-gray-100 flex items-start">
                 WWFM<span className="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 ml-0.5 sm:ml-1 mt-1.5 sm:mt-2"></span>
               </span>
@@ -87,6 +87,7 @@ export default function Header() {
             <nav className="hidden md:flex items-center gap-2 mr-4">
               <Link
                 href="/browse"
+                prefetch={false}
                 className={`px-4 py-2 text-sm font-medium transition-colors rounded-md ${
                   pathname === '/browse'
                     ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-semibold'
@@ -98,6 +99,7 @@ export default function Header() {
               </Link>
               <Link
                 href="/how-it-works"
+                prefetch={false}
                 className={`px-4 py-2 text-sm font-medium transition-colors rounded-md ${
                   pathname === '/how-it-works'
                     ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-semibold'
@@ -110,6 +112,7 @@ export default function Header() {
               {user && (
                 <Link
                   href="/dashboard"
+                  prefetch={false}
                   className={`px-4 py-2 text-sm font-medium transition-colors rounded-md ${
                     pathname === '/dashboard'
                       ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-semibold'

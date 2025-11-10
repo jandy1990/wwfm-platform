@@ -112,26 +112,25 @@ export async function getSolutionDetail(slugOrId: string): Promise<SolutionDetai
   if (slugOrId.includes('-') && slugOrId.length === 36) {
     solutionId = slugOrId
   } else {
-    // Parse slug to get partial UUID
+    // Parse slug to get partial UUID (first 8 chars)
     const shortId = parseSolutionSlug(slugOrId)
     if (!shortId) {
       console.error('[DEBUG] Invalid slug format:', slugOrId)
       return null
     }
 
-    // For now, let's get all solutions and find matching one
-    // This is temporary until we optimize the query
-    const { data: allSolutions } = await supabase
+    // Efficiently find solution by matching UUID prefix
+    // Short ID 'a923bced' should match UUID 'a923bced-...'
+    const { data: matchingSolution, error: lookupError } = await supabase
       .from('solutions')
-      .select('id, title')
+      .select('id')
       .eq('is_approved', true)
+      .ilike('id', `${shortId}-%`)
+      .limit(1)
+      .single()
 
-    const matchingSolution = allSolutions?.find(s =>
-      s.id.replace(/-/g, '').toLowerCase().startsWith(shortId.toLowerCase())
-    )
-
-    if (!matchingSolution) {
-      console.error('[DEBUG] No solution found for shortId:', shortId)
+    if (lookupError || !matchingSolution) {
+      console.error('[DEBUG] No solution found for shortId:', shortId, lookupError)
       return null
     }
 

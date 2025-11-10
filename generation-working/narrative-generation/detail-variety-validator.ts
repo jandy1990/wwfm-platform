@@ -1,17 +1,20 @@
 /**
- * Detail Variety Validator
+ * Category-Aware Detail Variety Validator
  *
  * Prevents template detection by ensuring no specific details are repeated
- * across multiple posts in a batch.
+ * across multiple posts in a batch. Extracts different details based on
+ * narrative category.
  */
 
 import { GeneratedPost } from './pattern-templates';
+import { NarrativeCategory } from './narrative-categories';
+import { getGoalCategory } from './goal-category-map';
 
 export interface DetailViolation {
   detail: string;
   count: number;
   posts: number[];
-  type: 'name' | 'timestamp' | 'medication' | 'cost' | 'product' | 'other';
+  type: 'name' | 'timestamp' | 'medication' | 'supplement' | 'product' | 'cost' | 'therapy' | 'app' | 'wearable' | 'other';
 }
 
 export interface DetailVarietyResult {
@@ -22,60 +25,206 @@ export interface DetailVarietyResult {
   uniqueDetails: number;
   repetitionRate: number;
   recommendation: string;
+  category: NarrativeCategory;
 }
 
 /**
- * Extract named entities and specific details from posts
+ * Extract category-appropriate details from posts
  */
-export const extractDetails = (content: string): Map<string, string[]> => {
+export const extractDetailsByCategory = (
+  content: string,
+  category: NarrativeCategory
+): Map<string, string[]> => {
   const details = new Map<string, string[]>();
 
-  // Extract person names (Dr. [Name], therapist names)
-  const namePattern = /(?:Dr\.|Doctor)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/g;
-  const names: string[] = [];
-  let match;
-  while ((match = namePattern.exec(content)) !== null) {
-    names.push(match[0]); // Full match including "Dr."
+  // Universal extractors (all categories)
+  extractNames(content, details);
+  extractCosts(content, details);
+  extractTimestamps(content, details);
+
+  // Category-specific extractors
+  switch (category) {
+    case 'mental_health':
+      extractMedications(content, details);
+      extractTherapyTypes(content, details);
+      extractMentalHealthApps(content, details);
+      break;
+
+    case 'physical_health':
+    case 'weight_fitness':
+      extractSupplements(content, details);
+      extractExerciseTypes(content, details);
+      extractFitnessApps(content, details);
+      extractWearables(content, details);
+      break;
+
+    case 'beauty_skincare':
+      extractSkincareProducts(content, details);
+      extractActiveIngredients(content, details);
+      break;
+
+    case 'womens_health':
+      extractMedications(content, details); // HRT, birth control
+      extractSupplements(content, details);
+      break;
+
+    case 'life_skills':
+      extractProductivityApps(content, details);
+      extractFinancialApps(content, details);
+      extractBookTitles(content, details);
+      break;
   }
-  if (names.length > 0) details.set('names', names);
-
-  // Extract timestamps
-  const timestampPattern = /\d{1,2}:\d{2}\s*(?:AM|PM|am|pm)/g;
-  const timestamps = content.match(timestampPattern) || [];
-  if (timestamps.length > 0) details.set('timestamps', timestamps);
-
-  // Extract medications (word + dosage)
-  const medicationPattern = /(?:Lexapro|Zoloft|Prozac|Wellbutrin|Buspar|Sertraline|Celexa|Paxil|Effexor|Cymbalta)\s+\d+\s*mg/gi;
-  const medications = content.match(medicationPattern) || [];
-  if (medications.length > 0) details.set('medications', medications);
-
-  // Extract therapy costs
-  const costPattern = /\$\d+(?:,\d{3})*(?:\.\d{2})?(?:\/(?:session|month|week|year))?/g;
-  const costs = content.match(costPattern) || [];
-  if (costs.length > 0) details.set('costs', costs);
-
-  // Extract product names (apps, books, brands)
-  const productPattern = /(?:Calm|Headspace|BetterHelp|Talkspace|CeraVe|Neutrogena|MyFitnessPal|Notion|Evernote)\s*(?:app|App)?/gi;
-  const products = content.match(productPattern) || [];
-  if (products.length > 0) details.set('products', products);
-
-  // Extract therapy types
-  const therapyPattern = /\b(?:CBT|DBT|EMDR|ACT|psychodynamic|somatic|cognitive[- ]behavioral)\s*(?:therapy)?/gi;
-  const therapies = content.match(therapyPattern) || [];
-  if (therapies.length > 0) details.set('therapies', therapies);
 
   return details;
 };
 
 /**
+ * Universal extractors
+ */
+
+function extractNames(content: string, details: Map<string, string[]>): void {
+  // Extract Dr. names or therapist/coach names
+  const namePattern = /(?:Dr\.|Doctor|therapist|coach|derm(?:atologist)?)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/gi;
+  const names: string[] = [];
+  let match;
+  while ((match = namePattern.exec(content)) !== null) {
+    names.push(match[0]);
+  }
+  if (names.length > 0) details.set('names', names);
+}
+
+function extractTimestamps(content: string, details: Map<string, string[]>): void {
+  const timestampPattern = /\d{1,2}:\d{2}\s*(?:AM|PM|am|pm)/g;
+  const timestamps = content.match(timestampPattern) || [];
+  if (timestamps.length > 0) details.set('timestamps', timestamps);
+}
+
+function extractCosts(content: string, details: Map<string, string[]>): void {
+  const costPattern = /\$\d+(?:,\d{3})*(?:\.\d{2})?(?:\/(?:session|month|week|year|hour))?/g;
+  const costs = content.match(costPattern) || [];
+  if (costs.length > 0) details.set('costs', costs);
+}
+
+/**
+ * Mental Health extractors
+ */
+
+function extractMedications(content: string, details: Map<string, string[]>): void {
+  // Generic medication pattern: CapitalizedWord + dosage
+  // Matches: "Lexapro 10mg", "Zoloft 50mg", "Estradiol 1mg", etc.
+  const medPattern = /\b[A-Z][a-z]+(?:ol|ex|in|am|one|ide|ate|ine|pam)\b\s+\d+\s*(?:mg|mcg|IU)/gi;
+  const medications = content.match(medPattern) || [];
+  if (medications.length > 0) details.set('medications', medications);
+}
+
+function extractTherapyTypes(content: string, details: Map<string, string[]>): void {
+  const therapyPattern = /\b(?:CBT|DBT|EMDR|ACT|psychodynamic|somatic|cognitive[- ]behavioral|schema|interpersonal|exposure)\s*(?:therapy)?/gi;
+  const therapies = content.match(therapyPattern) || [];
+  if (therapies.length > 0) details.set('therapies', therapies);
+}
+
+function extractMentalHealthApps(content: string, details: Map<string, string[]>): void {
+  // Generic app pattern: Capitalized word + "app" or known mental health apps
+  const appPattern = /\b(?:Calm|Headspace|BetterHelp|Talkspace|Sanvello|Rootd|Wysa|MindShift|Youper)\b/gi;
+  const apps = content.match(appPattern) || [];
+  if (apps.length > 0) details.set('apps', apps);
+}
+
+/**
+ * Physical Health / Fitness extractors
+ */
+
+function extractSupplements(content: string, details: Map<string, string[]>): void {
+  // Supplement pattern: Common supplement names + dosage
+  const suppPattern = /\b(?:Magnesium|Melatonin|Vitamin\s+[A-Z]\d*|CoQ10|Ashwagandha|Omega[- ]?3|Zinc|B12|D3|Calcium|Iron|Biotin|Collagen)\b[^.]{0,20}?\d+\s*(?:mg|mcg|IU)/gi;
+  const supplements = content.match(suppPattern) || [];
+  if (supplements.length > 0) details.set('supplements', supplements);
+}
+
+function extractExerciseTypes(content: string, details: Map<string, string[]>): void {
+  const exercisePattern = /\b(?:yoga|running|cycling|swimming|weightlifting|HIIT|Pilates|boxing|CrossFit|walking|hiking|dance|strength training)\b/gi;
+  const exercises = content.match(exercisePattern) || [];
+  if (exercises.length > 0) details.set('exercises', exercises);
+}
+
+function extractFitnessApps(content: string, details: Map<string, string[]>): void {
+  const appPattern = /\b(?:MyFitnessPal|Strava|Peloton|Nike\s+Training|Apple\s+Fitness|Fitbod|Strong|Couch\s+to\s+5K)\b/gi;
+  const apps = content.match(appPattern) || [];
+  if (apps.length > 0) details.set('fitness_apps', apps);
+}
+
+function extractWearables(content: string, details: Map<string, string[]>): void {
+  const wearablePattern = /\b(?:Fitbit|Oura\s+Ring|Apple\s+Watch|Whoop|Garmin|Amazfit)\b/gi;
+  const wearables = content.match(wearablePattern) || [];
+  if (wearables.length > 0) details.set('wearables', wearables);
+}
+
+/**
+ * Beauty/Skincare extractors
+ */
+
+function extractSkincareProducts(content: string, details: Map<string, string[]>): void {
+  const productPattern = /\b(?:CeraVe|The\s+Ordinary|Neutrogena|La\s+Roche[- ]Posay|Paula'?s?\s+Choice|Tretinoin|Differin|Olaplex|K18|Redken|Briogeo)\b/gi;
+  const products = content.match(productPattern) || [];
+  if (products.length > 0) details.set('skincare_products', products);
+}
+
+function extractActiveIngredients(content: string, details: Map<string, string[]>): void {
+  const ingredientPattern = /\b(?:retinol|niacinamide|hyaluronic\s+acid|vitamin\s+C|salicylic\s+acid|benzoyl\s+peroxide|azelaic\s+acid|glycolic\s+acid)\b[^.]{0,20}?\d+(?:\.\d+)?\s*%/gi;
+  const ingredients = content.match(ingredientPattern) || [];
+  if (ingredients.length > 0) details.set('active_ingredients', ingredients);
+}
+
+/**
+ * Life Skills extractors
+ */
+
+function extractProductivityApps(content: string, details: Map<string, string[]>): void {
+  const appPattern = /\b(?:Notion|Todoist|Habitica|Forest|RescueTime|Trello|Asana|TickTick|Any\.do|Evernote)\b/gi;
+  const apps = content.match(appPattern) || [];
+  if (apps.length > 0) details.set('productivity_apps', apps);
+}
+
+function extractFinancialApps(content: string, details: Map<string, string[]>): void {
+  const appPattern = /\b(?:YNAB|Mint|EveryDollar|Personal\s+Capital|Acorns|Digit|Qapital|PocketGuard)\b/gi;
+  const apps = content.match(appPattern) || [];
+  if (apps.length > 0) details.set('financial_apps', apps);
+}
+
+function extractBookTitles(content: string, details: Map<string, string[]>): void {
+  // Extract quoted book titles
+  const bookPattern = /"([^"]+)"\s*(?:by|Book|\(|\n|$)/gi;
+  const books: string[] = [];
+  let match;
+  while ((match = bookPattern.exec(content)) !== null) {
+    books.push(`"${match[1]}"`);
+  }
+  if (books.length > 0) details.set('books', books);
+}
+
+/**
  * Validate detail variety across a batch of posts
  */
-export const validateDetailVariety = (posts: GeneratedPost[]): DetailVarietyResult => {
+export const validateDetailVariety = (
+  posts: GeneratedPost[],
+  goalTitle?: string
+): DetailVarietyResult => {
+
+  // Determine category from goal title if provided
+  let category: NarrativeCategory = 'mental_health'; // default
+  if (goalTitle) {
+    try {
+      category = getGoalCategory(goalTitle);
+    } catch (error) {
+      console.warn(`Could not determine category for "${goalTitle}", using mental_health as default`);
+    }
+  }
+
   // Track all details and which posts they appear in
   const detailOccurrences = new Map<string, number[]>();
 
   posts.forEach((post, index) => {
-    const details = extractDetails(post.content);
+    const details = extractDetailsByCategory(post.content, category);
 
     details.forEach((values, type) => {
       values.forEach(detail => {
@@ -140,7 +289,8 @@ export const validateDetailVariety = (posts: GeneratedPost[]): DetailVarietyResu
     totalDetails,
     uniqueDetails,
     repetitionRate,
-    recommendation
+    recommendation,
+    category
   };
 };
 
@@ -148,63 +298,70 @@ export const validateDetailVariety = (posts: GeneratedPost[]): DetailVarietyResu
  * Categorize a detail by type
  */
 const categorizeDetail = (detail: string): DetailViolation['type'] => {
-  if (detail.includes('dr.') || detail.includes('doctor')) return 'name';
+  if (detail.includes('dr.') || detail.includes('doctor') || detail.includes('therapist')) return 'name';
   if (/\d{1,2}:\d{2}/.test(detail)) return 'timestamp';
-  if (/(?:lexapro|zoloft|prozac|wellbutrin|buspar|sertraline)/i.test(detail)) return 'medication';
+  if (/\d+\s*(?:mg|mcg|IU)/.test(detail) && /(?:lexapro|zoloft|prozac|wellbutrin|buspar|sertraline|celexa|paxil|effexor|cymbalta)/i.test(detail)) return 'medication';
+  if (/\d+\s*(?:mg|mcg|IU)/.test(detail) && /(?:magnesium|melatonin|vitamin|coq10|ashwagandha|omega|zinc|b12)/i.test(detail)) return 'supplement';
   if (detail.startsWith('$')) return 'cost';
-  if (/(?:calm|headspace|cerave|notion)/i.test(detail)) return 'product';
+  if (/(?:calm|headspace|betterhelp|notion|todoist|fitbit|oura|apple watch|whoop)/i.test(detail)) return 'product';
+  if (/(?:cbt|dbt|emdr|act|psychodynamic|somatic)/i.test(detail)) return 'therapy';
+  if (/(?:cerave|ordinary|neutrogena|olaplex|k18)/i.test(detail)) return 'product';
   return 'other';
 };
 
 /**
  * Generate a detailed variety report
  */
-export const generateVarietyReport = (result: DetailVarietyResult, posts: GeneratedPost[]): string => {
-  let report = '# Detail Variety Report\n\n';
+export const generateVarietyReport = (
+  result: DetailVarietyResult,
+  posts: GeneratedPost[]
+): string => {
+  let report = '# Detail Variety Report\\n\\n';
 
-  report += `**Overall Result:** ${result.recommendation}\n\n`;
-  report += `**Statistics:**\n`;
-  report += `- Total Details Extracted: ${result.totalDetails}\n`;
-  report += `- Unique Details: ${result.uniqueDetails}\n`;
-  report += `- Repetition Rate: ${(result.repetitionRate * 100).toFixed(1)}%\n`;
-  report += `- Critical Violations: ${result.violations.length}\n`;
-  report += `- Warnings: ${result.warnings.length}\n\n`;
+  report += `**Category:** ${result.category}\\n`;
+  report += `**Overall Result:** ${result.recommendation}\\n\\n`;
+  report += `**Statistics:**\\n`;
+  report += `- Total Details Extracted: ${result.totalDetails}\\n`;
+  report += `- Unique Details: ${result.uniqueDetails}\\n`;
+  report += `- Repetition Rate: ${(result.repetitionRate * 100).toFixed(1)}%\\n`;
+  report += `- Critical Violations: ${result.violations.length}\\n`;
+  report += `- Warnings: ${result.warnings.length}\\n\\n`;
 
   if (result.violations.length > 0) {
-    report += '## 🚨 Critical Violations (Detail appears in >2 posts)\n\n';
+    report += '## 🚨 Critical Violations (Detail appears in >2 posts)\\n\\n';
     result.violations.forEach((violation, index) => {
-      report += `${index + 1}. **"${violation.detail}"** (${violation.type})\n`;
-      report += `   - Appears in ${violation.count} posts: ${violation.posts.join(', ')}\n`;
-      report += `   - Action: Regenerate these posts with different details\n\n`;
+      report += `${index + 1}. **"${violation.detail}"** (${violation.type})\\n`;
+      report += `   - Appears in ${violation.count} posts: ${violation.posts.join(', ')}\\n`;
+      report += `   - Action: Regenerate these posts with different details\\n\\n`;
     });
   }
 
   if (result.warnings.length > 0) {
-    report += '## ⚠️ Warnings (Detail appears in 2 posts)\n\n';
+    report += '## ⚠️ Warnings (Detail appears in 2 posts)\\n\\n';
     result.warnings.forEach((warning, index) => {
-      report += `${index + 1}. **"${warning.detail}"** (${warning.type})\n`;
-      report += `   - Appears in posts: ${warning.posts.join(', ')}\n`;
-      report += `   - Status: Acceptable but monitor\n\n`;
+      report += `${index + 1}. **"${warning.detail}"** (${warning.type})\\n`;
+      report += `   - Appears in posts: ${warning.posts.join(', ')}\\n`;
+      report += `   - Status: Acceptable but monitor\\n\\n`;
     });
   }
 
   if (result.passed) {
-    report += '## ✅ All Checks Passed\n\n';
+    report += '## ✅ All Checks Passed\\n\\n';
     report += 'No details are repeated across more than 2 posts. ';
-    report += 'This batch has good variety and low template detection risk.\n';
+    report += 'This batch has good variety and low template detection risk.\\n';
   }
 
   // Add detail extraction summary by post
-  report += '\n## Detail Extraction by Post\n\n';
+  report += '\\n## Detail Extraction by Post\\n\\n';
   posts.forEach((post, index) => {
-    const details = extractDetails(post.content);
+    const details = extractDetailsByCategory(post.content, result.category);
     const detailCount = Array.from(details.values()).reduce((sum, arr) => sum + arr.length, 0);
 
-    report += `**Post ${index + 1}** (${post.flairTypes.join(' + ')}): ${detailCount} details extracted\n`;
+    report += `**Post ${index + 1}** (${post.flairTypes.join(' + ')}): ${detailCount} details extracted\\n`;
     details.forEach((values, type) => {
-      report += `- ${type}: ${values.join(', ')}\n`;
+      report += `- ${type}: ${values.join(', ')}\\n`;
     });
-    report += '\n';
+    report += '\\n';
   });
 
   return report;
@@ -221,34 +378,14 @@ export const getFixRecommendations = (result: DetailVarietyResult): string[] => 
   }
 
   // Group violations by type
-  const nameViolations = result.violations.filter(v => v.type === 'name');
-  const timestampViolations = result.violations.filter(v => v.type === 'timestamp');
-  const medicationViolations = result.violations.filter(v => v.type === 'medication');
-  const costViolations = result.violations.filter(v => v.type === 'cost');
+  const violationsByType = result.violations.reduce((acc, v) => {
+    acc[v.type] = (acc[v.type] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
 
-  if (nameViolations.length > 0) {
-    recommendations.push(
-      `🔧 Fix ${nameViolations.length} repeated names: Use variety pool - Dr. Sarah Chen, Dr. Marcus Williams, Dr. Elena Rodriguez, Dr. James Thompson, Dr. Priya Patel`
-    );
-  }
-
-  if (timestampViolations.length > 0) {
-    recommendations.push(
-      `🔧 Fix ${timestampViolations.length} repeated timestamps: Use variety pool - 2:47 AM, 3:15 AM, 4:23 AM, 11:47 PM, 1:34 AM`
-    );
-  }
-
-  if (medicationViolations.length > 0) {
-    recommendations.push(
-      `🔧 Fix ${medicationViolations.length} repeated medications: Use variety pool - Lexapro, Zoloft, Prozac, Wellbutrin, Buspar, Sertraline`
-    );
-  }
-
-  if (costViolations.length > 0) {
-    recommendations.push(
-      `🔧 Fix ${costViolations.length} repeated costs: Vary therapy costs ($80-$250/session range), medication costs ($12-$45/month)`
-    );
-  }
+  Object.entries(violationsByType).forEach(([type, count]) => {
+    recommendations.push(`🔧 Fix ${count} repeated ${type} detail${count > 1 ? 's' : ''} - ensure AI uses different values from training data`);
+  });
 
   // Add specific post regeneration guidance
   const postsToRegenerate = new Set<number>();

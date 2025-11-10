@@ -105,23 +105,18 @@ export async function getSharedSolutionCount(
   goalId1: string,
   goalId2: string
 ): Promise<number> {
-  // This query counts solutions that work well for both goals
+  // Use efficient database function instead of two sequential queries
   const { data, error } = await supabase
-    .from('goal_implementation_links')
-    .select('implementation_id')
-    .eq('goal_id', goalId1)
-    .gte('avg_effectiveness', 4.0);
+    .rpc('count_shared_solutions', {
+      p_goal_id_1: goalId1,
+      p_goal_id_2: goalId2,
+      p_min_effectiveness: 4.0
+    });
 
-  if (!data || error) return 0;
+  if (error) {
+    console.error('[related-goals] Error counting shared solutions:', error);
+    return 0;
+  }
 
-  const implementations1 = data.map(d => d.implementation_id);
-
-  const { data: data2 } = await supabase
-    .from('goal_implementation_links')
-    .select('implementation_id')
-    .eq('goal_id', goalId2)
-    .gte('avg_effectiveness', 4.0)
-    .in('implementation_id', implementations1);
-
-  return data2?.length || 0;
+  return data || 0;
 }

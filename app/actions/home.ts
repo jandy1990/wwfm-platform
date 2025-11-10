@@ -347,10 +347,13 @@ async function getTopValueArenas(supabase: SupabaseClient<any>): Promise<TopValu
       return []
     }
 
-    // Combine the data
+    // Combine the data - use Maps for O(1) lookups instead of O(n) .find()
+    const valueDataMap = new Map(rows.map(r => [r.arena_id, r]))
+    const arenaDetailMap = new Map(arenaDetails?.map(a => [a.id, a]) || [])
+
     return topArenaIds.map(id => {
-      const valueData = rows.find(d => d.arena_id === id)
-      const arenaDetail = arenaDetails?.find(a => a.id === id)
+      const valueData = valueDataMap.get(id)
+      const arenaDetail = arenaDetailMap.get(id)
 
       return {
         id,

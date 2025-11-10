@@ -79,14 +79,13 @@ export async function getUserImpactStats(userId: string) {
       .select('id', { count: 'exact', head: true })
       .eq('user_id', userId)
 
-    // Get actual discussions count and total upvotes
-    const { data: discussions } = await supabase
-      .from('goal_discussions')
-      .select('upvotes')
-      .eq('user_id', userId)
+    // Get discussions stats efficiently from database
+    const { data: discussionStats } = await supabase
+      .rpc('get_user_discussion_stats', { p_user_id: userId })
+      .single()
 
-    const commentsCount = discussions?.length || 0
-    const totalUpvotes = discussions?.reduce((sum, d) => sum + (d.upvotes || 0), 0) || 0
+    const commentsCount = Number(discussionStats?.comments_count || 0)
+    const totalUpvotes = Number(discussionStats?.total_upvotes || 0)
 
     return {
       contributionPoints: user?.contribution_points || 0,

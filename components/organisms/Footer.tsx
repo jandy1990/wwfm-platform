@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 dark:bg-black border-t border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
           {/* Product */}
           <div>
             <h3 className="text-sm font-bold tracking-tight text-white uppercase mb-4">
@@ -27,14 +27,6 @@ export default function Footer() {
                   className="inline-block py-2 text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
                 >
                   Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contribute"
-                  className="inline-block py-2 text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
-                >
-                  Share Your Solution
                 </Link>
               </li>
             </ul>
@@ -106,48 +98,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Community */}
-          <div>
-            <h3 className="text-sm font-bold tracking-tight text-white uppercase mb-4">
-              Community
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/about"
-                  className="inline-block py-2 text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <a
-                  href="https://twitter.com/wwfm"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors inline-flex items-center gap-1"
-                >
-                  Twitter
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/wwfm"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-semibold text-gray-300 hover:text-purple-400 transition-colors inline-flex items-center gap-1"
-                >
-                  GitHub
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
 
         {/* Bottom Section */}
@@ -167,7 +117,7 @@ export default function Footer() {
 
             {/* Disclaimer */}
             <p className="text-xs text-gray-400 text-center md:text-right max-w-md">
-              WWFM Shares People's Experiences. This is not Medical Advice. Always Consult Healthcare Professionals.
+              WWFM Shares People's Experiences. <span className="text-white font-semibold">This is not Medical Advice.</span> Always Consult Healthcare Professionals.
             </p>
           </div>
         </div>

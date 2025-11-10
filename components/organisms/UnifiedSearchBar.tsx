@@ -80,7 +80,7 @@ export default function UnifiedSearchBar({ variant, isOpen = true, onClose }: Un
     })
 
     return () => subscription.unsubscribe()
-  }, [supabase.auth])
+  }, [])
 
   // Handle request goal button click
   const handleRequestGoal = async () => {

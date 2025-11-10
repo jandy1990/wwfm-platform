@@ -3,6 +3,9 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/database/client'
 import { usePointsAnimation } from '@/lib/hooks/usePointsAnimation'
+import { FlairHelperPanel } from './FlairHelperPanel'
+import { FlairSelector } from './FlairSelector'
+import type { FlairType } from '@/lib/config/flair-types'
 
 interface AddDiscussionFormProps {
   goalId: string
@@ -22,6 +25,7 @@ export default function AddDiscussionForm({
   const [content, setContent] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [selectedFlairs, setSelectedFlairs] = useState<FlairType[]>([])
 
   const supabase = createClient()
   const { triggerPoints } = usePointsAnimation()
@@ -79,7 +83,8 @@ export default function AddDiscussionForm({
           goal_id: goalId,
           user_id: user.id,
           content: trimmedContent,
-          parent_id: parentId
+          parent_id: parentId,
+          flair_types: selectedFlairs.length > 0 ? selectedFlairs : null
         })
 
       if (insertError) {
@@ -138,6 +143,19 @@ export default function AddDiscussionForm({
           </div>
         </div>
       </div>
+
+      {/* Flair Selector - Only show for new discussions (not replies) */}
+      {!parentId && (
+        <div>
+          <FlairSelector
+            selectedFlairs={selectedFlairs}
+            onChange={setSelectedFlairs}
+          />
+          <div className="mt-1">
+            <FlairHelperPanel />
+          </div>
+        </div>
+      )}
 
       {/* Error Display */}
       {error && (

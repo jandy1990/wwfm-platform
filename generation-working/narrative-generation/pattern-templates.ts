@@ -421,3 +421,94 @@ export const getRecommendedPatterns = (goalType: PatternIngredients['goalType'])
 
   return recommendations[goalType];
 };
+
+/**
+ * Get pattern quotas for batch generation
+ * Returns exact counts of each pattern type based on goal type
+ */
+export const getPatternQuotas = (
+  goalType: PatternIngredients['goalType'],
+  postCount: number
+): Array<{ pattern: FlairType; count: number }> => {
+
+  // Goal-type-specific pattern weights
+  const weights: Record<PatternIngredients['goalType'], Record<FlairType, number>> = {
+    mental_health: {
+      what_to_expect: 0.30,    // Timeline Reality - most universal
+      mindset_shift: 0.25,
+      my_story: 0.20,
+      lessons_learned: 0.15,
+      practical_tips: 0.10
+    },
+    physical_health: {
+      what_to_expect: 0.35,
+      lessons_learned: 0.25,
+      practical_tips: 0.20,
+      my_story: 0.15,
+      mindset_shift: 0.05
+    },
+    career: {
+      lessons_learned: 0.30,
+      mindset_shift: 0.25,
+      my_story: 0.20,
+      what_to_expect: 0.15,
+      practical_tips: 0.10
+    },
+    finance: {
+      what_to_expect: 0.30,
+      my_story: 0.25,
+      lessons_learned: 0.20,
+      practical_tips: 0.15,
+      mindset_shift: 0.10
+    },
+    relationships: {
+      mindset_shift: 0.30,
+      my_story: 0.25,
+      lessons_learned: 0.20,
+      what_to_expect: 0.15,
+      practical_tips: 0.10
+    }
+  };
+
+  const goalWeights = weights[goalType];
+  const quotas: Array<{ pattern: FlairType; count: number }> = [];
+
+  // Calculate quotas ensuring all patterns are represented and sum equals postCount
+  const patterns: FlairType[] = ['what_to_expect', 'mindset_shift', 'lessons_learned', 'my_story', 'practical_tips'];
+
+  let remaining = postCount;
+  const calculatedCounts: Record<FlairType, number> = {} as Record<FlairType, number>;
+
+  // First pass: calculate ideal counts
+  patterns.forEach(pattern => {
+    const idealCount = Math.round(postCount * goalWeights[pattern]);
+    const actualCount = Math.max(0, idealCount); // At least 0
+    calculatedCounts[pattern] = actualCount;
+    remaining -= actualCount;
+  });
+
+  // Second pass: distribute remaining posts to maintain total
+  if (remaining !== 0) {
+    // Add/subtract from largest weighted patterns first
+    const sortedPatterns = patterns.sort((a, b) => goalWeights[b] - goalWeights[a]);
+    for (const pattern of sortedPatterns) {
+      if (remaining === 0) break;
+      if (remaining > 0) {
+        calculatedCounts[pattern]++;
+        remaining--;
+      } else if (remaining < 0 && calculatedCounts[pattern] > 0) {
+        calculatedCounts[pattern]--;
+        remaining++;
+      }
+    }
+  }
+
+  // Build final quotas array (filter out zero counts)
+  patterns.forEach(pattern => {
+    if (calculatedCounts[pattern] > 0) {
+      quotas.push({ pattern, count: calculatedCounts[pattern] });
+    }
+  });
+
+  return quotas;
+};

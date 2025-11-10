@@ -72,7 +72,7 @@ export default function HeroSection({ stats }: HeroSectionProps) {
     });
 
     return () => subscription.unsubscribe();
-  }, [supabase.auth]);
+  }, []);
 
   // Handle request goal button click
   const handleRequestGoal = async () => {
@@ -127,7 +127,7 @@ export default function HeroSection({ stats }: HeroSectionProps) {
     }
 
     fetchSuggestions();
-  }, [debouncedSearch, cache]);
+  }, [debouncedSearch, cache.get, cache.set]);
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -272,30 +272,15 @@ export default function HeroSection({ stats }: HeroSectionProps) {
             </div>
             <div className="text-sm text-gray-400">Life Goals</div>
           </div>
-
-          {stats.activeUsersToday > 0 && (
-            <div className="flex flex-col items-center">
-              <div className="text-2xl md:text-3xl font-bold text-white">
-                {stats.activeUsersToday.toLocaleString()}
-              </div>
-              <div className="text-sm text-gray-400">Active Today</div>
-            </div>
-          )}
         </div>
 
-        {/* Quick Action Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mt-8">
+        {/* Quick Action Button */}
+        <div className="flex justify-center mt-8">
           <button
             onClick={() => router.push('/browse')}
-            className="px-6 py-3 bg-transparent text-white border-2 border-white rounded-full font-semibold shadow-md transition-all duration-300 ease-in-out hover:bg-white hover:text-gray-900 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] active:scale-95"
-          >
-            Browse All Goals
-          </button>
-          <button
-            onClick={() => router.push('/contribute')}
             className="px-6 py-3 bg-purple-600 text-white rounded-full font-semibold shadow-md transition-all duration-300 ease-in-out hover:bg-purple-700 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] active:scale-95"
           >
-            Share What Worked
+            Browse All Goals
           </button>
         </div>
       </div>

@@ -5,6 +5,7 @@
   "main": "generate-prototype.ts",
   "scripts": {
     "generate": "tsx generate-prototype.ts",
+    "generate:all": "tsx generate-all-goals.ts",
     "insert": "tsx insert-discussions.ts",
     "test": "tsx --test"
   },

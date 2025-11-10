@@ -145,7 +145,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         {/* Breadcrumb Navigation */}
         <Breadcrumbs
           items={createBreadcrumbs('category', {
-            arena: { name: category.arenas.name, slug: category.arenas.slug },
             category: { name: category.name, slug: category.slug }
           })}
         />

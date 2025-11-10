@@ -161,7 +161,6 @@ export default async function GoalPage({ params }: { params: Promise<{ id: strin
         <nav aria-label="Breadcrumb" className="mb-4">
           <Breadcrumbs
             items={createBreadcrumbs('goal', {
-              arena: { name: goal.arenas.name, slug: goal.arenas.slug },
               category: goal.categories ? { name: goal.categories.name, slug: goal.categories.slug } : undefined,
               goal: { title: goal.title }
             })}

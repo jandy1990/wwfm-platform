@@ -230,7 +230,7 @@ export function PurchaseForm({
     };
 
     fetchOptions();
-  }, [category, supabaseClient]);
+  }, [category]);
   
   const handleChallengeToggle = (challenge: string) => {
     if (challenge === 'None') {

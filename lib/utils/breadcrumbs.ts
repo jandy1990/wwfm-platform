@@ -8,8 +8,8 @@ export interface BreadcrumbItem {
 }
 
 // Helper function to create breadcrumb items for different pages
-export function createBreadcrumbs(type: 'arena' | 'category' | 'goal', data: {
-  arena?: { name: string; slug: string }
+// Simplified to: Home → Browse → Category → Goal (no arena layer)
+export function createBreadcrumbs(type: 'category' | 'goal', data: {
   category?: { name: string; slug: string }
   goal?: { title: string }
 }): BreadcrumbItem[] {
@@ -17,14 +17,6 @@ export function createBreadcrumbs(type: 'arena' | 'category' | 'goal', data: {
     { label: 'Home', href: '/', hideOnMobile: true },
     { label: 'Browse', href: '/browse', hideOnMobile: true }
   ]
-
-  if (data.arena) {
-    items.push({
-      label: data.arena.name,
-      href: type === 'arena' ? undefined : `/arena/${data.arena.slug}`,
-      hideOnMobile: type === 'goal' // Hide arena on mobile for goal pages
-    })
-  }
 
   if (data.category) {
     items.push({

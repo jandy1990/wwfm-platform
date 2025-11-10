@@ -31,14 +31,16 @@ export async function promoteCustomSpecialty(customSpecialty: string) {
   }
 
   try {
-    // Get usage count to verify it meets threshold
-    const { data: usageData } = await supabase.rpc('get_custom_specialty_counts');
+    // Get usage count for specific specialty - efficient DB query instead of fetching all
+    const { data: usageData, error: rpcError } = await supabase
+      .rpc('get_custom_specialty_count_by_name', { p_custom_specialty: customSpecialty })
+      .single();
 
-    const specialty = usageData?.find((s: any) => s.custom_specialty === customSpecialty);
-
-    if (!specialty) {
+    if (rpcError || !usageData) {
       return { success: false, error: 'Custom specialty not found' };
     }
+
+    const specialty = usageData;
 
     if (specialty.usage_count < 10) {
       return { success: false, error: 'Custom specialty must have at least 10 uses to be promoted' };

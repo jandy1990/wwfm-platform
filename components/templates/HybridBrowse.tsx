@@ -1,16 +1,16 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import Link from 'next/link'
-import { groupCategoriesBySuperCategory, SUPER_CATEGORY_COLORS, shouldSkipCategoryLayer } from '@/lib/navigation/super-categories'
 import { getCategoryIcon } from '@/lib/navigation/category-icons'
 import { ArenaSkeleton, SkeletonGrid, SearchSkeleton, PageHeaderSkeleton } from '@/components/atoms/SkeletonLoader'
 import { useGoalSearch } from '@/lib/hooks/useGoalSearch'
 import GoalRequestForm from '@/components/molecules/GoalRequestForm'
 import LoginPromptModal from '@/components/ui/LoginPromptModal'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useState, useEffect } from 'react'
 
-// Types (reused from original)
+// Types
 type Goal = {
   id: string
   title: string
@@ -43,16 +43,16 @@ interface HybridBrowseProps {
   isLoading?: boolean
 }
 
-// Highlight matching text (reused from original)
+// Highlight matching text
 function highlightText(text: string, query: string): React.ReactElement {
   if (!query.trim()) return <>{text}</>
-  
+
   const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi')
   const parts = text.split(regex)
-  
+
   return (
     <>
-      {parts.map((part, i) => 
+      {parts.map((part, i) =>
         regex.test(part) ? (
           <mark key={i} className="bg-yellow-200 px-0.5 rounded">
             {part}
@@ -66,9 +66,7 @@ function highlightText(text: string, query: string): React.ReactElement {
 }
 
 export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: HybridBrowseProps) {
-  const [selectedSuperCategory, setSelectedSuperCategory] = useState<string | null>(null)
-
-  // Use the proven search hook instead of manual implementation
+  // Use the proven search hook
   const {
     searchQuery,
     setSearchQuery,
@@ -83,59 +81,65 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
   // Goal request feature state
   const [showRequestForm, setShowRequestForm] = useState(false)
   const [showLoginModal, setShowLoginModal] = useState(false)
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null) // null = loading
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
   const supabase = createClientComponentClient()
 
   // Check authentication status
   useEffect(() => {
     const checkAuth = async () => {
-      console.log('[Auth useEffect] Checking initial auth...')
-      const { data: { user }, error } = await supabase.auth.getUser()
-      console.log('[Auth useEffect] Initial auth result:', { user: user?.id, email: user?.email, error })
+      const { data: { user } } = await supabase.auth.getUser()
       setIsAuthenticated(!!user)
     }
     checkAuth()
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      console.log('[Auth useEffect] Auth state changed:', { event: _event, user: session?.user?.id })
       setIsAuthenticated(!!session?.user)
     })
 
     return () => subscription.unsubscribe()
-  }, [supabase.auth])
+  }, [])
 
-  // Handle request button click - with async auth check
+  // Handle request button click
   const handleRequestGoal = async () => {
-    console.log('[handleRequestGoal] Button clicked, checking auth...')
-    console.log('[handleRequestGoal] isAuthenticated state:', isAuthenticated)
-
-    // Double-check auth status on click (in case state hasn't updated yet)
-    const { data: { user }, error } = await supabase.auth.getUser()
-
-    console.log('[handleRequestGoal] getUser result:', { user: user?.id, email: user?.email, error })
+    const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
-      console.log('[handleRequestGoal] No user found, showing login modal')
       setShowLoginModal(true)
     } else {
-      console.log('[handleRequestGoal] User found, showing request form')
       setShowRequestForm(true)
       setShowDropdown(false)
     }
   }
 
-  // Group categories by super-category
-  const categoryGroups = useMemo(() => {
-    return groupCategoriesBySuperCategory(arenas)
+  // Flatten all categories from all arenas with goal counts
+  const allCategories = useMemo(() => {
+    const categories: Array<{
+      id: string
+      name: string
+      slug: string
+      arenaIcon: string
+      arenaName: string
+      goalCount: number
+    }> = []
+
+    arenas.forEach(arena => {
+      arena.categories?.forEach(category => {
+        categories.push({
+          id: category.id,
+          name: category.name,
+          slug: category.slug,
+          arenaIcon: arena.icon,
+          arenaName: arena.name,
+          goalCount: category.goals?.length || 0
+        })
+      })
+    })
+
+    // Filter out empty categories and sort by goal count
+    return categories
+      .filter(cat => cat.goalCount > 0)
+      .sort((a, b) => b.goalCount - a.goalCount)
   }, [arenas])
-
-  // Filter categories within selected super-category
-  const filteredCategories = useMemo(() => {
-    if (!selectedSuperCategory) return []
-
-    const group = categoryGroups.find(g => g.superCategory.id === selectedSuperCategory)
-    return group?.categories || []
-  }, [categoryGroups, selectedSuperCategory])
 
   // Loading state
   if (isLoading) {
@@ -144,7 +148,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <PageHeaderSkeleton />
           <SearchSkeleton />
-          <SkeletonGrid count={6}>
+          <SkeletonGrid count={9}>
             <ArenaSkeleton />
           </SkeletonGrid>
         </div>
@@ -154,30 +158,16 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
-      {/* Header Section - Dark Background */}
+      {/* Header Section */}
       <div className="bg-gray-900 dark:bg-black py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <header>
             <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
-              {selectedSuperCategory ?
-                categoryGroups.find(g => g.superCategory.id === selectedSuperCategory)?.superCategory.name || 'Browse Goals'
-                : 'Browse Goals by Life Area'
-              }
+              Browse Goals
             </h1>
             <p className="text-lg text-gray-300">
-              {selectedSuperCategory ?
-                categoryGroups.find(g => g.superCategory.id === selectedSuperCategory)?.superCategory.description || 'Discover what has worked for others'
-                : 'Discover what has worked for others in achieving their goals'
-              }
+              Discover what has worked for others in achieving their goals
             </p>
-            {selectedSuperCategory && (
-              <button
-                onClick={() => setSelectedSuperCategory(null)}
-                className="mt-4 text-purple-400 hover:text-purple-300 text-sm font-medium"
-              >
-                ← Back to all areas
-              </button>
-            )}
           </header>
         </div>
       </div>
@@ -201,7 +191,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
               placeholder={`Search ${totalGoals} goals...`}
               className="w-full px-4 py-4 pl-12 pr-12 text-base text-gray-900 bg-white border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none focus:border-transparent min-h-[44px] transition-all duration-200 shadow-md"
             />
-            
+
             {/* Search Icon */}
             <svg
               className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
@@ -211,8 +201,8 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            
-            {/* Loading/Clear buttons (same as original) */}
+
+            {/* Loading/Clear buttons */}
             {isSearching && (
               <div className="absolute right-12 top-1/2 transform -translate-y-1/2">
                 <svg className="animate-spin h-5 w-5 text-gray-400" viewBox="0 0 24 24">
@@ -221,7 +211,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                 </svg>
               </div>
             )}
-            
+
             {searchQuery && !isSearching && (
               <button
                 onClick={clearSearch}
@@ -233,7 +223,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                 </svg>
               </button>
             )}
-            
+
             {/* Search Dropdown */}
             {showDropdown && suggestions.length > 0 && (
               <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 rounded-lg shadow-xl border-2 border-gray-200 dark:border-gray-700 max-h-96 overflow-auto transition-all duration-200 ease-out">
@@ -252,7 +242,7 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
                       {highlightText(goal.title, searchQuery)}
                     </div>
                     <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
-                      {arena.icon} {arena.name} → {category.name}
+                      {arena.icon} {category.name}
                     </div>
                   </Link>
                 ))}
@@ -281,107 +271,46 @@ export default function HybridBrowse({ arenas, totalGoals, isLoading = false }: 
           </div>
         </section>
 
-        {/* Main Content */}
+        {/* Categories Grid */}
         <main>
-          {!selectedSuperCategory ? (
-            // Super-Category Overview
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {categoryGroups.map((group) => {
-                  const colors = SUPER_CATEGORY_COLORS[group.superCategory.color as keyof typeof SUPER_CATEGORY_COLORS]
-                  
-                  return (
-                    <div
-                      key={group.superCategory.id}
-                      className={`${colors.bg} ${colors.border} border rounded-xl p-6 transition-all duration-300 hover:shadow-lg cursor-pointer ${colors.hover}`}
-                      onClick={() => {
-                        // Check if we should skip category layer
-                        if (shouldSkipCategoryLayer(group)) {
-                          // Navigate directly to a combined goals page for this super-category
-                          window.location.href = `/super-category/${group.superCategory.id}`
-                        } else {
-                          // Show categories as normal
-                          setSelectedSuperCategory(group.superCategory.id)
-                        }
-                      }}
-                    >
-                      <div className="flex items-start mb-4">
-                        <span className={`text-4xl ${colors.icon} mr-4`}>
-                          {group.superCategory.icon}
-                        </span>
-                        <div className="flex-1">
-                          <h2 className={`text-2xl font-black tracking-tight ${colors.text} mb-2`}>
-                            {group.superCategory.name}
-                          </h2>
-                          <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                            {group.superCategory.description}
-                          </p>
-                          <div className="flex items-center justify-between text-sm">
-                            <span className={`${colors.text} font-semibold`}>
-                              {group.totalGoals} goals
-                            </span>
-                            <span className={`${colors.text} text-lg`}>
-                              →
-                            </span>
-                          </div>
-                        </div>
-                      </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {allCategories.map((category) => (
+              <Link
+                key={category.id}
+                href={`/category/${category.slug}`}
+                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6 min-h-[120px] flex flex-col focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              >
+                <div className="flex items-start mb-4">
+                  <span className="text-3xl mr-4">
+                    {getCategoryIcon(category.slug)}
+                  </span>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold tracking-tight text-gray-900 dark:text-gray-100 mb-2">
+                      {category.name}
+                    </h3>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600 dark:text-gray-400 font-semibold">
+                        {category.goalCount} {category.goalCount === 1 ? 'goal' : 'goals'}
+                      </span>
+                      <span className="text-purple-600 dark:text-purple-400 text-base">
+                        →
+                      </span>
                     </div>
-                  )
-                })}
-              </div>
-            </div>
-          ) : (
-            // Category Detail View
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {(() => {
-                  const group = categoryGroups.find(g => g.superCategory.id === selectedSuperCategory)
-                  const colors = group ? SUPER_CATEGORY_COLORS[group.superCategory.color as keyof typeof SUPER_CATEGORY_COLORS] : SUPER_CATEGORY_COLORS.blue
-
-                  return filteredCategories
-                    .filter(cat => cat.goalCount > 0) // Hide empty categories
-                    .sort((a, b) => b.goalCount - a.goalCount) // Sort by goal count
-                    .map((category) => (
-                      <Link
-                        key={category.id}
-                        href={`/category/${category.slug}`}
-                        className={`${colors.bg} ${colors.border} border rounded-xl shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6 min-h-[120px] flex flex-col focus:ring-2 focus:ring-purple-500 focus:outline-none ${colors.hover}`}
-                      >
-                        <div className="flex items-start mb-4">
-                          <span className={`text-3xl ${colors.icon} mr-4`}>
-                            {getCategoryIcon(category.slug)}
-                          </span>
-                          <div className="flex-1">
-                            <h3 className={`text-lg font-bold tracking-tight ${colors.text} mb-2`}>
-                              {category.name}
-                            </h3>
-                            <div className="flex items-center justify-between text-sm">
-                              <span className={`${colors.text} font-semibold`}>
-                                {category.goalCount} goals
-                              </span>
-                              <span className={`${colors.text} text-base`}>
-                                →
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    ))
-                })()}
-              </div>
-
-              {/* Empty state for super-category */}
-              {filteredCategories.length === 0 && (
-                <div className="text-center py-12">
-                  <p className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    No categories available in this area yet.
-                  </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Check back soon for more goals to explore!
-                  </p>
+                  </div>
                 </div>
-              )}
+              </Link>
+            ))}
+          </div>
+
+          {/* Empty state */}
+          {allCategories.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                No categories available yet.
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Check back soon for more goals to explore!
+              </p>
             </div>
           )}
         </main>
